@@ -1,15 +1,11 @@
 /* global Given, When, Then */
 
-import google from '../pages/google';
 import prCal from '../pages/prCal';
 
 Given(/^I visit the "(.*)" homepage$/, (text) => {
   var url;
 
   switch (text) {
-  case 'Google':
-    url = google.googleURL();
-    break;
   case 'Progressive Reductions Calculations':
     url = prCal.prCalUrl();
     break;
@@ -22,12 +18,12 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
   }
 });
 
-When(/^I search for "(.*)"$/, (text) => {
-  google.searchBar().type(text + '{enter}');
+When(/^I click on the "(.*)" button$/, (text) => {
+  cy.get('button').contains(text).scrollIntoView().click();
 });
 
-When(/^I click on the "(.*)" button$/, (text) => {
-  cy.contains(text).click();
+When(/^I click on "(.*)"$/, (text) => {
+  cy.contains(text).scrollIntoView().click();
 });
 
 Then(/^I should see "(.*)"$/, (text) => {
