@@ -18,6 +18,7 @@ With the exception of Visual Studio Code, these prerequisites should be installe
 3. Install the recommended extensions from Visual Studio Code Extensions.
 4. Open Terminal within Visual Studio Code and install Yarn by running `npm install --global yarn` from the terminal
 5. Open Terminal within Visual Studio Code and install the dependencies by running `yarn install` from the terminal
+6. Open Terminal within Visual Studio Code and install the dependencies by running `apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb` from the terminal
 
 ## Local Usage
 
