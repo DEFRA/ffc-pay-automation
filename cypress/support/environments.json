@@ -1,0 +1,10 @@
+{
+  "paymentManagement": {
+    "testUrl": "https://ffc-pay-web-test.azure.defra.cloud/",
+    "devUrl": "https://ffc-pay-web-dev.azure.defra.cloud/"
+  },
+  "requestEditor": {
+    "testUrl": "https://ffc-pay-request-editor-test.azure.defra.cloud/",
+    "devUrl": "https://ffc-pay-request-editor-dev.azure.defra.cloud/"
+  }
+}

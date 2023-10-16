@@ -1,21 +1,20 @@
 /* global Given, When, Then */
 
-import prCal from '../pages/prCal';
+import environments from '../../support/environments.json';
 
 Given(/^I visit the "(.*)" homepage$/, (text) => {
   var url;
 
   switch (text) {
-  case 'Progressive Reductions Calculations':
-    url = prCal.prCalUrl();
+  case 'Payment management':
+    url = environments.paymentManagement.devUrl;
+    break;
+  case 'Request Editor':
+    url = environments.requestEditor.devUrl;
     break;
   }
 
   cy.visit(url);
-
-  if (text === 'Progressive Reductions Calculations') {
-    prCal.acceptCookiesButton().click();
-  }
 });
 
 When(/^I click on the "(.*)" button$/, (text) => {
