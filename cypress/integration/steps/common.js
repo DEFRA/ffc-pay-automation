@@ -1,6 +1,7 @@
 /* global Given, When, Then */
 
 import environments from '../../support/environments.json';
+import paymentManagementPage from '../pages/paymentManagementPage';
 
 Given(/^I visit the "(.*)" homepage$/, (text) => {
   var url;
@@ -15,6 +16,7 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
   }
 
   cy.visit(url);
+  paymentManagementPage.header().should('be.visible').and('have.text', text);
 });
 
 When(/^I click on the "(.*)" button$/, (text) => {
@@ -27,4 +29,14 @@ When(/^I click on "(.*)"$/, (text) => {
 
 Then(/^I should see "(.*)"$/, (text) => {
   cy.contains(text);
+});
+
+When(/^I click on the "(.*)" link$/, (text) => {
+  if (text === 'Payment request statuses') {
+    cy.get('a').contains(text).scrollIntoView().then(el => {
+      el.attr('download', '');
+    }).click();
+  } else {
+    cy.get('a').contains(text).scrollIntoView().click();
+  }
 });
