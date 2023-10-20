@@ -1,0 +1,20 @@
+{
+  "payment-holds": {
+    "pageSubHeader": "Payment holds"
+  },
+  "payment-schemes": {
+    "pageSubHeader": "Schemes"
+  },
+  "payment-request/reset": {
+    "pageSubHeader": "Reset payment request"
+  },
+  "suppressed-payments": {
+    "pageSubHeader": "Payment report unavailable"
+  },
+  "monitoring": {
+    "pageSubHeader": "Monitoring"
+  },
+  "view-processed-payment-requests": {
+    "caption": "Processed payment requests"
+  }
+}
