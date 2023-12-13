@@ -11,7 +11,7 @@ class addBulkClosurePage {
     return cy.get('label[for="file"]');
   }
 
-  uploadFileHint () {
+  fieldHint () {
     return cy.get('.govuk-hint');
   }
 

@@ -16,5 +16,17 @@
   },
   "view-processed-payment-requests": {
     "caption": "Processed payment requests"
+  },
+  "closure": {
+    "pageSubHeader": "Agreement closures"
+  },
+  "closure/add": {
+    "pageSubHeader": "Agreement closure"
+  },
+  "closure/bulk": {
+    "pageSubHeader": "Bulk agreement closure"
+  },
+  "bulk-closure": {
+    "pageSubHeader": "Bulk agreement closures"
   }
 }

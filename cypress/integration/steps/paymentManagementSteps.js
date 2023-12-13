@@ -26,3 +26,14 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
 Then('the CSV file is downloaded', () => {
   cy.readFile('cypress/downloads/ffc-pay-mi-report-v2.csv');
 });
+
+Then('I should see the number of closures', () => {
+  paymentManagementPage.noOfClosures().should('be.visible');
+});
+
+Then('I should see {string} number of closures', (count) => {
+  paymentManagementPage
+    .noOfClosures()
+    .should('be.visible')
+    .and('contain.text', count);
+});

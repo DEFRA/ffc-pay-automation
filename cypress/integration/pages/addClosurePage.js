@@ -30,6 +30,10 @@ class addClosurePage {
   bulkUploadLink () {
     return cy.get('a[href="/bulk-closure"]');
   }
+
+  btnSubmit () {
+    return cy.get('#submit');
+  }
 }
 
 export default new addClosurePage();

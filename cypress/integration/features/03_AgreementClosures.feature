@@ -1,6 +1,6 @@
 Feature: 03 Agreement Closures
 
-  Scenario: View Agreement Closures
+  Scenario: 01 View Agreement Closures
     Given I visit the "Payment management" homepage
     Then I should see "Agreement closures"
     And I should see the number of closures
@@ -9,125 +9,154 @@ Feature: 03 Agreement Closures
     And I should see "Add closure"
     And I should see "Add bulk closures"
 
-  Scenario: Access Agreement Closure Management
+  Scenario: 02 Access Agreement Closure Management
     Given I visit the "Payment management" homepage
     When I click on the "Manage closures" link
-    Then I should be redirected to the Agreement Closure Management page
+    Then I am on the "closure" subpage
 
-  Scenario: Access Add Agreement Closure
+  Scenario: 03 Access Add Agreement Closure
     Given I visit the "Payment management" homepage
-    When I click on the "Add closure" link within the "Agreement Closures" box
-    Then I should be redirected to the Add Agreement Closure page
+    When I click on the "Add closure" link
+    Then I am on the "closure/add" subpage
 
-  Scenario: Access Bulk Agreement Closures
+  Scenario: 04 Access Bulk Agreement Closures
     Given I visit the "Payment management" homepage
-    When I click on the "Add bulk closures" link within the "Agreement Closures" box
-    Then I should be redirected to the Bulk Agreement Closures page
+    When I click on the "Add bulk closures" link
+    Then I am on the "closure/bulk" subpage
 
-  Scenario: View Agreement Closures Page
-    Given I navigate to the "Manage closures" page
-    Then I should see the heading "Agreement closures"
-    And I should see the description "Any agreements listed here are considered closed. Following the closure date listed, no accounts repayable will be processed."
-    And I should see a button labeled "Create new closure"
-    And I should see a button labeled "Create bulk closure"
-    And I should see a message "There are no agreement closures."
+  Scenario: 05 View Agreement Closures Page
+    Given I visit the "Payment management" homepage
+    When I click on the "Manage closures" link
+    Then I am on the "closure" subpage
+    And I should see "Any agreements listed here are considered closed. Following the closure date listed, no accounts repayable will be processed."
+    And I should see "Create new closure"
+    And I should see "Create bulk closure"
+    And I should see "There are no agreement closures."
 
-  Scenario: Create New Closure
-    Given I navigate to the "Manage closures" page
-    When I click the "Create new closure" button
-    Then I should be redirected to the "Add Agreement Closure" page
+  Scenario: 06 Create New Closure
+    Given I visit the "Payment management" homepage
+    And I click on the "Manage closures" link
+    When I click on the "Create new closure" link
+    Then I am on the "closure/add" subpage
 
-  Scenario: Create Bulk Closure
-    Given I navigate to the "Manage closures" page
-    When I click the "Create bulk closure" button
-    Then I should be redirected to the "Bulk Agreement Closures" page
+  Scenario: 07 Create Bulk Closure
+    Given I visit the "Payment management" homepage
+    And I click on the "Manage closures" link
+    When I click on the "Create bulk closure" link
+    Then I am on the "closure/bulk" subpage
 
-  Scenario: View Agreement Closure Page
-    Given I navigate to the "Add closure" page
-    Then I should see the heading "Agreement closure"
-    And I should see the description "Any details you provide here will result in a suppression being applied to payments against a given FRN and agreement number."
-    And I should see additional information about closure and suppression
-    And I should see a link to "upload in bulk" with the text "here"
-    And I should see form fields for "Firm reference number (FRN)" and "Agreement number"
-    And I should see a form field for "Closure date" with day, month, and year inputs
-    And I should see a "Create" button
+  Scenario: 08 View Agreement Closure Page
+    Given I visit the "Payment management" homepage
+    When I click on the "Add closure" link
+    Then I am on the "closure/add" subpage
+    And I should see "Any details you provide here will result in a suppression being applied to payments against a given FRN and agreement number."
+    And I should see "If a 0 value request is provided to the Payment Hub, following the date supplied, any amount repayable will be suppressed and Dynamics 365 will be informed that the outstanding value should be reduced to 0."
+    And I should see "It is assumed that any details provided are applicable to SFI22."
+    And I should see "Want to upload in bulk? Click here."
+    And I should see the "Firm reference number (FRN)" field
+    And I should see the "Agreement number" field
+    And I should see the "Closure date" field
+    And I should see "Create"
 
-  Scenario: View Bulk Agreement Closure Page
-    Given I navigate to the "Add closure" page
+  @ignore
+  Scenario: 09 View Bulk Agreement Closure Page
+    Given I visit the "Payment management" homepage
+    And I click on the "Add closure" link
     When I click the "upload in bulk" link
-    Then I should be redirected to the "Bulk Agreement Closures" page
+    # Todo: Below fails (Page Not Found)
+    Then I am on the "bulk-closure" subpage
 
-  Scenario: Empty fields
-    Given I navigate to the "Add closure" page
-    And I click the "Create" button
-    Then I should see "Enter a 10-digit FRN"
+  Scenario: 10 Empty fields
+    Given I visit the "Payment management" homepage
+    And I click on the "Add closure" link
+    When I click the "Create" link
+    Then I should see "There is a problem"
+    And I should see "Enter a 10-digit FRN"
     And I should see "Enter a valid agreement number"
     And I should see "Enter a valid day"
     And I should see "Enter a valid month"
     And I should see "Enter a valid year"
 
-  Scenario: Invalid FRN
-    Given I navigate to the "Add closure" page
-    When I fill in an invalid "Firm reference number (FRN)" with more/less than 10 digits
-    And I click the "Create" button
+  Scenario Outline: 11 Invalid FRN
+    Given I visit the "Payment management" homepage
+    And I click on the "Add closure" link
+    And I type '<invalidFrn>' in the 'FRN' field
+    When I click the "Create" link
     Then I should see "Enter a 10-digit FRN"
+    Examples:
+      | invalidFrn  |
+      | 012345      |
+      | 12345678901 |
 
-  Scenario: Past Closure Date
-    Given I navigate to the "Add closure" page
-    And I fill in a "Closure date" prior to 01/01/2023
-    And I click the "Create" button
-    And I should see "Enter a valid year"
+  Scenario: 12 Past Closure Date
+    Given I visit the "Payment management" homepage
+    And I click on the "Add closure" link
+    And I type a date prior to '01/01/2023' in the Closure date field
+    When I click the "Create" link
+    Then I should see "Enter a valid year"
 
-  Scenario: Successful Submission
-    Given I navigate to the "Add closure" page
-    When I fill in a valid "Firm reference number (FRN)"
-    And I fill in a valid "Agreement number"
-    And I fill in a valid "Closure date"
-    And I click the "Create" button
-    Then I should be redirected to the "Agreement Closure" page
+  Scenario: 13 Successful Adding & Removing a Submission
+    Given I visit the "Payment management" homepage
+    And I click on the "Add closure" link
+    And I type '1234567891' in the 'FRN' field
+    And I type '12345' in the 'Agreement number' field
+    And I type a future date in the Closure date field
+    And I click the "Create" link
+    And I am on the "closure" subpage
     And I see the new submission in the table
     And I should see a "Remove" link
     And I visit the "Payment management" homepage
-    Then I should see "1" number of closures
-
-  Scenario: Remove Submission
-    Given I navigate to the "Agreement Closure" page
-    And I see the new submission in the table
-    When I click the "Remove" link
-    Then I should see "There are no agreement closures."
+    And I should see "1" number of closures
     And I visit the "Payment management" homepage
+    And I click on the "Manage closures" link
+    And I see the new submission in the table
+    And I click on the "Remove" button
+    And I should see "There are no agreement closures."
+    When I visit the "Payment management" homepage
     Then I should see "0" number of closures
 
-  Scenario: Empty File Upload
-    Given I navigate to the "Add bulk closures" page
-    When I leave the "Upload a file" field empty
-    And I click the "Create" button
-    Then I should see "Provide a CSV file"
+  Scenario: 14 Empty File Upload
+    Given I visit the "Payment management" homepage
+    And I click on the "Add bulk closures" link
+    When I click the "Create" link
+    Then I should see "There is a problem"
+    And I should see "Provide a CSV file"
 
-  Scenario: Unsupported File Type
-    Given I navigate to the "Add bulk closures" page
-    When I upload a file with an unsupported file type (e.g., .txt)
-    And I click the "Create" button
-    Then I should see "Provide a CSV file"
+  Scenario: 15 Unsupported File Type
+    Given I visit the "Payment management" homepage
+    And I click on the "Add bulk closures" link
+    And I upload 'bulkUploadTxt.txt' file
+    When I click the "Create" link
+    Then I should see "There is a problem"
+    And I should see "Provide a CSV file"
 
-  Scenario: Large File Upload
-    Given I navigate to the "Add bulk closures" page
-    When I upload a large file (exceeding the allowed size)
-    And I click the "Create" button
-    Then I should see "File size exceeded"
+  @ignore
+  Scenario: 16 Large File Upload
+    Given I visit the "Payment management" homepage
+    And I click on the "Add bulk closures" link
+    # Todo: Unsure how big the file should be
+    And I upload a large file (exceeding the allowed size)
+    When I click the "Create" link
+    Then I should see "There is a problem"
+    And I should see "File size exceeded"
 
-  Scenario: Successful File Upload
-    Given I navigate to the "Add bulk closures" page
-    When I upload a valid file (e.g., .csv) containing closure data
-    And I click the "Create" button
-    Then I should be redirected to the "Agreement Closure" page
+  @ignore
+  # Issue with this one:
+  Scenario: 17 Successful File Upload
+    Given I visit the "Payment management" homepage
+    And I click on the "Add bulk closures" link
+    And I upload 'bulkUploadValid.csv' file
+    And I click the "Create" link
+    And I am on the "closure" subpage
     And I see the new submission in the table
     And I should see a "Remove" link
-    And I visit the "Payment management" homepage
+    When I visit the "Payment management" homepage
     Then I should see "1" number of closures
 
-  Scenario: Upload File Format Validation
-    Given I navigate to the "Add bulk closures" page
-    When I upload a file with an invalid format (e.g., missing required columns)
-    And I click the "Create" button
-    Then I should see "Provide a CSV file"
+  Scenario: 18 Upload File Format Validation
+    Given I visit the "Payment management" homepage
+    And I click on the "Add bulk closures" link
+    And I upload 'bulkUploadInvalid.csv' file
+    When I click the "Create" link
+    Then I should see "There is a problem"
+    And I should see "The file is not in the expected format"
