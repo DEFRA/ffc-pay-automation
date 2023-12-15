@@ -9,13 +9,16 @@ Feature: 01 Payment management
     Then I am on the "<subPage>" subpage
 
     Examples:
-      | link                            | subPage                         |
-      | Manage holds                    | payment-holds                   |
-      | Manage schemes                  | payment-schemes                 |
-      | Reset payment request           | payment-request/reset           |
-      | Suppressed payment requests     | suppressed-payments             |
-      | View events                     | monitoring                      |
-      | View processed payment requests | view-processed-payment-requests |
+      | link                            | subPage                                    |
+      | Manage holds                    | payment-holds                              |
+      | Manage schemes                  | payment-schemes                            |
+      | Reset payment request           | payment-request/reset                      |
+      | Suppressed payment requests     | report/suppressed-payments                 |
+      | View events                     | monitoring                                 |
+      | View processed payment requests | monitoring/view-processed-payment-requests |
+      | Manage closures                 | closure                                    |
+      | Add closure                     | closure/add                                |
+      | Add bulk closures               | closure/bulk                               |
 
   Scenario: 02 Verify "Payment Request Statuses" link works correctly
     When I click on the "Payment request statuses" link
