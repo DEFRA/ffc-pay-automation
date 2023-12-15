@@ -48,15 +48,15 @@ class agreementClosuresPage {
   }
 
   firstFRN () {
-    return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(1)');
+    return cy.get('.govuk-table__body > :nth-child(1) > :nth-child(1)');
   }
 
   firstAgreementNumber () {
-    return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(2)');
+    return cy.get('.govuk-table__body > :nth-child(1) > :nth-child(2)');
   }
 
   firstClosureDate () {
-    return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(4)');
+    return cy.get('.govuk-table__body > :nth-child(1) > :nth-child(4)');
   }
 }
 

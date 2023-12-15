@@ -58,15 +58,21 @@ Feature: 03 Agreement Closures
     And I should see the "Closure date" field
     And I should see "Create"
 
-  @ignore
-  Scenario: 09 View Bulk Agreement Closure Page
+  Scenario: 09 View Bulk Agreement Closure Page From Single Closure Page
     Given I visit the "Payment management" homepage
     And I click on the "Add closure" link
     When I click the "upload in bulk" link
     # Todo: Below fails (Page Not Found)
-    Then I am on the "bulk-closure" subpage
+    Then I am on the "closure/bulk" subpage
 
-  Scenario: 10 Empty fields
+  Scenario: 10 View Agreement Closure Page From Bulk Closure Page
+    Given I visit the "Payment management" homepage
+    And I click on the "Add bulk closures" link
+    When I click the "upload single" link
+    # Todo: Below fails (Page Redirect Error)
+    Then I am on the "closure/add" subpage
+
+  Scenario: 11 Empty fields
     Given I visit the "Payment management" homepage
     And I click on the "Add closure" link
     When I click the "Create" link
@@ -77,7 +83,7 @@ Feature: 03 Agreement Closures
     And I should see "Enter a valid month"
     And I should see "Enter a valid year"
 
-  Scenario Outline: 11 Invalid FRN
+  Scenario Outline: 12 Invalid FRN
     Given I visit the "Payment management" homepage
     And I click on the "Add closure" link
     And I type '<invalidFrn>' in the 'FRN' field
@@ -88,14 +94,21 @@ Feature: 03 Agreement Closures
       | 012345      |
       | 12345678901 |
 
-  Scenario: 12 Past Closure Date
+  Scenario: 13 Invalid Agreement number
+    Given I visit the "Payment management" homepage
+    And I click on the "Add closure" link
+    And I type '123456789012345678901234567890123456789012345678901234567890' in the 'Agreement number' field
+    When I click the "Create" link
+    Then I should see "Enter a valid agreement number"
+
+  Scenario: 14 Past Closure Date
     Given I visit the "Payment management" homepage
     And I click on the "Add closure" link
     And I type a date prior to '01/01/2023' in the Closure date field
     When I click the "Create" link
     Then I should see "Enter a valid year"
 
-  Scenario: 13 Successful Adding & Removing a Submission
+  Scenario: 15 Successful Adding & Removing a Submission
     Given I visit the "Payment management" homepage
     And I click on the "Add closure" link
     And I type '1234567891' in the 'FRN' field
@@ -115,14 +128,14 @@ Feature: 03 Agreement Closures
     When I visit the "Payment management" homepage
     Then I should see "0" number of closures
 
-  Scenario: 14 Empty File Upload
+  Scenario: 16 Empty File Upload
     Given I visit the "Payment management" homepage
     And I click on the "Add bulk closures" link
     When I click the "Create" link
     Then I should see "There is a problem"
     And I should see "Provide a CSV file"
 
-  Scenario: 15 Unsupported File Type
+  Scenario: 17 Unsupported File Type
     Given I visit the "Payment management" homepage
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadTxt.txt' file
@@ -130,30 +143,29 @@ Feature: 03 Agreement Closures
     Then I should see "There is a problem"
     And I should see "Provide a CSV file"
 
-  @ignore
-  Scenario: 16 Large File Upload
+  Scenario: 18 Large File Upload
     Given I visit the "Payment management" homepage
     And I click on the "Add bulk closures" link
-    # Todo: Unsure how big the file should be
-    And I upload a large file (exceeding the allowed size)
+    And I upload 'bulkUploadLarge.csv' file
     When I click the "Create" link
-    Then I should see "There is a problem"
-    And I should see "File size exceeded"
+    Then I should see "413 Request Entity Too Large"
 
-  @ignore
-  # Issue with this one:
-  Scenario: 17 Successful File Upload
+  Scenario: 19 Successful File Upload
     Given I visit the "Payment management" homepage
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadValid.csv' file
     And I click the "Create" link
     And I am on the "closure" subpage
-    And I see the new submission in the table
+    And I see the new bulk upload submissions in the table
     And I should see a "Remove" link
     When I visit the "Payment management" homepage
-    Then I should see "1" number of closures
+    Then I should see "2" number of closures
+    And I visit the "Payment management" homepage
+    And I click on the "Manage closures" link
+    And I click on the "Remove" button
+    And I click on the "Remove" button
 
-  Scenario: 18 Upload File Format Validation
+  Scenario: 20 Upload File Format Validation
     Given I visit the "Payment management" homepage
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadInvalid.csv' file

@@ -19,8 +19,24 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
   paymentManagementPage.header().should('be.visible').and('have.text', text);
 });
 
+Given(/^I am on the "(.*)" homepage$/, (text) => {
+  var url;
+
+  switch (text) {
+  case 'Payment management':
+    url = environments.paymentManagement.devUrl;
+    break;
+  case 'Request Editor':
+    url = environments.requestEditor.devUrl;
+    break;
+  }
+
+  cy.url().should('eq', url);
+  paymentManagementPage.header().should('be.visible').and('have.text', text);
+});
+
 When(/^I click on the "(.*)" button$/, (text) => {
-  cy.get('button').contains(text).scrollIntoView().click();
+  cy.get('button').contains(text).eq(0).scrollIntoView().click();
 });
 
 When(/^I click on "(.*)"$/, (text) => {
@@ -33,9 +49,13 @@ Then(/^I should see "(.*)"$/, (text) => {
 
 When(/^I click on the "(.*)" link$/, (text) => {
   if (text === 'Payment request statuses') {
-    cy.get('a').contains(text).scrollIntoView().then(el => {
-      el.attr('download', '');
-    }).click();
+    cy.get('a')
+      .contains(text)
+      .scrollIntoView()
+      .then((el) => {
+        el.attr('download', '');
+      })
+      .click();
   } else {
     cy.get('a').contains(text).scrollIntoView().click();
   }

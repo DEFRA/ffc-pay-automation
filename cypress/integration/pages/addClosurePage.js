@@ -28,7 +28,11 @@ class addClosurePage {
   }
 
   bulkUploadLink () {
-    return cy.get('a[href="/bulk-closure"]');
+    return cy.get('a[href="/closure/bulk"]');
+  }
+
+  singleUploadLink () {
+    return cy.get('a[href="/closure/add"]');
   }
 
   btnSubmit () {

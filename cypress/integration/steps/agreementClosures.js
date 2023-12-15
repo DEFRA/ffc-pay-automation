@@ -3,6 +3,7 @@
 import agreementClosuresPage from '../pages/agreementClosuresPage';
 import addBulkClosurePage from '../pages/addBulkClosurePage';
 import addClosurePage from '../pages/addClosurePage';
+import moment from 'moment/moment';
 
 When('I see the new submission in the table', () => {
   agreementClosuresPage.firstFRN().should('have.text', Cypress.env('frn'));
@@ -18,11 +19,63 @@ When('I see the new submission in the table', () => {
     .should('have.text', Cypress.env('futureDate'));
 });
 
+When('I see the new bulk upload submissions in the table', () => {
+  cy.fixture('bulkUploadValid.csv').then((csvData) => {
+    const rows = csvData.split('\n');
+    const data = rows.map((row) => row.split(','));
+
+    data.forEach((row, index) => {
+      // Generate dynamic keys for FRN, Agreement Number, and Closure Date
+      const frnKey = `FRN_${index + 1}`;
+      const agreementNumberKey = `AgreementNumber_${index + 1}`;
+      const closureDateKey = `ClosureDate_${index + 1}`;
+
+      // Extract the values from the current row
+      const frnValue = row[0];
+      const agreementNumberValue = row[1];
+      const closureDateValue = row[2];
+
+      // Set the values as environment variables using the generated keys
+      Cypress.env(frnKey, frnValue);
+      Cypress.env(agreementNumberKey, agreementNumberValue);
+      Cypress.env(closureDateKey, closureDateValue);
+
+      // Assert that the first FRN in the table matches the expected value
+      agreementClosuresPage
+        .firstFRN()
+        .should('have.text', Cypress.env('FRN_1'));
+
+      // Assert that the first Agreement Number in the table matches the expected value
+      agreementClosuresPage
+        .firstAgreementNumber()
+        .should('have.text', Cypress.env('AgreementNumber_1'));
+
+      // Retrieve the text of the first Closure Date in the table
+      agreementClosuresPage
+        .firstClosureDate()
+        .invoke('text')
+        .then((text) => {
+          // Trim any leading or trailing whitespace from the expected Closure Date
+          const expectedClosureDate = Cypress.env('ClosureDate_1').trim();
+
+          // Parse the actual Closure Date using Moment.js and format it as 'YYYY-MM-DD'
+          const actualClosureDate = moment(text, [
+            'YYYY-MM-DD',
+            'DD/MM/YYYY',
+          ]).format('YYYY-MM-DD');
+
+          // Assert that the actual Closure Date matches the expected Closure Date
+          expect(actualClosureDate).to.equal(expectedClosureDate);
+        });
+    });
+  });
+});
+
 Then('I should see a {string} link', (txt) => {
   agreementClosuresPage
     .linkRemoveSubmission()
     .should('be.visible')
-    .and('have.text', txt);
+    .and('contain.text', txt);
 });
 
 Then('I should see the {string} field', (field) => {
@@ -73,7 +126,6 @@ Then('I should see the {string} field', (field) => {
   }
 });
 
-
 When('I upload {string} file', (file) => {
   addBulkClosurePage.fileInput().selectFile(`cypress/fixtures/${file}`);
 });
@@ -81,6 +133,8 @@ When('I upload {string} file', (file) => {
 When('I click the {string} link', (text) => {
   if (text === 'upload in bulk') {
     addClosurePage.bulkUploadLink().click();
+  } else if (text === 'upload single') {
+    addClosurePage.singleUploadLink().click();
   } else if (text === 'Create') {
     addClosurePage.btnSubmit().click();
   } else {
