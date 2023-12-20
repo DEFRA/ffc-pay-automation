@@ -36,7 +36,7 @@ Given(/^I am on the "(.*)" homepage$/, (text) => {
 });
 
 When(/^I click on the "(.*)" button$/, (text) => {
-  cy.get('button').contains(text).eq(0).scrollIntoView().click();
+  cy.get('button').contains(text).first().scrollIntoView().click();
 });
 
 When(/^I click on "(.*)"$/, (text) => {
