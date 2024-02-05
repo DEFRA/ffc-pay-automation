@@ -4,6 +4,7 @@ import agreementClosuresPage from '../pages/agreementClosuresPage';
 import addBulkClosurePage from '../pages/addBulkClosurePage';
 import addClosurePage from '../pages/addClosurePage';
 import moment from 'moment/moment';
+import paymentHoldsPage from '../pages/paymentHoldsPage';
 
 When('I see the new submission in the table', () => {
   agreementClosuresPage.firstFRN().should('have.text', Cypress.env('frn'));
@@ -20,10 +21,13 @@ When('I see the new submission in the table', () => {
 });
 
 When('I see the new bulk upload submissions in the table', () => {
+  // Read the CSV data from the fixture file
   cy.fixture('bulkUploadValid.csv').then((csvData) => {
+    // Split the CSV data into rows and map each row to an array of values
     const rows = csvData.split('\n');
     const data = rows.map((row) => row.split(','));
 
+    // Iterate over each row of data
     data.forEach((row, index) => {
       // Generate dynamic keys for FRN, Agreement Number, and Closure Date
       const frnKey = `FRN_${index + 1}`;
@@ -137,6 +141,8 @@ When('I click the {string} link', (text) => {
     addClosurePage.singleUploadLink().click();
   } else if (text === 'Create') {
     addClosurePage.btnSubmit().click();
+  } else if (text === 'Add or remove holds in bulk') {
+    paymentHoldsPage.btnAddRemoveHoldsInBulk().click();
   } else {
     throw new Error('Invalid link');
   }

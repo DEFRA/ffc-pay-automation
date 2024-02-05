@@ -44,3 +44,16 @@ Then('the {string} error message is displayed on the Payment holds page', (errMs
     .should('be.visible')
     .and('contain.text', errMsg);
 });
+
+When('the user selects to {string} holds', (option) => {
+  paymentHoldsPage.sltAddRemoveHolds().select(option);
+});
+
+Then('the payment requests related to the {string} CSV are not in the table', (file) => {
+  cy.fixture(file).then((csvData) => {
+    const frnValues = csvData.split(',');
+    frnValues.forEach((frnValue) => {
+      paymentHoldsPage.allFirstColumnCells().should('not.contain', frnValue);
+    });
+  });
+});
