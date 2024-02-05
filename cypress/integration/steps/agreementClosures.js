@@ -13,62 +13,48 @@ When('I see the new submission in the table', () => {
     .firstAgreementNumber()
     .should('have.text', Cypress.env('agreementNumber'));
 
-  // todo: Not sure where Scheme is set
-
   agreementClosuresPage
     .firstClosureDate()
     .should('have.text', Cypress.env('futureDate'));
 });
 
 When('I see the new bulk upload submissions in the table', () => {
-  // Read the CSV data from the fixture file
   cy.fixture('bulkUploadValid.csv').then((csvData) => {
-    // Split the CSV data into rows and map each row to an array of values
     const rows = csvData.split('\n');
     const data = rows.map((row) => row.split(','));
 
-    // Iterate over each row of data
     data.forEach((row, index) => {
-      // Generate dynamic keys for FRN, Agreement Number, and Closure Date
       const frnKey = `FRN_${index + 1}`;
       const agreementNumberKey = `AgreementNumber_${index + 1}`;
       const closureDateKey = `ClosureDate_${index + 1}`;
 
-      // Extract the values from the current row
       const frnValue = row[0];
       const agreementNumberValue = row[1];
       const closureDateValue = row[2];
 
-      // Set the values as environment variables using the generated keys
       Cypress.env(frnKey, frnValue);
       Cypress.env(agreementNumberKey, agreementNumberValue);
       Cypress.env(closureDateKey, closureDateValue);
 
-      // Assert that the first FRN in the table matches the expected value
       agreementClosuresPage
         .firstFRN()
         .should('have.text', Cypress.env('FRN_1'));
 
-      // Assert that the first Agreement Number in the table matches the expected value
       agreementClosuresPage
         .firstAgreementNumber()
         .should('have.text', Cypress.env('AgreementNumber_1'));
 
-      // Retrieve the text of the first Closure Date in the table
       agreementClosuresPage
         .firstClosureDate()
         .invoke('text')
         .then((text) => {
-          // Trim any leading or trailing whitespace from the expected Closure Date
           const expectedClosureDate = Cypress.env('ClosureDate_1').trim();
 
-          // Parse the actual Closure Date using Moment.js and format it as 'YYYY-MM-DD'
           const actualClosureDate = moment(text, [
             'YYYY-MM-DD',
             'DD/MM/YYYY',
           ]).format('YYYY-MM-DD');
 
-          // Assert that the actual Closure Date matches the expected Closure Date
           expect(actualClosureDate).to.equal(expectedClosureDate);
         });
     });
