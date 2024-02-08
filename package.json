@@ -10,6 +10,7 @@
     "config:reports": "mkdir -p report/{HTML,JSON} cypress/screenshots; cp '.tools/createTestFromScenario.js' 'node_modules/cypress-cucumber-preprocessor/lib/createTestFromScenario.js'"
   },
   "dependencies": {
+    "@azure/service-bus": "^7.9.3",
     "@babel/core": "^7.16.0",
     "@babel/eslint-parser": "^7.16.3",
     "@cucumber/cucumber": "^8.0.0-rc.1",
