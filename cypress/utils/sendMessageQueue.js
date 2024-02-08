@@ -3,22 +3,26 @@ const { ServiceBusClient } = require('@azure/service-bus');
 const connectionString = 'Endpoint=sb://sndffcinfsb1001.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=XAs4qFZfUzO1aURxztvK/q7nTxx74yNQB+ASbFzFhhg=';
 const queueName = 'ffc-pay-data-request-response-kj';
 
-async function sendMessage ()   {
+async function sendMessageQueue (messageBody) {
   const serviceBusClient = new ServiceBusClient(connectionString);
   const messageSender = serviceBusClient.createSender(queueName);
-  const messageBody = 'I am Kiran and sent message through JavaScript!';
   const message = {
     body: messageBody,
-    label: 'First message from JavaScript',
+    label: 'Message from Cypress'
   };
   try {
-    const batch = await messageSender.createMessageBatch(message);
+    const batch = await messageSender.createMessageBatch();
     batch.tryAddMessage(message);
-    messageSender.sendMessages(batch);
-    console.log('Kiran, Your message sent successfully!');
+    await messageSender.sendMessages(batch);
+    return 'Message sent successfully!';
+  } catch (error) {
+    return `Error sending message: ${error.message}`;
   } finally {
     await messageSender.close();
     await serviceBusClient.close();
   }
 }
-sendMessage();
+
+module.exports = {
+  sendMessageQueue,
+};

@@ -29,6 +29,7 @@ before(() => {
   Cypress.on('uncaught:exception', () => {
     return false;
   });
+  cy.startMessageReception();
 });
 
 beforeEach(() => {
