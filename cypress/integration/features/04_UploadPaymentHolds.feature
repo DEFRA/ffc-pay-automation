@@ -5,14 +5,22 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I click on the "Manage holds" link
     And I am on the "payment-holds" subpage
 
-  Scenario: 01 Successfully uploading a CSV file and applying holds
-    When I click on the "Add or remove holds in bulk" link
+  Scenario: 01 Successfully uploading a CSV file applying holds & uploading a CSV file removing holds
+    And I click on the "Add or remove holds in bulk" link
     And the 'Add' holds option is selected
+    And I upload bulk payment holds file 'frnsBulkUploadValid.csv'
+    And I click the hold category option
+    And I click the Create bulk payment holds button
+    And I am on the "payment-holds" subpage
+    And the new holds in 'frnsBulkUploadValid.csv' are visible along with the correct timestamp
+    And I click the "Add or remove holds in bulk" link
+    And the user selects to "Remove" holds
+    And the 'Remove' holds option is selected
     And I upload bulk payment holds file 'frnsBulkUploadValid.csv'
     And I click the hold category option
     When I click the Create bulk payment holds button
     Then I am on the "payment-holds" subpage
-    And the new holds in 'frnsBulkUploadValid.csv' are visible along with the correct timestamp
+    And the payment requests related to the "frnsBulkUploadValid.csv" CSV are not in the table
 
   Scenario: 02 Uploading a CSV file with no selected hold reason
     And I click on the "Add or remove holds in bulk" link

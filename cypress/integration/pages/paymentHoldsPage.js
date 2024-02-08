@@ -26,6 +26,18 @@ class paymentHoldsPage {
   holdCategoryOption () {
     return cy.get('#holdCategoryId');
   }
+
+  btnAddRemoveHoldsInBulk () {
+    return cy.get('[href="/payment-holds/bulk"]');
+  }
+
+  sltAddRemoveHolds () {
+    return cy.get('select[id="remove"]');
+  }
+
+  allFirstColumnCells () {
+    return cy.get('tr td:first-child');
+  }
 }
 
 export default new paymentHoldsPage();
