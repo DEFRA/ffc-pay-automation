@@ -23,3 +23,7 @@ Cypress.Commands.add('startMessageReception', () => {
 Cypress.Commands.add('fetchReceivedMessages', () => {
   return cy.task('fetchReceivedMessages');
 });
+
+Cypress.Commands.add('stopMessageReception', () => {
+  cy.task('stopMessageReception');
+});
