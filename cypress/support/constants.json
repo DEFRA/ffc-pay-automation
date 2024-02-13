@@ -25,5 +25,8 @@
   },
   "closure/bulk": {
     "pageSubHeader": "Bulk agreement closure"
+  },
+  "capture": {
+    "pageSubHeader": "Capture reporting data"
   }
 }

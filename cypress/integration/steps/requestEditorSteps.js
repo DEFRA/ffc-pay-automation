@@ -52,3 +52,7 @@ Then('I should see the following schemes:', (dataTable) => {
     requestEditor.getSchemeRadioButton(row['Scheme Name']).should('exist');
   });
 });
+
+Then('the extract is downloaded', () => {
+  cy.readFile('cypress/downloads/ffc-pay-debts-report.csv');
+});
