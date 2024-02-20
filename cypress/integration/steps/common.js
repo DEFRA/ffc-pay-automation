@@ -8,10 +8,10 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
 
   switch (text) {
   case 'Payment management':
-    url = environments.paymentManagement.devUrl;
+    url = environments.paymentManagement.testUrl;
     break;
   case 'Request Editor':
-    url = environments.requestEditor.devUrl;
+    url = environments.requestEditor.testUrl;
     break;
   }
 
@@ -24,10 +24,10 @@ Given(/^I am on the "(.*)" homepage$/, (text) => {
 
   switch (text) {
   case 'Payment management':
-    url = environments.paymentManagement.devUrl;
+    url = environments.paymentManagement.testUrl;
     break;
   case 'Request Editor':
-    url = environments.requestEditor.devUrl;
+    url = environments.requestEditor.testUrl;
     break;
   }
 
@@ -48,7 +48,7 @@ Then(/^I should see "(.*)"$/, (text) => {
 });
 
 When(/^I click on the "(.*)" link$/, (text) => {
-  if (text === 'Payment request statuses') {
+  if (text === 'Payment request statuses' || text === 'Download an extract') {
     cy.get('a')
       .contains(text)
       .scrollIntoView()

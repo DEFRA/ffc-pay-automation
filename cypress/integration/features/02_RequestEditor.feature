@@ -26,3 +26,9 @@ Feature: 02 Request Editor
       | BPS         |
       | FDMR        |
       | SFI23       |
+
+  Scenario: 03 Download Extract
+    And I click on the "View all datasets" link
+    And I am on the "capture" subpage
+    When I click on the "Download an extract" link
+    Then the extract is downloaded
