@@ -8,7 +8,6 @@ module.exports = defineConfig({
   watchForFileChanges: false,
   viewportHeight: 720,
   viewportWidth: 1280,
-  videoUploadOnPasses: false,
   defaultCommandTimeout: 5000,
   e2e: {
     // We've imported your old cypress plugins here.
