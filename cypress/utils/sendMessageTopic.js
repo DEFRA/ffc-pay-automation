@@ -1,11 +1,9 @@
 const { ServiceBusClient } = require('@azure/service-bus');
-
-const connectionString = 'Endpoint=sb://sndffcinfsb1001.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=XAs4qFZfUzO1aURxztvK/q7nTxx74yNQB+ASbFzFhhg=';
-const topicName = 'ffc-pay-processing-kj';
+require('dotenv').config();
 
 async function sendMessageTopic (messageBody) {
-  const serviceBusClient = new ServiceBusClient(connectionString);
-  const messageSender = serviceBusClient.createSender(topicName);
+  const serviceBusClient = new ServiceBusClient(process.env.connectionString);
+  const messageSender = serviceBusClient.createSender(process.env.topicName);
   const message = {
     body: messageBody
   };
