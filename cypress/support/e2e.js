@@ -29,6 +29,7 @@ before(() => {
   Cypress.on('uncaught:exception', () => {
     return false;
   });
+  cy.startMessageReception();
 });
 
 beforeEach(() => {
@@ -41,4 +42,5 @@ beforeEach(() => {
 afterEach(() => {
   // cy.saveLocalStorage();
   // cy.log('Local storage is saved!');
+  cy.stopMessageReception(); // Stop the receiver after each test
 });
