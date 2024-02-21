@@ -1,14 +1,8 @@
 const { ServiceBusClient } = require('@azure/service-bus');
-
-// Connection string for your Azure Service Bus namespace
-const connectionString = 'Endpoint=sb://sndffcinfsb1001.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=XAs4qFZfUzO1aURxztvK/q7nTxx74yNQB+ASbFzFhhg=';
-
-// Name of the topic and subscription
-const topicName = 'ffc-pay-processing-kj';
-const subscriptionName = 'ffc-pay-processing-kj';
+require('dotenv').config();
 
 // Create a Service Bus client
-const serviceBusClient = new ServiceBusClient(connectionString);
+const serviceBusClient = new ServiceBusClient(process.env.connectionString);
 
 // Variable to hold the receiver instance
 let receiver;
@@ -31,9 +25,9 @@ function handleError (err) {
 // Function to start receiving messages
 function startReceivingMessages () {
   if (!receiver) {
-    receiver = serviceBusClient.createReceiver(topicName, subscriptionName);
+    receiver = serviceBusClient.createReceiver(process.env.topicName, process.env.subscriptionName);
     receiver.subscribe({ processMessage: handleMessage, processError: handleError });
-    console.log(`Listening for messages on subscription: ${subscriptionName}`);
+    console.log(`Listening for messages on subscription: ${process.env.subscriptionName}`);
   } else {
     console.log('Receiver is already started.');
   }
