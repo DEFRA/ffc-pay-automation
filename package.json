@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "cypress:test": "cypress open --env 'TAGS=not @ignore'",
-    "cypress:all": "yarn delete:reports; ./node_modules/.bin/cypress-tags run -e TAGS='not @ignore' --browser chrome --headed; yarn report",
+    "cypress:all": "npm run config:reports; npm run delete:reports; ./node_modules/.bin/cypress-tags run -e TAGS='not @ignore' --browser chrome --headed; npm run report",
     "report": "node .tools/exportHTMLReport.mjs",
     "delete:reports": "rm -rf report/JSON/* || true; rm -rf report/HTML/* || true; rm -rf cypress/videos/features/* || true",
     "config:reports": "mkdir -p report/{HTML,JSON} cypress/screenshots; cp '.tools/createTestFromScenario.js' 'node_modules/cypress-cucumber-preprocessor/lib/createTestFromScenario.js'"

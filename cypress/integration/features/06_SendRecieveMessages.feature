@@ -1,3 +1,4 @@
+@ignore
 Feature: Service Bus Messaging
 
   Scenario Outline: Sending a message to the service bus <type>

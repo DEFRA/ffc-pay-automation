@@ -10,11 +10,11 @@ When(/^I can see "(.*)" as the header$/, (text) => {
 Then(/^I am on the "(.*)" subpage$/, (text) => {
   cy.url().should('include', text);
 
-  if (text === 'view-processed-payment-requests') {
+  if (text === 'monitoring/view-processed-payment-requests') {
     paymentManagementPage
       .tableCaption()
       .should('be.visible')
-      .and('have.text', constants[text].caption);
+      .and('have.text', constants[text].pageSubHeader);
   } else {
     paymentManagementPage
       .subHeader()
@@ -23,8 +23,8 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
   }
 });
 
-Then('the CSV file is downloaded', () => {
-  cy.readFile('cypress/downloads/ffc-pay-mi-report-v2.csv');
+When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
+  cy.readFile(`cypress/downloads/${text}.csv`);
 });
 
 Then('I should see the number of closures', () => {

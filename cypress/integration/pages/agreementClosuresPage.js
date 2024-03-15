@@ -47,16 +47,16 @@ class agreementClosuresPage {
     return cy.get('.govuk-button-link');
   }
 
-  firstFRN () {
-    return cy.get('.govuk-table__body > :nth-child(1) > :nth-child(1)');
+  lastFRN () {
+    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(0);
   }
 
-  firstAgreementNumber () {
-    return cy.get('.govuk-table__body > :nth-child(1) > :nth-child(2)');
+  lastAgreementNumber () {
+    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(1);
   }
 
-  firstClosureDate () {
-    return cy.get('.govuk-table__body > :nth-child(1) > :nth-child(4)');
+  lastClosureDate () {
+    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(3);
   }
 }
 
