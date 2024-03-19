@@ -38,6 +38,18 @@ class requestEditorPage {
   getSchemeRadioButton (schemeName) {
     return cy.contains('label', schemeName);
   }
+
+  getFrnSearchField () {
+    return cy.get('#user-search');
+  }
+
+  getFrnSearchButton () {
+    return cy.get('.search-button');
+  }
+
+  firstFRN () {
+    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(2);
+  }
 }
 
 export default new requestEditorPage();

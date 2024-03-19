@@ -56,3 +56,15 @@ Then('I should see the following schemes:', (dataTable) => {
 Then('the extract is downloaded', () => {
   cy.readFile('cypress/downloads/ffc-pay-debts-report.csv');
 });
+
+When(/^I search for FRN "(.*)"$/, (text) => {
+  requestEditor.getFrnSearchField().type(text);
+});
+
+Then('I click on the FRN search button', () => {
+  requestEditor.getFrnSearchButton().click();
+});
+
+When(/^I can see FRN "(.*)" in the table$/, (text) => {
+  requestEditor.firstFRN().should('have.text', text);
+});

@@ -43,3 +43,9 @@ Feature: 02 Request Editor
       | link                            | subPage       |
       | View awaiting ledger assignment | manual-ledger |
       | View awaiting reporting data    | enrich        |
+
+  Scenario: 05 FRN Search Function
+    And I click on the "View awaiting ledger assignment" link
+    And I search for FRN "1102142158"
+    When I click on the FRN search button
+    Then I can see FRN "1102142158" in the table
