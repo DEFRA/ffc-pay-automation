@@ -8,10 +8,10 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
 
   switch (text) {
   case 'Payment management':
-    url = environments.paymentManagement.testUrl;
+    url = environments.paymentManagement.devUrl;
     break;
   case 'Request Editor':
-    url = environments.requestEditor.testUrl;
+    url = environments.requestEditor.devUrl;
     break;
   }
 
@@ -24,10 +24,10 @@ Given(/^I am on the "(.*)" homepage$/, (text) => {
 
   switch (text) {
   case 'Payment management':
-    url = environments.paymentManagement.testUrl;
+    url = environments.paymentManagement.devUrl;
     break;
   case 'Request Editor':
-    url = environments.requestEditor.testUrl;
+    url = environments.requestEditor.devUrl;
     break;
   }
 
@@ -48,15 +48,15 @@ Then(/^I should see "(.*)"$/, (text) => {
 });
 
 When(/^I click on the "(.*)" link$/, (text) => {
-  if (text === 'Payment request statuses' || text === 'Download an extract') {
-    cy.get('a')
-      .contains(text)
-      .scrollIntoView()
-      .then((el) => {
-        el.attr('download', '');
-      })
-      .click();
-  } else {
-    cy.get('a').contains(text).scrollIntoView().click();
-  }
+  cy.get('a').contains(text).scrollIntoView().click();
+});
+
+When(/^I click on the "(.*)" download link$/, (text) => {
+  cy.get('a')
+    .contains(text)
+    .scrollIntoView()
+    .then((el) => {
+      el.attr('download', '');
+    })
+    .click();
 });

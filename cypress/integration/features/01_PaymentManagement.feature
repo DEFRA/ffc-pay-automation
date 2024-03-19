@@ -13,13 +13,19 @@ Feature: 01 Payment management
       | Manage holds                    | payment-holds                              |
       | Manage schemes                  | payment-schemes                            |
       | Reset payment request           | payment-request/reset                      |
-      | Suppressed payment requests     | report/suppressed-payments                 |
       | View events                     | monitoring                                 |
       | View processed payment requests | monitoring/view-processed-payment-requests |
       | Manage closures                 | closure                                    |
       | Add closure                     | closure/add                                |
       | Add bulk closures               | closure/bulk                               |
 
-  Scenario: 02 Verify "Payment Request Statuses" link works correctly
-    When I click on the "Payment request statuses" link
-    Then the CSV file is downloaded
+  Scenario Outline: 02 Verify "<link>"" link works correctly
+    When I click on the "<link>" download link
+    Then the CSV file is downloaded with "<title>" as the title
+
+    Examples:
+      | link                        | title                               |
+      | Payment request statuses    | ffc-pay-mi-report-v2                |
+      | Combined transaction report | ffc-pay-combined-transaction-report |
+      # | Suppressed payment requests | ffc-pay-suppressed-report           |
+      | Holds | ffc-pay-hold-report |

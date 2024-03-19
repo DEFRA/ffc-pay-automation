@@ -7,14 +7,14 @@ import moment from 'moment/moment';
 import paymentHoldsPage from '../pages/paymentHoldsPage';
 
 When('I see the new submission in the table', () => {
-  agreementClosuresPage.firstFRN().should('have.text', Cypress.env('frn'));
+  agreementClosuresPage.lastFRN().should('have.text', Cypress.env('frn'));
 
   agreementClosuresPage
-    .firstAgreementNumber()
+    .lastAgreementNumber()
     .should('have.text', Cypress.env('agreementNumber'));
 
   agreementClosuresPage
-    .firstClosureDate()
+    .lastClosureDate()
     .should('have.text', Cypress.env('futureDate'));
 });
 
@@ -37,15 +37,15 @@ When('I see the new bulk upload submissions in the table', () => {
       Cypress.env(closureDateKey, closureDateValue);
 
       agreementClosuresPage
-        .firstFRN()
+        .lastFRN()
         .should('have.text', Cypress.env('FRN_1'));
 
       agreementClosuresPage
-        .firstAgreementNumber()
+        .lastAgreementNumber()
         .should('have.text', Cypress.env('AgreementNumber_1'));
 
       agreementClosuresPage
-        .firstClosureDate()
+        .lastClosureDate()
         .invoke('text')
         .then((text) => {
           const expectedClosureDate = Cypress.env('ClosureDate_1').trim();

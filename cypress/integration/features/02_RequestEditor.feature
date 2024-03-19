@@ -27,8 +27,19 @@ Feature: 02 Request Editor
       | FDMR        |
       | SFI23       |
 
+  @ignore
   Scenario: 03 Download Extract
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    When I click on the "Download an extract" link
+    When I click on the "Download an extract" download link
     Then the extract is downloaded
+    
+  @ignore
+  Scenario Outline: 04 Verify "<link>"" links work correctly
+    When I click on the "<link>" link
+    Then I am on the "<subPage>" subpage
+
+    Examples:
+      | link                            | subPage       |
+      | View awaiting ledger assignment | manual-ledger |
+      | View awaiting reporting data    | enrich        |

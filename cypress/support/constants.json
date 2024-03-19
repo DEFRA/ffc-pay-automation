@@ -14,8 +14,8 @@
   "monitoring": {
     "pageSubHeader": "Monitoring"
   },
-  "view-processed-payment-requests": {
-    "caption": "Processed payment requests"
+  "monitoring/view-processed-payment-requests": {
+    "pageSubHeader": "Processed payment requests"
   },
   "closure": {
     "pageSubHeader": "Agreement closures"
@@ -28,5 +28,11 @@
   },
   "capture": {
     "pageSubHeader": "Capture reporting data"
+  },
+  "manual-ledger": {
+    "pageSubHeader": "Manual Ledger Assignment"
+  },
+  "enrich": {
+    "pageSubHeader": "Requests awaiting reporting data"
   }
 }
