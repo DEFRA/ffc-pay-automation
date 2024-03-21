@@ -7,7 +7,8 @@
     "cypress:all": "npm run config:reports; npm run delete:reports; ./node_modules/.bin/cypress-tags run -e TAGS='not @ignore' --browser chrome --headed; npm run report",
     "report": "node .tools/exportHTMLReport.mjs",
     "delete:reports": "rm -rf report/JSON/* || true; rm -rf report/HTML/* || true; rm -rf cypress/videos/features/* || true",
-    "config:reports": "mkdir -p report/{HTML,JSON} cypress/screenshots; cp '.tools/createTestFromScenario.js' 'node_modules/cypress-cucumber-preprocessor/lib/createTestFromScenario.js'"
+    "config:reports": "mkdir -p report/{HTML,JSON} cypress/screenshots; cp '.tools/createTestFromScenario.js' 'node_modules/cypress-cucumber-preprocessor/lib/createTestFromScenario.js'",
+    "github-chrome": "./node_modules/.bin/cypress-tags run -e TAGS='@runthis and not @ignore' --browser chrome"
   },
   "dependencies": {
     "@azure/service-bus": "^7.9.3",

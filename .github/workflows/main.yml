@@ -1,0 +1,44 @@
+name: ffc-pay-automation
+on:
+  workflow_dispatch:
+  schedule:
+      - cron: "0 2 * * 1-5"
+  
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:       
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Use cached dependencies
+        uses: bahmutov/npm-install@v1.4.5
+      
+      - name: Update runner file
+        run: |
+          cp ".tools/createTestFromScenario.js" "node_modules/cypress-cucumber-preprocessor/lib/createTestFromScenario.js"
+      
+      - name: Create asset directories
+        run: |
+          mkdir -p report/{HTML,JSON}
+          mkdir -p cypress/screenshots
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          command: npm run github-chrome
+
+      - name: Generate HTML report
+        run: |
+          npm run report
+          sleep 10
+        if: ${{ always() }}
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v3
+        with:
+          name: HTML Report
+          path: report/HTML/cucumber_report.html
+        if: ${{ always() }}
