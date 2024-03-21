@@ -29,6 +29,11 @@ jobs:
         with:
           install: false
           command: npm run github-chrome
+        env:
+          connectionString: ${{ secrets.connectionString }}
+          queueName: ${{ secrets.queueName }}
+          topicName: ${{ secrets.topicName }}
+          subscriptionName: ${{ secrets.subscriptionName }}
 
       - name: Generate HTML report
         run: |

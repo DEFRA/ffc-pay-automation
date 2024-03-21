@@ -11,31 +11,31 @@ module.exports = (on, config) => {
     emptyFolder: (folderPath) => emptyFolder(folderPath),
   });
 
-  // on('task', {
-  //   sendMessageTopic (messageBody) {
-  //     return sendMessageTopic(messageBody);
-  //   }
-  // });
+  on('task', {
+    sendMessageTopic (messageBody) {
+      return sendMessageTopic(messageBody);
+    }
+  });
 
-  // on('task', {
-  //   sendMessageQueue (messageBody) {
-  //     return sendMessageQueue(messageBody);
-  //   }
-  // });
+  on('task', {
+    sendMessageQueue (messageBody) {
+      return sendMessageQueue(messageBody);
+    }
+  });
 
-  // on('task', {
-  //   startMessageReception () {
-  //     startReceivingMessages();
-  //     return null;
-  //   },
-  //   stopMessageReception () {
-  //     stopReceivingMessages();
-  //     return null;
-  //   },
-  //   fetchReceivedMessages () {
-  //     return getReceivedMessages();
-  //   }
-  // });
+  on('task', {
+    startMessageReception () {
+      startReceivingMessages();
+      return null;
+    },
+    stopMessageReception () {
+      stopReceivingMessages();
+      return null;
+    },
+    fetchReceivedMessages () {
+      return getReceivedMessages();
+    }
+  });
 
   console.log(on);
   console.log(config);
