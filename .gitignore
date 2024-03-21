@@ -3,5 +3,4 @@ node_modules
 report
 cypress/screenshots
 cypress/downloads
-package-lock.json
 .env
