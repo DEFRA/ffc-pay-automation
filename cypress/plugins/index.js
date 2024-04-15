@@ -1,7 +1,6 @@
 const cucumber = require('cypress-cucumber-preprocessor').default;
 const { emptyFolder } = require('../utils/empty-folder');
-const { sendMessageTopic } = require('../utils/sendMessageTopic');
-const { sendMessageQueue } = require('../utils/sendMessageQueue');
+const { sendMessage } = require('../utils/sendMessage');
 const { startReceivingMessages, stopReceivingMessages, getReceivedMessages } = require('../utils/receiveMessage');
 
 module.exports = (on, config) => {
@@ -12,14 +11,8 @@ module.exports = (on, config) => {
   });
 
   on('task', {
-    sendMessageTopic (messageBody) {
-      return sendMessageTopic(messageBody);
-    }
-  });
-
-  on('task', {
-    sendMessageQueue (messageBody) {
-      return sendMessageQueue(messageBody);
+    sendMessage (messageBody) {
+      return sendMessage(messageBody);
     }
   });
 

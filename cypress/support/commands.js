@@ -4,14 +4,8 @@ Cypress.Commands.add('emptyFolder', (folderPath) => {
   });
 });
 
-Cypress.Commands.add('sendMessageTopic', (messageBody) => {
-  cy.task('sendMessageTopic', messageBody).then((status) => {
-    cy.log(status);
-  });
-});
-
-Cypress.Commands.add('sendMessageQueue', (messageBody) => {
-  cy.task('sendMessageQueue', messageBody).then((status) => {
+Cypress.Commands.add('sendMessage', (messageBody) => {
+  cy.task('sendMessage', messageBody).then((status) => {
     cy.log(status);
   });
 });
