@@ -3,7 +3,6 @@ Feature: 03 Agreement Closures
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
 
-  @runthis
   Scenario: 01 View Agreement Closures
     Then I should see "Agreement closures"
     And I should see the number of closures
