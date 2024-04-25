@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "cypress:test": "cypress open --env 'TAGS=not @ignore'",
+    "cypress:test": "cypress open --e2e --browser=chrome --env 'TAGS=not @ignore'",
     "cypress:all": "npm run config:reports; npm run delete:reports; ./node_modules/.bin/cypress-tags run -e TAGS='not @ignore' --browser chrome --headed; npm run report",
     "report": "node .tools/exportHTMLReport.mjs",
     "delete:reports": "rm -rf report/JSON/* || true; rm -rf report/HTML/* || true; rm -rf cypress/videos/features/* || true",

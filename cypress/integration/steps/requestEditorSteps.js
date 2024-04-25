@@ -68,3 +68,15 @@ Then('I click on the FRN search button', () => {
 When(/^I can see FRN "(.*)" in the table$/, (text) => {
   requestEditor.firstFRN().should('have.text', text);
 });
+
+Then('the application identifier field header is visible with text {string}', (text) => {
+  requestEditor.applicationIdentifierHeader().should('be.visible').invoke('text').then((textFromElement) => {
+    expect(textFromElement.trim()).to.eq(text);
+  });
+});
+
+Then('the application identifier hint is visible with text {string}', (text) => {
+  requestEditor.applicationIdentifierHint().should('be.visible').invoke('text').then((textFromElement) => {
+    expect(textFromElement.trim()).to.eq(text);
+  });
+});

@@ -50,6 +50,14 @@ class requestEditorPage {
   firstFRN () {
     return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(2);
   }
+
+  applicationIdentifierHeader () {
+    return cy.get('[for="applicationIdentifier"]');
+  }
+
+  applicationIdentifierHint () {
+    return cy.get('#applicationIdentifier-hint');
+  }
 }
 
 export default new requestEditorPage();

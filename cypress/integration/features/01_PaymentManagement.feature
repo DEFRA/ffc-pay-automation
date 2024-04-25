@@ -20,6 +20,7 @@ Feature: 01 Payment management
       | Add bulk closures               | closure/bulk                               |
 
   Scenario Outline: 02 Verify "<link>"" link works correctly
+    And I click on the "Report List" link
     When I click on the "<link>" download link
     Then the CSV file is downloaded with "<title>" as the title
 
@@ -29,3 +30,8 @@ Feature: 01 Payment management
       | Combined transaction report | ffc-pay-combined-transaction-report |
       # | Suppressed payment requests | ffc-pay-suppressed-report           |
       | Holds | ffc-pay-hold-report |
+
+  Scenario: 03 Verify "AP Listing Report" link works correctly
+    And I click on the "Report List" link
+    When I click on the "AP Listing Report" link
+    Then I am on the "ap-listing" subpage

@@ -34,5 +34,8 @@
   },
   "enrich": {
     "pageSubHeader": "Requests awaiting reporting data"
+  },
+  "ap-listing": {
+    "pageSubHeader": "AP Listing Report"
   }
 }
