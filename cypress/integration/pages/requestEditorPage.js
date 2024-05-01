@@ -58,6 +58,26 @@ class requestEditorPage {
   applicationIdentifierHint () {
     return cy.get('#applicationIdentifier-hint');
   }
+
+  recordsPerPageDropdown () {
+    return cy.get('#records');
+  }
+
+  dataSetRecords () {
+    return cy.get('tbody > tr');
+  }
+
+  pageNumber () {
+    return cy.get('.govuk-pagination__item');
+  }
+
+  btnNext () {
+    return cy.get('[rel="next"] > .govuk-pagination__link-title');
+  }
+
+  btnPrevious () {
+    return cy.get('[rel="prev"] > .govuk-pagination__link-title');
+  }
 }
 
 export default new requestEditorPage();

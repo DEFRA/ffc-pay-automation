@@ -80,3 +80,48 @@ Then('the application identifier hint is visible with text {string}', (text) => 
     expect(textFromElement.trim()).to.eq(text);
   });
 });
+
+When('I select {string} from the number of records per page dropdown', (number) => {
+  requestEditor.recordsPerPageDropdown().scrollIntoView().select(number);
+});
+
+
+Then('I can see {int} records displayed in the table', (number) => {
+  requestEditor.dataSetRecords().should('have.length', number);
+});
+
+Then('I can see {string} in the page box', number => {
+  requestEditor.pageNumber().scrollIntoView().should('contain.text', number);
+});
+
+When('I click on the {string} page button', txt => {
+  if (txt === 'Next') {
+    requestEditor.btnNext().click({ force: true });
+  } else {
+    throw new Error('Button not found');
+  }
+});
+
+Then('I can see the {string} button', btnText => {
+  if (btnText === 'Next') {
+    requestEditor.btnNext().scrollIntoView().should('be.visible').and('contain.text', btnText);
+  } else if (btnText === 'Previous') {
+    requestEditor.btnPrevious().scrollIntoView().should('be.visible').and('contain.text', btnText);
+  } else {
+    throw new Error('Button not found');
+  }
+});
+
+Then('I cannot see the {string} button', btnText => {
+  if (btnText === 'Next') {
+    requestEditor.btnNext().should('not.exist');
+  } else if (btnText === 'Previous') {
+    requestEditor.btnPrevious().should('not.exist');
+  } else {
+    throw new Error('Button not found');
+  }
+});
+
+When('I visit the last page', () => {
+  cy.clickNextButtonUntilOnLastPage();
+});
