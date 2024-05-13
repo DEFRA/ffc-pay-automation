@@ -7,7 +7,9 @@ When('I create a new reporting dataset with the following values', (datatable) =
   datatable.hashes().forEach((element) => {
     requestEditor.inputByValue(element.scheme).click();
     requestEditor.txtFrn().type(element.frn);
-    requestEditor.txtApplicationIdentifier().type(element.agreementNumber);
+    if (element.agreementNumber !== '') {
+      requestEditor.txtApplicationIdentifier().type(element.agreementNumber);
+    }
     requestEditor.txtNetValue().type(element.netValue);
     requestEditor.inputByValue(element.typeOfDebt).click();
 
@@ -124,4 +126,16 @@ Then('I cannot see the {string} button', btnText => {
 
 When('I visit the last page', () => {
   cy.clickNextButtonUntilOnLastPage();
+});
+
+Then('I see the {string} application identifier error message', error => {
+  requestEditor.applicationIdentifierError().scrollIntoView().should('be.visible').and('contain.text', error);
+});
+
+Then('I see the {string} error summary title', (errorTitle) => {
+  requestEditor.errorSummaryTitle().scrollIntoView().should('be.visible').and('contain.text', errorTitle);
+});
+
+Then('I see the {string} error summary item', (errorItem) => {
+  requestEditor.errorSummaryItem().scrollIntoView().should('be.visible').and('contain.text', errorItem);
 });

@@ -35,7 +35,7 @@ Feature: 02 Request Editor
     And I am on the "capture" subpage
     When I click on the "Download an extract" download link
     Then the extract is downloaded
-    
+
   @ignore
   Scenario Outline: 04 Verify "<link>"" links work correctly
     When I click on the "<link>" link
@@ -51,3 +51,33 @@ Feature: 02 Request Editor
     And I search for FRN "1102142158"
     When I click on the FRN search button
     Then I can see FRN "1102142158" in the table
+
+  Scenario: 06 Debt data reference is less than 5 characters
+    And I click on the "Capture new dataset" link
+    And I create a new reporting dataset with the following values
+      | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
+      | SFI22  | 1234567891 | 1234            | 10000    | irr        | today              |
+    When I click on the "Continue" button
+    Then I see the 'The agreement/claim number must be at least 5 characters long.' application identifier error message
+    And I see the 'There is a problem' error summary title
+    And I see the 'The agreement/claim number must be at least 5 characters long.' error summary item
+
+  Scenario: 07 Debt data reference is not provided
+    And I click on the "Capture new dataset" link
+    And I create a new reporting dataset with the following values
+      | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
+      | SFI22  | 1234567891 |                 | 10000    | irr        | today              |
+    When I click on the "Continue" button
+    Then I see the 'The agreement/claim number is required.' application identifier error message
+    And I see the 'There is a problem' error summary title
+    And I see the 'The agreement/claim number is required.' error summary item
+
+  Scenario: 08 Debt data reference is not alphanumeric
+    And I click on the "Capture new dataset" link
+    And I create a new reporting dataset with the following values
+      | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
+      | SFI22  | 1234567891 | !@£$%^&%*       | 10000    | irr        | today              |
+    When I click on the "Continue" button
+    Then I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' application identifier error message
+    And I see the 'There is a problem' error summary title
+    And I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' error summary item

@@ -1,4 +1,12 @@
 class requestEditorPage {
+  errorSummaryTitle () {
+    return cy.get('.govuk-error-summary__title');
+  }
+
+  errorSummaryItem () {
+    return cy.get('li');
+  }
+
   inputByValue (val) {
     return cy.get(`input[value="${val}"]`);
   }
@@ -57,6 +65,10 @@ class requestEditorPage {
 
   applicationIdentifierHint () {
     return cy.get('#applicationIdentifier-hint');
+  }
+
+  applicationIdentifierError () {
+    return cy.get('#applicationIdentifier-error');
   }
 
   recordsPerPageDropdown () {
