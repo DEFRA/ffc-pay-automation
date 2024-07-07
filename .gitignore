@@ -5,3 +5,4 @@ cypress/screenshots
 cypress/downloads
 package-lock.json
 .env
+cypress/fixtures/messageBody.json
