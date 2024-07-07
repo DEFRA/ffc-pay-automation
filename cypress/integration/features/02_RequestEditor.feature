@@ -5,7 +5,7 @@ Feature: 02 Request Editor
     Given I visit the "Request Editor" homepage
 
   Scenario: 01 Validate Dataset Count Increment After Adding a New Reporting Dataset
-    And I make a note of the dataset count
+    And I make a note of the "Unattached reporting datasets" count
     And I click on the "Capture new dataset" link
     And the application identifier field header is visible with text "Agreement/claim number"
     And the application identifier hint is visible with text "Enter the agreement/claim number, for example SIP000000000001"
@@ -14,7 +14,7 @@ Feature: 02 Request Editor
       | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I am on the "Request Editor" homepage
-    And the dataset count has increased by 1
+    And the "Unattached reporting datasets" count has increased by 1
 
   Scenario: 02 Verify all schemes are displayed correctly
     When I click on the "Capture new dataset" link

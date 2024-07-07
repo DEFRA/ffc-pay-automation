@@ -25,7 +25,7 @@ function handleError (err) {
 // Function to start receiving messages
 function startReceivingMessages () {
   if (!receiver) {
-    receiver = serviceBusClient.createReceiver(process.env.topicName, process.env.subscriptionName);
+    receiver = serviceBusClient.createReceiver(process.env.topicName, process.env.subscriptionName, {receiveMode: 'receiveAndDelete'});
     receiver.subscribe({ processMessage: handleMessage, processError: handleError });
     console.log(`Listening for messages on subscription: ${process.env.subscriptionName}`);
   } else {
