@@ -14,7 +14,7 @@
     "max-depth": "off",
     "max-nested-callbacks": "off",
     "indent": [2, 2],
-    "linebreak-style": [2, "unix"],
+    "linebreak-style": "off",
     "space-before-function-paren": [2, "always"],
     "curly": [2, "all"],
     "brace-style": [2, "1tbs"],

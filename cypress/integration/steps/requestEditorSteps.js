@@ -33,22 +33,22 @@ Then('I make a note of the {string} count', (text) => {
 
   switch (text) {
   case 'Unattached reporting datasets':
-    item = 0
+    item = 0;
     break;
 
-    case 'Requests awaiting reporting data':
-    item = 1
-    break;
-    
-    case 'Awaiting ledger assignment':
-    item = 2
+  case 'Requests awaiting reporting data':
+    item = 1;
     break;
 
-    case 'Requests awaiting quality check':
-    item = 3
+  case 'Awaiting ledger assignment':
+    item = 2;
     break;
 
-    default:
+  case 'Requests awaiting quality check':
+    item = 3;
+    break;
+
+  default:
     throw new Error('Box title not found');
   }
 
@@ -66,26 +66,26 @@ Then('the {string} count has increased by 1', (text) => {
 
   switch (text) {
   case 'Unattached reporting datasets':
-    item = 0
+    item = 0;
     break;
 
-    case 'Requests awaiting reporting data':
-    item = 1
-    break;
-    
-    case 'Awaiting ledger assignment':
-    item = 2
+  case 'Requests awaiting reporting data':
+    item = 1;
     break;
 
-    case 'Requests awaiting quality check':
-    item = 3
+  case 'Awaiting ledger assignment':
+    item = 2;
     break;
 
-    default:
+  case 'Requests awaiting quality check':
+    item = 3;
+    break;
+
+  default:
     throw new Error('Box title not found');
   }
 
-  cy.reload()
+  cy.reload();
 
   cy.get('@initialCount').then((initialCount) => {
     requestEditor
