@@ -50,11 +50,12 @@ Then('the message should be received successfully', () => {
 
 
 Given('I create a message with a unique agreement number', () => {
-// Function to generate a random agreement number
-function generateRandomAgreementNumber(prefix) {
-  const randomDigits = Math.floor(100000 + Math.random() * 900000); // Generates a random 6-digit number
-  return `${prefix}${randomDigits}`;
-}
+  // Function to generate a random agreement number
+  function generateRandomAgreementNumber (prefix) {
+    const randomDigits = Math.floor(100000 + Math.random() * 900000); // Generates a random 6-digit number
+    return `${prefix}${randomDigits}`;
+  }
+
   // Read the JSON file using cy.fixture
   cy.fixture('messageBody.json').then((messageBody) => {
     // Extract the current agreement number and generate a new one
