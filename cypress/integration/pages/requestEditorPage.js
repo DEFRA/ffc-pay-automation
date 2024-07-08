@@ -39,8 +39,8 @@ class requestEditorPage {
     return this.inputById('debt-discovered-year');
   }
 
-  unattachedReportingDatasetsCount () {
-    return cy.get('.govuk-heading-xl').first();
+  valueCount () {
+    return cy.get('.govuk-heading-xl')
   }
 
   getSchemeRadioButton (schemeName) {

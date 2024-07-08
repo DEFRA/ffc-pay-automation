@@ -28,22 +28,72 @@ When('I create a new reporting dataset with the following values', (datatable) =
   });
 });
 
-Then('I make a note of the dataset count', () => {
+Then('I make a note of the {string} count', (text) => {
+  var item;
+
+  switch (text) {
+  case 'Unattached reporting datasets':
+    item = 0;
+    break;
+
+  case 'Requests awaiting reporting data':
+    item = 1;
+    break;
+
+  case 'Awaiting ledger assignment':
+    item = 2;
+    break;
+
+  case 'Requests awaiting quality check':
+    item = 3;
+    break;
+
+  default:
+    throw new Error('Box title not found');
+  }
+
   requestEditor
-    .unattachedReportingDatasetsCount()
+    .valueCount()
+    .eq(item)
     .should('be.visible')
-    .invoke('text').then(($datasetCount) => {
-      cy.wrap(parseInt($datasetCount), { log: true }).as('initialDatasetCount');
+    .invoke('text').then(($count) => {
+      cy.wrap(parseInt($count), { log: true }).as('initialCount');
     });
 });
 
-Then('the dataset count has increased by 1', () => {
-  cy.get('@initialDatasetCount').then((initialCount) => {
+Then('the {string} count has increased by 1', (text) => {
+  var item;
+
+  switch (text) {
+  case 'Unattached reporting datasets':
+    item = 0;
+    break;
+
+  case 'Requests awaiting reporting data':
+    item = 1;
+    break;
+
+  case 'Awaiting ledger assignment':
+    item = 2;
+    break;
+
+  case 'Requests awaiting quality check':
+    item = 3;
+    break;
+
+  default:
+    throw new Error('Box title not found');
+  }
+
+  cy.reload();
+
+  cy.get('@initialCount').then((initialCount) => {
     requestEditor
-      .unattachedReportingDatasetsCount()
+      .valueCount()
+      .eq(item)
       .should('be.visible')
-      .invoke('text').then(($datasetCount) => {
-        const currentCount = parseInt($datasetCount);
+      .invoke('text').then(($count) => {
+        const currentCount = parseInt($count);
         expect(currentCount).to.equal(initialCount + 1);
       });
   });

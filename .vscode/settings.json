@@ -1,6 +1,6 @@
 {
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "explicit"
     },
     "eslint.validate": [
       "javascript",
@@ -19,11 +19,11 @@
     "editor.lineDecorationsWidth": "30",
     "editor.folding": false,
     "editor.hideCursorInOverviewRuler": true,
-    "editor.occurrencesHighlight": false,
+    "editor.occurrencesHighlight": "off",
     "editor.roundedSelection": false,
     "editor.selectionHighlight": true,
     "editor.scrollBeyondLastLine": false,
-    "explorer.openEditors.visible": 0,
+    "explorer.openEditors.visible": 1,
     "window.zoomLevel": 0,
     "workbench.activityBar.visible": true,
     "workbench.editor.showIcons": true,
