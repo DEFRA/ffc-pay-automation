@@ -10,7 +10,7 @@ Given('I send a message to the service bus topic {string}', (inputTopicName) => 
   });
 });
 
-Then('the message should be received successfully for topic {string}', (inputTopicName) => {
+Then('the message should be received successfully for the service bus topic {string}', (inputTopicName) => {
   cy.fixture('services.json').then((services) => {
     const topicName = services[inputTopicName].topicName;
 
