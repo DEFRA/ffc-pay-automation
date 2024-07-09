@@ -23,11 +23,11 @@ function handleError (err) {
 }
 
 // Function to start receiving messages
-function startReceivingMessages () {
+function startReceivingMessages (topicName) {
   if (!receiver) {
-    receiver = serviceBusClient.createReceiver(process.env.topicName, process.env.subscriptionName, {receiveMode: 'receiveAndDelete'});
+    receiver = serviceBusClient.createReceiver(topicName, 'ffc-pay-automation', { receiveMode: 'receiveAndDelete' });
     receiver.subscribe({ processMessage: handleMessage, processError: handleError });
-    console.log(`Listening for messages on subscription: ${process.env.subscriptionName}`);
+    console.log(`Listening for messages on subscription: ffc-pay-automation for topic: ${topicName}`);
   } else {
     console.log('Receiver is already started.');
   }
