@@ -22,10 +22,10 @@ With the exception of Visual Studio Code, these prerequisites should be installe
 
 ## Local Usage
 
-The file 'package.json' contains the commands to run scripts, and these are all declared in 'scripts' object. Each command is run from the terminal and must be prefixed with `npm run`, for example `npm run cypress:test`
+The file 'package.json' contains the commands to run scripts, and these are all declared in 'scripts' object.
 
-1. `cypress:test` Opens the Cypress Test Runner
-2. `cypress:all` Runs the feature file(s) with specified tags in a Chrome browser. Specify tags within "TAGS=" and "--tag" prior to running
+1. `npm run cypress:test` Opens the Cypress Test Runner
+2. `npm run cypress:all` Runs the feature file(s) with specified tags in a Chrome browser. Specify tags within "TAGS=" and "--tag" prior to running
 <br>
 <br>
 <br>

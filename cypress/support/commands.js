@@ -6,14 +6,14 @@ Cypress.Commands.add('emptyFolder', (folderPath) => {
   });
 });
 
-Cypress.Commands.add('sendMessage', (messageBody) => {
-  cy.task('sendMessage', messageBody).then((status) => {
+Cypress.Commands.add('sendMessage', (messageBody, topicName) => {
+  cy.task('sendMessage', { messageBody, topicName }).then((status) => {
     cy.log(status);
   });
 });
 
-Cypress.Commands.add('startMessageReception', () => {
-  cy.task('startMessageReception');
+Cypress.Commands.add('startMessageReception', (topicName) => {
+  cy.task('startMessageReception', topicName);
 });
 
 Cypress.Commands.add('fetchReceivedMessages', () => {

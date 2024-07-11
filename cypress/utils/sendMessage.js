@@ -1,9 +1,9 @@
 const { ServiceBusClient } = require('@azure/service-bus');
 require('dotenv').config();
 
-async function sendMessage (messageBody) {
+async function sendMessage ({ messageBody, topicName }) {
   const serviceBusClient = new ServiceBusClient(process.env.connectionString);
-  const messageSender = serviceBusClient.createSender(process.env.topicName);
+  const messageSender = serviceBusClient.createSender(topicName);
   const message = {
     body: messageBody
   };

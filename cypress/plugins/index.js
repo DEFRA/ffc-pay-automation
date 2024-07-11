@@ -11,14 +11,14 @@ module.exports = (on, config) => {
   });
 
   on('task', {
-    sendMessage (messageBody) {
-      return sendMessage(messageBody);
+    sendMessage ({ messageBody, topicName }) {
+      return sendMessage({ messageBody, topicName });
     }
   });
 
   on('task', {
-    startMessageReception () {
-      startReceivingMessages();
+    startMessageReception (topicName) {
+      startReceivingMessages(topicName);
       return null;
     },
     stopMessageReception () {
