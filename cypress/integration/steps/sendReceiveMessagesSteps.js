@@ -1,29 +1,21 @@
 /* global Given, Then */
 
-Given('I send a message to the service bus topic {string}', (inputTopicName) => {
-  cy.fixture('services.json').then((services) => {
-    const topicName = services[inputTopicName].topicName;
-
-    cy.fixture('messageBody.json').then((messageBody) => {
-      cy.sendMessage(messageBody, topicName);
-    });
+Given('I send a message to the service bus topic {string}', (topicName) => {
+  cy.fixture('messageBody.json').then((messageBody) => {
+    cy.sendMessage(messageBody, topicName);
   });
 });
 
-Then('the message should be received successfully for the service bus topic {string}', (inputTopicName) => {
-  cy.fixture('services.json').then((services) => {
-    const topicName = services[inputTopicName].topicName;
+Then('the message should be received successfully for the service bus topic {string}', (topicName) => {
+  cy.startMessageReception(topicName);
+  cy.fetchReceivedMessages().then((messages) => {
+    expect(messages.length).to.be.greaterThan(0);
 
-    cy.startMessageReception(topicName);
-    cy.fetchReceivedMessages().then((messages) => {
-      expect(messages.length).to.be.greaterThan(0);
+    cy.fixture('messageBody.json').then((expectedMessage) => {
+      // Find the message that matches the expected one
+      const receivedMessage = messages.find(message => message.correlationId === expectedMessage.correlationId);
 
-      cy.fixture('messageBody.json').then((expectedMessage) => {
-        // Find the message that matches the expected one
-        const receivedMessage = messages.find(message => message.correlationId === expectedMessage.correlationId);
-
-        expect(receivedMessage).to.deep.equal(expectedMessage);
-      });
+      expect(receivedMessage).to.deep.equal(expectedMessage);
     });
   });
 });
