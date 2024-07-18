@@ -12,5 +12,10 @@ Feature: Service Bus Messaging
     And the "Requests awaiting reporting data" count has increased by 1
 
     Examples:
-      | sendToTopicName        | receiveOnTopicName     |
-      | ffc-pay-debt-data-test | ffc-pay-debt-data-test |
+      | sendToTopicName            | receiveOnTopicName         |
+      | ffc-pay-debt-data-test     | ffc-pay-debt-data-test     |
+      | ffc-pay-processing-test    | ffc-pay-processing-test    |
+      | ffc-pay-quality-check-test | ffc-pay-quality-check-test |
+      | ffc-pay-request-test       | ffc-pay-request-test       |
+      | ffc-pay-return-test        | ffc-pay-return-test        |
+      | ffc-pay-submit-test        | ffc-pay-submit-test        |

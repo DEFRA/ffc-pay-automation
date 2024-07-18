@@ -126,9 +126,11 @@ When('I create a message for the service bus topic {string} and update the follo
 
     // Update the agreement number in the main object and invoice lines
     messageBody.agreementNumber = newAgreementNumber;
-    messageBody.invoiceLines.forEach(line => {
-      line.agreementNumber = newAgreementNumber;
-    });
+    if (messageBody.invoiceLines) {
+      messageBody.invoiceLines.forEach(line => {
+        line.agreementNumber = newAgreementNumber;
+      });
+    }
 
     // Update the agreement number in the invoice number
     updateInvoiceNumbers(messageBody, currentAgreementNumber, newAgreementNumber);
