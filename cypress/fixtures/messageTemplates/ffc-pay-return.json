@@ -1,0 +1,11 @@
+{
+  "sourceSystem": "SFI",
+  "invoiceNumber": "S1234567S1234567V001",
+  "frn": 1234567890,
+  "postedDate": "31/03/2023",
+  "currency": "GBP",
+  "value": 1000,
+  "reference": "PY1234567",
+  "settled": true,
+  "detail": "Settled on 31/03/2023"
+}
