@@ -10,7 +10,7 @@ Given('I send the updated message to the service bus topic {string}', (topicName
 
 Then('the message should be received successfully for the service bus topic {string}', (topicName) => {
   cy.startMessageReception(topicName);
-  cy.fetchReceivedMessages().then((messages) => {
+  cy.fetchReceivedMessages(topicName).then((messages) => {
     expect(messages.length).to.be.greaterThan(0);
 
     cy.get('@updatedMessageBody').then((expectedMessage) => {
