@@ -8,8 +8,11 @@ Given('I send the updated message to the service bus topic {string}', (topicName
   });
 });
 
-Then('the message should be received successfully for the service bus topic {string}', (topicName) => {
+Given('I start the messaging service on for the service bus topic {string}', (topicName) => {
   cy.startMessageReception(topicName);
+});
+
+Then('the message should be received successfully for the service bus topic {string}', (topicName) => {
   cy.fetchReceivedMessages(topicName).then((messages) => {
     expect(messages.length).to.be.greaterThan(0);
 
@@ -20,6 +23,7 @@ Then('the message should be received successfully for the service bus topic {str
       expect(receivedMessage).to.deep.equal(expectedMessage);
     });
   });
+  cy.stopMessageReception();
 });
 
 When('I create a message for the service bus topic {string} and update the following keys:', (topicName, dataTable) => {

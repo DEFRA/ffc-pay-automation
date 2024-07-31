@@ -41,5 +41,4 @@ beforeEach(() => {
 afterEach(() => {
   // cy.saveLocalStorage();
   // cy.log('Local storage is saved!');
-  cy.stopMessageReception(); // Stop the receiver after each test
 });

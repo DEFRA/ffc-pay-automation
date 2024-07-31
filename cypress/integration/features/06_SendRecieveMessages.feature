@@ -1,7 +1,8 @@
 Feature: Service Bus Messaging
 
   Scenario Outline: Sending a message to the service bus topic "<sendToTopicName>"
-    Given I visit the "Request Editor" homepage
+    Given I start the messaging service on for the service bus topic "<sendToTopicName>"
+    And I visit the "Request Editor" homepage
     And I make a note of the "Requests awaiting reporting data" count
     When I create a message for the service bus topic "<sendToTopicName>" and update the following keys:
       | sbi   |
@@ -16,8 +17,8 @@ Feature: Service Bus Messaging
       | ffc-pay-debt-data-test | ffc-pay-debt-data-test |
 
   Scenario Outline: Sending a message to the service bus topic "<sendToTopicName>"
-    Given I visit the "Request Editor" homepage
-    When I create a message for the service bus topic "<sendToTopicName>" and update the following keys:
+    Given I start the messaging service on for the service bus topic "<sendToTopicName>"
+    And I create a message for the service bus topic "<sendToTopicName>" and update the following keys:
       | sbi   |
       | frn   |
       | value |
