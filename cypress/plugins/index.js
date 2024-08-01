@@ -25,8 +25,8 @@ module.exports = (on, config) => {
       stopReceivingMessages();
       return null;
     },
-    fetchReceivedMessages () {
-      return getReceivedMessages();
+    fetchReceivedMessages (topicName) {
+      return getReceivedMessages(topicName);
     }
   });
 

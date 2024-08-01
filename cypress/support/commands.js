@@ -16,8 +16,8 @@ Cypress.Commands.add('startMessageReception', (topicName) => {
   cy.task('startMessageReception', topicName);
 });
 
-Cypress.Commands.add('fetchReceivedMessages', () => {
-  return cy.task('fetchReceivedMessages');
+Cypress.Commands.add('fetchReceivedMessages', (topicName) => {
+  return cy.task('fetchReceivedMessages', topicName);
 });
 
 Cypress.Commands.add('stopMessageReception', () => {
