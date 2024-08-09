@@ -40,7 +40,7 @@ class requestEditorPage {
   }
 
   valueCount () {
-    return cy.get('.govuk-heading-xl')
+    return cy.get('.govuk-heading-xl');
   }
 
   getSchemeRadioButton (schemeName) {
