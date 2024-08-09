@@ -21,7 +21,7 @@ Feature: 07 Pagination
       | View awaiting ledger assignment | 1000   |
       | View awaiting quality check     | 100    |
       | View awaiting quality check     | 500    |
-      | View awaiting quality check     | 10000  |
+      | View awaiting quality check     | 1000   |
 
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
