@@ -3,25 +3,25 @@ Feature: 07 Pagination
   Background:
     Given I visit the "Request Editor" homepage
 
-  Scenario Outline: 01 Number of records per page dropdown - "<number>"
+  Scenario Outline: 01 "<number>" records per page on "<page>" page
     And I click on the "<link>" link
     When I select "<number>" from the number of records per page dropdown
     Then I can see <number> records displayed in the table
 
     Examples:
-      | link                            | number |
-      | View all datasets               | 2500   |
-      | View all datasets               | 5000   |
-      | View all datasets               | 10000  |
-      | View awaiting reporting data    | 100    |
-      | View awaiting reporting data    | 500    |
-      | View awaiting reporting data    | 1000   |
-      | View awaiting ledger assignment | 100    |
-      | View awaiting ledger assignment | 500    |
-      | View awaiting ledger assignment | 1000   |
-      | View awaiting quality check     | 100    |
-      | View awaiting quality check     | 500    |
-      | View awaiting quality check     | 1000   |
+      | link                            | number | page                             |
+      | View all datasets               | 2500   | Unattached reporting datasets    |
+      | View all datasets               | 5000   | Unattached reporting datasets    |
+      | View all datasets               | 10000  | Unattached reporting datasets    |
+      | View awaiting reporting data    | 100    | Requests awaiting reporting data |
+      | View awaiting reporting data    | 500    | Requests awaiting reporting data |
+      | View awaiting reporting data    | 1000   | Requests awaiting reporting data |
+      | View awaiting ledger assignment | 100    | Awaiting ledger assignment       |
+      | View awaiting ledger assignment | 500    | Awaiting ledger assignment       |
+      | View awaiting ledger assignment | 1000   | Awaiting ledger assignment       |
+      | View awaiting quality check     | 100    | Requests awaiting quality check  |
+      | View awaiting quality check     | 500    | Requests awaiting quality check  |
+      | View awaiting quality check     | 1000   | Requests awaiting quality check  |
 
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
