@@ -113,6 +113,25 @@ When(/^I search for FRN "(.*)"$/, (text) => {
   requestEditor.getFrnSearchField().type(text);
 });
 
+When('I have a random FRN', () => {
+  requestEditor.randomFRN().then(($cell) => {
+    const frn = $cell.text();
+    cy.wrap(frn).as('frn'); // Save the FRN for later steps
+  });
+});
+
+When('I enter the random FRN in the search field', () => {
+  cy.get('@frn').then((frn) => {
+    requestEditor.getFrnSearchField().type(frn);
+  });
+});
+
+Then('I should see the first FRN in the results matches the random FRN', () => {
+  cy.get('@frn').then((frn) => {
+    requestEditor.firstFRN().should('have.text', frn);
+  });
+});
+
 Then('I click on the FRN search button', () => {
   requestEditor.getFrnSearchButton().click();
 });
