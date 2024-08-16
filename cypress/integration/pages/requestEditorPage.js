@@ -59,6 +59,14 @@ class requestEditorPage {
     return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(2);
   }
 
+  randomFRN () {
+    // Generate a random index between 2 and 40
+    const randomIndex = Math.floor(Math.random() * (40 - 2 + 1)) + 2;
+
+    // Select the random table cell using the randomIndex
+    return cy.get(`.govuk-table__body > :nth-child(${randomIndex}) > :nth-child(3)`);
+  }
+
   applicationIdentifierHeader () {
     return cy.get('[for="applicationIdentifier"]');
   }
