@@ -1,17 +1,19 @@
 /* global Given, When, Then */
 
-import environments from '../../support/environments.json';
 import paymentManagementPage from '../pages/paymentManagementPage';
+const { getEnvironmentConfig } = require('../../support/configLoader');
+
+const envConfig = getEnvironmentConfig();
 
 Given(/^I visit the "(.*)" homepage$/, (text) => {
   var url;
 
   switch (text) {
   case 'Payment management':
-    url = environments.paymentManagement.testUrl;
+    url = envConfig.paymentManagementUrl;
     break;
   case 'Request Editor':
-    url = environments.requestEditor.testUrl;
+    url = envConfig.requestEditorUrl;
     break;
   }
 
@@ -24,10 +26,10 @@ Given(/^I am on the "(.*)" homepage$/, (text) => {
 
   switch (text) {
   case 'Payment management':
-    url = environments.paymentManagement.testUrl;
+    url = envConfig.paymentManagementUrl;
     break;
   case 'Request Editor':
-    url = environments.requestEditor.testUrl;
+    url = envConfig.requestEditorUrl;
     break;
   }
 
