@@ -1,4 +1,4 @@
-Feature: 07 Pagination
+Feature: 07 Pagination - Request Editor
 
   Background:
     Given I visit the "Request Editor" homepage
