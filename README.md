@@ -36,9 +36,9 @@ In this mode, Cypress opens the interactive Test Runner, allowing you to manuall
 
 In this mode, Cypress runs tests all tests at once and generates a HTML report after.
 
-1. `npm run cypress:local` Runs all tests for the Local environment.
-2. `npm run cypress:dev` Runs all tests for the Dev environment.
-3. `npm run cypress:test` Runs all tests for the Test environment.
+1. `npm run cypress:local:all` Runs all tests for the Local environment.
+2. `npm run cypress:dev:all` Runs all tests for the Dev environment.
+3. `npm run cypress:test:all` Runs all tests for the Test environment.
 <br>
 <br>
 <br>

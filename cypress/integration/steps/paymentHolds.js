@@ -1,5 +1,6 @@
 /* global When, Then */
 import paymentHoldsPage from '../pages/paymentHoldsPage';
+import requestEditor from '../pages/requestEditorPage';
 import moment from 'moment/moment';
 
 When('the {string} holds option is selected', (value) => {
@@ -23,6 +24,8 @@ Then('the new holds in {string} are visible along with the correct timestamp', (
     const frnValues = csvData.split(',');
 
     frnValues.forEach((frnValue) => {
+      requestEditor.getFrnSearchField().clear().type(frnValue);
+      requestEditor.getFrnSearchButton().click();
       cy.contains('td', frnValue).then((td) => {
         if (td.length > 0) {
           const row = td.closest('tr');

@@ -14,8 +14,8 @@
   "monitoring": {
     "pageSubHeader": "Monitoring"
   },
-  "monitoring/view-processed-payment-requests": {
-    "pageSubHeader": "Processed payment requests"
+  "monitoring/schemes": {
+    "pageSubHeader": "Monitoring"
   },
   "closure": {
     "pageSubHeader": "Agreement closures"
@@ -35,7 +35,7 @@
   "enrich": {
     "pageSubHeader": "Requests awaiting reporting data"
   },
-  "ap-listing": {
-    "pageSubHeader": "AP Listing Report"
+  "ap-ar-listing": {
+    "pageSubHeader": "AP/AR Listing Report"
   }
 }

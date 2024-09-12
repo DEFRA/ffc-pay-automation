@@ -10,17 +10,10 @@ When(/^I can see "(.*)" as the header$/, (text) => {
 Then(/^I am on the "(.*)" subpage$/, (text) => {
   cy.url().should('include', text);
 
-  if (text === 'monitoring/view-processed-payment-requests') {
-    paymentManagementPage
-      .tableCaption()
-      .should('be.visible')
-      .and('have.text', constants[text].pageSubHeader);
-  } else {
-    paymentManagementPage
-      .subHeader()
-      .should('be.visible')
-      .and('have.text', constants[text].pageSubHeader);
-  }
+  paymentManagementPage
+    .subHeader()
+    .should('be.visible')
+    .and('have.text', constants[text].pageSubHeader);
 });
 
 When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
