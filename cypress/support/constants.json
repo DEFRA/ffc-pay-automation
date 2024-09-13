@@ -37,5 +37,11 @@
   },
   "ap-ar-listing": {
     "pageSubHeader": "AP/AR Listing Report"
+  },
+  "transaction-summary": {
+    "pageSubHeader": "Combined Transaction Report"
+  },
+  "claim-level-report": {
+    "pageSubHeader": "Claim Level Report"
   }
 }

@@ -24,18 +24,20 @@ Feature: 01 Payment management
     When I click on the "<link>" download link
     Then the CSV file is downloaded with "<title>" as the title
 
-    @test
     Examples:
-      | link                        | title                               |
-      | Payment request statuses    | ffc-pay-mi-report-v2                |
-      | Combined transaction report | ffc-pay-combined-transaction-report |
+      | link                        | title                         |
+      | Payment request statuses    | ffc-pay-mi-report-v2          |
+      | Suppressed payment requests | ffc-pay-suppressed-report     |
+      | Holds                       | ffc-pay-hold-report           |
+      | Request Editor report       | ffc-pay-request-editor-report |
 
-    Examples:
-      | link | title |
-      # | Suppressed payment requests | ffc-pay-suppressed-report           |
-      | Holds | ffc-pay-hold-report |
-
-  Scenario: 03 Verify "AP-AR listing report" link works correctly
+  Scenario Outline: 03 Verify "link" link works correctly
     And I click on the "Report List" link
-    When I click on the "AP-AR listing report" link
-    Then I am on the "ap-ar-listing" subpage
+    When I click on the "<link>" link
+    Then I am on the "<subPage>" subpage
+
+    Examples:
+      | link                        | subPage             |
+      | Combined transaction report | transaction-summary |
+      | AP-AR listing report        | ap-ar-listing       |
+      | Claim level report          | claim-level-report  |
