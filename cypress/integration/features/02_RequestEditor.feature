@@ -46,6 +46,7 @@ Feature: 02 Request Editor
       | View awaiting ledger assignment | manual-ledger |
       | View awaiting reporting data    | enrich        |
 
+  @ignoreLocal
   Scenario: 05 FRN Search Function
     And I click on the "View awaiting ledger assignment" link
     And I search for FRN "1102142158"

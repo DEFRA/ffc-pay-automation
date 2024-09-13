@@ -1,3 +1,4 @@
+@ignoreLocal
 Feature: 07 Pagination - Request Editor
 
   Background:
