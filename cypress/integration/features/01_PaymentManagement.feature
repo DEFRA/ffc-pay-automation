@@ -9,15 +9,15 @@ Feature: 01 Payment management
     Then I am on the "<subPage>" subpage
 
     Examples:
-      | link                            | subPage                                    |
-      | Manage holds                    | payment-holds                              |
-      | Manage schemes                  | payment-schemes                            |
-      | Reset payment request           | payment-request/reset                      |
-      | View events                     | monitoring                                 |
-      | View processed payment requests | monitoring/view-processed-payment-requests |
-      | Manage closures                 | closure                                    |
-      | Add closure                     | closure/add                                |
-      | Add bulk closures               | closure/bulk                               |
+      | link                            | subPage               |
+      | Manage holds                    | payment-holds         |
+      | Manage schemes                  | payment-schemes       |
+      | Reset payment request           | payment-request/reset |
+      | View events                     | monitoring            |
+      | View processed payment requests | monitoring/schemes    |
+      | Manage closures                 | closure               |
+      | Add closure                     | closure/add           |
+      | Add bulk closures               | closure/bulk          |
 
   Scenario Outline: 02 Verify "<link>"" link works correctly
     And I click on the "Report List" link
@@ -25,13 +25,19 @@ Feature: 01 Payment management
     Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
-      | link                        | title                               |
-      | Payment request statuses    | ffc-pay-mi-report-v2                |
-      | Combined transaction report | ffc-pay-combined-transaction-report |
-      # | Suppressed payment requests | ffc-pay-suppressed-report           |
-      | Holds | ffc-pay-hold-report |
+      | link                        | title                         |
+      | Payment request statuses    | ffc-pay-mi-report-v2          |
+      | Suppressed payment requests | ffc-pay-suppressed-report     |
+      | Holds                       | ffc-pay-hold-report           |
+      | Request Editor report       | ffc-pay-request-editor-report |
 
-  Scenario: 03 Verify "AP Listing Report" link works correctly
+  Scenario Outline: 03 Verify "link" link works correctly
     And I click on the "Report List" link
-    When I click on the "AP Listing Report" link
-    Then I am on the "ap-listing" subpage
+    When I click on the "<link>" link
+    Then I am on the "<subPage>" subpage
+
+    Examples:
+      | link                        | subPage             |
+      | Combined transaction report | transaction-summary |
+      | AP-AR listing report        | ap-ar-listing       |
+      | Claim level report          | claim-level-report  |

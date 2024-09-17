@@ -1,4 +1,5 @@
-Feature: 07 Pagination - Payment Management
+@ignoreLocal
+Feature: 09 Pagination - Payment Management
 
   Background:
     Given I visit the "Payment management" homepage

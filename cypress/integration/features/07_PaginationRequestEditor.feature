@@ -1,3 +1,4 @@
+@ignoreLocal
 Feature: 07 Pagination - Request Editor
 
   Background:
@@ -19,9 +20,13 @@ Feature: 07 Pagination - Request Editor
       | View awaiting ledger assignment | 100    | Awaiting ledger assignment       |
       | View awaiting ledger assignment | 500    | Awaiting ledger assignment       |
       | View awaiting ledger assignment | 1000   | Awaiting ledger assignment       |
-      | View awaiting quality check     | 100    | Requests awaiting quality check  |
-      | View awaiting quality check     | 500    | Requests awaiting quality check  |
-      | View awaiting quality check     | 1000   | Requests awaiting quality check  |
+
+    @test
+    Examples:
+      | link                        | number | page                            |
+      | View awaiting quality check | 100    | Requests awaiting quality check |
+      | View awaiting quality check | 500    | Requests awaiting quality check |
+      | View awaiting quality check | 1000   | Requests awaiting quality check |
 
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
@@ -34,7 +39,11 @@ Feature: 07 Pagination - Request Editor
       | View all datasets               | Unattached reporting datasets    |
       | View awaiting reporting data    | Requests awaiting reporting data |
       | View awaiting ledger assignment | Awaiting ledger assignment       |
-      | View awaiting quality check     | Requests awaiting quality check  |
+
+    @test
+    Examples:
+      | link                        | page                            |
+      | View awaiting quality check | Requests awaiting quality check |
 
   Scenario Outline: 03 Verify Next/Previous on second page of "<page>" page
     And I click on the "<link>" link
@@ -48,7 +57,11 @@ Feature: 07 Pagination - Request Editor
       | View all datasets               | Unattached reporting datasets    |
       | View awaiting reporting data    | Requests awaiting reporting data |
       | View awaiting ledger assignment | Awaiting ledger assignment       |
-      | View awaiting quality check     | Requests awaiting quality check  |
+
+    @test
+    Examples:
+      | link                        | page                            |
+      | View awaiting quality check | Requests awaiting quality check |
 
   Scenario Outline: 04 Verify Next/Previous on last page of "<page>" page
     And I click on the "<link>" link
@@ -61,4 +74,8 @@ Feature: 07 Pagination - Request Editor
       | View all datasets               | Unattached reporting datasets    |
       | View awaiting reporting data    | Requests awaiting reporting data |
       | View awaiting ledger assignment | Awaiting ledger assignment       |
-      | View awaiting quality check     | Requests awaiting quality check  |
+
+    @test
+    Examples:
+      | link                        | page                            |
+      | View awaiting quality check | Requests awaiting quality check |

@@ -8,7 +8,7 @@ Feature: 02 Request Editor
     And I make a note of the "Unattached reporting datasets" count
     And I click on the "Capture new dataset" link
     And the application identifier field header is visible with text "Agreement/claim number"
-    And the application identifier hint is visible with text "Enter the agreement/claim number, for example SIP000000000001"
+    And the application identifier hint is visible with text "Enter the agreement/claim number, for example SIP000000000001 or 1234567"
     And I create a new reporting dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
       | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
@@ -46,6 +46,7 @@ Feature: 02 Request Editor
       | View awaiting ledger assignment | manual-ledger |
       | View awaiting reporting data    | enrich        |
 
+  @ignoreLocal
   Scenario: 05 FRN Search Function
     And I click on the "View awaiting ledger assignment" link
     And I search for FRN "1102142158"

@@ -1,9 +1,6 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
-  env: {
-    TAGS: 'not @ignore',
-  },
   chromeWebSecurity: false,
   watchForFileChanges: false,
   viewportHeight: 720,

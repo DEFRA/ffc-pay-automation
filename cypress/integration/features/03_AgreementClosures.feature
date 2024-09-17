@@ -97,6 +97,7 @@ Feature: 03 Agreement Closures
     When I click the "Create" link
     Then I should see "Enter a valid year"
 
+  @ignoreLocal
   Scenario: 15 Successful Adding & Removing a Submission
     And I click on the "Add closure" link
     And I type '1234567891' in the 'FRN' field
@@ -129,6 +130,7 @@ Feature: 03 Agreement Closures
     Then I should see "There is a problem"
     And I should see "Provide a CSV file"
 
+  @ignoreLocal
   Scenario: 18 Large File Upload
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadLarge.csv' file

@@ -1,3 +1,4 @@
+@test
 Feature: 08 Quality Check
 
   Background:

@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "cypress:local": "cypress open --e2e --browser=chrome --env env=local,TAGS='not @ignore'",
-    "cypress:dev": "cypress open --e2e --browser chrome --env env=dev,TAGS='not @ignore'",
-    "cypress:test": "cypress open --e2e --browser=chrome --env env=test,TAGS='not @ignore'",
-    "cypress:all:local": "npm run config:reports; npm run delete:reports; ./node_modules/.bin/cypress-tags run --env env=local,TAGS='not @ignore' --browser chrome --headed; npm run report",
-    "cypress:all:dev": "npm run config:reports; npm run delete:reports; ./node_modules/.bin/cypress-tags run --env env=dev,TAGS='not @ignore' --browser chrome --headed; npm run report",
-    "cypress:all:test": "npm run config:reports; npm run delete:reports; ./node_modules/.bin/cypress-tags run --env env=test,TAGS='not @ignore' --browser chrome --headed; npm run report",
+    "cypress:local": "cypress open --e2e --browser chrome --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\"",
+    "cypress:dev": "cypress open --e2e --browser chrome --env env=dev,TAGS=\"not (@test or @ignore)\"",
+    "cypress:test": "cypress open --e2e --browser=chrome --env env=test,TAGS=\"not (@dev or @ignore)\"",
+    "cypress:local:all": "npm run config:reports && npm run delete:reports && cypress run --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\" --browser chrome --headed --headed && npm run report",
+    "cypress:dev:all": "npm run config:reports && npm run delete:reports && cypress run --env env=dev,TAGS=\"not (@test or @ignore)\" --browser chrome --headed && npm run report",
+    "cypress:test:all": "npm run config:reports && npm run delete:reports && cypress run --env env=test,TAGS=\"not (@dev or @ignore)\" --browser chrome --headed && npm run report",
     "report": "node .tools/exportHTMLReport.mjs",
-    "delete:reports": "rm -rf report/JSON/* || true; rm -rf report/HTML/* || true; rm -rf cypress/videos/features/* || true",
-    "config:reports": "mkdir -p report/{HTML,JSON} cypress/screenshots; cp '.tools/createTestFromScenario.js' 'node_modules/cypress-cucumber-preprocessor/lib/createTestFromScenario.js'"
+    "delete:reports": "del-cli \"report/JSON/*\" \"report/HTML/*\" \"cypress/videos/features/*\"",
+    "config:reports": "node .tools/createDirsAndCopyFiles.js"
   },
   "dependencies": {
     "@azure/service-bus": "^7.9.3",
@@ -23,6 +23,7 @@
     "cypress": "13.2.0",
     "cypress-cucumber-preprocessor": "^4.3.0",
     "cypress-localstorage-commands": "^1.6.1",
+    "del-cli": "^5.1.0",
     "dotenv": "^16.4.5",
     "eslint": "^8.9.0",
     "eslint-plugin-cypress": "^2.12.1",
