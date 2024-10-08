@@ -25,10 +25,14 @@ Feature: 01 Payment management
     Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
+      | link                     | title                |
+      | Payment request statuses | ffc-pay-mi-report-v2 |
+      | Holds                    | ffc-pay-hold-report  |
+
+    @test
+    Examples:
       | link                        | title                         |
-      | Payment request statuses    | ffc-pay-mi-report-v2          |
       | Suppressed payment requests | ffc-pay-suppressed-report     |
-      | Holds                       | ffc-pay-hold-report           |
       | Request Editor report       | ffc-pay-request-editor-report |
 
   Scenario Outline: 03 Verify "link" link works correctly
