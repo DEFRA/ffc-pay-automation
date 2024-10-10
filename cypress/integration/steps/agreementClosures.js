@@ -137,7 +137,9 @@ When('I click the {string} link', (text) => {
 
 When('I type {string} in the {string} field', (text, field) => {
   if (field === 'FRN') {
-    addClosurePage.frnInput().type(text);
+    if (text) {
+      addClosurePage.frnInput().type(text);
+    }
     Cypress.env('formData', { ...Cypress.env('formData'), frn: text });
   } else if (field === 'Agreement number') {
     addClosurePage.agreementNumberInput().type(text);
@@ -145,7 +147,7 @@ When('I type {string} in the {string} field', (text, field) => {
   } else if (field === 'year') {
     addClosurePage.closureDateYearInput().type(text);
     Cypress.env('formData', { ...Cypress.env('formData'), year: text });
-  } else if (field === 'paymentRequestNumber') {
+  } else if (field === 'prn') {
     if (text) {
       reportsPage.prnField().type(text);
       Cypress.env('formData', { ...Cypress.env('formData'), prn: text });

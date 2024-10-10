@@ -51,10 +51,12 @@ When('I select {string} from the {string} dropdown', (text, dropdown) => {
   } else if (dropdown === 'revenueCapital') {
     reportsPage.revenueCapitalDropdown().scrollIntoView().select(text);
     Cypress.env('formData', { ...Cypress.env('formData'), revenueOrCapital: text });
+  } else if (dropdown === 'reportType') {
+    reportsPage.reportTypeDropdown().scrollIntoView().select(text);
   }
 });
 
-When(/^the CSV file is downloaded with "(.*)" as the title when I hit submit$/, (expectedFileName) => {
+When(/^the CSV file is downloaded with "(.*)" as the title when I send the request$/, (expectedFileName) => {
   const formData = Cypress.env('formData');
 
   cy.request({
@@ -68,6 +70,22 @@ When(/^the CSV file is downloaded with "(.*)" as the title when I hit submit$/, 
     const actualFileName = fileNameMatch[1];
 
     expect(response.status).to.eq(200);
-    expect(actualFileName).to.eq(expectedFileName+'.csv');
+    expect(actualFileName).to.eq('ffc-pay-combined-transaction-report_'+expectedFileName+'.csv');
   });
+});
+
+When('I type the {string} date as {string}', (dateType, date) => {
+  const [day, month, year] = date.split('-');
+
+  if (dateType === 'start') {
+    reportsPage.startDateDayField().type(day);
+    reportsPage.startDateMonthField().type(month);
+    reportsPage.startDateYearField().type(year);
+  } else if (dateType === 'end') {
+    reportsPage.endDateDayField().type(day);
+    reportsPage.endDateMonthField().type(month);
+    reportsPage.endDateYearField().type(year);
+  } else {
+    throw new Error(`Unknown date type: ${dateType}`);
+  }
 });
