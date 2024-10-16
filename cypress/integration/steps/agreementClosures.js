@@ -5,6 +5,7 @@ import addBulkClosurePage from '../pages/addBulkClosurePage';
 import addClosurePage from '../pages/addClosurePage';
 import moment from 'moment/moment';
 import paymentHoldsPage from '../pages/paymentHoldsPage';
+import reportsPage from '../pages/reportsPage';
 
 When('I see the new submission in the table', () => {
   agreementClosuresPage.lastFRN().should('have.text', Cypress.env('frn'));
@@ -136,11 +137,23 @@ When('I click the {string} link', (text) => {
 
 When('I type {string} in the {string} field', (text, field) => {
   if (field === 'FRN') {
-    addClosurePage.frnInput().type(text);
-    Cypress.env('frn', text);
+    if (text) {
+      addClosurePage.frnInput().type(text);
+    }
+    Cypress.env('formData', { ...Cypress.env('formData'), frn: text });
   } else if (field === 'Agreement number') {
     addClosurePage.agreementNumberInput().type(text);
-    Cypress.env('agreementNumber', text);
+    Cypress.env('formData', { ...Cypress.env('formData'), agreementNumber: text });
+  } else if (field === 'year') {
+    addClosurePage.closureDateYearInput().type(text);
+    Cypress.env('formData', { ...Cypress.env('formData'), year: text });
+  } else if (field === 'prn') {
+    if (text) {
+      reportsPage.prnField().type(text);
+      Cypress.env('formData', { ...Cypress.env('formData'), prn: text });
+    } else {
+      Cypress.env('formData', { ...Cypress.env('formData'), prn: '' });
+    }
   } else {
     throw new Error('Invalid field');
   }
