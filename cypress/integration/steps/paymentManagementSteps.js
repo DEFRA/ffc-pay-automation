@@ -74,6 +74,24 @@ When(/^the CSV file is downloaded with "(.*)" as the title when I send the reque
   });
 });
 
+When(/^the AP AR CSV file is downloaded with "(.*)" as the title when I send the request$/, (expectedFileName) => {
+  const formData = Cypress.env('formData');
+
+  cy.request({
+    method: 'GET',
+    url: '/report-list/ap-ar-listing/download',
+    qs: formData,
+    encoding: 'binary'
+  }).then((response) => {
+    const contentDisposition = response.headers['content-disposition'];
+    const fileNameMatch = contentDisposition.match(/filename=([^;]+)/);
+    const actualFileName = fileNameMatch[1];
+
+    expect(response.status).to.eq(200);
+    expect(actualFileName).to.eq('ffc-pay-ap-listing-report-from-'+expectedFileName+'.csv');
+  });
+});
+
 When('I type the {string} date as {string}', (dateType, date) => {
   const [day, month, year] = date.split('-');
 
@@ -81,10 +99,16 @@ When('I type the {string} date as {string}', (dateType, date) => {
     reportsPage.startDateDayField().type(day);
     reportsPage.startDateMonthField().type(month);
     reportsPage.startDateYearField().type(year);
+    Cypress.env('formData', { ...Cypress.env('formData'), 'start-date-day': day });
+    Cypress.env('formData', { ...Cypress.env('formData'), 'start-date-month': month });
+    Cypress.env('formData', { ...Cypress.env('formData'), 'start-date-year': year });
   } else if (dateType === 'end') {
     reportsPage.endDateDayField().type(day);
     reportsPage.endDateMonthField().type(month);
     reportsPage.endDateYearField().type(year);
+    Cypress.env('formData', { ...Cypress.env('formData'), 'end-date-day': day });
+    Cypress.env('formData', { ...Cypress.env('formData'), 'end-date-month': month });
+    Cypress.env('formData', { ...Cypress.env('formData'), 'end-date-year': year });
   } else {
     throw new Error(`Unknown date type: ${dateType}`);
   }

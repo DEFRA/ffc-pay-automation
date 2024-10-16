@@ -61,12 +61,13 @@ Feature: 10 Reports
     And I click on the "AP-AR listing report" link
     And I select "<reportType>" from the "reportType" dropdown
     And I type the "start" date as "<startDate>"
-    And I type the "end" date as "<endDate>"
+    When I type the "end" date as "<endDate>"
+    Then the AP AR CSV file is downloaded with "<title>" as the title when I send the request
 
     Examples:
-      | reportType        | startDate  | endDate    |
-      | AR Listing Report | 02-01-2020 | 01-12-2024 |
-      | AR Listing Report | 02-01-2020 | 01-12-2024 |
+      | reportType        | startDate  | endDate    | title                    |
+      | AP Listing Report | 01-03-2024 | 16-10-2024 | 2024-03-01-to-2024-10-16 |
+      | AR Listing Report | 01-03-2024 | 16-10-2024 | 2024-03-01-to-2024-10-16 |
 
   @test
   Scenario Outline: 05 Download Claim level report for <scheme>

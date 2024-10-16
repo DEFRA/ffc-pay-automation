@@ -41,4 +41,5 @@ beforeEach(() => {
 afterEach(() => {
   // cy.saveLocalStorage();
   // cy.log('Local storage is saved!');
+  Cypress.env('formData', null);
 });
