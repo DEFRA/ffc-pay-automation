@@ -43,5 +43,8 @@
   },
   "claim-level-report": {
     "pageSubHeader": "Claim Level Report"
+  },
+  "report-list": {
+    "pageSubHeader": "Report List"
   }
 }

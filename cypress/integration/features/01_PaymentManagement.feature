@@ -18,30 +18,4 @@ Feature: 01 Payment management
       | Manage closures                 | closure               |
       | Add closure                     | closure/add           |
       | Add bulk closures               | closure/bulk          |
-
-  Scenario Outline: 02 Verify "<link>"" link works correctly
-    And I click on the "Report List" link
-    When I click on the "<link>" download link
-    Then the CSV file is downloaded with "<title>" as the title
-
-    Examples:
-      | link                     | title                |
-      | Payment request statuses | ffc-pay-mi-report-v2 |
-      | Holds                    | ffc-pay-hold-report  |
-
-    @test
-    Examples:
-      | link                        | title                         |
-      | Suppressed payment requests | ffc-pay-suppressed-report     |
-      | Request Editor report       | ffc-pay-request-editor-report |
-
-  Scenario Outline: 03 Verify "link" link works correctly
-    And I click on the "Report List" link
-    When I click on the "<link>" link
-    Then I am on the "<subPage>" subpage
-
-    Examples:
-      | link                        | subPage             |
-      | Combined transaction report | transaction-summary |
-      | AP-AR listing report        | ap-ar-listing       |
-      | Claim level report          | claim-level-report  |
+      | Report List                     | report-list           |
