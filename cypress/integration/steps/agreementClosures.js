@@ -141,9 +141,11 @@ When('I type {string} in the {string} field', (text, field) => {
       addClosurePage.frnInput().type(text);
     }
     Cypress.env('formData', { ...Cypress.env('formData'), frn: text });
+    Cypress.env('frn', text);
   } else if (field === 'Agreement number') {
     addClosurePage.agreementNumberInput().type(text);
     Cypress.env('formData', { ...Cypress.env('formData'), agreementNumber: text });
+    Cypress.env('agreementNumber', text);
   } else if (field === 'year') {
     addClosurePage.closureDateYearInput().type(text);
     Cypress.env('formData', { ...Cypress.env('formData'), year: text });
