@@ -13,8 +13,11 @@ Given('I start the messaging service on for the service bus topic {string}', (to
   cy.startMessageReception(topicName);
 });
 
-Then('the message should be received successfully for the service bus topic {string}', (topicName) => {
-  // Load the expected message from the JSON file in fixtures
+Given('I stop the messaging service', () => {
+  cy.stopMessageReception();
+});
+
+Then('the message should be matching the output message for the service bus topic {string}', (topicName) => {
   cy.get('@updatedOutputMessageBody').then((expectedMessage) => {
 
     cy.fetchReceivedMessages(topicName).then((messages) => {
@@ -35,9 +38,38 @@ Then('the message should be received successfully for the service bus topic {str
   cy.stopMessageReception();
 });
 
+Then('the message should be received successfully for the service bus topic {string}', (topicName) => {
+  cy.get('@updatedInputMessageBody').then((expectedMessage) => {
+
+    cy.fetchReceivedMessages(topicName).then((messages) => {
+      expect(messages.length).to.be.greaterThan(0);
+
+      // Find the message that matches the expected one
+      const receivedMessage = messages.find(message => message.correlationId === expectedMessage.correlationId);
+
+      // Iterate over each field in receivedMessage and check if it exists in expectedMessage
+      Object.keys(receivedMessage).forEach((key) => {
+        if (Object.prototype.hasOwnProperty.call(expectedMessage, key)) {
+          expect(receivedMessage[key], `${key}`).to.deep.equal(expectedMessage[key]);
+        }
+      });
+    });
+  });
+
+  cy.stopMessageReception();
+});
+
 When('I create a message for the service bus topics {string} and {string} and update the following keys:', (inputTopicName, responseTopicName, dataTable) => {
+  createMessageForServiceBusTopics(inputTopicName, responseTopicName, dataTable);
+});
+
+When('I create a message for the service bus topic {string} and update the following keys:', (inputTopicName, dataTable) => {
+  createMessageForServiceBusTopics(inputTopicName, null, dataTable);
+});
+
+function createMessageForServiceBusTopics (inputTopicName, responseTopicName, dataTable) {
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
-  const responseFilePath = `cypress/fixtures/messageTemplates/outputMessage/${responseTopicName}.json`;
+  const responseFilePath = responseTopicName ? `cypress/fixtures/messageTemplates/outputMessage/${responseTopicName}.json` : null;
 
   // Utility function to generate a random value based on custom rules
   const generateRandomValue = (key, existingValue) => {
@@ -77,13 +109,11 @@ When('I create a message for the service bus topics {string} and {string} and up
     return null;
   };
 
-  // Function to generate a random agreement number with SIP prefix
   const generateRandomAgreementNumber = () => {
-    const randomDigits = Math.floor(1000000000000 + Math.random() * 9000000000000); // Generates a random 13-digit number
+    const randomDigits = Math.floor(1000000000000 + Math.random() * 9000000000000);
     return `SIP${randomDigits}`;
   };
 
-  // Function to update specified keys with consistent values in both files
   const updateKeys = (obj, updates, valuesMap = {}) => {
     let keyUpdated = false;
     for (const key in obj) {
@@ -120,35 +150,42 @@ When('I create a message for the service bus topics {string} and {string} and up
   };
 
   cy.readFile(inputFilePath).then((inputMessageBody) => {
-    cy.readFile(responseFilePath).then((outputMessageBody) => {
-      const updates = dataTable.rawTable.flat();
+    const updates = dataTable.rawTable.flat();
+    const currentAgreementNumber = inputMessageBody.agreementNumber;
+    const newAgreementNumber = generateRandomAgreementNumber();
 
-      const currentAgreementNumber = inputMessageBody.agreementNumber;
-      const newAgreementNumber = generateRandomAgreementNumber();
+    inputMessageBody.agreementNumber = newAgreementNumber;
+    if (inputMessageBody.invoiceLines) {
+      inputMessageBody.invoiceLines.forEach(line => (line.agreementNumber = newAgreementNumber));
+    }
+    updateInvoiceNumbers(inputMessageBody, currentAgreementNumber, newAgreementNumber);
 
-      inputMessageBody.agreementNumber = newAgreementNumber;
-      outputMessageBody.agreementNumber = newAgreementNumber;
+    const valuesMap = {};
+    const inputKeyExists = updateKeys(inputMessageBody, updates, valuesMap);
 
-      if (inputMessageBody.invoiceLines) {
-        inputMessageBody.invoiceLines.forEach(line => (line.agreementNumber = newAgreementNumber));
+    cy.wrap(inputMessageBody).as('updatedInputMessageBody');
+
+    if (responseFilePath) {
+      cy.readFile(responseFilePath).then((outputMessageBody) => {
+        outputMessageBody.agreementNumber = newAgreementNumber;
+        if (outputMessageBody.invoiceLines) {
+          outputMessageBody.invoiceLines.forEach(line => (line.agreementNumber = newAgreementNumber));
+        }
+        updateInvoiceNumbers(outputMessageBody, currentAgreementNumber, newAgreementNumber);
+
+        const responseKeyExists = updateKeys(outputMessageBody, updates, valuesMap);
+
+        if (!inputKeyExists && !responseKeyExists) {
+          cy.log('None of the specified keys were found in either message body');
+        }
+
+        cy.wrap(outputMessageBody).as('updatedOutputMessageBody');
+      });
+    } else {
+      cy.log('No response topic name provided, skipping response file updates');
+      if (!inputKeyExists) {
+        cy.log('None of the specified keys were found in the input message body');
       }
-      if (outputMessageBody.invoiceLines) {
-        outputMessageBody.invoiceLines.forEach(line => (line.agreementNumber = newAgreementNumber));
-      }
-
-      updateInvoiceNumbers(inputMessageBody, currentAgreementNumber, newAgreementNumber);
-      updateInvoiceNumbers(outputMessageBody, currentAgreementNumber, newAgreementNumber);
-
-      const valuesMap = {};
-      const inputKeyExists = updateKeys(inputMessageBody, updates, valuesMap);
-      const responseKeyExists = updateKeys(outputMessageBody, updates, valuesMap);
-
-      if (!inputKeyExists && !responseKeyExists) {
-        cy.log('None of the specified keys were found in either message body');
-      }
-
-      cy.wrap(inputMessageBody).as('updatedInputMessageBody');
-      cy.wrap(outputMessageBody).as('updatedOutputMessageBody');
-    });
+    }
   });
-});
+}
