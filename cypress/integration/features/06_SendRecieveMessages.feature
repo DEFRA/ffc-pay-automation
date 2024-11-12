@@ -1,6 +1,5 @@
 Feature: Service Bus Messaging
 
-  @ignore
   Scenario Outline: 01 Add an entry to the "<box>" box on Request Editor
     Given I start the messaging service on for the service bus topic "<sendToTopicName>"
     And I visit the "Request Editor" homepage
