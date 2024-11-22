@@ -1,0 +1,29 @@
+{
+  "sourceSystem":"SFI",
+  "schemeId":1,
+  "batch":"SITISFI0001_AP_2022110909115624.dat",
+  "deliveryBody":"RP00",
+  "invoiceNumber":"SFI00000400",
+  "frn":"1000000019",
+  "marketingYear":2022,
+  "paymentRequestNumber":1,
+  "agreementNumber":"00000001",
+  "contractNumber":"00000001",
+  "currency":"GBP",
+  "schedule":"Q4",
+  "dueDate":"2021-12-01",
+  "value":1000,
+  "correlationId":"f9aaec8c-1947-42a1-864e-0e74a90cafef",
+  "invoiceLines":[
+    {
+      "schemeCode":"80101",
+      "accountCode":"SOS273",
+      "fundCode":"DRD10",
+      "agreementNumber":"00000019",
+      "description":"G00 - Gross value of claim",
+      "value":1000,
+      "deliveryBody":"RP00",
+      "marketingYear":2022
+    }
+  ]
+}
