@@ -5,6 +5,14 @@ import RandExp from 'randexp';
 Given('I send the updated message to the service bus topic {string}', (topicName) => {
   cy.get('@updatedInputMessageBody').then((updatedMessageBody) => {
     cy.sendMessage(updatedMessageBody, topicName);
+    Cypress.env('updatedMessageBody', updatedMessageBody);
+  });
+  cy.wait(5000);
+});
+
+Given('I send the updated response message to the service bus topic {string}', (topicName) => {
+  cy.get('@updatedContent').then((updatedContent) => {
+    cy.sendMessage(updatedContent, topicName);
   });
   cy.wait(5000);
 });
@@ -24,7 +32,7 @@ Then('the message should be matching the output message for the service bus topi
       expect(messages.length).to.be.greaterThan(0);
 
       // Find the message that matches the expected one
-      const receivedMessage = messages.find(message => message.correlationId === expectedMessage.correlationId);
+      const receivedMessage = messages.find(message => message.invoiceNumber === expectedMessage.invoiceNumber);
 
       // Iterate over each field in receivedMessage and check if it exists in expectedMessage
       Object.keys(receivedMessage).forEach((key) => {
@@ -45,7 +53,28 @@ Then('the message should be received successfully for the service bus topic {str
       expect(messages.length).to.be.greaterThan(0);
 
       // Find the message that matches the expected one
-      const receivedMessage = messages.find(message => message.correlationId === expectedMessage.correlationId);
+      const receivedMessage = messages.find(message => message.invoiceNumber === expectedMessage.invoiceNumber);
+
+      // Iterate over each field in receivedMessage and check if it exists in expectedMessage
+      Object.keys(receivedMessage).forEach((key) => {
+        if (Object.prototype.hasOwnProperty.call(expectedMessage, key)) {
+          expect(receivedMessage[key], `${key}`).to.deep.equal(expectedMessage[key]);
+        }
+      });
+    });
+  });
+
+  cy.stopMessageReception();
+});
+
+Then('the response message should be received successfully for the service bus topic {string}', (topicName) => {
+  cy.get('@updatedContent').then((expectedMessage) => {
+
+    cy.fetchReceivedMessages(topicName).then((messages) => {
+      expect(messages.length).to.be.greaterThan(0);
+
+      // Find the message that matches the expected one
+      const receivedMessage = messages.find(message => message.invoiceNumber === expectedMessage.invoiceNumber);
 
       // Iterate over each field in receivedMessage and check if it exists in expectedMessage
       Object.keys(receivedMessage).forEach((key) => {
@@ -67,11 +96,14 @@ When('I create a message for the service bus topic {string} and update the follo
   createMessageForServiceBusTopics(inputTopicName, null, dataTable);
 });
 
+When('I create a message with the filename {string} and update the following keys:', (inputTopicName, dataTable) => {
+  createMessageForServiceBusTopics(inputTopicName, null, dataTable);
+});
+
 function createMessageForServiceBusTopics (inputTopicName, responseTopicName, dataTable) {
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
   const responseFilePath = responseTopicName ? `cypress/fixtures/messageTemplates/outputMessage/${responseTopicName}.json` : null;
 
-  // Utility function to generate a random value based on custom rules
   const generateRandomValue = (key, existingValue) => {
     if (key === 'schedule') {
       const options = ['Q1', 'Q2', 'Q3', 'Q4'].filter(option => option !== existingValue);
@@ -114,20 +146,18 @@ function createMessageForServiceBusTopics (inputTopicName, responseTopicName, da
     return `SIP${randomDigits}`;
   };
 
-  const updateKeys = (obj, updates, valuesMap = {}) => {
+  const updateKeys = (obj, updates, valuesMap = {}, excludedKeys = []) => {
     let keyUpdated = false;
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
         if (typeof obj[key] === 'object' && obj[key] !== null) {
-          const updated = updateKeys(obj[key], updates, valuesMap);
+          const updated = updateKeys(obj[key], updates, valuesMap, excludedKeys);
           if (updated) {
             keyUpdated = true;
           }
-        } else if (updates.includes(key)) {
+        } else if (updates.includes(key) && !excludedKeys.includes(key)) {
           if (!(key in valuesMap)) {
-            valuesMap[key] = key === 'invoiceNumber' && obj[key]
-              ? obj[key].replace(/\d(?![^V]*$)/g, () => Math.floor(Math.random() * 10))
-              : generateRandomValue(key, obj[key]);
+            valuesMap[key] = generateRandomValue(key, obj[key]);
           }
           obj[key] = valuesMap[key];
           keyUpdated = true;
@@ -137,12 +167,12 @@ function createMessageForServiceBusTopics (inputTopicName, responseTopicName, da
     return keyUpdated;
   };
 
-  const updateInvoiceNumbers = (obj, currentAgreementNumber, newAgreementNumber) => {
+  const updateInvoiceNumbers = (obj, currentAgreementNumber, newAgreementNumber, allowedKeys = ['agreementNumber', 'invoiceLines']) => {
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
         if (typeof obj[key] === 'object' && obj[key] !== null) {
-          updateInvoiceNumbers(obj[key], currentAgreementNumber, newAgreementNumber);
-        } else if (typeof obj[key] === 'string' && obj[key].includes(currentAgreementNumber)) {
+          updateInvoiceNumbers(obj[key], currentAgreementNumber, newAgreementNumber, allowedKeys);
+        } else if (allowedKeys.includes(key) && typeof obj[key] === 'string' && obj[key].includes(currentAgreementNumber)) {
           obj[key] = obj[key].split(currentAgreementNumber).join(newAgreementNumber);
         }
       }
@@ -158,10 +188,10 @@ function createMessageForServiceBusTopics (inputTopicName, responseTopicName, da
     if (inputMessageBody.invoiceLines) {
       inputMessageBody.invoiceLines.forEach(line => (line.agreementNumber = newAgreementNumber));
     }
-    updateInvoiceNumbers(inputMessageBody, currentAgreementNumber, newAgreementNumber);
+    updateInvoiceNumbers(inputMessageBody, currentAgreementNumber, newAgreementNumber, ['invoiceLines', 'agreementNumber']);
 
     const valuesMap = {};
-    const inputKeyExists = updateKeys(inputMessageBody, updates, valuesMap);
+    const inputKeyExists = updateKeys(inputMessageBody, updates, valuesMap, ['excludedKey1', 'excludedKey2']);
 
     cy.wrap(inputMessageBody).as('updatedInputMessageBody');
 
@@ -171,9 +201,9 @@ function createMessageForServiceBusTopics (inputTopicName, responseTopicName, da
         if (outputMessageBody.invoiceLines) {
           outputMessageBody.invoiceLines.forEach(line => (line.agreementNumber = newAgreementNumber));
         }
-        updateInvoiceNumbers(outputMessageBody, currentAgreementNumber, newAgreementNumber);
+        updateInvoiceNumbers(outputMessageBody, currentAgreementNumber, newAgreementNumber, ['invoiceLines', 'agreementNumber']);
 
-        const responseKeyExists = updateKeys(outputMessageBody, updates, valuesMap);
+        const responseKeyExists = updateKeys(outputMessageBody, updates, valuesMap, ['excludedKey1', 'excludedKey2']);
 
         if (!inputKeyExists && !responseKeyExists) {
           cy.log('None of the specified keys were found in either message body');
@@ -189,3 +219,21 @@ function createMessageForServiceBusTopics (inputTopicName, responseTopicName, da
     }
   });
 }
+
+Given('I update the message {string} with the existing frn and invoice number', (fixtureFileName) => {
+  const updatedMessageBody = Cypress.env('updatedMessageBody');
+
+  // Extract frn and invoiceNumber from the environment variable
+  const { frn, invoiceNumber } = updatedMessageBody;
+
+  const filePath = `cypress/fixtures/messageTemplates/inputMessage/${fixtureFileName}.json`;
+
+  cy.readFile(filePath).then((fileContent) => {
+    // Update the file content with the frn and invoiceNumber
+    fileContent.frn = frn;
+    fileContent.invoiceNumber = invoiceNumber;
+
+    // Alias the updated content for further use in tests
+    cy.wrap(fileContent).as('updatedContent');
+  });
+});
