@@ -15,10 +15,10 @@ Feature: 11 Standard Payments E2E Journey
       | sendToTopic         | receiveOnTopic         |
       | ffc-pay-request-dev | ffc-pay-processing-dev |
 
-  #   @test
-  #   Examples:
-  #     | sendToTopic          | receiveOnTopic      |
-  #     | ffc-pay-request-test | ffc-pay-submit-test |
+    @test
+    Examples:
+      | sendToTopic          | receiveOnTopic      |
+      | ffc-pay-request-test | ffc-pay-submit-test |
 
   Scenario Outline: 02 Process the return file
     Given I start the messaging service on for the service bus topic "<sendToTopic>"
@@ -34,7 +34,7 @@ Feature: 11 Standard Payments E2E Journey
       | sendToTopic        | receiveOnTopic     |
       | ffc-pay-return-dev | ffc-pay-submit-dev |
 
-  #   @test
-  #   Examples:
-  #     | sendToTopic         | receiveOnTopic      |
-  #     | ffc-pay-return-test | ffc-pay-submit-test |
+    @test
+    Examples:
+      | sendToTopic         | receiveOnTopic      |
+      | ffc-pay-return-test | ffc-pay-submit-test |

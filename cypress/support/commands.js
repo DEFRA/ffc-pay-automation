@@ -44,10 +44,18 @@ Cypress.Commands.add('updatePaymentFile', (inputTopicName, dataTable) => {
       return Math.floor(10000000 + Math.random() * 90000000).toString();
     }
     if (key === 'invoiceNumber') {
-      return `SFI${Math.floor(1000000 + Math.random() * 9000000)}`; // SFI0 followed by 7 digits
+      return `SFI${Math.floor(1000000 + Math.random() * 9000000)}`;
     }
     if (typeof existingValue === 'string') {
-      return existingValue.replace(/\d/g, () => Math.floor(Math.random() * 10));
+      return existingValue
+        .replace(/\d/g, (match, index) => {
+          if (index === 0) {
+            return '1';
+          }
+          return Math.floor(Math.random() * 10);
+        })
+        .padEnd(10, '0')
+        .slice(0, 10);
     }
     if (Array.isArray(existingValue)) {
       return existingValue.map(item => generateRandomValue(key, item));
@@ -103,10 +111,18 @@ Cypress.Commands.add('updateReturnFile', (inputTopicName, dataTable) => {
       return ['Q1', 'Q2', 'Q3', 'Q4'].find(option => option !== existingValue);
     }
     if (key === 'reference') {
-      return `KJ${Math.floor(1000000 + Math.random() * 9000000)}`; // KJ followed by 7 random digits
+      return `KJ${Math.floor(1000000 + Math.random() * 9000000)}`;
     }
     if (typeof existingValue === 'string') {
-      return existingValue.replace(/\d/g, () => Math.floor(Math.random() * 10));
+      return existingValue
+        .replace(/\d/g, (match, index) => {
+          if (index === 0) {
+            return '1';
+          }
+          return Math.floor(Math.random() * 10);
+        })
+        .padEnd(10, '0')
+        .slice(0, 10);
     }
     if (Array.isArray(existingValue)) {
       return existingValue.map(item => generateRandomValue(key, item));
@@ -140,11 +156,9 @@ Cypress.Commands.add('updateReturnFile', (inputTopicName, dataTable) => {
   cy.readFile(inputFilePath).then(inputMessageBody => {
     const updates = dataTable.rawTable.flat();
 
-    // Update 'frn' and 'invoiceNumber' once
     inputMessageBody.frn = updatedFRN;
     inputMessageBody.invoiceNumber = regeneratedInvoiceNumber;
 
-    // Perform updates for other keys
     updateKeys(inputMessageBody, updates);
 
     cy.wrap(inputMessageBody).as('updatedReturnFileBody');
