@@ -82,13 +82,11 @@ Feature: 02 Request Editor
     Then I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' application identifier error message
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' error summary item
-
-  @ignore
+  
   Scenario Outline: 01 Add an entry to the "<box>" box on Request Editor
     Given I start the messaging service on for the service bus topic "<sendToTopicName>"
-    And I visit the "Request Editor" homepage
     And I make a note of the "<box>" count
-    And I create a message for the service bus topic "<sendToTopicName>" and update the following keys:
+    And I create a message with the filename "<sendToTopicName>" and update the following keys:
       | sbi           |
       | frn           |
       | value         |

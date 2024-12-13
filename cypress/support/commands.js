@@ -40,10 +40,10 @@ Cypress.Commands.add('updatePaymentFile', (inputTopicName, dataTable) => {
     if (key === 'schedule') {
       return ['Q1', 'Q2', 'Q3', 'Q4'].find(option => option !== existingValue);
     }
-    if (key === 'agreementNumber') {
+    if (key === 'agreementNumber' || key === 'contractNumber') {
       return Math.floor(10000000 + Math.random() * 90000000).toString();
     }
-    if (key === 'invoiceNumber') {
+    if (key === 'invoiceNumber' || key === 'originalInvoiceNumber') {
       return `SFI${Math.floor(1000000 + Math.random() * 9000000)}`;
     }
     if (typeof existingValue === 'string') {
@@ -72,15 +72,20 @@ Cypress.Commands.add('updatePaymentFile', (inputTopicName, dataTable) => {
   };
 
   const updateKeys = (obj, updates, newValues = {}) => {
-    updates.forEach(key => {
-      if (key in obj) {
+    Object.keys(obj).forEach(key => {
+      if (updates.includes(key)) {
         obj[key] = newValues[key] || generateRandomValue(key, obj[key]);
         newValues[key] = obj[key];
+      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+        updateKeys(obj[key], updates, newValues);
       }
     });
   };
 
   const updateAgreementNumbers = (obj, oldAgreementNumber, newAgreementNumber) => {
+    if (!oldAgreementNumber || !newAgreementNumber) {
+      return;
+    }
     Object.entries(obj).forEach(([key, value]) => {
       if (typeof value === 'string' && value.includes(oldAgreementNumber)) {
         obj[key] = value.replaceAll(oldAgreementNumber, newAgreementNumber);
@@ -91,12 +96,22 @@ Cypress.Commands.add('updatePaymentFile', (inputTopicName, dataTable) => {
   };
 
   cy.readFile(inputFilePath).then(inputMessageBody => {
-    const updates = dataTable.rawTable.flat();
-    const oldAgreementNumber = inputMessageBody.agreementNumber;
-    const newAgreementNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
+    if (!inputMessageBody) {
+      throw new Error(`File not found or invalid structure: ${inputFilePath}`);
+    }
 
-    inputMessageBody.agreementNumber = newAgreementNumber;
-    updateAgreementNumbers(inputMessageBody, oldAgreementNumber, newAgreementNumber);
+    const updates = dataTable.rawTable.flat();
+
+    const paymentRequest = inputMessageBody.paymentRequest;
+    const oldAgreementNumber = paymentRequest && paymentRequest.agreementNumber;
+    const newAgreementNumber = oldAgreementNumber
+      ? Math.floor(10000000 + Math.random() * 90000000).toString()
+      : undefined;
+
+    if (paymentRequest && oldAgreementNumber && newAgreementNumber) {
+      updateAgreementNumbers(inputMessageBody, oldAgreementNumber, newAgreementNumber);
+    }
+
     updateKeys(inputMessageBody, updates);
 
     cy.wrap(inputMessageBody).as('updatedInputMessageBody');
