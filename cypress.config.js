@@ -15,6 +15,6 @@ module.exports = defineConfig({
     excludeSpecPattern: ['*.js', '*.md'],
     specPattern: 'cypress/integration/**/*.feature',
     experimentalMemoryManagement: true,
-    retries: 10
+    retries: 0
   },
 });
