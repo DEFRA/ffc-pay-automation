@@ -1,0 +1,111 @@
+{
+  "paymentRequest": {
+    "paymentRequestId": 149193,
+    "schemeId": 1,
+    "sourceSystem": "SFI",
+    "batch": "SITISFI0289_AP_20240807161544.dat",
+    "deliveryBody": "RP00",
+    "invoiceNumber": "S994358109644131V008",
+    "frn": "1234567654",
+    "vendor": null,
+    "trader": null,
+    "ledger": "AR",
+    "marketingYear": 2022,
+    "agreementNumber": "98644786",
+    "contractNumber": "98644786",
+    "paymentRequestNumber": 2,
+    "currency": "GBP",
+    "schedule": "Q4",
+    "dueDate": "05/02/2023",
+    "debtType": "irr",
+    "recoveryDate": "06/08/2024",
+    "originalSettlementDate": null,
+    "originalInvoiceNumber": null,
+    "invoiceCorrectionReference": null,
+    "value": -67848,
+    "received": "2024-08-07T15:23:23.414Z",
+    "correlationId": "0adf9191-5317-4900-990f-ad61cd9c1692",
+    "paymentType": null,
+    "pillar": null,
+    "exchangeRate": null,
+    "eventDate": null,
+    "claimDate": null,
+    "sentToTracking": true,
+    "invoiceLines": [
+      {
+        "schemeCode": "80101",
+        "fundCode": "DRD10",
+        "marketingYear": 2022,
+        "agreementNumber": "98644131",
+        "convergence": false,
+        "deliveryBody": "RP00",
+        "stateAid": false,
+        "description": "P24 - Over declaration reduction",
+        "value": -67848,
+        "accountCode": "SOS927"
+      }
+    ],
+    "scheme": {
+      "schemeId": 1,
+      "name": "SFI",
+      "active": true
+    },
+    "settledValue": 0,
+    "netValue": 756602
+  },
+  "paymentRequests": [
+    {
+      "paymentRequestId": 149193,
+      "schemeId": 1,
+      "sourceSystem": "SFI",
+      "batch": "SITISFI0289_AP_20240807161544.dat",
+      "deliveryBody": "RP00",
+      "invoiceNumber": "S994358109644131V008",
+      "frn": "1234567654",
+      "vendor": null,
+      "trader": null,
+      "ledger": "AR",
+      "marketingYear": 2022,
+      "agreementNumber": "98644786",
+      "contractNumber": "98644786",
+      "paymentRequestNumber": 2,
+      "currency": "GBP",
+      "schedule": "Q4",
+      "dueDate": "05/02/2023",
+      "debtType": "irr",
+      "recoveryDate": "06/08/2024",
+      "originalSettlementDate": "07/11/2023",
+      "originalInvoiceNumber": "S994358109644131V001",
+      "value": -67848,
+      "received": "2024-08-07T15:23:23.414Z",
+      "correlationId": "0adf9191-5317-4900-990f-ad61cd9c1692",
+      "paymentType": null,
+      "pillar": null,
+      "exchangeRate": null,
+      "eventDate": null,
+      "claimDate": null,
+      "sentToTracking": true,
+      "invoiceLines": [
+        {
+          "schemeCode": "80101",
+          "fundCode": "DRD10",
+          "marketingYear": 2022,
+          "agreementNumber": "98644131",
+          "convergence": false,
+          "deliveryBody": "RP00",
+          "stateAid": false,
+          "description": "P24 - Over declaration reduction",
+          "value": -67848,
+          "accountCode": "SOS927"
+        }
+      ],
+      "scheme": {
+        "schemeId": 1,
+        "name": "SFI",
+        "active": true
+      },
+      "settledValue": 0,
+      "netValue": 756602
+    }
+  ]
+}
