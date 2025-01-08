@@ -126,10 +126,20 @@ When('I enter the random FRN in the search field', () => {
   });
 });
 
+When('I enter the newly generated FRN in the search field', () => {
+  const updatedFRN = Cypress.env('updatedMessageBody').paymentRequest.frn;
+  requestEditor.getFrnSearchField().type(updatedFRN);
+});
+
 Then('I should see the first FRN in the results matches the random FRN', () => {
   cy.get('@frn').then((frn) => {
     requestEditor.firstFRN().should('have.text', frn);
   });
+});
+
+Then('I should see the first FRN in the results matches the newly generated FRN', () => {
+  const updatedFRN = Cypress.env('updatedMessageBody').paymentRequest.frn;
+  requestEditor.firstFRN().should('have.text', updatedFRN);
 });
 
 Then('I click on the FRN search button', () => {
@@ -207,4 +217,24 @@ Then('I see the {string} error summary title', (errorTitle) => {
 
 Then('I see the {string} error summary item', (errorItem) => {
   requestEditor.errorSummaryItem().scrollIntoView().should('be.visible').and('contain.text', errorItem);
+});
+
+Then('I click on the {string} provisional values radio button', (radioButton) => {
+  if (radioButton === 'Yes') {
+    requestEditor.yesProvisionalValuesRadioButton().scrollIntoView().click();
+  } else if (radioButton === 'No') {
+    requestEditor.noProvisionalValuesRadioButton().scrollIntoView().click();
+  } else {
+    throw new Error('Radio button not found');
+  }
+});
+
+Then('I click on the {string} edited correctly radio button', (radioButton) => {
+  if (radioButton === 'Yes') {
+    requestEditor.yesEditedCorrectlyRadioButton().scrollIntoView().click();
+  } else if (radioButton === 'No') {
+    requestEditor.noEditedCorrectlyRadioButton().scrollIntoView().click();
+  } else {
+    throw new Error('Radio button not found');
+  }
 });

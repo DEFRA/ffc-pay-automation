@@ -46,5 +46,8 @@
   },
   "report-list": {
     "pageSubHeader": "Report List"
+  },
+  "quality-check": {
+    "pageSubHeader": "Ledger assignments awaiting quality check"
   }
 }

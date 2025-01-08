@@ -98,6 +98,22 @@ class requestEditorPage {
   btnPrevious () {
     return cy.get('[rel="prev"] > .govuk-pagination__link-title');
   }
+
+  yesProvisionalValuesRadioButton () {
+    return cy.get('#agree');
+  }
+
+  noProvisionalValuesRadioButton () {
+    return cy.get('#agree-2');
+  }
+
+  yesEditedCorrectlyRadioButton () {
+    return cy.get('#status');
+  }
+
+  noEditedCorrectlyRadioButton () {
+    return cy.get('#status-2');
+  }
 }
 
 export default new requestEditorPage();
