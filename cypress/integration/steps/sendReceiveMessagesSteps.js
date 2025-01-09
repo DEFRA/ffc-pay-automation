@@ -1,9 +1,10 @@
 /* global Given, When, Then */
 
-Given('I send the updated message to the service bus topic {string}', (topicName) => {
-  cy.get('@updatedInputMessageBody').then((updatedMessageBody) => {
+Given('I send the updated {string} message to the service bus topic {string}', (message, topicName) => {
+  const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
+
+  cy.readFile(inputFilePath).then((updatedMessageBody) => {
     cy.sendMessage(updatedMessageBody, topicName);
-    Cypress.env('updatedMessageBody', updatedMessageBody);
   });
   cy.wait(5000);
 });
@@ -31,8 +32,11 @@ Given('I stop the messaging service', () => {
   cy.stopMessageReception();
 });
 
-Then('the message should be received successfully for the service bus topic {string}', (topicName) => {
-  cy.get('@updatedInputMessageBody').then((expectedMessage) => {
+Then('the {string} message should be received successfully for the service bus topic {string}', (message, topicName) => {
+  const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
+  const outputFilePath = `cypress/fixtures/messageTemplates/outputMessage/${topicName}.json`;
+
+  cy.readFile(inputFilePath).then((expectedMessage) => {
 
     cy.fetchReceivedMessages(topicName).then((messages) => {
       expect(messages.length).to.be.greaterThan(0);
@@ -58,6 +62,8 @@ Then('the message should be received successfully for the service bus topic {str
           expect(receivedMessage[key], `${key}`).to.deep.equal(expectedMessage[key]);
         }
       });
+
+      cy.writeFile(outputFilePath, JSON.stringify(receivedMessage, null, 2).replace(/: /g, ':'));
     });
   });
 
@@ -127,4 +133,12 @@ When('I create a return file message with the filename {string} and update the f
 
 When('I create a message with the filename {string} and update the following keys to match the previous scenario:', (inputTopicName, dataTable) => {
   cy.updateReturnFilePPA(inputTopicName, dataTable);
+});
+
+Given('I synchronize keys in {string} with values from {string}', (file2, file1) => {
+  cy.syncFixtureKeys(file1, file2);
+});
+
+Given('I regenerate the invoice number for {string}', (file) => {
+  cy.regenerateInvoiceNumber(file);
 });
