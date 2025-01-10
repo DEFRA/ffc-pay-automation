@@ -5,14 +5,14 @@ Feature: 02 Request Editor
     Given I visit the "Request Editor" homepage
 
   Scenario Outline: 01 Add an entry to the "<box>" box on Request Editor
-    And I start the messaging service on for the service bus topic "<sendToTopicName>"
+    And I start the messaging service for the service bus topic "<sendToTopicName>"
     And I make a note of the "<box>" count
     And I create a message with the filename "<sendToTopicName>" and update the following keys:
       | sbi           |
       | frn           |
       | value         |
       | invoiceNumber |
-    When I send the updated message to the service bus topic "<sendToTopicName>"
+    When I send the updated "<sendToTopicName>" message to the service bus topic "<sendToTopicName>"
     Then the "<box>" count has increased by 1
     And I stop the messaging service
 

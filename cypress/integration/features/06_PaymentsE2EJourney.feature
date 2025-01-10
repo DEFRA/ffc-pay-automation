@@ -1,7 +1,7 @@
 Feature: 06 Standard Payments E2E Journey
 
   Scenario Outline: 01 Process the payment file
-    Given I start the messaging service on for the service bus topic "<sendToTopic>"
+    Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I create a message with the filename "paymentFileMessage" and update the following keys:
       | frn             |
       | invoiceNumber   |
@@ -21,7 +21,7 @@ Feature: 06 Standard Payments E2E Journey
       | ffc-pay-request-test | ffc-pay-submit-test |
 
   Scenario Outline: 02 Process the return file
-    Given I start the messaging service on for the service bus topic "<sendToTopic>"
+    Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I create a return file message with the filename "returnFileMessage" and update the following keys:
       | frn           |
       | invoiceNumber |

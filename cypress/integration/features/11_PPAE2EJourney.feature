@@ -1,7 +1,7 @@
 Feature: 11 PPA E2E Journey
 
   Scenario Outline: 01 Process the payment file
-    Given I start the messaging service on for the service bus topic "<sendToTopic>"
+    Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I create a message with the filename "paymentFileMessage" and update the following keys:
       | frn             |
       | invoiceNumber   |
@@ -21,7 +21,7 @@ Feature: 11 PPA E2E Journey
       | ffc-pay-request-test | ffc-pay-processing-test |
 
   Scenario Outline: 02 Process the return file
-    Given I start the messaging service on for the service bus topic "<sendToTopic>"
+    Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I synchronize keys in "returnFileMessage" with values from "ffc-pay-processing-dev"
     And I regenerate the invoice number for "returnFileMessage" using the invoice number from "ffc-pay-processing-dev"
     When I send the updated "returnFileMessage" message to the service bus topic "<sendToTopic>"
@@ -39,7 +39,7 @@ Feature: 11 PPA E2E Journey
 
   Scenario Outline: 03 Process the PPA file
     Given I visit the "Request Editor" homepage
-    And I start the messaging service on for the service bus topic "<sendToTopic>"
+    And I start the messaging service for the service bus topic "<sendToTopic>"
     And I make a note of the "<box>" count
     And I synchronize keys in "ppa" with values from "ffc-pay-submit-dev"
     And I increase the invoice number by "1" for "ppa" using the invoice number from "ffc-pay-submit-dev"
@@ -59,7 +59,7 @@ Feature: 11 PPA E2E Journey
 
 #   # Scenario Outline: 01 Add an entry to the "<box>" box on Request Editor
 #   #   Given I visit the "Request Editor" homepage
-#   #   And I start the messaging service on for the service bus topic "<sendToTopicName>"
+#   #   And I start the messaging service for the service bus topic "<sendToTopicName>"
 #   #   And I make a note of the "<box>" count
 #   #   And I create a message with the filename "<sendToTopicName>" and update the following keys:
 #   #     | sbi           |
