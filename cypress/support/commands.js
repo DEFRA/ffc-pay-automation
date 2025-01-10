@@ -151,15 +151,24 @@ Cypress.Commands.add('updatePaymentFile', (inputTopicName, dataTable) => {
   });
 });
 
-Cypress.Commands.add('regenerateInvoiceNumber', (inputTopicName) => {
+Cypress.Commands.add('regenerateInvoiceNumber', (inputTopicName, reference) => {
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
+  const referenceFilePath = `cypress/fixtures/messageTemplates/outputMessage/${reference}.json`;
 
-  const regeneratedInvoiceNumber = Cypress.env('regeneratedInvoiceNumber');
+  cy.readFile(referenceFilePath).then((referenceMessageBody) => {
+    const { invoiceNumber, paymentRequestNumber, contractNumber } = referenceMessageBody;
 
-  cy.readFile(inputFilePath).then((inputMessageBody) => {
-    inputMessageBody.invoiceNumber = regeneratedInvoiceNumber;
+    const numericPartOfInvoice = invoiceNumber.match(/\d+/)[0];
+    const paddedPaymentRequest = paymentRequestNumber.toString().padStart(3, '0');
 
-    cy.writeFile(inputFilePath, JSON.stringify(inputMessageBody, null, 2).replace(/: /g, ':'));
+    const regeneratedInvoiceNumber = `S${numericPartOfInvoice}${contractNumber}V${paddedPaymentRequest}`;
+    cy.log('Regenerated Invoice Number:', regeneratedInvoiceNumber);
+
+    cy.readFile(inputFilePath).then((inputMessageBody) => {
+      inputMessageBody.invoiceNumber = regeneratedInvoiceNumber;
+
+      cy.writeFile(inputFilePath, JSON.stringify(inputMessageBody, null, 2).replace(/: /g, ':'));
+    });
   });
 });
 
@@ -298,5 +307,27 @@ Cypress.Commands.add('updateReturnFilePPA', (inputTopicName, dataTable) => {
     updateKeys(inputMessageBody, updates);
 
     cy.wrap(inputMessageBody).as('updatedReturnFileBodyPPA');
+  });
+});
+
+Cypress.Commands.add('increaseInvoiceNumber', (number, inputTopicName, reference) => {
+  const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
+  const referenceFilePath = `cypress/fixtures/messageTemplates/outputMessage/${reference}.json`;
+
+  cy.readFile(referenceFilePath).then((referenceMessageBody) => {
+    const { invoiceNumber } = referenceMessageBody;
+
+    const currentPaddedPaymentRequest = invoiceNumber.match(/V(\d+)$/)[1];
+
+    const newPaddedPaymentRequest = (parseInt(currentPaddedPaymentRequest, 10) + number).toString().padStart(3, '0');
+
+    const regeneratedInvoiceNumber = invoiceNumber.replace(/V\d+$/, `V${newPaddedPaymentRequest}`);
+    cy.log('Regenerated Invoice Number:', regeneratedInvoiceNumber);
+
+    cy.readFile(inputFilePath).then((inputMessageBody) => {
+      inputMessageBody.invoiceNumber = regeneratedInvoiceNumber;
+
+      cy.writeFile(inputFilePath, JSON.stringify(inputMessageBody, null, 2).replace(/: /g, ':'));
+    });
   });
 });

@@ -22,8 +22,8 @@ Feature: 11 PPA E2E Journey
 
   Scenario Outline: 02 Process the return file
     Given I start the messaging service on for the service bus topic "<sendToTopic>"
-    Given I synchronize keys in "returnFileMessage" with values from "ffc-pay-processing-dev"
-    And I regenerate the invoice number for "returnFileMessage"
+    And I synchronize keys in "returnFileMessage" with values from "ffc-pay-processing-dev"
+    And I regenerate the invoice number for "returnFileMessage" using the invoice number from "ffc-pay-processing-dev"
     When I send the updated "returnFileMessage" message to the service bus topic "<sendToTopic>"
     Then the "returnFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
@@ -32,39 +32,30 @@ Feature: 11 PPA E2E Journey
       | sendToTopic        | receiveOnTopic     |
       | ffc-pay-return-dev | ffc-pay-submit-dev |
 
-    # @test
-    # Examples:
-    #   | sendToTopic         | receiveOnTopic      |
-    #   | ffc-pay-return-test | ffc-pay-submit-test |
+    @test
+    Examples:
+      | sendToTopic         | receiveOnTopic      |
+      | ffc-pay-return-test | ffc-pay-submit-test |
 
-# # process the ppa file - send to ffc-pay-request-dev, receive on ffc-pay-manual-check-data-dev
-# # update frn from previous scenario
-# # increase invoiceNumber by +1 from previous scenario
-# # update agreementNumber from previous scenario
-# # update contractNumber from previous scenario
-#   Scenario Outline: 03 Process the PPA file
-#     Given I visit the "Request Editor" homepage
-#     Given I start the messaging service on for the service bus topic "<sendToTopic>"
-#     And I make a note of the "<box>" count
-#     And I create a message with the filename "ppa" and update the following keys to match the previous scenario:
-#       | frn             |
-#       | invoiceNumber   |
-#       | agreementNumber |
-#       | contractNumber  |
-#     When I send the updated PPA message to the service bus topic "<sendToTopic>"
-#     Then the PPA message should be received successfully for the service bus topic "<receiveOnTopic>"
-#     # And I visit the "Request Editor" homepage
-#     Then the "<box>" count has increased by 1
+  Scenario Outline: 03 Process the PPA file
+    Given I visit the "Request Editor" homepage
+    And I start the messaging service on for the service bus topic "<sendToTopic>"
+    And I make a note of the "<box>" count
+    And I synchronize keys in "ppa" with values from "ffc-pay-submit-dev"
+    And I increase the invoice number by "1" for "ppa" using the invoice number from "ffc-pay-submit-dev"
+    When I send the updated "ppa" message to the service bus topic "<sendToTopic>"
+    Then the "ppa" message should be received successfully for the service bus topic "<receiveOnTopic>"
+    # Then the "<box>" count has increased by 1
 
-#     @dev
-#     Examples:
-#       | sendToTopic         | receiveOnTopic                | box                        |
-#       | ffc-pay-request-dev | ffc-pay-manual-check-data-dev | Awaiting ledger assignment |
+    @dev
+    Examples:
+      | sendToTopic         | receiveOnTopic                | box                        |
+      | ffc-pay-request-dev | ffc-pay-manual-check-data-dev | Awaiting ledger assignment |
 
-#     @test
-#     Examples:
-#       | sendToTopic          | receiveOnTopic                 | box                        |
-#       | ffc-pay-request-test | ffc-pay-manual-check-data-test | Awaiting ledger assignment |
+    @test
+    Examples:
+      | sendToTopic          | receiveOnTopic                 | box                        |
+      | ffc-pay-request-test | ffc-pay-manual-check-data-test | Awaiting ledger assignment |
 
 #   # Scenario Outline: 01 Add an entry to the "<box>" box on Request Editor
 #   #   Given I visit the "Request Editor" homepage

@@ -36,26 +36,30 @@ Then('the {string} message should be received successfully for the service bus t
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
   const outputFilePath = `cypress/fixtures/messageTemplates/outputMessage/${topicName}.json`;
 
-  cy.readFile(inputFilePath).then((expectedMessage) => {
+  const readFileWithRetry = (filePath, retries = 3) => {
+    return new Cypress.Promise((resolve, reject) => {
+      const tryRead = (attemptsLeft) => {
+        cy.readFile(filePath).then((content) => {
+          if (Object.keys(content).length > 0) {
+            resolve(content);
+          } else if (attemptsLeft > 0) {
+            cy.wait(500);
+            tryRead(attemptsLeft - 1);
+          } else {
+            reject(new Error(`Failed to read non-empty content from file: ${filePath}`));
+          }
+        });
+      };
+      tryRead(retries);
+    });
+  };
 
+  readFileWithRetry(inputFilePath).then((expectedMessage) => {
     cy.fetchReceivedMessages(topicName).then((messages) => {
       expect(messages.length).to.be.greaterThan(0);
       console.log(messages);
 
-      const receivedMessage = messages.find(message => message.frn === expectedMessage.frn);
-      const { invoiceNumber, paymentRequestNumber, contractNumber, frn } = receivedMessage;
-      const numericPartOfInvoice = invoiceNumber.match(/\d+/)[0];
-      const paddedPaymentRequest = paymentRequestNumber.toString().padStart(3, '0');
-      const regeneratedInvoiceNumber = `S${numericPartOfInvoice}${contractNumber}V${paddedPaymentRequest}`;
-
-      cy.wrap(regeneratedInvoiceNumber).as('regeneratedInvoiceNumber');
-      cy.wrap(paddedPaymentRequest).as('paddedPaymentRequest');
-      cy.log('Regenerated Invoice Number:', regeneratedInvoiceNumber);
-      Cypress.env('regeneratedInvoiceNumber', regeneratedInvoiceNumber);
-      Cypress.env('paddedPaymentRequest', paddedPaymentRequest);
-      cy.log('Regenerated FRN:', frn);
-      cy.log('paddedPaymentRequest:', paddedPaymentRequest);
-      Cypress.env('frn', frn);
+      const receivedMessage = messages.find((msg) => msg.frn === expectedMessage.frn);
 
       Object.keys(receivedMessage).forEach((key) => {
         if (Object.prototype.hasOwnProperty.call(expectedMessage, key)) {
@@ -65,6 +69,8 @@ Then('the {string} message should be received successfully for the service bus t
 
       cy.writeFile(outputFilePath, JSON.stringify(receivedMessage, null, 2).replace(/: /g, ':'));
     });
+  }).catch((error) => {
+    throw new Error(`Error in reading expected message: ${error.message}`);
   });
 
   cy.stopMessageReception();
@@ -139,6 +145,10 @@ Given('I synchronize keys in {string} with values from {string}', (file2, file1)
   cy.syncFixtureKeys(file1, file2);
 });
 
-Given('I regenerate the invoice number for {string}', (file) => {
-  cy.regenerateInvoiceNumber(file);
+Given('I regenerate the invoice number for {string} using the invoice number from {string}', (file, reference) => {
+  cy.regenerateInvoiceNumber(file, reference);
+});
+
+Given('I increase the invoice number by "{int}" for {string} using the invoice number from {string}', (number, file, reference) => {
+  cy.increaseInvoiceNumber(number, file, reference);
 });
