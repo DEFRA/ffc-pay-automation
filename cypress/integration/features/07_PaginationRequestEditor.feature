@@ -79,3 +79,12 @@ Feature: 07 Pagination - Request Editor
     Examples:
       | link                        | page                            |
       | View awaiting quality check | Requests awaiting quality check |
+
+  @test
+  Scenario: 05 Search for a record from another page
+    And I click on the "View all datasets" link
+    And I select "10000" from the number of records per page dropdown
+    And I get the FRN of the last record
+    And I select "2500" from the number of records per page dropdown
+    When I search for the FRN
+    Then I can see the FRN in the table
