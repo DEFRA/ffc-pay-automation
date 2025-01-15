@@ -56,7 +56,7 @@ class requestEditorPage {
   }
 
   firstFRN () {
-    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(2);
+    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(1);
   }
 
   randomFRN () {

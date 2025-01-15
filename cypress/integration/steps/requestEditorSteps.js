@@ -2,6 +2,8 @@
 
 import requestEditor from '../pages/requestEditorPage';
 const dayjs = require('dayjs');
+const { getEnvironmentConfig } = require('../../support/configLoader');
+const envConfig = getEnvironmentConfig();
 
 When('I create a new reporting dataset with the following values', (datatable) => {
   datatable.hashes().forEach((element) => {
@@ -153,9 +155,32 @@ Then('the application identifier hint is visible with text {string}', (text) => 
 });
 
 When('I select {string} from the number of records per page dropdown', (number) => {
-  requestEditor.recordsPerPageDropdown().scrollIntoView().select(number);
+  cy.visit(envConfig.requestEditorUrl+'capture?perPage='+number);
 });
 
+
+When('I get the FRN of the last record', () => {
+  requestEditor.firstFRN()
+    .scrollIntoView()
+    .invoke('text')
+    .then((text) => {
+      const trimmedText = text.trim();
+      cy.wrap(trimmedText).as('lastFRN');
+    });
+});
+
+When('I search for the FRN', () => {
+  cy.get('@lastFRN').then((frn) => {
+    requestEditor.getFrnSearchField().type(frn);
+    requestEditor.getFrnSearchButton().click();
+  });
+});
+
+When('I can see the FRN in the table', () => {
+  cy.get('@lastFRN').then((frn) => {
+    requestEditor.firstFRN().should('have.text', frn);
+  });
+});
 
 Then('I can see {int} records displayed in the table', (number) => {
   requestEditor.dataSetRecords().should('have.length', number);
