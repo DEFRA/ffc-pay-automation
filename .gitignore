@@ -6,3 +6,5 @@ cypress/downloads
 package-lock.json
 .env
 cypress/fixtures/messageBody.json
+cypress/fixtures/selectiveFrnRemove.csv
+cypress/fixtures/selectiveFrnUpload.csv

@@ -8,7 +8,28 @@ When('the {string} holds option is selected', (value) => {
 });
 
 When('I upload bulk payment holds file {string}', (file) => {
-  paymentHoldsPage.fileInput().selectFile(`cypress/fixtures/${file}`);
+  const fixturePath = `cypress/fixtures/${file}`;
+
+  cy.readFile(fixturePath).then((oldContent) => {
+    cy.log('Old CSV content:', oldContent);
+  });
+
+  const generateNumber = () => {
+    const randomEightDigits = ('00000000' + Math.floor(Math.random() * 100000000)).slice(-8);
+    return `10${randomEightDigits}`;
+  };
+
+  const newNumber1 = generateNumber();
+  const newNumber2 = generateNumber();
+
+  const newContent = `${newNumber1},${newNumber2}`;
+
+  cy.writeFile(fixturePath, newContent).then(() => {
+    cy.log('Fixture file has been overwritten with new numbers:');
+    cy.log(newContent);
+  });
+
+  paymentHoldsPage.fileInput().selectFile(fixturePath);
 });
 
 When('I click the hold category option', () => {

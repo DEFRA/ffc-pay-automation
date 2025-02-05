@@ -44,11 +44,22 @@ Feature: 02 Request Editor
       | View awaiting ledger assignment | manual-ledger |
       | View awaiting reporting data    | enrich        |
 
-  Scenario: 05 FRN Search Function
+
+  Scenario Outline: 05 FRN Search Function
     And I click on the "View awaiting ledger assignment" link
-    And I search for FRN "1102142158"
+    And I search for FRN "<frn>"
     When I click on the FRN search button
-    Then I can see FRN "1102142158" in the table
+    Then I can see FRN "<frn>" in the table
+
+    @test
+    Examples:
+      | frn        |
+      | 1102142158 |
+
+    @dev
+    Examples:
+      | frn        |
+      | 1629513584 |
 
   Scenario: 06 Debt data reference is less than 5 characters
     And I click on the "Capture new dataset" link

@@ -84,6 +84,7 @@ Feature: 07 Pagination - Request Editor
   Scenario: 05 Search for a record from another page
     And I click on the "View all datasets" link
     And I select "10000" from the number of records per page dropdown
+    And I visit the last page
     And I get the FRN of the last record
     And I select "2500" from the number of records per page dropdown
     When I search for the FRN

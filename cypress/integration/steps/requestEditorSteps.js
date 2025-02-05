@@ -128,6 +128,21 @@ When('I visit the last page', () => {
   cy.clickNextButtonUntilOnLastPage();
 });
 
+When('I get the FRN of the last record', () => {
+  // cy.clickNextButtonUntilOnLastPage();
+});
+
+When('I have a random FRN', () => {
+  const generateNumber = () => {
+    const randomEightDigits = ('00000000' + Math.floor(Math.random() * 100000000)).slice(-8);
+    return `10${randomEightDigits}`;
+  };
+
+  const randomFrn = generateNumber();
+  cy.wrap(randomFrn).as('randomFrn');
+});
+
+
 Then('I see the {string} application identifier error message', error => {
   requestEditor.applicationIdentifierError().scrollIntoView().should('be.visible').and('contain.text', error);
 });
