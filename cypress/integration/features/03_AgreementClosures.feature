@@ -99,23 +99,21 @@ Feature: 03 Agreement Closures
 
   @ignoreLocal
   Scenario: 15 Successful Adding & Removing a Submission
+    And I make a note of the closures count
     And I click on the "Add closure" link
-    And I type '1234567891' in the 'FRN' field
+    And I type a random FRN in the FRN field
     And I type '12345' in the 'Agreement number' field
     And I type a future date in the Closure date field
     And I click the "Create" link
     And I am on the "closure" subpage
     And I see the new submission in the table
-    And I should see a "Remove" link
     And I visit the "Payment management" homepage
-    And I should see "1" number of closures
+    And the closure count has increased by 1
     And I visit the "Payment management" homepage
     And I click on the "Manage closures" link
     And I see the new submission in the table
-    # And I click on the "Remove" button
-    # And I should see "There are no agreement closures."
-    # When I visit the "Payment management" homepage
-    # Then I should see "0" number of closures
+    When I click on the Remove button next to the new submission
+    Then I should not see the new submission in the table
 
   Scenario: 16 Empty File Upload
     And I click on the "Add bulk closures" link

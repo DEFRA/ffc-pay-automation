@@ -91,13 +91,24 @@ Feature: 02 Request Editor
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' error summary item
 
-  Scenario: 09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number
+  Scenario Outline: 09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I enter '1104642379' in the FRN number search field
+    And I enter '<frn>' in the FRN number search field
     When I click the FRN number search button
-    Then each record in the table has the FRN number '1104642379'
+    Then each record in the table has the FRN number '<frn>'
 
+    @test
+    Examples:
+      | frn        |
+      | 1104642379 |
+
+    @dev
+    Examples:
+      | frn        |
+      | 1946589805 |
+
+  @test
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage

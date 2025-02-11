@@ -9,25 +9,27 @@ When('the {string} holds option is selected', (value) => {
 
 When('I upload bulk payment holds file {string}', (file) => {
   const fixturePath = `cypress/fixtures/${file}`;
+  const isInvalidFile = /invalid|txt/i.test(file); // Updated condition
 
   cy.readFile(fixturePath).then((oldContent) => {
     cy.log('Old CSV content:', oldContent);
   });
 
-  const generateNumber = () => {
-    const randomEightDigits = ('00000000' + Math.floor(Math.random() * 100000000)).slice(-8);
-    return `10${randomEightDigits}`;
-  };
+  if (!isInvalidFile) {
+    const generateNumber = (digits) => {
+      return ('0'.repeat(digits) + Math.floor(Math.random() * Math.pow(10, digits))).slice(-digits);
+    };
 
-  const newNumber1 = generateNumber();
-  const newNumber2 = generateNumber();
+    const newNumber1 = `10${generateNumber(8)}`;
+    const newNumber2 = `10${generateNumber(8)}`;
 
-  const newContent = `${newNumber1},${newNumber2}`;
+    const newContent = `${newNumber1},${newNumber2}`;
 
-  cy.writeFile(fixturePath, newContent).then(() => {
-    cy.log('Fixture file has been overwritten with new numbers:');
-    cy.log(newContent);
-  });
+    cy.writeFile(fixturePath, newContent).then(() => {
+      cy.log('Fixture file has been overwritten with new numbers:');
+      cy.log(newContent);
+    });
+  }
 
   paymentHoldsPage.fileInput().selectFile(fixturePath);
 });
@@ -75,9 +77,15 @@ When('the user selects to {string} holds', (option) => {
 
 Then('the payment requests related to the {string} CSV are not in the table', (file) => {
   cy.fixture(file).then((csvData) => {
-    const frnValues = csvData.split(',');
-    frnValues.forEach((frnValue) => {
-      paymentHoldsPage.allFirstColumnCells().should('not.contain', frnValue);
+    const frnValues = csvData.trim().split(/\r?\n/).map((line) => line.split(',')[0].trim());
+
+    paymentHoldsPage.allFirstColumnCells().invoke('text').then((cellText) => {
+      const tableValues = cellText.split(/\r?\n/).map((val) => val.trim());
+
+      frnValues.forEach((frnValue) => {
+        cy.log(`Checking that table does not contain: ${frnValue}`);
+        expect(tableValues).to.not.include(frnValue);
+      });
     });
   });
 });

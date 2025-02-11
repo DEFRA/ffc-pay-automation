@@ -1,5 +1,9 @@
 class capturePage {
   txtFrn () {
+    return cy.get('#user-search');
+  }
+
+  captureTxtFrn () {
     return cy.get('#user-search-frn');
   }
 

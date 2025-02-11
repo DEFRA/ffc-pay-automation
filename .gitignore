@@ -8,3 +8,6 @@ package-lock.json
 cypress/fixtures/messageBody.json
 cypress/fixtures/selectiveFrnRemove.csv
 cypress/fixtures/selectiveFrnUpload.csv
+cypress/fixtures/frnsBulkUploadValid.csv
+cypress/fixtures/selectiveFrnRemove.csv
+cypress/fixtures/selectiveFrnUpload.csv
