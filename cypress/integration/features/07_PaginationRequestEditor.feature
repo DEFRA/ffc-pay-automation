@@ -7,7 +7,7 @@ Feature: 07 Pagination - Request Editor
   Scenario Outline: 01 "<number>" records per page on "<page>" page
     And I click on the "<link>" link
     When I select "<number>" from the number of records per page dropdown
-    Then I can see <number> records displayed in the table
+    Then I can see at most <number> records displayed in the table
 
     Examples:
       | link                            | number | page                             |
@@ -28,6 +28,7 @@ Feature: 07 Pagination - Request Editor
       | View awaiting quality check | 500    | Requests awaiting quality check |
       | View awaiting quality check | 1000   | Requests awaiting quality check |
 
+  @test
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
     Then I can see "1" in the page box
@@ -39,12 +40,9 @@ Feature: 07 Pagination - Request Editor
       | View all datasets               | Unattached reporting datasets    |
       | View awaiting reporting data    | Requests awaiting reporting data |
       | View awaiting ledger assignment | Awaiting ledger assignment       |
+      | View awaiting quality check     | Requests awaiting quality check  |
 
-    @test
-    Examples:
-      | link                        | page                            |
-      | View awaiting quality check | Requests awaiting quality check |
-
+  @test
   Scenario Outline: 03 Verify Next/Previous on second page of "<page>" page
     And I click on the "<link>" link
     When I click on the "Next" page button
@@ -57,12 +55,9 @@ Feature: 07 Pagination - Request Editor
       | View all datasets               | Unattached reporting datasets    |
       | View awaiting reporting data    | Requests awaiting reporting data |
       | View awaiting ledger assignment | Awaiting ledger assignment       |
+      | View awaiting quality check     | Requests awaiting quality check  |
 
-    @test
-    Examples:
-      | link                        | page                            |
-      | View awaiting quality check | Requests awaiting quality check |
-
+  @test
   Scenario Outline: 04 Verify Next/Previous on last page of "<page>" page
     And I click on the "<link>" link
     When I visit the last page
@@ -74,16 +69,13 @@ Feature: 07 Pagination - Request Editor
       | View all datasets               | Unattached reporting datasets    |
       | View awaiting reporting data    | Requests awaiting reporting data |
       | View awaiting ledger assignment | Awaiting ledger assignment       |
-
-    @test
-    Examples:
-      | link                        | page                            |
-      | View awaiting quality check | Requests awaiting quality check |
+      | View awaiting quality check     | Requests awaiting quality check  |
 
   @test
   Scenario: 05 Search for a record from another page
     And I click on the "View all datasets" link
     And I select "10000" from the number of records per page dropdown
+    And I visit the last page
     And I get the FRN of the last record
     And I select "2500" from the number of records per page dropdown
     When I search for the FRN

@@ -44,11 +44,22 @@ Feature: 02 Request Editor
       | View awaiting ledger assignment | manual-ledger |
       | View awaiting reporting data    | enrich        |
 
-  Scenario: 05 FRN Search Function
+
+  Scenario Outline: 05 FRN Search Function
     And I click on the "View awaiting ledger assignment" link
-    And I search for FRN "1102142158"
+    And I search for FRN "<frn>"
     When I click on the FRN search button
-    Then I can see FRN "1102142158" in the table
+    Then I can see FRN "<frn>" in the table
+
+    @test
+    Examples:
+      | frn        |
+      | 1102142158 |
+
+    @dev
+    Examples:
+      | frn        |
+      | 1629513584 |
 
   Scenario: 06 Debt data reference is less than 5 characters
     And I click on the "Capture new dataset" link
@@ -80,13 +91,24 @@ Feature: 02 Request Editor
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' error summary item
 
-  Scenario: 09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number
+  Scenario Outline: 09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I enter '1104642379' in the FRN number search field
+    And I enter '<frn>' in the FRN number search field
     When I click the FRN number search button
-    Then each record in the table has the FRN number '1104642379'
+    Then each record in the table has the FRN number '<frn>'
 
+    @test
+    Examples:
+      | frn        |
+      | 1104642379 |
+
+    @dev
+    Examples:
+      | frn        |
+      | 1946589805 |
+
+  @test
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage

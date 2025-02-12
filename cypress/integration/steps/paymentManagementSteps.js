@@ -25,6 +25,27 @@ Then('I should see the number of closures', () => {
   paymentManagementPage.noOfClosures().should('be.visible');
 });
 
+Then('I make a note of the closures count', () => {
+  paymentManagementPage
+    .noOfClosures()
+    .should('be.visible')
+    .invoke('text').then(($closureCount) => {
+      cy.wrap(parseInt($closureCount), { log: true }).as('initialClosureCount');
+    });
+});
+
+Then('the closure count has increased by 1', () => {
+  cy.get('@initialClosureCount').then((initialCount) => {
+    paymentManagementPage
+      .noOfClosures()
+      .should('be.visible')
+      .invoke('text').then(($closureCount) => {
+        const currentCount = parseInt($closureCount);
+        expect(currentCount).to.equal(initialCount + 1);
+      });
+  });
+});
+
 Then('I should see {string} number of closures', (count) => {
   paymentManagementPage
     .noOfClosures()

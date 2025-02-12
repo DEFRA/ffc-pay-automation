@@ -1,4 +1,4 @@
-Feature: 11 Standard Payments E2E Journey
+Feature: 6 Standard Payments E2E Journey
 
   Scenario Outline: 01 Process the payment file
     Given I start the messaging service on for the service bus topic "<sendToTopic>"

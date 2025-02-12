@@ -19,6 +19,7 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
 
   cy.visit(url);
   paymentManagementPage.header().should('be.visible').and('have.text', text);
+  cy.wrap(url).as('baseUrl');
 });
 
 Given(/^I am on the "(.*)" homepage$/, (text) => {

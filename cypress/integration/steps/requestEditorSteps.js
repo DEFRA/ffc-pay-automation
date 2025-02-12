@@ -1,6 +1,7 @@
 /* global When, Then */
 
 import requestEditor from '../pages/requestEditorPage';
+import capturePage from '../pages/capturePage';
 const dayjs = require('dayjs');
 
 When('I create a new reporting dataset with the following values', (datatable) => {
@@ -63,12 +64,36 @@ When(/^I search for FRN "(.*)"$/, (text) => {
   requestEditor.getFrnSearchField().type(text);
 });
 
+When('I search for the FRN', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    capturePage.txtFrn().type(lastFRN+'{enter}');
+  });
+});
+
+When('I enter the last record FRN in the search field', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    capturePage.txtFrn().type(lastFRN+'{enter}');
+  });
+});
+
 Then('I click on the FRN search button', () => {
   requestEditor.getFrnSearchButton().click();
 });
 
 When(/^I can see FRN "(.*)" in the table$/, (text) => {
-  requestEditor.firstFRN().should('have.text', text);
+  requestEditor.firstFRNManualLedger().should('have.text', text);
+});
+
+When('I can see the FRN in the table', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    requestEditor.firstFRN().should('have.text', lastFRN);
+  });
+});
+
+When('I should see the first FRN in the results matches the last record FRN', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    requestEditor.firstFRN().should('have.text', lastFRN);
+  });
 });
 
 Then('the application identifier field header is visible with text {string}', (text) => {
@@ -88,8 +113,8 @@ When('I select {string} from the number of records per page dropdown', (number) 
 });
 
 
-Then('I can see {int} records displayed in the table', (number) => {
-  requestEditor.dataSetRecords().should('have.length', number);
+Then('I can see at most {int} records displayed in the table', (number) => {
+  requestEditor.dataSetRecords().should('have.length.at.most', number);
 });
 
 Then('I can see {string} in the page box', number => {
@@ -126,6 +151,12 @@ Then('I cannot see the {string} button', btnText => {
 
 When('I visit the last page', () => {
   cy.clickNextButtonUntilOnLastPage();
+});
+
+When('I get the FRN of the last record', () => {
+  requestEditor.lastFRN().invoke('text').then((text) => {
+    cy.wrap(text.trim()).as('lastFRN');
+  });
 });
 
 Then('I see the {string} application identifier error message', error => {

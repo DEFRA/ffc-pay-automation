@@ -2,11 +2,7 @@
 import capturePage from '../pages/capturePage';
 
 When('I enter {string} in the FRN number search field', (frnNumber) => {
-  capturePage.txtFrn().type(frnNumber);
-});
-
-When('I clear the FRN number search field', () => {
-  capturePage.txtFrn().clear();
+  capturePage.captureTxtFrn().type(frnNumber);
 });
 
 When('I select {string} in the scheme dropdown', (scheme) => {
