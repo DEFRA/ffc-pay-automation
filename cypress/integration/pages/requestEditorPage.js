@@ -59,6 +59,10 @@ class requestEditorPage {
     return cy.get('.govuk-table__body').first().find('.govuk-table__cell').eq(2);
   }
 
+  firstCaptureFRN () {
+    return cy.get('.govuk-table__body').first().find('.govuk-table__cell').eq(1);
+  }
+
   firstFRNManualLedger () {
     return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(3)');
   }
