@@ -10,8 +10,7 @@ const jsonIndentLevel = 2;
 const htmlReportDir = 'report/HTML/';
 const screenshotsDir = './cypress/screenshots';
 
-// ✅ Read the Cypress environment from the persistent environment variable
-const environment = process.env.CYPRESS_ENV || 'test'; // Default to 'test' if not found
+const environment = process.env.CYPRESS_ENV;
 
 console.info(chalk.green(`🌍 Running report for environment: ${environment}`));
 
