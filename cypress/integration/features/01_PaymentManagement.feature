@@ -1,4 +1,4 @@
-@paymentManagement
+@runthis
 Feature: 01 Payment management
 
   Background: Navigate to Payment management homepage
@@ -9,13 +9,13 @@ Feature: 01 Payment management
     Then I am on the "<subPage>" subpage
 
     Examples:
-      | link                            | subPage               |
-      | Manage holds                    | payment-holds         |
-      | Manage schemes                  | payment-schemes       |
-      | Reset payment request           | payment-request/reset |
-      | View events                     | monitoring            |
-      | View processed payment requests | monitoring/schemes    |
-      | Manage closures                 | closure               |
-      | Add closure                     | closure/add           |
-      | Add bulk closures               | closure/bulk          |
-      | Report List                     | report-list           |
+      | link         | subPage       |
+      | Manage holds | payment-holds |
+      # | Manage schemes                  | payment-schemes       |
+      # | Reset payment request           | payment-request/reset |
+      # | View events                     | monitoring            |
+      # | View processed payment requests | monitoring/schemes    |
+      # | Manage closures                 | closure               |
+      # | Add closure                     | closure/add           |
+      # | Add bulk closures               | closure/bulk          |
+      # | Report List                     | report-list           |

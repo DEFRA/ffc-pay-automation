@@ -1,5 +1,4 @@
-/* global Given, When, Then */
-
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 import paymentManagementPage from '../pages/paymentManagementPage';
 const { getEnvironmentConfig } = require('../../support/configLoader');
 

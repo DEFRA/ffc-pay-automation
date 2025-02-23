@@ -1,122 +1,152 @@
-import reporter from 'cucumber-html-reporter'
-import fs from 'fs-extra'
-import path from 'path'
-import chalk from 'chalk'
+import reporter from 'cucumber-html-reporter';
+import fs from 'fs-extra';
+import path from 'path';
+import chalk from 'chalk';
 
-const cucumberJsonDir = 'report/JSON/'
-const cucumberReportFileMap = {}
-const cucumberReportMap = {}
-const jsonIndentLevel = 2
-const htmlReportDir = 'report/HTML/'
-const screenshotsDir = './cypress/screenshots'
+const cucumberJsonDir = 'report/JSON/';
+const cucumberReportFileMap = {};
+const cucumberReportMap = {};
+const jsonIndentLevel = 2;
+const htmlReportDir = 'report/HTML/';
+const screenshotsDir = './cypress/screenshots';
 
-getCucumberReportMaps()
-addScreenshots()
-generateReport()
+// ✅ Read the Cypress environment from the persistent environment variable
+const environment = process.env.CYPRESS_ENV || 'test'; // Default to 'test' if not found
 
-function getCucumberReportMaps() {
-  const files = fs.readdirSync(cucumberJsonDir).filter(file => {
-    return file.indexOf('.json') > -1
-  })
-  files.forEach(file => {
-    const json = JSON.parse(
-      fs.readFileSync(path.join(cucumberJsonDir, file))
-    )
-    if (!json[0]) { return }
-    const [feature] = json[0].uri.split('/').reverse()
-    cucumberReportFileMap[feature] = file
-    cucumberReportMap[feature] = json
-  })
-}
+console.info(chalk.green(`🌍 Running report for environment: ${environment}`));
 
-function addScreenshots() {
-  // Prepend the given path segment
-  const prependPathSegment = pathSegment => location => path.join(pathSegment, location)
-  // fs.readdir but with relative paths
-  const readdirPreserveRelativePath = location => fs.readdirSync(location).map(prependPathSegment(location))
-  // Recursive fs.readdir but with relative paths
-  const readdirRecursive = location => readdirPreserveRelativePath(location)
-    .reduce((result, currentValue) => fs.statSync(currentValue).isDirectory()
-      ? result.concat(readdirRecursive(currentValue))
-      : result.concat(currentValue), [])
-  const screenshots = readdirRecursive(path.resolve(screenshotsDir)).filter(file => {
-    return file.indexOf('.png') > -1
-  })
-  // Extract feature list from screenshot list
-  const featuresList = Array.from(new Set(screenshots.map(x => x.match(/[\w-_.]+\.feature/g)[0])))
-  featuresList.forEach(feature => {
-    screenshots.forEach(screenshot => {
-      // regex to parse 'I can use scenario outlines with examples' from either of these:
-      //   - Getting Started -- I can use scenario outlines with examples (example #1) (failed).png
-      //   - Getting Started -- I can use scenario outlines with examples (failed).png
-      //   - Getting Started -- I can use scenario outlines with examples.png 
-      // const featureTitle = feature.replace(/\.[^/.]+$/, "");
-      const featureTitle = cucumberReportMap[feature][0].name
-      const regex = /(?<=--\ ).+?((?=\ \(example\ #\d+\))|(?=\ \(failed\))|(?=\.\w{3}))/g
-      const [scenarioName] = screenshot.match(regex)
-      console.info(chalk.blue('\n    Adding screenshot(s) to HTML report for'))
-      console.info(chalk.blue(`    '${featureTitle} - ${scenarioName}'`))
-      // Find all scenarios matching the scenario name of the screenshot.
-      // This is important when using the scenario outline mechanism
-      const myScenarios = cucumberReportMap[feature][0].elements.filter(
-        e => scenarioName.includes(e.name.replace(/["']/g, ""))
-      )
-      if (!myScenarios) { return }
-      let foundFailedStep = false
-      myScenarios.forEach(myScenario => {
-        if (foundFailedStep) {
-          return
-        }
-        let myStep
-        if (screenshot.includes('(failed)')) {
-          myStep = myScenario.steps.find(
-            step => step.result.status === 'failed'
-          )
-        } else {
-          myStep = myScenario.steps.find(
-            step => step.name.includes('screenshot')
-          )
-        }
-        if (!myStep) {
-          return
-        }
-        const data = fs.readFileSync(
-          path.resolve(screenshot)
-        )
-        if (data) {
-          const base64Image = Buffer.from(data, 'binary').toString('base64')
-          if (!myStep.embeddings) {
-            myStep.embeddings = []
-            myStep.embeddings.push({ data: base64Image, mime_type: 'image/png' })
-            foundFailedStep = true
-          }
-        }
-      })
-      //Write JSON with screenshot back to report file.
-      fs.writeFileSync(
-        path.join(cucumberJsonDir, cucumberReportFileMap[feature]),
-        JSON.stringify(cucumberReportMap[feature], null, jsonIndentLevel)
-      )
-    })
-  })
-}
+getCucumberReportMaps();
+addScreenshots();
+generateReport();
 
-function generateReport() {
-  if (!fs.existsSync(cucumberJsonDir)) {
-    console.warn(chalk.yellow(`WARNING: Folder './${cucumberJsonDir}' not found. REPORT CANNOT BE CREATED!`))
-  } else {
+function getCucumberReportMaps () {
+  const jsonFile = path.join(cucumberJsonDir, 'cucumber_report.json');
 
-    const options = {
-        brandTitle: 'Report',
-        columnLayout: 1,
-        jsonDir: 'report/JSON',
-        launchReport: false,
-        output: 'report/HTML/cucumber_report.html',
-        reportSuiteAsScenarios: true,
-        scenarioTimestamp: true,
-        theme: 'bootstrap'
-      };
-      
-      reporter.generate(options);
+  if (!fs.existsSync(jsonFile)) {
+    console.warn(chalk.yellow(`⚠️ JSON report not found: ${jsonFile}`));
+    return;
   }
+
+  const json = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'));
+
+  if (!Array.isArray(json) || json.length === 0) {
+    console.warn(chalk.yellow('⚠️ JSON report is empty or not an array.'));
+    return;
+  }
+
+  console.info(chalk.green(`📂 Found JSON report with ${json.length} features.`));
+
+  json.forEach((feature, index) => {
+    if (!feature.uri) {
+      console.warn(chalk.yellow(`⚠️ Skipping feature at index ${index} due to missing 'uri'.`));
+      return;
+    }
+
+    const featureFile = path.basename(feature.uri); // Extract filename only
+
+    console.info(chalk.cyan(`🔍 Processing feature: ${featureFile}, found in JSON.`));
+
+    if (!cucumberReportFileMap[featureFile]) {
+      cucumberReportFileMap[featureFile] = 'cucumber_report.json'; // Since all are in one file
+      cucumberReportMap[featureFile] = [];
+    }
+
+    cucumberReportMap[featureFile].push(feature);
+
+    console.info(chalk.blue(`✅ Mapped feature: ${featureFile} with ${feature.elements.length} scenarios.`));
+  });
+
+  console.info(chalk.green(`✅ Successfully processed ${Object.keys(cucumberReportMap).length} feature files.`));
+}
+
+function addScreenshots () {
+  if (!fs.existsSync(screenshotsDir)) {
+    console.warn(chalk.yellow(`⚠️ Screenshots directory not found: ${screenshotsDir}`));
+    return;
+  }
+
+  const readdirRecursive = location =>
+    fs.readdirSync(location).reduce((acc, file) => {
+      const fullPath = path.join(location, file);
+      return fs.statSync(fullPath).isDirectory()
+        ? acc.concat(readdirRecursive(fullPath))
+        : acc.concat(fullPath);
+    }, []);
+
+  const screenshots = readdirRecursive(screenshotsDir).filter(file => file.endsWith('.png'));
+
+  if (screenshots.length === 0) {
+    console.warn(chalk.yellow('⚠️ No screenshots found.'));
+    return;
+  }
+
+  screenshots.forEach(screenshot => {
+    const featureMatch = screenshot.match(/([\w-_.]+\.feature)/);
+    if (!featureMatch) {
+      return;
+    }
+
+    const featureFile = featureMatch[0];
+
+    if (!cucumberReportMap[featureFile]) {
+      console.warn(chalk.yellow(`⚠️ Feature file '${featureFile}' not found in JSON report.`));
+      return;
+    }
+
+    const regex = /(?<=--\s).+?((?=\s\(example\s#\d+\))|(?=\s\(failed\))|(?=\.\w{3}))/g;
+    const [scenarioName] = screenshot.match(regex) || [];
+
+    if (!scenarioName) {
+      return;
+    }
+
+    console.info(chalk.blue(`🖼 Adding screenshot to '${featureFile} - ${scenarioName}'`));
+
+    cucumberReportMap[featureFile].forEach(feature => {
+      feature.elements.forEach(scenario => {
+        if (scenarioName.includes(scenario.name.replace(/["']/g, ''))) {
+          const failedStep = scenario.steps.find(step => step.result.status === 'failed');
+          if (!failedStep) {
+            return;
+          }
+
+          const base64Image = fs.readFileSync(path.resolve(screenshot), 'base64');
+
+          if (!failedStep.embeddings) {
+            failedStep.embeddings = [];
+          }
+
+          failedStep.embeddings.push({ data: base64Image, mime_type: 'image/png' });
+        }
+      });
+    });
+
+    fs.writeFileSync(
+      path.join(cucumberJsonDir, cucumberReportFileMap[featureFile]),
+      JSON.stringify(cucumberReportMap[featureFile], null, jsonIndentLevel)
+    );
+  });
+}
+
+function generateReport () {
+  if (!fs.existsSync(cucumberJsonDir)) {
+    console.warn(chalk.yellow(`⚠️ Folder '${cucumberJsonDir}' not found. REPORT CANNOT BE CREATED!`));
+    return;
+  }
+
+  const options = {
+    brandTitle: 'Cucumber Test Report',
+    jsonDir: cucumberJsonDir,
+    output: path.join(htmlReportDir, 'cucumber_report.html'),
+    reportSuiteAsScenarios: true,
+    scenarioTimestamp: true,
+    theme: 'bootstrap',
+    launchReport: false,
+    metadata: {
+      'Environment': environment,
+    },
+  };
+
+  reporter.generate(options);
+  console.info(chalk.green('✅ HTML report generated successfully!'));
 }

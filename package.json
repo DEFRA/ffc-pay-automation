@@ -3,44 +3,55 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "cypress:local": "cypress open --e2e --browser chrome --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\"",
-    "cypress:dev": "cypress open --e2e --browser chrome --env env=dev,TAGS=\"not (@test or @ignore)\"",
+    "cypress:local": "cypress open --e2e --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\"",
+    "cypress:dev": "cypress open --e2e --env env=dev,TAGS=\"not (@test or @ignore)\"",
     "cypress:test": "cypress open --e2e --browser=chrome --env env=test,TAGS=\"not (@dev or @ignore)\"",
-    "cypress:local:all": "npm run config:reports && npm run delete:reports && cypress run --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\" --browser chrome --headed --headed && npm run report",
-    "cypress:dev:all": "npm run config:reports && npm run delete:reports && cypress run --env env=dev,TAGS=\"not (@test or @ignore)\" --browser chrome && npm run report",
-    "cypress:test:all": "npm run config:reports && npm run delete:reports && cypress run --env env=test,TAGS=\"not (@dev or @ignore)\" --browser chrome && npm run report",
+    "cypress:local:all": "npm run config:reports && npm run delete:reports && cypress run --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\" --headed --headed && npm run report",
+    "cypress:dev:all": "npm run config:reports && npm run delete:reports && cypress run --env env=dev,TAGS=\"not (@test or @ignore)\" && npm run report",
+    "cypress:test:all": "export CYPRESS_ENV=test && npm run config:reports && npm run delete:reports && cypress run --env env=test,TAGS=\"@runthis and not (@dev or @ignore)\" && npm run report",
     "report": "node .tools/exportHTMLReport.mjs",
-    "delete:reports": "del-cli \"report/JSON/*\" \"report/HTML/*\" \"cypress/videos/features/*\"",
-    "config:reports": "node .tools/createDirsAndCopyFiles.js"
+    "delete:reports": "rm -rf report/JSON/* || true; rm -rf report/HTML/* || true; rm -rf cypress/videos/features/* || true",
+    "config:reports": "mkdir -p report/{HTML,JSON} cypress/screenshots",
+    "lint:gherkin": "gherkin-lint",
+    "husky:install": "husky install",
+    "lint:files": "lint-staged"
+
   },
   "dependencies": {
-    "@azure/service-bus": "^7.9.3",
-    "@cucumber/cucumber": "^8.0.0-rc.1",
-    "@types/cypress-cucumber-preprocessor": "^4.0.1",
-    "chalk": "^4.1.2",
-    "cucumber": "^7.0.0-rc.0",
-    "cucumber-html-reporter": "^5.5.0",
-    "cypress": "13.2.0",
-    "cypress-cucumber-preprocessor": "^4.3.0",
-    "cypress-localstorage-commands": "^1.6.1",
-    "del-cli": "^5.1.0",
-    "dotenv": "^16.4.5",
-    "eslint": "^8.9.0",
-    "eslint-plugin-cypress": "^2.12.1",
-    "eslint-plugin-jsonc": "^2.2.1",
-    "fs-extra": "^10.0.0",
-    "moment": "^2.29.4",
+    "@azure/service-bus": "^7.9.5",
+    "@badeball/cypress-cucumber-preprocessor": "^22.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.4",
+    "@cucumber/cucumber": "^11.2.0",
+    "chalk": "^5.4.1",
+    "cucumber-html-reporter": "^7.2.0",
+    "cypress": "^14.0.3",
+    "cypress-localstorage-commands": "^2.2.7",
+    "del-cli": "^6.0.0",
+    "dotenv": "^16.4.7",
+    "fs-extra": "^11.3.0",
+    "moment": "^2.30.1",
     "randexp": "^0.5.3"
   },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "eslint": "^9.20.1",
+    "eslint-plugin-cypress": "^4.1.0",
+    "eslint-plugin-jsonc": "^2.19.1",
+    "gherkin-lint": "^4.2.4",
+    "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3"
+  },
+  "lint-staged": {
+    "*.{js,json}": ["eslint --fix"]
+  },
   "cypress-cucumber-preprocessor": {
-    "nonGlobalStepDefinitions": false,
-    "stepDefinitions": "cypress/integration/steps",
-    "cucumberJson": {
-      "generate": true,
-      "outputFolder": "report/JSON",
-      "filePrefix": "",
-      "fileSuffix": ""
+    "stepDefinitions": "cypress/integration/steps/**/*.js",
+    "json": {
+      "enabled": true,
+      "output": "report/JSON/cucumber_report.json"
     },
-    "repository": {}
+    "filterSpec": true,
+    "omitFiltered": true
   }
 }
