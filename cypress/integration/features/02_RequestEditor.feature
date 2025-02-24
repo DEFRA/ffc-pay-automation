@@ -1,3 +1,4 @@
+@requestEditor
 Feature: 02 Request Editor
 
   Background: Navigate to Request Editor homepage

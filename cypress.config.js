@@ -1,10 +1,4 @@
 const { defineConfig } = require('cypress');
-const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
-const addCucumberPreprocessorPlugin = require('@badeball/cypress-cucumber-preprocessor').addCucumberPreprocessorPlugin;
-const createEsbuildPlugin = require('@badeball/cypress-cucumber-preprocessor/esbuild').createEsbuildPlugin;
-const { emptyFolder } = require('./cypress/utils/empty-folder');
-const { sendMessage } = require('./cypress/utils/sendMessage');
-const { startReceivingMessages, stopReceivingMessages, getReceivedMessages } = require('./cypress/utils/receiveMessage');
 
 module.exports = defineConfig({
   chromeWebSecurity: false,
@@ -13,46 +7,13 @@ module.exports = defineConfig({
   viewportWidth: 1280,
   defaultCommandTimeout: 10000,
   e2e: {
-    async setupNodeEvents (on, config) {
-      // Set up the ESBuild bundler with Cucumber plugin
-      const bundler = createBundler({
-        plugins: [createEsbuildPlugin(config)],
-      });
-
-      on('file:preprocessor', bundler);
-      await addCucumberPreprocessorPlugin(on, config);
-
-      // Define custom tasks
-      on('task', {
-        emptyFolder: (folderPath) => emptyFolder(folderPath),
-
-        sendMessage ({ messageBody, topicName }) {
-          return sendMessage({ messageBody, topicName });
-        },
-
-        startMessageReception (topicName) {
-          startReceivingMessages(topicName);
-          return null;
-        },
-
-        stopMessageReception () {
-          stopReceivingMessages();
-          return null;
-        },
-
-        fetchReceivedMessages (topicName) {
-          return getReceivedMessages(topicName);
-        }
-      });
-
-      console.log(on);
-      console.log(config);
-
-      return config;
+    // We've imported your old cypress plugins here.
+    // You may want to clean this up later by importing these.
+    setupNodeEvents (on, config) {
+      return require('./cypress/plugins/index.js')(on, config);
     },
-    specPattern: 'cypress/integration/features/**/*.feature',
-    chromeWebSecurity: false,
     excludeSpecPattern: ['*.js', '*.md'],
+    specPattern: 'cypress/integration/**/*.feature',
     experimentalMemoryManagement: true,
     retries: {
       runMode: 2,

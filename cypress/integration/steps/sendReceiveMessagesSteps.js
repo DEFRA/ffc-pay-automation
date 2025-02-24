@@ -1,4 +1,4 @@
-import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+/* global Given, When, Then */
 
 Given('I send the updated message to the service bus topic {string}', (topicName) => {
   cy.get('@updatedInputMessageBody').then((updatedMessageBody) => {
