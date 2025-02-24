@@ -1,4 +1,4 @@
-/* global When, Then */
+import { When, Then } from '@badeball/cypress-cucumber-preprocessor';
 import capturePage from '../pages/capturePage';
 
 When('I enter {string} in the FRN number search field', (frnNumber) => {
