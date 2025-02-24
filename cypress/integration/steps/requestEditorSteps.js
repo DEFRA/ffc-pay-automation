@@ -1,4 +1,5 @@
-import { When, Then } from '@badeball/cypress-cucumber-preprocessor';
+/* global When, Then */
+
 import requestEditor from '../pages/requestEditorPage';
 import capturePage from '../pages/capturePage';
 const dayjs = require('dayjs');

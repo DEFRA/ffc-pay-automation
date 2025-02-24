@@ -1,4 +1,5 @@
-import { When, Then } from '@badeball/cypress-cucumber-preprocessor';
+/* global When, Then */
+
 import paymentManagementPage from '../pages/paymentManagementPage';
 import reportsPage from '../pages/reportsPage';
 import constants from '../../support/constants.json';

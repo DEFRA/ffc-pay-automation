@@ -1,4 +1,5 @@
-import { When, Then } from '@badeball/cypress-cucumber-preprocessor';
+/* global When, Then */
+
 import agreementClosuresPage from '../pages/agreementClosuresPage';
 import addBulkClosurePage from '../pages/addBulkClosurePage';
 import addClosurePage from '../pages/addClosurePage';

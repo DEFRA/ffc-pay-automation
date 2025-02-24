@@ -1,3 +1,0 @@
-#!/bin/sh
-npm run lint:gherkin
-npm run lint:files

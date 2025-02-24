@@ -1,7 +1,7 @@
 const environments = require('./environments.json');
 
 function getEnvironmentConfig () {
-  const env = Cypress.env('env');
+  const env = Cypress.env('env') || 'local';  // default to local if not specified
 
   return {
     paymentManagementUrl: environments.paymentManagement[`${env}Url`],
