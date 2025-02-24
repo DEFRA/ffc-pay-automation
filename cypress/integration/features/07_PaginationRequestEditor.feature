@@ -76,7 +76,7 @@ Feature: 07 Pagination - Request Editor
     And I click on the "View all datasets" link
     And I select "10000" from the number of records per page dropdown
     And I visit the last page
-    And I get the FRN of the last record
+    And I get the FRN of the last capture record
     And I select "2500" from the number of records per page dropdown
     When I search for the FRN
-    Then I can see the FRN in the table
+    Then I should see the first capture FRN in the results matches the last record FRN
