@@ -66,7 +66,7 @@ When(/^I search for FRN "(.*)"$/, (text) => {
 
 When('I search for the FRN', () => {
   cy.get('@lastFRN').then((lastFRN) => {
-    capturePage.txtFrn().type(lastFRN+'{enter}');
+    capturePage.captureTxtFrn().scrollIntoView().type(lastFRN+'{enter}');
   });
 });
 
@@ -93,6 +93,12 @@ When('I can see the FRN in the table', () => {
 When('I should see the first FRN in the results matches the last record FRN', () => {
   cy.get('@lastFRN').then((lastFRN) => {
     requestEditor.firstFRN().should('have.text', lastFRN);
+  });
+});
+
+When('I should see the first capture FRN in the results matches the last record FRN', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    requestEditor.firstCaptureFRN().should('have.text', lastFRN);
   });
 });
 
@@ -155,6 +161,12 @@ When('I visit the last page', () => {
 
 When('I get the FRN of the last record', () => {
   requestEditor.lastFRN().invoke('text').then((text) => {
+    cy.wrap(text.trim()).as('lastFRN');
+  });
+});
+
+When('I get the FRN of the last capture record', () => {
+  capturePage.lastCaptureFRN().invoke('text').then((text) => {
     cy.wrap(text.trim()).as('lastFRN');
   });
 });

@@ -6,7 +6,7 @@
     "cypress:local": "cypress open --e2e --browser chrome --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\"",
     "cypress:dev": "cypress open --e2e --browser chrome --env env=dev,TAGS=\"not (@test or @ignore)\"",
     "cypress:test": "cypress open --e2e --browser=chrome --env env=test,TAGS=\"not (@dev or @ignore)\"",
-    "cypress:local:all": "npm run config:reports && npm run delete:reports && cypress run --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\" --browser chrome --headed --headed && npm run report",
+    "cypress:local:all": "npm run config:reports && npm run delete:reports && cypress run --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\" --browser chrome && npm run report",
     "cypress:dev:all": "npm run config:reports && npm run delete:reports && cypress run --env env=dev,TAGS=\"not (@test or @ignore)\" --browser chrome && npm run report",
     "cypress:test:all": "npm run config:reports && npm run delete:reports && cypress run --env env=test,TAGS=\"not (@dev or @ignore)\" --browser chrome && npm run report",
     "report": "node .tools/exportHTMLReport.mjs",

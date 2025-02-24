@@ -23,6 +23,10 @@ class capturePage {
     return cy.get('.govuk-table__body .govuk-table__row');
   }
 
+  lastCaptureFRN () {
+    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(1);
+  }
+
   errorMessage () {
     return cy.get('#error-message');
   }

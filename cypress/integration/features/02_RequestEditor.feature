@@ -136,6 +136,6 @@ Feature: 02 Request Editor
   Scenario: 13 Unattached reporting datasets - Searching based on scheme that returns no datasets
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I select 'Delinked' in the scheme dropdown
+    And I select 'Vet Visits' in the scheme dropdown
     When I click the Scheme search button
     Then 'No reporting datasets' are displayed
