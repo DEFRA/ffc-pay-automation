@@ -23,8 +23,14 @@ When('I see the new submission in the table', () => {
 });
 
 When('I should not see the new submission in the table', () => {
-  cy.get('@randomFrn').then((randomFrn) => {
-    agreementClosuresPage.lastFRN().should('not.have.text', randomFrn);
+  cy.get('@initialClosureCount').then((initialCount) => {
+    if (initialCount === 0) {
+      cy.contains('There are no agreement closures.').should('be.visible');
+    } else {
+      cy.get('@randomFrn').then((randomFrn) => {
+        agreementClosuresPage.lastFRN().should('not.have.text', randomFrn);
+      });
+    }
   });
 });
 

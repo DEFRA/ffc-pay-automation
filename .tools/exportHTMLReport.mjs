@@ -103,20 +103,36 @@ function addScreenshots() {
 
 function generateReport() {
   if (!fs.existsSync(cucumberJsonDir)) {
-    console.warn(chalk.yellow(`WARNING: Folder './${cucumberJsonDir}' not found. REPORT CANNOT BE CREATED!`))
-  } else {
-
-    const options = {
-        brandTitle: 'Report',
-        columnLayout: 1,
-        jsonDir: 'report/JSON',
-        launchReport: false,
-        output: 'report/HTML/cucumber_report.html',
-        reportSuiteAsScenarios: true,
-        scenarioTimestamp: true,
-        theme: 'bootstrap'
-      };
-      
-      reporter.generate(options);
+    console.warn(chalk.yellow(`WARNING: Folder './${cucumberJsonDir}' not found. REPORT CANNOT BE CREATED!`));
+    return;
   }
+
+  let envData = {};
+  try {
+    // Read the env.json file and parse its contents
+    const envFilePath = 'cypress/fixtures/env.json';
+    if (fs.existsSync(envFilePath)) {
+      envData = JSON.parse(fs.readFileSync(envFilePath, 'utf-8'));
+    } else {
+      console.warn(chalk.yellow(`WARNING: '${envFilePath}' not found. ENVIRONMENT METADATA WILL NOT BE INCLUDED!`));
+    }
+  } catch (error) {
+    console.error(chalk.red(`ERROR: Failed to read '${envFilePath}'.`), error);
+  }
+
+  const options = {
+    brandTitle: 'Report',
+    columnLayout: 1,
+    jsonDir: 'report/JSON',
+    launchReport: false,
+    output: 'report/HTML/cucumber_report.html',
+    reportSuiteAsScenarios: true,
+    scenarioTimestamp: true,
+    theme: 'bootstrap',
+    metadata: {
+      "Environment": envData.env || "Not Available",
+    }
+  };
+
+  reporter.generate(options);
 }

@@ -34,8 +34,13 @@ When('I upload bulk payment holds file {string}', (file) => {
   paymentHoldsPage.fileInput().selectFile(fixturePath);
 });
 
-When('I click the hold category option', () => {
-  paymentHoldsPage.holdCategoryOption().click();
+When('I click the hold category option for {string}', (text) => {
+  cy.get('fieldset')
+    .contains(text)
+    .parent()
+    .find('.govuk-radios__input')
+    .first()
+    .check();
 });
 
 When('I click the Create bulk payment holds button', () => {
