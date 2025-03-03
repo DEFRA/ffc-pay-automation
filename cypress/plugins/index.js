@@ -2,6 +2,7 @@ const cucumber = require('cypress-cucumber-preprocessor').default;
 const { emptyFolder } = require('../utils/empty-folder');
 const { sendMessage } = require('../utils/sendMessage');
 const { startReceivingMessages, stopReceivingMessages, getReceivedMessages } = require('../utils/receiveMessage');
+const fs = require('fs');
 
 module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
@@ -27,6 +28,16 @@ module.exports = (on, config) => {
     },
     fetchReceivedMessages (topicName) {
       return getReceivedMessages(topicName);
+    },
+    readFileIfExists (filePath) {
+      if (fs.existsSync(filePath)) {
+        return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      }
+      return null;
+    },
+    writeFile ({ filePath, data }) {
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+      return `File updated: ${filePath}`;
     }
   });
 
