@@ -152,9 +152,15 @@ When('I create a message with the filename {string} and update the following key
 });
 
 Given('I synchronize keys in {string} with values from {string}', (file2, file1) => {
-  const updateExistingKeys = (target, source) => {
+  const updateExistingKeys = (target, source, file2) => {
+    const allowedKeys = file2 === 'ppa' ? ['agreementNumber', 'contractNumber', 'frn'] : null;
+
     for (const key of Object.keys(source)) {
       if (key === 'sourceSystem') {
+        continue;
+      }
+
+      if (allowedKeys && !allowedKeys.includes(key)) {
         continue;
       }
 
@@ -166,7 +172,7 @@ Given('I synchronize keys in {string} with values from {string}', (file2, file1)
           typeof target[key] === 'object' &&
           target[key] !== null
         ) {
-          updateExistingKeys(target[key], source[key]);
+          updateExistingKeys(target[key], source[key], file2);
         } else if (!Array.isArray(source[key]) || Array.isArray(target[key])) {
           target[key] = source[key];
         }
@@ -176,7 +182,7 @@ Given('I synchronize keys in {string} with values from {string}', (file2, file1)
 
   cy.readFile(`cypress/fixtures/messageTemplates/outputMessage/${file1}.json`).then((data1) => {
     cy.readFile(`cypress/fixtures/messageTemplates/inputMessage/${file2}.json`).then((data2) => {
-      updateExistingKeys(data2, data1);
+      updateExistingKeys(data2, data1, file2);
 
       cy.writeFile(`cypress/fixtures/messageTemplates/inputMessage/${file2}.json`, JSON.stringify(data2, null, 2).replace(/: /g, ':'));
     });
@@ -211,7 +217,7 @@ Given('I increase the invoice number by "{int}" for {string} using the invoice n
   cy.readFile(referenceFilePath).then((referenceMessageBody) => {
     const { invoiceNumber } = referenceMessageBody;
 
-    const currentPaddedPaymentRequest = invoiceNumber.match(/V(\d+)$/)[1];
+    const currentPaddedPaymentRequest = invoiceNumber.match(/V(\d+)$/);
 
     const newPaddedPaymentRequest = (parseInt(currentPaddedPaymentRequest, 10) + number).toString().padStart(3, '0');
 

@@ -1,0 +1,14 @@
+{
+  "sourceSystem":"SITI_SFI",
+  "invoiceNumber":"S335501324027783V001",
+  "frn":"1009317267",
+  "currency":"GBP",
+  "value":1000,
+  "settlementDate":"2022-12-11T00:00:00.000Z",
+  "reference":"PY1711007",
+  "settled":true,
+  "detail":"Stopped by RPA",
+  "ledger":"AP",
+  "referenceId":"a66ccf0af3f05e3ab2d8f63ffd0e8ac3",
+  "filename":"FFCSITI_SFI Return File unique.csv"
+}
