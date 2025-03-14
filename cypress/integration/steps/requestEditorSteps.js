@@ -127,7 +127,7 @@ When('I enter the random FRN in the search field', () => {
 });
 
 When('I enter the newly generated FRN in the search field', () => {
-  const updatedFRN = Cypress.env('updatedMessageBody').paymentRequest.frn;
+  const updatedFRN = Cypress.env('updatedMessageBody').frn;
   requestEditor.getFrnSearchField().type(updatedFRN);
 });
 
@@ -138,7 +138,7 @@ Then('I should see the first FRN in the results matches the random FRN', () => {
 });
 
 Then('I should see the first FRN in the results matches the newly generated FRN', () => {
-  const updatedFRN = Cypress.env('updatedMessageBody').paymentRequest.frn;
+  const updatedFRN = Cypress.env('updatedMessageBody').frn;
   requestEditor.firstFRN().should('have.text', updatedFRN);
 });
 

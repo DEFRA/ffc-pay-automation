@@ -4,6 +4,7 @@ Given('I send the updated {string} message to the service bus topic {string}', (
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
 
   cy.readFile(inputFilePath).then((updatedMessageBody) => {
+    Cypress.env('updatedMessageBody', updatedMessageBody);
     cy.sendMessage(updatedMessageBody, topicName);
   });
   cy.wait(5000);
@@ -62,7 +63,7 @@ Then('the {string} message should be received successfully for the service bus t
 });
 
 Then('I check service bus topic {string} for received messages', (topicName) => {
-  const updatedFRN = Cypress.env('updatedMessageBody').paymentRequest.frn;
+  const updatedFRN = Cypress.env('updatedMessageBody').frn;
 
   cy.fetchReceivedMessages(topicName).then((messages) => {
     expect(messages.length).to.be.greaterThan(0);
