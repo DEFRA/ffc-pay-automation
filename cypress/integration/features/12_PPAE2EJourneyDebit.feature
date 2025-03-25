@@ -1,12 +1,13 @@
-Feature: 11 PPA E2E Journey
+Feature: 11 PPA E2E Journey - Debit
 
-  Scenario Outline: 01 Process the payment file
+  Scenario Outline: 01 Process the payment file (payment1)
     Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I create a message with the filename "paymentFileMessage" and update the following keys:
       | frn             |
       | invoiceNumber   |
       | agreementNumber |
       | contractNumber  |
+    And I update the value of "paymentFileMessage" to "1000"
     When I send the updated "paymentFileMessage" message to the service bus topic "<sendToTopic>"
     Then the "paymentFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
@@ -20,9 +21,10 @@ Feature: 11 PPA E2E Journey
       | sendToTopic          | receiveOnTopic          |
       | ffc-pay-request-test | ffc-pay-processing-test |
 
-  Scenario Outline: 02 Process the return file
+  Scenario Outline: 02 Process the return file (settlement)
     Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I synchronize keys in "returnFileMessage" with values from "<outputMessage>"
+    And I update the value of "returnFileMessage" to "250"
     And I regenerate the invoice number for "returnFileMessage" using the invoice number from "<outputMessage>"
     When I send the updated "returnFileMessage" message to the service bus topic "<sendToTopic>"
     Then the "returnFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
@@ -37,11 +39,12 @@ Feature: 11 PPA E2E Journey
       | sendToTopic         | receiveOnTopic      | outputMessage           |
       | ffc-pay-return-test | ffc-pay-submit-test | ffc-pay-processing-test |
 
-  Scenario Outline: 03 Process the PPA file
+  Scenario Outline: 03 Process the PPA file (payment2)
     Given I visit the "Request Editor" homepage
     And I start the messaging service for the service bus topic "<sendToTopic>"
     And I make a note of the "<box>" count
     And I synchronize keys in "ppa" with values from "<outputMessage>"
+    And I update the value of "ppa" to "100"
     And I increase the invoice number by "1" for "ppa" using the invoice number from "<outputMessage>"
     When I send the updated "ppa" message to the service bus topic "<sendToTopic>"
     Then the "<box>" count has increased by 1

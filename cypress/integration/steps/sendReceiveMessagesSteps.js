@@ -232,3 +232,23 @@ Given('I increase the invoice number by "{int}" for {string} using the invoice n
     });
   });
 });
+
+Given('I update the value of {string} to "{int}"', (inputTopicName, number) => {
+  const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
+
+  cy.readFile(inputFilePath).then((inputMessage) => {
+    if (Object.prototype.hasOwnProperty.call(inputMessage, 'value')) {
+      inputMessage.value = number;
+    }
+
+    if (Array.isArray(inputMessage.invoiceLines)) {
+      inputMessage.invoiceLines.forEach((line) => {
+        if (Object.prototype.hasOwnProperty.call(line, 'value')) {
+          line.value = number;
+        }
+      });
+    }
+
+    cy.writeFile(inputFilePath, inputMessage);
+  });
+});
