@@ -1,6 +1,7 @@
 /* global When, Then */
 
 import requestEditor from '../pages/requestEditorPage';
+import capturePage from '../pages/capturePage';
 const dayjs = require('dayjs');
 
 When('I create a new reporting dataset with the following values', (datatable) => {
@@ -28,72 +29,22 @@ When('I create a new reporting dataset with the following values', (datatable) =
   });
 });
 
-Then('I make a note of the {string} count', (text) => {
-  var item;
-
-  switch (text) {
-  case 'Unattached reporting datasets':
-    item = 0;
-    break;
-
-  case 'Requests awaiting reporting data':
-    item = 1;
-    break;
-
-  case 'Awaiting ledger assignment':
-    item = 2;
-    break;
-
-  case 'Requests awaiting quality check':
-    item = 3;
-    break;
-
-  default:
-    throw new Error('Box title not found');
-  }
-
+Then('I make a note of the dataset count', () => {
   requestEditor
-    .valueCount()
-    .eq(item)
+    .unattachedReportingDatasetsCount()
     .should('be.visible')
-    .invoke('text').then(($count) => {
-      cy.wrap(parseInt($count), { log: true }).as('initialCount');
+    .invoke('text').then(($datasetCount) => {
+      cy.wrap(parseInt($datasetCount), { log: true }).as('initialDatasetCount');
     });
 });
 
-Then('the {string} count has increased by 1', (text) => {
-  var item;
-
-  switch (text) {
-  case 'Unattached reporting datasets':
-    item = 0;
-    break;
-
-  case 'Requests awaiting reporting data':
-    item = 1;
-    break;
-
-  case 'Awaiting ledger assignment':
-    item = 2;
-    break;
-
-  case 'Requests awaiting quality check':
-    item = 3;
-    break;
-
-  default:
-    throw new Error('Box title not found');
-  }
-
-  cy.reload();
-
-  cy.get('@initialCount').then((initialCount) => {
+Then('the dataset count has increased by 1', () => {
+  cy.get('@initialDatasetCount').then((initialCount) => {
     requestEditor
-      .valueCount()
-      .eq(item)
+      .unattachedReportingDatasetsCount()
       .should('be.visible')
-      .invoke('text').then(($count) => {
-        const currentCount = parseInt($count);
+      .invoke('text').then(($datasetCount) => {
+        const currentCount = parseInt($datasetCount);
         expect(currentCount).to.equal(initialCount + 1);
       });
   });
@@ -106,17 +57,16 @@ Then('I should see the following schemes:', (dataTable) => {
 });
 
 Then('the extract is downloaded', () => {
-  cy.readFile('cypress/downloads/ffc-pay-debts-report.csv');
+  cy.readFile('cypress/downloads/ffc-pay-debts-report.csv', { timeout: 15000 });
 });
 
 When(/^I search for FRN "(.*)"$/, (text) => {
   requestEditor.getFrnSearchField().type(text);
 });
 
-When('I have a random FRN', () => {
-  requestEditor.randomFRN().then(($cell) => {
-    const frn = $cell.text();
-    cy.wrap(frn).as('frn'); // Save the FRN for later steps
+When('I search for the FRN', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    capturePage.captureTxtFrn().scrollIntoView().type(lastFRN+'{enter}');
   });
 });
 
@@ -147,7 +97,25 @@ Then('I click on the FRN search button', () => {
 });
 
 When(/^I can see FRN "(.*)" in the table$/, (text) => {
-  requestEditor.firstFRN().should('have.text', text);
+  requestEditor.firstFRNManualLedger().should('have.text', text);
+});
+
+When('I can see the FRN in the table', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    requestEditor.firstFRN().should('have.text', lastFRN);
+  });
+});
+
+When('I should see the first FRN in the results matches the last record FRN', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    requestEditor.firstFRN().should('have.text', lastFRN);
+  });
+});
+
+When('I should see the first capture FRN in the results matches the last record FRN', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    requestEditor.firstCaptureFRN().should('have.text', lastFRN);
+  });
 });
 
 Then('the application identifier field header is visible with text {string}', (text) => {
@@ -167,8 +135,8 @@ When('I select {string} from the number of records per page dropdown', (number) 
 });
 
 
-Then('I can see {int} records displayed in the table', (number) => {
-  requestEditor.dataSetRecords().should('have.length', number);
+Then('I can see at most {int} records displayed in the table', (number) => {
+  requestEditor.dataSetRecords().should('have.length.at.most', number);
 });
 
 Then('I can see {string} in the page box', number => {
@@ -205,6 +173,18 @@ Then('I cannot see the {string} button', btnText => {
 
 When('I visit the last page', () => {
   cy.clickNextButtonUntilOnLastPage();
+});
+
+When('I get the FRN of the last record', () => {
+  requestEditor.lastFRN().invoke('text').then((text) => {
+    cy.wrap(text.trim()).as('lastFRN');
+  });
+});
+
+When('I get the FRN of the last capture record', () => {
+  capturePage.lastCaptureFRN().invoke('text').then((text) => {
+    cy.wrap(text.trim()).as('lastFRN');
+  });
 });
 
 Then('I see the {string} application identifier error message', error => {

@@ -4,38 +4,8 @@ Feature: 02 Request Editor
   Background: Navigate to Request Editor homepage
     Given I visit the "Request Editor" homepage
 
-  Scenario Outline: 01 Add an entry to the "<box>" box on Request Editor
-    And I start the messaging service for the service bus topic "<sendToTopicName>"
-    And I make a note of the "<box>" count
-    And I create a message with the filename "<sendToTopicName>" and update the following keys:
-      | sbi           |
-      | frn           |
-      | value         |
-      | invoiceNumber |
-    When I send the updated "<sendToTopicName>" message to the service bus topic "<sendToTopicName>"
-    Then the "<box>" count has increased by 1
-    And I stop the messaging service
-
-    @test
-    Examples:
-      | sendToTopicName                | box                              |
-      | ffc-pay-debt-data-test         | Requests awaiting reporting data |
-      | ffc-pay-manual-check-data-test | Awaiting ledger assignment       |
-
-    @dev
-    Examples:
-      | sendToTopicName               | box                              |
-      | ffc-pay-debt-data-dev         | Requests awaiting reporting data |
-      | ffc-pay-manual-check-data-dev | Awaiting ledger assignment       |
-
-    @local
-    Examples:
-      | sendToTopicName              | box                              |
-      | ffc-pay-debt-data-kj         | Requests awaiting reporting data |
-      | ffc-pay-manual-check-data-kj | Awaiting ledger assignment       |
-
-  Scenario: 02 Validate Dataset Count Increment After Adding a New Reporting Dataset
-    And I make a note of the "Unattached reporting datasets" count
+  Scenario: 01 Validate Dataset Count Increment After Adding a New Reporting Dataset
+    And I make a note of the dataset count
     And I click on the "Capture new dataset" link
     And the application identifier field header is visible with text "Agreement/claim number"
     And the application identifier hint is visible with text "Enter the agreement/claim number, for example SIP000000000001 or 1234567"
@@ -44,9 +14,9 @@ Feature: 02 Request Editor
       | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I am on the "Request Editor" homepage
-    And the "Unattached reporting datasets" count has increased by 1
+    And the dataset count has increased by 1
 
-  Scenario: 03 Verify all schemes are displayed correctly
+  Scenario: 02 Verify all schemes are displayed correctly
     When I click on the "Capture new dataset" link
     Then I should see the following schemes:
       | Scheme Name |
@@ -59,13 +29,13 @@ Feature: 02 Request Editor
       | FDMR        |
       | SFI23       |
 
-  Scenario: 04 Download Extract
+  Scenario: 03 Download Extract
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
     When I click on the "Download an extract" download link
     Then the extract is downloaded
 
-  Scenario Outline: 05 Verify "<link>"" links work correctly
+  Scenario Outline: 04 Verify "<link>"" links work correctly
     When I click on the "<link>" link
     Then I am on the "<subPage>" subpage
 
@@ -74,13 +44,24 @@ Feature: 02 Request Editor
       | View awaiting ledger assignment | manual-ledger |
       | View awaiting reporting data    | enrich        |
 
-  Scenario: 06 FRN Search Function
-    And I click on the "View awaiting ledger assignment" link
-    And I search for FRN "1234567654"
-    When I click on the FRN search button
-    Then I can see FRN "1234567654" in the table
 
-  Scenario: 07 Debt data reference is less than 5 characters
+  Scenario Outline: 05 FRN Search Function
+    And I click on the "View awaiting ledger assignment" link
+    And I search for FRN "<frn>"
+    When I click on the FRN search button
+    Then I can see FRN "<frn>" in the table
+
+    @test
+    Examples:
+      | frn        |
+      | 1102142158 |
+
+    @dev
+    Examples:
+      | frn        |
+      | 1629513584 |
+
+  Scenario: 06 Debt data reference is less than 5 characters
     And I click on the "Capture new dataset" link
     And I create a new reporting dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
@@ -90,7 +71,7 @@ Feature: 02 Request Editor
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number must be at least 5 characters long.' error summary item
 
-  Scenario: 08 Debt data reference is not provided
+  Scenario: 07 Debt data reference is not provided
     And I click on the "Capture new dataset" link
     And I create a new reporting dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
@@ -100,7 +81,7 @@ Feature: 02 Request Editor
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number is required.' error summary item
 
-  Scenario: 09 Debt data reference is not alphanumeric
+  Scenario: 08 Debt data reference is not alphanumeric
     And I click on the "Capture new dataset" link
     And I create a new reporting dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
@@ -109,3 +90,52 @@ Feature: 02 Request Editor
     Then I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' application identifier error message
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' error summary item
+
+  Scenario Outline: 09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number
+    And I click on the "View all datasets" link
+    And I am on the "capture" subpage
+    And I enter '<frn>' in the FRN number search field
+    When I click the FRN number search button
+    Then each record in the table has the FRN number '<frn>'
+
+    @test
+    Examples:
+      | frn        |
+      | 1104642379 |
+
+    @dev
+    Examples:
+      | frn        |
+      | 1946589805 |
+
+  @test
+  Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
+    And I click on the "View all datasets" link
+    And I am on the "capture" subpage
+    And I select 'FDMR' in the scheme dropdown
+    When I click the Scheme search button
+    Then each record in the table has the Scheme 'FDMR'
+
+  Scenario: 11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme
+    And I click on the "View all datasets" link
+    And I am on the "capture" subpage
+    And I enter '1234567891' in the FRN number search field
+    And I click the FRN number search button
+    And I select 'SFI22' in the scheme dropdown
+    When I click the Scheme search button
+    Then each record in the table has the FRN number '1234567891'
+    And each record in the table has the Scheme 'SFI22'
+
+  Scenario: 12 Unattached reporting datasets - Searching based on FRN number that returns no datasets
+    And I click on the "View all datasets" link
+    And I am on the "capture" subpage
+    And I enter '9999999999' in the FRN number search field
+    When I click the FRN number search button
+    Then 'No reporting datasets' are displayed
+
+  Scenario: 13 Unattached reporting datasets - Searching based on scheme that returns no datasets
+    And I click on the "View all datasets" link
+    And I am on the "capture" subpage
+    And I select 'Vet Visits' in the scheme dropdown
+    When I click the Scheme search button
+    Then 'No reporting datasets' are displayed

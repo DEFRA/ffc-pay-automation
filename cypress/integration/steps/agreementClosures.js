@@ -6,17 +6,32 @@ import addClosurePage from '../pages/addClosurePage';
 import moment from 'moment/moment';
 import paymentHoldsPage from '../pages/paymentHoldsPage';
 import reportsPage from '../pages/reportsPage';
+import capturePage from '../pages/capturePage';
 
 When('I see the new submission in the table', () => {
-  agreementClosuresPage.lastFRN().should('have.text', Cypress.env('frn'));
+  cy.get('@randomFrn').then((randomFrn) => {
+    agreementClosuresPage.lastFRN().should('have.text', randomFrn);
 
-  agreementClosuresPage
-    .lastAgreementNumber()
-    .should('have.text', Cypress.env('agreementNumber'));
+    agreementClosuresPage
+      .lastAgreementNumber()
+      .should('have.text', Cypress.env('agreementNumber'));
 
-  agreementClosuresPage
-    .lastClosureDate()
-    .should('have.text', Cypress.env('futureDate'));
+    agreementClosuresPage
+      .lastClosureDate()
+      .should('have.text', Cypress.env('futureDate'));
+  });
+});
+
+When('I should not see the new submission in the table', () => {
+  cy.get('@initialClosureCount').then((initialCount) => {
+    if (initialCount === 0) {
+      cy.contains('There are no agreement closures.').should('be.visible');
+    } else {
+      cy.get('@randomFrn').then((randomFrn) => {
+        agreementClosuresPage.lastFRN().should('not.have.text', randomFrn);
+      });
+    }
+  });
 });
 
 When('I see the new bulk upload submissions in the table', () => {
@@ -117,6 +132,13 @@ Then('I should see the {string} field', (field) => {
   }
 });
 
+When('I click on the Remove button next to the new submission', () => {
+  cy.get('@randomFrn').then((randomFrn) => {
+    capturePage.tableRows().contains('td', randomFrn).parent().contains('Remove').click();
+  });
+});
+
+
 When('I upload {string} file', (file) => {
   addBulkClosurePage.fileInput().selectFile(`cypress/fixtures/${file}`);
 });
@@ -159,6 +181,17 @@ When('I type {string} in the {string} field', (text, field) => {
   } else {
     throw new Error('Invalid field');
   }
+});
+
+When('I type a random FRN in the FRN field', () => {
+  const generateNumber = (digits) => {
+    return ('0'.repeat(digits) + Math.floor(Math.random() * Math.pow(10, digits))).slice(-digits);
+  };
+
+  const randomFrn = `10${generateNumber(8)}`;
+
+  addClosurePage.frnInput().type(randomFrn);
+  cy.wrap(randomFrn, { log: true }).as('randomFrn');
 });
 
 When('I type a future date in the Closure date field', () => {

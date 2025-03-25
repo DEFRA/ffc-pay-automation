@@ -39,8 +39,8 @@ class requestEditorPage {
     return this.inputById('debt-discovered-year');
   }
 
-  valueCount () {
-    return cy.get('.govuk-heading-xl');
+  unattachedReportingDatasetsCount () {
+    return cy.get('.govuk-heading-xl').first();
   }
 
   getSchemeRadioButton (schemeName) {
@@ -56,15 +56,19 @@ class requestEditorPage {
   }
 
   firstFRN () {
-    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(2);
+    return cy.get('.govuk-table__body').first().find('.govuk-table__cell').eq(2);
   }
 
-  randomFRN () {
-    // Generate a random index between 2 and 40
-    const randomIndex = Math.floor(Math.random() * (40 - 2 + 1)) + 2;
+  firstCaptureFRN () {
+    return cy.get('.govuk-table__body').first().find('.govuk-table__cell').eq(1);
+  }
 
-    // Select the random table cell using the randomIndex
-    return cy.get(`.govuk-table__body > :nth-child(${randomIndex}) > :nth-child(3)`);
+  firstFRNManualLedger () {
+    return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(3)');
+  }
+
+  lastFRN () {
+    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(2);
   }
 
   applicationIdentifierHeader () {

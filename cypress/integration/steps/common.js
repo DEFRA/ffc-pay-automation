@@ -4,6 +4,7 @@ import paymentManagementPage from '../pages/paymentManagementPage';
 const { getEnvironmentConfig } = require('../../support/configLoader');
 
 const envConfig = getEnvironmentConfig();
+const env = envConfig.env;
 
 Given(/^I visit the "(.*)" homepage$/, (text) => {
   var url;
@@ -19,6 +20,20 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
 
   cy.visit(url);
   paymentManagementPage.header().should('be.visible').and('have.text', text);
+  cy.wrap(url).as('baseUrl');
+
+  const envFilePath = 'cypress/fixtures/env.json';
+
+  cy.task('readFileIfExists', envFilePath).then((existingData) => {
+    let existingEnv = existingData ? existingData.env : null;
+
+    if (existingEnv !== env) {
+      cy.task('writeFile', { filePath: envFilePath, data: { env } })
+        .then(() => cy.log(`🔄 Environment changed: Writing new env (${env}) to fixture file`));
+    } else {
+      cy.log(`✅ Environment unchanged (${env}). No file update needed.`);
+    }
+  });
 });
 
 Given(/^I am on the "(.*)" homepage$/, (text) => {
