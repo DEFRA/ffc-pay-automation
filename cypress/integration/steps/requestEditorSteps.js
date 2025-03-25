@@ -218,3 +218,28 @@ Then('I click on the {string} edited correctly radio button', (radioButton) => {
     throw new Error('Radio button not found');
   }
 });
+
+Then('I make a note of the {string} count', (text) => {
+  cy.contains('.govuk-heading-m', text)
+    .parent()
+    .find('.govuk-heading-xl')
+    .invoke('text')
+    .then((count) => {
+      cy.wrap(count.trim()).as(`${text}Count`);
+    });
+});
+
+Then('the {string} count has increased by 1', (text) => {
+  cy.get(`@${text}Count`).then((oldCount) => {
+    const previous = parseInt(oldCount, 10);
+
+    cy.contains('.govuk-heading-m', text)
+      .parent()
+      .find('.govuk-heading-xl')
+      .invoke('text')
+      .then((newCountText) => {
+        const current = parseInt(newCountText.trim(), 10);
+        expect(current).to.eq(previous + 1);
+      });
+  });
+});

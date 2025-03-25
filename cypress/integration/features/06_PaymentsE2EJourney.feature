@@ -7,8 +7,8 @@ Feature: 06 Standard Payments E2E Journey
       | invoiceNumber   |
       | agreementNumber |
       | contractNumber  |
-    When I send the updated message to the service bus topic "<sendToTopic>"
-    Then the message should be received successfully for the service bus topic "<receiveOnTopic>"
+    When I send the updated "paymentFileMessage" message to the service bus topic "<sendToTopic>"
+    Then the "paymentFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
     @dev
     Examples:
@@ -22,12 +22,12 @@ Feature: 06 Standard Payments E2E Journey
 
   Scenario Outline: 02 Process the return file
     Given I start the messaging service for the service bus topic "<sendToTopic>"
-    And I create a return file message with the filename "returnFileMessage" and update the following keys:
+    And I create a message with the filename "returnFileMessage" and update the following keys:
       | frn           |
       | invoiceNumber |
       | reference     |
-    When I send the updated return file message to the service bus topic "<sendToTopic>"
-    Then the response message should be received successfully for the service bus topic "<receiveOnTopic>"
+    When I send the updated "returnFileMessage" message to the service bus topic "<sendToTopic>"
+    Then the "returnFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
     @dev
     Examples:
