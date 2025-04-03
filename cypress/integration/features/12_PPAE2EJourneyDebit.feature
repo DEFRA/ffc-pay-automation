@@ -1,3 +1,4 @@
+@ppa
 Feature: 11 PPA E2E Journey - Debit
 
   Scenario Outline: 01 Send debit payment request message (payment1)
