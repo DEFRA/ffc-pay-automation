@@ -162,6 +162,14 @@ Given('I synchronize keys in {string} with values from {string}', (file2, file1)
       }
 
       if (allowedKeys && !allowedKeys.includes(key)) {
+        if (
+          typeof source[key] === 'object' &&
+          source[key] !== null &&
+          typeof target[key] === 'object' &&
+          target[key] !== null
+        ) {
+          updateExistingKeys(target[key], source[key], file2);
+        }
         continue;
       }
 
@@ -174,7 +182,19 @@ Given('I synchronize keys in {string} with values from {string}', (file2, file1)
           target[key] !== null
         ) {
           updateExistingKeys(target[key], source[key], file2);
-        } else if (!Array.isArray(source[key]) || Array.isArray(target[key])) {
+        } else if (
+          Array.isArray(source[key]) &&
+          Array.isArray(target[key])
+        ) {
+          for (let i = 0; i < source[key].length; i++) {
+            if (
+              typeof source[key][i] === 'object' &&
+              typeof target[key][i] === 'object'
+            ) {
+              updateExistingKeys(target[key][i], source[key][i], file2);
+            }
+          }
+        } else {
           target[key] = source[key];
         }
       }

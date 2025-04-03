@@ -230,6 +230,7 @@ Then('I make a note of the {string} count', (text) => {
 });
 
 Then('the {string} count has increased by 1', (text) => {
+  cy.reload();
   cy.get(`@${text}Count`).then((oldCount) => {
     const previous = parseInt(oldCount, 10);
 
@@ -242,4 +243,36 @@ Then('the {string} count has increased by 1', (text) => {
         expect(current).to.eq(previous + 1);
       });
   });
+});
+
+Then('the {string} count has decreased by 1', (text) => {
+  cy.reload();
+  cy.get(`@${text}Count`).then((oldCount) => {
+    const previous = parseInt(oldCount, 10);
+
+    cy.contains('.govuk-heading-m', text)
+      .parent()
+      .find('.govuk-heading-xl')
+      .invoke('text')
+      .then((newCountText) => {
+        const current = parseInt(newCountText.trim(), 10);
+        expect(current).to.eq(previous - 1);
+      });
+  });
+});
+
+Then('I click on the {string} debt type radio button', (radioButton) => {
+  if (radioButton === 'Irregular') {
+    requestEditor.irregularRadioButton().scrollIntoView().click();
+  } else if (radioButton === 'Administrative') {
+    requestEditor.administrativeRadioButton().scrollIntoView().click();
+  } else {
+    throw new Error('Radio button not found');
+  }
+});
+
+Then('I enter a valid debt discovered date in the past', () => {
+  requestEditor.dayInput().clear().type('15');
+  requestEditor.monthInput().clear().type('06');
+  requestEditor.yearInput().clear().type('2018');
 });

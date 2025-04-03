@@ -118,6 +118,26 @@ class requestEditorPage {
   noEditedCorrectlyRadioButton () {
     return cy.get('#status-2');
   }
+
+  irregularRadioButton () {
+    return cy.get('#debt-type');
+  }
+
+  administrativeRadioButton () {
+    return cy.get('#debt-type-2');
+  }
+
+  dayInput () {
+    return cy.get('#debt-discovered-date-day');
+  }
+
+  monthInput () {
+    return cy.get('#debt-discovered-date-month');
+  }
+
+  yearInput () {
+    return cy.get('#debt-discovered-date-year');
+  }
 }
 
 export default new requestEditorPage();
