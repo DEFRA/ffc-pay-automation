@@ -70,10 +70,26 @@ When('I search for the FRN', () => {
   });
 });
 
-When('I enter the last record FRN in the search field', () => {
-  cy.get('@lastFRN').then((lastFRN) => {
-    capturePage.txtFrn().type(lastFRN+'{enter}');
+When('I enter the random FRN in the search field', () => {
+  cy.get('@frn').then((frn) => {
+    requestEditor.getFrnSearchField().type(frn);
   });
+});
+
+When('I enter the newly generated FRN in the search field', () => {
+  const updatedFRN = Cypress.env('updatedMessageBody').frn;
+  requestEditor.getFrnSearchField().type(updatedFRN);
+});
+
+Then('I should see the first FRN in the results matches the random FRN', () => {
+  cy.get('@frn').then((frn) => {
+    requestEditor.firstFRN().should('have.text', frn);
+  });
+});
+
+Then('I should see the first FRN in the results matches the newly generated FRN', () => {
+  const updatedFRN = Cypress.env('updatedMessageBody').frn;
+  requestEditor.firstFRN().should('have.text', updatedFRN);
 });
 
 Then('I click on the FRN search button', () => {
@@ -181,4 +197,82 @@ Then('I see the {string} error summary title', (errorTitle) => {
 
 Then('I see the {string} error summary item', (errorItem) => {
   requestEditor.errorSummaryItem().scrollIntoView().should('be.visible').and('contain.text', errorItem);
+});
+
+Then('I click on the {string} provisional values radio button', (radioButton) => {
+  if (radioButton === 'Yes') {
+    requestEditor.yesProvisionalValuesRadioButton().scrollIntoView().click();
+  } else if (radioButton === 'No') {
+    requestEditor.noProvisionalValuesRadioButton().scrollIntoView().click();
+  } else {
+    throw new Error('Radio button not found');
+  }
+});
+
+Then('I click on the {string} edited correctly radio button', (radioButton) => {
+  if (radioButton === 'Yes') {
+    requestEditor.yesEditedCorrectlyRadioButton().scrollIntoView().click();
+  } else if (radioButton === 'No') {
+    requestEditor.noEditedCorrectlyRadioButton().scrollIntoView().click();
+  } else {
+    throw new Error('Radio button not found');
+  }
+});
+
+Then('I make a note of the {string} count', (text) => {
+  cy.contains('.govuk-heading-m', text)
+    .parent()
+    .find('.govuk-heading-xl')
+    .invoke('text')
+    .then((count) => {
+      cy.wrap(count.trim()).as(`${text}Count`);
+    });
+});
+
+Then('the {string} count has increased by 1', (text) => {
+  cy.reload();
+  cy.get(`@${text}Count`).then((oldCount) => {
+    const previous = parseInt(oldCount, 10);
+
+    cy.contains('.govuk-heading-m', text)
+      .parent()
+      .find('.govuk-heading-xl')
+      .invoke('text')
+      .then((newCountText) => {
+        const current = parseInt(newCountText.trim(), 10);
+        expect(current).to.eq(previous + 1);
+      });
+  });
+});
+
+Then('the {string} count has decreased by 1', (text) => {
+  cy.reload();
+  cy.get(`@${text}Count`).then((oldCount) => {
+    const previous = parseInt(oldCount, 10);
+
+    cy.contains('.govuk-heading-m', text)
+      .parent()
+      .find('.govuk-heading-xl')
+      .invoke('text')
+      .then((newCountText) => {
+        const current = parseInt(newCountText.trim(), 10);
+        expect(current).to.eq(previous - 1);
+      });
+  });
+});
+
+Then('I click on the {string} debt type radio button', (radioButton) => {
+  if (radioButton === 'Irregular') {
+    requestEditor.irregularRadioButton().scrollIntoView().click();
+  } else if (radioButton === 'Administrative') {
+    requestEditor.administrativeRadioButton().scrollIntoView().click();
+  } else {
+    throw new Error('Radio button not found');
+  }
+});
+
+Then('I enter a valid debt discovered date in the past', () => {
+  requestEditor.dayInput().clear().type('15');
+  requestEditor.monthInput().clear().type('06');
+  requestEditor.yearInput().clear().type('2018');
 });

@@ -102,6 +102,42 @@ class requestEditorPage {
   btnPrevious () {
     return cy.get('[rel="prev"] > .govuk-pagination__link-title');
   }
+
+  yesProvisionalValuesRadioButton () {
+    return cy.get('#agree');
+  }
+
+  noProvisionalValuesRadioButton () {
+    return cy.get('#agree-2');
+  }
+
+  yesEditedCorrectlyRadioButton () {
+    return cy.get('#status');
+  }
+
+  noEditedCorrectlyRadioButton () {
+    return cy.get('#status-2');
+  }
+
+  irregularRadioButton () {
+    return cy.get('#debt-type');
+  }
+
+  administrativeRadioButton () {
+    return cy.get('#debt-type-2');
+  }
+
+  dayInput () {
+    return cy.get('#debt-discovered-date-day');
+  }
+
+  monthInput () {
+    return cy.get('#debt-discovered-date-month');
+  }
+
+  yearInput () {
+    return cy.get('#debt-discovered-date-year');
+  }
 }
 
 export default new requestEditorPage();
