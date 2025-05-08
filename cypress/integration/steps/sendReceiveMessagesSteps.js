@@ -272,3 +272,17 @@ Given('I update the value of {string} to "{int}"', (inputTopicName, number) => {
     cy.writeFile(inputFilePath, inputMessage);
   });
 });
+
+Given('I update the {string} file with the newly generated FRN', (inputTopicName) => {
+  const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
+
+  cy.readFile(inputFilePath).then((inputMessage) => {
+    cy.get('@randomFrn').then((randomFrn) => {
+      if (Object.prototype.hasOwnProperty.call(inputMessage, 'frn')) {
+        inputMessage.frn = randomFrn;
+      }
+
+      cy.writeFile(inputFilePath, inputMessage);
+    });
+  });
+});
