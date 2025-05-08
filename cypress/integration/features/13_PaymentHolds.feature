@@ -1,4 +1,3 @@
-@ppa
 Feature: 13 Payment Holds
 
   Scenario Outline: 01 Send debit payment request message (payment1)
