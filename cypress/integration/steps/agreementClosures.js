@@ -10,14 +10,14 @@ import capturePage from '../pages/capturePage';
 
 When('I see the new submission in the table', () => {
   cy.get('@randomFrn').then((randomFrn) => {
-    agreementClosuresPage.lastFRN().should('have.text', randomFrn);
+    agreementClosuresPage.firstFRN().should('have.text', randomFrn);
 
     agreementClosuresPage
-      .lastAgreementNumber()
+      .firstAgreementNumber()
       .should('have.text', Cypress.env('agreementNumber'));
 
     agreementClosuresPage
-      .lastClosureDate()
+      .firstClosureDate()
       .should('have.text', Cypress.env('futureDate'));
   });
 });
