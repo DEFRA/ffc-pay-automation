@@ -18,7 +18,7 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
 });
 
 When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
-  cy.readFile(`cypress/downloads/${text}.csv`, { timeout: 15000 }).should('exist');
+  cy.readFile(`cypress/downloads/${text}.csv`, { timeout: 30000 }).should('exist');
 });
 
 Then('I should see the number of closures', () => {

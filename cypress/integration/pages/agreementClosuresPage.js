@@ -58,6 +58,18 @@ class agreementClosuresPage {
   lastClosureDate () {
     return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(3);
   }
+
+  firstFRN () {
+    return cy.get('.govuk-table__row').eq(1).find('.govuk-table__cell').eq(0);
+  }
+
+  firstAgreementNumber () {
+    return cy.get('.govuk-table__row').eq(1).find('.govuk-table__cell').eq(1);
+  }
+
+  firstClosureDate () {
+    return cy.get('.govuk-table__row').eq(1).find('.govuk-table__cell').eq(3);
+  }
 }
 
 export default new agreementClosuresPage();
