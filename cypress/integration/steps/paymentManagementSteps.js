@@ -18,7 +18,19 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
 });
 
 When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
-  cy.readFile(`cypress/downloads/${text}.csv`, { timeout: 30000 }).should('exist');
+  cy.wait(5000);
+  const relativePath = `cypress/downloads/${text}.csv`;
+
+  const checkFileExists = () => {
+    return cy.task('fileExists', relativePath, {timeout: 3000}).then((exists) => {
+      if (exists) {
+        return true;
+      }
+      return cy.wait(1000).then(checkFileExists);
+    });
+  };
+
+  checkFileExists().should('eq', true);
 });
 
 Then('I should see the number of closures', () => {

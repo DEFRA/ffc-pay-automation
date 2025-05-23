@@ -15,6 +15,7 @@ Feature: 09 Pagination - Payment Management
       | Manage holds | 500    | Payment holds |
       | Manage holds | 1000   | Payment holds |
 
+  @test
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
     Then I can see "1" in the page box
@@ -25,6 +26,7 @@ Feature: 09 Pagination - Payment Management
       | link         | page          |
       | Manage holds | Payment holds |
 
+  @test
   Scenario Outline: 03 Verify Next/Previous on second page of "<page>" page
     And I click on the "<link>" link
     When I click on the "Next" page button
@@ -36,6 +38,7 @@ Feature: 09 Pagination - Payment Management
       | link         | page          |
       | Manage holds | Payment holds |
 
+  @test
   Scenario Outline: 04 Verify Next/Previous on last page of "<page>" page
     And I click on the "<link>" link
     When I visit the last page

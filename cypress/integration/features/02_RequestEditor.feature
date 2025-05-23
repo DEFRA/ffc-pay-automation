@@ -59,7 +59,7 @@ Feature: 02 Request Editor
     @dev
     Examples:
       | frn        |
-      | 1989034643 |
+      | 1266744588 |
 
   Scenario: 06 Debt data reference is less than 5 characters
     And I click on the "Capture new dataset" link
@@ -106,7 +106,7 @@ Feature: 02 Request Editor
     @dev
     Examples:
       | frn        |
-      | 1117949870 |
+      | 1651658001 |
 
   @test
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
