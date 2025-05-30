@@ -9,27 +9,6 @@ When('the {string} holds option is selected', (value) => {
 
 When('I upload bulk payment holds file {string}', (file) => {
   const fixturePath = `cypress/fixtures/${file}`;
-  const isInvalidFile = /invalid|txt/i.test(file); // Updated condition
-
-  cy.readFile(fixturePath).then((oldContent) => {
-    cy.log('Old CSV content:', oldContent);
-  });
-
-  if (!isInvalidFile) {
-    const generateNumber = (digits) => {
-      return ('0'.repeat(digits) + Math.floor(Math.random() * Math.pow(10, digits))).slice(-digits);
-    };
-
-    const newNumber1 = `10${generateNumber(8)}`;
-    const newNumber2 = `10${generateNumber(8)}`;
-
-    const newContent = `${newNumber1},${newNumber2}`;
-
-    cy.writeFile(fixturePath, newContent).then(() => {
-      cy.log('Fixture file has been overwritten with new numbers:');
-      cy.log(newContent);
-    });
-  }
 
   paymentHoldsPage.fileInput().selectFile(fixturePath);
 });

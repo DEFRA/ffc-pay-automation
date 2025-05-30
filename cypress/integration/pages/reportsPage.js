@@ -46,6 +46,10 @@ class reportsPage {
   endDateYearField () {
     return cy.get('#end-date-year');
   }
+
+  spinner () {
+    return cy.get('.govuk-spinner');
+  }
 }
 
 export default new reportsPage();

@@ -44,3 +44,11 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I click the hold category option for "FDMR"
     When I click the Create bulk payment holds button
     Then the 'A provided FRN is not in the required format' error message is displayed on the Payment holds page
+
+  Scenario: 05 Uploading a CSV file which is too large
+    And I click on the "Add or remove holds in bulk" link
+    And the 'Add' holds option is selected
+    And I upload bulk payment holds file 'frnsBulkUploadBulk.csv'
+    And I click the hold category option for "FDMR"
+    When I click the Create bulk payment holds button
+    Then the "The uploaded file is too large. Please upload a file smaller than 1 MB." error message is displayed on the Payment holds page
