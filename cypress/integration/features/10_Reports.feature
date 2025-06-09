@@ -96,3 +96,16 @@ Feature: 10 Reports
       | SFI22              | 2023 |                |            | ffc-pay-claim-level-report_schemeId_1_year_2023                 |
       | SFI23              | 2023 |                | 1100016529 | ffc-pay-claim-level-report_schemeId_12_year_2023_frn_1100016529 |
       | Vet Visits         | 2023 |                |            | ffc-pay-claim-level-report_schemeId_4_year_2023                 |
+
+  Scenario Outline: 06 No data found for <reportType>
+    And I click on the "AP-AR listing report" link
+    And I select "<reportType>" from the "reportType" dropdown
+    And I type the "start" date as "<startDate>"
+    And I type the "end" date as "<endDate>"
+    When I click on the "Download report" button
+    Then I should see "No data was found for the selected report criteria. Please review your filters, such as date range or report type, and try again."
+
+    Examples:
+      | reportType        | startDate  | endDate    |
+      | AP Listing Report | 01-01-2015 | 02-01-2015 |
+      | AR Listing Report | 01-01-2015 | 02-01-2015 |
