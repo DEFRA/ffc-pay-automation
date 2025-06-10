@@ -133,7 +133,7 @@ Feature: 03 Agreement Closures
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadLarge.csv' file
     When I click the "Create" link
-    Then I should see "413 Request Entity Too Large"
+    Then the "The uploaded file is too large. Please upload a file smaller than 1 MB." error message is displayed on the Payment holds page
 
   @ignore
   Scenario: 19 Successful File Upload

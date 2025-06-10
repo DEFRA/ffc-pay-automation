@@ -35,7 +35,7 @@
   "enrich": {
     "pageSubHeader": "Requests awaiting reporting data"
   },
-  "ap-ar-listing": {
+  "ap-ar-report": {
     "pageSubHeader": "AP/AR Listing Report"
   },
   "transaction-summary": {
@@ -43,6 +43,10 @@
   },
   "claim-level-report": {
     "pageSubHeader": "Claim Level Report"
+  },
+
+  "payment-requests-v2": {
+    "pageSubHeader": "Payment Request Statuses Report"
   },
   "report-list": {
     "pageSubHeader": "Report List"

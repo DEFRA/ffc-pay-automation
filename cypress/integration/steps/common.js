@@ -69,11 +69,15 @@ When(/^I click on the "(.*)" link$/, (text) => {
 });
 
 When(/^I click on the "(.*)" download link$/, (text) => {
-  cy.get('a')
-    .contains(text)
-    .scrollIntoView()
-    .then((el) => {
-      el.attr('download', '');
-    })
-    .click();
+  if (text === 'Request Editor report') {
+    cy.contains(text).click();
+  } else {
+    cy.get('a')
+      .contains(text)
+      .scrollIntoView()
+      .then((el) => {
+        el.attr('download', '');
+      })
+      .click();
+  }
 });

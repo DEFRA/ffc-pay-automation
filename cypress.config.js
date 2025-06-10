@@ -3,8 +3,8 @@ const { defineConfig } = require('cypress');
 module.exports = defineConfig({
   chromeWebSecurity: false,
   watchForFileChanges: false,
-  viewportHeight: 720,
-  viewportWidth: 1280,
+  viewportHeight: 1080,
+  viewportWidth: 1920,
   defaultCommandTimeout: 10000,
   e2e: {
     // We've imported your old cypress plugins here.

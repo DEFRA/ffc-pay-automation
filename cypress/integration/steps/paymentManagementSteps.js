@@ -18,19 +18,32 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
 });
 
 When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
-  cy.wait(5000);
   const relativePath = `cypress/downloads/${text}.csv`;
 
-  const checkFileExists = () => {
-    return cy.task('fileExists', relativePath, {timeout: 3000}).then((exists) => {
-      if (exists) {
-        return true;
-      }
-      return cy.wait(1000).then(checkFileExists);
-    });
-  };
+  if (text === 'ffc-pay-mi-report-v2' || text === 'ffc-pay-hold-report' || text === 'ffc-pay-suppressed-report') {
+    const relativePath = `cypress/downloads/${text}.csv`;
 
-  checkFileExists().should('eq', true);
+    const checkFileExists = (attempt = 0, maxAttempts = 10) => {
+      return cy.task('fileExists', relativePath, {timeout: 3000}).then((exists) => {
+        if (exists) {
+          return true;
+        }
+        if (attempt >= maxAttempts) {
+          throw new Error(`File "${relativePath}" not found after ${maxAttempts} attempts.`);
+        }
+        return cy.wait(1000).then(() => checkFileExists(attempt + 1, maxAttempts));
+      });
+    };
+
+
+    checkFileExists().should('eq', true);
+  } else {
+    cy.contains('We’re preparing your report. This can take a few minutes for large datasets.').should('be.visible');
+    reportsPage.spinner().should('be.visible');
+    cy.contains('Your report has been successfully downloaded. You may now close this window.', { timeout: 50000 }).should('be.visible');
+
+    cy.task('fileExists', relativePath).should('eq', true);
+  }
 });
 
 Then('I should see the number of closures', () => {
@@ -87,42 +100,6 @@ When('I select {string} from the {string} dropdown', (text, dropdown) => {
   } else if (dropdown === 'reportType') {
     reportsPage.reportTypeDropdown().scrollIntoView().select(text);
   }
-});
-
-When(/^the CSV file is downloaded with "(.*)" as the title when I send the request$/, (expectedFileName) => {
-  const formData = Cypress.env('formData');
-
-  cy.request({
-    method: 'GET',
-    url: '/report-list/transaction-summary/download',
-    qs: formData,
-    encoding: 'binary'
-  }).then((response) => {
-    const contentDisposition = response.headers['content-disposition'];
-    const fileNameMatch = contentDisposition.match(/filename=([^;]+)/);
-    const actualFileName = fileNameMatch[1];
-
-    expect(response.status).to.eq(200);
-    expect(actualFileName).to.eq('ffc-pay-combined-transaction-report_'+expectedFileName+'.csv');
-  });
-});
-
-When(/^the AP AR CSV file is downloaded with "(.*)" as the title when I send the request$/, (expectedFileName) => {
-  const formData = Cypress.env('formData');
-
-  cy.request({
-    method: 'GET',
-    url: '/report-list/ap-ar-listing/download',
-    qs: formData,
-    encoding: 'binary'
-  }).then((response) => {
-    const contentDisposition = response.headers['content-disposition'];
-    const fileNameMatch = contentDisposition.match(/filename=([^;]+)/);
-    const actualFileName = fileNameMatch[1];
-
-    expect(response.status).to.eq(200);
-    expect(actualFileName).to.eq('ffc-pay-ap-listing-report-from-'+expectedFileName+'.csv');
-  });
 });
 
 When('I type the {string} date as {string}', (dateType, date) => {

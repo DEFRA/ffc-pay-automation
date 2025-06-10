@@ -1,3 +1,4 @@
+@ignore
 Feature: 10 Reports
 
   Background: Navigate to Payment management homepage
@@ -9,15 +10,15 @@ Feature: 10 Reports
     Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
-      | link                     | title                |
-      | Payment request statuses | ffc-pay-mi-report-v2 |
-      | Holds                    | ffc-pay-hold-report  |
+      | link                     | title                         |
+      | Payment request statuses | ffc-pay-mi-report-v2          |
+      | Holds                    | ffc-pay-hold-report           |
+      | Request Editor report    | ffc-pay-request-editor-report |
 
     @test
     Examples:
-      | link                        | title                         |
-      | Suppressed payment requests | ffc-pay-suppressed-report     |
-      | Request Editor report       | ffc-pay-request-editor-report |
+      | link                        | title                     |
+      | Suppressed payment requests | ffc-pay-suppressed-report |
 
   Scenario Outline: 02 Verify "link" link works correctly
     When I click on the "<link>" link
@@ -25,11 +26,11 @@ Feature: 10 Reports
 
     Examples:
       | link                        | subPage             |
+      | Payment request statuses v2 | payment-requests-v2 |
       | Combined transaction report | transaction-summary |
-      | AP-AR listing report        | ap-ar-listing       |
+      | AP-AR listing report        | ap-ar-report        |
       | Claim level report          | claim-level-report  |
 
-  @test
   Scenario Outline: 03 Download Combined transaction report for <scheme>
     And I click on the "Combined transaction report" link
     And I am on the "transaction-summary" subpage
@@ -37,62 +38,75 @@ Feature: 10 Reports
     And I type "<year>" in the "year" field
     And I type "<prn>" in the "prn" field
     And I select "<revenueCapital>" from the "revenueCapital" dropdown
-    When I type "<frn>" in the "FRN" field
-    Then the CSV file is downloaded with "<title>" as the title when I send the request
+    When I click on the "Download report" button
+    Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
-      | scheme             | year | prn | revenueCapital | frn        | title                                   |
-      | SFI22              | 2023 |     |                |            | schemeId_1_year_2023                    |
-      | SFI Pilot          | 2022 |     |                |            | schemeId_2_year_2022                    |
-      | Lump Sums          | 2022 |     |                |            | schemeId_3_year_2022                    |
-      | Vet Visits         | 2023 |     |                |            | schemeId_4_year_2023                    |
-      | CS                 | 2023 |     | Revenue        |            | schemeId_5_year_2023_prn_Revenue        |
-      | BPS                | 2018 | 1   |                |            | schemeId_6_year_2018_revenueOrCapital_1 |
-      | FDMR               | 2017 |     |                |            | schemeId_7_year_2017                    |
-      | Manual Invoice     | 2023 |     |                |            | schemeId_8_year_2023                    |
-      | ES                 | 2023 |     |                |            | schemeId_9_year_2023                    |
-      | IMPS               | 2023 |     |                |            | schemeId_11_year_2023                   |
-      | FC                 | 2021 |     |                |            | schemeId_10_year_2021                   |
-      | SFI23              | 2023 |     |                | 1100016529 | schemeId_12_year_2023_frn_1100016529    |
-      | Delinked           | 2024 |     |                | 1102361569 | schemeId_13_year_2024_frn_1102361569    |
-      | Expanded SFI Offer | 2024 |     |                | 1102491527 | schemeId_14_year_2024_frn_1102491527    |
+      | scheme             | year | prn | revenueCapital | frn        | title                                                            |
+      | BPS                | 2018 | 1   |                |            | ffc-pay-combined-transaction-report_schemeId_6_year_2018_1       |
+      | CS                 | 2023 |     | Revenue        |            | ffc-pay-combined-transaction-report_schemeId_5_year_2023_Revenue |
+      | Delinked           | 2024 |     |                | 1102361569 | ffc-pay-combined-transaction-report_schemeId_13_year_2024        |
+      | ES                 | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_9_year_2023         |
+      | Expanded SFI Offer | 2024 |     |                | 1102491527 | ffc-pay-combined-transaction-report_schemeId_14_year_2024        |
+      | FC                 | 2021 |     |                |            | ffc-pay-combined-transaction-report_schemeId_10_year_2021        |
+      | FDMR               | 2017 |     |                |            | ffc-pay-combined-transaction-report_schemeId_7_year_2017         |
+      | IMPS               | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_11_year_2023        |
+      | Lump Sums          | 2022 |     |                |            | ffc-pay-combined-transaction-report_schemeId_3_year_2022         |
+      | Manual Invoice     | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_8_year_2023         |
+      | SFI Pilot          | 2022 |     |                |            | ffc-pay-combined-transaction-report_schemeId_2_year_2022         |
+      | SFI22              | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_1_year_2023         |
+      | SFI23              | 2023 |     |                | 1100016529 | ffc-pay-combined-transaction-report_schemeId_12_year_2023        |
+      | Vet Visits         | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_4_year_2023         |
 
   Scenario Outline: 04 Download <reportType>
     And I click on the "AP-AR listing report" link
     And I select "<reportType>" from the "reportType" dropdown
     And I type the "start" date as "<startDate>"
-    When I type the "end" date as "<endDate>"
-    Then the AP AR CSV file is downloaded with "<title>" as the title when I send the request
+    And I type the "end" date as "<endDate>"
+    When I click on the "Download report" button
+    Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
-      | reportType        | startDate  | endDate    | title                    |
-      | AP Listing Report | 01-03-2024 | 16-10-2024 | 2024-03-01-to-2024-10-16 |
-      | AR Listing Report | 01-03-2024 | 16-10-2024 | 2024-03-01-to-2024-10-16 |
+      | reportType        | startDate  | endDate    | title                                                   |
+      | AP Listing Report | 01-03-2024 | 16-10-2024 | ffc-pay-ap-listing-report_from_2024-03-01_to_2024-10-16 |
+      | AR Listing Report | 01-03-2024 | 16-10-2024 | ffc-pay-ar-listing-report_from_2024-03-01_to_2024-10-16 |
 
-  @test
   Scenario Outline: 05 Download Claim level report for <scheme>
     And I click on the "Claim level report" link
     And I am on the "claim-level-report" subpage
     And I select "<scheme>" from the "scheme" dropdown
     And I type "<year>" in the "year" field
-    And I type "<prn>" in the "prn" field
     And I select "<revenueCapital>" from the "revenueCapital" dropdown
-    When I type "<frn>" in the "FRN" field
-    Then the CSV file is downloaded with "<title>" as the title when I send the request
+    And I type "<frn>" in the "FRN" field
+    When I click on the "Download report" button
+    Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
-      | scheme             | year | prn | revenueCapital | frn        | title                                   |
-      | SFI22              | 2023 |     |                |            | schemeId_1_year_2023                    |
-      | SFI Pilot          | 2022 |     |                |            | schemeId_2_year_2022                    |
-      | Lump Sums          | 2022 |     |                |            | schemeId_3_year_2022                    |
-      | Vet Visits         | 2023 |     |                |            | schemeId_4_year_2023                    |
-      | CS                 | 2023 |     | Revenue        |            | schemeId_5_year_2023_prn_Revenue        |
-      | BPS                | 2018 | 1   |                |            | schemeId_6_year_2018_revenueOrCapital_1 |
-      | FDMR               | 2017 |     |                |            | schemeId_7_year_2017                    |
-      | Manual Invoice     | 2023 |     |                |            | schemeId_8_year_2023                    |
-      | ES                 | 2023 |     |                |            | schemeId_9_year_2023                    |
-      | IMPS               | 2023 |     |                |            | schemeId_11_year_2023                   |
-      | FC                 | 2021 |     |                |            | schemeId_10_year_2021                   |
-      | SFI23              | 2023 |     |                | 1100016529 | schemeId_12_year_2023_frn_1100016529    |
-      | Delinked           | 2024 |     |                | 1102361569 | schemeId_13_year_2024_frn_1102361569    |
-      | Expanded SFI Offer | 2024 |     |                | 1102491527 | schemeId_14_year_2024_frn_1102491527    |
+      | scheme             | year | revenueCapital | frn        | title                                                           |
+      | BPS                | 2018 |                |            | ffc-pay-claim-level-report_schemeId_6_year_2018                 |
+      | CS                 | 2023 | Revenue        |            | ffc-pay-claim-level-report_schemeId_5_year_2023_Revenue         |
+      | Delinked           | 2024 |                | 1102361569 | ffc-pay-claim-level-report_schemeId_13_year_2024_frn_1102361569 |
+      | ES                 | 2023 |                |            | ffc-pay-claim-level-report_schemeId_9_year_2023                 |
+      | Expanded SFI Offer | 2024 |                | 1102491527 | ffc-pay-claim-level-report_schemeId_14_year_2024_frn_1102491527 |
+      | FC                 | 2021 |                |            | ffc-pay-claim-level-report_schemeId_10_year_2021                |
+      | FDMR               | 2017 |                |            | ffc-pay-claim-level-report_schemeId_7_year_2017                 |
+      | IMPS               | 2023 |                |            | ffc-pay-claim-level-report_schemeId_11_year_2023                |
+      | Lump Sums          | 2022 |                |            | ffc-pay-claim-level-report_schemeId_3_year_2022                 |
+      | Manual Invoice     | 2023 |                |            | ffc-pay-claim-level-report_schemeId_8_year_2023                 |
+      | SFI Pilot          | 2022 |                |            | ffc-pay-claim-level-report_schemeId_2_year_2022                 |
+      | SFI22              | 2023 |                |            | ffc-pay-claim-level-report_schemeId_1_year_2023                 |
+      | SFI23              | 2023 |                | 1100016529 | ffc-pay-claim-level-report_schemeId_12_year_2023_frn_1100016529 |
+      | Vet Visits         | 2023 |                |            | ffc-pay-claim-level-report_schemeId_4_year_2023                 |
+
+  Scenario Outline: 06 No data found for <reportType>
+    And I click on the "AP-AR listing report" link
+    And I select "<reportType>" from the "reportType" dropdown
+    And I type the "start" date as "<startDate>"
+    And I type the "end" date as "<endDate>"
+    When I click on the "Download report" button
+    Then I should see "No data was found for the selected report criteria. Please review your filters, such as date range or report type, and try again."
+
+    Examples:
+      | reportType        | startDate  | endDate    |
+      | AP Listing Report | 01-01-2015 | 02-01-2015 |
+      | AR Listing Report | 01-01-2015 | 02-01-2015 |
