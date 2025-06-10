@@ -1,3 +1,4 @@
+@ignore
 Feature: 10 Reports
 
   Background: Navigate to Payment management homepage

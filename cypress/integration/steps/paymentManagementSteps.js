@@ -23,14 +23,18 @@ When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
   if (text === 'ffc-pay-mi-report-v2' || text === 'ffc-pay-hold-report' || text === 'ffc-pay-suppressed-report') {
     const relativePath = `cypress/downloads/${text}.csv`;
 
-    const checkFileExists = () => {
+    const checkFileExists = (attempt = 0, maxAttempts = 10) => {
       return cy.task('fileExists', relativePath, {timeout: 3000}).then((exists) => {
         if (exists) {
           return true;
         }
-        return cy.wait(1000).then(checkFileExists);
+        if (attempt >= maxAttempts) {
+          throw new Error(`File "${relativePath}" not found after ${maxAttempts} attempts.`);
+        }
+        return cy.wait(1000).then(() => checkFileExists(attempt + 1, maxAttempts));
       });
     };
+
 
     checkFileExists().should('eq', true);
   } else {

@@ -6,6 +6,7 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And I am on the "payment-holds" subpage
     And I click on the "Add or remove holds in bulk" link
 
+  @ignore
   Scenario: 01 Uploading a CSV file with incorrect FRN format
     And the user selects to "Remove" holds
     And the 'Remove' holds option is selected

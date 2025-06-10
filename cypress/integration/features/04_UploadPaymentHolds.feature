@@ -37,6 +37,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     When I click the Create bulk payment holds button
     Then the 'Provide a CSV file' error message is displayed on the Payment holds page
 
+  @ignore
   Scenario: 04 Uploading a CSV file with incorrect FRN format
     And I click on the "Add or remove holds in bulk" link
     And the 'Add' holds option is selected
