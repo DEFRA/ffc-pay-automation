@@ -1,25 +1,22 @@
-@ignore
 Feature: 10 Reports
 
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
     And I click on the "Report List" link
-
+  
+  @dev
   Scenario Outline: 01 Verify CSV file is downloaded when clicking "<link>"
     When I click on the "<link>" download link
     Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
-      | link                     | title                         |
-      | Payment request statuses | ffc-pay-mi-report-v2          |
-      | Holds                    | ffc-pay-hold-report           |
-      | Request Editor report    | ffc-pay-request-editor-report |
+      | link                        | title                         |
+      | Payment request statuses    | ffc-pay-mi-report-v2          |
+      | Holds                       | ffc-pay-hold-report           |
+      | Request Editor report       | ffc-pay-request-editor-report |
+      | Suppressed payment requests | ffc-pay-suppressed-report     |
 
-    @test
-    Examples:
-      | link                        | title                     |
-      | Suppressed payment requests | ffc-pay-suppressed-report |
-
+  @dev
   Scenario Outline: 02 Verify "link" link works correctly
     When I click on the "<link>" link
     Then I am on the "<subPage>" subpage
@@ -56,7 +53,16 @@ Feature: 10 Reports
       | SFI Pilot          | 2022 |     |                |            | ffc-pay-combined-transaction-report_schemeId_2_year_2022         |
       | SFI22              | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_1_year_2023         |
       | SFI23              | 2023 |     |                | 1100016529 | ffc-pay-combined-transaction-report_schemeId_12_year_2023        |
-      | Vet Visits         | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_4_year_2023         |
+
+    @dev
+    Examples:
+      | scheme     | year | prn | revenueCapital | frn | title                                                    |
+      | Vet Visits | 2023 |     |                |     | ffc-pay-combined-transaction-report_schemeId_4_year_2023 |
+
+    @test
+    Examples:
+      | scheme     | year | prn | revenueCapital | frn | title                                                    |
+      | Vet Visits | 2023 |     |                |     | ffc-pay-combined-transaction-report_schemeId_4_year_2023 |
 
   Scenario Outline: 04 Download <reportType>
     And I click on the "AP-AR listing report" link
@@ -66,11 +72,19 @@ Feature: 10 Reports
     When I click on the "Download report" button
     Then the CSV file is downloaded with "<title>" as the title
 
+    @dev
     Examples:
       | reportType        | startDate  | endDate    | title                                                   |
       | AP Listing Report | 01-03-2024 | 16-10-2024 | ffc-pay-ap-listing-report_from_2024-03-01_to_2024-10-16 |
       | AR Listing Report | 01-03-2024 | 16-10-2024 | ffc-pay-ar-listing-report_from_2024-03-01_to_2024-10-16 |
 
+    @test
+    Examples:
+      | reportType        | startDate  | endDate    | title                                                   |
+      | AP Listing Report | 01-05-2024 | 01-05-2025 | ffc-pay-ap-listing-report_from_2024-03-01_to_2024-10-16 |
+      | AR Listing Report | 01-05-2024 | 01-05-2025 | ffc-pay-ar-listing-report_from_2024-03-01_to_2024-10-16 |
+
+  @dev
   Scenario Outline: 05 Download Claim level report for <scheme>
     And I click on the "Claim level report" link
     And I am on the "claim-level-report" subpage
@@ -98,6 +112,7 @@ Feature: 10 Reports
       | SFI23              | 2023 |                | 1100016529 | ffc-pay-claim-level-report_schemeId_12_year_2023_frn_1100016529 |
       | Vet Visits         | 2023 |                |            | ffc-pay-claim-level-report_schemeId_4_year_2023                 |
 
+  @dev
   Scenario Outline: 06 No data found for <reportType>
     And I click on the "AP-AR listing report" link
     And I select "<reportType>" from the "reportType" dropdown

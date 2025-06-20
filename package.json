@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "cypress:local": "cypress open --e2e --browser chrome --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\"",
-    "cypress:dev": "cypress open --e2e --browser chrome --env env=dev,TAGS=\"not (@test or @ignore)\"",
-    "cypress:test": "cypress open --e2e --browser=chrome --env env=test,TAGS=\"not (@dev or @ignore)\"",
-    "cypress:local:all": "npm run config:reports && npm run delete:reports && cypress run --env env=local,TAGS=\"not (@test or @dev or @ignoreLocal or @ignore)\" --browser chrome && npm run report",
-    "cypress:dev:all": "npm run config:reports && npm run delete:reports && cypress run --env env=dev,TAGS=\"not (@test or @ignore)\" --browser chrome && npm run report",
-    "cypress:test:all": "npm run config:reports && npm run delete:reports && cypress run --env env=test,TAGS=\"not (@dev or @ignore)\" --browser chrome && npm run report",
+    "cypress:local": "cypress open --e2e --browser chrome --env env=local,TAGS=\"@local and not @ignore\"",
+    "cypress:dev": "cypress open --e2e --browser chrome --env env=dev,TAGS=\"@dev and not @ignore\"",
+    "cypress:test": "cypress open --e2e --browser=chrome --env env=test,TAGS=\"@test and not @ignore\"",
+    "cypress:local:all": "npm run config:reports && npm run delete:reports && cypress run --env env=local,TAGS=\"@local and not @ignore\" --browser chrome && npm run report",
+    "cypress:dev:all": "npm run config:reports && npm run delete:reports && cypress run --env env=dev,TAGS=\"@dev and not @ignore\" --browser chrome && npm run report",
+    "cypress:test:all": "npm run config:reports && npm run delete:reports && cypress run --env env=test,TAGS=\"@test and not @ignore\" --browser chrome && npm run report",
     "report": "node .tools/exportHTMLReport.mjs",
     "delete:reports": "del-cli \"report/JSON/*\" \"report/HTML/*\" \"cypress/videos/features/*\"",
     "config:reports": "node .tools/createDirsAndCopyFiles.js"

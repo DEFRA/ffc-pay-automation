@@ -1,4 +1,4 @@
-@paymentManagement
+@test @dev
 Feature: 01 Payment management
 
   Background: Navigate to Payment management homepage

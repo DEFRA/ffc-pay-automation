@@ -1,3 +1,4 @@
+@dev
 Feature: 05 Remove Payment Holds via CSV Upload
 
   Background:
@@ -6,7 +7,7 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And I am on the "payment-holds" subpage
     And I click on the "Add or remove holds in bulk" link
 
-  @ignore
+  @test
   Scenario: 01 Uploading a CSV file with incorrect FRN format
     And the user selects to "Remove" holds
     And the 'Remove' holds option is selected
@@ -15,6 +16,7 @@ Feature: 05 Remove Payment Holds via CSV Upload
     When I click the Create bulk payment holds button
     Then the 'A provided FRN is not in the required format' error message is displayed on the Payment holds page
 
+  @test
   Scenario: 02 Uploading a file that is not a CSV
     And the user selects to "Remove" holds
     And the 'Remove' holds option is selected
@@ -39,6 +41,7 @@ Feature: 05 Remove Payment Holds via CSV Upload
     Then I am on the "payment-holds" subpage
     And the payment requests related to the "selectiveFrnRemove.csv" CSV are not in the table
 
+  @test
   Scenario: 04 Attempting to remove holds without selecting a hold category
     And the user selects to "Remove" holds
     And the 'Remove' holds option is selected

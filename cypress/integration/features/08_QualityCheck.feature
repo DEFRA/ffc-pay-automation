@@ -1,4 +1,4 @@
-@test
+@test @dev
 Feature: 08 Quality Check
 
   Background:

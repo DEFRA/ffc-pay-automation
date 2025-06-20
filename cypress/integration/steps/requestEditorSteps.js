@@ -181,6 +181,12 @@ When('I get the FRN of the last record', () => {
   });
 });
 
+When('I enter the last record FRN in the search field', () => {
+  cy.get('@lastFRN').then((lastFRN) => {
+    requestEditor.getFrnSearchField().type(lastFRN);
+  });
+});
+
 When('I get the FRN of the last capture record', () => {
   capturePage.lastCaptureFRN().invoke('text').then((text) => {
     cy.wrap(text.trim()).as('lastFRN');

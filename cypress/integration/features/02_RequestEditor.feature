@@ -1,9 +1,9 @@
-@requestEditor
 Feature: 02 Request Editor
 
   Background: Navigate to Request Editor homepage
     Given I visit the "Request Editor" homepage
 
+  @dev
   Scenario: 01 Validate Dataset Count Increment After Adding a New Reporting Dataset
     And I make a note of the dataset count
     And I click on the "Capture new dataset" link
@@ -16,6 +16,7 @@ Feature: 02 Request Editor
     Then I am on the "Request Editor" homepage
     And the dataset count has increased by 1
 
+  @test @dev
   Scenario: 02 Verify all schemes are displayed correctly
     When I click on the "Capture new dataset" link
     Then I should see the following schemes:
@@ -29,12 +30,14 @@ Feature: 02 Request Editor
       | FDMR        |
       | SFI23       |
 
+  @test @dev
   Scenario: 03 Download Extract
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
     When I click on the "Download an extract" download link
     Then the extract is downloaded
 
+  @test @dev
   Scenario Outline: 04 Verify "<link>"" links work correctly
     When I click on the "<link>" link
     Then I am on the "<subPage>" subpage
@@ -43,7 +46,6 @@ Feature: 02 Request Editor
       | link                            | subPage       |
       | View awaiting ledger assignment | manual-ledger |
       | View awaiting reporting data    | enrich        |
-
 
   Scenario Outline: 05 FRN Search Function
     And I click on the "View awaiting ledger assignment" link
@@ -61,6 +63,7 @@ Feature: 02 Request Editor
       | frn        |
       | 1266744588 |
 
+  @dev
   Scenario: 06 Debt data reference is less than 5 characters
     And I click on the "Capture new dataset" link
     And I create a new reporting dataset with the following values
@@ -71,6 +74,7 @@ Feature: 02 Request Editor
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number must be at least 5 characters long.' error summary item
 
+  @dev
   Scenario: 07 Debt data reference is not provided
     And I click on the "Capture new dataset" link
     And I create a new reporting dataset with the following values
@@ -81,6 +85,7 @@ Feature: 02 Request Editor
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number is required.' error summary item
 
+  @dev
   Scenario: 08 Debt data reference is not alphanumeric
     And I click on the "Capture new dataset" link
     And I create a new reporting dataset with the following values
@@ -108,7 +113,7 @@ Feature: 02 Request Editor
       | frn        |
       | 1651658001 |
 
-  @test
+  @test @dev
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
@@ -116,6 +121,7 @@ Feature: 02 Request Editor
     When I click the Scheme search button
     Then each record in the table has the Scheme 'FDMR'
 
+  @test @dev
   Scenario: 11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
@@ -126,6 +132,7 @@ Feature: 02 Request Editor
     Then each record in the table has the FRN number '1234567891'
     And each record in the table has the Scheme 'SFI22'
 
+  @test @dev
   Scenario: 12 Unattached reporting datasets - Searching based on FRN number that returns no datasets
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
@@ -133,6 +140,7 @@ Feature: 02 Request Editor
     When I click the FRN number search button
     Then 'No reporting datasets' are displayed
 
+  @test @dev
   Scenario: 13 Unattached reporting datasets - Searching based on scheme that returns no datasets
     And I click on the "View all datasets" link
     And I am on the "capture" subpage

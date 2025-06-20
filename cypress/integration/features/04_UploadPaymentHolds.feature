@@ -1,3 +1,4 @@
+@dev
 Feature: 04 Upload and Process Payment Holds via CSV
 
   Background:
@@ -22,6 +23,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     Then I am on the "payment-holds" subpage
     And the payment requests related to the "frnsBulkUploadValid.csv" CSV are not in the table
 
+  @test
   Scenario: 02 Uploading a CSV file with no selected hold reason
     And I click on the "Add or remove holds in bulk" link
     And the 'Add' holds option is selected
@@ -29,6 +31,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     When I click the Create bulk payment holds button
     Then the 'Category is required' error message is displayed on the Payment holds page
 
+  @test
   Scenario: 03 Uploading a file that is not a CSV
     And I click on the "Add or remove holds in bulk" link
     And the 'Add' holds option is selected
@@ -37,7 +40,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     When I click the Create bulk payment holds button
     Then the 'Provide a CSV file' error message is displayed on the Payment holds page
 
-  @ignore
+  @test
   Scenario: 04 Uploading a CSV file with incorrect FRN format
     And I click on the "Add or remove holds in bulk" link
     And the 'Add' holds option is selected
@@ -46,6 +49,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     When I click the Create bulk payment holds button
     Then the 'A provided FRN is not in the required format' error message is displayed on the Payment holds page
 
+  @test
   Scenario: 05 Uploading a CSV file which is too large
     And I click on the "Add or remove holds in bulk" link
     And the 'Add' holds option is selected
