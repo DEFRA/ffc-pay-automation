@@ -1,4 +1,4 @@
-@ignoreLocal
+@test @dev
 Feature: 07 Pagination - Request Editor
 
   Background:
@@ -20,15 +20,10 @@ Feature: 07 Pagination - Request Editor
       | View awaiting ledger assignment | 100    | Awaiting ledger assignment       |
       | View awaiting ledger assignment | 500    | Awaiting ledger assignment       |
       | View awaiting ledger assignment | 1000   | Awaiting ledger assignment       |
+      | View awaiting quality check     | 100    | Requests awaiting quality check  |
+      | View awaiting quality check     | 500    | Requests awaiting quality check  |
+      | View awaiting quality check     | 1000   | Requests awaiting quality check  |
 
-    @test
-    Examples:
-      | link                        | number | page                            |
-      | View awaiting quality check | 100    | Requests awaiting quality check |
-      | View awaiting quality check | 500    | Requests awaiting quality check |
-      | View awaiting quality check | 1000   | Requests awaiting quality check |
-
-  @test
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
     Then I can see "1" in the page box
@@ -42,7 +37,6 @@ Feature: 07 Pagination - Request Editor
       | View awaiting ledger assignment | Awaiting ledger assignment       |
       | View awaiting quality check     | Requests awaiting quality check  |
 
-  @test
   Scenario Outline: 03 Verify Next/Previous on second page of "<page>" page
     And I click on the "<link>" link
     When I click on the "Next" page button
@@ -57,7 +51,6 @@ Feature: 07 Pagination - Request Editor
       | View awaiting ledger assignment | Awaiting ledger assignment       |
       | View awaiting quality check     | Requests awaiting quality check  |
 
-  @test
   Scenario Outline: 04 Verify Next/Previous on last page of "<page>" page
     And I click on the "<link>" link
     When I visit the last page
@@ -71,7 +64,6 @@ Feature: 07 Pagination - Request Editor
       | View awaiting ledger assignment | Awaiting ledger assignment       |
       | View awaiting quality check     | Requests awaiting quality check  |
 
-  @test
   Scenario: 05 Search for a record from another page
     And I click on the "View all datasets" link
     And I select "10000" from the number of records per page dropdown

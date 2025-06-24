@@ -1,3 +1,4 @@
+@dev
 Feature: 13 Payment Holds
 
   Scenario Outline: 01 Send debit payment request message (payment1)
@@ -21,12 +22,6 @@ Feature: 13 Payment Holds
     When I click on the "Remove" button
     Then the "paymentFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
-    @dev
     Examples:
       | sendToTopic         | receiveOnTopic     |
       | ffc-pay-request-dev | ffc-pay-submit-dev |
-
-    @test
-    Examples:
-      | sendToTopic          | receiveOnTopic      |
-      | ffc-pay-request-test | ffc-pay-submit-test |

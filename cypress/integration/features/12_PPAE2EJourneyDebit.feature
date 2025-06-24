@@ -1,4 +1,4 @@
-@ppa
+@dev
 Feature: 11 PPA E2E Journey - Debit
 
   Scenario Outline: 01 Send debit payment request message (payment1)
@@ -12,15 +12,9 @@ Feature: 11 PPA E2E Journey - Debit
     When I send the updated "paymentFileMessage" message to the service bus topic "<sendToTopic>"
     Then the "paymentFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
-    @dev
     Examples:
       | sendToTopic         | receiveOnTopic         |
       | ffc-pay-request-dev | ffc-pay-processing-dev |
-
-    @test
-    Examples:
-      | sendToTopic          | receiveOnTopic          |
-      | ffc-pay-request-test | ffc-pay-processing-test |
 
   Scenario Outline: 02 Send debit return message with updated values (settlement)
     Given I start the messaging service for the service bus topic "<sendToTopic>"
@@ -30,15 +24,9 @@ Feature: 11 PPA E2E Journey - Debit
     When I send the updated "returnFileMessage" message to the service bus topic "<sendToTopic>"
     Then the "returnFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
-    @dev
     Examples:
       | sendToTopic        | receiveOnTopic     | outputMessage          |
       | ffc-pay-return-dev | ffc-pay-submit-dev | ffc-pay-processing-dev |
-
-    @test
-    Examples:
-      | sendToTopic         | receiveOnTopic      | outputMessage           |
-      | ffc-pay-return-test | ffc-pay-submit-test | ffc-pay-processing-test |
 
   Scenario Outline: 03 Send debit PPA message and verify queue increment (payment2)
     Given I visit the "Request Editor" homepage
@@ -50,15 +38,9 @@ Feature: 11 PPA E2E Journey - Debit
     When I send the updated "ppa" message to the service bus topic "<sendToTopic>"
     Then the "<box>" count has increased by 1
 
-    @dev
     Examples:
       | sendToTopic         | box                              | outputMessage          |
       | ffc-pay-request-dev | Requests awaiting reporting data | ffc-pay-processing-dev |
-
-    @test
-    Examples:
-      | sendToTopic          | box                              | outputMessage       |
-      | ffc-pay-request-test | Requests awaiting reporting data | ffc-pay-submit-test |
 
   Scenario: 04 Approve payment from reporting data queue
     Given I visit the "Request Editor" homepage
@@ -99,12 +81,6 @@ Feature: 11 PPA E2E Journey - Debit
   Scenario Outline: 07 Validate final debit message from Request Editor
     Then I check service bus topic "<receiveOnTopic>" for received messages
 
-    @dev
     Examples:
       | receiveOnTopic     |
       | ffc-pay-submit-dev |
-
-    @test
-    Examples:
-      | receiveOnTopic      |
-      | ffc-pay-submit-test |
