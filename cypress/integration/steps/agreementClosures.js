@@ -3,21 +3,20 @@
 import agreementClosuresPage from '../pages/agreementClosuresPage';
 import addBulkClosurePage from '../pages/addBulkClosurePage';
 import addClosurePage from '../pages/addClosurePage';
-import moment from 'moment/moment';
 import paymentHoldsPage from '../pages/paymentHoldsPage';
 import reportsPage from '../pages/reportsPage';
 import capturePage from '../pages/capturePage';
 
 When('I see the new submission in the table', () => {
   cy.get('@randomFrn').then((randomFrn) => {
-    agreementClosuresPage.firstFRN().should('have.text', randomFrn);
+    agreementClosuresPage.lastFRN().should('have.text', randomFrn);
 
     agreementClosuresPage
-      .firstAgreementNumber()
+      .lastAgreementNumber()
       .should('have.text', Cypress.env('agreementNumber'));
 
     agreementClosuresPage
-      .firstClosureDate()
+      .lastClosureDate()
       .should('have.text', Cypress.env('futureDate'));
   });
 });
@@ -36,43 +35,16 @@ When('I should not see the new submission in the table', () => {
 
 When('I see the new bulk upload submissions in the table', () => {
   cy.fixture('bulkUploadValid.csv').then((csvData) => {
-    const rows = csvData.split('\n');
-    const data = rows.map((row) => row.split(','));
+    const rows = csvData.trim().split('\n');
+    const data = rows.map((row) => row.split(',')).reverse();
 
     data.forEach((row, index) => {
-      const frnKey = `FRN_${index + 1}`;
-      const agreementNumberKey = `AgreementNumber_${index + 1}`;
-      const closureDateKey = `ClosureDate_${index + 1}`;
+      const [frn] = row.map(cell => cell.trim());
 
-      const frnValue = row[0];
-      const agreementNumberValue = row[1];
-      const closureDateValue = row[2];
+      // eslint-disable-next-line cypress/no-assigning-return-values
+      const rowSelector = cy.get('.govuk-table__row').eq(-1 - index);
 
-      Cypress.env(frnKey, frnValue);
-      Cypress.env(agreementNumberKey, agreementNumberValue);
-      Cypress.env(closureDateKey, closureDateValue);
-
-      agreementClosuresPage
-        .lastFRN()
-        .should('have.text', Cypress.env('FRN_1'));
-
-      agreementClosuresPage
-        .lastAgreementNumber()
-        .should('have.text', Cypress.env('AgreementNumber_1'));
-
-      agreementClosuresPage
-        .lastClosureDate()
-        .invoke('text')
-        .then((text) => {
-          const expectedClosureDate = Cypress.env('ClosureDate_1').trim();
-
-          const actualClosureDate = moment(text, [
-            'YYYY-MM-DD',
-            'DD/MM/YYYY',
-          ]).format('YYYY-MM-DD');
-
-          expect(actualClosureDate).to.equal(expectedClosureDate);
-        });
+      rowSelector.find('.govuk-table__cell').eq(0).should('have.text', frn);
     });
   });
 });

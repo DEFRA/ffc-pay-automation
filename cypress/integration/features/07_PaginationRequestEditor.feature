@@ -1,9 +1,10 @@
-@test @dev
+@test
 Feature: 07 Pagination - Request Editor
 
   Background:
     Given I visit the "Request Editor" homepage
 
+  @dev
   Scenario Outline: 01 "<number>" records per page on "<page>" page
     And I click on the "<link>" link
     When I select "<number>" from the number of records per page dropdown

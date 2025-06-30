@@ -59,14 +59,17 @@ Then('I make a note of the closures count', () => {
     });
 });
 
-Then('the closure count has increased by 1', () => {
+Then('the closure count has increased by {int}', (increment) => {
   cy.get('@initialClosureCount').then((initialCount) => {
+    const expectedCount = Number(initialCount) + increment;
+
     paymentManagementPage
       .noOfClosures()
       .should('be.visible')
-      .invoke('text').then(($closureCount) => {
-        const currentCount = parseInt($closureCount);
-        expect(currentCount).to.equal(initialCount + 1);
+      .invoke('text')
+      .then((text) => {
+        const currentCount = parseInt(text, 10);
+        expect(currentCount).to.equal(expectedCount);
       });
   });
 });

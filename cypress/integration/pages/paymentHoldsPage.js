@@ -23,6 +23,14 @@ class paymentHoldsPage {
     return cy.get('.govuk-error-message');
   }
 
+  bulkUploadErrorSummaryTitle () {
+    return cy.get('.govuk-error-summary__title');
+  }
+
+  bulkUploadErrorMessage () {
+    return cy.get('#error-message-text');
+  }
+
   holdCategoryOption () {
     return cy.get('#holdCategoryId');
   }
