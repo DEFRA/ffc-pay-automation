@@ -113,7 +113,15 @@ Feature: 02 Request Editor
       | frn        |
       | 1651658001 |
 
-  @test @dev
+  @dev @ignore
+  Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
+    And I click on the "View all datasets" link
+    And I am on the "capture" subpage
+    And I select 'FDMR' in the scheme dropdown
+    When I click the Scheme search button
+    Then each record in the table has the Scheme 'FDMR'
+
+  @test
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage

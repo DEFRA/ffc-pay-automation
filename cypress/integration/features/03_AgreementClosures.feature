@@ -152,6 +152,7 @@ Feature: 03 Agreement Closures
     Then the "The uploaded file is too large. Please upload a file smaller than 1 MB." error message is displayed on the Payment holds page
 
   Scenario: 19 Successful File Upload
+    And I make a note of the closures count
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadValid.csv' file
     And I click the "Create" link
@@ -159,7 +160,7 @@ Feature: 03 Agreement Closures
     And I see the new bulk upload submissions in the table
     And I should see a "Remove" link
     When I visit the "Payment management" homepage
-    Then I should see "2" number of closures
+    And the closure count has increased by 2
     And I visit the "Payment management" homepage
     And I click on the "Manage closures" link
     And I click on the "Remove" button

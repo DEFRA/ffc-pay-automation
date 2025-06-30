@@ -55,6 +55,17 @@ Then('the {string} error message is displayed on the Payment holds page', (errMs
     .and('contain.text', errMsg);
 });
 
+Then('the {string} error message is displayed on the Bulk upload page', (errMsg) => {
+  paymentHoldsPage
+    .bulkUploadErrorSummaryTitle()
+    .should('be.visible')
+    .and('contain.text', 'There was a problem');
+  paymentHoldsPage
+    .bulkUploadErrorMessage()
+    .should('be.visible')
+    .and('contain.text', errMsg);
+});
+
 When('the user selects to {string} holds', (option) => {
   paymentHoldsPage.sltAddRemoveHolds().select(option);
 });
