@@ -9,6 +9,7 @@
     "cypress:local:all": "npm run config:reports && npm run delete:reports && cypress run --env env=local,TAGS=\"@local and not @ignore\" --browser chrome && npm run report",
     "cypress:dev:all": "npm run config:reports && npm run delete:reports && cypress run --env env=dev,TAGS=\"@dev and not @ignore\" --browser chrome && npm run report",
     "cypress:test:all": "npm run config:reports && npm run delete:reports && cypress run --env env=test,TAGS=\"@test and not @ignore\" --browser chrome && npm run report",
+    "cypress:local:payments": "npm run config:reports && npm run delete:reports && cypress run --spec \"cypress/integration/features/14_LocalPaymentsTests.feature\" --env env=local,TAGS=\"@local and @payments and not @ignore\" --browser chrome && npm run report",
     "report": "node .tools/exportHTMLReport.mjs",
     "delete:reports": "del-cli \"report/JSON/*\" \"report/HTML/*\" \"cypress/videos/features/*\"",
     "config:reports": "node .tools/createDirsAndCopyFiles.js"
