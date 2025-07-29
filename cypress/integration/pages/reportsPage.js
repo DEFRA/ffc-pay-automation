@@ -20,7 +20,7 @@ class reportsPage {
   }
 
   reportTypeDropdown () {
-    return cy.get('#report-type');
+    return cy.get('#select-type');
   }
 
   startDateDayField () {
