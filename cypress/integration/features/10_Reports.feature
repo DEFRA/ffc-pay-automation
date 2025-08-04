@@ -27,6 +27,7 @@ Feature: 10 Reports
       | Combined transaction report | transaction-summary |
       | AP-AR listing report        | ap-ar-report        |
       | Claim level report          | claim-level-report  |
+      | Status Report               | status-report       |
 
   @dev @test
   Scenario Outline: 03 Download Combined transaction report for <scheme>
@@ -110,3 +111,23 @@ Feature: 10 Reports
       | reportType        | startDate  | endDate    |
       | AP Listing Report | 01-01-2015 | 02-01-2015 |
       | AR Listing Report | 01-01-2015 | 02-01-2015 |
+
+  Scenario Outline: 07 Download Status Report for <scheme>
+    And I click on the "Status Report" link
+    And I am on the "status-report" subpage
+    And I select "<scheme>" from the "statusReportScheme" dropdown
+    And I select the first visible year for the "<scheme>" scheme
+    And I click on the "Find Reports" button
+    When the user downloads the status report with text "<date>"
+    Then the status report is downloaded with "<title>" as the title
+
+    @dev
+    Examples:
+      | scheme   | year | date         | title                                                          |
+      | Delinked | 2025 | 15 July 2025 | reports_delinked-payment-statement-2025-07-15T15_35_40.097Z    |
+      | SFI-23   | 2025 | 15 May 2025  | reports_sustainable-farming-incentive-2025-05-15T11_48_14.892Z |
+
+    @test
+    Examples:
+      | scheme   | year | date        | title                                                       |
+      | Delinked | 2025 | 15 May 2025 | reports_delinked-payment-statement-2025-05-15T15_50_00.687Z |

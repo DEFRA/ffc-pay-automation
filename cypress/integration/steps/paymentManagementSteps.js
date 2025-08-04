@@ -3,6 +3,7 @@
 import paymentManagementPage from '../pages/paymentManagementPage';
 import reportsPage from '../pages/reportsPage';
 import constants from '../../support/constants.json';
+const { getEnvironmentConfig } = require('../../support/configLoader');
 
 When(/^I can see "(.*)" as the header$/, (text) => {
   paymentManagementPage.header().should('be.visible').and('have.text', text);
@@ -102,7 +103,38 @@ When('I select {string} from the {string} dropdown', (text, dropdown) => {
     Cypress.env('formData', { ...Cypress.env('formData'), revenueOrCapital: text });
   } else if (dropdown === 'reportType') {
     reportsPage.reportTypeDropdown().scrollIntoView().select(text);
+  } else if (dropdown === 'statusReportScheme') {
+    reportsPage.statusReportSchemeDropdown().scrollIntoView().select(text);
   }
+});
+
+When(/^I select the first visible year for the "(.*)" scheme$/, (schemeKey) => {
+  const schemeMap = {
+    'delinked': 'delinked-payment-statement',
+    'sfi-23': 'sustainable-farming-incentive'
+  };
+
+  const valueToSelect = schemeMap[schemeKey.toLowerCase()];
+  if (!valueToSelect) {
+    throw new Error(`❌ No mapping found for scheme "${schemeKey}"`);
+  }
+
+  cy.log(`🔍 Selecting <option> with value: "${valueToSelect}"`);
+
+  reportsPage.statusReportSchemeDropdown().then(($select) => {
+    const selectEl = $select[0];
+    const option = [...selectEl.options].find(opt => opt.value === valueToSelect && !opt.hidden);
+
+    if (!option) {
+      throw new Error(`❌ No visible <option> with value "${valueToSelect}" found`);
+    }
+
+    selectEl.value = option.value;
+    selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+
+    cy.log(`✅ Selected "${option.textContent.trim()}"`);
+    expect(selectEl.value).to.eq(option.value);
+  });
 });
 
 When('I type the {string} date as {string}', (dateType, date) => {
@@ -125,4 +157,60 @@ When('I type the {string} date as {string}', (dateType, date) => {
   } else {
     throw new Error(`Unknown date type: ${dateType}`);
   }
+});
+
+When('I click on an available report', () => {
+  reportsPage.availableReports().first().scrollIntoView().click({ force: true });
+});
+
+When(/^the user downloads the status report with text "(.*)"$/, (linkText) => {
+  const { paymentManagementUrl } = getEnvironmentConfig();
+
+  cy.contains('a.govuk-task-list__link', linkText)
+    .should('have.attr', 'href')
+    .then((relativeHref) => {
+      const baseUrl = paymentManagementUrl.replace(/\/$/, '');
+      const path = relativeHref.startsWith('/') ? relativeHref : `/${relativeHref}`;
+      const fullUrl = `${baseUrl}${path}`;
+
+      const decodedHref = decodeURIComponent(relativeHref);
+      const filePathParam = decodedHref.split('file-name=')[1];
+
+      const rawFileName = filePathParam.replace(/\//g, '_');
+      const sanitizedFileName = rawFileName.replace(/:/g, '_');
+      const filePath = `cypress/downloads/${sanitizedFileName}`;
+
+      cy.request({
+        url: fullUrl,
+        encoding: 'utf8'
+      }).then((response) => {
+        expect(response.status).to.eq(200);
+        cy.writeFile(filePath, response.body);
+      });
+
+      cy.wrap(sanitizedFileName).as('downloadedFileName');
+    });
+});
+
+When(/^the status report is downloaded with "(.*)" as the title$/, function (title) {
+  cy.get('@downloadedFileName').then((fileName) => {
+    const expectedFileName = `${title}.csv`;
+    expect(fileName).to.include(expectedFileName);
+
+    const relativePath = `cypress/downloads/${fileName}`;
+    const checkFileExists = (attempt = 0, maxAttempts = 10) => {
+      return cy.task('fileExists', relativePath, {timeout: 3000}).then((exists) => {
+        if (exists) {
+          return true;
+        }
+        if (attempt >= maxAttempts) {
+          throw new Error(`File "${relativePath}" not found after ${maxAttempts} attempts.`);
+        }
+        return cy.wait(1000).then(() => checkFileExists(attempt + 1, maxAttempts));
+      });
+    };
+
+
+    checkFileExists().should('eq', true);
+  });
 });
