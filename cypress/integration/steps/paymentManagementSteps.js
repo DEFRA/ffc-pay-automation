@@ -116,23 +116,23 @@ When(/^I select the first visible year for the "(.*)" scheme$/, (schemeKey) => {
 
   const valueToSelect = schemeMap[schemeKey.toLowerCase()];
   if (!valueToSelect) {
-    throw new Error(`❌ No mapping found for scheme "${schemeKey}"`);
+    throw new Error(`No mapping found for scheme "${schemeKey}"`);
   }
 
-  cy.log(`🔍 Selecting <option> with value: "${valueToSelect}"`);
+  cy.log(`Selecting <option> with value: "${valueToSelect}"`);
 
   reportsPage.statusReportSchemeDropdown().then(($select) => {
     const selectEl = $select[0];
     const option = [...selectEl.options].find(opt => opt.value === valueToSelect && !opt.hidden);
 
     if (!option) {
-      throw new Error(`❌ No visible <option> with value "${valueToSelect}" found`);
+      throw new Error(`No visible <option> with value "${valueToSelect}" found`);
     }
 
     selectEl.value = option.value;
     selectEl.dispatchEvent(new Event('change', { bubbles: true }));
 
-    cy.log(`✅ Selected "${option.textContent.trim()}"`);
+    cy.log(`Selected "${option.textContent.trim()}"`);
     expect(selectEl.value).to.eq(option.value);
   });
 });
