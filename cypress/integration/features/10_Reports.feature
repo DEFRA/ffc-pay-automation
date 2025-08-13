@@ -1,9 +1,13 @@
 Feature: 10 Reports
 
-  Background: Navigate to Payment management homepage
-    Given I visit the "Payment management" homepage
-    And I click on the "Report List" link
+  # Background: Navigate to Payment management homepage
+  #   Given I visit the "Payment management" homepage
+  #   And I click on the "Report List" link
   
+  @local
+  Scenario: Scenario name
+    Given the sample report data is loaded
+
   Scenario Outline: 01 Verify CSV file is downloaded when clicking "<link>"
     When I click on the "<link>" download link
     Then the CSV file is downloaded with "<title>" as the title

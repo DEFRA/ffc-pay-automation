@@ -6,6 +6,7 @@ const { startReceivingMessages, stopReceivingMessages, getReceivedMessages } = r
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
+const loadReportData = require('../utils/loadReportData');
 
 module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
@@ -86,7 +87,9 @@ module.exports = (on, config) => {
           }
         });
       });
-    }
+    },
+
+    loadReportData
   });
 
   return config;

@@ -4,7 +4,7 @@ Feature: 09 Pagination - Payment Management
   Background:
     Given I visit the "Payment management" homepage
 
-  @dev
+  @dev @local
   Scenario Outline: 01 "<number>" records per page on "<page>" page
     And I click on the "<link>" link
     When I select "<number>" from the number of records per page dropdown

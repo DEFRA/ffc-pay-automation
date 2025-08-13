@@ -72,15 +72,25 @@ When('the user selects to {string} holds', (option) => {
 
 Then('the payment requests related to the {string} CSV are not in the table', (file) => {
   cy.fixture(file).then((csvData) => {
-    const frnValues = csvData.trim().split(/\r?\n/).map((line) => line.split(',')[0].trim());
+    const frnValues = csvData
+      .trim()
+      .split(/\r?\n/)
+      .map((line) => line.split(',')[0].trim());
 
-    paymentHoldsPage.allFirstColumnCells().invoke('text').then((cellText) => {
-      const tableValues = cellText.split(/\r?\n/).map((val) => val.trim());
+    cy.get('body').then(($body) => {
+      if ($body.text().includes('There are no payment holds.')) {
+        cy.log('No payment holds message is displayed');
+        cy.contains('There are no payment holds.').should('be.visible');
+      } else {
+        paymentHoldsPage.allFirstColumnCells().then(($cells) => {
+          const tableValues = [...$cells].map((cell) => cell.innerText.trim());
 
-      frnValues.forEach((frnValue) => {
-        cy.log(`Checking that table does not contain: ${frnValue}`);
-        expect(tableValues).to.not.include(frnValue);
-      });
+          frnValues.forEach((frnValue) => {
+            cy.log(`Checking that table does not contain: ${frnValue}`);
+            expect(tableValues).to.not.include(frnValue);
+          });
+        });
+      }
     });
   });
 });
