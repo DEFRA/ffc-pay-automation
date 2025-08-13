@@ -53,5 +53,8 @@
   },
   "quality-check": {
     "pageSubHeader": "Ledger assignments awaiting quality check"
+  },
+  "status-report": {
+    "pageSubHeader": "Payment Statement Status"
   }
 }

@@ -20,7 +20,7 @@ class reportsPage {
   }
 
   reportTypeDropdown () {
-    return cy.get('#report-type');
+    return cy.get('#select-type');
   }
 
   startDateDayField () {
@@ -49,6 +49,18 @@ class reportsPage {
 
   spinner () {
     return cy.get('.govuk-spinner');
+  }
+
+  availableReports () {
+    return cy.get('.govuk-task-list__name-and-hint > .govuk-link');
+  }
+
+  statusReportYearDropdown () {
+    return cy.get('#report-year');
+  }
+
+  statusReportSchemeDropdown () {
+    return cy.get('#select-type');
   }
 }
 
