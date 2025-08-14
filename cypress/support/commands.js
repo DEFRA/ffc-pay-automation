@@ -32,3 +32,14 @@ Cypress.Commands.add('clickNextButtonUntilOnLastPage', () => {
     }
   });
 });
+
+Cypress.Commands.add('restartLocalEnv', () => {
+  cy.task('restartLocalEnv', null, { timeout: 15 * 60 * 1000 }).then((output) => {
+    const lines = output.split('\n');
+    lines.forEach((line) => {
+      if (line.trim()) {
+        cy.log(line);
+      }
+    });
+  });
+});

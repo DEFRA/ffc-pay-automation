@@ -1,4 +1,4 @@
-/* global When, Then */
+/* global Given, When, Then */
 
 import paymentManagementPage from '../pages/paymentManagementPage';
 import reportsPage from '../pages/reportsPage';
@@ -157,6 +157,12 @@ When('I type the {string} date as {string}', (dateType, date) => {
   } else {
     throw new Error(`Unknown date type: ${dateType}`);
   }
+});
+
+Given('the sample report data is loaded', () => {
+  cy.task('loadReportData').then((result) => {
+    expect(result.success, result.error).to.be.true;
+  });
 });
 
 When('I click on an available report', () => {

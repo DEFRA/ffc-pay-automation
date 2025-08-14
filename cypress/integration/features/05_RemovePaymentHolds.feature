@@ -1,4 +1,4 @@
-@dev
+@dev @local
 Feature: 05 Remove Payment Holds via CSV Upload
 
   Background:

@@ -1,4 +1,4 @@
-@dev
+@dev @local
 Feature: 03 Agreement Closures
 
   Background: Navigate to Payment management homepage
