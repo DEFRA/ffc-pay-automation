@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=alistair.Wishart@defra.onmicrosoft.com
+      - PGADMIN_DEFAULT_PASSWORD=red+BLUE+67
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    ports:
+      - "5050:80"

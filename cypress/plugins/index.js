@@ -7,6 +7,12 @@ const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 const loadReportData = require('../utils/loadReportData');
+const queryStatementData = require('../utils/queryStatementData');
+const insertStatementData = require('../utils/insertStatementData');
+const queryStatementConstructor = require('../utils/queryStatementConstructor');
+const queryStatementGenerator = require('../utils/queryStatementGenerator');
+const queryStatementPublisher = require('../utils/queryStatementPublisher');
+const { exec } = require('child_process');
 
 module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
@@ -85,6 +91,188 @@ module.exports = (on, config) => {
           } else {
             reject(new Error(`restartLocalEnv failed with code ${code}`));
           }
+        });
+      });
+    },
+
+    restartLocalDocEnv () {
+
+      // This task restarts the local document environment by stopping and starting the services in the specified directory.
+      // It uses the WSL_TEST_DIR environment variable to determine the directory to operate in.
+      const dir = process.env.WSL_TEST_DIR;
+
+      if (!dir) {
+        throw new Error('⚠️ WSL_TEST_DIR not set in .env');
+      }
+
+      const shellCommand = `cd ${dir} && echo '🔴 Stopping...' && ./stop -v && echo '🟢 Starting...' && ./start -S`;
+
+      return new Promise((resolve, reject) => {
+        console.log(`🚀 Restarting local env from: ${dir}`);
+
+        const child = spawn('wsl', ['bash', '-ic', shellCommand], {
+          stdio: 'pipe',
+        });
+
+        let output = '';
+
+        child.stdout.on('data', (data) => {
+          const line = data.toString();
+          output += line;
+          console.log('🟢', line.trim());
+        });
+
+        child.stderr.on('data', (data) => {
+          const line = data.toString();
+          output += line;
+          console.error('🔴', line.trim());
+        });
+
+        child.on('close', (code) => {
+          if (code === 0) {
+            console.log('✅ restartLocalEnv completed');
+            resolve(output);
+          } else {
+            reject(new Error(`restartLocalEnv failed with code ${code}`));
+          }
+        });
+      });
+    },
+
+    closeAllServices () {
+
+      // This task stops all services in the local document environment by executing a shell command in the specified directory.
+      // It uses the WSL_TEST_DIR environment variable to determine the directory to operate in.
+      const dir = process.env.WSL_TEST_DIR;
+
+      if (!dir) {
+        throw new Error('⚠️ WSL_TEST_DIR not set in .env');
+      }
+
+      const shellCommand = `cd ${dir} && echo '🔴 Stopping...' && ./stop -v`;
+
+      return new Promise((resolve, reject) => {
+        console.log(`🚀 Restarting local env from: ${dir}`);
+
+        const child = spawn('wsl', ['bash', '-ic', shellCommand], {
+          stdio: 'pipe',
+        });
+
+        let output = '';
+
+        child.stdout.on('data', (data) => {
+          const line = data.toString();
+          output += line;
+          console.log('🟢', line.trim());
+        });
+
+        child.stderr.on('data', (data) => {
+          const line = data.toString();
+          output += line;
+          console.error('🔴', line.trim());
+        });
+
+        child.on('close', (code) => {
+          if (code === 0) {
+            console.log('✅ closeAllServices completed');
+            resolve(output);
+          } else {
+            reject(new Error(`closeAllServices failed with code ${code}`));
+          }
+        });
+      });
+
+    },
+
+    async startLocalDocEnv () {
+
+      // This task starts the local document environment by executing a shell command in multiple directories.
+      // It uses the WSL_DOC_STATEMENT_DATA_DIR, WSL_DOC_STATEMENT_CONSTRUCTOR_DIR, WSL_DOC_STATEMENT_GENERATOR_DIR,
+      // WSL_DOC_STATEMENT_PUBLISHER_DIR, and WSL_DOC_STATEMENT_RECEIVER_DIR environment variables to determine the directories to operate in.
+
+      const dirs = [
+        process.env.WSL_DOC_STATEMENT_DATA_DIR,
+        process.env.WSL_DOC_STATEMENT_CONSTRUCTOR_DIR,
+        process.env.WSL_DOC_STATEMENT_GENERATOR_DIR,
+        process.env.WSL_DOC_STATEMENT_PUBLISHER_DIR,
+        process.env.WSL_DOC_STATEMENT_RECEIVER_DIR
+      ];
+
+      const tasks = dirs.map(dir => {
+        const shellCommand = `cd ${dir} && echo '🟢 Starting...' && ./start`;
+
+        console.log(`🚀 Restarting local env from: ${dir}`);
+        const child = spawn('wsl', ['bash', '-ic', shellCommand], {
+          stdio: 'pipe',
+          detached: true // Optional: allows child to run independently
+        });
+
+        child.unref(); // Detach from parent so it doesn't block
+
+        return Promise.resolve(); // Immediately resolve
+      });
+
+      await Promise.all(tasks);
+      const delay = ms => new Promise(res => setTimeout(res, ms));
+      await delay(60000);
+      return '✅ All local doc environments restarted successfully';
+    },
+
+    getStatementData () {
+
+      // This task retrieves statement data from the database and checks if it exists for the expected SBI.
+      // It uses the queryStatementData module to perform the database query and return the results.
+      console.log('🔍 Checking Database values entered successfully');
+      queryStatementData();
+      console.log('✅ Database values checked successfully');
+      return null;
+    },
+
+    insertStatementData () {
+
+      // This task inserts test data into the Statement Data database
+      console.log('🔄 Inserting test data into reportData');
+      insertStatementData();
+      return null;
+    },
+
+    getStatementConstructorData () {
+
+      // This task retrieves statement constructor data from the database and checks if it exists for the expected SBI.
+      console.log('🔍 Checking Statement Constructor values entered successfully');
+      queryStatementConstructor();
+      console.log('✅ Statement Constructor values checked successfully');
+      return null;
+    },
+
+    getStatementGeneratorData () {
+
+      // This task retrieves statement generator data from the database and checks if it contains the expected SBI value.
+      console.log('🔍 Checking Statement Generator values entered successfully');
+      queryStatementGenerator();
+      console.log('✅ Statement Generator values checked successfully');
+      return null;
+    },
+
+    getStatementPublisherData () {
+
+      // This task retrieves statement publisher data from the database and checks if the statement data exists for the expected SBI.
+      // It then retrieves the statement ID based on the SBI and checks if there are any deliveries associated with that statement ID.
+      console.log('🔍 Checking Statement Publisher values entered successfully');
+      queryStatementPublisher();
+      console.log('✅ Statement Publisher values checked successfully');
+      return null;
+    },
+
+    getDockerLogs (containerName) {
+
+      // This task retrieves the logs from a specified Docker container.
+      return new Promise((resolve, reject) => {
+        exec('docker logs ' + containerName, (err, stdout, stderr) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(stdout);
         });
       });
     },

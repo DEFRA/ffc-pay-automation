@@ -1,3 +1,4 @@
+
 import requestEditor from '../integration/pages/requestEditorPage';
 
 Cypress.Commands.add('emptyFolder', (folderPath) => {
@@ -37,6 +38,63 @@ Cypress.Commands.add('restartLocalEnv', () => {
   cy.task('restartLocalEnv', null, { timeout: 15 * 60 * 1000 }).then((output) => {
     const lines = output.split('\n');
     lines.forEach((line) => {
+      if (line.trim()) {
+        cy.log(line);
+      }
+    });
+  });
+});
+
+Cypress.Commands.add('restartLocalDocEnv', () => {
+  cy.task('restartLocalDocEnv', null, { timeout: 15 * 60 * 1000 }).then((output) => {
+    const lines = output.split('\n');
+    lines.forEach((line) => {
+      if (line.trim()) {
+        cy.log(line);
+      }
+    });
+  });
+});
+
+Cypress.Commands.add('startLocalDocEnv', () => {
+  cy.task('startLocalDocEnv', null, { timeout: 15 * 60 * 1000 });
+});
+
+
+Cypress.Commands.add('closeAllServices', () => {
+  cy.task('closeAllServices', null, { timeout: 15 * 60 * 1000 }).then((output) => {
+    const lines = output.split('\n');
+    lines.forEach((line) => {
+      if (line.trim()) {
+        cy.log(line);
+      }
+    });
+  });
+});
+
+Cypress.Commands.add('getStatementData', () => {
+  cy.task('getStatementData');
+});
+
+Cypress.Commands.add('insertStatementData', () => {
+  cy.task('insertStatementData');
+});
+
+Cypress.Commands.add('getStatementConstructorData', () => {
+  cy.task('getStatementConstructorData');
+});
+
+Cypress.Commands.add('getStatementGeneratorData', () => {
+  cy.task('getStatementGeneratorData');
+});
+
+Cypress.Commands.add('getStatementPublisherData', () => {
+  cy.task('getStatementPublisherData');
+});
+
+Cypress.Commands.add('getDockerLogs', () => {
+  cy.task('getDockerLogs').then((logs) => {
+    logs.split('\n').forEach((line) => {
       if (line.trim()) {
         cy.log(line);
       }
