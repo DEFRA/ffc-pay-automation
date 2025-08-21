@@ -8,3 +8,4 @@ package-lock.json
 cypress/fixtures/messageBody.json
 cypress/fixtures/env.json
 cypress/fixtures/messageTemplates/*.json
+docker-compose.yaml
