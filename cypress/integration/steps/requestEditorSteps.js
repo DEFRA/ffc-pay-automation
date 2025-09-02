@@ -236,6 +236,7 @@ Then('I make a note of the {string} count', (text) => {
 });
 
 Then('the {string} count has increased by 1', (text) => {
+  cy.wait(30000);
   cy.reload();
   cy.get(`@${text}Count`).then((oldCount) => {
     const previous = parseInt(oldCount, 10);
@@ -252,6 +253,7 @@ Then('the {string} count has increased by 1', (text) => {
 });
 
 Then('the {string} count has decreased by 1', (text) => {
+  cy.wait(20000);
   cy.reload();
   cy.get(`@${text}Count`).then((oldCount) => {
     const previous = parseInt(oldCount, 10);

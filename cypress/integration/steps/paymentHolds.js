@@ -29,16 +29,31 @@ When('I click the Create bulk payment holds button', () => {
 Then('the new holds in {string} are visible along with the correct timestamp', (file) => {
   cy.fixture(file).then((csvData) => {
     const frnValues = csvData.split(',');
+    const today = moment().format('DD/MM/YYYY'); // Get today's date once
 
     frnValues.forEach((frnValue) => {
       requestEditor.getFrnSearchField().clear().type(frnValue);
       requestEditor.getFrnSearchButton().click();
-      cy.contains('td', frnValue).then((td) => {
-        if (td.length > 0) {
-          const row = td.closest('tr');
-          const today = moment().format('DD/MM/YYYY');
-          cy.wrap(row).contains('td', today);
-        }
+
+      // Wait for a reasonable amount of time for the table to load
+      cy.wait(2000); // Adjust time as necessary based on your application
+
+      // Check for all rows containing the FRN
+      cy.get('tbody.govuk-table__body').each((row) => {
+        // Log the row content for debugging
+        cy.wrap(row).invoke('text').then((rowText) => {
+          cy.log(`Row content: ${rowText}`);
+        });
+
+        // Check if the row contains the FRN
+        cy.wrap(row).contains('td', frnValue).then((td) => {
+          if (td.length > 0) {
+            // If the FRN is found in this row, check for today's date
+            cy.wrap(row).contains('td', today).should('exist').then(() => {
+              cy.log(`Found date: ${today} for FRN: ${frnValue} in row:`, row)
+            });
+          }
+        });
       });
     });
   });

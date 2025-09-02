@@ -19,7 +19,7 @@ module.exports = async () => {
     await client.connect();
     const insertSql = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
-(123456789,'8 The Street','Area','District','City','County','AA1 1BB','richard.cawston@eviden.com','1234567890','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
+(123456789,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com','1234567890','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
 DO UPDATE SET
   "addressLine1" = EXCLUDED."addressLine1",

@@ -14,11 +14,13 @@ Feature: 02 Request Editor
       | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I am on the "Request Editor" homepage
+    Then I take a screenshot for Feature 2 and Scenario 1
     And the dataset count has increased by 1
 
   @test @dev @local
   Scenario: 02 Verify all schemes are displayed correctly
     When I click on the "Capture new dataset" link
+    Then I take a screenshot for Feature 2 and Scenario 2
     Then I should see the following schemes:
       | Scheme Name |
       | SFI22       |
@@ -51,6 +53,7 @@ Feature: 02 Request Editor
     And I click on the "View awaiting ledger assignment" link
     And I search for FRN "<frn>"
     When I click on the FRN search button
+    Then I take a screenshot for Feature 2 and Scenario 5
     Then I can see FRN "<frn>" in the table
 
     @test
@@ -61,7 +64,7 @@ Feature: 02 Request Editor
     @dev
     Examples:
       | frn        |
-      | 1266744588 |
+      | 1102239267 |
 
   @dev @local
   Scenario: 06 Debt data reference is less than 5 characters
@@ -70,6 +73,7 @@ Feature: 02 Request Editor
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
       | SFI22  | 1234567891 | 1234            | 10000    | irr        | today              |
     When I click on the "Continue" button
+    Then I take a screenshot for Feature 2 and Scenario 6
     Then I see the 'The agreement/claim number must be at least 5 characters long.' application identifier error message
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number must be at least 5 characters long.' error summary item
@@ -82,6 +86,7 @@ Feature: 02 Request Editor
       | SFI22  | 1234567891 |                 | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I see the 'The agreement/claim number is required.' application identifier error message
+    Then I take a screenshot for Feature 2 and Scenario 7
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number is required.' error summary item
 
@@ -93,6 +98,7 @@ Feature: 02 Request Editor
       | SFI22  | 1234567891 | !@£$%^&%*       | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' application identifier error message
+    Then I take a screenshot for Feature 2 and Scenario 8
     And I see the 'There is a problem' error summary title
     And I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' error summary item
 
@@ -102,6 +108,7 @@ Feature: 02 Request Editor
     And I enter '<frn>' in the FRN number search field
     When I click the FRN number search button
     Then each record in the table has the FRN number '<frn>'
+    Then I take a screenshot for Feature 2 and Scenario 9
 
     @test
     Examples:
@@ -111,7 +118,7 @@ Feature: 02 Request Editor
     @dev
     Examples:
       | frn        |
-      | 1651658001 |
+      | 1102239267 |
 
   @dev @ignore
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
@@ -138,6 +145,7 @@ Feature: 02 Request Editor
     And I select 'SFI22' in the scheme dropdown
     When I click the Scheme search button
     Then each record in the table has the FRN number '1234567891'
+    Then I take a screenshot for Feature 2 and Scenario 11
     And each record in the table has the Scheme 'SFI22'
 
   @test @dev @local
@@ -147,6 +155,7 @@ Feature: 02 Request Editor
     And I enter '9999999999' in the FRN number search field
     When I click the FRN number search button
     Then 'No reporting datasets' are displayed
+    Then I take a screenshot for Feature 2 and Scenario 12
 
   @test @dev @local
   Scenario: 13 Unattached reporting datasets - Searching based on scheme that returns no datasets
@@ -155,3 +164,4 @@ Feature: 02 Request Editor
     And I select 'Vet Visits' in the scheme dropdown
     When I click the Scheme search button
     Then 'No reporting datasets' are displayed
+    Then I take a screenshot for Feature 2 and Scenario 13

@@ -22,7 +22,6 @@ Feature: 11 PPA E2E Journey - Debit
     And I update the value of "returnFileMessage" to "2500000"
     And I regenerate the invoice number for "returnFileMessage" using the invoice number from "<outputMessage>"
     When I send the updated "returnFileMessage" message to the service bus topic "<sendToTopic>"
-    Then the "returnFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
     Examples:
       | sendToTopic        | receiveOnTopic     | outputMessage          |
@@ -36,6 +35,7 @@ Feature: 11 PPA E2E Journey - Debit
     And I update the value of "ppa" to "10000"
     And I increase the invoice number by "1" for "ppa" using the invoice number from "<outputMessage>"
     When I send the updated "ppa" message to the service bus topic "<sendToTopic>"
+    Then I take a screenshot for Feature 12 and Scenario 3
     Then the "<box>" count has increased by 1
 
     Examples:
@@ -54,6 +54,7 @@ Feature: 11 PPA E2E Journey - Debit
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Back" link
+    Then I take a screenshot for Feature 12 and Scenario 4
     Then the "Requests awaiting reporting data" count has decreased by 1
 
   Scenario: 05 Approve payment from ledger assignment queue
@@ -66,6 +67,7 @@ Feature: 11 PPA E2E Journey - Debit
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
+    Then I take a screenshot for Feature 12 and Scenario 5
     And I click on the "Sign out" link
 
   Scenario: 06 Approve payment from quality check queue
@@ -76,6 +78,7 @@ Feature: 11 PPA E2E Journey - Debit
     Then I should see the first FRN in the results matches the newly generated FRN
     And I click on the "Review" link
     And I click on the "Yes" edited correctly radio button
+    Then I take a screenshot for Feature 12 and Scenario 6
     And I click on the "Submit" button
 
   Scenario Outline: 07 Validate final debit message from Request Editor

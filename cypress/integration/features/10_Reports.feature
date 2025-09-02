@@ -26,12 +26,12 @@ Feature: 10 Reports
     Then I am on the "<subPage>" subpage
 
     Examples:
-      | link                        | subPage             |
-      | Payment request statuses v2 | payment-requests-v2 |
-      | Combined transaction report | transaction-summary |
-      | AP-AR listing report        | ap-ar-report        |
-      | Claim level report          | claim-level-report  |
-      | Status Report               | status-report       |
+      | link                            | subPage             |
+      | Payment request statuses v2     | payment-requests-v2 |
+      | Combined transaction report     | transaction-summary |
+      | AP-AR listing report            | ap-ar-report        |
+      | Claim level report              | claim-level-report  |
+      | Payment statement status report | status-report       |
 
   @dev @test @local
   Scenario Outline: 03 Download Combined transaction report for <scheme>
@@ -117,7 +117,7 @@ Feature: 10 Reports
       | AR Listing Report | 01-01-2015 | 02-01-2015 |
 
   Scenario Outline: 07 Download Status Report for <scheme>
-    And I click on the "Status Report" link
+    And I click on the "Payment statement status report" link
     And I am on the "status-report" subpage
     And I select "<scheme>" from the "statusReportScheme" dropdown
     And I select the first visible year for the "<scheme>" scheme

@@ -9,6 +9,14 @@ When(/^I insert test data into Statement Data service$/, () => {
   cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
 });
 
+Then(/^I pull file from Azure Blob Storage and confirm that correct values have been generated$/, () => {
+  cy.task('fetchBlobById', {
+    container: 'statements',
+    dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads'
+  });
+
+});
+
 Then(/^I confirm that test data has been inserted into the (.*) database$/, (databaseName) => {
   var containerName = '';
   switch (databaseName) {

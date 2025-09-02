@@ -12,9 +12,8 @@ let receivedMessages = [];
 
 // Function to handle incoming messages
 async function handleMessage (message) {
-  console.log(`Received message: ${message.body}`);
+  console.log(`Received message: ${message.body.toString}`);
   receivedMessages.push(message.body);
-  await message.complete();
 }
 
 // Error handler

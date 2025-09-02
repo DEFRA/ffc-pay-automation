@@ -21,6 +21,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I click the hold category option for "FDMR"
     When I click the Create bulk payment holds button
     Then I am on the "payment-holds" subpage
+    Then I take a screenshot for Feature 4 and Scenario 1
     And the payment requests related to the "frnsBulkUploadValid.csv" CSV are not in the table
 
   @test
@@ -29,6 +30,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And the 'Add' holds option is selected
     And I upload bulk payment holds file 'frnsBulkUploadValid.csv'
     When I click the Create bulk payment holds button
+    Then I take a screenshot for Feature 4 and Scenario 2
     Then the 'Category is required' error message is displayed on the Payment holds page
 
   @test
@@ -38,6 +40,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I upload bulk payment holds file 'bulkUploadTxt.txt'
     And I click the hold category option for "FDMR"
     When I click the Create bulk payment holds button
+    Then I take a screenshot for Feature 4 and Scenario 3
     Then the 'Provide a CSV file' error message is displayed on the Payment holds page
 
   @test
@@ -47,6 +50,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I upload bulk payment holds file 'frnsBulkUploadInvalid.csv'
     And I click the hold category option for "FDMR"
     When I click the Create bulk payment holds button
+    Then I take a screenshot for Feature 4 and Scenario 4
     Then the 'There was a problem validating your uploaded data.' error message is displayed on the Bulk upload page
 
   @test
@@ -56,4 +60,5 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I upload bulk payment holds file 'frnsBulkUploadBulk.csv'
     And I click the hold category option for "FDMR"
     When I click the Create bulk payment holds button
+    Then I take a screenshot for Feature 4 and Scenario 5
     Then the "The uploaded file is too large. Please upload a file smaller than 1 MB." error message is displayed on the Payment holds page

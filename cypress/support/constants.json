@@ -44,7 +44,6 @@
   "claim-level-report": {
     "pageSubHeader": "Claim Level Report"
   },
-
   "payment-requests-v2": {
     "pageSubHeader": "Payment Request Statuses Report"
   },
@@ -55,6 +54,6 @@
     "pageSubHeader": "Ledger assignments awaiting quality check"
   },
   "status-report": {
-    "pageSubHeader": "Payment Statement Status"
+    "pageSubHeader": "Payment statement status report"
   }
 }
