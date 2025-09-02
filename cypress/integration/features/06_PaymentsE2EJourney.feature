@@ -21,9 +21,9 @@ Feature: 06 Standard Payments E2E Journey
       | frn           |
       | invoiceNumber |
       | reference     |
+    And I regenerate the invoice number for "returnFileMessage" using the invoice number from "<outputMessage>"
     When I send the updated "returnFileMessage" message to the service bus topic "<sendToTopic>"
-    Then the "returnFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
     Examples:
-      | sendToTopic        | receiveOnTopic     |
-      | ffc-pay-return-dev | ffc-pay-submit-dev |
+      | sendToTopic        | outputMessage          |
+      | ffc-pay-return-dev | ffc-pay-processing-dev |

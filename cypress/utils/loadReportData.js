@@ -11,8 +11,8 @@ module.exports = async () => {
     host: process.env.PGHOST,
     port: process.env.PGPORT,
     database: process.env.PGDATABASE,
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
+    user: process.env.DEFAULTUSER,
+    password: process.env.DEFAULTPASSWORD,
     ssl: false,
   });
 

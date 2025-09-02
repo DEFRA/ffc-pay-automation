@@ -5,6 +5,7 @@ const { getEnvironmentConfig } = require('../../support/configLoader');
 
 const envConfig = getEnvironmentConfig();
 const env = envConfig.env;
+console.log('Environment Config:', envConfig);
 
 Given(/^I visit the "(.*)" homepage$/, (text) => {
   var url;
@@ -17,6 +18,8 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
     url = envConfig.requestEditorUrl;
     break;
   }
+  cy.log("URL to open " + url);
+  console.log("URL to open " + url);
 
   cy.visit(url);
   paymentManagementPage.header().should('be.visible').and('have.text', text);
@@ -81,3 +84,95 @@ When(/^I click on the "(.*)" download link$/, (text) => {
       .click();
   }
 });
+
+Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber, scenarioNumber) => {
+  var featureString = '';
+  var scenarioString = '';
+
+  switch (featureNumber) {
+  case 1: featureString = '01_PaymentManagement.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Verify <link> links work correctly'; break;
+    }
+    break;
+  case 2: featureString = '02_RequestEditor.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Validate Dataset Count Increment After Adding a New Reporting Dataset'; break;
+    case 2: scenarioString = '02 Verify all schemes are displayed correctly'; break;
+    case 3: scenarioString = '03 Download Extract'; break;
+    case 4: scenarioString = '04 Verify "<link>"" links work correctly'; break;
+    case 5: scenarioString = '05 FRN Search Function'; break;
+    case 6: scenarioString = '06 Debt data reference is less than 5 characters'; break;
+    case 7: scenarioString = '07 Debt data reference is not provided'; break;
+    case 8: scenarioString = '08 Debt data reference is not alphanumeric'; break;
+    case 9: scenarioString = '09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number'; break;
+    case 10: scenarioString = '10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme'; break;
+    case 11: scenarioString = '11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme'; break;
+    case 12: scenarioString = '12 Unattached reporting datasets - Searching based on FRN number that returns no datasets'; break;
+    case 13: scenarioString = '13 Unattached reporting datasets - Searching based on scheme that returns no datasets'; break;
+    }
+    break;
+  case 3: featureString = '03_AgreementClosures.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 View Agreement Closures'; break;
+    case 2: scenarioString = '02 Access Agreement Closure Management'; break;
+    case 3: scenarioString = '03 Access Add Agreement Closure'; break;
+    case 4: scenarioString = '04 Access Bulk Agreement Closures'; break;
+    case 5: scenarioString = '05 View Agreement Closures Page'; break;
+    case 6: scenarioString = '06 Create New Closure'; break;
+    case 7: scenarioString = '07 Create Bulk Closure'; break;
+    case 8: scenarioString = '08 View Agreement Closure Page'; break;
+    case 9: scenarioString = '09 View Bulk Agreement Closure Page From Single Closure Page'; break;
+    case 10: scenarioString = '10 View Agreement Closure Page From Bulk Closure Page'; break;
+    case 11: scenarioString = '11 Empty fields'; break;
+    case 12: scenarioString = '12 Invalid FRN'; break;
+    case 13: scenarioString = '13 Invalid Agreement number'; break;
+    case 14: scenarioString = '14 Past Closure Date'; break;
+    case 15: scenarioString = '15 Successful Adding & Removing a Submission'; break;
+    case 16: scenarioString = '16 Empty File Upload'; break;
+    case 17: scenarioString = '17 Unsupported File Type'; break;
+    case 18: scenarioString = '18 Large File Upload'; break;
+    case 19: scenarioString = '19 Successful File Upload'; break;
+    case 20: scenarioString = '20 Upload File Format Validation'; break;
+    }
+    break;
+  case 4: featureString = '04_UploadPaymentHolds.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Successfully uploading a CSV file applying holds & uploading a CSV file removing holds'; break;
+    case 2: scenarioString = '02 Uploading a CSV file with no selected hold reason'; break;
+    case 3: scenarioString = '03 Uploading a file that is not a CSV'; break;
+    case 4: scenarioString = '04 Uploading a CSV file with incorrect FRN format'; break;
+    case 5: scenarioString = '05 Uploading a CSV file which is too large'; break;
+    }
+    break;
+  case 5: featureString = '05_RemovePaymentHolds.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Uploading a CSV file with incorrect FRN format'; break;
+    case 2: scenarioString = '02 Uploading a file that is not a CSV'; break;
+    case 3: scenarioString = '03 Removing holds selectively based on hold category'; break;
+    case 4: scenarioString = '04 Attempting to remove holds without selecting a hold category'; break;
+    }
+    break;
+  case 11: featureString = '11_PPAE2EJourneyCredit.feature -- ';
+    switch (scenarioNumber) {
+    case 3: scenarioString = '03 Send PPA message and verify queue increment (payment2)'; break;
+    case 4: scenarioString = '04 Approve payment in ledger assignment queue'; break;
+    case 5: scenarioString = '05 Approve payment in quality check queue'; break;
+    }
+    break;
+  case 12: featureString = '12_PPAE2EJourneyCredit.feature -- ';
+    switch (scenarioNumber) {
+    case 3: scenarioString = '03 Send debit PPA message and verify queue increment (payment2)'; break;
+    case 4: scenarioString = '04 Approve payment from reporting data queue'; break;
+    case 5: scenarioString = '05 Approve payment from ledger assignment queue'; break;
+    case 6: scenarioString = '06 Approve payment from quality check queue'; break;
+    }
+    break;
+  case 13: featureString = '13_PaymentHolds.feature -- '; scenarioString = '01 Send debit payment request message (payment1)'; break;
+  }
+
+  const screenshotName = featureString + scenarioString;
+  console.log('Screenshot Name:', screenshotName);
+  cy.screenshot(screenshotName);
+
+} );

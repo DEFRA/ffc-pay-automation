@@ -22,11 +22,13 @@ Feature: 03 Agreement Closures
   Scenario: 03 Access Add Agreement Closure
     When I click on the "Add closure" link
     Then I am on the "closure/add" subpage
+    Then I take a screenshot for Feature 3 and Scenario 3
 
   @test
   Scenario: 04 Access Bulk Agreement Closures
     When I click on the "Add bulk closures" link
     Then I am on the "closure/bulk" subpage
+    Then I take a screenshot for Feature 3 and Scenario 4
 
   @test
   Scenario: 05 View Agreement Closures Page
@@ -35,6 +37,7 @@ Feature: 03 Agreement Closures
     And I should see "Any agreements listed here are considered closed. Following the closure date listed, no accounts repayable will be processed."
     And I should see "Create new closure"
     And I should see "Create bulk closure"
+    Then I take a screenshot for Feature 3 and Scenario 5
     # And I should see "There are no agreement closures."
 
   @test
@@ -42,12 +45,14 @@ Feature: 03 Agreement Closures
     And I click on the "Manage closures" link
     When I click on the "Create new closure" link
     Then I am on the "closure/add" subpage
+    Then I take a screenshot for Feature 3 and Scenario 6
 
   @test
   Scenario: 07 Create Bulk Closure
     And I click on the "Manage closures" link
     When I click on the "Create bulk closure" link
     Then I am on the "closure/bulk" subpage
+    Then I take a screenshot for Feature 3 and Scenario 7
 
   @test
   Scenario: 08 View Agreement Closure Page
@@ -66,6 +71,7 @@ Feature: 03 Agreement Closures
   Scenario: 09 View Bulk Agreement Closure Page From Single Closure Page
     And I click on the "Add closure" link
     When I click the "upload in bulk" link
+    Then I take a screenshot for Feature 3 and Scenario 9
     # Todo: Below fails (Page Not Found)
     Then I am on the "closure/bulk" subpage
 
@@ -75,6 +81,7 @@ Feature: 03 Agreement Closures
     When I click the "upload single" link
     # Todo: Below fails (Page Redirect Error)
     Then I am on the "closure/add" subpage
+    Then I take a screenshot for Feature 3 and Scenario 10
 
   @test
   Scenario: 11 Empty fields
@@ -86,12 +93,14 @@ Feature: 03 Agreement Closures
     And I should see "Enter a valid day"
     And I should see "Enter a valid month"
     And I should see "Enter a valid year"
+    Then I take a screenshot for Feature 3 and Scenario 11
 
   @test
   Scenario Outline: 12 Invalid FRN
     And I click on the "Add closure" link
     And I type '<invalidFrn>' in the 'FRN' field
     When I click the "Create" link
+    Then I take a screenshot for Feature 3 and Scenario 12
     Then I should see "Enter a 10-digit FRN"
     Examples:
       | invalidFrn  |
@@ -104,6 +113,7 @@ Feature: 03 Agreement Closures
     And I type '123456789012345678901234567890123456789012345678901234567890' in the 'Agreement number' field
     When I click the "Create" link
     Then I should see "Enter a valid agreement number"
+    Then I take a screenshot for Feature 3 and Scenario 13
 
   @test
   Scenario: 14 Past Closure Date
@@ -111,6 +121,7 @@ Feature: 03 Agreement Closures
     And I type a date prior to '01/01/2023' in the Closure date field
     When I click the "Create" link
     Then I should see "Enter a valid year"
+    Then I take a screenshot for Feature 3 and Scenario 14
 
   Scenario: 15 Successful Adding & Removing a Submission
     And I make a note of the closures count
@@ -135,6 +146,7 @@ Feature: 03 Agreement Closures
     When I click the "Create" link
     Then I should see "There is a problem"
     And I should see "Provide a CSV file"
+    Then I take a screenshot for Feature 3 and Scenario 16
 
   @test
   Scenario: 17 Unsupported File Type
@@ -143,6 +155,7 @@ Feature: 03 Agreement Closures
     When I click the "Create" link
     Then I should see "There is a problem"
     And I should see "Provide a CSV file"
+    Then I take a screenshot for Feature 3 and Scenario 17
 
   @test
   Scenario: 18 Large File Upload
@@ -150,6 +163,7 @@ Feature: 03 Agreement Closures
     And I upload 'bulkUploadLarge.csv' file
     When I click the "Create" link
     Then the "The uploaded file is too large. Please upload a file smaller than 1 MB." error message is displayed on the Payment holds page
+    Then I take a screenshot for Feature 3 and Scenario 18
 
   Scenario: 19 Successful File Upload
     And I make a note of the closures count
@@ -173,3 +187,4 @@ Feature: 03 Agreement Closures
     When I click the "Create" link
     Then I should see "There is a problem"
     And I should see "The file is not in the expected format"
+    Then I take a screenshot for Feature 3 and Scenario 20

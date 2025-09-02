@@ -42,28 +42,35 @@ function addScreenshots() {
   const screenshots = readdirRecursive(path.resolve(screenshotsDir)).filter(file => {
     return file.indexOf('.png') > -1
   })
+
+  console.log('Screenshot dir = ' + screenshots);
   // Extract feature list from screenshot list
   const featuresList = Array.from(new Set(screenshots.map(x => x.match(/[\w-_.]+\.feature/g)[0])))
+  console.log('Features List = ' + featuresList);
   featuresList.forEach(feature => {
     screenshots.forEach(screenshot => {
-      // regex to parse 'I can use scenario outlines with examples' from either of these:
-      //   - Getting Started -- I can use scenario outlines with examples (example #1) (failed).png
-      //   - Getting Started -- I can use scenario outlines with examples (failed).png
-      //   - Getting Started -- I can use scenario outlines with examples.png 
-      // const featureTitle = feature.replace(/\.[^/.]+$/, "");
+      
       const featureTitle = cucumberReportMap[feature][0].name
+      console.log('Feature Titles = ' + featureTitle )
       const regex = /(?<=--\ ).+?((?=\ \(example\ #\d+\))|(?=\ \(failed\))|(?=\.\w{3}))/g
       const [scenarioName] = screenshot.match(regex)
+
       console.info(chalk.blue('\n    Adding screenshot(s) to HTML report for'))
       console.info(chalk.blue(`    '${featureTitle} - ${scenarioName}'`))
       // Find all scenarios matching the scenario name of the screenshot.
       // This is important when using the scenario outline mechanism
       const myScenarios = cucumberReportMap[feature][0].elements.filter(
         e => scenarioName.includes(e.name.replace(/["']/g, ""))
+        
+        
       )
+
       if (!myScenarios) { return }
       let foundFailedStep = false
       myScenarios.forEach(myScenario => {
+
+        console.log(`Steps in scenario: ${JSON.stringify(myScenario.steps)}`);
+        
         if (foundFailedStep) {
           return
         }
@@ -73,9 +80,13 @@ function addScreenshots() {
             step => step.result.status === 'failed'
           )
         } else {
-          myStep = myScenario.steps.find(
+
+          //Attaches screenshot to relevant step with the "Then" tag
+           myStep = myScenario.steps.find(
             step => step.name.includes('screenshot')
           )
+          console.log(`My Step: ${JSON.stringify(myStep)}`);
+          
         }
         if (!myStep) {
           return
@@ -90,10 +101,18 @@ function addScreenshots() {
             myStep.embeddings.push({ data: base64Image, mime_type: 'image/png' })
             foundFailedStep = true
           }
+          console.log(`Matching myStep: ${JSON.stringify(myStep)}`);
         }
+      
       })
+      console.log(`Processing screenshot: ${screenshot}`);
+
+
+      console.log('Cucumber JSON Dir = ' + cucumberJsonDir + '. cucumberReportFileMap[feature] = ' + cucumberReportFileMap[feature]);
+
       //Write JSON with screenshot back to report file.
       fs.writeFileSync(
+      
         path.join(cucumberJsonDir, cucumberReportFileMap[feature]),
         JSON.stringify(cucumberReportMap[feature], null, jsonIndentLevel)
       )

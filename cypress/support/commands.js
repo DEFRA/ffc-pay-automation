@@ -92,6 +92,10 @@ Cypress.Commands.add('getStatementPublisherData', () => {
   cy.task('getStatementPublisherData');
 });
 
+Cypress.Commands.add('fetchBlobById', (container, dir) => {
+  cy.task('fetchBlobById', container, dir);
+});
+
 Cypress.Commands.add('getDockerLogs', () => {
   cy.task('getDockerLogs').then((logs) => {
     logs.split('\n').forEach((line) => {

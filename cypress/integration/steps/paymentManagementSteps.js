@@ -9,6 +9,13 @@ When(/^I can see "(.*)" as the header$/, (text) => {
   paymentManagementPage.header().should('be.visible').and('have.text', text);
 });
 
+Then(/^I take a screenshot for "(.*)"$/, (text) => {
+  //This will pass the correct name to be used for screenshot, name must be correct in order for embedding to work
+  const screenshotName = `01_PaymentManagement.feature -- 01 Verify "${text}" links work correctly`;
+  console.log('Screenshot Name:', screenshotName);
+  cy.screenshot(screenshotName);
+});
+
 Then(/^I am on the "(.*)" subpage$/, (text) => {
   cy.url().should('include', text);
 

@@ -12,6 +12,7 @@ const insertStatementData = require('../utils/insertStatementData');
 const queryStatementConstructor = require('../utils/queryStatementConstructor');
 const queryStatementGenerator = require('../utils/queryStatementGenerator');
 const queryStatementPublisher = require('../utils/queryStatementPublisher');
+const downloadBlobById = require('../utils/downloadBlobById');
 const { exec } = require('child_process');
 
 module.exports = (on, config) => {
@@ -261,6 +262,11 @@ module.exports = (on, config) => {
       console.log('🔍 Checking Statement Publisher values entered successfully');
       queryStatementPublisher();
       console.log('✅ Statement Publisher values checked successfully');
+      return null;
+    },
+
+    async fetchBlobById ({container, dir}) {
+      downloadBlobById(container, dir);
       return null;
     },
 

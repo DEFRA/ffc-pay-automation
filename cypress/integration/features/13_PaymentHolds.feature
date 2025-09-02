@@ -9,6 +9,7 @@ Feature: 13 Payment Holds
     And I click on the "Create new hold" link
     And I type a random FRN in the FRN field
     And I click the hold category option for "SFI22"
+    And I take a screenshot for Feature 13 and Scenario 1
     And I click on the "Create" button
     And I create a message with the filename "paymentFileMessage" and update the following keys:
       | invoiceNumber   |
