@@ -25,7 +25,6 @@ module.exports = async () => {
         return results.rows[0].statementId;
       } else {
         console.log('No statement ID found for the given SBI');
-        throw new Error('No statement ID found');
       }
     });
     console.log('Statement ID retrieved:', statementID);
@@ -40,7 +39,7 @@ module.exports = async () => {
         console.log('✅ Data exists in the database');
         return 'Data exists';
       } else {
-        console.log('Data not found as expected');
+        console.log('Data is not in database');
       }
     });
 

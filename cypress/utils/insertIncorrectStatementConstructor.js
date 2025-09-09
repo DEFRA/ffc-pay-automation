@@ -2,14 +2,14 @@ require('dotenv').config();
 const { Client } = require('pg');
 var value = '';
 
-// This module connects to Statement Data database and inserts test data for SBI 123456789.
+// This module connects to Statement Constructor database, inserts incorrect test data and then confirms expected error message
 
 module.exports = async () => {
 
   const client = new Client({
     host: process.env.DEFAULTHOST,
-    port: process.env.STATEMENTDATAPORT,
-    database: process.env.STATEMENTDATADATABASE,
+    port: process.env.STATEMENTCONSTRUCTORPORT,
+    database: process.env.STATEMENTCONSTRUCTORDATABASE,
     user: process.env.DEFAULTUSER,
     password: process.env.DEFAULTPASSWORD,
     ssl: false,
@@ -33,9 +33,9 @@ DO UPDATE SET
   "name" = EXCLUDED."name",
   "updated" = EXCLUDED."updated";
 
-INSERT INTO "delinkedCalculation" ("applicationId", "calculationId", "sbi", "frn", "paymentBand1", "paymentBand2", "paymentBand3", "paymentBand4", "percentageReduction1", "percentageReduction2", "percentageReduction3", "percentageReduction4", "progressiveReductions1", "progressiveReductions2", "progressiveReductions3", "progressiveReductions4", "totalProgressiveReduction", "referenceAmount", "totalDelinkedPayment", "paymentAmountCalculated", "updated")
+INSERT INTO "delinkedCalculation" ("applicationId", "calculationId", "sbi", "frn", "paymentBand1", "paymentBand2", "paymentBand3", "paymentBand4", "percentageReduction1", "percentageReduction2", "percentageReduction3", "percentageReduction4", "progressiveReductions1", "progressiveReductions2", "progressiveReductions3", "progressiveReductions4", "totalProgressiveReduction", "referenceAmount", "totalDelinkedPayment", "paymentAmountCalculated")
 VALUES
-(1234567,987654321,123456789,'1234567890',30000,50000,150000,99999999.99,50.00,55.00,65.00,70.00,15000.00,11000.00,65000.00,35000.00,126000.00,2000000.00,75000.00,37500.00,'2025-09-04 13:34:26.219')
+(1234567,987654321,123456789,'1234567890','30000','50000','150000','99999999.99','50','55','65','70','15000','11000','65000','35000','126000','2000000','75000',37500)
 ON CONFLICT ("calculationId")
 DO UPDATE SET
   "applicationId" = EXCLUDED."applicationId",
@@ -60,7 +60,7 @@ DO UPDATE SET
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
 VALUES
-(987654321,2025,'PY0410241',37500,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'), '2025');
+(987654321,'2025','PY04102412345678901234567890123',37500,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'), '2025');
 `;
 
 
@@ -68,10 +68,14 @@ VALUES
     console.log('✅ Data inserted successfully');
 
     await client.end();
-    return value;
   } catch (error) {
-    console.error('❌ Failed to load report data:', error);
-    throw error; // Ensure the error is thrown to be caught by Cypress
+    console.log('Error generated', error);
+    if (error.message === 'value too long for type character varying(30)') {
+      console.log('✅ Correct error generated');
+    } else {
+      console.error('❌ Correct error not generated');
+      throw error;
+    }
   }
 
 };

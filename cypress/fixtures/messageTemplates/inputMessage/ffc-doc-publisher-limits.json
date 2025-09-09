@@ -1,0 +1,41 @@
+{
+    "statementId": 1234567,
+    "frn": 1234567890,
+    "sbi": 123456789,
+    "documentReference": 1,
+    "businessName": "Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm Test Farm T",
+    "address": {
+        "line1": "1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1",
+        "line2": "1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 2",
+        "line3": "1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 3",
+        "line4": "1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 4",
+        "line5": "1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 5",
+        "postcode": "AB21 1CDEF"
+    },
+    "email": "1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1 The Street 1",
+    "scheme": {
+        "name": "Delinked Payment Statement",
+        "shortName": "DP",
+        "year": "40000",
+        "frequency": "Quarterly",
+        "agreementNumber": 123456789
+    },
+    "paymentBand1": null,
+    "paymentBand2": null,
+    "paymentBand3": null,
+    "paymentBand4": null,
+    "percentageReduction1": "50.112",
+    "percentageReduction2": "55.112",
+    "percentageReduction3": "60.112",
+    "percentageReduction4": "70.112",
+    "progressiveReductions1": "15000.112",
+    "progressiveReductions2": "11000.112",
+    "progressiveReductions3": "65000.112",
+    "progressiveReductions4": "35000.112",
+    "totalProgressiveReduction": "126000.112",
+    "referenceAmount": "2000000.112",
+    "totalDelinkedPayment": "75000.112",
+    "paymentAmountCalculated": "37500.112",
+    "paymentPeriod": null,
+    "transactionDate": "2025-01-01"
+}

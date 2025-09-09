@@ -160,7 +160,7 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 5: scenarioString = '05 Approve payment in quality check queue'; break;
     }
     break;
-  case 12: featureString = '12_PPAE2EJourneyCredit.feature -- ';
+  case 12: featureString = '12_PPAE2EJourneyDebit.feature -- ';
     switch (scenarioNumber) {
     case 3: scenarioString = '03 Send debit PPA message and verify queue increment (payment2)'; break;
     case 4: scenarioString = '04 Approve payment from reporting data queue'; break;
