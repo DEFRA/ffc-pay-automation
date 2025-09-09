@@ -1,5 +1,5 @@
 @dev
-Feature: 11 PPA E2E Journey - Debit
+Feature: 12 PPA E2E Journey - Debit
 
   Scenario Outline: 01 Send debit payment request message (payment1)
     Given I start the messaging service for the service bus topic "<sendToTopic>"

@@ -1,4 +1,4 @@
-@dev
+@dev @test
 Feature: 06 Standard Payments E2E Journey
 
   Scenario Outline: 01 Process the payment file

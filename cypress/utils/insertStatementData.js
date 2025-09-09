@@ -33,9 +33,9 @@ DO UPDATE SET
   "name" = EXCLUDED."name",
   "updated" = EXCLUDED."updated";
 
-INSERT INTO "delinkedCalculation" ("applicationId", "calculationId", "sbi", "frn", "paymentBand1", "paymentBand2", "paymentBand3", "paymentBand4", "percentageReduction1", "percentageReduction2", "percentageReduction3", "percentageReduction4", "progressiveReductions1", "progressiveReductions2", "progressiveReductions3", "progressiveReductions4", "totalProgressiveReduction", "referenceAmount", "totalDelinkedPayment", "paymentAmountCalculated")
+INSERT INTO "delinkedCalculation" ("applicationId", "calculationId", "sbi", "frn", "paymentBand1", "paymentBand2", "paymentBand3", "paymentBand4", "percentageReduction1", "percentageReduction2", "percentageReduction3", "percentageReduction4", "progressiveReductions1", "progressiveReductions2", "progressiveReductions3", "progressiveReductions4", "totalProgressiveReduction", "referenceAmount", "totalDelinkedPayment", "paymentAmountCalculated", "updated")
 VALUES
-(1234567,987654321,123456789,'1234567890','30000','50000','150000','99999999.99','50','55','65','70','15000','11000','65000','35000','126000','2000000','75000',37500)
+(1234567,987654321,123456789,'1234567890',30000,50000,150000,99999999.99,50.00,55.00,65.00,70.00,15000.00,11000.00,65000.00,35000.00,126000.00,2000000.00,75000.00,37500.00,'2025-09-04 13:34:26.219')
 ON CONFLICT ("calculationId")
 DO UPDATE SET
   "applicationId" = EXCLUDED."applicationId",
@@ -60,7 +60,7 @@ DO UPDATE SET
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
 VALUES
-(987654321,'2024','PY0410241',37500,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'), '2025');
+(987654321,2025,'PY0410241',37500,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'), '2025');
 `;
 
 

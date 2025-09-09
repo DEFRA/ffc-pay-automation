@@ -14,6 +14,14 @@ const queryStatementGenerator = require('../utils/queryStatementGenerator');
 const queryStatementPublisher = require('../utils/queryStatementPublisher');
 const downloadBlobById = require('../utils/downloadBlobById');
 const { exec } = require('child_process');
+const insertIncorrectStatementData = require('../utils/insertIncorrectStatementData');
+const insertIncorrectStatementConstructor = require('../utils/insertIncorrectStatementConstructor');
+const insertIncorrectStatementGenerator = require('../utils/insertIncorrectStatementGenerator');
+const insertIncorrectStatementPublisher = require('../utils/insertIncorrectStatementPublisher');
+const confirmStatementDataNotAdded = require('../utils/confirmStatementDataNotAdded');
+const confirmStatementConstructorNotAdded = require('../utils/confirmStatementConstructorNotAdded');
+const confirmStatementGeneratorNotAdded = require('../utils/confirmStatementGeneratorNotAdded');
+const confirmStatementPublisherNotAdded = require('../utils/confirmStatementPublisherNotAdded');
 
 module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
@@ -234,6 +242,71 @@ module.exports = (on, config) => {
       // This task inserts test data into the Statement Data database
       console.log('🔄 Inserting test data into reportData');
       insertStatementData();
+      return null;
+    },
+
+    insertIncorrectStatementData () {
+
+      // This task inserts intentionally incorrect test data into the Statement Data database
+      console.log('🔄 Inserting incorrect test data into Statement Data');
+      insertIncorrectStatementData();
+      return null;
+    },
+
+    insertIncorrectStatementConstructor () {
+      // This task inserts intentionally incorrect test data into the Statement Constructor database
+      console.log('🔄 Inserting incorrect test data into Statement Constructor');
+      insertIncorrectStatementConstructor();
+      return null;
+    },
+
+    insertIncorrectStatementGenerator () {
+      // This task inserts intentionally incorrect test data into the Statement Generator database
+      console.log('🔄 Inserting incorrect test data into Statement Generator');
+      insertIncorrectStatementGenerator();
+      return null;
+    },
+
+    insertIncorrectStatementPublisher () {
+      // This task inserts intentionally incorrect test data into the Statement Publisher database
+      console.log('🔄 Inserting incorrect test data into Statement Publisher');
+      insertIncorrectStatementPublisher();
+      return null;
+    },
+
+    confirmStatementDataNotAdded () {
+
+      // This task checks if incorrect data was correctly rejected by Statement Data
+      console.log('🔍 Checking Statement Data values not entered');
+      confirmStatementDataNotAdded();
+      console.log('✅ Values not present in Statement Data');
+      return null;
+    },
+
+    confirmStatementConstructorNotAdded () {
+
+      // This task checks if incorrect data was correctly rejected by Statement Constructor
+      console.log('🔍 Checking Statement Constructor values not entered');
+      confirmStatementConstructorNotAdded();
+      console.log('✅ Values not present in Statement Constructor');
+      return null;
+    },
+
+    confirmStatementGeneratorNotAdded () {
+
+      // This task checks if incorrect data was correctly rejected by Statement Generator
+      console.log('🔍 Checking Statement Generator values not entered');
+      confirmStatementGeneratorNotAdded();
+      console.log('✅ Values not present in Statement Generator');
+      return null;
+    },
+
+    confirmStatementPublisherNotAdded () {
+
+      // This task checks if incorrect data was correctly rejected by Statement Publisher 
+      console.log('🔍 Checking Statement Publisher values not entered');
+      confirmStatementPublisherNotAdded();
+      console.log('✅ Values not present in Statement Publisher');
       return null;
     },
 
