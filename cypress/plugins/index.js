@@ -22,6 +22,7 @@ const confirmStatementDataNotAdded = require('../utils/confirmStatementDataNotAd
 const confirmStatementConstructorNotAdded = require('../utils/confirmStatementConstructorNotAdded');
 const confirmStatementGeneratorNotAdded = require('../utils/confirmStatementGeneratorNotAdded');
 const confirmStatementPublisherNotAdded = require('../utils/confirmStatementPublisherNotAdded');
+const queryPayInjection = require('../utils/queryPayInjection');
 
 module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
@@ -70,7 +71,7 @@ module.exports = (on, config) => {
         throw new Error('⚠️ WSL_TEST_DIR not set in .env');
       }
 
-      const shellCommand = `cd ${dir} && echo '🔴 Stopping...' && ./stop -v && echo '⬇️ Pulling...' && ./pull && echo '🟢 Starting...' && ./start`;
+      const shellCommand = `cd ${dir} && echo '🔴 Stopping...' && ./stop -v && echo '🟢 Starting...' && ./start`;
 
       return new Promise((resolve, reject) => {
         console.log(`🚀 Restarting local env from: ${dir}`);
@@ -303,7 +304,7 @@ module.exports = (on, config) => {
 
     confirmStatementPublisherNotAdded () {
 
-      // This task checks if incorrect data was correctly rejected by Statement Publisher 
+      // This task checks if incorrect data was correctly rejected by Statement Publisher
       console.log('🔍 Checking Statement Publisher values not entered');
       confirmStatementPublisherNotAdded();
       console.log('✅ Values not present in Statement Publisher');
@@ -335,6 +336,16 @@ module.exports = (on, config) => {
       console.log('🔍 Checking Statement Publisher values entered successfully');
       queryStatementPublisher();
       console.log('✅ Statement Publisher values checked successfully');
+      return null;
+    },
+
+    getPayInjectionData () {
+
+      // This task retrieves statement publisher data from the database and checks if the statement data exists for the expected SBI.
+      // It then retrieves the statement ID based on the SBI and checks if there are any deliveries associated with that statement ID.
+      console.log('🔍 Checking Pay Injection values entered successfully');
+      queryPayInjection();
+      console.log('✅ Pay Injection values checked successfully');
       return null;
     },
 

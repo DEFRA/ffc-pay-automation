@@ -26,7 +26,7 @@ When(/^I insert incorrect test data into (.*) service$/, (databaseName) => {
   case 'Statement Publisher':
     cy.insertIncorrectStatementPublisher();
     cy.wait(10000);
-    break;  
+    break;
   }
 });
 
@@ -56,7 +56,7 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
   case 'ffc-doc-statement-publisher':
     containerName = 'ffc-doc-statement-publisher-ffc-doc-statement-publisher-postgres-1';
     cy.confirmStatementPublisherNotAdded();
-    break;  
+    break;
   }
 
   cy.task('getDockerLogs', containerName).then((logs) => {
