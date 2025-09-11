@@ -2,6 +2,7 @@
 
 import paymentManagementPage from '../pages/paymentManagementPage';
 import reportsPage from '../pages/reportsPage';
+import manualPaymentsPage from '../pages/manualPaymentsPage';
 import constants from '../../support/constants.json';
 const { getEnvironmentConfig } = require('../../support/configLoader');
 
@@ -226,4 +227,48 @@ When(/^the status report is downloaded with "(.*)" as the title$/, function (tit
 
     checkFileExists().should('eq', true);
   });
+});
+
+When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (fileName) => {
+  const filePath = `cypress/fixtures/${fileName}`;
+  manualPaymentsPage.chooseFileBtn().selectFile(filePath);
+  cy.log(`The file ${fileName} is attached successfully`);
+  console.log(`The file ${fileName} is attached successfully`);
+
+});
+
+When(/^on the Manual Payments page I click the "(.*)"$/, (button) => {
+  switch (button) {
+  case 'upload button': manualPaymentsPage.uploadBtn().click(); break;
+  case 'manual payments guidance link': manualPaymentsPage.manualPaymentsGuidanceLink().click(); break;
+  }
+
+  cy.log(`Clicked on the ${button} successfully`);
+  console.log(`Clicked on the ${button} successfully`);
+});
+
+Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element) => {
+  switch (element) {
+  case 'page title':
+    manualPaymentsPage.pageTitle().should('be.visible').and('have.text', 'Manual payment upload'); break;
+  case 'page description':
+    manualPaymentsPage.pageDescription().should('be.visible').and('contain.text', 'This section allows teams to upload manual payment files into Payment Hub. Once uploaded, these files will automatically feed into the standard payment process. Access to this section is controlled by role-based access groups (RBAC) and should only be used by the relevant pay teams. You can find full details of the service design for manual payments'); break;
+  case 'choose file button':
+    manualPaymentsPage.chooseFileBtn().should('be.visible').and('have.attr', 'type', 'file'); break;
+  case 'upload button':
+    manualPaymentsPage.uploadBtn().should('be.visible').and('have.attr', 'type', 'submit'); break;
+  case 'manual payments guidance link':
+    manualPaymentsPage.manualPaymentsGuidanceLink().should('be.visible').and('contain.text', 'Manual Payments Guidance (PDF)'); break;
+  case 'file upload confirmation message':
+    manualPaymentsPage.statusText().should('be.visible').and('contain.text', 'Your manual payment file has been successfully processed. To make another upload, please click the link below to return to the manual payments page.'); break;
+  case 'duplicate file error message':
+    manualPaymentsPage.errorText().should('be.visible').and('contain.text', 'This file has already been uploaded. To prevent accidental reprocessing, it has been moved to the quarantine area. Please ensure you are uploading the correct and most recent file.'); break;
+  case 'invalid file type error message':
+    manualPaymentsPage.typeErrorText().should('be.visible').and('contain.text', 'The selected file type is not supported. Please upload a valid CSV file.'); break;
+  case 'invalid name error message':
+    manualPaymentsPage.nameErrorText().should('be.visible').and('contain.text', 'Filename must match FFC_Manual_Batch_<scheme>_<timestamp>.csv (e.g. FFC_Manual_Batch_SFI23_20250626091445.csv)'); break;
+  }
+
+  console.log('Confirmed that', element, 'is present on the Manual Payments page');
+  cy.log('Confirmed that', element, 'is present on the Manual Payments page');
 });

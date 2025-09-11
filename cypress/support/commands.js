@@ -124,6 +124,10 @@ Cypress.Commands.add('getStatementPublisherData', () => {
   cy.task('getStatementPublisherData');
 });
 
+Cypress.Commands.add('getPayInjectionData', () => {
+  cy.task('getPayInjectionData');
+});
+
 Cypress.Commands.add('fetchBlobById', (container, dir) => {
   cy.task('fetchBlobById', container, dir);
 });

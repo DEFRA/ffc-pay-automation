@@ -59,4 +59,3 @@ Feature: 14 Doc E2E Journey
 
     When I insert incorrect test data into Statement Publisher service
     Then I confirm that test data has not been inserted into the ffc-doc-statement-publisher database
-

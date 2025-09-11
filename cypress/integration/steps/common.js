@@ -169,6 +169,14 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     }
     break;
   case 13: featureString = '13_PaymentHolds.feature -- '; scenarioString = '01 Send debit payment request message (payment1)'; break;
+  case 15: featureString = '15_ManualPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Confirm Manual Payments page elements are visible'; break;
+    case 2: scenarioString = '02 Confirm that valid Manual Payments file can be processed successfully'; break;
+    case 3: scenarioString = '03 Confirm that attempting to upload duplicate file produces appropriate error message'; break;
+    case 4: scenarioString = '04 Confirm that invalid Manual Payments file type produces appropriate error message'; break;
+    case 5: scenarioString = '05 Confirm that invalid Manual Payments filename produces appropriate error message'; break;
+    }
   }
 
   const screenshotName = featureString + scenarioString;
