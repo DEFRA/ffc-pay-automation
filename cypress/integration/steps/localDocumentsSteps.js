@@ -30,11 +30,21 @@ When(/^I insert incorrect test data into (.*) service$/, (databaseName) => {
   }
 });
 
-Then(/^I pull file from Azure Blob Storage and confirm that correct values have been generated$/, () => {
-  cy.task('fetchBlobById', {
-    container: 'statements',
-    dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads'
-  });
+Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values have been generated$/, (fileType) => {
+  switch (fileType) {
+  case 'statements':
+    cy.task('fetchStatementsBlobById', {
+      container: 'statements',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads'
+    });
+    break;
+  case 'payments':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads'
+    });
+    break;
+  }
 
 });
 

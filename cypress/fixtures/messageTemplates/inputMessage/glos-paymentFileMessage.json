@@ -1,0 +1,18 @@
+{
+  "correlationId": "bd947075-3ff7-444d-9685-443991be1387",
+  "sourceSystem": "GLOS",
+  "schemeId": 10,
+  "batch": "FCAP_0746_240320220119.dat",
+  "invoiceNumber": "15381 1",
+  "paymentRequestNumber": 1,
+  "frn": "1102702234",
+  "sbi": "108507498",
+  "claimDate": "20/03/2024 22:01:18",
+  "invoiceLines": [
+    {
+      "standardCode": "028B541Q",
+      "description": "English Woodland Grant Scheme",
+      "value": 227.7
+    }
+  ]
+}

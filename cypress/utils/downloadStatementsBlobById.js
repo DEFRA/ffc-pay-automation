@@ -4,11 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const pdf = require('pdf-parse');
 
-async function downloadBlobById (containerName, downloadDir) {
+async function downloadStatementsBlobById (containerName, downloadDir) {
 
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
 
-  const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.BLOBCONNECTIONSTRING);
+  const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.STATEMENTSBLOBCONNECTIONSTRING);
   console.log('Blob Service Client = ' + blobServiceClient.url);
   const containerClient = blobServiceClient.getContainerClient(containerName);
   console.log('Container client = ' + containerClient.url);
@@ -68,4 +68,4 @@ async function downloadBlobById (containerName, downloadDir) {
 
 }
 
-module.exports = downloadBlobById;
+module.exports = downloadStatementsBlobById;

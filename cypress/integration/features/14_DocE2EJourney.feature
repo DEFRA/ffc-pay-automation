@@ -7,6 +7,8 @@ Feature: 14 Doc E2E Journey
     Given I restart and clear the local doc environment
     When I insert test data into Statement Data service
 
+#Statement-Data Docker container may need to be restarted to ensure processing begins
+
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
 
@@ -18,7 +20,7 @@ Feature: 14 Doc E2E Journey
 #Finally the last step downloads file from Azure Blob Storage and confirms that the values given in the data inserted into the 
 #Statement Data Service have been correctly added to the generated statement
 
-    Then I pull file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull statements file from Azure Blob Storage and confirm that correct values have been generated
 
   Scenario: 02 insert incorrect test data into Statement Data service and confirm errors
 

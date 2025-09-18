@@ -112,6 +112,10 @@ Cypress.Commands.add('confirmStatementPublisherNotAdded', () => {
   cy.task('confirmStatementPublisherNotAdded');
 });
 
+Cypress.Commands.add('confirmPayProcessingNotAdded', () => {
+  cy.task('confirmPayProcessingNotAdded');
+});
+
 Cypress.Commands.add('getStatementConstructorData', () => {
   cy.task('getStatementConstructorData');
 });
@@ -128,9 +132,26 @@ Cypress.Commands.add('getPayInjectionData', () => {
   cy.task('getPayInjectionData');
 });
 
-Cypress.Commands.add('fetchBlobById', (container, dir) => {
-  cy.task('fetchBlobById', container, dir);
+Cypress.Commands.add('getPayProcessingData', () => {
+  cy.task('getPayProcessingData');
 });
+
+Cypress.Commands.add('confirmReturnPayProcessingData', () => {
+  cy.task('confirmReturnPayProcessingData');
+});
+
+Cypress.Commands.add('getPaySubmissionData', () => {
+  cy.task('getPaySubmissionData');
+});
+
+Cypress.Commands.add('fetchStatementsBlobById', (container, dir) => {
+  cy.task('fetchStatementsBlobById', container, dir);
+});
+
+Cypress.Commands.add('fetchPaymentsBlobById', (container, dir) => {
+  cy.task('fetchPaymentsBlobById', container, dir);
+});
+
 
 Cypress.Commands.add('getDockerLogs', () => {
   cy.task('getDockerLogs').then((logs) => {

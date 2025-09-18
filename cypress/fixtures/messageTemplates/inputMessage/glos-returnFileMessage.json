@@ -1,0 +1,17 @@
+{
+    "sourceSystem": "GLOS",
+    "sbi": 108507498,
+    "frn": 1102702234,
+    "agreementNumber": "15381",
+    "claimNumber": "1",
+    "settlementDate": "2024-03-21T00:00:00.000Z",
+    "value": 22770,
+    "reference": "2066528",
+    "bankAccount": "3860",
+    "batchNumber": "0002",
+    "settled": true,
+    "detail": "",
+    "ledger": "AP",
+    "referenceId": "439bf036f499355edbd5647e0a699f88",
+    "filename": "FCAP_0001_RPA_240326145348.dat"
+}
