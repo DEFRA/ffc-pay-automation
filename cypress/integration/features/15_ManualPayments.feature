@@ -1,4 +1,6 @@
+
 @local @dev @test
+
 Feature: 15 Manual Payments
  
 # This feature file is designed to test the Manual Payments page in Payment Management.
@@ -93,5 +95,3 @@ Feature: 15 Manual Payments
     When on the Manual Payments page I click the "upload button"
     Then on the Manual Payments page I confirm that "empty file message" is present
     Then I take a screenshot for Feature 15 and Scenario 07
-    
-    

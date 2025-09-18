@@ -28,6 +28,7 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
     containerName = 'ffc-pay-submission-ffc-pay-submission-postgres-1';
     cy.getPaySubmissionData();
     break;
+
   }
 
   cy.task('getDockerLogs', containerName).then((logs) => {
