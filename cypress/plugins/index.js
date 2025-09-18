@@ -12,7 +12,8 @@ const insertStatementData = require('../utils/insertStatementData');
 const queryStatementConstructor = require('../utils/queryStatementConstructor');
 const queryStatementGenerator = require('../utils/queryStatementGenerator');
 const queryStatementPublisher = require('../utils/queryStatementPublisher');
-const downloadBlobById = require('../utils/downloadBlobById');
+const downloadStatementsBlobById = require('../utils/downloadStatementsBlobById');
+const downloadPaymentsBlobById = require('../utils/downloadPaymentsBlobById');
 const { exec } = require('child_process');
 const insertIncorrectStatementData = require('../utils/insertIncorrectStatementData');
 const insertIncorrectStatementConstructor = require('../utils/insertIncorrectStatementConstructor');
@@ -22,7 +23,11 @@ const confirmStatementDataNotAdded = require('../utils/confirmStatementDataNotAd
 const confirmStatementConstructorNotAdded = require('../utils/confirmStatementConstructorNotAdded');
 const confirmStatementGeneratorNotAdded = require('../utils/confirmStatementGeneratorNotAdded');
 const confirmStatementPublisherNotAdded = require('../utils/confirmStatementPublisherNotAdded');
+const confirmPayProcessingNotAdded = require('../utils/confirmPayProcessingNotAdded');
 const queryPayInjection = require('../utils/queryPayInjection');
+const queryPayProcessing = require('../utils/queryPayProcessing');
+const queryPaySubmission = require('../utils/queryPaySubmission');
+const queryReturnPayProcessing = require('../utils/queryReturnPayProcessing');
 
 module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
@@ -311,6 +316,15 @@ module.exports = (on, config) => {
       return null;
     },
 
+    confirmPayProcessingNotAdded () {
+
+      // This task checks if incorrect data was correctly rejected by Pay Processing
+      console.log('🔍 Checking Pay Processing values not entered');
+      confirmPayProcessingNotAdded();
+      console.log('✅ Values not present in Pay Processing');
+      return null;
+    },
+
     getStatementConstructorData () {
 
       // This task retrieves statement constructor data from the database and checks if it exists for the expected SBI.
@@ -341,16 +355,47 @@ module.exports = (on, config) => {
 
     getPayInjectionData () {
 
-      // This task retrieves statement publisher data from the database and checks if the statement data exists for the expected SBI.
-      // It then retrieves the statement ID based on the SBI and checks if there are any deliveries associated with that statement ID.
+      // This task checks that Pay injection data has been entered correctly
       console.log('🔍 Checking Pay Injection values entered successfully');
       queryPayInjection();
       console.log('✅ Pay Injection values checked successfully');
       return null;
     },
 
-    async fetchBlobById ({container, dir}) {
-      downloadBlobById(container, dir);
+    getPayProcessingData () {
+
+      // This task checks that Pay processing data has been entered correctly
+      console.log('🔍 Checking Pay Processor values entered successfully');
+      queryPayProcessing();
+      console.log('✅ Pay Processor values checked successfully');
+      return null;
+    },
+
+    confirmReturnPayProcessingData () {
+
+      //This task checks that Pay processing data has been updated correctly following return file upload
+      console.log('🔍 Checking Pay Processor values entered successfully');
+      queryReturnPayProcessing();
+      console.log('✅ Pay Processor values checked successfully');
+      return null;
+    },
+
+    getPaySubmissionData () {
+
+      // This task checks that Pay Submission data has been entered correctly
+      console.log('🔍 Checking Pay Submission values entered successfully');
+      queryPaySubmission();
+      console.log('✅ Pay Submission values checked successfully');
+      return null;
+    },
+
+    async fetchStatementsBlobById ({container, dir}) {
+      downloadStatementsBlobById(container, dir);
+      return null;
+    },
+
+    async fetchPaymentsBlobById ({container, dir}) {
+      downloadPaymentsBlobById(container, dir);
       return null;
     },
 
@@ -362,6 +407,7 @@ module.exports = (on, config) => {
           if (err) {
             return reject(err);
           }
+          console.log(`Logs from container "${containerName}":\n`, stdout);
           resolve(stdout);
         });
       });

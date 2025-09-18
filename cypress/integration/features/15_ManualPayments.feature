@@ -1,4 +1,6 @@
-@local @dev @documents
+
+@local @dev @test
+
 Feature: 15 Manual Payments
  
 # This feature file is designed to test the Manual Payments page in Payment Management.
@@ -69,5 +71,27 @@ Feature: 15 Manual Payments
     When on the Manual Payments page I click the "upload button"
     Then on the Manual Payments page I confirm that "invalid name error message" is present
     Then I take a screenshot for Feature 15 and Scenario 05
-    
-    
+
+  Scenario: 06 Confirm that invalid file size produces appropriate error message
+
+#     #This scenario confirms that attempting to upload a file with an invalid filesize produces the correct error message
+
+    Given I visit the "Payment management" homepage
+    When I click on the "Upload manual payment" link
+    Then I am on the "manual-payments" subpage
+    When on the Manual Payments page I enter "FFC_Manual_Batch_2023091210439200.csv" as the file to upload
+    When on the Manual Payments page I click the "upload button"
+    Then on the Manual Payments page I confirm that "invalid file size message" is present
+    Then I take a screenshot for Feature 15 and Scenario 06
+
+  Scenario: 07 Confirm that empty file produces appropriate error message
+
+#     #This scenario confirms that attempting to upload an empty file produces the correct error message
+
+    Given I visit the "Payment management" homepage
+    When I click on the "Upload manual payment" link
+    Then I am on the "manual-payments" subpage
+    When on the Manual Payments page I enter "FFC_Manual_Batch_2023091210439300.csv" as the file to upload
+    When on the Manual Payments page I click the "upload button"
+    Then on the Manual Payments page I confirm that "empty file message" is present
+    Then I take a screenshot for Feature 15 and Scenario 07

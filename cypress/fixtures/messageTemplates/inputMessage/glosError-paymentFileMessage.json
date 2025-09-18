@@ -1,0 +1,18 @@
+{
+    "correlationId": "42a07e31-9d54-4fa5-a0f2-80c7d4c1d61f",
+    "sourceSystem": "GLOS",
+    "schemeId": 10,
+    "batch": "FCAPERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERROR_0001_230612220140.dat",
+    "invoiceNumber": "SFI6130102ERRORERRORERRORERRORA",
+    "paymentRequestNumber": null,
+    "frn": null,
+    "sbi": null,
+    "claimDate": null,
+    "invoiceLines": [
+        {
+            "standardCode": "028X141Q",
+            "description": "FWPS",
+            "value": 58.8
+        }
+    ]
+}

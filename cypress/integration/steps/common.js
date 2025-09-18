@@ -176,6 +176,8 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 3: scenarioString = '03 Confirm that attempting to upload duplicate file produces appropriate error message'; break;
     case 4: scenarioString = '04 Confirm that invalid Manual Payments file type produces appropriate error message'; break;
     case 5: scenarioString = '05 Confirm that invalid Manual Payments filename produces appropriate error message'; break;
+    case 6: scenarioString = '06 Confirm that invalid file size produces appropriate error message'; break;
+    case 7: scenarioString =  '07 Confirm that empty file produces appropriate error message'; break;
     }
   }
 

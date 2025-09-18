@@ -23,6 +23,8 @@ Then('the {string} message should be received successfully for the service bus t
   const outputFilePath = `cypress/fixtures/messageTemplates/outputMessage/${topicName}.json`;
 
   const readFileWithRetry = (filePath, retries = 3) => {
+    cy.log(`Attempting to read file: ${filePath} with up to ${retries} retries`);
+    console.log(`Attempting to read file: ${filePath} with up to ${retries} retries`);
     return new Cypress.Promise((resolve, reject) => {
       const tryRead = (attemptsLeft) => {
         cy.readFile(filePath).then((content) => {
@@ -41,7 +43,11 @@ Then('the {string} message should be received successfully for the service bus t
   };
 
   readFileWithRetry(inputFilePath).then((expectedMessage) => {
+    cy.log(`Getting messages from topic: ${topicName}`);
+    console.log(`Getting messages from topic: ${topicName}`);
     cy.fetchReceivedMessages(topicName).then((messages) => {
+      cy.log(`Received ${messages.length} messages from topic: ${topicName}`);
+      console.log(`Received ${messages.length} messages from topic: ${topicName}`);
       expect(messages.length).to.be.greaterThan(0);
       console.log(messages);
 
