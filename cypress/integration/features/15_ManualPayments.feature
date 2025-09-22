@@ -1,4 +1,3 @@
-
 @local @dev @test
 
 Feature: 15 Manual Payments

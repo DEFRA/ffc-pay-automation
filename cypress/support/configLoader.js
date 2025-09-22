@@ -6,7 +6,8 @@ function getEnvironmentConfig () {
   return {
     env,
     paymentManagementUrl: environments.paymentManagement[`${env}Url`],
-    requestEditorUrl: environments.requestEditor[`${env}Url`]
+    requestEditorUrl: environments.requestEditor[`${env}Url`],
+    paymentCalculatorUrl: environments.paymentCalculator[`${env}Url`]
   };
 }
 

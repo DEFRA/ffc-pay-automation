@@ -51,7 +51,6 @@ Then('the new holds in {string} are visible along with the correct timestamp', (
             // If the FRN is found in this row, check for today's date
             cy.wrap(row).contains('td', today).should('exist').then(() => {
               cy.log(`Found date: ${today} for FRN: ${frnValue} in row:`, row);
-
             });
           }
         });
