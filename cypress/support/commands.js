@@ -152,7 +152,6 @@ Cypress.Commands.add('fetchPaymentsBlobById', (container, dir) => {
   cy.task('fetchPaymentsBlobById', container, dir);
 });
 
-
 Cypress.Commands.add('getDockerLogs', () => {
   cy.task('getDockerLogs').then((logs) => {
     logs.split('\n').forEach((line) => {
