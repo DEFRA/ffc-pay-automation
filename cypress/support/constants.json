@@ -58,5 +58,11 @@
   },
   "manual-payments": {
     "pageSubHeader": "Manual payments portal"
+  },
+  "payment-calculator": {
+    "pageSubHeader": "Calculate your delinked payment"
+  },
+  "delinked-calculator": {
+    "pageSubHeader": "Enter your delinked payment reference amount"
   }
 }

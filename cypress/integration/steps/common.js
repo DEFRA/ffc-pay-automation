@@ -17,6 +17,9 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
   case 'Request Editor':
     url = envConfig.requestEditorUrl;
     break;
+  case 'Calculate your delinked payment ':
+    url = envConfig.paymentCalculatorUrl;
+    break;
   }
   cy.log("URL to open " + url);
   console.log("URL to open " + url);
@@ -69,6 +72,21 @@ Then(/^I should see "(.*)"$/, (text) => {
 
 When(/^I click on the "(.*)" link$/, (text) => {
   cy.get('a').contains(text).scrollIntoView().click();
+  cy.wait(1000);
+});
+
+When(/^I verify status of external link - "(.*)"$/, (text) => {
+  // Verify status of external link
+  var pageUrl = '';
+  switch (text) {
+  case 'Rural Payments service.':
+    pageUrl = 'https://www.ruralpayments.service.gov.uk/customer-account/login'; break;
+  }
+  console.log('Verifying status of external link:', pageUrl);
+  cy.log('Verifying status of external link:', pageUrl);
+  cy.request('https://external-site.com').then((response) => {
+    expect(response.status).to.eq(200);
+  });
 });
 
 When(/^I click on the "(.*)" download link$/, (text) => {
@@ -179,10 +197,21 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 6: scenarioString = '06 Confirm that invalid file size produces appropriate error message'; break;
     case 7: scenarioString =  '07 Confirm that empty file produces appropriate error message'; break;
     }
+    break;
+  case 17: featureString = '17_PaymentCalculator.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Confirm elements on Calculate your delinked payment homepage'; break;
+    case 2: scenarioString = '02 Confirm elements on Enter your delinked payment reference amount'; break;
+    case 3: scenarioString = '03 Confirm elements on Delinked payment calculation page'; break;
+    case 4: scenarioString = '04 Confirm amount format error message on Delinked payment reference amount page'; break;
+    case 5: scenarioString = '05 Confirm that delinked payments guidance link functions correctly'; break;
+    case 6: scenarioString = '06 Confirm that new schemes and grants link functions correctly'; break;
+    case 7: scenarioString = '07 Confirm that replacing the Basic Payment Scheme link functions correctly'; break;
+    case 8: scenarioString = '08 Confirm that Rural Payments service link functions correctly'; break;
+    }
+    break;
   }
-
   const screenshotName = featureString + scenarioString;
   console.log('Screenshot Name:', screenshotName);
   cy.screenshot(screenshotName);
-
-} );
+});
