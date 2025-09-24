@@ -394,8 +394,8 @@ module.exports = (on, config) => {
       return null;
     },
 
-    async fetchPaymentsBlobById ({container, dir}) {
-      downloadPaymentsBlobById(container, dir);
+    async fetchPaymentsBlobById ({container, dir, scheme}) {
+      downloadPaymentsBlobById(container, dir, scheme);
       return null;
     },
 

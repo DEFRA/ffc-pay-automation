@@ -148,8 +148,8 @@ Cypress.Commands.add('fetchStatementsBlobById', (container, dir) => {
   cy.task('fetchStatementsBlobById', container, dir);
 });
 
-Cypress.Commands.add('fetchPaymentsBlobById', (container, dir) => {
-  cy.task('fetchPaymentsBlobById', container, dir);
+Cypress.Commands.add('fetchPaymentsBlobById', (container, dir, scheme) => {
+  cy.task('fetchPaymentsBlobById', container, dir, scheme);
 });
 
 

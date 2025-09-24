@@ -30,6 +30,7 @@ module.exports = async () => {
         return 'Data exists';
       } else {
         console.log('Data is not in database');
+        throw Error;
       }
     });
 
