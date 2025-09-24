@@ -1,0 +1,16 @@
+{
+    "sourceSystem": "IMPS",
+    "frn": 1102109835,
+    "trader": "J07494",
+    "transactionNumber": "FVR/J07494",
+    "settlementDate": "2022-03-21T00:00:00.000Z",
+    "value": 22770,
+    "reference": "2066528",
+    "bankAccount": "3860",
+    "batchNumber": "0001",
+    "settled": true,
+    "detail": "",
+    "ledger": "AP",
+    "referenceId": "439bf036f499355edbd5647e0a699f88",
+    "filename": "FIN_0001_RPA_240326145348.dat"
+}

@@ -31,6 +31,7 @@ When(/^I insert incorrect test data into (.*) service$/, (databaseName) => {
 });
 
 Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values have been generated$/, (fileType) => {
+  cy.wait(20000);
   switch (fileType) {
   case 'statements':
     cy.task('fetchStatementsBlobById', {
@@ -38,10 +39,18 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads'
     });
     break;
-  case 'payments':
+  case 'glos payments':
     cy.task('fetchPaymentsBlobById', {
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads'
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'glos'
+    });
+    break;
+  case 'imps payments':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'imps'
     });
     break;
   }

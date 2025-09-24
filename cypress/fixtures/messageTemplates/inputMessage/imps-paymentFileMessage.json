@@ -1,0 +1,24 @@
+{
+    "correlationId": "e330c0e9-14a1-43ea-a7a4-57e3dd958019",
+    "schemeId": 11,
+    "batch": "FIN_IMPS_AP_9842.INT",
+    "paymentRequestNumber": 1,
+    "ledger": "AP",
+    "trader": "J07494",
+    "invoiceNumber": "FVR/J07494",
+    "contractNumber": "1",
+    "invoiceLines": [
+        {
+            "invoiceNumber": "FVR/J07494",
+            "value": 227.7,
+            "productCode": "4022",
+            "marketingYear": 2022,
+            "description": "Partial Payments 2022",
+            "eventDate": "01-JAN-22",
+            "standardCode": "FVR_4022"
+        }
+    ],
+    "sourceSystem": "IMPS",
+    "marketingYear": 2022,
+    "eventDate": "01-JAN-22"
+}

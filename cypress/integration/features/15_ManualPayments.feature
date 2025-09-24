@@ -1,5 +1,4 @@
 @local @dev @test
-
 Feature: 15 Manual Payments
  
 # This feature file is designed to test the Manual Payments page in Payment Management.

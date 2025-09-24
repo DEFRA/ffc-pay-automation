@@ -23,11 +23,12 @@ module.exports = async () => {
     await client.query(querySql).then((results) => {
       const data = results.rows[0];
       console.log('Data retrieved:', data);
-      if (data === (22770)) {
+      if (Object.values(data).includes(22770)) {
         console.log('✅ Correct data has been added from return file');
         return 'Correct data has been added from return file';
       } else {
         console.log('Correct data has not been added from return file');
+        throw Error;
       }
     });
     await client.end();
