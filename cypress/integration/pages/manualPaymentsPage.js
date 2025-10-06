@@ -34,6 +34,14 @@ class manualPaymentsPage {
   nameErrorText () {
     return cy.get('.govuk-error-message');
   }
+
+  returnButton () {
+    return cy.get('.govuk-notification-banner__content > .redirect-link > .govuk-link');
+  }
+
+  errorReturnButton () {
+    return cy.get('#error-message > .redirect-link > .govuk-link');
+  }
 }
 
 export default new manualPaymentsPage();

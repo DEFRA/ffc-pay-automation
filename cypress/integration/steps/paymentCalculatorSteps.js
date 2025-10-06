@@ -42,7 +42,7 @@ Then(/^on the Payment Calculator page I confirm that "(.*)" is correctly display
   case 'sub title':
     paymentCalculatorPage.subTitle().should('be.visible').and('contain.text', 'Calculate your delinked payment'); break;
   case 'paragraph one':
-    paymentCalculatorPage.paragraphOne().should('be.visible').and('contain.text', 'Delinked payments have replaced Basic Payment Scheme (BPS) payments in England. These will reduce each year until they finish at the end of 2027.'); break;
+    paymentCalculatorPage.paragraphOne().should('be.visible').and('contain.text', 'Delinked payments have replaced Basic Payment Scheme (BPS) payments in England. Reductions will be applied each year until the payments finish at the end of 2027.'); break;
   case 'paragraph two':
     paymentCalculatorPage.paragraphTwo().should('be.visible').and('contain.text', 'Reductions to delinked payments are known as progressive reductions.'); break;
   case 'paragraph three':

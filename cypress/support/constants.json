@@ -57,7 +57,7 @@
     "pageSubHeader": "Payment statement status report"
   },
   "manual-payments": {
-    "pageSubHeader": "Manual payments portal"
+    "pageSubHeader": "Manual payment upload"
   },
   "payment-calculator": {
     "pageSubHeader": "Calculate your delinked payment"

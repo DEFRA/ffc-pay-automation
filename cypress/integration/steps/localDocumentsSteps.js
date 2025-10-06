@@ -53,6 +53,13 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'imps'
     });
     break;
+  case 'genesis payments':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'genesis'
+    });
+    break;
   }
 
 });
