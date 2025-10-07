@@ -250,7 +250,7 @@ When(/^on the Manual Payments page I click the "(.*)"$/, (button) => {
 Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element) => {
   switch (element) {
   case 'page title':
-    manualPaymentsPage.pageTitle().should('be.visible').and('have.text', 'Manual payments portal'); break;
+    manualPaymentsPage.pageTitle().should('be.visible').and('have.text', 'Manual payment upload'); break;
   case 'page description':
     manualPaymentsPage.pageDescription().should('be.visible').and('contain.text', 'This section allows teams to upload manual payment files into Payment Hub. Once uploaded, these files will automatically feed into the standard payment process'); break;
   case 'choose file button':
@@ -262,7 +262,7 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
   case 'file upload confirmation message':
     manualPaymentsPage.statusText().should('be.visible').and('contain.text', 'Your manual payment file has been successfully processed. To make another upload, please click the link below to return to the manual payments page.'); break;
   case 'duplicate file error message':
-    manualPaymentsPage.errorText().should('be.visible').and('contain.text', 'This file has already been uploaded. To prevent accidental reprocessing, it has been moved to the quarantine area. Please ensure you are uploading the correct and most recent file.'); break;
+    manualPaymentsPage.errorText().should('be.visible').and('contain.text', 'This file has already been uploaded. The file has not been re-processed. Please ensure you are uploading the correct and most recent file.'); break;
   case 'invalid file type error message':
     manualPaymentsPage.typeErrorText().should('be.visible').and('contain.text', 'Invalid file type - The selected file type is not supported. Please upload a valid CSV file.'); break;
   case 'invalid name error message':
@@ -271,6 +271,10 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
     manualPaymentsPage.nameErrorText().should('be.visible').and('contain.text', 'File too large - The uploaded file is too large. Please upload a file smaller than 1 MB.'); break;
   case 'empty file message':
     manualPaymentsPage.nameErrorText().should('be.visible').and('contain.text', 'We couldn’t process your upload because the file is empty. Please upload a file that contains data.'); break;
+  case 'return button':
+    manualPaymentsPage.returnButton().should('be.visible').and('have.text', 'Return'); break;
+  case 'error return button':
+    manualPaymentsPage.errorReturnButton().should('be.visible').and('have.text', 'Return'); break;
   }
 
   console.log('Confirmed that', element, 'is present on the Manual Payments page');

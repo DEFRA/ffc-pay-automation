@@ -1,0 +1,23 @@
+{
+    "sourceSystem": "Genesis",
+    "schemeId": 9,
+    "batch": "GENESISPayReqERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERROR_20230627_5542.gne",
+    "invoiceNumber": null,
+    "vendor": null,
+    "paymentRequestNumber": 1,
+    "marketingYear": "2022",
+    "contractNumber": null,
+    "value": 227.7,
+    "correlationId": "2f4d59ab-6d86-4f47-a8d7-5b69c7f40e70",
+    "invoiceLines": [
+        {
+            "companyCode": "31",
+            "costCentre": "40101",
+            "standardCode": "01372",
+            "accountCode": "0569",
+            "subAccountCode": "000",
+            "value": 227.7,
+            "description": "Payment for ESS State Aid Standalone Objective 2 in South West"
+        }
+    ]
+}
