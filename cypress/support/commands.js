@@ -141,6 +141,42 @@ Cypress.Commands.add('confirmPayProcessingNotAdded', () => {
   cy.task('confirmPayProcessingNotAdded');
 });
 
+Cypress.Commands.add('insertIncorrectStatementData', () => {
+  cy.task('insertIncorrectStatementData');
+});
+
+Cypress.Commands.add('insertIncorrectStatementConstructor', () => {
+  cy.task('insertIncorrectStatementConstructor');
+});
+
+Cypress.Commands.add('insertIncorrectStatementGenerator', () => {
+  cy.task('insertIncorrectStatementGenerator');
+});
+
+Cypress.Commands.add('insertIncorrectStatementPublisher', () => {
+  cy.task('insertIncorrectStatementPublisher');
+});
+
+Cypress.Commands.add('confirmStatementDataNotAdded', () => {
+  cy.task('confirmStatementDataNotAdded');
+});
+
+Cypress.Commands.add('confirmStatementConstructorNotAdded', () => {
+  cy.task('confirmStatementConstructorNotAdded');
+});
+
+Cypress.Commands.add('confirmStatementGeneratorNotAdded', () => {
+  cy.task('confirmStatementGeneratorNotAdded');
+});
+
+Cypress.Commands.add('confirmStatementPublisherNotAdded', () => {
+  cy.task('confirmStatementPublisherNotAdded');
+});
+
+Cypress.Commands.add('confirmPayProcessingNotAdded', () => {
+  cy.task('confirmPayProcessingNotAdded');
+});
+
 Cypress.Commands.add('getStatementConstructorData', () => {
   cy.task('getStatementConstructorData');
 });
