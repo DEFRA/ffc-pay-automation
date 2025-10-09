@@ -28,6 +28,13 @@ const queryPayInjection = require('../utils/queryPayInjection');
 const queryPayProcessing = require('../utils/queryPayProcessing');
 const queryPaySubmission = require('../utils/queryPaySubmission');
 const queryReturnPayProcessing = require('../utils/queryReturnPayProcessing');
+const insert2024BulkStatementData = require('../utils/insert2024BulkStatementData');
+const insert2025BulkStatementData = require('../utils/insert2025BulkStatementData');
+const query2024BulkStatementData = require('../utils/query2024BulkStatementData');
+const query2025BulkStatementData = require('../utils/query2025BulkStatementData');
+const queryBulkStatementConstructor = require('../utils/queryBulkStatementConstructor');
+const queryBulkStatementGenerator = require('../utils/queryBulkStatementGenerator');
+
 
 module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
@@ -243,11 +250,63 @@ module.exports = (on, config) => {
       return null;
     },
 
-    insertStatementData () {
+    query2024BulkStatementData () {
+
+      // This task retrieves statement data from the database and checks if it exists
+      console.log('🔍 Checking Database values entered successfully');
+      query2024BulkStatementData();
+      console.log('✅ Database values checked successfully');
+      return null;
+    },
+
+    query2025BulkStatementData () {
+
+      // This task retrieves statement data from the database and checks if it exists
+      console.log('🔍 Checking Database values entered successfully');
+      query2025BulkStatementData();
+      console.log('✅ Database values checked successfully');
+      return null;
+    },
+
+    queryBulkStatementConstructor () {
+
+      // This task retrieves statement data from the database and checks if it exists
+      console.log('🔍 Checking Database values entered successfully');
+      queryBulkStatementConstructor();
+      console.log('✅ Database values checked successfully');
+      return null;
+    },
+
+    queryBulkStatementGenerator () {
+
+      // This task retrieves statement data from the database and checks if it exists
+      console.log('🔍 Checking Database values entered successfully');
+      queryBulkStatementGenerator();
+      console.log('✅ Database values checked successfully');
+      return null;
+    },
+
+    insertStatementData (year) {
 
       // This task inserts test data into the Statement Data database
-      console.log('🔄 Inserting test data into reportData');
-      insertStatementData();
+      console.log('🔄 Inserting test data into Statement Data for ' + year);
+      insertStatementData(year);
+      return null;
+    },
+
+    insert2024BulkStatementData () {
+
+      // This task inserts 20 instances of test data into the Statement Data database, 10 for 2024 and 10 for 2025
+      console.log('🔄 Inserting bulk test data into Statement Data');
+      insert2024BulkStatementData();
+      return null;
+    },
+
+    insert2025BulkStatementData () {
+
+      // This task inserts 20 instances of test data into the Statement Data database, 10 for 2024 and 10 for 2025
+      console.log('🔄 Inserting bulk test data into Statement Data');
+      insert2025BulkStatementData();
       return null;
     },
 
@@ -389,8 +448,8 @@ module.exports = (on, config) => {
       return null;
     },
 
-    async fetchStatementsBlobById ({container, dir}) {
-      downloadStatementsBlobById(container, dir);
+    async fetchStatementsBlobById ({container, dir, year}) {
+      downloadStatementsBlobById(container, dir, year);
       return null;
     },
 
@@ -407,6 +466,7 @@ module.exports = (on, config) => {
           if (err) {
             return reject(err);
           }
+          console.log(`Logs from container "${containerName}":\n`, stdout);
           console.log(`Logs from container "${containerName}":\n`, stdout);
           resolve(stdout);
         });

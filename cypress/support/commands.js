@@ -76,8 +76,69 @@ Cypress.Commands.add('getStatementData', () => {
   cy.task('getStatementData');
 });
 
-Cypress.Commands.add('insertStatementData', () => {
-  cy.task('insertStatementData');
+Cypress.Commands.add('insertStatementData', (year) => {
+  cy.task('insertStatementData', year);
+});
+
+Cypress.Commands.add('query2024BulkStatementData', () => {
+  cy.task('query2024BulkStatementData');
+});
+
+Cypress.Commands.add('query2025BulkStatementData', () => {
+  cy.task('query2025BulkStatementData');
+});
+
+Cypress.Commands.add('queryBulkStatementConstructor', () => {
+  cy.task('queryBulkStatementConstructor');
+});
+
+Cypress.Commands.add('queryBulkStatementGenerator', () => {
+  cy.task('queryBulkStatementGenerator');
+});
+
+Cypress.Commands.add('insert2024BulkStatementData', () => {
+  cy.task('insert2024BulkStatementData');
+});
+
+Cypress.Commands.add('insert2025BulkStatementData', () => {
+  cy.task('insert2025BulkStatementData');
+});
+
+
+Cypress.Commands.add('insertIncorrectStatementData', () => {
+  cy.task('insertIncorrectStatementData');
+});
+
+Cypress.Commands.add('insertIncorrectStatementConstructor', () => {
+  cy.task('insertIncorrectStatementConstructor');
+});
+
+Cypress.Commands.add('insertIncorrectStatementGenerator', () => {
+  cy.task('insertIncorrectStatementGenerator');
+});
+
+Cypress.Commands.add('insertIncorrectStatementPublisher', () => {
+  cy.task('insertIncorrectStatementPublisher');
+});
+
+Cypress.Commands.add('confirmStatementDataNotAdded', () => {
+  cy.task('confirmStatementDataNotAdded');
+});
+
+Cypress.Commands.add('confirmStatementConstructorNotAdded', () => {
+  cy.task('confirmStatementConstructorNotAdded');
+});
+
+Cypress.Commands.add('confirmStatementGeneratorNotAdded', () => {
+  cy.task('confirmStatementGeneratorNotAdded');
+});
+
+Cypress.Commands.add('confirmStatementPublisherNotAdded', () => {
+  cy.task('confirmStatementPublisherNotAdded');
+});
+
+Cypress.Commands.add('confirmPayProcessingNotAdded', () => {
+  cy.task('confirmPayProcessingNotAdded');
 });
 
 Cypress.Commands.add('insertIncorrectStatementData', () => {
@@ -144,8 +205,8 @@ Cypress.Commands.add('getPaySubmissionData', () => {
   cy.task('getPaySubmissionData');
 });
 
-Cypress.Commands.add('fetchStatementsBlobById', (container, dir) => {
-  cy.task('fetchStatementsBlobById', container, dir);
+Cypress.Commands.add('fetchStatementsBlobById', (container, dir, year) => {
+  cy.task('fetchStatementsBlobById', container, dir, year);
 });
 
 Cypress.Commands.add('fetchPaymentsBlobById', (container, dir, scheme) => {

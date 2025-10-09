@@ -17,19 +17,22 @@ module.exports = async () => {
 
   try {
     await client.connect();
-    const querySql = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
+    const querySql = 'SELECT * FROM "d365"';
 
 
     await client.query(querySql).then((results) => {
-      const data = results.rows[0];
-      console.log('Number of rows retrieved:', results.rows.length);
-      console.log('Data retrieved:', data);
-      if (results.rows.length > 0) {
-        console.log('✅ Data exists in the database');
-        return 'Data exists';
-      } else {
-        console.log('Data is not in database');
-        throw Error;
+      for (let i=0; i<results.rows.length; i++) {
+
+        if (results.rows.length > 19) {
+          console.log('✅ Data exists in the database');
+        } else {
+          console.log('Data is not in database');
+          throw Error;
+        }
+
+        const data = results.rows[i];
+        console.log('Number of rows retrieved:', results.rows.length);
+        console.log('Data retrieved:', data);
       }
     });
     await client.end();

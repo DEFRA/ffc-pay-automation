@@ -4,12 +4,18 @@ Given(/^I restart and clear the local doc environment$/, () => {
   cy.restartLocalDocEnv();
 });
 
-When(/^I insert test data into Statement Data service$/, () => {
-  cy.insertStatementData();
+When(/^I insert (.*) test data into Statement Data service$/, (year) => {
+  cy.insertStatementData(year);
   cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
 });
 
-When(/^I insert incorrect test data into (.*) service$/, (databaseName) => {
+When(/^I send bulk test data into Statement Data service$/, () => {
+  cy.insert2024BulkStatementData();
+  cy.insert2025BulkStatementData();
+  cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
+});
+
+When(/^I send incorrect test data into (.*) service$/, (databaseName) => {
   switch (databaseName) {
   case 'Statement Data':
     cy.insertIncorrectStatementData();
@@ -33,10 +39,18 @@ When(/^I insert incorrect test data into (.*) service$/, (databaseName) => {
 Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values have been generated$/, (fileType) => {
   cy.wait(20000);
   switch (fileType) {
-  case 'statements':
+  case '2025 statements':
     cy.task('fetchStatementsBlobById', {
       container: 'statements',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads'
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      year: '2025'
+    });
+    break;
+  case '2024 statements':
+    cy.task('fetchStatementsBlobById', {
+      container: 'statements',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      year: '2024'
     });
     break;
   case 'glos payments':
@@ -128,4 +142,34 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
   });
   console.log(`✅ Test data has been inserted into the ${containerName} database`);
   cy.log(`✅ Test data has been inserted into the ${containerName} database`);
+});
+
+Then(/^I confirm that bulk test data has been inserted into the (.*) database$/, (databaseName) => {
+  var containerName = '';
+  switch (databaseName) {
+  case 'ffc-doc-statement-data':
+    containerName = 'ffc-doc-statement-data-ffc-doc-statement-data-postgres-1';
+    cy.query2024BulkStatementData();
+    cy.query2025BulkStatementData();
+    break;
+  case 'ffc-doc-statement-constructor':
+    containerName = 'ffc-doc-statement-constructor-ffc-doc-statement-constructor-postgres-1';
+    cy.queryBulkStatementConstructor();
+    break;
+  case 'ffc-doc-statement-generator':
+    containerName = 'ffc-doc-statement-generator-ffc-doc-statement-generator-postgres-1';
+    cy.queryBulkStatementGenerator();
+    break;
+  }
+
+  cy.task('getDockerLogs', containerName).then((logs) => {
+    logs.split('\n').forEach((line) => {
+      if (line.trim()) {
+        console.log(line);
+        cy.log(line);
+      }
+    });
+  });
+  console.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
+  cy.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
 });
