@@ -2,9 +2,9 @@ require('dotenv').config();
 const { Client } = require('pg');
 var value = '';
 
-// This module connects to Statement Data database and inserts test data for SBI 123456789.
+// This module connects to Statement Data database and inserts 10 instances of test data for 2024 Delinked
 
-module.exports = async (year) => {
+module.exports = async () => {
 
   const client = new Client({
     host: process.env.DEFAULTHOST,
@@ -15,11 +15,15 @@ module.exports = async (year) => {
     ssl: false,
   });
 
-  try {
-    await client.connect();
-    const insertSql = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
+  await client.connect();
+
+
+  for (let i=0; i<10; i++) {
+    try {
+
+      const insertSql = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
-(123456789,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com','1234567890','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
+(12345678` + i + `,'` + i + ` The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com','123456789` + i + `','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
 DO UPDATE SET
   "addressLine1" = EXCLUDED."addressLine1",
@@ -35,7 +39,7 @@ DO UPDATE SET
 
 INSERT INTO "delinkedCalculation" ("applicationId", "calculationId", "sbi", "frn", "paymentBand1", "paymentBand2", "paymentBand3", "paymentBand4", "percentageReduction1", "percentageReduction2", "percentageReduction3", "percentageReduction4", "progressiveReductions1", "progressiveReductions2", "progressiveReductions3", "progressiveReductions4", "totalProgressiveReduction", "referenceAmount", "totalDelinkedPayment", "paymentAmountCalculated", "updated")
 VALUES
-(1234567,987654321,123456789,'1234567890',30000,50000,150000,99999999.99,50.00,55.00,65.00,70.00,15000.00,11000.00,65000.00,35000.00,126000.00,2000000.00,75000.00,37500.00,'2025-09-04 13:34:26.219')
+(123456` + i + `,98765432` + i + `,12345678` + i + `,'123456789` + i + `',30000,50000,150000,99999999.99,50.00,55.00,65.00,70.00,15000.00,11000.00,65000.00,35000.00,126000.00,2000000.00,75000.00,37500.00,'2025-09-04 13:34:26.219')
 ON CONFLICT ("calculationId")
 DO UPDATE SET
   "applicationId" = EXCLUDED."applicationId",
@@ -60,18 +64,18 @@ DO UPDATE SET
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
 VALUES
-(987654321,` + year + `,'PY0410241',37500.00,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),` + year + `);
+(98765432` + i + `,2024,'PY041024` + i + `',37500.00,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),2024);
 `;
 
 
-    await client.query(insertSql);
-    console.log('✅ Data inserted successfully');
+      await client.query(insertSql);
+      console.log('✅ 2024 Data inserted successfully');
 
-    await client.end();
-    return value;
-  } catch (error) {
-    console.error('❌ Failed to load report data:', error);
-    throw error; // Ensure the error is thrown to be caught by Cypress
+    } catch (error) {
+      console.log('Error generated', error);
+      throw error;
+    }
   }
-
+  await client.end();
+  return value;
 };

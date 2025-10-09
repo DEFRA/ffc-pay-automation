@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const pdf = require('pdf-parse');
 
-async function downloadStatementsBlobById (containerName, downloadDir) {
+async function downloadStatementsBlobById (containerName, downloadDir, year) {
 
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
 
@@ -52,7 +52,74 @@ async function downloadStatementsBlobById (containerName, downloadDir) {
     const pdfData = await pdf(dataBuffer);
     console.log('Extracted Text:\n', pdfData.text);
 
-    if (pdfData.text.includes('TEST FARM', '8 THE STREET', 'AA1 1BB', 'Single Business Identifier (SBI): 123456789', 'Delinked payments 2025: payment statement', 'Payment amount: £37,500')) {
+    //Following strings represent all text expected in output PDF
+
+    if (pdfData.text.includes(
+"TEST FARM",
+"8 THE STREET",
+"AREA",
+"DISTRICT",
+"CITY",
+"COUNTY",
+"AA1 1BB",
+"Single Business Identifier (SBI): 123456789",
+"Business name: Test Farm",
+"Statement date: 1 August 2024",
+"Delinked payments " + year + ": payment statement",
+"Delinked payments have replaced Basic Payment Scheme (BPS) payments in England.",
+"This statement explains your most recent annual delinked payment, including your reference",
+"amount and progressive reduction.",
+"What you've been paid",
+"Payment amount: £37,500",
+"This is usually paid into your account within 2 working days of 1 August 2024.",
+"Payment reference: PY0410241",
+"How your reference amount was calculated",
+"Your 'reference data' is your BPS payment amounts for the 2020, 2021 and 2022 scheme years",
+"(before some reductions and penalties). The 'reference amount' is the sum of the reference data",
+"divided by 3. You were sent information about this in the delinked payments information statement.",
+
+"This amount will have changed if reference data has either:",
+"been transferred into or out of your business",
+"changed following a payment query",
+"Your current reference amount is £2,000,000.00. You can view your current reference amount",
+"and any data transfers in the Rural Payments service at www.ruralpayments.service.gov.uk/",
+"customer-account/login.",
+"Find out about data transfers at www.gov.uk/guidance/delinked-payments-replacing-the-basic-payment-scheme.",
+"How your progressive reduction was calculated",
+"Your progressive reduction is the amount your annual delinked payment has been reduced. To",
+"calculate your reduction, we split your reference amount of £2,000,000.00 into one or more",
+"payment bands, which work like income tax bands.",
+"Progressive reduction calculator",
+"Payment band",
+"Percentage reduction",
+"Progressive reduction",
+"Up to £30,00050%£15,000.00",
+"£30,000.01 to £50,00055%£11,000.00",
+"£50,000.01 to £150,00065%£65,000.00",
+"Above £150,00070%£35,000.00",
+"Total progressive reduction £126,000.00",
+"How your payment was calculated",
+"Your annual delinked payment is your reference amount minus the progressive reduction that applies for that year.",
+"Payment amount calculation",
+"Amount",
+"Reference amount",
+"£2,000,000.00",
+"Progressive reduction",
+"£126,000.00",
+"Total annual delinked payment",
+"£75,000.00",
+
+"If you've any questions about this statement",
+"You can:",
+"find more information about delinked payments at",
+"www.gov.uk/guidance/delinked-payments-replacing-the-basic-payment-scheme",
+"log in to the Rural Payments service at",
+"www.ruralpayments.service.gov.uk/customer-account/login to send a query - this is the",
+"quickest way to get a reply",
+"email ruralpayments@defra.gov.uk - use 'Delinked payments statement query' as the subject of your email",
+"call 03000 200 301 (Monday to Friday, 8: 30am to 5pm) - you'll need your SBI number",
+"If you think your payment is wrong",
+"Read how to submit an appeal and the deadlines that apply at www.gov.uk/government/organisations/rural-payments-agency/about/complaints-procedure.")) {
       console.log('PDF contains expected data');
     } else {
       console.log('PDF does not contain expected data');
@@ -62,10 +129,7 @@ async function downloadStatementsBlobById (containerName, downloadDir) {
     console.error(`⚠️ Error reading file: ${err.message}`);
     throw err;
   }
-
   return downloadPath;
-
-
 }
 
 module.exports = downloadStatementsBlobById;
