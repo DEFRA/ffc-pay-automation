@@ -138,6 +138,14 @@ class requestEditorPage {
   yearInput () {
     return cy.get('#debt-discovered-date-year');
   }
+
+  unattachedDataNoButton () {
+    return cy.get('#unattached-data-no');
+  }
+
+  unattachedDataYesButton () {
+    return cy.get('#unattached-data-yes');
+  }
 }
 
 export default new requestEditorPage();

@@ -17,15 +17,15 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
   var containerName = '';
   switch (databaseName) {
   case 'ffc-pay-injection':
-    containerName = 'ffc-pay-injection-ffc-pay-injection-postgres-1';
+    containerName = 'ffc-pay-injection-development';
     cy.getPayInjectionData();
     break;
   case 'ffc-pay-processing':
-    containerName = 'ffc-pay-processing-ffc-pay-processing-postgres-1';
+    containerName = 'ffc-pay-processing-ffc-pay-processing-1';
     cy.getPayProcessingData();
     break;
   case 'ffc-pay-submission':
-    containerName = 'ffc-pay-submission-ffc-pay-submission-postgres-1';
+    containerName = 'ffc-pay-submission-development';
     cy.getPaySubmissionData();
     break;
   }
@@ -47,7 +47,7 @@ Then(/^I confirm that payment test data has not been inserted into the (.*) data
   switch (databaseName) {
 
   case 'ffc-pay-processing':
-    containerName = 'ffc-pay-processing-ffc-pay-processing-postgres-1';
+    containerName = 'ffc-pay-processing-ffc-pay-processing-1';
     cy.confirmPayProcessingNotAdded();
     break;
   }
@@ -68,7 +68,7 @@ Then(/^I confirm that return test data has been inserted into the (.*) database$
   var containerName = '';
   switch (databaseName) {
   case 'ffc-pay-processing':
-    containerName = 'ffc-pay-processing-ffc-pay-processing-postgres-1';
+    containerName = 'ffc-pay-processing-ffc-pay-processing-1';
     cy.confirmReturnPayProcessingData(); break;
   }
 

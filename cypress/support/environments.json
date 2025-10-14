@@ -10,8 +10,8 @@
     "localUrl": "http://localhost:3001/"
   },
   "paymentCalculator": {
-    "testUrl": "https://ffc-pay-calculator-test.azure.defra.cloud/",
-    "devUrl": "https://ffc-pay-calculator-dev.azure.defra.cloud/",
+    "testUrl": "https://ffc-pr-calculator-test.azure.defra.cloud/",
+    "devUrl": "https://ffc-pr-calculator-dev.azure.defra.cloud/",
     "localUrl": "http://localhost:3000/"
   }
 }

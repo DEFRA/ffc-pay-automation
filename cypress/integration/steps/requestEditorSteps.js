@@ -205,6 +205,16 @@ Then('I see the {string} error summary item', (errorItem) => {
   requestEditor.errorSummaryItem().scrollIntoView().should('be.visible').and('contain.text', errorItem);
 });
 
+Then('I click on the {string} show attached datasets button', (radioButton) => {
+  if (radioButton === 'Yes') {
+    requestEditor.unattachedDataYesButton().scrollIntoView().click();
+  } else if (radioButton === 'No') {
+    requestEditor.unattachedDataNoButton().scrollIntoView().click();
+  } else {
+    throw new Error('Radio button not found');
+  }
+});
+
 Then('I click on the {string} provisional values radio button', (radioButton) => {
   if (radioButton === 'Yes') {
     requestEditor.yesProvisionalValuesRadioButton().scrollIntoView().click();

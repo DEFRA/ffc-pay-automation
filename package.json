@@ -48,5 +48,9 @@
       "fileSuffix": ""
     },
     "repository": {}
+  },
+  "devDependencies": {
+    "axe-core": "^4.11.0",
+    "cypress-axe": "^1.7.0"
   }
 }
