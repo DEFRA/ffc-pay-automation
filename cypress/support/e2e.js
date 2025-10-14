@@ -17,6 +17,8 @@
 // import './commands';
 // import './pages';
 
+import 'cypress-axe';
+
 // Alternatively you can use CommonJS syntax:
 require('./commands');
 import 'cypress-localstorage-commands';

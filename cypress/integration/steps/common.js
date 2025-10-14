@@ -75,6 +75,27 @@ When(/^I click on the "(.*)" link$/, (text) => {
   cy.wait(1000);
 });
 
+Then(/^I confirm there are no accessibility issues on the page$/, () => {
+  cy.injectAxe();
+  //If certain tests are to be excluded, they can be passed as the second argument to cy.checkA11y as rules array
+  cy.checkA11y(null, null, (violations) => {
+    // Log each violation with its details
+    violations.forEach(({ id, impact, description, help, helpUrl, nodes }) => {
+      cy.log(`Violation ID: ${id}`);
+      cy.log(`Impact: ${impact}`);
+      cy.log(`Description: ${description}`);
+      cy.log(`Help: ${help}`);
+      cy.log(`More info: ${helpUrl}`);
+      cy.log(`Affected nodes:`);
+
+      nodes.forEach(({ html, target }) => {
+        cy.log(`  - HTML: ${html}`);
+        cy.log(`    Target: ${target.join(', ')}`);
+      });
+    });
+  });
+});
+
 When(/^I verify status of external link - "(.*)"$/, (text) => {
   // Verify status of external link
   var pageUrl = '';

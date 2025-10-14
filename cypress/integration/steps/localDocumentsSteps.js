@@ -82,19 +82,19 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
   var containerName = '';
   switch (databaseName) {
   case 'ffc-doc-statement-data':
-    containerName = 'ffc-doc-statement-data-ffc-doc-statement-data-postgres-1';
+    containerName = 'ffc-doc-statement-data-development';
     cy.confirmStatementDataNotAdded();
     break;
   case 'ffc-doc-statement-constructor':
-    containerName = 'ffc-doc-statement-constructor-ffc-doc-statement-constructor-postgres-1';
+    containerName = 'ffc-doc-statement-constructor-development';
     cy.confirmStatementConstructorNotAdded();
     break;
   case 'ffc-doc-statement-generator':
-    containerName = 'ffc-doc-statement-generator-ffc-doc-statement-generator-postgres-1';
+    containerName = 'ffc-doc-statement-generator-development';
     cy.confirmStatementGeneratorNotAdded();
     break;
   case 'ffc-doc-statement-publisher':
-    containerName = 'ffc-doc-statement-publisher-ffc-doc-statement-publisher-postgres-1';
+    containerName = 'ffc-doc-statement-publisher-development';
     cy.confirmStatementPublisherNotAdded();
     break;
   }
@@ -115,19 +115,19 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
   var containerName = '';
   switch (databaseName) {
   case 'ffc-doc-statement-data':
-    containerName = 'ffc-doc-statement-data-ffc-doc-statement-data-postgres-1';
+    containerName = 'ffc-doc-statement-data-development';
     cy.getStatementData();
     break;
   case 'ffc-doc-statement-constructor':
-    containerName = 'ffc-doc-statement-constructor-ffc-doc-statement-constructor-postgres-1';
+    containerName = 'ffc-doc-statement-constructor-development';
     cy.getStatementConstructorData();
     break;
   case 'ffc-doc-statement-generator':
-    containerName = 'ffc-doc-statement-generator-ffc-doc-statement-generator-postgres-1';
+    containerName = 'ffc-doc-statement-generator-development';
     cy.getStatementGeneratorData();
     break;
   case 'ffc-doc-statement-publisher':
-    containerName = 'ffc-doc-statement-publisher-ffc-doc-statement-publisher-postgres-1';
+    containerName = 'ffc-doc-statement-publisher-development';
     cy.getStatementPublisherData();
     break;
   }
@@ -148,16 +148,16 @@ Then(/^I confirm that bulk test data has been inserted into the (.*) database$/,
   var containerName = '';
   switch (databaseName) {
   case 'ffc-doc-statement-data':
-    containerName = 'ffc-doc-statement-data-ffc-doc-statement-data-postgres-1';
+    containerName = 'ffc-doc-statement-data-development';
     cy.query2024BulkStatementData();
     cy.query2025BulkStatementData();
     break;
   case 'ffc-doc-statement-constructor':
-    containerName = 'ffc-doc-statement-constructor-ffc-doc-statement-constructor-postgres-1';
+    containerName = 'ffc-doc-statement-constructor-development';
     cy.queryBulkStatementConstructor();
     break;
   case 'ffc-doc-statement-generator':
-    containerName = 'ffc-doc-statement-generator-ffc-doc-statement-generator-postgres-1';
+    containerName = 'ffc-doc-statement-generator-development';
     cy.queryBulkStatementGenerator();
     break;
   }
