@@ -241,6 +241,7 @@ When(/^on the Manual Payments page I click the "(.*)"$/, (button) => {
   switch (button) {
   case 'upload button': manualPaymentsPage.uploadBtn().click(); break;
   case 'manual payments guidance link': manualPaymentsPage.manualPaymentsGuidanceLink().click(); break;
+  case 'return button': manualPaymentsPage.returnButton().click(); break;
   }
 
   cy.log(`Clicked on the ${button} successfully`);
@@ -275,8 +276,39 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
     manualPaymentsPage.returnButton().should('be.visible').and('have.text', 'Return'); break;
   case 'error return button':
     manualPaymentsPage.errorReturnButton().should('be.visible').and('have.text', 'Return'); break;
+  case 'upload history table':
+    manualPaymentsPage.uploadHistoryTable().should('be.visible'); break;
   }
 
   console.log('Confirmed that', element, 'is present on the Manual Payments page');
   cy.log('Confirmed that', element, 'is present on the Manual Payments page');
+});
+
+Then(/^on the Manual Payments page I confirm that entry with filename "(.*)" has been added to Upload History$/, (filename) => {
+
+  manualPaymentsPage.uploadHistoryFilename().should('be.visible').and('have.text', filename);
+
+  console.log('Confirmed that entry with filename', filename, 'has been added to Upload History');
+  cy.log('Confirmed that entry with filename', filename, 'has been added to Upload History');
+});
+
+Then(/^on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present$/, () => {
+
+  cy.wait(240000); // Waiting for the all payments to be processed and displayed on the Payment Status page
+
+  cy.get('a').contains("View payment status").scrollIntoView().click();
+
+  const expectedFrns = ['1101264748', '1102172936', '1100510281', '1102368121', '1102468347',
+    '1102383090', '1102316393', '1102353752', '1101123524', '1102420085', '1100064087', '1101327626',
+    '1102424838', '1101208473', '1102154929', '1102429120', '1102276170', '1105107663', '1101187093',
+    '1102471216', '1101390719', '1105825027', '1102433217', '1102051217', '1102425639', '1101895640',
+    '1101979593', '1102472441', '1101266414', '1102566144', '1102430692', '1105383822', '1101594292',
+    '1102419133', '1102732354', '1102415731', '1102218766', '1100659986', '1101744723', '1102459704',
+    '1100676279', '1106030427', '1104790709', '1102862487', '1101099038', '1102857890', '1101321105',
+    '1100632360', '1102300063', '1100321020', '1102417300'];
+  expectedFrns.forEach(frn => {
+    cy.contains('td', frn).should('be.visible');
+  });
+  console.log('Confirmed that expected FRN values are present on the Payment Status page');
+  cy.log('Confirmed that expected FRN values are present on the Payment Status page');
 });

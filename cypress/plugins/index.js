@@ -7,33 +7,20 @@ const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 const loadReportData = require('../utils/loadReportData');
-const queryStatementData = require('../utils/queryStatementData');
+const queryDatabase = require('../utils/queryDatabase');
 const insertStatementData = require('../utils/insertStatementData');
-const queryStatementConstructor = require('../utils/queryStatementConstructor');
-const queryStatementGenerator = require('../utils/queryStatementGenerator');
-const queryStatementPublisher = require('../utils/queryStatementPublisher');
 const downloadStatementsBlobById = require('../utils/downloadStatementsBlobById');
 const downloadPaymentsBlobById = require('../utils/downloadPaymentsBlobById');
 const { exec } = require('child_process');
-const insertIncorrectStatementData = require('../utils/insertIncorrectStatementData');
-const insertIncorrectStatementConstructor = require('../utils/insertIncorrectStatementConstructor');
-const insertIncorrectStatementGenerator = require('../utils/insertIncorrectStatementGenerator');
-const insertIncorrectStatementPublisher = require('../utils/insertIncorrectStatementPublisher');
-const confirmStatementDataNotAdded = require('../utils/confirmStatementDataNotAdded');
-const confirmStatementConstructorNotAdded = require('../utils/confirmStatementConstructorNotAdded');
-const confirmStatementGeneratorNotAdded = require('../utils/confirmStatementGeneratorNotAdded');
-const confirmStatementPublisherNotAdded = require('../utils/confirmStatementPublisherNotAdded');
-const confirmPayProcessingNotAdded = require('../utils/confirmPayProcessingNotAdded');
-const queryPayInjection = require('../utils/queryPayInjection');
-const queryPayProcessing = require('../utils/queryPayProcessing');
-const queryPaySubmission = require('../utils/queryPaySubmission');
+const insertIncorrectData = require('../utils/insertIncorrectData');
 const queryReturnPayProcessing = require('../utils/queryReturnPayProcessing');
-const insert2024BulkStatementData = require('../utils/insert2024BulkStatementData');
-const insert2025BulkStatementData = require('../utils/insert2025BulkStatementData');
-const query2024BulkStatementData = require('../utils/query2024BulkStatementData');
-const query2025BulkStatementData = require('../utils/query2025BulkStatementData');
+const insertBulkStatementData = require('../utils/insertBulkStatementData');
+const queryBulkStatementData = require('../utils/queryBulkStatementData');
 const queryBulkStatementConstructor = require('../utils/queryBulkStatementConstructor');
 const queryBulkStatementGenerator = require('../utils/queryBulkStatementGenerator');
+const uploadFileToBlobStorage = require('../utils/uploadFileToBlobStorage');
+const confirmInvalidDataNotAdded = require('../utils/confirmInvalidDataNotAdded');
+
 
 
 module.exports = (on, config) => {
@@ -74,6 +61,51 @@ module.exports = (on, config) => {
 
     fileExists (filePath) {
       return fs.existsSync(path.resolve(__dirname, '../../', filePath));
+    },
+
+    startDPSService () {
+      const dir = process.env.WSL_TEST_DIR;
+
+      if (!dir) {
+        throw new Error('⚠️ WSL_TEST_DIR not set in .env');
+      }
+
+      const shellCommand = `cd ${dir} && ./stop -v && cd .. && cd ffc-pay-dps && cd scripts && echo '🟢 Starting...' && ./start`;
+
+      return new Promise((resolve) => {
+        console.log(`🚀 Restarting local env from: ${dir}`);
+
+        const child = spawn('wsl', ['bash', '-ic', shellCommand], {
+          stdio: 'pipe',
+        });
+
+        let output = '';
+
+        // Automatically kill the child process after 30 seconds to prevent hanging
+        const timeout = setTimeout(() => {
+          console.log('⏱️ Timeout reached: shutting down child process...');
+          child.kill('SIGTERM'); // Use 'SIGKILL' if SIGTERM doesn't work
+        }, 30000);
+
+        child.stdout.on('data', (data) => {
+          const line = data.toString();
+          output += line;
+          console.log('🟢', line.trim());
+        });
+
+        child.stderr.on('data', (data) => {
+          const line = data.toString();
+          output += line;
+          console.error('🔴', line.trim());
+        });
+
+        child.on('close', (code) => {
+          console.log(`Child process exited with code ${code}`);
+          clearTimeout(timeout); // Cancel timeout if process ends early
+          console.log('✅ Start DPS completed');
+          resolve(output);
+        });
+      });
     },
 
     restartLocalEnv () {
@@ -240,30 +272,20 @@ module.exports = (on, config) => {
       return '✅ All local doc environments restarted successfully';
     },
 
-    getStatementData () {
+    queryDatabase (database) {
 
-      // This task retrieves statement data from the database and checks if it exists for the expected SBI.
-      // It uses the queryStatementData module to perform the database query and return the results.
+      // This task retrieves data from the database and checks if it exists.
       console.log('🔍 Checking Database values entered successfully');
-      queryStatementData();
+      queryDatabase(database);
       console.log('✅ Database values checked successfully');
       return null;
     },
 
-    query2024BulkStatementData () {
+    queryBulkStatementData (year) {
 
       // This task retrieves statement data from the database and checks if it exists
       console.log('🔍 Checking Database values entered successfully');
-      query2024BulkStatementData();
-      console.log('✅ Database values checked successfully');
-      return null;
-    },
-
-    query2025BulkStatementData () {
-
-      // This task retrieves statement data from the database and checks if it exists
-      console.log('🔍 Checking Database values entered successfully');
-      query2025BulkStatementData();
+      queryBulkStatementData(year);
       console.log('✅ Database values checked successfully');
       return null;
     },
@@ -294,139 +316,27 @@ module.exports = (on, config) => {
       return null;
     },
 
-    insert2024BulkStatementData () {
+    insertBulkStatementData (year) {
 
       // This task inserts 20 instances of test data into the Statement Data database, 10 for 2024 and 10 for 2025
       console.log('🔄 Inserting bulk test data into Statement Data');
-      insert2024BulkStatementData();
+      insertBulkStatementData(year);
       return null;
     },
-
-    insert2025BulkStatementData () {
-
-      // This task inserts 20 instances of test data into the Statement Data database, 10 for 2024 and 10 for 2025
-      console.log('🔄 Inserting bulk test data into Statement Data');
-      insert2025BulkStatementData();
-      return null;
-    },
-
-    insertIncorrectStatementData () {
+    insertIncorrectData (database) {
 
       // This task inserts intentionally incorrect test data into the Statement Data database
-      console.log('🔄 Inserting incorrect test data into Statement Data');
-      insertIncorrectStatementData();
+      console.log('🔄 Inserting incorrect test data into ' + database);
+      insertIncorrectData(database);
       return null;
     },
 
-    insertIncorrectStatementConstructor () {
-      // This task inserts intentionally incorrect test data into the Statement Constructor database
-      console.log('🔄 Inserting incorrect test data into Statement Constructor');
-      insertIncorrectStatementConstructor();
-      return null;
-    },
-
-    insertIncorrectStatementGenerator () {
-      // This task inserts intentionally incorrect test data into the Statement Generator database
-      console.log('🔄 Inserting incorrect test data into Statement Generator');
-      insertIncorrectStatementGenerator();
-      return null;
-    },
-
-    insertIncorrectStatementPublisher () {
-      // This task inserts intentionally incorrect test data into the Statement Publisher database
-      console.log('🔄 Inserting incorrect test data into Statement Publisher');
-      insertIncorrectStatementPublisher();
-      return null;
-    },
-
-    confirmStatementDataNotAdded () {
-
-      // This task checks if incorrect data was correctly rejected by Statement Data
-      console.log('🔍 Checking Statement Data values not entered');
-      confirmStatementDataNotAdded();
-      console.log('✅ Values not present in Statement Data');
-      return null;
-    },
-
-    confirmStatementConstructorNotAdded () {
-
-      // This task checks if incorrect data was correctly rejected by Statement Constructor
-      console.log('🔍 Checking Statement Constructor values not entered');
-      confirmStatementConstructorNotAdded();
-      console.log('✅ Values not present in Statement Constructor');
-      return null;
-    },
-
-    confirmStatementGeneratorNotAdded () {
-
-      // This task checks if incorrect data was correctly rejected by Statement Generator
-      console.log('🔍 Checking Statement Generator values not entered');
-      confirmStatementGeneratorNotAdded();
-      console.log('✅ Values not present in Statement Generator');
-      return null;
-    },
-
-    confirmStatementPublisherNotAdded () {
-
-      // This task checks if incorrect data was correctly rejected by Statement Publisher
-      console.log('🔍 Checking Statement Publisher values not entered');
-      confirmStatementPublisherNotAdded();
-      console.log('✅ Values not present in Statement Publisher');
-      return null;
-    },
-
-    confirmPayProcessingNotAdded () {
+    confirmInvalidDataNotAdded (database) {
 
       // This task checks if incorrect data was correctly rejected by Pay Processing
       console.log('🔍 Checking Pay Processing values not entered');
-      confirmPayProcessingNotAdded();
+      confirmInvalidDataNotAdded(database);
       console.log('✅ Values not present in Pay Processing');
-      return null;
-    },
-
-    getStatementConstructorData () {
-
-      // This task retrieves statement constructor data from the database and checks if it exists for the expected SBI.
-      console.log('🔍 Checking Statement Constructor values entered successfully');
-      queryStatementConstructor();
-      console.log('✅ Statement Constructor values checked successfully');
-      return null;
-    },
-
-    getStatementGeneratorData () {
-
-      // This task retrieves statement generator data from the database and checks if it contains the expected SBI value.
-      console.log('🔍 Checking Statement Generator values entered successfully');
-      queryStatementGenerator();
-      console.log('✅ Statement Generator values checked successfully');
-      return null;
-    },
-
-    getStatementPublisherData () {
-
-      // This task retrieves statement publisher data from the database and checks if the statement data exists for the expected SBI.
-      // It then retrieves the statement ID based on the SBI and checks if there are any deliveries associated with that statement ID.
-      console.log('🔍 Checking Statement Publisher values entered successfully');
-      queryStatementPublisher();
-      console.log('✅ Statement Publisher values checked successfully');
-      return null;
-    },
-
-    getPayInjectionData () {
-
-      // This task checks that Pay injection data has been entered correctly
-      console.log('🔍 Checking Pay Injection values entered successfully');
-      queryPayInjection();
-      console.log('✅ Pay Injection values checked successfully');
-      return null;
-    },
-
-    getPayProcessingData () {
-
-      // This task checks that Pay processing data has been entered correctly
-      console.log('🔍 Checking Pay Processor values entered successfully');
-      queryPayProcessing();
-      console.log('✅ Pay Processor values checked successfully');
       return null;
     },
 
@@ -439,15 +349,6 @@ module.exports = (on, config) => {
       return null;
     },
 
-    getPaySubmissionData () {
-
-      // This task checks that Pay Submission data has been entered correctly
-      console.log('🔍 Checking Pay Submission values entered successfully');
-      queryPaySubmission();
-      console.log('✅ Pay Submission values checked successfully');
-      return null;
-    },
-
     async fetchStatementsBlobById ({container, dir, year}) {
       downloadStatementsBlobById(container, dir, year);
       return null;
@@ -455,6 +356,11 @@ module.exports = (on, config) => {
 
     async fetchPaymentsBlobById ({container, dir, scheme}) {
       downloadPaymentsBlobById(container, dir, scheme);
+      return null;
+    },
+
+    async uploadFileToBlobStorage ({container, dir, scheme}) {
+      await uploadFileToBlobStorage(container, dir, scheme);
       return null;
     },
 

@@ -217,6 +217,7 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 5: scenarioString = '05 Confirm that invalid Manual Payments filename produces appropriate error message'; break;
     case 6: scenarioString = '06 Confirm that invalid file size produces appropriate error message'; break;
     case 7: scenarioString =  '07 Confirm that empty file produces appropriate error message'; break;
+    case 8: scenarioString = '08 Upload History table'; break;
     }
     break;
   case 17: featureString = '17_PaymentCalculator.feature -- ';

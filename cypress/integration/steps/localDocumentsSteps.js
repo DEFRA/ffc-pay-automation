@@ -10,30 +10,15 @@ When(/^I insert (.*) test data into Statement Data service$/, (year) => {
 });
 
 When(/^I send bulk test data into Statement Data service$/, () => {
-  cy.insert2024BulkStatementData();
-  cy.insert2025BulkStatementData();
+  cy.insertBulkStatementData('2024');
+  cy.insertBulkStatementData('2025');
   cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
 });
 
 When(/^I send incorrect test data into (.*) service$/, (databaseName) => {
-  switch (databaseName) {
-  case 'Statement Data':
-    cy.insertIncorrectStatementData();
-    cy.wait(10000);
-    break;
-  case 'Statement Constructor':
-    cy.insertIncorrectStatementConstructor();
-    cy.wait(10000);
-    break;
-  case 'Statement Generator':
-    cy.insertIncorrectStatementGenerator();
-    cy.wait(10000);
-    break;
-  case 'Statement Publisher':
-    cy.insertIncorrectStatementPublisher();
-    cy.wait(10000);
-    break;
-  }
+  cy.insertIncorrectData(databaseName);
+  cy.wait(10000);
+
 });
 
 Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values have been generated$/, (fileType) => {
@@ -74,6 +59,13 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'genesis'
     });
     break;
+  case 'dps payments':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'dps'
+    });
+    break;
   }
 
 });
@@ -83,30 +75,28 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
   switch (databaseName) {
   case 'ffc-doc-statement-data':
     containerName = 'ffc-doc-statement-data-development';
-    cy.confirmStatementDataNotAdded();
     break;
   case 'ffc-doc-statement-constructor':
     containerName = 'ffc-doc-statement-constructor-development';
-    cy.confirmStatementConstructorNotAdded();
     break;
   case 'ffc-doc-statement-generator':
     containerName = 'ffc-doc-statement-generator-development';
-    cy.confirmStatementGeneratorNotAdded();
     break;
   case 'ffc-doc-statement-publisher':
     containerName = 'ffc-doc-statement-publisher-development';
-    cy.confirmStatementPublisherNotAdded();
     break;
   }
 
-  cy.task('getDockerLogs', containerName).then((logs) => {
-    logs.split('\n').forEach((line) => {
-      if (line.trim()) {
-        console.log(line);
-        cy.log(line);
-      }
-    });
-  });
+  cy.confirmInvalidDataNotAdded(databaseName);
+
+  // cy.task('getDockerLogs', containerName).then((logs) => {
+  //   logs.split('\n').forEach((line) => {
+  //     if (line.trim()) {
+  //       console.log(line);
+  //       cy.log(line);
+  //     }
+  //   });
+  // });
   console.log(`✅ Test data was not inserted into the ${containerName} database`);
   cy.log(`✅ Test data was not inserted into the ${containerName} database`);
 });
@@ -116,27 +106,24 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
   switch (databaseName) {
   case 'ffc-doc-statement-data':
     containerName = 'ffc-doc-statement-data-development';
-    cy.getStatementData();
     break;
   case 'ffc-doc-statement-constructor':
     containerName = 'ffc-doc-statement-constructor-development';
-    cy.getStatementConstructorData();
     break;
   case 'ffc-doc-statement-generator':
     containerName = 'ffc-doc-statement-generator-development';
-    cy.getStatementGeneratorData();
     break;
   case 'ffc-doc-statement-publisher':
     containerName = 'ffc-doc-statement-publisher-development';
-    cy.getStatementPublisherData();
     break;
   }
+
+  cy.queryDatabase(databaseName);
 
   cy.task('getDockerLogs', containerName).then((logs) => {
     logs.split('\n').forEach((line) => {
       if (line.trim()) {
         console.log(line);
-        cy.log(line);
       }
     });
   });
@@ -149,8 +136,8 @@ Then(/^I confirm that bulk test data has been inserted into the (.*) database$/,
   switch (databaseName) {
   case 'ffc-doc-statement-data':
     containerName = 'ffc-doc-statement-data-development';
-    cy.query2024BulkStatementData();
-    cy.query2025BulkStatementData();
+    cy.queryBulkStatementData('2024');
+    // cy.queryBulkStatementData('2025');
     break;
   case 'ffc-doc-statement-constructor':
     containerName = 'ffc-doc-statement-constructor-development';
@@ -166,7 +153,6 @@ Then(/^I confirm that bulk test data has been inserted into the (.*) database$/,
     logs.split('\n').forEach((line) => {
       if (line.trim()) {
         console.log(line);
-        cy.log(line);
       }
     });
   });
