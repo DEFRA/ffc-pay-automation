@@ -20,6 +20,7 @@ Feature: 15 Manual Payments
     Then on the Manual Payments page I confirm that "choose file button" is present
     Then on the Manual Payments page I confirm that "upload button" is present
     Then on the Manual Payments page I confirm that "manual payments guidance link" is present
+    Then on the Manual Payments page I confirm that "upload history table" is present
 
   Scenario: 02 Confirm that valid Manual Payments file can be processed successfully
 
@@ -33,6 +34,8 @@ Feature: 15 Manual Payments
     Then on the Manual Payments page I confirm that "file upload confirmation message" is present
     Then on the Manual Payments page I confirm that "return button" is present
     Then I take a screenshot for Feature 15 and Scenario 02
+    When on the Manual Payments page I click the "return button"
+    Then on the Manual Payments page I confirm that entry with filename "FFC_Manual_Batch_2023091210439155.csv" has been added to Upload History
     Then I confirm that payment test data has been inserted into the ffc-pay-injection database
 
   Scenario: 03 Confirm that attempting to upload duplicate file produces appropriate error message
@@ -95,4 +98,17 @@ Feature: 15 Manual Payments
     When on the Manual Payments page I click the "upload button"
     Then on the Manual Payments page I confirm that "empty file message" is present
     Then I take a screenshot for Feature 15 and Scenario 07
+
+  Scenario: 08 Upload History table
+
+#This scenario confirms that the View Payment status link directs to the correct page and that expected FRN values are present  
+
+    Given I visit the "Payment management" homepage
+    When I click on the "Upload manual payment" link
+    Then I am on the "manual-payments" subpage
+    Then on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present
+    Then I take a screenshot for Feature 15 and Scenario 08
+
+
+
   

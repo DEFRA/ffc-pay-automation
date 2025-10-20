@@ -4,6 +4,10 @@ Given('I restart the local environment', () => {
   cy.restartLocalEnv();
 });
 
+Given('I start ffc-pay-dps service', () => {
+  cy.startDPSService();
+});
+
 When(/^I insert (.*) test data into Batch Processor service$/, (schemeName) => {
   switch (schemeName) {
   case 'GLOS':
@@ -18,23 +22,21 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
   switch (databaseName) {
   case 'ffc-pay-injection':
     containerName = 'ffc-pay-injection-development';
-    cy.getPayInjectionData();
     break;
   case 'ffc-pay-processing':
     containerName = 'ffc-pay-processing-ffc-pay-processing-1';
-    cy.getPayProcessingData();
     break;
   case 'ffc-pay-submission':
     containerName = 'ffc-pay-submission-development';
-    cy.getPaySubmissionData();
     break;
   }
+
+  cy.queryDatabase(databaseName);
 
   cy.task('getDockerLogs', containerName).then((logs) => {
     logs.split('\n').forEach((line) => {
       if (line.trim()) {
         console.log(line);
-        cy.log(line);
       }
     });
   });
@@ -48,7 +50,7 @@ Then(/^I confirm that payment test data has not been inserted into the (.*) data
 
   case 'ffc-pay-processing':
     containerName = 'ffc-pay-processing-ffc-pay-processing-1';
-    cy.confirmPayProcessingNotAdded();
+    cy.confirmInvalidDataNotAdded(databaseName);
     break;
   }
 
@@ -56,7 +58,6 @@ Then(/^I confirm that payment test data has not been inserted into the (.*) data
     logs.split('\n').forEach((line) => {
       if (line.trim()) {
         console.log(line);
-        cy.log(line);
       }
     });
   });
@@ -76,10 +77,22 @@ Then(/^I confirm that return test data has been inserted into the (.*) database$
     logs.split('\n').forEach((line) => {
       if (line.trim()) {
         console.log(line);
-        cy.log(line);
       }
     });
   });
   console.log(`✅ Test data was updated in the ${containerName} database`);
   cy.log(`✅ Test data was updated in the ${containerName} database`);
+});
+
+When(/^I upload the (.*) payment file to the Azure Blob Storage container$/, (fileType) => {
+  switch (fileType) {
+  case 'dps':
+    cy.task('uploadFileToBlobStorage', {
+      container: 'batch',
+      dir: 'inbound/',
+      scheme: 'dps'
+    });
+    break;
+  default: throw new Error(`Unknown file type: ${fileType}`);
+  }
 });

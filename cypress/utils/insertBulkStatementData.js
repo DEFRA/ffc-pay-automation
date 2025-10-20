@@ -4,7 +4,7 @@ var value = '';
 
 // This module connects to Statement Data database and inserts 10 instances of test data for 2024 Delinked
 
-module.exports = async () => {
+module.exports = async (year) => {
 
   const client = new Client({
     host: process.env.DEFAULTHOST,
@@ -15,6 +15,28 @@ module.exports = async () => {
     ssl: false,
   });
 
+  var sbi = '';
+  var paymentRef = '';
+  var frn = '';
+  var applicationId = '';
+  var calculationId = '';
+
+  switch (year) {
+  case '2024':
+    sbi = '12345678';
+    frn = '123456789';
+    applicationId = '123456';
+    calculationId = '98765432';
+    break;
+  case '2025':
+    sbi = '13345678';
+    frn = '133456789';
+    applicationId = '123456';
+    calculationId = '88765432';
+    break;
+
+  }
+
   await client.connect();
 
 
@@ -23,7 +45,7 @@ module.exports = async () => {
 
       const insertSql = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
-(12345678` + i + `,'` + i + ` The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com','123456789` + i + `','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
+(${sbi + i}, '${i} The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com','${frn + i}','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
 DO UPDATE SET
   "addressLine1" = EXCLUDED."addressLine1",
@@ -38,9 +60,14 @@ DO UPDATE SET
   "updated" = EXCLUDED."updated";
 
 INSERT INTO "delinkedCalculation" ("applicationId", "calculationId", "sbi", "frn", "paymentBand1", "paymentBand2", "paymentBand3", "paymentBand4", "percentageReduction1", "percentageReduction2", "percentageReduction3", "percentageReduction4", "progressiveReductions1", "progressiveReductions2", "progressiveReductions3", "progressiveReductions4", "totalProgressiveReduction", "referenceAmount", "totalDelinkedPayment", "paymentAmountCalculated", "updated")
-VALUES
-(123456` + i + `,98765432` + i + `,12345678` + i + `,'123456789` + i + `',30000,50000,150000,99999999.99,50.00,55.00,65.00,70.00,15000.00,11000.00,65000.00,35000.00,126000.00,2000000.00,75000.00,37500.00,'2025-09-04 13:34:26.219')
-ON CONFLICT ("calculationId")
+VALUES (
+  ${(applicationId) + i}, ${(calculationId) + i}, ${sbi + i}, '${frn + i}',
+  30000, 50000, 150000, 99999999.99,
+  50.00, 55.00, 65.00, 70.00,
+  15000.00, 11000.00, 65000.00, 35000.00,
+  126000.00, 2000000.00, 75000.00, 37500.00,
+  '2025-09-04 13:34:26.219'
+)ON CONFLICT ("calculationId")
 DO UPDATE SET
   "applicationId" = EXCLUDED."applicationId",
   "sbi" = EXCLUDED."sbi",
@@ -63,13 +90,14 @@ DO UPDATE SET
   "paymentAmountCalculated" = EXCLUDED."paymentAmountCalculated";
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
-VALUES
-(98765432` + i + `,2024,'PY041024` + i + `',37500.00,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),2024);
+VALUES (
+  ${(calculationId) + i}, '${year}', 'PY141024` + i + `', 37500.00, to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'${year}'
+);
 `;
 
 
       await client.query(insertSql);
-      console.log('✅ 2024 Data inserted successfully');
+      console.log('✅ ' + year + 'Data inserted successfully');
 
     } catch (error) {
       console.log('Error generated', error);

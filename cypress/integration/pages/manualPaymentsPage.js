@@ -42,6 +42,14 @@ class manualPaymentsPage {
   errorReturnButton () {
     return cy.get('#error-message > .redirect-link > .govuk-link');
   }
+
+  uploadHistoryTable () {
+    return cy.get(':nth-child(1) > .govuk-grid-row > .govuk-grid-column-full');
+  }
+
+  uploadHistoryFilename () {
+    return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(2)');
+  }
 }
 
 export default new manualPaymentsPage();

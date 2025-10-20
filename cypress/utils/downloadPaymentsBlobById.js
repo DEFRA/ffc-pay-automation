@@ -7,8 +7,13 @@ const csv = require('csv-parser');
 async function downloadPaymentsBlobById (containerName, downloadDir, scheme) {
 
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
+  var blobServiceClient = null;
 
-  const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.PAYMENTSBLOBCONNECTIONSTRING);
+  if (scheme === 'dps') {
+    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DPSBLOBCONNECTIONSTRING);
+  } else {
+    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.PAYMENTSBLOBCONNECTIONSTRING);
+  }
   console.log('Blob Service Client = ' + blobServiceClient.url);
   console.log('Container name = ' + containerName);
   const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -22,6 +27,7 @@ async function downloadPaymentsBlobById (containerName, downloadDir, scheme) {
   case 'glos': partialFileName = 'outbound/FFCFC_0001'; break;
   case 'imps': partialFileName = 'outbound/FFCIMPS_0001'; break;
   case 'genesis': partialFileName = 'outbound/FFCES_0001'; break;
+  case 'dps': partialFileName = 'outbound/FFCBGAN2023'; break;
   default: throw new Error(`Unknown scheme: ${scheme}`);
   }
 
@@ -65,6 +71,9 @@ async function downloadPaymentsBlobById (containerName, downloadDir, scheme) {
   ]; break;
   case 'genesis' : requiredValues = [
     '2022', 'SOS229', 'EXQ00', 'NE00'
+  ]; break;
+  case 'dps' : requiredValues = [
+    '2410', '766951', '1PC09913', '14618.00', 'GBP'
   ]; break;
   default: throw new Error(`Unknown scheme: ${scheme}`);
   }
