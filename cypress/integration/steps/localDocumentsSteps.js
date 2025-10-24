@@ -66,6 +66,28 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'dps'
     });
     break;
+  case 'vet visits':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'vet visits'
+    });
+    break;
+  case 'cohtr':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'cohtr'
+    });
+    break;
+  case 'cohtc':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'cohtc'
+    });
+    break;
+  default: throw new Error(`Unknown scheme: ${fileType}`);
   }
 
 });

@@ -115,8 +115,8 @@ Cypress.Commands.add('confirmInvalidDataNotAdded', (database) => {
   cy.task('confirmInvalidDataNotAdded', database);
 });
 
-Cypress.Commands.add('confirmReturnPayProcessingData', () => {
-  cy.task('confirmReturnPayProcessingData');
+Cypress.Commands.add('queryPayProcessing', (fileType) => {
+  cy.task('queryPayProcessing', fileType);
 });
 
 Cypress.Commands.add('fetchStatementsBlobById', (container, dir, year) => {

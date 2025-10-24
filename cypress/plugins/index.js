@@ -13,7 +13,7 @@ const downloadStatementsBlobById = require('../utils/downloadStatementsBlobById'
 const downloadPaymentsBlobById = require('../utils/downloadPaymentsBlobById');
 const { exec } = require('child_process');
 const insertIncorrectData = require('../utils/insertIncorrectData');
-const queryReturnPayProcessing = require('../utils/queryReturnPayProcessing');
+const queryPayProcessing = require('../utils/queryPayProcessing');
 const insertBulkStatementData = require('../utils/insertBulkStatementData');
 const queryBulkStatementData = require('../utils/queryBulkStatementData');
 const queryBulkStatementConstructor = require('../utils/queryBulkStatementConstructor');
@@ -340,11 +340,11 @@ module.exports = (on, config) => {
       return null;
     },
 
-    confirmReturnPayProcessingData () {
+    queryPayProcessing (fileType) {
 
-      //This task checks that Pay processing data has been updated correctly following return file upload
+      //This task checks that Pay processing data has been updated correctly following file upload
       console.log('🔍 Checking Pay Processor values entered successfully');
-      queryReturnPayProcessing();
+      queryPayProcessing(fileType);
       console.log('✅ Pay Processor values checked successfully');
       return null;
     },

@@ -65,12 +65,12 @@ Then(/^I confirm that payment test data has not been inserted into the (.*) data
   cy.log(`✅ Test data was not inserted into the ${containerName} database`);
 });
 
-Then(/^I confirm that return test data has been inserted into the (.*) database$/, (databaseName) => {
+Then(/^I confirm that (.*) test data has been inserted into the (.*) database$/, (fileType, databaseName) => {
   var containerName = '';
   switch (databaseName) {
   case 'ffc-pay-processing':
     containerName = 'ffc-pay-processing-ffc-pay-processing-1';
-    cy.confirmReturnPayProcessingData(); break;
+    cy.queryPayProcessing(fileType); break;
   }
 
   cy.task('getDockerLogs', containerName).then((logs) => {

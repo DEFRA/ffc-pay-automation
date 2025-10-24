@@ -91,6 +91,13 @@ Then('I should see {string} number of closures', (count) => {
 });
 
 When('I select {string} from the {string} dropdown', (text, dropdown) => {
+  if (text === 'COHT Capital') {
+    cy.wait(60000);
+    cy.log('Wait for all payments to process');
+  } else if (text === 'COHT Revenue') {
+    cy.wait(60000);
+    cy.log('Wait for all payments to process');
+  }
   if (dropdown === 'scheme') {
     reportsPage.schemeDropdown().then($dropdown => {
       const options = $dropdown.find('option');
@@ -311,4 +318,11 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
   });
   console.log('Confirmed that expected FRN values are present on the Payment Status page');
   cy.log('Confirmed that expected FRN values are present on the Payment Status page');
+});
+
+Then(/^on the Processed Payment Requests page I confirm that entry is present for "(.*)" scheme with "(.*)" payments and a value of "(.*)"$/, (scheme, payments, value) => {
+  cy.wait(2000); // Waiting for data load
+  cy.contains(scheme).should('be.visible');
+  cy.contains(payments).should('be.visible');
+  cy.contains(value).should('be.visible');
 });

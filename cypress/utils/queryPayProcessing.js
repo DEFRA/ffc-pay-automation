@@ -4,7 +4,7 @@ const { Client } = require('pg');
 // This module connects to Pay Processor database and checks if the data has been updated following return file upload.
 
 
-module.exports = async () => {
+module.exports = async (fileType) => {
 
   const client = new Client({
     host: process.env.DEFAULTHOST,
@@ -15,19 +15,25 @@ module.exports = async () => {
     ssl: false,
   });
 
+  var querySql = '';
+
+  switch (fileType) {
+  case 'return': querySql = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "paymentRequestId" = 1'; break;
+  case 'ppa': querySql = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "paymentRequestId" = 2'; break;
+
+  }
+
   try {
     await client.connect();
-    const querySql = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "paymentRequestId" = 1';
-
 
     await client.query(querySql).then((results) => {
       const data = results.rows[0];
       console.log('Data retrieved:', data);
-      if (Object.values(data).includes(22770)) {
-        console.log('✅ Correct data has been added from return file');
-        return 'Correct data has been added from return file';
+      if (!Object.values(data).includes(null)) {
+        console.log('✅ Correct data has been added from ' + fileType + ' file');
+        return 'Correct data has been added from ' + fileType + ' file';
       } else {
-        console.log('Correct data has not been added from return file');
+        console.log('Correct data has not been added from ' + fileType + ' file');
         throw Error;
       }
     });
