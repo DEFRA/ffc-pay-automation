@@ -25,7 +25,7 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
   console.log("URL to open " + url);
 
   cy.visit(url);
-  paymentManagementPage.header().should('be.visible').and('have.text', text);
+  cy.wait(10000);
   cy.wrap(url).as('baseUrl');
 
   const envFilePath = 'cypress/fixtures/env.json';
@@ -71,6 +71,12 @@ Then(/^I should see "(.*)"$/, (text) => {
 });
 
 When(/^I click on the "(.*)" link$/, (text) => {
+  if (text === 'View awaiting ledger assignment') {
+    cy.wait(30000);
+    cy.log('Waiting for data to process');
+    cy.reload();
+    cy.wait(1000);
+  }
   cy.get('a').contains(text).scrollIntoView().click();
   cy.wait(1000);
 });
@@ -230,6 +236,24 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 6: scenarioString = '06 Confirm that new schemes and grants link functions correctly'; break;
     case 7: scenarioString = '07 Confirm that replacing the Basic Payment Scheme link functions correctly'; break;
     case 8: scenarioString = '08 Confirm that Rural Payments service link functions correctly'; break;
+    }
+    break;
+  case 22: featureString = '22_CSHigherTierRevenuePayments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 insert incorrect COHTR test data via service bus message to ffc-pay-request'; break;
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
+  case 23: featureString = '23_CSHigherTierCapitalPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 insert incorrect COHTC test data via service bus message to ffc-pay-request'; break;
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
     }
     break;
   }

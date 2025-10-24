@@ -7,7 +7,8 @@ Given('I send the updated {string} message to the service bus topic {string}', (
     Cypress.env('updatedMessageBody', updatedMessageBody);
     cy.sendMessage(updatedMessageBody, topicName);
   });
-  cy.wait(5000);
+  //Wait for file to be processed
+  cy.wait(30000);
 });
 
 Given('I start the messaging service for the service bus topic {string}', (topicName) => {
