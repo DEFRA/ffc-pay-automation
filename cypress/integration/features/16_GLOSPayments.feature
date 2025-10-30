@@ -1,4 +1,4 @@
-@dev @local
+@local
 Feature: 16 GLOS Payments
 
 # This feature file is designed to test the end-to-end journey of GLOS payment in the local environment.

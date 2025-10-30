@@ -46,6 +46,14 @@ class paymentHoldsPage {
   allFirstColumnCells () {
     return cy.get('tr td:first-child');
   }
+
+  frnSearchField () {
+    return cy.get('#payment-hold-search');
+  }
+
+  frnSearchButton () {
+    return cy.get('#main-content > div > div > form > button');
+  }
 }
 
 export default new paymentHoldsPage();

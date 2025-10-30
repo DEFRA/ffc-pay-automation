@@ -1,14 +1,29 @@
 {
-  "sourceSystem":"SITI_SFI",
-  "invoiceNumber":"SFI3430604",
-  "frn":"1207072313",
+  "sourceSystem":"SFI",
+  "schemeId":1,
+  "batch":"SITISFI0001_AP_2022110909115624.dat",
+  "deliveryBody":"RP00",
+  "invoiceNumber":"SFI2795919",
+  "frn":"1043959492",
+  "marketingYear":2022,
+  "paymentRequestNumber":1,
+  "agreementNumber":"38322143",
+  "contractNumber":"76642753",
   "currency":"GBP",
-  "value":2500000,
-  "settlementDate":"2022-12-11T00:00:00.000Z",
-  "reference":"KJ4786549",
-  "settled":true,
-  "detail":"Stopped by RPA",
-  "ledger":"AP",
-  "referenceId":"a66ccf0af3f05e3ab2d8f63ffd0e8ac3",
-  "filename":"FFCSITI_SFI Return File unique.csv"
+  "schedule":"Q4",
+  "dueDate":"2021-12-01",
+  "value":100000,
+  "correlationId":"f9aaec8c-1947-42a1-864e-0e74a90cafef",
+  "invoiceLines":[
+    {
+      "schemeCode":"80101",
+      "accountCode":"SOS273",
+      "fundCode":"DRD10",
+      "agreementNumber":"38322143",
+      "description":"G00 - Gross value of claim",
+      "value":100000,
+      "deliveryBody":"RP00",
+      "marketingYear":2022
+    }
+  ]
 }

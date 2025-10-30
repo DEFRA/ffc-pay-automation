@@ -3,12 +3,8 @@ Feature: 10 Reports
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
     And I click on the "Report List" link
-  
-  @local
-  Scenario: Scenario name
-    Given the sample report data is loaded
 
-  @dev @test @local
+  @dev @test
   Scenario Outline: 01 Verify CSV file is downloaded when clicking "<link>"
     When I click on the "<link>" download link
     Then the CSV file is downloaded with "<title>" as the title
@@ -20,7 +16,7 @@ Feature: 10 Reports
       | Request Editor report       | ffc-pay-request-editor-report |
       | Suppressed payment requests | ffc-pay-suppressed-report     |
 
-  @dev @test @local
+  @dev @test
   Scenario Outline: 02 Verify "link" link works correctly
     When I click on the "<link>" link
     Then I am on the "<subPage>" subpage
@@ -33,7 +29,7 @@ Feature: 10 Reports
       | Claim level report              | claim-level-report  |
       | Payment statement status report | status-report       |
 
-  @dev @test @local
+  @dev @test
   Scenario Outline: 03 Download Combined transaction report for <scheme>
     And I click on the "Combined transaction report" link
     And I am on the "transaction-summary" subpage
@@ -60,7 +56,7 @@ Feature: 10 Reports
       | SFI22              | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_1_year_2023         |
       | SFI23              | 2023 |     |                | 1100016529 | ffc-pay-combined-transaction-report_schemeId_12_year_2023        |
 
-  @dev @test @local
+  @dev @test
   Scenario Outline: 04 Download <reportType>
     And I click on the "AP-AR listing report" link
     And I select "<reportType>" from the "reportType" dropdown
@@ -74,7 +70,7 @@ Feature: 10 Reports
       | AP Listing Report | 01-05-2024 | 01-05-2025 | ffc-pay-ap-listing-report_from_2024-05-01_to_2025-05-01 |
       | AR Listing Report | 01-05-2024 | 01-05-2025 | ffc-pay-ar-listing-report_from_2024-05-01_to_2025-05-01 |
 
-  @dev @test @local
+  @dev @test
   Scenario Outline: 05 Download Claim level report for <scheme>
     And I click on the "Claim level report" link
     And I am on the "claim-level-report" subpage
@@ -102,7 +98,7 @@ Feature: 10 Reports
       | SFI23              | 2023 |                | 1100016529 | ffc-pay-claim-level-report_schemeId_12_year_2023_frn_1100016529 |
       | Vet Visits         | 2023 |                |            | ffc-pay-claim-level-report_schemeId_4_year_2023                 |
 
-  @dev @test @local
+  @dev @test
   Scenario Outline: 06 No data found for <reportType>
     And I click on the "AP-AR listing report" link
     And I select "<reportType>" from the "reportType" dropdown
@@ -125,7 +121,7 @@ Feature: 10 Reports
     When the user downloads the status report with text "<date>"
     Then the status report is downloaded with "<title>" as the title
 
-    @dev @local
+    @dev
     Examples:
       | scheme   | year | date         | title                                                          |
       | Delinked | 2025 | 15 July 2025 | reports_delinked-payment-statement-2025-07-15T15_35_40.097Z    |

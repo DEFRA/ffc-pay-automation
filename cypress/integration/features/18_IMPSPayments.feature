@@ -1,4 +1,4 @@
-@dev @local
+@local
 Feature: 18 IMPS Payments
 
 # This feature file is designed to test the end-to-end journey of IMPS payment in the local environment.

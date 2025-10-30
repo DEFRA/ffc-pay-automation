@@ -1,4 +1,4 @@
-@dev @local
+@dev @test @local
 Feature: 05 Remove Payment Holds via CSV Upload
 
   Background:
@@ -7,7 +7,6 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And I am on the "payment-holds" subpage
     And I click on the "Add or remove holds in bulk" link
 
-  @test
   Scenario: 01 Uploading a CSV file with incorrect FRN format
     And the user selects to "Remove" holds
     And the 'Remove' holds option is selected
@@ -17,7 +16,6 @@ Feature: 05 Remove Payment Holds via CSV Upload
     Then the 'There was a problem validating your uploaded data.' error message is displayed on the Bulk upload page
     Then I take a screenshot for Feature 5 and Scenario 1
 
-  @test
   Scenario: 02 Uploading a file that is not a CSV
     And the user selects to "Remove" holds
     And the 'Remove' holds option is selected
@@ -44,7 +42,6 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And the payment requests related to the "selectiveFrnRemove.csv" CSV are not in the table
     Then I take a screenshot for Feature 5 and Scenario 3
 
-  @test
   Scenario: 04 Attempting to remove holds without selecting a hold category
     And the user selects to "Remove" holds
     And the 'Remove' holds option is selected

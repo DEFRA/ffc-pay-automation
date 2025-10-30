@@ -20,7 +20,7 @@ class paymentManagementPage {
   }
 
   noOfClosures () {
-    return cy.get(':nth-child(4) > .govuk-cards--2__item > .govuk-heading-l');
+    return cy.get(':nth-child(3) > :nth-child(2) > .govuk-heading-l');
   }
 }
 

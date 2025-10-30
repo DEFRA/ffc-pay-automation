@@ -1,0 +1,37 @@
+{
+    "sourceSystem": "AHWR",
+    "schemeId": 4,
+    "frn": "284226304212",
+    "sbi": "106284736",
+    "marketingYear": 2025,
+    "paymentRequestNumber": 1,
+    "correlationId": "2f4d59ab-6d86-4f47-a8d7-5b69c7f40e70",
+    "invoiceNumber": "FPRS58",
+    "agreementNumber": "70012345",
+    "dueDate": "2025-12-05",
+    "value": 16002.048,
+    "contractNumber": "1",
+    "ledger": "AP",
+    "invoiceLines": [
+        {
+            "value": 1201.012,
+            "description": "G00 - 2025-12-05: Parcel: 8083: CMOR1: Assess moorland and produce a written record",
+            "schemeCode": "CMOR1"
+        },
+        {
+            "value": 6800.012,
+            "description": "G00 - 2025-12-05: One-off payment per agreement per year for CMOR1: Assess moorland and produce a written record",
+            "schemeCode": "CMOR1"
+        },
+        {
+            "value": 1201.012,
+            "description": "G00 - 2026-03-05: Parcel: 8083: CMOR1: Assess moorland and produce a written record",
+            "schemeCode": "CMOR1"
+        },
+        {
+            "value": 6800.012,
+            "description": "G00 - 2026-03-05: One-off payment per agreement per year for CMOR1: Assess moorland and produce a written record",
+            "schemeCode": "CMOR1"
+        }
+    ]
+}

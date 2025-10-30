@@ -1,4 +1,4 @@
-@local @dev @documents
+@local @documents
 Feature: 14 Doc E2E Journey
 
  #This feature file is designed to test the end-to-end journey of document services in the local environment.

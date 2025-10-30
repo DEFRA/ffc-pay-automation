@@ -5,7 +5,7 @@
     "currency": "GBP",
     "value": 2500000,
     "settlementDate": "2022-12-11T00:00:00.000Z",
-    "reference": "KJ5246018",
+    "reference": "PY5246018",
     "settled": true,
     "detail": "Stopped by RPA",
     "ledger": "AP",

@@ -1,4 +1,4 @@
-@dev @local
+@dev @test
 Feature: 20 Accessibility Testing
 
 #This feature tests confirms that there are no accessibility issues on key pages of the front-end applications using axe-core

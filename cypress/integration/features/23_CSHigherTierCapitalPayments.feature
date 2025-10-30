@@ -48,7 +48,7 @@ Feature: 23 CS Higher Tier Capital Payments
     Then I take a screenshot for Feature 23 and Scenario 5
     And I click on the "Continue" button
     And I click on the "Back" link
-    And I click on the "Sign out" link
+    And I click on the "Sign Out" link
 
   Scenario: 06 Approve payment in ledger assignment queue
 
@@ -61,7 +61,7 @@ Feature: 23 CS Higher Tier Capital Payments
     Then I take a screenshot for Feature 23 and Scenario 6
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign out" link
+    And I click on the "Sign Out" link
 
   Scenario: 07 Approve payment from quality check queue
 
