@@ -32,8 +32,8 @@ Then('the new holds in {string} are visible along with the correct timestamp', (
     const today = moment().format('DD/MM/YYYY'); // Get today's date once
 
     frnValues.forEach((frnValue) => {
-      requestEditor.getFrnSearchField().clear().type(frnValue);
-      requestEditor.getFrnSearchButton().click();
+      paymentHoldsPage.frnSearchField().clear().type(frnValue);
+      paymentHoldsPage.frnSearchButton().click();
 
       // Wait for a reasonable amount of time for the table to load
       cy.wait(2000); // Adjust time as necessary based on your application
@@ -74,7 +74,7 @@ Then('the {string} error message is displayed on the Bulk upload page', (errMsg)
   paymentHoldsPage
     .bulkUploadErrorSummaryTitle()
     .should('be.visible')
-    .and('contain.text', 'There was a problem');
+    .and('contain.text', 'There is a problem');
   paymentHoldsPage
     .bulkUploadErrorMessage()
     .should('be.visible')
@@ -83,6 +83,15 @@ Then('the {string} error message is displayed on the Bulk upload page', (errMsg)
 
 When('the user selects to {string} holds', (option) => {
   paymentHoldsPage.sltAddRemoveHolds().select(option);
+});
+
+When('on the Payment Holds page I enter the newly generated FRN in the search field', () => {
+  const updatedFRN = Cypress.env('updatedMessageBody').frn;
+  paymentHoldsPage.frnSearchField().type(updatedFRN);
+});
+
+Then('on the Payment Holds page I click the FRN search button', () => {
+  paymentHoldsPage.frnSearchButton().click();
 });
 
 Then('the payment requests related to the {string} CSV are not in the table', (file) => {

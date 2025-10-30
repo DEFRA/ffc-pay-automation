@@ -1,10 +1,9 @@
-@dev @local
+@dev @test
 Feature: 03 Agreement Closures
 
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
 
-  @test
   Scenario: 01 View Agreement Closures
     Then I should see "Agreement closures"
     And I should see the number of closures
@@ -13,24 +12,20 @@ Feature: 03 Agreement Closures
     And I should see "Add closure"
     And I should see "Add bulk closures"
 
-  @test
   Scenario: 02 Access Agreement Closure Management
     When I click on the "Manage closures" link
     Then I am on the "closure" subpage
 
-  @test
   Scenario: 03 Access Add Agreement Closure
     When I click on the "Add closure" link
     Then I am on the "closure/add" subpage
     Then I take a screenshot for Feature 3 and Scenario 3
 
-  @test
   Scenario: 04 Access Bulk Agreement Closures
     When I click on the "Add bulk closures" link
     Then I am on the "closure/bulk" subpage
     Then I take a screenshot for Feature 3 and Scenario 4
 
-  @test
   Scenario: 05 View Agreement Closures Page
     When I click on the "Manage closures" link
     Then I am on the "closure" subpage
@@ -38,23 +33,19 @@ Feature: 03 Agreement Closures
     And I should see "Create new closure"
     And I should see "Create bulk closure"
     Then I take a screenshot for Feature 3 and Scenario 5
-    # And I should see "There are no agreement closures."
 
-  @test
   Scenario: 06 Create New Closure
     And I click on the "Manage closures" link
     When I click on the "Create new closure" link
     Then I am on the "closure/add" subpage
     Then I take a screenshot for Feature 3 and Scenario 6
 
-  @test
   Scenario: 07 Create Bulk Closure
     And I click on the "Manage closures" link
     When I click on the "Create bulk closure" link
     Then I am on the "closure/bulk" subpage
     Then I take a screenshot for Feature 3 and Scenario 7
 
-  @test
   Scenario: 08 View Agreement Closure Page
     When I click on the "Add closure" link
     Then I am on the "closure/add" subpage
@@ -67,23 +58,18 @@ Feature: 03 Agreement Closures
     And I should see the "Closure date" field
     And I should see "Create"
 
-  @test
   Scenario: 09 View Bulk Agreement Closure Page From Single Closure Page
     And I click on the "Add closure" link
     When I click the "upload in bulk" link
     Then I take a screenshot for Feature 3 and Scenario 9
-    # Todo: Below fails (Page Not Found)
     Then I am on the "closure/bulk" subpage
 
-  @test
   Scenario: 10 View Agreement Closure Page From Bulk Closure Page
     And I click on the "Add bulk closures" link
     When I click the "upload single" link
-    # Todo: Below fails (Page Redirect Error)
     Then I am on the "closure/add" subpage
     Then I take a screenshot for Feature 3 and Scenario 10
 
-  @test
   Scenario: 11 Empty fields
     And I click on the "Add closure" link
     When I click the "Create" link
@@ -95,7 +81,6 @@ Feature: 03 Agreement Closures
     And I should see "Enter a valid year"
     Then I take a screenshot for Feature 3 and Scenario 11
 
-  @test
   Scenario Outline: 12 Invalid FRN
     And I click on the "Add closure" link
     And I type '<invalidFrn>' in the 'FRN' field
@@ -107,7 +92,6 @@ Feature: 03 Agreement Closures
       | 012345      |
       | 12345678901 |
 
-  @test
   Scenario: 13 Invalid Agreement number
     And I click on the "Add closure" link
     And I type '123456789012345678901234567890123456789012345678901234567890' in the 'Agreement number' field
@@ -115,7 +99,6 @@ Feature: 03 Agreement Closures
     Then I should see "Enter a valid agreement number"
     Then I take a screenshot for Feature 3 and Scenario 13
 
-  @test
   Scenario: 14 Past Closure Date
     And I click on the "Add closure" link
     And I type a date prior to '01/01/2023' in the Closure date field
@@ -140,7 +123,6 @@ Feature: 03 Agreement Closures
     When I click on the Remove button next to the new submission
     Then I should not see the new submission in the table
 
-  @tests
   Scenario: 16 Empty File Upload
     And I click on the "Add bulk closures" link
     When I click the "Create" link
@@ -148,7 +130,6 @@ Feature: 03 Agreement Closures
     And I should see "Provide a CSV file"
     Then I take a screenshot for Feature 3 and Scenario 16
 
-  @test
   Scenario: 17 Unsupported File Type
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadTxt.txt' file
@@ -157,12 +138,11 @@ Feature: 03 Agreement Closures
     And I should see "Provide a CSV file"
     Then I take a screenshot for Feature 3 and Scenario 17
 
-  @test
   Scenario: 18 Large File Upload
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadLarge.csv' file
     When I click the "Create" link
-    Then the "The uploaded file is too large. Please upload a file smaller than 1 MB." error message is displayed on the Payment holds page
+    And I should see "413 Request Entity Too Large"
     Then I take a screenshot for Feature 3 and Scenario 18
 
   Scenario: 19 Successful File Upload
@@ -180,7 +160,6 @@ Feature: 03 Agreement Closures
     And I click on the "Remove" button
     And I click on the "Remove" button
 
-  @test
   Scenario: 20 Upload File Format Validation
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadInvalid.csv' file

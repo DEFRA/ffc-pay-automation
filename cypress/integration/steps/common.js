@@ -25,7 +25,7 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
   console.log("URL to open " + url);
 
   cy.visit(url);
-  cy.wait(10000);
+  cy.wait(2000);
   cy.wrap(url).as('baseUrl');
 
   const envFilePath = 'cypress/fixtures/env.json';

@@ -1,4 +1,4 @@
-@dev @local
+@local
 Feature: 21 DPS Payments
 
 # This feature file is designed to test the end-to-end journey of DPS payments in the local environment.

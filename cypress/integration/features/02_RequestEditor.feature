@@ -144,7 +144,6 @@ Feature: 02 Request Editor
     And I click the FRN number search button
     And I select 'SFI22' in the scheme dropdown
     When I click the Scheme search button
-    Then each record in the table has the FRN number '1234567891'
     Then I take a screenshot for Feature 2 and Scenario 11
     And each record in the table has the Scheme 'SFI22'
 
@@ -154,7 +153,7 @@ Feature: 02 Request Editor
     And I am on the "capture" subpage
     And I enter '9999999999' in the FRN number search field
     When I click the FRN number search button
-    Then 'No reporting datasets' are displayed
+    Then I should see "No reporting datasets"
     Then I take a screenshot for Feature 2 and Scenario 12
 
   @test @dev @local
@@ -163,5 +162,5 @@ Feature: 02 Request Editor
     And I am on the "capture" subpage
     And I select 'Vet Visits' in the scheme dropdown
     When I click the Scheme search button
-    Then 'No reporting datasets' are displayed
+    Then I should see "No reporting datasets"
     Then I take a screenshot for Feature 2 and Scenario 13

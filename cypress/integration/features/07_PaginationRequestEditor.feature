@@ -1,4 +1,4 @@
-@test
+@dev @test
 Feature: 07 Pagination - Request Editor
 
   Background:
@@ -9,7 +9,7 @@ Feature: 07 Pagination - Request Editor
     When I select "<number>" from the number of records per page dropdown
     Then I can see at most <number> records displayed in the table
 
-    @dev
+    @dev @test
     Examples:
       | link                            | number | page                             |
       | View all datasets               | 2500   | Unattached reporting datasets    |

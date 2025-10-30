@@ -18,8 +18,8 @@ Feature: 13 Payment Holds
     And I update the "paymentFileMessage" file with the newly generated FRN
     And I update the value of "paymentFileMessage" to "100000"
     And I send the updated "paymentFileMessage" message to the service bus topic "<sendToTopic>"
-    And I enter the newly generated FRN in the search field
-    Then I click on the FRN search button
+    When on the Payment Holds page I enter the newly generated FRN in the search field
+    Then on the Payment Holds page I click the FRN search button
     When I click on the "Remove" button
     Then the "paymentFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 

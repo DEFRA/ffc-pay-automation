@@ -4,7 +4,7 @@ class requestEditorPage {
   }
 
   errorSummaryItem () {
-    return cy.get('li');
+    return cy.get('.govuk-list > li > a');
   }
 
   inputByValue (val) {
@@ -48,11 +48,11 @@ class requestEditorPage {
   }
 
   getFrnSearchField () {
-    return cy.get('#user-search');
+    return cy.get('#user-search-frn');
   }
 
   getFrnSearchButton () {
-    return cy.get('.search-button');
+    return cy.get('.govuk-button');
   }
 
   firstFRN () {
