@@ -146,6 +146,10 @@ class requestEditorPage {
   unattachedDataYesButton () {
     return cy.get('#unattached-data-yes');
   }
+
+  awaitingRepFRNSearchBtn () {
+    return cy.get('.govuk-button');
+  }
 }
 
 export default new requestEditorPage();

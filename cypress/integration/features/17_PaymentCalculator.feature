@@ -119,13 +119,3 @@ Feature: 17 Payment Calculator
     When on the Payment Calculator page I click the "start button"
     Then I confirm that I am on the "delinked-calculator" subpage
     When I verify status of external link - "Rural Payments service."
-
-    
-
-
-
-
-
-
-  
-  

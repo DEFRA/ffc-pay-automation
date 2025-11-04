@@ -294,3 +294,7 @@ Then('I enter a valid debt discovered date in the past', () => {
   requestEditor.monthInput().clear().type('06');
   requestEditor.yearInput().clear().type('2018');
 });
+
+When('on the Awaiting Reporting Data page I click the FRN number search button', () => {
+  requestEditor.awaitingRepFRNSearchBtn().click();
+});

@@ -1,0 +1,29 @@
+{
+    "sourceSystem": "CS",
+    "schemeId": 5,
+    "batch": "SITICS0001_AP_2025110909115624.dat",
+    "deliveryBody": "RP00",
+    "invoiceNumber": "1932803",
+    "frn": "125844514812",
+    "marketingYear": 2025,
+    "paymentRequestNumber": 1,
+    "agreementNumber": "40770826",
+    "contractNumber": "40653785",
+    "currency": "GBP",
+    "schedule": "Q4",
+    "dueDate": "2025-12-01",
+    "value": 100000.0124,
+    "correlationId": "f9aaec8c-1947-42a1-864e-0e74a90cafef",
+    "invoiceLines": [
+        {
+            "schemeCode": "80101",
+            "accountCode": "SOS273",
+            "fundCode": "DRD10",
+            "agreementNumber": "40770826",
+            "description": "G00 - Gross value of claim",
+            "value": 100000.0124,
+            "deliveryBody": "RP00",
+            "marketingYear": 2025
+        }
+    ]
+}
