@@ -94,6 +94,13 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'cs'
     });
     break;
+  case 'bps payments':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'bps'
+    });
+    break;
   default: throw new Error(`Unknown scheme: ${fileType}`);
   }
 
