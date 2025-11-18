@@ -326,3 +326,12 @@ Then(/^on the Processed Payment Requests page I confirm that entry is present fo
   cy.contains(payments).should('be.visible');
   cy.contains(value).should('be.visible');
 });
+
+When (/^on the Add New Alert Recipient page I click the "(.*)" button$/, (button) => {
+  switch (button) {
+  case 'Add recipient':
+    paymentManagementPage.addNewAlertReceipientButton().click(); break;
+  }
+  cy.log(`Clicked on the ${button} button successfully`);
+  console.log(`Clicked on the ${button} button successfully`);
+});

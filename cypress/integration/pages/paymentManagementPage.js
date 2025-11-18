@@ -22,6 +22,10 @@ class paymentManagementPage {
   noOfClosures () {
     return cy.get(':nth-child(3) > :nth-child(2) > .govuk-heading-l');
   }
+
+  addNewAlertReceipientButton () {
+    return cy.get('.govuk-button');
+  }
 }
 
 export default new paymentManagementPage();
