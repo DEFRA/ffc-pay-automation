@@ -74,6 +74,20 @@ Feature: 20 Accessibility Testing
 
     And I click on the "Home" link
 
+#Alerts recipients page
+
+    When I click on the "View all alert recipients" link
+    Then I confirm there are no accessibility issues on the page
+
+    And on the Add New Alert Recipient page I click the "Add recipient" button
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Create" button
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Home" link
+    
+
 #Manage schemes page
 
     When I click on the "Manage schemes" link
@@ -142,30 +156,30 @@ Feature: 20 Accessibility Testing
 
   Scenario: 02 Check accessibility on Request Editor
 
-  #This scenario checks all pages of Request Editor for accessibility issues
+#This scenario checks all pages of Request Editor for accessibility issues
 
     Given I visit the "Request Editor" homepage
     Then I confirm there are no accessibility issues on the page
 
-   #Capture Reporting data page
+#Capture Reporting data page
 
-   #Following page will need to be checked manually as amount of data on page causes cypress to crash
+#Following page will need to be checked manually as amount of data on page causes cypress to crash
 
     When I click on the "View all datasets" link
 
-   #Create new reporting dataset page
+#Create new reporting dataset page
 
     And I click on the "Capture new dataset" link
     Then I confirm there are no accessibility issues on the page
 
-   # Force error message on page through invalid input and confirm accessibility again
+# Force error message on page through invalid input and confirm accessibility again
 
     When I click on the "Continue" button
     Then I confirm there are no accessibility issues on the page
 
     When I click on the "Back" link
 
-   #Requests awaiting reporting data page
+#Requests awaiting reporting data page
 
     When I click on the "View awaiting reporting data" link
     Then I confirm there are no accessibility issues on the page
@@ -175,7 +189,7 @@ Feature: 20 Accessibility Testing
 
     When I click on the "Back" link
 
-   #Manual ledger assignment page  
+#Manual ledger assignment page  
 
     When I click on the "View awaiting ledger assignment" link
     Then I confirm there are no accessibility issues on the page
@@ -183,12 +197,12 @@ Feature: 20 Accessibility Testing
     When on the Awaiting Reporting Data page I click the FRN number search button
     Then I confirm there are no accessibility issues on the page
 
- #Review ledger assignment page    
+#Review ledger assignment page    
 
     When I click on the "Review" link
     Then I confirm there are no accessibility issues on the page
 
- #Force error message on page through invalid input and confirm accessibility again
+#Force error message on page through invalid input and confirm accessibility again
 
     When I click on the "Continue" button
     Then I confirm there are no accessibility issues on the page
@@ -216,23 +230,23 @@ Feature: 20 Accessibility Testing
     Then I confirm there are no accessibility issues on the page
     
 
-#   Scenario: 03 Check accessibility on Payment Calculator
+  Scenario: 03 Check accessibility on Payment Calculator
 
-# #This scenario checks all pages of Payment Calculator for accessibility issues
+#This scenario checks all pages of Payment Calculator for accessibility issues
 
-#     Given I visit the "Calculate your delinked payment " homepage
-#     Then I confirm there are no accessibility issues on the page
+    Given I visit the "Calculate your delinked payment " homepage
+    Then I confirm there are no accessibility issues on the page
 
-#     When on the Payment Calculator page I click the "start button"
-#     Then I confirm there are no accessibility issues on the page
+    When on the Payment Calculator page I click the "start button"
+    Then I confirm there are no accessibility issues on the page
 
-# #Force error message on page through invalid input and confirm accessibility again
+#Force error message on page through invalid input and confirm accessibility again
 
-#     Then on the Enter your delinked payment reference amount page I click the "calculate button"
-#     Then I confirm there are no accessibility issues on the page
+    Then on the Enter your delinked payment reference amount page I click the "calculate button"
+    Then I confirm there are no accessibility issues on the page
 
-# #Result screen    
+#Result screen    
 
-#     When on the Enter your delinked payment reference amount page I enter amount of "20000"
-#     Then on the Enter your delinked payment reference amount page I click the "calculate button"
-#     Then I confirm there are no accessibility issues on the page
+    When on the Enter your delinked payment reference amount page I enter amount of "20000"
+    Then on the Enter your delinked payment reference amount page I click the "calculate button"
+    Then I confirm there are no accessibility issues on the page

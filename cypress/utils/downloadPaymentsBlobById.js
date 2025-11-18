@@ -33,6 +33,7 @@ async function downloadPaymentsBlobById (containerName, downloadDir, scheme) {
   case 'cohtc': partialFileName = 'outbound/FFCSITICOHTC_0001'; break;
   case 'cs': partialFileName = 'outbound/FFCCS_0001'; break;
   case 'bps': partialFileName = 'outbound/FFCBPS_0001'; break;
+  case 'lump sums': partialFileName = 'outbound/FFCLS_0001'; break;
   default: throw new Error(`Unknown scheme: ${scheme}`);
   }
 
@@ -94,6 +95,9 @@ async function downloadPaymentsBlobById (containerName, downloadDir, scheme) {
   ]; break;
   case 'bps' : requiredValues = [
     '2025', '80101', 'DOM10', '100000.00', 'RP00'
+  ]; break;
+  case 'lump sums' : requiredValues = [
+    '2025', '80101', 'DRD10', '100000.00', 'RP00'
   ]; break;
   default: throw new Error(`Unknown scheme: ${scheme}`);
   }

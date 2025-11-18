@@ -1,0 +1,14 @@
+{
+    "sourceSystem": "Lump Sums",
+    "invoiceNumber": "S193280340653785V001",
+    "frn": "1258445148",
+    "currency": "GBP",
+    "value": 2500000,
+    "settlementDate": "2022-12-11T00:00:00.000Z",
+    "reference": "PY5246018",
+    "settled": true,
+    "detail": "Stopped by RPA",
+    "ledger": "AP",
+    "referenceId": "a66ccf0af3f05e3ab2d8f63ffd0e8ac3",
+    "filename": "FFCLSES_Return File unique.csv"
+}
