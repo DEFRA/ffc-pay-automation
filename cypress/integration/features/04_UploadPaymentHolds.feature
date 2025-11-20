@@ -61,4 +61,4 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I click the hold category option for "FDMR"
     When I click the Create bulk payment holds button
     Then I take a screenshot for Feature 4 and Scenario 5
-    And I should see "413 Request Entity Too Large"
+    Then the 'The uploaded file is too large. Please upload a file smaller than 1 MB.' error message is displayed on the Payment holds page

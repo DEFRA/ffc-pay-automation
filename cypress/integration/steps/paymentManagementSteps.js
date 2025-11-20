@@ -274,7 +274,7 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
   case 'invalid file type error message':
     manualPaymentsPage.typeErrorText().should('be.visible').and('contain.text', 'Invalid file type - The selected file type is not supported. Please upload a valid CSV file.'); break;
   case 'invalid name error message':
-    manualPaymentsPage.nameErrorText().should('be.visible').and('contain.text', 'Invalid filename - We were unable to upload your manual payment file. Your filename does not follow the required naming convention. Filename must match the agreed format, e.g. FFC_Manual_Batch_SFI23_20250626091445.csv'); break;
+    manualPaymentsPage.nameErrorText().should('be.visible').and('contain.text', 'Error: Invalid filename - We were unable to upload your manual payment file. Filenames must start with "FFC_Manual_Batch_". Optionally include a scheme (e.g. "SFI_" or "SFI23_"), then a timestamp in one of these formats: YYYYMMDDHHmm or YYYYMMDDHHmmss. The filename must end with ".csv". Examples: FFC_Manual_Batch_SFI23_202510231609.csv, FFC_Manual_Batch_202510231609.csv.'); break;
   case 'invalid file size message':
     manualPaymentsPage.nameErrorText().should('be.visible').and('contain.text', 'File too large - The uploaded file is too large. Please upload a file smaller than 1 MB.'); break;
   case 'empty file message':
