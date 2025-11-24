@@ -68,7 +68,7 @@ Feature: 12 PPA E2E Journey - Debit
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     Then I take a screenshot for Feature 12 and Scenario 5
-    And I click on the "Sign out" link
+    And I click on the "Sign Out" link
 
   Scenario: 06 Approve payment from quality check queue
     Given I visit the "Request Editor" homepage

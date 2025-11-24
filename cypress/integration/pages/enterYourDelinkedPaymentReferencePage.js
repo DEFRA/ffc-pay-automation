@@ -1,7 +1,7 @@
 class enterYourDelinkedPaymentReferencePage {
 
   subHeader () {
-    return cy.get('form > .govuk-heading-m');
+    return cy.get('.govuk-heading-l');
   }
 
   paragraphOne () {

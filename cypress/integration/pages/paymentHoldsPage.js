@@ -54,6 +54,10 @@ class paymentHoldsPage {
   frnSearchButton () {
     return cy.get('#main-content > div > div > form > button');
   }
+
+  schemeFilterBox () {
+    return cy.get('#selectScheme');
+  }
 }
 
 export default new paymentHoldsPage();

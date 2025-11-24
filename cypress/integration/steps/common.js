@@ -217,7 +217,12 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 6: scenarioString = '06 Approve payment from quality check queue'; break;
     }
     break;
-  case 13: featureString = '13_PaymentHolds.feature -- '; scenarioString = '01 Send debit payment request message (payment1)'; break;
+  case 13: featureString = '13_PaymentHolds.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Send debit payment request message (payment1)'; break;
+    case 2: scenarioString = '02 Confirm scheme filter functional'; break;
+    }
+    break;
   case 15: featureString = '15_ManualPayments.feature -- ';
     switch (scenarioNumber) {
     case 1: scenarioString = '01 Confirm Manual Payments page elements are visible'; break;
