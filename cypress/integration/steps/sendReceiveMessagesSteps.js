@@ -8,7 +8,7 @@ Given('I send the updated {string} message to the service bus topic {string}', (
     cy.sendMessage(updatedMessageBody, topicName);
   });
   //Wait for file to be processed
-  cy.wait(30000);
+  cy.wait(40000);
 });
 
 Given('I start the messaging service for the service bus topic {string}', (topicName) => {

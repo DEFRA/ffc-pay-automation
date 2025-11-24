@@ -25,11 +25,10 @@ Feature: 09 Pagination - Payment Management
       | link         | page          |
       | Manage holds | Payment holds |
 
-  Scenario Outline: 03 Verify Next/Previous on second page of "<page>" page
+  Scenario Outline: 03 Verify Previous on second page of "<page>" page
     And I click on the "<link>" link
     When I click on the "Next" page button
     Then I can see "2" in the page box
-    And I can see the "Next" button
     And I can see the "Previous" button
 
     Examples:

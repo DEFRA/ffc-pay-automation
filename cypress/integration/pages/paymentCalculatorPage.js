@@ -4,7 +4,7 @@ class paymentCalculatorPage {
   }
 
   paragraphOne () {
-    return cy.get('.govuk-main-wrapper > .govuk-grid-row > .govuk-grid-column-two-thirds > :nth-child(2)');
+    return cy.get('#main-content > .govuk-width-container > .govuk-grid-row > .govuk-grid-column-two-thirds > :nth-child(2)');
   }
 
   paragraphTwo () {

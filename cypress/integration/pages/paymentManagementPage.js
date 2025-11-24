@@ -26,6 +26,10 @@ class paymentManagementPage {
   addNewAlertReceipientButton () {
     return cy.get('.govuk-button');
   }
+
+  monitorSchemeDropdown () {
+    return cy.get('#schemeId');
+  }
 }
 
 export default new paymentManagementPage();

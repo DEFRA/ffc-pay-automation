@@ -236,6 +236,13 @@ When(/^the status report is downloaded with "(.*)" as the title$/, function (tit
   });
 });
 
+Then(/^I select "(.*)" from the monitor schemes dropdown$/, (scheme) => {
+  paymentManagementPage.monitorSchemeDropdown().scrollIntoView().select(scheme);
+  cy.log(`Selected ${scheme} from the monitor schemes dropdown`);
+  console.log(`Selected ${scheme} from the monitor schemes dropdown`);
+});
+
+
 When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (fileName) => {
   const filePath = `cypress/fixtures/${fileName}`;
   manualPaymentsPage.chooseFileBtn().selectFile(filePath);
