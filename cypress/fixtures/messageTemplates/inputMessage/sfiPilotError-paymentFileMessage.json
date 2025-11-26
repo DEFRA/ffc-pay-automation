@@ -1,0 +1,29 @@
+{
+    "sourceSystem": "SFI Pilot",
+    "schemeId": 2,
+    "batch": "SFIP0001_AP_2022110909115624.dat",
+    "deliveryBody": "RP00",
+    "invoiceNumber": "SFI2795919123",
+    "frn": "10439594921234",
+    "marketingYear": 2025,
+    "paymentRequestNumber": 1,
+    "agreementNumber": "38322143123",
+    "contractNumber": "76642753123",
+    "currency": "GBP",
+    "schedule": "Q4",
+    "dueDate": "2021-12-01",
+    "value": 100000.024,
+    "correlationId": "f9aaec8c-1947-42a1-864e-0e74a90cafef",
+    "invoiceLines": [
+        {
+            "schemeCode": "80101",
+            "accountCode": "SOS273",
+            "fundCode": "DRD10",
+            "agreementNumber": "38322143",
+            "description": "G00 - Gross value of claim",
+            "value": 100000.024,
+            "deliveryBody": "RP00",
+            "marketingYear": 2025
+        }
+    ]
+}
