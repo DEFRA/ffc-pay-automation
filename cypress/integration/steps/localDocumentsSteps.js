@@ -115,6 +115,13 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'sfi expanded'
     });
     break;
+  case 'sfi pilot payments':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'sfi pilot'
+    });
+    break;
   case 'delinked payments':
     cy.task('fetchPaymentsBlobById', {
       container: 'dax',
