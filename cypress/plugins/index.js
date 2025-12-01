@@ -20,6 +20,8 @@ const queryBulkStatementConstructor = require('../utils/queryBulkStatementConstr
 const queryBulkStatementGenerator = require('../utils/queryBulkStatementGenerator');
 const uploadFileToBlobStorage = require('../utils/uploadFileToBlobStorage');
 const confirmInvalidDataNotAdded = require('../utils/confirmInvalidDataNotAdded');
+const generateJWT = require('../utils/generateJWT');
+
 
 
 
@@ -45,6 +47,10 @@ module.exports = (on, config) => {
 
     fetchReceivedMessages (topicName) {
       return getReceivedMessages(topicName);
+    },
+
+    generateJWT ({ payload, secret, options }) {
+      return generateJWT(payload, secret, options);
     },
 
     readFileIfExists (filePath) {

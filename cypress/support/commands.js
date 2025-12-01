@@ -25,6 +25,10 @@ Cypress.Commands.add('stopMessageReception', () => {
   cy.task('stopMessageReception');
 });
 
+Cypress.Commands.add('generateJWT', (payload, secret, options) => {
+  return cy.task('generateJWT', { payload, secret, options });
+});
+
 Cypress.Commands.add('clickNextButtonUntilOnLastPage', () => {
   cy.get('body').then((body) => {
     if (body.find('[rel="next"] > .govuk-pagination__link-title').length > 0) {
