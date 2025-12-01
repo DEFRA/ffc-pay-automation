@@ -33,6 +33,7 @@
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-jsonc": "^2.2.1",
     "fs-extra": "^10.0.0",
+    "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
     "pdf-parse": "^1.1.1",
     "pg": "^8.16.3",
@@ -52,6 +53,7 @@
   "devDependencies": {
     "axe-core": "^4.11.0",
     "cypress-axe": "^1.7.0",
+    "cypress-dotenv": "^3.0.1",
     "ffc-database": "^1.0.1"
   }
 }

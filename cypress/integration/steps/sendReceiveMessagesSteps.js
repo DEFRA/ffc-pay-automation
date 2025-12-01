@@ -293,3 +293,90 @@ Given('I update the {string} file with the newly generated FRN', (inputTopicName
     });
   });
 });
+
+Given('I send email to Notify API', () => {
+
+
+  var jwtToken = '';
+
+
+  cy.generateJWT().then((token) => {
+    expect(token).to.be.a('string');
+    jwtToken = token;
+    cy.log('Generated JWT Token:', jwtToken);
+    console.log('Generated JWT Token:', jwtToken);
+
+    cy.request({
+      method: 'POST',
+      url: "https://api.notifications.service.gov.uk/v2/notifications/email",
+      headers: {
+        "Authorization": 'Bearer ' + jwtToken,
+        "Content-Type": "application/json"
+      },
+      body: {
+        "email_address": "alistair.wishart@atos.net",
+        "template_id": "4c492baa-be4b-47ba-a102-04b93d92df00",
+        personalisation: {
+          "agreementNumber": "12345678",
+          "filename": "TestFile.bat"
+        }
+      }
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+      let jsonReportData = JSON.stringify(response.body, null, 2);
+      console.log('Notify API response:', jsonReportData);
+
+      cy.log('Notify API response:', jsonReportData);
+
+      cy.writeFile('cypress/fixtures/apiUpload.json', jsonReportData);
+
+    });
+  });
+});
+
+When('I pull new email from Notify API', () => {
+
+  var jwtToken = '';
+
+  cy.fixture('apiUpload.json').then((data) => {
+    const id = data.id;
+
+    cy.generateJWT().then((token) => {
+      expect(token).to.be.a('string');
+      jwtToken = token;
+      cy.log('Generated JWT Token:', jwtToken);
+      console.log('Generated JWT Token:', jwtToken);
+
+      cy.request({
+
+        method: 'GET',
+        url: "https://api.notifications.service.gov.uk/v2/notifications/" + id,
+        headers: {
+          "Authorization": 'Bearer ' + jwtToken,
+          "Content-Type": "application/json"
+        },
+      }).then((response) => {
+        expect(response.status).to.eq(200);
+        let jsonReportData = JSON.stringify(response.body, null, 2);
+        console.log('Notify API response:', jsonReportData);
+
+        cy.log('Notify API response:', jsonReportData);
+
+        cy.writeFile('cypress/fixtures/apiResults.json', jsonReportData);
+      });
+    });
+  });
+});
+
+Then('I confirm that received email contains expected values', () => {
+  cy.fixture('apiUpload.json').then((uploadData) => {
+    cy.fixture('apiResults.json').then((resultData) => {
+      expect(resultData.id).to.eq(uploadData.id);
+      expect(resultData.template.id).to.eq(uploadData.template.id);
+      expect(resultData.body).to.eq(uploadData.content.body);
+      expect(resultData.email_address).to.eq('alistair.wishart@atos.net');
+      expect(resultData.subject).to.eq('12345678 Payment Schedule');
+      expect(resultData.type).to.eq('email');
+    });
+  });
+});
