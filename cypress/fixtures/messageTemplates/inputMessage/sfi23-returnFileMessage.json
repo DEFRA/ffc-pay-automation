@@ -1,0 +1,14 @@
+{
+    "sourceSystem": "SFIA",
+    "invoiceNumber": "S279591940653785V001",
+    "frn": "1258445148",
+    "currency": "GBP",
+    "value": 2500000,
+    "settlementDate": "2022-12-11T00:00:00.000Z",
+    "reference": "KJ4275308",
+    "settled": true,
+    "detail": "Stopped by RPA",
+    "ledger": "AP",
+    "referenceId": "a66ccf0af3f05e3ab2d8f63ffd0e8ac3",
+    "filename": "FFCSFIA Return File unique.csv"
+}
