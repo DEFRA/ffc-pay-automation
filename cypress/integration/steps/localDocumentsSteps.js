@@ -129,6 +129,13 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'delinked'
     });
     break;
+  case 'sfi23 payments':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'sfi23'
+    });
+    break;
   default: throw new Error(`Unknown scheme: ${fileType}`);
   }
 

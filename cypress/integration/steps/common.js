@@ -265,6 +265,15 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
     }
     break;
+  case 32: featureString = '32_SFI23Payments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 insert incorrect SFI23 test data via service bus message to ffc-pay-request'; break;
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
   }
   const screenshotName = featureString + scenarioString;
   console.log('Screenshot Name:', screenshotName);
