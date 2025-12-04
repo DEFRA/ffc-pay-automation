@@ -38,6 +38,7 @@ async function downloadPaymentsBlobById (containerName, downloadDir, scheme) {
   case 'delinked': partialFileName = 'outbound/FFCDP_0001'; break;
   case 'sfi pilot': partialFileName = 'outbound/FFCSFIP_0001'; break;
   case 'sfi23': partialFileName = 'outbound/FFCSFIA_0001'; break;
+  case 'sfi22': partialFileName = 'outbound/FFCSFI_0001'; break;
   default: throw new Error(`Unknown scheme: ${scheme}`);
   }
 
@@ -114,6 +115,9 @@ async function downloadPaymentsBlobById (containerName, downloadDir, scheme) {
   ]; break;
   case 'sfi23' : requiredValues = [
     '2023', '80101', 'DRD10', '100000.00', 'RP00'
+  ]; break;
+  case 'sfi22' : requiredValues = [
+    '2022', '80101', 'DRD10', '100000.00', 'RP00'
   ]; break;
   default: throw new Error(`Unknown scheme: ${scheme}`);
   }
