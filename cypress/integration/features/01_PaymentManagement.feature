@@ -19,4 +19,4 @@ Feature: 01 Payment management
       | Manage closures                 | closure               |
       | Add closure                     | closure/add           |
       | Add bulk closures               | closure/bulk          |
-      | Report List                     | report-list           |
+      | Reports                         | report-list           |

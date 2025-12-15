@@ -265,6 +265,61 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
     }
     break;
+  case 25: featureString = '25_CSPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 insert incorrect CS test data via service bus message to ffc-pay-request'; break;
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
+  case 26: featureString = '26_BPSPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 insert incorrect BPS test data via service bus message to ffc-pay-request'; break;
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
+  case 27: featureString = '27_LumpSumsPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 insert incorrect Lump sums test data via service bus message to ffc-pay-request'; break;
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
+  case 28: featureString = '28_SFIExpandedPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 insert incorrect SFI Expanded test data via service bus message to ffc-pay-request'; break;
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
+  case 29: featureString = '29_DelinkedPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 insert incorrect Delinked test data via service bus message to ffc-pay-request'; break;
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
+
+  case 30: featureString = '30_SFIPilotPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 insert incorrect SFI Pilot test data via service bus message to ffc-pay-request'; break;
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
   case 32: featureString = '32_SFI23Payments.feature -- ';
     switch (scenarioNumber) {
     case 1: scenarioString = '01 insert incorrect SFI23 test data via service bus message to ffc-pay-request'; break;

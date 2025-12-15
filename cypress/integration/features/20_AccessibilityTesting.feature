@@ -27,22 +27,12 @@ Feature: 20 Accessibility Testing
 
 #Reports page
 
-    When I click on the "Report List" link
+    When I click on the "Reports" link
     Then I confirm there are no accessibility issues on the page
 
-#Payment request statuses v2 page
+#Payment request statuses page
 
-    When I click on the "Payment request statuses v2" link
-    Then I confirm there are no accessibility issues on the page
-
-    And I click on the "Download report" button
-    Then I confirm there are no accessibility issues on the page
-
-    When I click on the "Report List" link
-
-#Combined transaction report page    
-
-    When I click on the "Combined transaction report" link
+    When I click on the "Payment request statuses" link
     Then I confirm there are no accessibility issues on the page
 
     And I click on the "Download report" button
@@ -53,16 +43,6 @@ Feature: 20 Accessibility Testing
 #AP/AR Listing Report page
 
     When I click on the "AP-AR listing report" link
-    Then I confirm there are no accessibility issues on the page
-
-    When I click on the "Report List" link
-
-#Claim Level Report page
-
-    When I click on the "Claim level report" link
-    Then I confirm there are no accessibility issues on the page
-
-    And I click on the "Download report" button
     Then I confirm there are no accessibility issues on the page
 
     When I click on the "Report List" link

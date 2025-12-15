@@ -1,4 +1,4 @@
-@test @dev
+@test @dev @local
 Feature: 17 Payment Calculator
 
 #This feature tests confirms the elements Payment Calculator pages

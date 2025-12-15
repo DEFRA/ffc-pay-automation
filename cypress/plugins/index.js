@@ -121,7 +121,7 @@ module.exports = (on, config) => {
         throw new Error('⚠️ WSL_TEST_DIR not set in .env');
       }
 
-      const shellCommand = `cd ${dir} && echo '🔴 Stopping...' && ./stop -v && echo '🟢 Starting...' && ./start`;
+      const shellCommand = `cd ${dir} && echo '🔴 Stopping...' && ./stop -v && echo '🟢 Starting...' && ./start -p`;
 
       return new Promise((resolve, reject) => {
         console.log(`🚀 Restarting local env from: ${dir}`);
@@ -165,7 +165,7 @@ module.exports = (on, config) => {
         throw new Error('⚠️ WSL_TEST_DIR not set in .env');
       }
 
-      const shellCommand = `cd ${dir} && echo '🔴 Stopping...' && ./stop -v && echo '🟢 Starting...' && ./start -S`;
+      const shellCommand = `cd ${dir} && echo '🔴 Stopping...' && ./stop -v && echo '🟢 Starting...' && ./start -d`;
 
       return new Promise((resolve, reject) => {
         console.log(`🚀 Restarting local env from: ${dir}`);

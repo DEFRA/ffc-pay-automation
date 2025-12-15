@@ -8,7 +8,7 @@ class capturePage {
   }
 
   btnFrnSearch () {
-    return cy.get('.search-form > .govuk-\\!-margin-bottom-1 > .govuk-button');
+    return cy.get('form > .govuk-\\!-margin-bottom-1 > .govuk-button')
   }
 
   sltScheme () {

@@ -48,7 +48,7 @@
     "pageSubHeader": "Payment Request Statuses Report"
   },
   "report-list": {
-    "pageSubHeader": "Report List"
+    "pageSubHeader": "Reports"
   },
   "quality-check": {
     "pageSubHeader": "Ledger assignments awaiting quality check"
