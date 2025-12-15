@@ -8,7 +8,7 @@ class paymentHoldsPage {
   }
 
   btnSubmit () {
-    return cy.get('#submit');
+    return cy.get('.govuk-button');
   }
 
   holdCategoryId () {
@@ -16,11 +16,11 @@ class paymentHoldsPage {
   }
 
   errorSummaryTitle () {
-    return cy.get('#error-summary-title');
+    return cy.get('.govuk-error-summary__title');
   }
 
   errorMessage () {
-    return cy.get('.govuk-error-message');
+    return cy.get('.govuk-list > li');
   }
 
   bulkUploadErrorSummaryTitle () {

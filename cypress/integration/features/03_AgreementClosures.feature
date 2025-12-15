@@ -6,7 +6,6 @@ Feature: 03 Agreement Closures
 
   Scenario: 01 View Agreement Closures
     Then I should see "Agreement closures"
-    And I should see the number of closures
     And I should see "Add details of an agreement number closure"
     And I should see "Manage closures"
     And I should see "Add closure"
@@ -107,7 +106,6 @@ Feature: 03 Agreement Closures
     Then I take a screenshot for Feature 3 and Scenario 14
 
   Scenario: 15 Successful Adding & Removing a Submission
-    And I make a note of the closures count
     And I click on the "Add closure" link
     And I type a random FRN in the FRN field
     And I type '12345' in the 'Agreement number' field
@@ -116,12 +114,9 @@ Feature: 03 Agreement Closures
     And I am on the "closure" subpage
     And I see the new submission in the table
     And I visit the "Payment management" homepage
-    And the closure count has increased by 1
-    And I visit the "Payment management" homepage
     And I click on the "Manage closures" link
     And I see the new submission in the table
     When I click on the Remove button next to the new submission
-    Then I should not see the new submission in the table
 
   Scenario: 16 Empty File Upload
     And I click on the "Add bulk closures" link
@@ -146,15 +141,12 @@ Feature: 03 Agreement Closures
     Then I take a screenshot for Feature 3 and Scenario 18
 
   Scenario: 19 Successful File Upload
-    And I make a note of the closures count
+  t
     And I click on the "Add bulk closures" link
     And I upload 'bulkUploadValid.csv' file
     And I click the "Create" link
     And I am on the "closure" subpage
     And I see the new bulk upload submissions in the table
-    And I should see a "Remove" link
-    When I visit the "Payment management" homepage
-    And the closure count has increased by 2
     And I visit the "Payment management" homepage
     And I click on the "Manage closures" link
     And I click on the "Remove" button

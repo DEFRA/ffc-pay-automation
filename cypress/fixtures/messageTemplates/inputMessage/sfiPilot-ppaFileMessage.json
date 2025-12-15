@@ -1,17 +1,17 @@
 {
-    "sourceSystem": "SFIA",
-    "schemeId": 12,
-    "batch": "SITISFIA0002_AP_20230810085609205.dat",
+    "sourceSystem": "SFI Pilot",
+    "schemeId": 2,
+    "batch": "SFIP0002_AP_2022110909115624.dat",
     "deliveryBody": "RP00",
     "invoiceNumber": "SFI2795919",
-    "frn": "1258445148",
-    "marketingYear": 2023,
+    "frn": "1043959492",
+    "marketingYear": 2025,
     "paymentRequestNumber": 2,
-    "agreementNumber": "40770826",
-    "contractNumber": "40653785",
+    "agreementNumber": "38322143",
+    "contractNumber": "76642753",
     "currency": "GBP",
     "schedule": "Q4",
-    "dueDate": "2025-12-01",
+    "dueDate": "2021-12-01",
     "value": 10000,
     "correlationId": "f9aaec8c-1947-42a1-864e-0e74a90cafef",
     "invoiceLines": [
@@ -19,11 +19,11 @@
             "schemeCode": "80101",
             "accountCode": "SOS273",
             "fundCode": "DRD10",
-            "agreementNumber": "40770826",
+            "agreementNumber": "38322143",
             "description": "G00 - Gross value of claim",
             "value": 10000,
             "deliveryBody": "RP00",
-            "marketingYear": 2023
+            "marketingYear": 2025
         }
     ]
 }
