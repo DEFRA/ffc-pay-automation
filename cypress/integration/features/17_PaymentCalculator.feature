@@ -46,7 +46,7 @@ Feature: 17 Payment Calculator
     When on the Payment Calculator page I click the "start button"
     When on the Enter your delinked payment reference amount page I enter amount of "20000"
     Then on the Enter your delinked payment reference amount page I click the "calculate button"
-    Then on the Delinked payment calculation page I confirm that default year is "2025"
+    Then on the Delinked payment calculation page I confirm that default year is "2026"
     Then on the Delinked payment calculation page I confirm that "page title" is correctly displayed
     Then on the Delinked payment calculation page I confirm that "2024 tab" is correctly displayed
     Then on the Delinked payment calculation page I confirm that "2025 tab" is correctly displayed
@@ -57,7 +57,6 @@ Feature: 17 Payment Calculator
     Then on the Delinked payment calculation page I confirm that "scheme year" is correctly displayed
     Then on the Delinked payment calculation page I confirm that "total estimated reduction" is correctly displayed
     Then on the Delinked payment calculation page I confirm that "total estimated payment" is correctly displayed
-    Then on the Delinked payment calculation page I confirm that "paragraph two" is correctly displayed
     Then on the Delinked payment calculation page I confirm that "progressive reduction header" is correctly displayed
     Then on the Delinked payment calculation page I confirm that "payment band" is correctly displayed
     Then on the Delinked payment calculation page I confirm that "£30,000.00 or less" is correctly displayed

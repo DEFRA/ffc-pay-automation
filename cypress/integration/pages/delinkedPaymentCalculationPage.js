@@ -23,54 +23,54 @@ class delinkedPaymentCalculationPage {
 
 
   paragraphOne () {
-    return cy.get('[aria-labelledby="tab_year2025"] > #year2025 > :nth-child(1)');
+    return cy.get('[aria-labelledby="tab_year2026"] > #year2026 > :nth-child(1)');
   }
 
   paragraphTwo () {
-    return cy.get('#year2025 > :nth-child(3)');
+    return cy.get('#year2026 > :nth-child(3)');
   }
 
   estimatedPaymentHeader () {
-    return cy.get('#year2025 > :nth-child(2) > .govuk-table__caption');
+    return cy.get('#year2026 > :nth-child(2) > .govuk-table__caption');
   }
 
   schemeYear () {
-    return cy.get('#year2025 > :nth-child(2) > .govuk-table__body > .govuk-table__row > .govuk-table__header');
+    return cy.get('#year2026 > :nth-child(2) > .govuk-table__body > .govuk-table__row > .govuk-table__header');
   }
 
   totalEstimatedReduction () {
-    return cy.get('#year2025 > :nth-child(2) > .govuk-table__body > .govuk-table__row > :nth-child(2)');
+    return cy.get('#year2026 > :nth-child(2) > .govuk-table__body > .govuk-table__row > :nth-child(2)');
   }
 
   totalEstimatedPayment () {
-    return cy.get('#year2025 > :nth-child(2) > .govuk-table__body > .govuk-table__row > .govuk-body');
+    return cy.get('#year2026 > :nth-child(2) > .govuk-table__body > .govuk-table__row > .govuk-body');
   }
 
   progressiveReductionHeader () {
-    return cy.get('#year2025 > :nth-child(4) > .govuk-table__caption');
+    return cy.get('#year2026 > :nth-child(4) > .govuk-table__caption');
   }
 
   paymentBand () {
-    return cy.get('#year2025 > :nth-child(4) > .govuk-table__head > .govuk-table__row > .govuk-table__header--numeric');
+    return cy.get('#year2026 > :nth-child(4) > .govuk-table__head > .govuk-table__row > .govuk-table__header--numeric');
   }
   thirtyKOrLess () {
-    return cy.get('#year2025 > :nth-child(4) > .govuk-table__body > :nth-child(1) > .govuk-table__cell');
+    return cy.get('#year2026 > :nth-child(4) > .govuk-table__body > :nth-child(1) > .govuk-table__cell');
   }
 
   totalProgressiveReduction () {
-    return cy.get('#year2025 > :nth-child(4) > .govuk-table__body > :nth-child(2) > .govuk-table__cell');
+    return cy.get('#year2026 > :nth-child(4) > .govuk-table__body > :nth-child(2) > .govuk-table__cell');
   }
 
   percentageReductionHeader () {
-    return cy.get('#year2025 > :nth-child(5) > .govuk-table__caption');
+    return cy.get('#year2026 > :nth-child(5) > .govuk-table__caption');
   }
 
   schemeYearTwo () {
-    return cy.get('#year2025 > :nth-child(5) > .govuk-table__head > .govuk-table__row > .govuk-table__header--numeric');
+    return cy.get('#year2026 > :nth-child(5) > .govuk-table__head > .govuk-table__row > .govuk-table__header--numeric');
   }
 
   thirtyKOrLessTwo () {
-    return cy.get('#year2025 > :nth-child(5) > .govuk-table__body > .govuk-table__row > .govuk-table__cell');
+    return cy.get('#year2026 > :nth-child(5) > .govuk-table__body > .govuk-table__row > .govuk-table__cell');
   }
 }
 

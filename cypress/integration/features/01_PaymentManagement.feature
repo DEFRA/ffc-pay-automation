@@ -1,4 +1,4 @@
-@test @dev
+@test @dev @local
 Feature: 01 Payment management
 
   Background: Navigate to Payment management homepage
@@ -12,7 +12,7 @@ Feature: 01 Payment management
     Examples:
       | link                            | subPage               |
       | Manage holds                    | payment-holds         |
-      | Manage schemes                  | payment-schemes       |
+      | View all alert recipients       | alerts                |
       | Reset payment request           | payment-request/reset |
       | View events                     | monitoring            |
       | View processed payment requests | monitoring/schemes    |

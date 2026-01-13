@@ -123,6 +123,14 @@ Cypress.Commands.add('queryPayProcessing', (fileType) => {
   cy.task('queryPayProcessing', fileType);
 });
 
+Cypress.Commands.add('querySettledValue', (expectedValue) => {
+  cy.task('querySettledValue', expectedValue);
+});
+
+Cypress.Commands.add('queryPPASettledValue', (expectedValue) => {
+  cy.task('queryPPASettledValue', expectedValue);
+});
+
 Cypress.Commands.add('fetchStatementsBlobById', (container, dir, year) => {
   cy.task('fetchStatementsBlobById', container, dir, year);
 });

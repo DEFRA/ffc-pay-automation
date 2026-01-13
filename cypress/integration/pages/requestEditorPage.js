@@ -84,6 +84,10 @@ class requestEditorPage {
   }
 
   recordsPerPageDropdown () {
+    return cy.get('#perPage');
+  }
+
+  paymentHoldsRecordsPerPageDropdown () {
     return cy.get('#records');
   }
 

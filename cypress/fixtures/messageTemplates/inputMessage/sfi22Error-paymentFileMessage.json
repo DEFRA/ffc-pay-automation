@@ -14,6 +14,9 @@
     "dueDate": "2025-12-01",
     "value": 100000.024,
     "correlationId": "f9aaec8c-1947-42a1-864e-0e74a90cafef",
+    "fesCode": "SITI_SFIERRORERROR",
+    "annualValue": 100000.0024,
+    "remmittanceDescription": "SFI Reformed Service paymentERRORSFI Reformed Service payment",
     "invoiceLines": [
         {
             "schemeCode": "80101",

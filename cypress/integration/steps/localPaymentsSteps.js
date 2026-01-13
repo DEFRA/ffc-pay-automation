@@ -84,6 +84,47 @@ Then(/^I confirm that (.*) test data has been inserted into the (.*) database$/,
   cy.log(`✅ Test data was updated in the ${containerName} database`);
 });
 
+Then(/^I confirm that the settled value of PPA is (.*) in database$/, (expectedValue) => {
+
+  //This step checks the settled value in the database for PPA payments and confirms that it matches the value
+  // entered in the feature file.
+
+  cy.queryPPASettledValue(expectedValue);
+
+  const containerName = 'ffc-pay-processing-ffc-pay-processing-1';
+
+  cy.task('getDockerLogs', containerName).then((logs) => {
+    logs.split('\n').forEach((line) => {
+      if (line.trim()) {
+        console.log(line);
+      }
+    });
+  });
+  console.log(`✅ Confirmed that settled value in the ${containerName} database is ${expectedValue}`);
+  cy.log(`✅ Confirmed that settled value in the ${containerName} database is ${expectedValue}`);
+});
+
+Then(/^I confirm that the settled value of Return is (.*) in database$/, (expectedValue) => {
+
+  //This step checks the settled value in the database for payments and confirms that it matches the value
+  // entered in the feature file.
+
+  cy.querySettledValue(expectedValue);
+
+  const containerName = 'ffc-pay-processing-ffc-pay-processing-1';
+
+  cy.task('getDockerLogs', containerName).then((logs) => {
+    logs.split('\n').forEach((line) => {
+      if (line.trim()) {
+        console.log(line);
+      }
+    });
+  });
+  console.log(`✅ Confirmed that settled value in the ${containerName} database is ${expectedValue}`);
+  cy.log(`✅ Confirmed that settled value in the ${containerName} database is ${expectedValue}`);
+});
+
+
 When(/^I upload the (.*) payment file to the Azure Blob Storage container$/, (fileType) => {
   switch (fileType) {
   case 'dps':

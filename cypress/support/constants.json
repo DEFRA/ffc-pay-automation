@@ -64,5 +64,8 @@
   },
   "delinked-calculator": {
     "pageSubHeader": "Enter your delinked payment reference amount"
+  },
+  "alerts": {
+    "pageSubHeader": "Alerts"
   }
 }

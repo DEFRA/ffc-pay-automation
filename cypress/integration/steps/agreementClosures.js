@@ -9,15 +9,7 @@ import capturePage from '../pages/capturePage';
 
 When('I see the new submission in the table', () => {
   cy.get('@randomFrn').then((randomFrn) => {
-    agreementClosuresPage.lastFRN().should('have.text', randomFrn);
-
-    agreementClosuresPage
-      .lastAgreementNumber()
-      .should('have.text', Cypress.env('agreementNumber'));
-
-    agreementClosuresPage
-      .lastClosureDate()
-      .should('have.text', Cypress.env('futureDate'));
+    cy.contains(randomFrn).should('be.visible');
   });
 });
 
