@@ -43,7 +43,6 @@ Feature: 13 Payment Holds
     Then on the Payment Holds page I confirm that correct options are available for "FC" scheme
     Then on the Payment Holds page I confirm that correct options are available for "ES" scheme
     Then on the Payment Holds page I confirm that correct options are available for "Manual Invoice" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "FDMR" scheme
     Then on the Payment Holds page I confirm that correct options are available for "BPS" scheme
     Then on the Payment Holds page I confirm that correct options are available for "CS" scheme
     Then on the Payment Holds page I confirm that correct options are available for "Annual Health and Welfare Review" scheme

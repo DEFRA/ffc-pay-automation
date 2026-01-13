@@ -338,6 +338,15 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
     }
     break;
+  case 34: featureString = '34_PPATopUpScenarios.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 PPA Top-up before first installment'; break;
+    case 2: scenarioString = '02 PPA Top-up after first installment'; break;
+    case 3: scenarioString = '03 PPA Top-up after second installment'; break;
+    case 4: scenarioString = '04 PPA Top-up after third installment'; break;
+    case 5: scenarioString = '05 PPA Top-up after fourth installment'; break;
+    }
+    break;
   }
   const screenshotName = featureString + scenarioString;
   console.log('Screenshot Name:', screenshotName);

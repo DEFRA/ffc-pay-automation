@@ -21,6 +21,8 @@ const queryBulkStatementGenerator = require('../utils/queryBulkStatementGenerato
 const uploadFileToBlobStorage = require('../utils/uploadFileToBlobStorage');
 const confirmInvalidDataNotAdded = require('../utils/confirmInvalidDataNotAdded');
 const generateJWT = require('../utils/generateJWT');
+const querySettledValue = require('../utils/querySettledValue');
+const queryPPASettledValue = require('../utils/queryPPASettledValue');
 
 
 
@@ -352,6 +354,24 @@ module.exports = (on, config) => {
       console.log('🔍 Checking Pay Processor values entered successfully');
       queryPayProcessing(fileType);
       console.log('✅ Pay Processor values checked successfully');
+      return null;
+    },
+
+    querySettledValue (expectedValue) {
+
+      //This task checks that Pay processing data has been updated correctly following file upload
+      console.log(`Checking that settled value in the database is ${expectedValue}`);
+      querySettledValue(expectedValue);
+      console.log('✅ Pay Processor settled value checked successfully');
+      return null;
+    },
+
+    queryPPASettledValue (expectedValue) {
+
+      //This task checks that Pay processing data has been updated correctly following file upload
+      console.log(`Checking that settled value in the database is ${expectedValue}`);
+      queryPPASettledValue(expectedValue);
+      console.log('✅ Pay Processor settled value checked successfully');
       return null;
     },
 

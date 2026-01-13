@@ -118,7 +118,7 @@ Feature: 20 Accessibility Testing
     When I click on the "View processed payment requests" link
     Then I confirm there are no accessibility issues on the page
 
-    Then I select "FDMR" from the monitor schemes dropdown
+    Then I select "COHT Capital" from the monitor schemes dropdown
 
     And I click on the "Continue" button
     Then I confirm there are no accessibility issues on the page

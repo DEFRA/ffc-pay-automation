@@ -1,0 +1,29 @@
+{
+    "sourceSystem": "ESFIO",
+    "schemeId": 14,
+    "batch": "ESFIO0002_AP_2022110909115624.dat",
+    "deliveryBody": "RP00",
+    "invoiceNumber": "SFI2795919",
+    "frn": "1043959492",
+    "marketingYear": 2025,
+    "paymentRequestNumber": 2,
+    "agreementNumber": "38322143",
+    "contractNumber": "76642753",
+    "currency": "GBP",
+    "schedule": "Q4",
+    "dueDate": "2025-01-01",
+    "value": 140000.00,
+    "correlationId": "f9aaec8c-1947-42a1-864e-0e74a90cafef",
+    "invoiceLines": [
+        {
+            "schemeCode": "80101",
+            "accountCode": "SOS273",
+            "fundCode": "DRD10",
+            "agreementNumber": "38322143",
+            "description": "G00 - Gross value of claim",
+            "value": 140000.00,
+            "deliveryBody": "RP00",
+            "marketingYear": 2025
+        }
+    ]
+}

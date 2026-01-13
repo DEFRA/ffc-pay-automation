@@ -6,7 +6,7 @@ Feature: 09 Pagination - Payment Management
 
   Scenario Outline: 01 "<number>" records per page on "<page>" page
     And I click on the "<link>" link
-    When I select "<number>" from the number of records per page dropdown
+    When on the Payment Holds Page I select "<number>" from the number of records per page dropdown
     Then I can see at most <number> records displayed in the table
 
     Examples:

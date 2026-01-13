@@ -130,6 +130,10 @@ Then('the application identifier hint is visible with text {string}', (text) => 
   });
 });
 
+When('on the Payment Holds Page I select {string} from the number of records per page dropdown', (number) => {
+  requestEditor.paymentHoldsRecordsPerPageDropdown().scrollIntoView().select(number);
+});
+
 When('I select {string} from the number of records per page dropdown', (number) => {
   requestEditor.recordsPerPageDropdown().scrollIntoView().select(number);
 });

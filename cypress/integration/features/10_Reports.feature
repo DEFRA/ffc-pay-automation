@@ -44,7 +44,6 @@ Feature: 10 Reports
       | ES                 | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_9_year_2023         |
       | Expanded SFI Offer | 2024 |     |                | 1102491527 | ffc-pay-combined-transaction-report_schemeId_14_year_2024        |
       | FC                 | 2021 |     |                |            | ffc-pay-combined-transaction-report_schemeId_10_year_2021        |
-      | FDMR               | 2017 |     |                |            | ffc-pay-combined-transaction-report_schemeId_7_year_2017         |
       | IMPS               | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_11_year_2023        |
       | Lump Sums          | 2022 |     |                |            | ffc-pay-combined-transaction-report_schemeId_3_year_2022         |
       | Manual Invoice     | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_8_year_2023         |

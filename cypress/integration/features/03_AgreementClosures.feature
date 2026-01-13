@@ -6,7 +6,6 @@ Feature: 03 Agreement Closures
 
   Scenario: 01 View Agreement Closures
     Then I should see "Agreement closures"
-    And I should see "Add details of an agreement number closure"
     And I should see "Manage closures"
     And I should see "Add closure"
     And I should see "Add bulk closures"

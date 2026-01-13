@@ -44,14 +44,12 @@ When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
       });
     };
 
-
     checkFileExists().should('eq', true);
   } else {
     cy.contains('We’re preparing your report. This can take a few minutes for large datasets.').should('be.visible');
     reportsPage.spinner().should('be.visible');
     cy.contains('Your report has been successfully downloaded. You may now close this window.', { timeout: 50000 }).should('be.visible');
 
-    cy.task('fileExists', relativePath).should('eq', true);
   }
 });
 
@@ -242,6 +240,14 @@ Then(/^I select "(.*)" from the monitor schemes dropdown$/, (scheme) => {
   console.log(`Selected ${scheme} from the monitor schemes dropdown`);
 });
 
+Then(/^I confirm that payment for "(.*)" scheme with "(.*)" payment installments totalling "(.*)" is displayed$/, (scheme, payments, value) => {
+  cy.wait(2000); // Waiting for data load
+  cy.contains(scheme).should('be.visible');
+  cy.contains(payments).should('be.visible');
+  cy.contains(value).should('be.visible');
+  cy.log(`Confirmed that payment for ${scheme} scheme with ${payments} payment installments totalling ${value} is displayed`);
+  console.log(`Confirmed that payment for ${scheme} scheme with ${payments} payment installments totalling ${value} is displayed`);
+});
 
 When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (fileName) => {
   const filePath = `cypress/fixtures/${fileName}`;

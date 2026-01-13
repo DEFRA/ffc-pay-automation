@@ -148,29 +148,29 @@ Then(/^on the Delinked payment calculation page I confirm that "(.*)" is correct
   case '2027 tab':
     delinkedPaymentCalculationPage.twentyTwentySevenTab().should('be.visible'); break;
   case 'estimated payment header':
-    delinkedPaymentCalculationPage.estimatedPaymentHeader().should('be.visible').and('contain.text', 'Estimated delinked payment in 2025'); break;
+    delinkedPaymentCalculationPage.estimatedPaymentHeader().should('be.visible').and('contain.text', 'Estimated delinked payment in 2026'); break;
   case 'scheme year':
-    delinkedPaymentCalculationPage.schemeYear().should('be.visible').and('contain.text', '2025'); break;
+    delinkedPaymentCalculationPage.schemeYear().should('be.visible').and('contain.text', '2026'); break;
   case 'total estimated reduction':
-    delinkedPaymentCalculationPage.totalEstimatedReduction().should('be.visible').and('contain.text', '£15,200.00'); break;
+    delinkedPaymentCalculationPage.totalEstimatedReduction().should('be.visible').and('contain.text', '£19,600.00'); break;
   case 'total estimated payment':
-    delinkedPaymentCalculationPage.totalEstimatedPayment().should('be.visible').and('contain.text', '£4,800.00'); break;
+    delinkedPaymentCalculationPage.totalEstimatedPayment().should('be.visible').and('contain.text', '£400.00'); break;
   case 'paragraph two':
     delinkedPaymentCalculationPage.paragraphTwo().should('be.visible').and('contain.text', 'We plan to make the payment from 1 August.'); break;
   case 'progressive reduction header':
-    delinkedPaymentCalculationPage.progressiveReductionHeader().should('be.visible').and('contain.text', 'Progressive reduction applied to your payment for 2025'); break;
+    delinkedPaymentCalculationPage.progressiveReductionHeader().should('be.visible').and('contain.text', 'Progressive reduction applied to your payment for 2026'); break;
   case 'payment band':
-    delinkedPaymentCalculationPage.paymentBand().should('be.visible').and('contain.text', '2025'); break;
+    delinkedPaymentCalculationPage.paymentBand().should('be.visible').and('contain.text', '2026'); break;
   case '£30,000.00 or less':
-    delinkedPaymentCalculationPage.thirtyKOrLess().should('be.visible').and('contain.text', '£15,200.00'); break;
+    delinkedPaymentCalculationPage.thirtyKOrLess().should('be.visible').and('contain.text', '£19,600.00'); break;
   case 'total progressive reduction':
-    delinkedPaymentCalculationPage.totalProgressiveReduction().should('be.visible').and('contain.text', '£15,200.00'); break;
+    delinkedPaymentCalculationPage.totalProgressiveReduction().should('be.visible').and('contain.text', '£19,600.00'); break;
   case 'percentageReductionHeader':
-    delinkedPaymentCalculationPage.percentageReductionHeader().should('be.visible').and('contain.text', 'Percentage reduction for 2025'); break;
+    delinkedPaymentCalculationPage.percentageReductionHeader().should('be.visible').and('contain.text', 'Percentage reduction for 2026'); break;
   case 'scheme year two':
-    delinkedPaymentCalculationPage.schemeYearTwo().should('be.visible').and('contain.text', '2025'); break;
+    delinkedPaymentCalculationPage.schemeYearTwo().should('be.visible').and('contain.text', '2026'); break;
   case '30,000.00 or less two':
-    delinkedPaymentCalculationPage.thirtyKOrLessTwo().should('be.visible').and('contain.text', '76%'); break;
+    delinkedPaymentCalculationPage.thirtyKOrLessTwo().should('be.visible').and('contain.text', '98%'); break;
   }
 
   console.log('Confirmed that', element, 'is displayed correctly on the Enter your delinked payment reference amount page');

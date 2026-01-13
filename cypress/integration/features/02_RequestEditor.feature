@@ -22,15 +22,18 @@ Feature: 02 Request Editor
     When I click on the "Capture new dataset" link
     Then I take a screenshot for Feature 2 and Scenario 2
     Then I should see the following schemes:
-      | Scheme Name |
-      | SFI22       |
-      | SFI Pilot   |
-      | Lump Sums   |
-      | Vet Visits  |
-      | CS          |
-      | BPS         |
-      | FDMR        |
-      | SFI23       |
+      | Scheme Name                        |
+      | SFI22                              |
+      | SFI Pilot                          |
+      | Lump Sums                          |
+      | Vet Visits                         |
+      | CS                                 |
+      | BPS                                |
+      | Delinked                           |
+      | Expanded SFI Offer                 |
+      | Combined Offer Higher Tier Revenue |
+      | Combined Offer Higher Tier Capital |
+      | SFI23                              |
 
   @test @dev @local
   Scenario: 03 Download Extract
@@ -124,17 +127,17 @@ Feature: 02 Request Editor
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I select 'FDMR' in the scheme dropdown
+    And I select 'COHT Capital' in the scheme dropdown
     When I click the Scheme search button
-    Then each record in the table has the Scheme 'FDMR'
+    Then each record in the table has the Scheme 'COHT Capital'
 
   @test
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I select 'FDMR' in the scheme dropdown
+    And I select 'COHT Capital' in the scheme dropdown
     When I click the Scheme search button
-    Then each record in the table has the Scheme 'FDMR'
+    Then each record in the table has the Scheme 'COHT Capital'
 
   @test @dev @local
   Scenario: 11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme
