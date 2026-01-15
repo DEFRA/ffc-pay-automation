@@ -60,6 +60,9 @@ Given(/^I am on the "(.*)" homepage$/, (text) => {
 
 When(/^I click on the "(.*)" button$/, (text) => {
   cy.get('button').contains(text).first().scrollIntoView().click();
+  if (text === 'Submit') {
+    cy.wait(10000);
+  }
 });
 
 When(/^I click on "(.*)"$/, (text) => {
@@ -345,6 +348,14 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 3: scenarioString = '03 PPA Top-up after second installment'; break;
     case 4: scenarioString = '04 PPA Top-up after third installment'; break;
     case 5: scenarioString = '05 PPA Top-up after fourth installment'; break;
+    }
+    break;
+  case 35: featureString = '35_PPAReductionScenarios.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 PPA Reduction before first installment'; break;
+    case 2: scenarioString = '02 PPA Reduction after first installment'; break;
+    case 3: scenarioString = '03 PPA Reduction after second installment'; break;
+    case 4: scenarioString = '04 PPA Reduction after third installment'; break;
     }
     break;
   }
