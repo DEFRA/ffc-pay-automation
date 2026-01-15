@@ -67,7 +67,7 @@ Feature: 02 Request Editor
     @dev
     Examples:
       | frn        |
-      | 1102239267 |
+      | 1101703954 |
 
   @dev @local
   Scenario: 06 Debt data reference is less than 5 characters
@@ -121,7 +121,7 @@ Feature: 02 Request Editor
     @dev
     Examples:
       | frn        |
-      | 1102239267 |
+      | 1234567891 |
 
   @dev @ignore
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
