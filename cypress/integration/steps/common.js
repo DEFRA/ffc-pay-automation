@@ -358,6 +358,14 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 4: scenarioString = '04 PPA Reduction after third installment'; break;
     }
     break;
+  case 36: featureString = '36_PPARecoveryScenarios.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 PPA Recovery after first installment'; break;
+    case 2: scenarioString = '02 PPA Recovery after second installment'; break;
+    case 3: scenarioString = '03 PPA Recovery after third installment'; break;
+    case 4: scenarioString = '04 PPA Recovery after fourth installment'; break;
+    }
+    break;
   }
   const screenshotName = featureString + scenarioString;
   console.log('Screenshot Name:', screenshotName);

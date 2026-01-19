@@ -12,7 +12,7 @@
     "currency": "GBP",
     "schedule": "Q4",
     "dueDate": "2025-01-01",
-    "value": 800000.00,
+    "value": 200000.00,
     "correlationId": "f9aaec8c-1947-42a1-864e-0e74a90cafef",
     "invoiceLines": [
         {
@@ -21,7 +21,7 @@
             "fundCode": "DRD10",
             "agreementNumber": "38322143",
             "description": "G00 - Gross value of claim",
-            "value": 800000.00,
+            "value": 200000.00,
             "deliveryBody": "RP00",
             "marketingYear": 2025
         }

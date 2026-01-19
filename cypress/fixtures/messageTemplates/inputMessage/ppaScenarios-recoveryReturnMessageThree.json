@@ -1,0 +1,14 @@
+    {
+        "sourceSystem": "ESFIO",
+        "invoiceNumber": "S279591976642753V002",
+        "frn": "1043959492",
+        "currency": "GBP",
+        "value": -550000.00,
+        "settlementDate": "2025-06-02T00:00:00.000Z",
+        "reference": "KJ4275310",
+        "settled": true,
+        "detail": "Stopped by RPA",
+        "ledger": "AR",
+        "referenceId": "a66ccf0af3f05e3ab2d8f63ffd0e8ac0",
+        "filename": "FFCESFIO Return File unique.csv"
+    }

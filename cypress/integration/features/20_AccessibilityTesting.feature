@@ -66,14 +66,6 @@ Feature: 20 Accessibility Testing
     Then I confirm there are no accessibility issues on the page
 
     And I click on the "Home" link
-    
-
-#Manage schemes page
-
-    When I click on the "Manage schemes" link
-    Then I confirm there are no accessibility issues on the page
-
-    And I click on the "Home" link
 
 #Reset payment requests page
     When I click on the "Reset payment request" link
@@ -134,7 +126,15 @@ Feature: 20 Accessibility Testing
 
     And I click on the "Upload" button
     Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Home" link
+
+ #Management Information page   
    
+    When I click on the "View management information" link
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Home" link
 
   Scenario: 02 Check accessibility on Request Editor
 
