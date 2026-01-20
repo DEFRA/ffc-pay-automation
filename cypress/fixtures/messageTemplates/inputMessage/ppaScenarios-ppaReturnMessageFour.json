@@ -3,7 +3,7 @@
     "invoiceNumber": "S279591976642753V002",
     "frn": "1043959492",
     "currency": "GBP",
-    "value": 40000.00,
+    "value": 40000000,
     "settlementDate": "2025-09-02T00:00:00.000Z",
     "reference": "KJ4275310",
     "settled": true,
