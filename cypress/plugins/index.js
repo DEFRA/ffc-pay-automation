@@ -23,6 +23,7 @@ const confirmInvalidDataNotAdded = require('../utils/confirmInvalidDataNotAdded'
 const generateJWT = require('../utils/generateJWT');
 const querySettledValue = require('../utils/querySettledValue');
 const queryPPASettledValue = require('../utils/queryPPASettledValue');
+const queryPPARecoverySettledValue = require('../utils/queryPPARecoverySettledValue');
 
 
 
@@ -371,6 +372,15 @@ module.exports = (on, config) => {
       //This task checks that Pay processing data has been updated correctly following file upload
       console.log(`Checking that settled value in the database is ${expectedValue}`);
       queryPPASettledValue(expectedValue);
+      console.log('✅ Pay Processor settled value checked successfully');
+      return null;
+    },
+
+    queryPPARecoverySettledValue (expectedValue) {
+
+      //This task checks that Pay processing data has been updated correctly following file upload
+      console.log(`Checking that settled value in the database is ${expectedValue}`);
+      queryPPARecoverySettledValue(expectedValue);
       console.log('✅ Pay Processor settled value checked successfully');
       return null;
     },

@@ -104,6 +104,26 @@ Then(/^I confirm that the settled value of PPA is (.*) in database$/, (expectedV
   cy.log(`✅ Confirmed that settled value in the ${containerName} database is ${expectedValue}`);
 });
 
+Then(/^I confirm that the settled value of PPA Recovery is (.*) in database$/, (expectedValue) => {
+
+  //This step checks the settled value in the database for PPA Recovery payments and confirms that it matches the value
+  // entered in the feature file.
+
+  cy.queryPPARecoverySettledValue(expectedValue);
+
+  const containerName = 'ffc-pay-processing-ffc-pay-processing-1';
+
+  cy.task('getDockerLogs', containerName).then((logs) => {
+    logs.split('\n').forEach((line) => {
+      if (line.trim()) {
+        console.log(line);
+      }
+    });
+  });
+  console.log(`✅ Confirmed that settled value in the ${containerName} database is ${expectedValue}`);
+  cy.log(`✅ Confirmed that settled value in the ${containerName} database is ${expectedValue}`);
+});
+
 Then(/^I confirm that the settled value of Return is (.*) in database$/, (expectedValue) => {
 
   //This step checks the settled value in the database for payments and confirms that it matches the value

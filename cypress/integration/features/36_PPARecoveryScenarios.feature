@@ -20,12 +20,21 @@ Feature: 36 PPA Recovery Scenarios
 #First installment payment
 
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 250000 in database
+    Then I confirm that the settled value of Return is 25000000 in database
 
 #PPA Recovery processed after first installment payment
 
     When I send the updated "ppaScenarios-recoveryMessageOne" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that ppa test data has been inserted into the ffc-pay-processing database
+
+    Given I visit the "Request Editor" homepage
+    And I click on the "View awaiting reporting data" link
+    And I click on the "Enrich" link
+    And I click on the "Irregular" debt type radio button
+    And I enter a valid debt discovered date in the past
+    And I click on the "Continue" button
+    And I click on the "Back" link
+    And I click on the "Sign Out" link
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment" link
@@ -47,11 +56,33 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
 
-#Recover 50,000 of first installment to bring overall payment amount to 200,000
+#Q2 payment - Original AP settlement increases to 50000000 while PR2 AP settlement is -25000000
+
+    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    Then I confirm that the settled value of Return is 50000000 in database
 
     When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
-    Then I confirm that the settled value of PPA is -50000 in database
+    Then I confirm that the settled value of PPA Recovery is -25000000 in database
+
+#Q3 payment - Original AP settlement increases to 75000000 while PR2 AP settlement is -50000000 
+
+    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    Then I confirm that the settled value of Return is 75000000 in database
+
+    When I send the updated "ppaScenarios-recoveryReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+ 
+    Then I confirm that the settled value of PPA Recovery is -50000000 in database
+    
+#Q4 payment - Original AP settlement increases to 100000000 while PR2 AP settlement is 75000000
+
+    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    Then I confirm that the settled value of Return is 100000000 in database
+
+    When I send the updated "ppaScenarios-recoveryReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+ 
+    Then I confirm that the settled value of PPA Recovery is -75000000 in database
+
 
   Scenario: 02 PPA Recovery after second installment
 
@@ -70,17 +101,26 @@ Feature: 36 PPA Recovery Scenarios
 #First installment payment
 
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 250000 in database
+    Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment
 
     When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 500000 in database
+    Then I confirm that the settled value of Return is 50000000 in database
 
 #PPA Recovery processed after second installment payment
 
     When I send the updated "ppaScenarios-recoveryMessageOne" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that ppa test data has been inserted into the ffc-pay-processing database
+
+    Given I visit the "Request Editor" homepage
+    And I click on the "View awaiting reporting data" link
+    And I click on the "Enrich" link
+    And I click on the "Irregular" debt type radio button
+    And I enter a valid debt discovered date in the past
+    And I click on the "Continue" button
+    And I click on the "Back" link
+    And I click on the "Sign Out" link
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment" link
@@ -102,11 +142,23 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
 
-#Recover 300,000 of previous installments to bring overall payment amount to 200,000
+#3rd installment payment - Original AP settlement increases to 75000000 and PPA Recovery is -25000000
+
+    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    Then I confirm that the settled value of Return is 75000000 in database
+
+    When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+ 
+    Then I confirm that the settled value of PPA Recovery is -25000000 in database
+
+#4th installment payment - Original AP settlement increases to 100000000 and PPA Recovery is -50000000
+
+    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    Then I confirm that the settled value of Return is 100000000 in database
 
     When I send the updated "ppaScenarios-recoveryReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-
-    Then I confirm that the settled value of PPA is -300000 in database
+ 
+    Then I confirm that the settled value of PPA Recovery is -50000000 in database
 
   Scenario: 03 PPA Recovery after third installment
 
@@ -125,22 +177,31 @@ Feature: 36 PPA Recovery Scenarios
 #First installment payment
 
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 250000 in database
+    Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment
 
     When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 500000 in database
+    Then I confirm that the settled value of Return is 50000000 in database
 
 #Third installment payment
 
     When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 750000 in database
+    Then I confirm that the settled value of Return is 75000000 in database
 
 #PPA Recovery processed after third installment payment
 
     When I send the updated "ppaScenarios-recoveryMessageOne" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that ppa test data has been inserted into the ffc-pay-processing database
+
+    Given I visit the "Request Editor" homepage
+    And I click on the "View awaiting reporting data" link
+    And I click on the "Enrich" link
+    And I click on the "Irregular" debt type radio button
+    And I enter a valid debt discovered date in the past
+    And I click on the "Continue" button
+    And I click on the "Back" link
+    And I click on the "Sign Out" link
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment" link
@@ -162,11 +223,15 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
 
-#Recover 550,000 of previous installments to bring overall payment amount to 200,000
+    #4th installment payment - Original AP settlement increases to 100000000 and PPA Recovery is -25000000
 
-    When I send the updated "ppaScenarios-recoveryReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    Then I confirm that the settled value of Return is 100000000 in database
 
-    Then I confirm that the settled value of PPA is -550000 in database
+    When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+ 
+    Then I confirm that the settled value of PPA Recovery is -25000000 in database
+
 
   Scenario: 04 PPA Recovery after fourth installment
 
@@ -185,27 +250,36 @@ Feature: 36 PPA Recovery Scenarios
 #First installment payment
 
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 250000 in database
+    Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment
 
     When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 500000 in database
+    Then I confirm that the settled value of Return is 50000000 in database
 
 #Third installment payment
 
     When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 750000 in database
+    Then I confirm that the settled value of Return is 75000000 in database
 
 #Fourth installment payment
 
     When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 1000000 in database
+    Then I confirm that the settled value of Return is 100000000 in database
 
 #PPA Recovery processed after fourth installment payment
 
     When I send the updated "ppaScenarios-recoveryMessageOne" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that ppa test data has been inserted into the ffc-pay-processing database
+
+    Given I visit the "Request Editor" homepage
+    And I click on the "View awaiting reporting data" link
+    And I click on the "Enrich" link
+    And I click on the "Irregular" debt type radio button
+    And I enter a valid debt discovered date in the past
+    And I click on the "Continue" button
+    And I click on the "Back" link
+    And I click on the "Sign Out" link
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment" link
@@ -217,6 +291,7 @@ Feature: 36 PPA Recovery Scenarios
     And I am on the "quality-check" subpage
     And I click on the "Sign Out" link
 
+#Following steps complete the journey as full value of initial payment has been made and PPA Recovery processed
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting quality check" link
@@ -226,11 +301,4 @@ Feature: 36 PPA Recovery Scenarios
     Then I take a screenshot for Feature 36 and Scenario 4
     And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
-
-#Recover 800,000 of previous installments to bring overall payment amount to 200,000
-
-    When I send the updated "ppaScenarios-recoveryReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
-
-    Then I confirm that the settled value of PPA is -800000 in database
-
     

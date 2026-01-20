@@ -131,6 +131,10 @@ Cypress.Commands.add('queryPPASettledValue', (expectedValue) => {
   cy.task('queryPPASettledValue', expectedValue);
 });
 
+Cypress.Commands.add('queryPPARecoverySettledValue', (expectedValue) => {
+  cy.task('queryPPARecoverySettledValue', expectedValue);
+});
+
 Cypress.Commands.add('fetchStatementsBlobById', (container, dir, year) => {
   cy.task('fetchStatementsBlobById', container, dir, year);
 });

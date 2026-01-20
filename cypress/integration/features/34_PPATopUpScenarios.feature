@@ -29,8 +29,8 @@ Feature: 34 PPA Top-up Scenarios
 
 #Confirm settled values in database    
 
-    Then I confirm that the settled value of Return is 250000 in database
-    Then I confirm that the settled value of PPA is 100000 in database
+    Then I confirm that the settled value of Return is 25000000 in database
+    Then I confirm that the settled value of PPA is 10000000 in database
 
 #Second installment payment including PPA Top-up    
 
@@ -39,8 +39,8 @@ Feature: 34 PPA Top-up Scenarios
 
 #Confirm settled values in database
 
-    Then I confirm that the settled value of Return is 500000 in database
-    Then I confirm that the settled value of PPA is 200000 in database
+    Then I confirm that the settled value of Return is 50000000 in database
+    Then I confirm that the settled value of PPA is 20000000 in database
 
 #Third installment payment including PPA Top-up      
 
@@ -49,8 +49,8 @@ Feature: 34 PPA Top-up Scenarios
 
 #Confirm settled values in database
     
-    Then I confirm that the settled value of Return is 750000 in database
-    Then I confirm that the settled value of PPA is 300000 in database
+    Then I confirm that the settled value of Return is 75000000 in database
+    Then I confirm that the settled value of PPA is 30000000 in database
 
 #Fourth installment payment including PPA Top-up     
 
@@ -59,8 +59,8 @@ Feature: 34 PPA Top-up Scenarios
 
 #Confirm settled values in database    
 
-    Then I confirm that the settled value of Return is 1000000 in database
-    Then I confirm that the settled value of PPA is 400000 in database
+    Then I confirm that the settled value of Return is 100000000 in database
+    Then I confirm that the settled value of PPA is 40000000 in database
 
 #Confirm correct payment request values in Payment Management UI    
 
@@ -88,7 +88,7 @@ Feature: 34 PPA Top-up Scenarios
 #First installment payment prior to PPA Top-up
     
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 250000 in database
+    Then I confirm that the settled value of Return is 25000000 in database
 
 #PPA File processed after first installment payment
 
@@ -98,31 +98,31 @@ Feature: 34 PPA Top-up Scenarios
 #First PPA top up payment
 
     When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of PPA is 100000 in database
+    Then I confirm that the settled value of PPA is 10000000 in database
 
 #Second installment payment including PPA Top-up    
 
     When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
     When I send the updated "ppaScenarios-ppaReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
 
-    Then I confirm that the settled value of Return is 500000 in database
-    Then I confirm that the settled value of PPA is 200000 in database
+    Then I confirm that the settled value of Return is 50000000 in database
+    Then I confirm that the settled value of PPA is 20000000 in database
 
 #Third installment payment including PPA Top-up    
 
     When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
     When I send the updated "ppaScenarios-ppaReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
     
-    Then I confirm that the settled value of Return is 750000 in database
-    Then I confirm that the settled value of PPA is 300000 in database
+    Then I confirm that the settled value of Return is 75000000 in database
+    Then I confirm that the settled value of PPA is 30000000 in database
 
 #Fourth installment payment including PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
     When I send the updated "ppaScenarios-ppaReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
 
-    Then I confirm that the settled value of Return is 1000000 in database
-    Then I confirm that the settled value of PPA is 400000 in database
+    Then I confirm that the settled value of Return is 100000000 in database
+    Then I confirm that the settled value of PPA is 40000000 in database
 
 #Confirm correct payment request values in Payment Management UI    
 
@@ -150,12 +150,12 @@ Feature: 34 PPA Top-up Scenarios
 #First installment payment prior to PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 250000 in database
+    Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment prior to PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 500000 in database
+    Then I confirm that the settled value of Return is 50000000 in database
 
 #PPA File processed after second installment payment
 
@@ -165,23 +165,23 @@ Feature: 34 PPA Top-up Scenarios
 #First PPA top up payment
 
     When I send the updated "ppaScenarios-ppaReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of PPA is 200000 in database
+    Then I confirm that the settled value of PPA is 20000000 in database
 
 #Third installment payment including PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
     When I send the updated "ppaScenarios-ppaReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
     
-    Then I confirm that the settled value of Return is 750000 in database
-    Then I confirm that the settled value of PPA is 300000 in database
+    Then I confirm that the settled value of Return is 75000000 in database
+    Then I confirm that the settled value of PPA is 30000000 in database
 
 #Fourth installment payment including PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
     When I send the updated "ppaScenarios-ppaReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
 
-    Then I confirm that the settled value of Return is 1000000 in database
-    Then I confirm that the settled value of PPA is 400000 in database
+    Then I confirm that the settled value of Return is 100000000 in database
+    Then I confirm that the settled value of PPA is 40000000 in database
 
 #Confirm correct payment request values in Payment Management UI
 
@@ -209,17 +209,17 @@ Feature: 34 PPA Top-up Scenarios
 #First installment payment prior to PPA Top-up    
 
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 250000 in database
+    Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment prior to PPA Top-up    
 
     When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 500000 in database
+    Then I confirm that the settled value of Return is 50000000 in database
 
 #Third installment payment prior to PPA Top-up    
 
     When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 750000 in database
+    Then I confirm that the settled value of Return is 75000000 in database
 
 #PPA File processed after third installment payment
 
@@ -227,15 +227,15 @@ Feature: 34 PPA Top-up Scenarios
     Then I confirm that ppa test data has been inserted into the ffc-pay-processing database
 
     When I send the updated "ppaScenarios-ppaReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of PPA is 300000 in database
+    Then I confirm that the settled value of PPA is 30000000 in database
 
 #Fourth installment payment including PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
     When I send the updated "ppaScenarios-ppaReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
 
-    Then I confirm that the settled value of Return is 1000000 in database
-    Then I confirm that the settled value of PPA is 400000 in database
+    Then I confirm that the settled value of Return is 100000000 in database
+    Then I confirm that the settled value of PPA is 40000000 in database
 
 #Confirm correct payment request values in Payment Management UI
 
@@ -263,22 +263,22 @@ Feature: 34 PPA Top-up Scenarios
 #First installment payment prior to PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 250000 in database
+    Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment prior to PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 500000 in database
+    Then I confirm that the settled value of Return is 50000000 in database
 
 #Third installment payment prior to PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 750000 in database
+    Then I confirm that the settled value of Return is 75000000 in database
 
 #Fourth installment payment prior to PPA Top-up
 
     When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of Return is 1000000 in database
+    Then I confirm that the settled value of Return is 100000000 in database
 
 #PPA File processed after fourth installment payment
 
@@ -288,7 +288,7 @@ Feature: 34 PPA Top-up Scenarios
 #PPA top up payment
 
     When I send the updated "ppaScenarios-ppaReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that the settled value of PPA is 400000 in database
+    Then I confirm that the settled value of PPA is 40000000 in database
 
 #Confirm correct payment request values in Payment Management UI
 
