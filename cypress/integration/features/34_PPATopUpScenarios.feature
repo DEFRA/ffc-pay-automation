@@ -24,7 +24,12 @@ Feature: 34 PPA Top-up Scenarios
 
 #First installment payment including PPA Top-up    
 
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "10000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
 #Confirm settled values in database    
@@ -34,8 +39,13 @@ Feature: 34 PPA Top-up Scenarios
 
 #Second installment payment including PPA Top-up    
 
-    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-    When I send the updated "ppaScenarios-ppaReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "20000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
 #Confirm settled values in database
 
@@ -44,8 +54,13 @@ Feature: 34 PPA Top-up Scenarios
 
 #Third installment payment including PPA Top-up      
 
-    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    When I send the updated "ppaScenarios-ppaReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "30000000"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
 #Confirm settled values in database
     
@@ -54,8 +69,13 @@ Feature: 34 PPA Top-up Scenarios
 
 #Fourth installment payment including PPA Top-up     
 
-    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
-    When I send the updated "ppaScenarios-ppaReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "40000000"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
 #Confirm settled values in database    
 
@@ -87,6 +107,9 @@ Feature: 34 PPA Top-up Scenarios
 
 #First installment payment prior to PPA Top-up
     
+
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 25000000 in database
 
@@ -97,29 +120,46 @@ Feature: 34 PPA Top-up Scenarios
 
 #First PPA top up payment
 
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "10000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of PPA is 10000000 in database
 
 #Second installment payment including PPA Top-up    
 
-    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
-    When I send the updated "ppaScenarios-ppaReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "20000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
     Then I confirm that the settled value of Return is 50000000 in database
     Then I confirm that the settled value of PPA is 20000000 in database
 
 #Third installment payment including PPA Top-up    
 
-    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    When I send the updated "ppaScenarios-ppaReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "30000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
     Then I confirm that the settled value of Return is 75000000 in database
     Then I confirm that the settled value of PPA is 30000000 in database
 
 #Fourth installment payment including PPA Top-up
 
-    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
-    When I send the updated "ppaScenarios-ppaReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "40000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is 40000000 in database
@@ -149,12 +189,16 @@ Feature: 34 PPA Top-up Scenarios
 
 #First installment payment prior to PPA Top-up
 
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment prior to PPA Top-up
 
-    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 50000000 in database
 
 #PPA File processed after second installment payment
@@ -164,21 +208,33 @@ Feature: 34 PPA Top-up Scenarios
 
 #First PPA top up payment
 
-    When I send the updated "ppaScenarios-ppaReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "20000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of PPA is 20000000 in database
 
 #Third installment payment including PPA Top-up
 
-    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    When I send the updated "ppaScenarios-ppaReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
-    
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "30000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
     Then I confirm that the settled value of Return is 75000000 in database
     Then I confirm that the settled value of PPA is 30000000 in database
 
 #Fourth installment payment including PPA Top-up
 
-    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
-    When I send the updated "ppaScenarios-ppaReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "40000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is 40000000 in database
@@ -208,17 +264,23 @@ Feature: 34 PPA Top-up Scenarios
 
 #First installment payment prior to PPA Top-up    
 
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment prior to PPA Top-up    
 
-    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 50000000 in database
 
 #Third installment payment prior to PPA Top-up    
 
-    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 75000000 in database
 
 #PPA File processed after third installment payment
@@ -226,13 +288,22 @@ Feature: 34 PPA Top-up Scenarios
     When I send the updated "ppaScenarios-ppaMessageOne" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that ppa test data has been inserted into the ffc-pay-processing database
 
-    When I send the updated "ppaScenarios-ppaReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+#First PPA top up payment
+
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "30000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of PPA is 30000000 in database
 
 #Fourth installment payment including PPA Top-up
 
-    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
-    When I send the updated "ppaScenarios-ppaReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "40000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is 40000000 in database
@@ -262,22 +333,30 @@ Feature: 34 PPA Top-up Scenarios
 
 #First installment payment prior to PPA Top-up
 
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment prior to PPA Top-up
 
-    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 50000000 in database
 
 #Third installment payment prior to PPA Top-up
 
-    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 75000000 in database
 
 #Fourth installment payment prior to PPA Top-up
 
-    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 100000000 in database
 
 #PPA File processed after fourth installment payment
@@ -287,7 +366,9 @@ Feature: 34 PPA Top-up Scenarios
 
 #PPA top up payment
 
-    When I send the updated "ppaScenarios-ppaReturnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-ppaReturnMessageOne" to "40000000"
+    When I update the "settlementDate" in message "ppaScenarios-ppaReturnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-ppaReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of PPA is 40000000 in database
 
 #Confirm correct payment request values in Payment Management UI

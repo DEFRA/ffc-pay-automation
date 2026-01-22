@@ -83,6 +83,27 @@ Then('I check service bus topic {string} for received messages', (topicName) => 
   cy.stopMessageReception();
 });
 
+When('I update the {string} in message {string} to {string}', (key, inputTopicName, value) => {
+
+  //This function updates a specific key in the JSON message file with a new value
+  const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
+
+  if (key === 'value') {
+    value = parseInt(value, 10);
+  }
+
+  cy.readFile(inputFilePath).then(inputMessageBody => {
+    if (!inputMessageBody || typeof inputMessageBody !== 'object') {
+      throw new Error(`Invalid or missing input file: ${inputFilePath}`);
+    }
+
+    // Update the specified key with the provided value
+    inputMessageBody[key] = value;
+
+    cy.writeFile(inputFilePath, JSON.stringify(inputMessageBody, null, 2));
+  });
+});
+
 When('I create a message with the filename {string} and update the following keys:', (inputTopicName, dataTable) => {
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
 
