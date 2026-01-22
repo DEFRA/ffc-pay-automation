@@ -123,16 +123,8 @@ Cypress.Commands.add('queryPayProcessing', (fileType) => {
   cy.task('queryPayProcessing', fileType);
 });
 
-Cypress.Commands.add('querySettledValue', (expectedValue) => {
-  cy.task('querySettledValue', expectedValue);
-});
-
-Cypress.Commands.add('queryPPASettledValue', (expectedValue) => {
-  cy.task('queryPPASettledValue', expectedValue);
-});
-
-Cypress.Commands.add('queryPPARecoverySettledValue', (expectedValue) => {
-  cy.task('queryPPARecoverySettledValue', expectedValue);
+Cypress.Commands.add('getSettledValue', (fileType, expectedValue) => {
+  cy.task('getSettledValue', fileType, expectedValue);
 });
 
 Cypress.Commands.add('fetchStatementsBlobById', (container, dir, year) => {

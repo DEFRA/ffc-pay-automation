@@ -1,10 +1,7 @@
 require('dotenv').config();
 const { Client } = require('pg');
 
-// This module connects to Pay Processor database and checks if the settledValue has been updated following PPA Recovery return file upload.
-
-
-module.exports = async (expectedValue) => {
+async function getSettledValue (fileType, expectedValue) {
 
   const client = new Client({
     host: process.env.DEFAULTHOST,
@@ -18,13 +15,33 @@ module.exports = async (expectedValue) => {
 
   console.log(`Expected value received: [${expectedValue}]`);
 
+  var querySql = '';
 
-  const querySql = `
+  switch (fileType) {
+  case 'return':
+    querySql = `
+        SELECT "settledValue"
+        FROM "completedPaymentRequests"
+        WHERE "paymentRequestId" = 1
+      `;
+    break;
+  case 'ppa':
+    querySql = `
+        SELECT "settledValue"
+        FROM "completedPaymentRequests"
+        WHERE "paymentRequestId" = 2
+      `;
+    break;
+  case 'recovery':
+    querySql = `
         SELECT "settledValue"
         FROM "completedPaymentRequests"
         WHERE "completedPaymentRequestId" = 3
       `;
-
+    break;
+  default:
+    throw new Error(`Unknown file type: ${fileType}`);
+  }
 
   console.log('Query running:', querySql.trim());
 
@@ -57,4 +74,7 @@ module.exports = async (expectedValue) => {
   } finally {
     await client.end();
   }
-};
+}
+
+
+module.exports = getSettledValue;

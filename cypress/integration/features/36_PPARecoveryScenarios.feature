@@ -19,6 +19,8 @@ Feature: 36 PPA Recovery Scenarios
 
 #First installment payment
 
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 25000000 in database
 
@@ -58,28 +60,40 @@ Feature: 36 PPA Recovery Scenarios
 
 #Q2 payment - Original AP settlement increases to 50000000 while PR2 AP settlement is -25000000
 
-    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 50000000 in database
 
+    When I update the "value" in message "ppaScenarios-recoveryReturnMessageOne" to "-25000000"
+    When I update the "settlementDate" in message "ppaScenarios-recoveryReturnMessageOne" to "2025-04-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
     Then I confirm that the settled value of PPA Recovery is -25000000 in database
 
 #Q3 payment - Original AP settlement increases to 75000000 while PR2 AP settlement is -50000000 
 
-    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 75000000 in database
 
-    When I send the updated "ppaScenarios-recoveryReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
- 
+    When I update the "value" in message "ppaScenarios-recoveryReturnMessageOne" to "-50000000"
+    When I update the "settlementDate" in message "ppaScenarios-recoveryReturnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+
     Then I confirm that the settled value of PPA Recovery is -50000000 in database
     
 #Q4 payment - Original AP settlement increases to 100000000 while PR2 AP settlement is 75000000
 
-    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 100000000 in database
 
-    When I send the updated "ppaScenarios-recoveryReturnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-recoveryReturnMessageOne" to "-75000000"
+    When I update the "settlementDate" in message "ppaScenarios-recoveryReturnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
  
     Then I confirm that the settled value of PPA Recovery is -75000000 in database
 
@@ -100,12 +114,16 @@ Feature: 36 PPA Recovery Scenarios
 
 #First installment payment
 
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment
 
-    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 50000000 in database
 
 #PPA Recovery processed after second installment payment
@@ -144,20 +162,26 @@ Feature: 36 PPA Recovery Scenarios
 
 #3rd installment payment - Original AP settlement increases to 75000000 and PPA Recovery is -25000000
 
-    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 75000000 in database
 
+    When I update the "value" in message "ppaScenarios-recoveryReturnMessageOne" to "-25000000"
+    When I update the "settlementDate" in message "ppaScenarios-recoveryReturnMessageOne" to "2025-06-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
- 
     Then I confirm that the settled value of PPA Recovery is -25000000 in database
 
 #4th installment payment - Original AP settlement increases to 100000000 and PPA Recovery is -50000000
 
-    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 100000000 in database
 
-    When I send the updated "ppaScenarios-recoveryReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
- 
+    When I update the "value" in message "ppaScenarios-recoveryReturnMessageOne" to "-50000000"
+    When I update the "settlementDate" in message "ppaScenarios-recoveryReturnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of PPA Recovery is -50000000 in database
 
   Scenario: 03 PPA Recovery after third installment
@@ -176,17 +200,23 @@ Feature: 36 PPA Recovery Scenarios
 
 #First installment payment
 
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment
 
-    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 50000000 in database
 
 #Third installment payment
 
-    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 75000000 in database
 
 #PPA Recovery processed after third installment payment
@@ -225,9 +255,13 @@ Feature: 36 PPA Recovery Scenarios
 
     #4th installment payment - Original AP settlement increases to 100000000 and PPA Recovery is -25000000
 
-    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 100000000 in database
 
+    When I update the "value" in message "ppaScenarios-recoveryReturnMessageOne" to "-25000000"
+    When I update the "settlementDate" in message "ppaScenarios-recoveryReturnMessageOne" to "2025-09-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
  
     Then I confirm that the settled value of PPA Recovery is -25000000 in database
@@ -249,22 +283,30 @@ Feature: 36 PPA Recovery Scenarios
 
 #First installment payment
 
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 25000000 in database
 
 #Second installment payment
 
-    When I send the updated "ppaScenarios-returnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 50000000 in database
 
 #Third installment payment
 
-    When I send the updated "ppaScenarios-returnMessageThree" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 75000000 in database
 
 #Fourth installment payment
 
-    When I send the updated "ppaScenarios-returnMessageFour" message to the service bus topic "ffc-pay-return-aw"
+    When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
+    When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 100000000 in database
 
 #PPA Recovery processed after fourth installment payment
