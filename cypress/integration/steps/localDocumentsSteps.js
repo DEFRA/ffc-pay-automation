@@ -143,6 +143,41 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'sfi22'
     });
     break;
+  case 'manual payments':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'manual'
+    });
+    break;
+  case 'ppa scenarios payments':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'ppa scenarios payments'
+    });
+    break;
+  case 'ppa scenarios topups':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'ppa scenarios topups'
+    });
+    break;
+  case 'ppa scenarios reductions':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'ppa scenarios reductions'
+    });
+    break;
+  case 'ppa scenarios recoveries':
+    cy.task('fetchPaymentsBlobById', {
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'ppa scenarios recoveries'
+    });
+    break;
   default: throw new Error(`Unknown scheme: ${fileType}`);
   }
 

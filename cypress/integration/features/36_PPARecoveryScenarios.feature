@@ -97,6 +97,8 @@ Feature: 36 PPA Recovery Scenarios
  
     Then I confirm that the settled value of PPA Recovery is -75000000 in database
 
+    Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull ppa scenarios recoveries file from Azure Blob Storage and confirm that correct values have been generated
 
   Scenario: 02 PPA Recovery after second installment
 
@@ -184,6 +186,9 @@ Feature: 36 PPA Recovery Scenarios
     When I send the updated "ppaScenarios-recoveryReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of PPA Recovery is -50000000 in database
 
+    Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull ppa scenarios recoveries file from Azure Blob Storage and confirm that correct values have been generated
+
   Scenario: 03 PPA Recovery after third installment
 
 #This scenario tests the processing of a PPA Recovery after third payment installment is made  
@@ -266,6 +271,8 @@ Feature: 36 PPA Recovery Scenarios
  
     Then I confirm that the settled value of PPA Recovery is -25000000 in database
 
+    Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull ppa scenarios recoveries file from Azure Blob Storage and confirm that correct values have been generated
 
   Scenario: 04 PPA Recovery after fourth installment
 
@@ -308,6 +315,8 @@ Feature: 36 PPA Recovery Scenarios
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
     When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that the settled value of Return is 100000000 in database
+
+    Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
 
 #PPA Recovery processed after fourth installment payment
 

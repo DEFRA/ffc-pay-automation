@@ -38,6 +38,8 @@ Feature: 15 Manual Payments
     Then on the Manual Payments page I confirm that entry with filename "FFC_Manual_Batch_202309121043.csv" has been added to Upload History
     Then I confirm that payment test data has been inserted into the ffc-pay-injection database
 
+    Then I pull manual payments file from Azure Blob Storage and confirm that correct values have been generated
+
   Scenario: 03 Confirm that attempting to upload duplicate file produces appropriate error message
 
 #This scenario confirms that attempting to upload a file that has already been processed produces the correct error message  

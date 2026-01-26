@@ -39,6 +39,11 @@ async function downloadPaymentsBlobById (containerName, downloadDir, scheme) {
   case 'sfi pilot': partialFileName = 'outbound/FFCSFIP_0001'; break;
   case 'sfi23': partialFileName = 'outbound/FFCSFIA_0001'; break;
   case 'sfi22': partialFileName = 'outbound/FFCSFI_0001'; break;
+  case 'manual': partialFileName = 'outbound/FFCPMAN_SFIA_0001'; break;
+  case 'ppa scenarios payments': partialFileName = 'outbound/FFCESFIO_0001'; break;
+  case 'ppa scenarios topups': partialFileName = 'outbound/FFCESFIO_0002'; break;
+  case 'ppa scenarios reductions': partialFileName = 'outbound/FFCESFIO_0002'; break;
+  case 'ppa scenarios recoveries': partialFileName = 'outbound/FFCESFIO_0002'; break;
   default: throw new Error(`Unknown scheme: ${scheme}`);
   }
 
@@ -118,6 +123,21 @@ async function downloadPaymentsBlobById (containerName, downloadDir, scheme) {
   ]; break;
   case 'sfi22' : requiredValues = [
     '2022', '80101', 'DRD10', '100000.00', 'RP00'
+  ]; break;
+  case 'manual' : requiredValues = [
+    '2024', '80281', 'DRD10', 'SOS710', 'NE00'
+  ]; break;
+  case 'ppa scenarios payments' : requiredValues = [
+    '2025', '80101', 'SOS710', 'DRD10', 'RP00','1000000.00'
+  ]; break;
+  case 'ppa scenarios topups' : requiredValues = [
+    '2025', '80101', 'SOS710', 'DRD10', 'RP00','400000.00'
+  ]; break;
+  case 'ppa scenarios reductions' : requiredValues = [
+    '2025', '80101', 'SOS710', 'DRD10', 'RP00','-200000.00'
+  ]; break;
+  case 'ppa scenarios recoveries' : requiredValues = [
+    '2025', '80101', 'SOS710', 'DRD10', 'RP00'
   ]; break;
   default: throw new Error(`Unknown scheme: ${scheme}`);
   }
