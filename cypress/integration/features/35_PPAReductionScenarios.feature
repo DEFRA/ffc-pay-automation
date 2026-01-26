@@ -95,6 +95,9 @@ Feature: 35 PPA Reduction Scenarios
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is -20000000 in database
 
+    Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull ppa scenarios reductions file from Azure Blob Storage and confirm that correct values have been generated
+
   Scenario: 02 PPA Reduction after first installment
 
   #This scenario tests the processing of a PPA Reduction after first payment installment is made  
@@ -156,7 +159,7 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-10000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-04-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageTwo" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
 
     Then I confirm that the settled value of Return is 50000000 in database
     Then I confirm that the settled value of PPA is -10000000 in database
@@ -186,6 +189,9 @@ Feature: 35 PPA Reduction Scenarios
 
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is -20000000 in database
+
+    Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull ppa scenarios reductions file from Azure Blob Storage and confirm that correct values have been generated
 
   Scenario: 03 PPA Reduction after second installment
 
@@ -273,6 +279,9 @@ Feature: 35 PPA Reduction Scenarios
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is -20000000 in database
 
+    Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull ppa scenarios reductions file from Azure Blob Storage and confirm that correct values have been generated
+
   Scenario: 04 PPA Reduction after third installment
 
   #This scenario tests the processing of a PPA Reduction after third payment installment is made  
@@ -352,6 +361,7 @@ Feature: 35 PPA Reduction Scenarios
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is -20000000 in database
 
-
+    Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull ppa scenarios reductions file from Azure Blob Storage and confirm that correct values have been generated
 
   
