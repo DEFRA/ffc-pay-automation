@@ -366,6 +366,13 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 4: scenarioString = '04 PPA Recovery after fourth installment'; break;
     }
     break;
+  case 37: featureString = '37_D365Rejection.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Process D365 Acknowledgment file'; break;
+    case 2: scenarioString = '02 Verify D365 Rejection hold in Payment Management UI'; break;
+    case 3: scenarioString = '03 Remove hold in Payment Management UI and confirm secondary completedPaymentRequest entry created'; break;
+    }
+    break;
   }
   const screenshotName = featureString + scenarioString;
   console.log('Screenshot Name:', screenshotName);

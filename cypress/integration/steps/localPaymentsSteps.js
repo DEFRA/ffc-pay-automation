@@ -130,3 +130,18 @@ When(/^I upload the (.*) payment file to the Azure Blob Storage container$/, (fi
   default: throw new Error(`Unknown file type: ${fileType}`);
   }
 });
+
+Then('I confirm that {string} alert has been generated', (alertMessage) => {
+
+  console.log(`Checking for alert: "${alertMessage}"`);
+  cy.log(`Checking for alert: "${alertMessage}"`);
+
+  cy.task('getDockerLogs', 'ffc-pay-alerting-development').then((logs) => {
+    if (logs.includes(alertMessage)) {
+      console.log(`✅ Alert "${alertMessage}" has been generated`);
+      cy.log(`✅ Alert "${alertMessage}" has been generated`);
+    } else {
+      throw new Error(`Alert "${alertMessage}" has not been generated`);
+    }
+  });
+});
