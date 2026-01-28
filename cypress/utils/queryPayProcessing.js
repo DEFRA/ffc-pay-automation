@@ -20,7 +20,8 @@ module.exports = async (fileType) => {
   switch (fileType) {
   case 'return': querySql = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "paymentRequestId" = 1'; break;
   case 'ppa': querySql = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "paymentRequestId" = 2'; break;
-
+  case 'd365 rejection': querySql = 'SELECT "holdCategoryId" FROM "holds" WHERE "holdId" = 1'; break;
+  case 'resubmission': querySql = 'SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "completedPaymentRequestId" = 2'; break;
   }
 
   try {
@@ -29,12 +30,24 @@ module.exports = async (fileType) => {
     await client.query(querySql).then((results) => {
       const data = results.rows[0];
       console.log('Data retrieved:', data);
-      if (!Object.values(data).includes(null)) {
-        console.log('✅ Correct data has been added from ' + fileType + ' file');
-        return 'Correct data has been added from ' + fileType + ' file';
+
+      if (fileType === 'd365 rejection') {
+        if (data.holdCategoryId === 1) {
+          console.log('✅ Correct data has been added from ' + fileType + ' file');
+          return 'Correct data has been added from ' + fileType + ' file';
+        } else {
+          console.log('Correct data has not been added from ' + fileType + ' file');
+          throw Error;
+        }
       } else {
-        console.log('Correct data has not been added from ' + fileType + ' file');
-        throw Error;
+
+        if (!Object.values(data).includes(null)) {
+          console.log('✅ Correct data has been added from ' + fileType + ' file');
+          return 'Correct data has been added from ' + fileType + ' file';
+        } else {
+          console.log('Correct data has not been added from ' + fileType + ' file');
+          throw Error;
+        }
       }
     });
     await client.end();

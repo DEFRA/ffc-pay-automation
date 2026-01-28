@@ -389,7 +389,6 @@ module.exports = (on, config) => {
             return reject(err);
           }
           console.log(`Logs from container "${containerName}":\n`, stdout);
-          console.log(`Logs from container "${containerName}":\n`, stdout);
           resolve(stdout);
         });
       });

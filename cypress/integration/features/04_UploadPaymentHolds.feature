@@ -1,4 +1,4 @@
-@dev @local
+@dev @test @local
 Feature: 04 Upload and Process Payment Holds via CSV
 
   Background:
