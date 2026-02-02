@@ -3,6 +3,7 @@
 import paymentManagementPage from '../pages/paymentManagementPage';
 import reportsPage from '../pages/reportsPage';
 import manualPaymentsPage from '../pages/manualPaymentsPage';
+import managementInformationPage from '../pages/managementInformationPage';
 import constants from '../../support/constants.json';
 const { getEnvironmentConfig } = require('../../support/configLoader');
 
@@ -298,6 +299,8 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
     manualPaymentsPage.errorReturnButton().should('be.visible').and('have.text', 'Return'); break;
   case 'upload history table':
     manualPaymentsPage.uploadHistoryTable().should('be.visible'); break;
+  default:
+    throw new Error('invalid element');
   }
 
   console.log('Confirmed that', element, 'is present on the Manual Payments page');
@@ -347,4 +350,177 @@ When (/^on the Add New Alert Recipient page I click the "(.*)" button$/, (button
   }
   cy.log(`Clicked on the ${button} button successfully`);
   console.log(`Clicked on the ${button} button successfully`);
+});
+
+Then (/^on the Management Information page I confirm that "(.*)" is not displayed$/, (element) => {
+  switch (element) {
+  case 'select year filter dropdown':
+    managementInformationPage.selectYearFilterDropdown().should('not.be.visible'); break;
+  case 'select month filter dropdown':
+    managementInformationPage.selectMonthFilterDropdown().should('not.be.visible'); break;
+  default:
+    throw new Error('invalid element');
+  }
+
+  console.log('Confirmed that', element, 'is not displayed on the Management Information page');
+  cy.log('Confirmed that', element, 'is not displayed on the Management Information page');
+});
+
+
+Then (/^on the Management Information page I confirm that "(.*)" is displayed$/, (element) => {
+  switch (element) {
+  case 'page title':
+    managementInformationPage.pageTitle().should('be.visible').and('have.text', 'Management Information'); break;
+  case 'page description':
+    managementInformationPage.pageDescription().should('be.visible').and('contain.text', 'View payment and document metrics filtered by time period.'); break;
+  case 'help dropdown':
+    managementInformationPage.helpDropdown().should('be.visible').and('contain.text', 'Help with this page'); break;
+  case 'help description':
+    managementInformationPage.helpDescription().should('be.visible').and('have.text', 'This dashboard provides operational metrics for payments and documents.'); break;
+  case 'show all description':
+    managementInformationPage.showAllDescription().should('be.visible').and('have.text', '\n              Show all - View complete dataset with no date filtering (includes year breakdown)'); break;
+  case 'year to date description':
+    managementInformationPage.yearToDateDescription().should('be.visible').and('have.text', '\n              Year to date - View data from 1 January of the current year to today'); break;
+  case 'by year description':
+    managementInformationPage.byYearDescription().should('be.visible').and('have.text', '\n              By year - Select a specific year to view annual data'); break;
+  case 'by month description':
+    managementInformationPage.byMonthDescription().should('be.visible').and('have.text', '\n              By month - Select a specific year and month to view monthly data'); break;
+  case 'this month description':
+    managementInformationPage.thisMonthDescription().should('be.visible').and('have.text', '\n              This month - View data for the current calendar month'); break;
+  case 'last 7 days description':
+    managementInformationPage.last7DaysDescription().should('be.visible').and('have.text', '\n              Last 7 days - View recent weekly activity'); break;
+  case 'last 24 hours description':
+    managementInformationPage.last24HoursDescription().should('be.visible').and('have.text', '\n              Last 24 hours - View real-time daily activity'); break;
+  case 'payment values description':
+    managementInformationPage.paymentValuesDescription().should('be.visible').and('have.text', 'Payment values are displayed in pounds (£)'); break;
+  case 'print and post description':
+    managementInformationPage.printAndPostDescription().should('be.visible').and('have.text', 'Print & Post costs are calculated based on actual postage rates'); break;
+  case 'time period filter dropdown':
+    managementInformationPage.timePeriodFilterDropdown().should('be.visible'); break;
+  case 'time period filter button':
+    managementInformationPage.timePeriodFilterButton().should('be.visible').and('contain.text', 'Apply filters'); break;
+  case 'payment metrics sub header':
+    managementInformationPage.paymentMetricsSubHeader().should('be.visible').and('have.text', 'Payment Metrics'); break;
+  case 'payments panel':
+    managementInformationPage.paymentsPanel().should('be.visible').and('contain.text', 'Payments'); break;
+  case 'payments count':
+    managementInformationPage.paymentsCount().should('be.visible'); break;
+  case 'total value panel':
+    managementInformationPage.totalValuePanel().should('be.visible').and('contain.text', 'Total Value'); break;
+  case 'total value amount':
+    managementInformationPage.totalValueAmount().should('be.visible'); break;
+  case 'breakdown description':
+    managementInformationPage.breakdownDescription().should('be.visible').and('contain.text', 'Breakdown of payments and values by scheme'); break;
+  case 'payment scheme column':
+    managementInformationPage.paymentSchemeColumn().should('be.visible').and('have.text', 'Scheme'); break;
+  case 'total payments column':
+    managementInformationPage.totalPaymentsColumn().should('be.visible').and('have.text', 'Total Payments'); break;
+  case 'total value column':
+    managementInformationPage.totalValueColumn().should('be.visible').and('have.text', 'Total Value (£)'); break;
+  case 'pending column':
+    managementInformationPage.pendingColumn().should('be.visible').and('have.text', 'Pending'); break;
+  case 'processed column':
+    managementInformationPage.processedColumn().should('be.visible').and('have.text', 'Processed'); break;
+  case 'documents metrics sub header':
+    managementInformationPage.documentsMetricsSubHeader().should('be.visible').and('have.text', 'Document Metrics'); break;
+  case 'documents issued':
+    managementInformationPage.documentsIssued().should('be.visible').and('contain.text', 'Documents Issued'); break;
+  case 'documents count':
+    managementInformationPage.documentsCount().should('be.visible'); break;
+  case 'documents breakdown description':
+    managementInformationPage.docBreakdownDescription().should('be.visible').and('contain.text', 'Breakdown of documents by scheme showing delivery methods and costs'); break;
+  case 'documents scheme column':
+    managementInformationPage.docSchemeColumn().should('be.visible').and('have.text', 'Scheme'); break;
+  case 'year column':
+    managementInformationPage.yearColumn().should('be.visible').and('have.text', 'Year'); break;
+  case 'total documents column':
+    managementInformationPage.totalDocumentsColumn().should('be.visible').and('have.text', 'Total Documents'); break;
+  case 'print and post column':
+    managementInformationPage.printAndPostColumn().should('be.visible').and('have.text', 'Print & Post'); break;
+  case 'print and post cost column':
+    managementInformationPage.printAndPostCostColumn().should('be.visible').and('have.text', 'Print & Post Cost (£)'); break;
+  case 'email column':
+    managementInformationPage.emailColumn().should('be.visible').and('have.text', 'Email'); break;
+  case 'select year filter dropdown':
+    managementInformationPage.selectYearFilterDropdown().should('be.visible'); break;
+  case 'select month filter dropdown':
+    managementInformationPage.selectMonthFilterDropdown().should('be.visible'); break;
+  case 'no payment data message':
+    managementInformationPage.noPaymentDataMessage().should('be.visible').and('have.text', 'No payment data available for the selected period.'); break;
+  case 'no document data message':
+    managementInformationPage.noDocumentDataMessage().should('be.visible').and('have.text', 'No document data available for the selected period.'); break;
+  case 'clear filters':
+    managementInformationPage.clearFiltersButton().should('be.visible').and('have.text', 'Clear filters'); break;
+  default:
+    throw new Error('invalid element');
+  }
+
+  console.log('Confirmed that', element, 'is displayed on the Management Information page');
+  cy.log('Confirmed that', element, 'is displayed on the Management Information page');
+});
+
+Then(/^on the Management Information page I select "(.*?)" in (.*?) filter$/, (option, filter) => {
+
+  if (filter === 'Time Period') {
+    managementInformationPage.timePeriodFilterDropdown().scrollIntoView().select(option);
+  } else if (filter === 'Select Year') {
+    managementInformationPage.selectYearFilterDropdown().scrollIntoView().select(option);
+  } else if (filter === 'Select Month') {
+    managementInformationPage.selectMonthFilterDropdown().scrollIntoView().select(option);
+  } else {
+    throw new Error(`Unknown filter: ${filter}`);
+  }
+
+  cy.log(`Selected ${option} option in ${filter} filter`);
+  console.log(`Selected ${option} option in ${filter} filter`);
+});
+
+When(/^on the Management Information page I click on the "(.*)" button$/, (button) => {
+  switch (button) {
+  case 'help with this page':
+    managementInformationPage.helpDropdown().scrollIntoView().click(); break;
+  case 'apply filters':
+    managementInformationPage.timePeriodFilterButton().scrollIntoView().click(); break;
+  case 'clear filters':
+    managementInformationPage.clearFiltersButton().scrollIntoView().click(); break;
+  default:
+    throw new Error('invalid button name');
+  }
+
+  cy.log('Clicked', button, 'on Management Information page');
+  console.log('Clicked', button, 'on Management Information page');
+});
+
+Then(/^on the Management Information page I confirm that (.*) is (.*)$/, (field, expectedValue) => {
+  let fieldNumber;
+
+  switch (field) {
+  case 'number of payments': fieldNumber = 0; break;
+  case 'payment amount': fieldNumber = 1; break;
+  case 'number of documents': fieldNumber = 2; break;
+  default:
+    throw new Error('invalid field name');
+  }
+
+  let actualValue;
+
+  cy.get('.metrics-panel').eq(fieldNumber)
+    .find('.metrics-panel__body')
+
+    .invoke('text')
+    .then((text) => {
+      actualValue = text.trim();   // "0"
+
+      console.log(`Expected Value = ${expectedValue}. Actual Value = ${actualValue}`);
+      cy.log(`Expected Value = ${expectedValue}. Actual Value = ${actualValue}`);
+
+      if (expectedValue === actualValue) {
+        console.log(`Confirmed that ${field} is ${expectedValue}`);
+        cy.log(`Confirmed that ${field} is ${expectedValue}`);
+      } else {
+        console.log(`${field} is not ${expectedValue}, Actual value is ${actualValue}`);
+        cy.log(`${field} is not ${expectedValue}, Actual value is ${actualValue}`);
+        throw new Error('Incorrect value');
+      }
+    });
 });

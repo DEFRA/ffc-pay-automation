@@ -373,6 +373,14 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 3: scenarioString = '03 Remove hold in Payment Management UI and confirm secondary completedPaymentRequest entry created'; break;
     }
     break;
+  case 38: featureString = '38_ManagementInformation.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Confirm Management Information page loads correctly'; break;
+    case 2: scenarioString = '02 Confirm filter functionality and options'; break;
+    case 3: scenarioString = '03 Confirm that correct messages are displayed when no data is available'; break;
+    case 4: scenarioString = '04 Confirm that correct amounts are displayed when data is available'; break;
+    }
+    break;
   }
   const screenshotName = featureString + scenarioString;
   console.log('Screenshot Name:', screenshotName);

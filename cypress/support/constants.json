@@ -67,5 +67,8 @@
   },
   "alerts": {
     "pageSubHeader": "Alerts"
+  },
+  "metric": {
+    "pageSubHeader": "Management Information"
   }
 }
