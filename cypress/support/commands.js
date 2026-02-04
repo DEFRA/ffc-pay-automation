@@ -123,6 +123,10 @@ Cypress.Commands.add('queryPayProcessing', (fileType) => {
   cy.task('queryPayProcessing', fileType);
 });
 
+Cypress.Commands.add('queryPayEventHub', (sqlStatement) => {
+  cy.task('queryPayEventHub', sqlStatement);
+});
+
 Cypress.Commands.add('getSettledValue', (fileType, expectedValue) => {
   cy.task('getSettledValue', fileType, expectedValue);
 });

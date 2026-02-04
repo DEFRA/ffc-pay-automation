@@ -63,3 +63,13 @@ Feature: 37 D365 Rejection
   #Following this hold removal a secondary completedPaymentRequest entry should be created in the Pay Processing database
 
     Then I confirm that resubmission test data has been inserted into the ffc-pay-processing database
+
+  Scenario: 04 Remove hold in Payment Management UI and confirm secondary completedPaymentRequest entry created
+
+#This scenario confirms that events are being correctly generated in Event Hub database following updates to merge Data Hub's code
+#into Event Hub
+
+    Then I confirm that batch event can be found in Event Hub Database
+    Then I confirm that holds event can be found in Event Hub Database
+    Then I confirm that payments event can be found in Event Hub Database
+    Then I confirm that warnings event can be found in Event Hub Database

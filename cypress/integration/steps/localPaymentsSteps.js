@@ -145,3 +145,43 @@ Then('I confirm that {string} alert has been generated', (alertMessage) => {
     }
   });
 });
+
+Then(/^I confirm that (.*) event can be found in Event Hub Database$/, (eventType) => {
+
+  var sqlStatement;
+  var expectedType;
+
+  switch (eventType) {
+  case 'batch':
+    sqlStatement = 'SELECT * FROM "batches"';
+    expectedType = 'uk.gov.defra.ffc.pay.batch.created.dax';
+    break;
+  case 'holds':
+    sqlStatement = 'SELECT * FROM "holds"';
+    expectedType = 'uk.gov.defra.ffc.pay.hold.added';
+    break;
+  case 'payments':
+    sqlStatement = 'SELECT * FROM "payments"';
+    expectedType = 'uk.gov.defra.ffc.pay.payment.processed';
+    break;
+  case 'warnings':
+    sqlStatement = 'SELECT * FROM "warnings"';
+    expectedType = 'uk.gov.defra.ffc.pay.warning.bank.missing';
+    break;
+  }
+
+  cy.log('Querying Event Hub with Statement - ' + sqlStatement);
+
+  cy.queryPayEventHub(sqlStatement).then((rows) => {
+    const results = JSON.stringify(rows, null, 2);
+    console.log('Results ' + results);
+
+    if (results.includes(expectedType)) {
+      console.log('✅ Event with type ' + expectedType + ' was found in database');
+      cy.log('✅ Event with type ' + expectedType + ' was found in database');
+    } else {
+      throw new Error('Event with type ' + expectedType + ' was not found in database');
+    }
+
+  });
+});
