@@ -13,6 +13,7 @@ const downloadStatementsBlobById = require('../utils/downloadStatementsBlobById'
 const downloadPaymentsBlobById = require('../utils/downloadPaymentsBlobById');
 const { exec } = require('child_process');
 const insertIncorrectData = require('../utils/insertIncorrectData');
+const queryPayEventHub = require('../utils/queryPayEventHub');
 const queryPayProcessing = require('../utils/queryPayProcessing');
 const insertBulkStatementData = require('../utils/insertBulkStatementData');
 const queryBulkStatementData = require('../utils/queryBulkStatementData');
@@ -295,6 +296,14 @@ module.exports = (on, config) => {
       queryPayProcessing(fileType);
       console.log('✅ Pay Processor values checked successfully');
       return null;
+    },
+
+    queryPayEventHub (sqlStatement) {
+
+      //This task checks that Pay Event Hub data has been updated correctly following file upload
+      console.log('🔍 Checking Pay Event Hub values entered successfully');
+      return queryPayEventHub(sqlStatement);
+
     },
 
     queryBulkStatementData (year) {
