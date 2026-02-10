@@ -7,22 +7,13 @@ const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 const loadReportData = require('../utils/loadReportData');
-const queryDatabase = require('../utils/queryDatabase');
-const insertStatementData = require('../utils/insertStatementData');
 const downloadStatementsBlobById = require('../utils/downloadStatementsBlobById');
 const downloadPaymentsBlobById = require('../utils/downloadPaymentsBlobById');
 const { exec } = require('child_process');
-const insertIncorrectData = require('../utils/insertIncorrectData');
-const queryPayEventHub = require('../utils/queryPayEventHub');
-const queryPayProcessing = require('../utils/queryPayProcessing');
-const insertBulkStatementData = require('../utils/insertBulkStatementData');
-const queryBulkStatementData = require('../utils/queryBulkStatementData');
-const queryBulkStatementConstructor = require('../utils/queryBulkStatementConstructor');
-const queryBulkStatementGenerator = require('../utils/queryBulkStatementGenerator');
 const uploadFileToBlobStorage = require('../utils/uploadFileToBlobStorage');
-const confirmInvalidDataNotAdded = require('../utils/confirmInvalidDataNotAdded');
 const generateJWT = require('../utils/generateJWT');
-const getSettledValue = require('../utils/getSettledValue');
+const databaseQuery = require('../utils/databaseQuery');
+const databaseInsert = require('../utils/databaseInsert');
 
 
 
@@ -280,98 +271,18 @@ module.exports = (on, config) => {
       return '✅ All local doc environments restarted successfully';
     },
 
-    queryDatabase (database) {
+    async databaseQuery ({databaseName, sqlStatement}) {
 
-      // This task retrieves data from the database and checks if it exists.
       console.log('🔍 Checking Database values entered successfully');
-      queryDatabase(database);
-      console.log('✅ Database values checked successfully');
-      return null;
-    },
-
-    queryPayProcessing (fileType) {
-
-      //This task checks that Pay processing data has been updated correctly following file upload
-      console.log('🔍 Checking Pay Processor values entered successfully');
-      queryPayProcessing(fileType);
-      console.log('✅ Pay Processor values checked successfully');
-      return null;
-    },
-
-    queryPayEventHub (sqlStatement) {
-
-      //This task checks that Pay Event Hub data has been updated correctly following file upload
-      console.log('🔍 Checking Pay Event Hub values entered successfully');
-      return queryPayEventHub(sqlStatement);
+      return databaseQuery(databaseName, sqlStatement);
 
     },
 
-    queryBulkStatementData (year) {
+    async databaseInsert ({databaseName, sqlStatement}) {
 
-      // This task retrieves statement data from the database and checks if it exists
-      console.log('🔍 Checking Database values entered successfully');
-      queryBulkStatementData(year);
-      console.log('✅ Database values checked successfully');
-      return null;
-    },
+      console.log('🔍 Inserting Database values');
+      return databaseInsert(databaseName, sqlStatement);
 
-    queryBulkStatementConstructor () {
-
-      // This task retrieves statement data from the database and checks if it exists
-      console.log('🔍 Checking Database values entered successfully');
-      queryBulkStatementConstructor();
-      console.log('✅ Database values checked successfully');
-      return null;
-    },
-
-    queryBulkStatementGenerator () {
-
-      // This task retrieves statement data from the database and checks if it exists
-      console.log('🔍 Checking Database values entered successfully');
-      queryBulkStatementGenerator();
-      console.log('✅ Database values checked successfully');
-      return null;
-    },
-
-    insertStatementData (year) {
-
-      // This task inserts test data into the Statement Data database
-      console.log('🔄 Inserting test data into Statement Data for ' + year);
-      insertStatementData(year);
-      return null;
-    },
-
-    insertBulkStatementData (year) {
-
-      // This task inserts 20 instances of test data into the Statement Data database, 10 for 2024 and 10 for 2025
-      console.log('🔄 Inserting bulk test data into Statement Data');
-      insertBulkStatementData(year);
-      return null;
-    },
-    insertIncorrectData (database) {
-
-      // This task inserts intentionally incorrect test data into the Statement Data database
-      console.log('🔄 Inserting incorrect test data into ' + database);
-      insertIncorrectData(database);
-      return null;
-    },
-
-    confirmInvalidDataNotAdded (database) {
-
-      // This task checks if incorrect data was correctly rejected by Pay Processing
-      console.log('🔍 Checking Pay Processing values not entered');
-      confirmInvalidDataNotAdded(database);
-      console.log('✅ Values not present in Pay Processing');
-      return null;
-    },
-
-    async getSettledValue ({fileType,expectedValue}) {
-
-      //This task checks that Pay processing data has been updated correctly following file upload
-      console.log(`Checking that settled value in the database is ${expectedValue}`);
-      getSettledValue(fileType, expectedValue);
-      console.log('✅ Pay Processor settled value checked successfully');
-      return null;
     },
 
     async fetchStatementsBlobById ({container, dir, year}) {

@@ -28,7 +28,7 @@ class manualPaymentsPage {
   }
 
   typeErrorText () {
-    return cy.get(':nth-child(2) > .govuk-error-message');
+    return cy.get('.govuk-error-message');
   }
 
   nameErrorText () {

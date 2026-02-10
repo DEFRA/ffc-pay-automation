@@ -62,7 +62,7 @@ Feature: 15 Manual Payments
     Then I am on the "manual-payments" subpage
     When on the Manual Payments page I enter "FFC_Manual_Batch_202309121043.txt" as the file to upload
     When on the Manual Payments page I click the "upload button"
-    Then on the Manual Payments page I confirm that "invalid type error message" is present
+    Then on the Manual Payments page I confirm that "invalid file type error message" is present
     Then I take a screenshot for Feature 15 and Scenario 04
 
   Scenario: 05 Confirm that invalid Manual Payments filename produces appropriate error message
