@@ -1,13 +1,11 @@
 require('dotenv').config();
 const { Client } = require('pg');
 
-// This module connects to database and confirms that invalid data was not added.
+// This module connects to the various database and runs sql statement passed as second argument
 
 
-module.exports = async (database) => {
+async function databaseInsert (database, statement) {
 
-  const payProcessingPort = process.env.PAYPROCESSINGPORT;
-  const payProcessingDatabase = process.env.PAYPROCESSINGDATABASE;
   const statementConstructorPort = process.env.STATEMENTCONSTRUCTORPORT;
   const statementConstructorDatabase = process.env.STATEMENTCONSTRUCTORDATABASE;
   const statementDataPort = process.env.STATEMENTDATAPORT;
@@ -19,33 +17,23 @@ module.exports = async (database) => {
 
   var currentPort = '';
   var currentDatabase = '';
-  var querySql = '';
 
   switch (database) {
-  case 'ffc-pay-processing':
-    currentPort = payProcessingPort;
-    currentDatabase = payProcessingDatabase;
-    querySql = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
-    break;
   case 'ffc-doc-statement-constructor':
     currentPort = statementConstructorPort;
     currentDatabase = statementConstructorDatabase;
-    querySql = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
     break;
   case 'ffc-doc-statement-data':
     currentPort = statementDataPort;
     currentDatabase = statementDataDatabase;
-    querySql = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
     break;
   case 'ffc-doc-statement-publisher':
     currentPort = statementPublisherPort;
     currentDatabase = statementPublisherDatabase;
-    querySql = 'SELECT "statementId" FROM "statements" WHERE "sbi" = 123456789';
     break;
   case 'ffc-doc-statement-generator':
     currentPort = statementGeneratorPort;
     currentDatabase = statementGeneratorDatabase;
-    querySql = 'SELECT "statementData" FROM "generations" WHERE "generationId" = 1';
     break;
   default:
     throw new Error(`Unknown database: ${database}`);
@@ -60,24 +48,18 @@ module.exports = async (database) => {
     ssl: false,
   });
 
+
   try {
     await client.connect();
-
-
-    await client.query(querySql).then((results) => {
-      const data = results.rows[0];
-      console.log('Data retrieved:', data);
-      if (results.rows.length > 0) {
-        console.log('❌ Data exists in the database');
-        return 'Data exists';
-      } else {
-        console.log('✅ Data does not exist in database ');
-      }
-    });
+    await client.query(statement);
     await client.end();
-    return 'Values entered successfully';
+
   } catch (error) {
-    console.error('❌ Failed to load report data:', error);
+    return error.message;
   }
 
-};
+  return null;
+
+}
+
+module.exports = databaseInsert;

@@ -87,48 +87,12 @@ Cypress.Commands.add('closeAllServices', () => {
   });
 });
 
-Cypress.Commands.add('queryDatabase', (database) => {
-  cy.task('queryDatabase', database);
+Cypress.Commands.add('databaseQuery', (databaseName, sqlStatement) => {
+  cy.task('databaseQuery', databaseName, sqlStatement);
 });
 
-Cypress.Commands.add('insertStatementData', (year) => {
-  cy.task('insertStatementData', year);
-});
-
-Cypress.Commands.add('queryBulkStatementData', (year) => {
-  cy.task('queryBulkStatementData', year);
-});
-
-Cypress.Commands.add('queryBulkStatementConstructor', () => {
-  cy.task('queryBulkStatementConstructor');
-});
-
-Cypress.Commands.add('queryBulkStatementGenerator', () => {
-  cy.task('queryBulkStatementGenerator');
-});
-
-Cypress.Commands.add('insertBulkStatementData', (year) => {
-  cy.task('insertBulkStatementData', year);
-});
-
-Cypress.Commands.add('insertIncorrectData', (database) => {
-  cy.task('insertIncorrectData', database);
-});
-
-Cypress.Commands.add('confirmInvalidDataNotAdded', (database) => {
-  cy.task('confirmInvalidDataNotAdded', database);
-});
-
-Cypress.Commands.add('queryPayProcessing', (fileType) => {
-  cy.task('queryPayProcessing', fileType);
-});
-
-Cypress.Commands.add('queryPayEventHub', (sqlStatement) => {
-  cy.task('queryPayEventHub', sqlStatement);
-});
-
-Cypress.Commands.add('getSettledValue', (fileType, expectedValue) => {
-  cy.task('getSettledValue', fileType, expectedValue);
+Cypress.Commands.add('databaseInsert', (databaseName, sqlStatement) => {
+  cy.task('databaseInsert', databaseName, sqlStatement);
 });
 
 Cypress.Commands.add('fetchStatementsBlobById', (container, dir, year) => {

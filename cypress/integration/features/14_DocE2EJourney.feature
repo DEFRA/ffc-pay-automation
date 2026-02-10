@@ -79,13 +79,14 @@ Feature: 14 Doc E2E Journey
 
   Scenario: 07 insert 20 instances of test data into Statement Data service simultaneously, 10 of 2024 and 10 of 2025
 
-# #The following step sends 20 instances of test data into the Statement Data service simultaneously, 10 of 2024 and 10 of 2025
+#The following step sends 20 instances of test data into the Statement Data service simultaneously, 10 of 2024 and 10 of 2025
 
-    When I send bulk test data into Statement Data service
+    When I send bulk test data for 2024 into Statement Data service
+    When I send bulk test data for 2025 into Statement Data service
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
 
-    Then I confirm that bulk test data has been inserted into the ffc-doc-statement-data database
-    Then I confirm that bulk test data has been inserted into the ffc-doc-statement-constructor database
-    Then I confirm that bulk test data has been inserted into the ffc-doc-statement-generator database
+    Then I confirm that bulk test data has been successfully inserted into the "ffc-doc-statement-data" database
+    Then I confirm that bulk test data has been successfully inserted into the "ffc-doc-statement-constructor" database
+    Then I confirm that bulk test data has been successfully inserted into the "ffc-doc-statement-generator" database

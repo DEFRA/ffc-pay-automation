@@ -5,7 +5,7 @@ Feature: 37 D365 Rejection
 
   Scenario: 01 Process D365 Acknowledgment file
 
-#This scenarios loads an SFI22 payment message followed by a D365 rejection acknowledgement message
+#This scenario loads an SFI22 payment message followed by a D365 rejection acknowledgement message
 #It then confirms that the correct hold entry has been created in the Pay Processing database  
 
     Given I restart the local environment
@@ -64,7 +64,7 @@ Feature: 37 D365 Rejection
 
     Then I confirm that resubmission test data has been inserted into the ffc-pay-processing database
 
-  Scenario: 04 Remove hold in Payment Management UI and confirm secondary completedPaymentRequest entry created
+  Scenario: 04 Confirm that events have generated correctly in Event Hub
 
 #This scenario confirms that events are being correctly generated in Event Hub database following updates to merge Data Hub's code
 #into Event Hub
