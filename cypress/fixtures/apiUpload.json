@@ -5,7 +5,7 @@
     "one_click_unsubscribe_url": null,
     "subject": "12345678 Payment Schedule"
   },
-  "id": "ff1a28ef-4b08-4dd5-ae1f-c7cc2ff133d8",
+  "id": "57f1e6c6-41d1-4472-bc81-c7cc09b6d508",
   "reference": null,
   "scheduled_for": null,
   "template": {
@@ -13,5 +13,5 @@
     "uri": "https://api.notifications.service.gov.uk/services/822632b6-1b07-44ef-9fe0-24dc9bb99272/templates/4c492baa-be4b-47ba-a102-04b93d92df00",
     "version": 3
   },
-  "uri": "https://api.notifications.service.gov.uk/v2/notifications/ff1a28ef-4b08-4dd5-ae1f-c7cc2ff133d8"
+  "uri": "https://api.notifications.service.gov.uk/v2/notifications/57f1e6c6-41d1-4472-bc81-c7cc09b6d508"
 }
