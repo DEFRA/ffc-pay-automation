@@ -5,6 +5,7 @@ import reportsPage from '../pages/reportsPage';
 import manualPaymentsPage from '../pages/manualPaymentsPage';
 import managementInformationPage from '../pages/managementInformationPage';
 import constants from '../../support/constants.json';
+import downloadStatementsPage from '../pages/downloadStatementsPage';
 const { getEnvironmentConfig } = require('../../support/configLoader');
 
 When(/^I can see "(.*)" as the header$/, (text) => {
@@ -523,4 +524,216 @@ Then(/^on the Management Information page I confirm that (.*) is (.*)$/, (field,
         throw new Error('Incorrect value');
       }
     });
+});
+
+Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (element) => {
+  switch (element) {
+  case 'page title':
+    downloadStatementsPage.pageTitle().should('be.visible').and('have.text', 'Download Statements'); break;
+  case 'page description':
+    downloadStatementsPage.pageDescription().should('be.visible').and('contain.text', 'Search for payment statements. At least one field is required.'); break;
+  case 'page instructions':
+    downloadStatementsPage.pageInstructions().should('be.visible').and('contain.text', 'Search using the full filename if known.'); break;
+  case 'instruction examples':
+    downloadStatementsPage.instructionExamples().should('be.visible').and('contain.text', 'Examples:', 'FFC_PaymentDelinkedStatement_DP_2024_1100021264_2025101508224868.pdf', 'FFC_PaymentSfi23QuarterlyStatement_DP_2024_1100021264_2025101508224868.pdf\n  '); break;
+  case 'filename field':
+    downloadStatementsPage.filenameField().should('be.visible').and('have.attr', 'type', 'text'); break;
+  case 'individual criteria instructions':
+    downloadStatementsPage.individualCriteriaInstructions().should('be.visible').and('contain.text', 'Or search by individual criteria:'); break;
+  case 'select scheme label':
+    downloadStatementsPage.selectSchemeLabel().should('be.visible').and('contain.text', 'Select the scheme to view data for'); break;
+  case 'select scheme dropdown':
+    downloadStatementsPage.selectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break;
+  case 'marketing year label':
+    downloadStatementsPage.marketingYearLabel().should('be.visible').and('contain.text', 'Marketing year'); break;
+  case 'marketing year field':
+    downloadStatementsPage.marketingYearField().should('be.visible').and('have.attr', 'type', 'text'); break;
+  case 'frn label':
+    downloadStatementsPage.frnLabel().should('be.visible').and('contain.text', 'Firm reference number (FRN)'); break;
+  case 'frn search instructions':
+    downloadStatementsPage.frnSearchInstructions().should('be.visible').and('contain.text', 'Enter a 10-digit FRN'); break;
+  case 'frn field':
+    downloadStatementsPage.frnField().should('be.visible').and('have.attr', 'type', 'text'); break;
+  case 'timestamp label':
+    downloadStatementsPage.timestampLabel().should('be.visible').and('contain.text', 'Timestamp'); break;
+  case 'timestamp search instructions':
+    downloadStatementsPage.timestampSearchInstructions().should('be.visible').and('contain.text', '16 digits, e.g. 2025101508224868'); break;
+  case 'timestamp field':
+    downloadStatementsPage.timestampField().should('be.visible').and('have.attr', 'type', 'text'); break;
+  case 'search statements button':
+    downloadStatementsPage.searchStatementsButton().should('be.visible').and('have.attr', 'class', 'govuk-button'); break;
+  case 'clear button':
+    downloadStatementsPage.clearButton().should('be.visible').and('have.attr', 'type', 'button'); break;
+  case 'results sub header':
+    downloadStatementsPage.resultsSubHeader().should('be.visible').and('contain.text', 'Results'); break;
+  case 'number of results':
+    downloadStatementsPage.numberOfResults().should('be.visible').and('contain.text', 'Showing items', 'on this page'); break;
+  case 'scheme column':
+    downloadStatementsPage.schemeColumn().should('be.visible').and('contain.text', 'Scheme'); break;
+  case 'year column':
+    downloadStatementsPage.yearColumn().should('be.visible').and('contain.text', 'Year'); break;
+  case 'frn column':
+    downloadStatementsPage.frnColumn().should('be.visible').and('contain.text', 'FRN'); break;
+  case 'timestamp column':
+    downloadStatementsPage.timestampColumn().should('be.visible').and('contain.text', 'Timestamp'); break;
+  case 'action column':
+    downloadStatementsPage.actionColumn().should('be.visible').and('contain.text', 'Action'); break;
+  case 'next button':
+    downloadStatementsPage.nextButton().should('be.visible').and('have.attr', 'class', 'govuk-link govuk-pagination__link'); break;
+  case 'previous button':
+    downloadStatementsPage.previousButton().should('be.visible').and('have.attr', 'class', 'govuk-link govuk-pagination__link'); break;
+  default:
+    throw new Error('invalid element');
+  }
+
+  console.log('Confirmed that', element, 'is displayed on the Download Statements page');
+  cy.log('Confirmed that', element, 'is displayed on the Download Statements page');
+});
+
+Then (/^on the Download Statements page I confirm that "(.*)" is not displayed$/, (element) => {
+
+
+  switch (element) {
+  case 'page title':
+    downloadStatementsPage.pageTitle().should('not.exist'); break;
+  case 'page description':
+    downloadStatementsPage.pageDescription().should('not.exist'); break;
+  case 'page instructions':
+    downloadStatementsPage.pageInstructions().should('not.exist'); break;
+  case 'instruction examples':
+    downloadStatementsPage.instructionExamples().should('not.exist'); break;
+  case 'filename field':
+    downloadStatementsPage.filenameField().should('not.exist'); break;
+  case 'individual criteria instructions':
+    downloadStatementsPage.individualCriteriaInstructions().should('not.exist'); break;
+  case 'select scheme label':
+    downloadStatementsPage.selectSchemeLabel().should('not.exist'); break;
+  case 'select scheme dropdown':
+    downloadStatementsPage.selectSchemeDropdown().should('not.exist'); break;
+  case 'marketing year label':
+    downloadStatementsPage.marketingYearLabel().should('not.exist'); break;
+  case 'marketing year field':
+    downloadStatementsPage.marketingYearField().should('not.exist'); break;
+  case 'frn label':
+    downloadStatementsPage.frnLabel().should('not.exist'); break;
+  case 'frn search instructions':
+    downloadStatementsPage.frnSearchInstructions().should('not.exist'); break;
+  case 'frn field':
+    downloadStatementsPage.frnField().should('not.exist'); break;
+  case 'timestamp label':
+    downloadStatementsPage.timestampLabel().should('not.exist'); break;
+  case 'timestamp search instructions':
+    downloadStatementsPage.timestampSearchInstructions().should('not.exist'); break;
+  case 'timestamp field':
+    downloadStatementsPage.timestampField().should('not.exist'); break;
+  case 'search statements button':
+    downloadStatementsPage.searchStatementsButton().should('not.exist'); break;
+  case 'clear button':
+    downloadStatementsPage.clearButton().should('not.exist'); break;
+  case 'results sub header':
+    downloadStatementsPage.resultsSubHeader().should('not.exist'); break;
+  case 'number of results':
+    downloadStatementsPage.numberOfResults().should('not.exist'); break;
+  case 'scheme column':
+    downloadStatementsPage.schemeColumn().should('not.exist'); break;
+  case 'year column':
+    downloadStatementsPage.yearColumn().should('not.exist'); break;
+  case 'frn column':
+    downloadStatementsPage.frnColumn().should('not.exist'); break;
+  case 'timestamp column':
+    downloadStatementsPage.timestampColumn().should('not.exist'); break;
+  case 'action column':
+    downloadStatementsPage.actionColumn().should('not.exist'); break;
+  case 'next button':
+    downloadStatementsPage.nextButton().should('not.exist'); break;
+  case 'previous button':
+    downloadStatementsPage.previousButton().should('not.exist'); break;
+  default:
+    throw new Error('invalid element');
+  }
+
+  console.log('Confirmed that', element, 'is not displayed on the Download Statements page');
+  cy.log('Confirmed that', element, 'is not displayed on the Download Statements page');
+});
+
+Then(/^on the Download Statements page I select "(.*)" from the select scheme dropdown$/, (scheme) => {
+  downloadStatementsPage.selectSchemeDropdown().scrollIntoView().select(scheme);
+  cy.log(`Selected ${scheme} from the select scheme dropdown`);
+  console.log(`Selected ${scheme} from the select scheme dropdown`);
+
+});
+
+Then(/^on the Download Statements page I click the "(.*)" button$/, (button) => {
+  switch (button) {
+  case 'search':
+    downloadStatementsPage.searchStatementsButton().scrollIntoView().click(); break;
+  case 'clear':
+    downloadStatementsPage.clearButton().scrollIntoView().click(); break;
+  case 'next':
+    downloadStatementsPage.nextButton().scrollIntoView().click(); break;
+  case 'previous':
+    downloadStatementsPage.previousButton().scrollIntoView().click(); break;
+  default:
+    throw new Error('invalid button name');
+  }
+});
+
+Then(/^on the Download Statements page I confirm that the page number on Results sub header is "(.*)"$/, (expectedValue) => {
+  downloadStatementsPage.resultsSubHeader().should('be.visible').invoke('text').then((text) => {
+
+    if (text.includes(`Page ${expectedValue}`)) {
+      console.log(`Confirmed that the page number on Results sub header is ${expectedValue}`);
+      cy.log(`Confirmed that the page number on Results sub header is ${expectedValue}`);
+    } else {
+      console.log(`Page number on Results sub header is not ${expectedValue}, actual value is ${text}`);
+      cy.log(`Page number on Results sub header is not ${expectedValue}, actual value is ${text}`);
+      throw new Error('Incorrect page number');
+    }
+  });
+});
+
+Then(/^on the Download Statements page I enter "(.*)" into the "(.*)" field$/, (filename, field) => {
+
+  switch (field) {
+  case 'filename':
+    downloadStatementsPage.filenameField().scrollIntoView().type(filename); break;
+  case 'marketing year':
+    downloadStatementsPage.marketingYearField().scrollIntoView().type(filename); break;
+  case 'frn':
+    downloadStatementsPage.frnField().scrollIntoView().type(filename); break;
+  case 'timestamp':
+    downloadStatementsPage.timestampField().scrollIntoView().type(filename); break;
+  default:
+    throw new Error('invalid field name');
+  }
+
+  console.log(`Entered ${filename} into the ${field} field on the Download Statements page`);
+  cy.log(`Entered ${filename} into the ${field} field on the Download Statements page`);
+});
+
+Then(/^on the Download Statements page I confirm that the text on "(.*)" reads "(.*)"$/, (element, expectedText) => {
+  var selectedElement;
+
+  switch (element) {
+  case 'number of results':
+    selectedElement = downloadStatementsPage.numberOfResults(); break;
+  default:
+    throw new Error('invalid element');
+  }
+
+  selectedElement.should('be.visible').invoke('text').then((text) => {
+    if (text.includes(expectedText)) {
+      console.log(`Confirmed that the text on ${element} reads ${expectedText}`);
+      cy.log(`Confirmed that the text on ${element} reads ${expectedText}`);
+    } else {
+      console.log(`The text on ${element} does not read ${expectedText}, actual value is ${text}`);
+      cy.log(`The text on ${element} does not read ${expectedText}, actual value is ${text}`);
+      throw new Error('Incorrect text');
+    }
+  });
+});
+
+Then(/^on the Download Statements page I confirm that statement can be downloaded$/, () => {
+  cy.request('/download-statements/download/FFC_PaymentDelinkedStatement_DP_2025_1105607649_2025101415310344.pdf')
+    .its('status') .should('eq', 200);
 });

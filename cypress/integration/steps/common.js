@@ -381,6 +381,18 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 4: scenarioString = '04 Confirm that correct amounts are displayed when data is available'; break;
     }
     break;
+  case 40: featureString = '40_DownloadStatements.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Confirm Download Statements page loads correctly'; break;
+    case 2: scenarioString = '02 Search by scheme'; break;
+    case 3: scenarioString = '03 Confirm next and previous buttons work correctly'; break;
+    case 4: scenarioString = '04 Search by full filename'; break;
+    case 5: scenarioString = '05 Search by marketing year'; break;
+    case 6: scenarioString = '06 Search by FRN'; break;
+    case 7: scenarioString = '07 Search by Timestamp'; break;
+    case 8: scenarioString = '08 Clear and start again'; break;
+    }
+    break;
   }
   const screenshotName = featureString + scenarioString;
   console.log('Screenshot Name:', screenshotName);

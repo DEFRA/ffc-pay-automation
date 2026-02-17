@@ -335,7 +335,7 @@ Given('I send email to Notify API', () => {
         "Content-Type": "application/json"
       },
       body: {
-        "email_address": "alistair.wishart@atos.net",
+        "email_address": "fakeaccount@gmail.com",
         "template_id": "4c492baa-be4b-47ba-a102-04b93d92df00",
         personalisation: {
           "agreementNumber": "12345678",
@@ -395,7 +395,7 @@ Then('I confirm that received email contains expected values', () => {
       expect(resultData.id).to.eq(uploadData.id);
       expect(resultData.template.id).to.eq(uploadData.template.id);
       expect(resultData.body).to.eq(uploadData.content.body);
-      expect(resultData.email_address).to.eq('alistair.wishart@atos.net');
+      expect(resultData.email_address).to.eq('fakeaccount@gmail.com');
       expect(resultData.subject).to.eq('12345678 Payment Schedule');
       expect(resultData.type).to.eq('email');
     });
@@ -426,12 +426,12 @@ When('I send 5000 payment messages using template {string} to the service bus to
     //!!!!!!!!!!!PLEASE READ!!!!!!!!!!!!!!!!!!!
     //When running this script for the first time the following line should be used
 
-    // sendMessageRecursive(0, 10000, 10000, 10000, 10000);
+    sendMessageRecursive(0, 10000, 10000, 10000, 10000);
 
     //If running script a second time and you want to send another batch of 5000 messages, the line above
     // should be commented out and the following line should be used instead
 
-    sendMessageRecursive(0, 15000, 15000, 15000, 15000);
+    // sendMessageRecursive(0, 15000, 15000, 15000, 15000);
 
     //If running script a third time and you want to send another batch of 5000 messages, the line above
     // should be commented out and the following line should be used instead
