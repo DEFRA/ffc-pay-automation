@@ -393,8 +393,40 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 8: scenarioString = '08 Clear and start again'; break;
     }
     break;
+  case 41: featureString = '41_ResetPaymentRequest.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Confirm initial elements on Reset Payment Request page'; break;
+    case 2: scenarioString = '02 Attempt to reset payment request using invoice number that does not exist in database'; break;
+    case 3: scenarioString = '03 Attempt to reset payment request without entering an invoice number'; break;
+    case 5: scenarioString = '05 Reset payment request using valid invoice number'; break;
+    case 6: scenarioString = '06 Confirm that Perform another action link redirects correctly'; break;
+    }
+    break;
   }
   const screenshotName = featureString + scenarioString;
   console.log('Screenshot Name:', screenshotName);
   cy.screenshot(screenshotName);
+});
+
+Then(/^I confirm that I am on the "(.*)" homepage$/, (service) => {
+
+  var url;
+
+  switch (service) {
+  case 'payment management':
+    url = envConfig.paymentManagementUrl;
+    break;
+  case 'request editor':
+    url = envConfig.requestEditorUrl;
+    break;
+  case 'payment calculator':
+    url = envConfig.paymentCalculatorUrl;
+    break;
+  default:
+    throw new Error(`Unknown service: ${service}`);
+  }
+
+  cy.url().should('eq', url);
+  console.log(`Confirmed that I am on the ${service} homepage with URL: ${url}`);
+  cy.log(`Confirmed that I am on the ${service} homepage with URL: ${url}`);
 });
