@@ -6,6 +6,7 @@ import manualPaymentsPage from '../pages/manualPaymentsPage';
 import managementInformationPage from '../pages/managementInformationPage';
 import constants from '../../support/constants.json';
 import downloadStatementsPage from '../pages/downloadStatementsPage';
+import resetPaymentRequestPage from '../pages/resetPaymentRequestPage';
 const { getEnvironmentConfig } = require('../../support/configLoader');
 
 When(/^I can see "(.*)" as the header$/, (text) => {
@@ -736,4 +737,80 @@ Then(/^on the Download Statements page I confirm that the text on "(.*)" reads "
 Then(/^on the Download Statements page I confirm that statement can be downloaded$/, () => {
   cy.request('/download-statements/download/FFC_PaymentDelinkedStatement_DP_2025_1105607649_2025101415310344.pdf')
     .its('status') .should('eq', 200);
+});
+
+Then (/^on the Reset payment request page I confirm that "(.*)" is displayed$/, (element) => {
+  switch (element) {
+  case 'page title':
+    resetPaymentRequestPage.pageTitle().should('be.visible').and('have.text', 'Reset payment request'); break;
+  case 'page description':
+    resetPaymentRequestPage.pageDescription().should('be.visible').and('contain.text', 'Invoice number'); break;
+  case 'page instructions':
+    resetPaymentRequestPage.pageInstructions().should('be.visible').and('contain.text', 'Enter the DAX formatted invoice number, for example S1234567S1234567V001'); break;
+  case 'invoice number field':
+    resetPaymentRequestPage.invoiceNumberField().should('be.visible').and('have.attr', 'type', 'text'); break;
+  case 'reset button':
+    resetPaymentRequestPage.resetButton().should('be.visible').and('have.attr', 'type', 'submit'); break;
+  case 'payment request does not exist error':
+    resetPaymentRequestPage.errorTitle().should('be.visible').and('contain.text', 'There is a problem');
+    resetPaymentRequestPage.errorMessage().should('be.visible').and('contain.text', 'Payment request S279591940653785V001 does not exist'); break;
+  case 'enter a valid invoice number error':
+    resetPaymentRequestPage.errorTitle().should('be.visible').and('contain.text', 'There is a problem');
+    resetPaymentRequestPage.errorMessage().should('be.visible').and('contain.text', 'ValidationError: Enter a valid invoice number'); break;
+  case 'payment request successfully reset message':
+    resetPaymentRequestPage.successTitle().should('be.visible').and('contain.text', 'Payment request successfully reset');
+    resetPaymentRequestPage.successMessage().should('be.visible').and('contain.text', 'Invoice number', 'S279591940653785V001'); break;
+  case 'what happens next subheader':
+    resetPaymentRequestPage.whatHappensNextSubheader().should('be.visible').and('contain.text', 'What happens next'); break;
+  case 'what happens next message':
+    resetPaymentRequestPage.whatHappensNextMessage().should('be.visible').and('contain.text', 'The payment request will be reprocessed and resent to DAX.'); break;
+  case 'perform another action link':
+    resetPaymentRequestPage.performAnotherActionLink().should('be.visible').and('contain.text', 'Perform another action'); break;
+  default:
+    throw new Error('invalid element');
+  }
+
+  console.log('Confirmed that', element, 'is displayed on the Reset payment request page');
+  cy.log('Confirmed that', element, 'is displayed on the Reset payment request page');
+});
+
+Then (/^on the Reset payment request page I enter "(.*)" into the "(.*)" field$/, (text, field) => {
+  switch (field) {
+  case 'invoice number':
+    resetPaymentRequestPage.invoiceNumberField().scrollIntoView().type(text); break;
+  default:
+    throw new Error('invalid field name');
+  }
+
+  console.log(`Entered ${text} into the ${field} field on the Reset payment request page`);
+  cy.log(`Entered ${text} into the ${field} field on the Reset payment request page`);
+});
+
+Then (/^on the Reset payment request page I click the "(.*)"$/, (button) => {
+  switch (button) {
+  case 'reset button': resetPaymentRequestPage.resetButton().scrollIntoView().click(); break;
+  case 'perform another action link': resetPaymentRequestPage.performAnotherActionLink().scrollIntoView().click(); break;
+  default:
+    throw new Error('invalid button name');
+  }
+  cy.log(`Clicked on the ${button} successfully`);
+  console.log(`Clicked on the ${button} successfully`);
+});
+
+Then(/^I confirm that second completedPaymentRequest entry has been made in database for invoice number "(.*)"$/, (invoiceNumber) => {
+  const sqlStatement = `SELECT * FROM "completedPaymentRequests" WHERE "invoiceNumber" = '${invoiceNumber}'`;
+  const databaseName = 'ffc-pay-processing';
+
+  cy.databaseQuery({ databaseName, sqlStatement }).then((result) => {
+    const data = result.rows;
+    cy.log(`Found ${data.length} completedPaymentRequest entries for invoice number ${invoiceNumber}`);
+    if (data.length >= 2) {
+      console.log(`Confirmed that second completedPaymentRequest entry has been made in database for invoice number ${invoiceNumber}`);
+      cy.log(`Confirmed that second completedPaymentRequest entry has been made in database for invoice number ${invoiceNumber}`);
+    } else {
+      console.log(`Expected at least 2 completedPaymentRequest entries for invoice number ${invoiceNumber}, but found ${data.length}`);
+      cy.log(`Expected at least 2 completedPaymentRequest entries for invoice number ${invoiceNumber}, but found ${data.length}`);
+      throw new Error('Second completedPaymentRequest entry has not been made in database');
+    }
+  });
 });
