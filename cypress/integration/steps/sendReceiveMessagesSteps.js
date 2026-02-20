@@ -444,3 +444,45 @@ When('I send 5000 payment messages using template {string} to the service bus to
     //sendMessageRecursive(0, 25000, 25000, 25000, 25000);
   });
 });
+
+
+When('I send 5000 return messages using template {string} to the service bus topic {string}', (message, topicName) => {
+  const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
+  cy.readFile(inputFilePath).then((template) => {
+    function sendReturnMessageRecursive (i, frn, invoicePrefix, invoiceSuffix) {
+      if (i >= 5000) {
+        cy.log('Finished sending 5000 messages to topic: ' + topicName);
+        return;
+      }
+      const msg = {
+        ...template,
+        frn: '10000' + frn,
+        invoiceNumber: 'S22' + invoicePrefix + '100' + invoiceSuffix + 'V001'
+      };
+      cy.task('sendMessage', { messageBody: msg, topicName: topicName }).then(() => {
+        cy.log(`Sent message ${i + 1}`);
+        sendReturnMessageRecursive( i + 1, frn + 1, invoicePrefix + 1, invoiceSuffix + 1);
+      });
+    }
+
+    //!!!!!!!!!!!PLEASE READ!!!!!!!!!!!!!!!!!!!
+    //When running this script for the first time the following line should be used
+
+    sendReturnMessageRecursive(0, 10000, 10000, 10000);
+
+    //If running script a second time and you want to send another batch of 5000 messages, the line above
+    // should be commented out and the following line should be used instead
+
+    // sendReturnMessageRecursive(0, 15000, 15000, 15000);
+
+    //If running script a third time and you want to send another batch of 5000 messages, the line above
+    // should be commented out and the following line should be used instead
+
+    //sendReturnMessageRecursive(0, 20000, 20000, 20000);
+
+    //If running script a fourth time and you want to send another batch of 5000 messages, the line above
+    // should be commented out and the following line should be used instead
+
+    //sendReturnMessageRecursive(0, 25000, 25000, 25000);
+  });
+});
