@@ -13,6 +13,10 @@ Cypress.Commands.add('sendMessage', (messageBody, topicName) => {
   });
 });
 
+Cypress.Commands.add('sendMessagesBatch', (messages, topicName) => {
+  cy.task('sendMessagesBatch',  messages, topicName);
+});
+
 Cypress.Commands.add('startMessageReception', (topicName) => {
   cy.task('startMessageReception', topicName);
 });

@@ -2,6 +2,7 @@ require('dotenv').config();
 const cucumber = require('cypress-cucumber-preprocessor').default;
 const { emptyFolder } = require('../utils/empty-folder');
 const { sendMessage } = require('../utils/sendMessage');
+const sendMessagesBatch = require('../utils/sendMessagesBatch');
 const { startReceivingMessages, stopReceivingMessages, getReceivedMessages } = require('../utils/receiveMessage');
 const fs = require('fs');
 const path = require('path');
@@ -23,6 +24,10 @@ module.exports = (on, config) => {
 
   on('task', {
     emptyFolder: (folderPath) => emptyFolder(folderPath),
+
+    sendMessagesBatch ({ messages, topicName }) {
+      return sendMessagesBatch({ messages, topicName });
+    },
 
     sendMessage ({ messageBody, topicName }) {
       return sendMessage({ messageBody, topicName });
