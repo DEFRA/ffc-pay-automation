@@ -1,0 +1,24 @@
+const { ServiceBusClient } = require('@azure/service-bus');
+require('dotenv').config();
+
+async function sendMessagesBatch ({ messages, topicName }) {
+  const client = new ServiceBusClient(process.env.connectionString);
+  const sender = client.createSender(topicName);
+  try {
+    let batch = await sender.createMessageBatch();
+    for (const msg of messages) {
+      if (!batch.tryAddMessage(msg)) {
+        await sender.sendMessages(batch);
+        batch = await sender.createMessageBatch();
+        if (!batch.tryAddMessage(msg)) {
+          throw new Error('Message too large to fit in an empty batch');
+        }
+      }
+    }
+    await sender.sendMessages(batch); return 'Batch sent';
+  } finally {
+    await sender.close(); await client.close();
+  }
+}
+
+module.exports = sendMessagesBatch;

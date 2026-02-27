@@ -7,6 +7,7 @@ import managementInformationPage from '../pages/managementInformationPage';
 import constants from '../../support/constants.json';
 import downloadStatementsPage from '../pages/downloadStatementsPage';
 import resetPaymentRequestPage from '../pages/resetPaymentRequestPage';
+import paymentEventMonitoringPage from '../pages/paymentEventMonitoringPage';
 const { getEnvironmentConfig } = require('../../support/configLoader');
 
 When(/^I can see "(.*)" as the header$/, (text) => {
@@ -305,16 +306,16 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
     throw new Error('invalid element');
   }
 
-  console.log('Confirmed that', element, 'is present on the Manual Payments page');
-  cy.log('Confirmed that', element, 'is present on the Manual Payments page');
+  console.log('Confirmed that ' + element + ' is present on the Manual Payments page');
+  cy.log('Confirmed that ' + element + ' is present on the Manual Payments page');
 });
 
 Then(/^on the Manual Payments page I confirm that entry with filename "(.*)" has been added to Upload History$/, (filename) => {
 
   manualPaymentsPage.uploadHistoryFilename().should('be.visible').and('have.text', filename);
 
-  console.log('Confirmed that entry with filename', filename, 'has been added to Upload History');
-  cy.log('Confirmed that entry with filename', filename, 'has been added to Upload History');
+  console.log('Confirmed that entry with filename ' + filename + ' has been added to Upload History');
+  cy.log('Confirmed that entry with filename ' + filename + ' has been added to Upload History');
 });
 
 Then(/^on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present$/, () => {
@@ -364,8 +365,8 @@ Then (/^on the Management Information page I confirm that "(.*)" is not displaye
     throw new Error('invalid element');
   }
 
-  console.log('Confirmed that', element, 'is not displayed on the Management Information page');
-  cy.log('Confirmed that', element, 'is not displayed on the Management Information page');
+  console.log('Confirmed that' + element + ' is not displayed on the Management Information page');
+  cy.log('Confirmed that' + element + ' is not displayed on the Management Information page');
 });
 
 
@@ -457,8 +458,8 @@ Then (/^on the Management Information page I confirm that "(.*)" is displayed$/,
     throw new Error('invalid element');
   }
 
-  console.log('Confirmed that', element, 'is displayed on the Management Information page');
-  cy.log('Confirmed that', element, 'is displayed on the Management Information page');
+  console.log('Confirmed that' + element + 'is displayed on the Management Information page');
+  cy.log('Confirmed that' + element + 'is displayed on the Management Information page');
 });
 
 Then(/^on the Management Information page I select "(.*?)" in (.*?) filter$/, (option, filter) => {
@@ -489,8 +490,8 @@ When(/^on the Management Information page I click on the "(.*)" button$/, (butto
     throw new Error('invalid button name');
   }
 
-  cy.log('Clicked', button, 'on Management Information page');
-  console.log('Clicked', button, 'on Management Information page');
+  cy.log('Clicked' + button + 'on Management Information page');
+  console.log('Clicked' + button + 'on Management Information page');
 });
 
 Then(/^on the Management Information page I confirm that (.*) is (.*)$/, (field, expectedValue) => {
@@ -587,8 +588,8 @@ Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (e
     throw new Error('invalid element');
   }
 
-  console.log('Confirmed that', element, 'is displayed on the Download Statements page');
-  cy.log('Confirmed that', element, 'is displayed on the Download Statements page');
+  console.log('Confirmed that' + element + 'is displayed on the Download Statements page');
+  cy.log('Confirmed that' + element + 'is displayed on the Download Statements page');
 });
 
 Then (/^on the Download Statements page I confirm that "(.*)" is not displayed$/, (element) => {
@@ -653,8 +654,8 @@ Then (/^on the Download Statements page I confirm that "(.*)" is not displayed$/
     throw new Error('invalid element');
   }
 
-  console.log('Confirmed that', element, 'is not displayed on the Download Statements page');
-  cy.log('Confirmed that', element, 'is not displayed on the Download Statements page');
+  console.log('Confirmed that' + element + 'is not displayed on the Download Statements page');
+  cy.log('Confirmed that' + element + 'is not displayed on the Download Statements page');
 });
 
 Then(/^on the Download Statements page I select "(.*)" from the select scheme dropdown$/, (scheme) => {
@@ -770,8 +771,8 @@ Then (/^on the Reset payment request page I confirm that "(.*)" is displayed$/, 
     throw new Error('invalid element');
   }
 
-  console.log('Confirmed that', element, 'is displayed on the Reset payment request page');
-  cy.log('Confirmed that', element, 'is displayed on the Reset payment request page');
+  console.log('Confirmed that' + element + 'is displayed on the Reset payment request page');
+  cy.log('Confirmed that' + element + 'is displayed on the Reset payment request page');
 });
 
 Then (/^on the Reset payment request page I enter "(.*)" into the "(.*)" field$/, (text, field) => {
@@ -813,4 +814,133 @@ Then(/^I confirm that second completedPaymentRequest entry has been made in data
       throw new Error('Second completedPaymentRequest entry has not been made in database');
     }
   });
+});
+
+Then (/^on the View events page I confirm that "(.*)" is displayed$/, (element) => {
+  switch (element) {
+  case 'sub header':
+    paymentEventMonitoringPage.subHeader().should('be.visible').and('contain.text', 'Monitoring'); break;
+  case 'frn search instructions':
+    paymentEventMonitoringPage.searchByFRNInstructions().should('be.visible').and('contain.text', 'Search for payments by Firm Reference Number (FRN)'); break;
+  case 'frn search example':
+    paymentEventMonitoringPage.searchByFRNExample().should('be.visible').and('contain.text', 'For example, 1234567890'); break;
+  case 'frn search field':
+    paymentEventMonitoringPage.searchByFRNField().should('be.visible').and('have.attr', 'type', 'search'); break;
+  case 'frn search button':
+    paymentEventMonitoringPage.searchByFRNButton().should('be.visible').and('have.attr', 'type', 'submit'); break;
+  case 'batch search instructions':
+    paymentEventMonitoringPage.searchByBatchInstructions().should('be.visible').and('contain.text', 'Search for payments by payment batch name'); break;
+  case 'batch search example':
+    paymentEventMonitoringPage.searchByBatchExample().should('be.visible').and('contain.text', 'For example, SITISFI0001_AP_20230525095030.dat'); break;
+  case 'batch search field':
+    paymentEventMonitoringPage.searchByBatchField().should('be.visible').and('have.attr', 'type', 'search'); break;
+  case 'batch search button':
+    paymentEventMonitoringPage.searchByBatchButton().should('be.visible').and('have.attr', 'type', 'submit'); break;
+  case 'frn searched label':
+    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').and('contain.text', '1258445148'); break;
+  case 'scheme column':
+    paymentEventMonitoringPage.schemeColumn().should('be.visible').and('contain.text', 'Scheme'); break;
+  case 'agreement column':
+    paymentEventMonitoringPage.agreementColumn().should('be.visible').and('contain.text', 'Agreement'); break;
+  case 'payment request column':
+    paymentEventMonitoringPage.paymentRequestColumn().should('be.visible').and('contain.text', 'Payment request'); break;
+  case 'value column':
+    paymentEventMonitoringPage.valueColumn().should('be.visible').and('contain.text', 'Value'); break;
+  case 'status column':
+    paymentEventMonitoringPage.statusColumn().should('be.visible').and('contain.text', 'Status'); break;
+  case 'last updated column':
+    paymentEventMonitoringPage.lastUpdatedColumn().should('be.visible').and('contain.text', 'Last updated'); break;
+  case 'actions column':
+    paymentEventMonitoringPage.actionsColumn().should('be.visible').and('contain.text', 'Actions'); break;
+  case 'view frn label':
+    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').and('contain.text', '1258445148 - 40770826 - PR1'); break;
+  case 'view batch label':
+    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').and('contain.text', 'SITISFIA0001_AP_20230810085609205.dat'); break;
+  case 'activity column':
+    paymentEventMonitoringPage.activityColumn().should('be.visible').and('contain.text', 'Actions'); break;
+  case 'batch frn column':
+    paymentEventMonitoringPage.batchFRNColumn().should('be.visible').and('contain.text', 'FRN'); break;
+  case 'batch year column':
+    paymentEventMonitoringPage.batchYearColumn().should('be.visible').and('contain.text', 'Year'); break;
+  case 'batch agreement column':
+    paymentEventMonitoringPage.batchAgreementColumn().should('be.visible').and('contain.text', 'Agreement'); break;
+  case 'batch request column':
+    paymentEventMonitoringPage.batchRequestColumn().should('be.visible').and('contain.text', 'Request'); break;
+  case 'batch value column':
+    paymentEventMonitoringPage.batchValueColumn().should('be.visible').and('contain.text', 'Value'); break;
+  case 'batch status column':
+    paymentEventMonitoringPage.batchStatusColumn().should('be.visible').and('contain.text', 'Status'); break;
+  case 'batch actions column':
+    paymentEventMonitoringPage.batchActionsColumn().should('be.visible').and('contain.text', 'Actions'); break;
+  default:
+    throw new Error('invalid element');
+  }
+
+  console.log('Confirmed that' + element + 'is displayed on the View events page');
+  cy.log('Confirmed that' + element + 'is displayed on the View events page');
+});
+
+Then (/^on the View processed payment requests page I confirm that "(.*)" is displayed$/, (element) => {
+  switch (element) {
+  case 'sub header':
+    paymentEventMonitoringPage.subHeader().should('be.visible').and('contain.text', 'Schemes'); break;
+  case 'select scheme label':
+    paymentEventMonitoringPage.selectSchemeLabel().should('be.visible').and('contain.text', 'Select the scheme to view data for'); break;
+  case 'select scheme dropdown':
+    paymentEventMonitoringPage.selectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break;
+  case 'select scheme button':
+    paymentEventMonitoringPage.selectSchemeButton().should('be.visible').and('have.attr', 'type', 'submit'); break;
+  case 'processed payment requests label':
+    paymentEventMonitoringPage.processedRequestLabel().should('be.visible').and('contain.text', 'Processed payment requests'); break; 
+  case 'scheme column':
+    paymentEventMonitoringPage.processedRequestsSchemeColumn().should('be.visible').and('contain.text', 'Scheme'); break;
+  case 'number of payments column':
+    paymentEventMonitoringPage.processedRequestsNumberOfColumn().should('be.visible').and('contain.text', 'Number of payments'); break;   
+  case 'value column':
+    paymentEventMonitoringPage.processedRequestsValueColumn().should('be.visible').and('contain.text', 'Value'); break;      
+  default:
+    throw new Error('invalid element');
+  }
+
+  console.log('Confirmed that'+ element + ' is displayed on the View processed payment requests page');
+  cy.log('Confirmed that' + element + ' is displayed on the View processed payment requests page');
+});
+
+Then (/^on the View processed payment requests page I click the Continue button$/, () => {
+  paymentEventMonitoringPage.selectSchemeButton().click();
+  console.log('Clicked Continue button');
+  cy.log('Clicked Continue button');
+});
+
+Then (/^on the View processed payment requests page I select "(.*)" in scheme dropdown$/, (selection) => {
+  paymentEventMonitoringPage.selectSchemeDropdown().select(selection);
+  console.log('Selected ' + selection + ' in Scheme dropdown');
+  cy.log('Selected ' + selection + ' in Scheme dropdown');
+});
+
+Then (/^on the View events page I enter "(.*)" into the "(.*)" field$/, (filename, field) => {
+
+  switch (field) {
+  case 'frn':
+    paymentEventMonitoringPage.searchByFRNField().scrollIntoView().type(filename); break;
+  case 'batch':
+    paymentEventMonitoringPage.searchByBatchField().scrollIntoView().type(filename); break;
+  default:
+    throw new Error('invalid field name');
+  }
+
+  console.log(`Entered ${filename} into the ${field} field on the View events page`);
+  cy.log(`Entered ${filename} into the ${field} field on the View events page`);
+});
+
+Then (/^on the View events page I click the "(.*)"$/, (button) => {
+  switch (button) {
+  case 'frn search button': paymentEventMonitoringPage.searchByFRNButton().scrollIntoView().click(); break;
+  case 'batch search button': paymentEventMonitoringPage.searchByBatchButton().scrollIntoView().click(); break;
+  case 'view link': paymentEventMonitoringPage.viewLink().scrollIntoView().click(); break;
+  default:
+    throw new Error('invalid button name');
+  }
+  cy.log(`Clicked on the ${button} successfully`);
+  console.log(`Clicked on the ${button} successfully`);
 });
