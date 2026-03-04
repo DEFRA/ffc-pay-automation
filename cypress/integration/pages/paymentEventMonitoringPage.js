@@ -68,7 +68,7 @@ class paymentEventMonitoringPage {
     return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(4)');
   }
 
-  statusColumn () { 
+  statusColumn () {
     return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(5)');
   }
 
