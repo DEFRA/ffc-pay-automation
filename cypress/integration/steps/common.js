@@ -415,6 +415,31 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 9: scenarioString = '09 Confirm correct message when no results found'; break;
     }
     break;
+  case 43: featureString = '43_PaymentAlerts.feature -- ';
+    switch (scenarioNumber) {
+    case 1: scenarioString = '01 Confirm initial elements on page'; break;
+    case 2: scenarioString = '02 Confirm correct alert types for SFI-22'; break;
+    case 3: scenarioString = '03 Confirm correct alert types for SFI-Pilot'; break;
+    case 4: scenarioString = '04 Confirm correct alert types for Lump Sums'; break;
+    case 5: scenarioString = '05 Confirm correct alert types for Vet Visits'; break;
+    case 6: scenarioString = '06 Confirm correct alert types for Countryside Stewardship'; break;
+    case 7: scenarioString = '07 Confirm correct alert types for Basic Payment Scheme'; break;
+    case 8: scenarioString = '08 Confirm correct alert types for Manual Injection scheme'; break;
+    case 9: scenarioString = '09 Confirm correct alert types for Environmental Stewardship scheme'; break;
+    case 10: scenarioString = '10 Confirm correct alert types for IMPS scheme'; break;
+    case 11: scenarioString = '11 Confirm correct alert types for Forestry Commission scheme'; break;
+    case 12: scenarioString = '12 Confirm correct alert types for SFI-23 scheme'; break;
+    case 13: scenarioString = '13 Confirm correct alert types for Delinked Payments scheme'; break;
+    case 14: scenarioString = '14 Confirm correct alert types for Expanded SFI Offer scheme'; break;
+    case 15: scenarioString = '15 Confirm correct alert types for Countryside Stewardship Higher Tier (Revenue) scheme'; break;
+    case 16: scenarioString = '16 Confirm correct alert types for Countryside Stewardship Higher Tier (Capital) scheme'; break;
+    case 17: scenarioString = '17 Confirm that all schemes are successfully cascaded when Show All Sections is clicked'; break;
+    case 18: scenarioString = '18 Confirm initial elements on Add new alert recipient page'; break;
+    case 19: scenarioString = '19 Confirm filter by scheme is functioning correctly'; break;
+    case 20: scenarioString = '20 Confirm that correct error message is displayed when invalid email used'; break;
+    case 21: scenarioString = '21 Confirm that new alert recipient can be successfully added'; break;
+    }
+    break;
   }
   const screenshotName = featureString + scenarioString;
   console.log('Screenshot Name:', screenshotName);

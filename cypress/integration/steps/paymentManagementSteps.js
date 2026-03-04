@@ -8,6 +8,7 @@ import constants from '../../support/constants.json';
 import downloadStatementsPage from '../pages/downloadStatementsPage';
 import resetPaymentRequestPage from '../pages/resetPaymentRequestPage';
 import paymentEventMonitoringPage from '../pages/paymentEventMonitoringPage';
+import paymentAlertsPage from '../pages/paymentAlertsPage';
 const { getEnvironmentConfig } = require('../../support/configLoader');
 
 When(/^I can see "(.*)" as the header$/, (text) => {
@@ -891,13 +892,13 @@ Then (/^on the View processed payment requests page I confirm that "(.*)" is dis
   case 'select scheme button':
     paymentEventMonitoringPage.selectSchemeButton().should('be.visible').and('have.attr', 'type', 'submit'); break;
   case 'processed payment requests label':
-    paymentEventMonitoringPage.processedRequestLabel().should('be.visible').and('contain.text', 'Processed payment requests'); break; 
+    paymentEventMonitoringPage.processedRequestLabel().should('be.visible').and('contain.text', 'Processed payment requests'); break;
   case 'scheme column':
     paymentEventMonitoringPage.processedRequestsSchemeColumn().should('be.visible').and('contain.text', 'Scheme'); break;
   case 'number of payments column':
-    paymentEventMonitoringPage.processedRequestsNumberOfColumn().should('be.visible').and('contain.text', 'Number of payments'); break;   
+    paymentEventMonitoringPage.processedRequestsNumberOfColumn().should('be.visible').and('contain.text', 'Number of payments'); break;
   case 'value column':
-    paymentEventMonitoringPage.processedRequestsValueColumn().should('be.visible').and('contain.text', 'Value'); break;      
+    paymentEventMonitoringPage.processedRequestsValueColumn().should('be.visible').and('contain.text', 'Value'); break;
   default:
     throw new Error('invalid element');
   }
@@ -943,4 +944,208 @@ Then (/^on the View events page I click the "(.*)"$/, (button) => {
   }
   cy.log(`Clicked on the ${button} successfully`);
   console.log(`Clicked on the ${button} successfully`);
+});
+
+Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
+  switch (element) {
+  case 'sub header': paymentAlertsPage.subHeader().should('be.visible').and('contain.text', 'Alerts'); break;
+  case 'page description': paymentAlertsPage.pageDescription().should('be.visible').and('contain.text',
+    'This section allows users to see payment alerts that are in place for each scheme and',
+    'manage who is set up to receive each type of alert. If a payment is rejected, alerts are',
+    'used to notify people so that the error preventing payment can be resolved. Some',
+    'users are alerted for information, but some will be required to resolve the payment issue');
+    break;
+  case 'find out more': paymentAlertsPage.findOutMore().should('be.visible').and('contain.text',
+    'Find out more about each alert type by visiting our alerts information page, or by clicking on any of the alert type names below.');
+    break;
+  case 'alerts information link': paymentAlertsPage.alertsInformationLink().should('be.visible').and('have.attr', 'class', 'govuk-link'); break;
+  case 'add new recipient button': paymentAlertsPage.addNewRecipientButton().should('be.visible').and('have.attr', 'class', 'govuk-button'); break;
+  case 'show all sections button': paymentAlertsPage.showAllSectionsButton().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'sfi22 label': paymentAlertsPage.sfi22Label().should('be.visible').and('contain.text', 'SFI-22'); break;
+  case 'sfi22 show button': paymentAlertsPage.sfi22Show().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'sfi pilot label': paymentAlertsPage.sfiPilotLabel().should('be.visible').and('contain.text', 'SFI-Pilot'); break;
+  case 'sfi pilot show button': paymentAlertsPage.sfiPilotShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'lump sums label': paymentAlertsPage.lumpSumsLabel().should('be.visible').and('contain.text', 'Lump Sum Payments'); break;
+  case 'lump sums show button': paymentAlertsPage.lumpSumsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'vet visits label': paymentAlertsPage.vetVisitsLabel().should('be.visible').and('contain.text', 'Vet Visits'); break;
+  case 'vet visits show button': paymentAlertsPage.vetVisitsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'countryside stewardship label': paymentAlertsPage.countrysideStewardshipLabel().should('be.visible').and('contain.text', 'Countryside Stewardship'); break;
+  case 'countryside stewardship show button': paymentAlertsPage.countrysideStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'basic payment scheme label': paymentAlertsPage.basicPaymentSchemeLabel().should('be.visible').and('contain.text', 'Basic Payment Scheme'); break;
+  case 'basic payment scheme show button': paymentAlertsPage.basicPaymentSchemeShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'manual injection label': paymentAlertsPage.manualInjectionLabel().should('be.visible').and('contain.text', 'Manual Injection'); break;
+  case 'manual injection show button': paymentAlertsPage.manualInjectionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'environmental stewardship label': paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').and('contain.text', 'Environmental Stewardship'); break;
+  case 'environmental stewardship show button': paymentAlertsPage.environmentalStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'imps label': paymentAlertsPage.impsLabel().should('be.visible').and('contain.text', 'IMPS'); break;
+  case 'imps show button': paymentAlertsPage.impsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'forestry commission label': paymentAlertsPage.forestryCommissionLabel().should('be.visible').and('contain.text', 'Forestry Commission'); break;
+  case 'forestry commission show button': paymentAlertsPage.forestryCommissionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'sfi23 label': paymentAlertsPage.sfi23Label().should('be.visible').and('contain.text', 'SFI-23'); break;
+  case 'sfi23 show button': paymentAlertsPage.sfi23Show().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'delinked payments label': paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').and('contain.text', 'Delinked Payments'); break;
+  case 'delinked payments show button': paymentAlertsPage.delinkedPaymentsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'expanded sfi label': paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').and('contain.text', 'Expanded SFI Offer'); break;
+  case 'expanded sfi show button': paymentAlertsPage.expandedSFIOfferShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'csht revenue label': paymentAlertsPage.cshtRevenueLabel().should('be.visible').and('contain.text', 'Countryside Stewardship Higher Tier (Revenue)'); break;
+  case 'csht revenue show button': paymentAlertsPage.cshtRevenueShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'csht capital label': paymentAlertsPage.cshtCapitalLabel().should('be.visible').and('contain.text', 'Countryside Stewardship Higher Tier (Capital)'); break;
+  case 'csht capital show button': paymentAlertsPage.cshtCapitalShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  default:
+    throw new Error('invalid element');
+  }
+  console.log('Confirmed that'+ element + ' is displayed on the Alerts page');
+  cy.log('Confirmed that' + element + ' is displayed on the Alerts page');
+});
+
+Then (/^on the Alerts page I click the "(.*)"$/, (element) => {
+  switch (element) {
+  case 'show all sections button': paymentAlertsPage.showAllSectionsButton().scrollIntoView().click(); break;
+  case 'alerts information link': paymentAlertsPage.alertsInformationLink().scrollIntoView().click(); break;
+  case 'add new alerts recipient button': paymentAlertsPage.addNewRecipientButton().scrollIntoView().click(); break;
+  case 'sfi22 show button': paymentAlertsPage.sfi22Show().scrollIntoView().click(); break;
+  case 'sfi pilot show button': paymentAlertsPage.sfiPilotShow().scrollIntoView().click(); break;
+  case 'lump sums show button': paymentAlertsPage.lumpSumsShow().scrollIntoView().click(); break;
+  case 'vet visits show button': paymentAlertsPage.vetVisitsShow().scrollIntoView().click(); break;
+  case 'countryside stewardship show button': paymentAlertsPage.countrysideStewardshipShow().scrollIntoView().click(); break;
+  case 'basic payment scheme show button': paymentAlertsPage.basicPaymentSchemeShow().scrollIntoView().click(); break;
+  case 'manual injection show button': paymentAlertsPage.manualInjectionShow().scrollIntoView().click(); break;
+  case 'environmental stewardship show button': paymentAlertsPage.environmentalStewardshipShow().scrollIntoView().click(); break;
+  case 'imps show button': paymentAlertsPage.impsShow().scrollIntoView().click(); break;
+  case 'forestry commission show button': paymentAlertsPage.forestryCommissionShow().scrollIntoView().click(); break;
+  case 'sfi23 show button': paymentAlertsPage.sfi23Show().scrollIntoView().click(); break;
+  case 'delinked payments show button': paymentAlertsPage.delinkedPaymentsShow().scrollIntoView().click(); break;
+  case 'expanded sfi show button': paymentAlertsPage.expandedSFIOfferShow().scrollIntoView().click(); break;
+  case 'csht revenue show button': paymentAlertsPage.cshtRevenueShow().scrollIntoView().click(); break;
+  case 'csht capital show button': paymentAlertsPage.cshtCapitalShow().scrollIntoView().click(); break;
+  case 'sfi22 all alerts button': paymentAlertsPage.addNewSFI22All().scrollIntoView().click(); break;
+  case 'create new alert recipient button': paymentAlertsPage.createNewAlertRecipientButton().scrollIntoView().click(); break;
+  default:
+    throw new Error('invalid element');
+  }
+  console.log('Clicked '+ element + ' on the Alerts page');
+  cy.log('Clicked '+ element + ' on the Alerts page');
+});
+
+Then (/^on the Alerts page I confirm that all schemes have successfully cascaded$/, () => {
+
+  cy.get('.govuk-accordion__section-toggle-text') .should($els => {
+    // Convert to array and check each element's text
+    const allAreHide = [...$els].every(el => el.textContent.trim() === 'Hide');
+    expect(allAreHide).to.be.true;
+  });
+});
+
+Then (/^on the Add new alert recipient page I confirm that "(.*)" is displayed$/, (element) => {
+  switch (element) {
+  case 'sub header': paymentAlertsPage.addNewSubHeader().should('be.visible').and('contain.text', 'Add new alert recipient'); break;
+  case 'email label': paymentAlertsPage.addNewEmailLabel().should('be.visible').and('contain.text', 'Email address'); break;
+  case 'email field': paymentAlertsPage.addNewEmailField().should('be.visible').and('have.attr', 'type', 'text'); break;
+  case 'select scheme label':paymentAlertsPage.addNewSelectSchemeLabel().should('be.visible').and('contain.text', 'Select a scheme to view alerts for'); break;
+  case 'select scheme dropdown': paymentAlertsPage.addNewSelectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break;
+  case 'invalid email error message': paymentAlertsPage.addNewInvalidEmailError().should('be.visible').and('contain.text', 'The email address is not allowed. Please contact the Payment & Document Services team if you believe this is a mistake.'); break;
+  default:
+    throw new Error('invalid element');
+  }
+  console.log('Confirmed that '+ element + ' is displayed on the Add new alert recipient page');
+  cy.log('Confirmed that ' + element + ' is displayed on the Add new alert recipient page');
+});
+
+Then(/^on the Add new alert recipient page I confirm that all options are present when no filter selected$/, () => {
+
+  const stringsToCheck = [
+    'Receive all alerts for this scheme',
+    'Batch Rejected',
+    'Batch Quarantined',
+    'Payment Rejected',
+    'Payment Dax Rejected',
+    'Payment Invalid Bank',
+    'Payment Processing Failed',
+    'Payment Settlement Unsettled',
+    'Payment Settlement Unmatched',
+    'Response Rejected',
+    'Payment Request Blocked',
+    'Payment Dax Unavailable',
+    'Receiver Connection Failed',
+    'Demographics Processing Failed',
+    'Demographics Update Failed',
+    'Event Save Alert',
+    'Table Create Alert',
+    // 'Responses Processing Failed',
+    'Customer Update Processing Failed',
+    'Tracking Update Failure'
+  ];
+
+  cy.document().then(doc => {
+    const pageText = doc.body.innerText;
+    stringsToCheck.forEach(str => {
+      const count = (pageText.match(new RegExp(str, "g")) || []).length;
+      expect(count, `Occurrences of "${str}"`).to.eq(15);
+    });
+  });
+  console.log('Confirmed that all options are present when no filter selected');
+  cy.log('Confirmed that all options are present when no filter selected');
+});
+
+Then(/^on the Add new alert recipient page I confirm that only one set of options is displayed$/, () => {
+
+  const stringsToCheck = [
+    'Receive all alerts for this scheme',
+    'Batch Rejected',
+    'Batch Quarantined',
+    'Payment Rejected',
+    'Payment Dax Rejected',
+    'Payment Invalid Bank',
+    'Payment Processing Failed',
+    'Payment Settlement Unsettled',
+    'Payment Settlement Unmatched',
+    'Response Rejected',
+    'Payment Request Blocked',
+    'Payment Dax Unavailable',
+    'Receiver Connection Failed',
+    'Demographics Processing Failed',
+    'Demographics Update Failed',
+    'Event Save Alert',
+    'Table Create Alert',
+    // 'Responses Processing Failed',
+    'Customer Update Processing Failed',
+    'Tracking Update Failure'
+  ];
+
+  cy.document().then(doc => {
+    const pageText = doc.body.innerText;
+    stringsToCheck.forEach(str => {
+      const count = (pageText.match(new RegExp(str, "g")) || []).length;
+      expect(count, `Occurrences of "${str}"`).to.eq(1);
+    });
+  });
+  console.log('Confirmed that only one set of options is displayed when scheme filter is used');
+  cy.log('Confirmed that only one set of options is displayed when scheme filter is used');
+});
+
+Then (/^on the Add new alert recipient page I select "(.*)" from Select Scheme dropdown$/, (option) => {
+
+  paymentAlertsPage.addNewSelectSchemeDropdown().select(option);
+  console.log('Selected ' + option + ' from Select Scheme dropdown');
+  cy.log('Selected ' + option + ' from Select Scheme dropdown');
+});
+
+Then (/^on the Add new alert recipient page I enter "(.*)" in the email field$/, (email) => {
+
+  paymentAlertsPage.addNewEmailField().scrollIntoView().type(email);
+  console.log('Entered ' + email + ' into the email field');
+  cy.log('Entered ' + email + ' into the email field');
+});
+
+Then (/^on the Add new alert recipient page I confirm that recipient "(.*)" has been added for each alert type$/, (email) => {
+
+  //This step confirms that recipient has been added for all 19 alert types
+  //The element locator is the same for each location aside from the nth-child integer at the beginning
+  //Which increases by 2 for each entry
+
+  for (let i=2; i<38; i+=2) {
+    cy.get(':nth-child(' + i + ') > .govuk-table__body > .govuk-table__row > :nth-child(1)').should('be.visible').and('contain.text', email);
+  }
+  console.log('confirmed that recipient ' + email + ' has been added for each alert type');
+  cy.log('confirmed that recipient ' + email + ' has been added for each alert type');
 });
