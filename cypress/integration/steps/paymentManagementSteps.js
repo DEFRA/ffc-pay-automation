@@ -11,6 +11,10 @@ import paymentEventMonitoringPage from '../pages/paymentEventMonitoringPage';
 import paymentAlertsPage from '../pages/paymentAlertsPage';
 const { getEnvironmentConfig } = require('../../support/configLoader');
 
+const envConfig = getEnvironmentConfig();
+const env = envConfig.env;
+console.log('Environment Config:', envConfig);
+
 When(/^I can see "(.*)" as the header$/, (text) => {
   paymentManagementPage.header().should('be.visible').and('have.text', text);
 });
@@ -803,7 +807,7 @@ Then(/^I confirm that second completedPaymentRequest entry has been made in data
   const sqlStatement = `SELECT * FROM "completedPaymentRequests" WHERE "invoiceNumber" = '${invoiceNumber}'`;
   const databaseName = 'ffc-pay-processing';
 
-  cy.databaseQuery({ databaseName, sqlStatement }).then((result) => {
+  cy.databaseQuery({ env, databaseName, sqlStatement }).then((result) => {
     const data = result.rows;
     cy.log(`Found ${data.length} completedPaymentRequest entries for invoice number ${invoiceNumber}`);
     if (data.length >= 2) {

@@ -1,0 +1,38 @@
+{
+    "sourceSystem": "FPTT",
+    "ledger": "AP",
+    "deliveryBody": "RP00",
+    "frn": 1234567890,
+    "sbi": 212345678,
+    "fesCode": "FALS_FPTT",
+    "marketingYear": 2026,
+    "paymentRequestNumber": 1,
+    "agreementNumber": "123456789",
+    "contractNumber": "R12345678",
+    "invoiceNumber": "R12345678-V001Q1",
+    "value": -1000.00,
+    "annualValue": -4000.00,
+    "remmittanceDescription": "Farm Payments Technical Test Payment",
+    "invoiceLines": [
+        {
+            "schemeCode": "84001",
+            "accountCode": "SOS710",
+            "fundCode": "DRD10",
+            "agreementNumber": "123456789",
+            "description": "G00 - Gross value of claim",
+            "value": 1250.00,
+            "deliveryBody": "RP00",
+            "marketingYear": 2026
+        },
+        {
+            "schemeCode": "84002",
+            "accountCode": "SOS710",
+            "fundCode": "DRD10",
+            "agreementNumber": "123456789",
+            "description": "P06 - Late change penalty",
+            "value": -250.00,
+            "deliveryBody": "RP00",
+            "marketingYear": 2026
+        }
+    ]
+}

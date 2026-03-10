@@ -13,6 +13,20 @@ Feature: 32 SFI23 Payments
     When I send the updated "sfi23Error-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 
+
+  @dev
+  Scenario: 02 insert test data via service bus message to ffc-pay-request
+
+    Given I visit the "Request Editor" homepage
+    When I send "sfi23 payment" test data message to the service bus topic "ffc-pay-request-dev"
+
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+
+    Then I pull sfi23 payments file from Azure Blob Storage and confirm that correct values have been generated
+
+
+  @local
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
     When I send the updated "sfi23-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
