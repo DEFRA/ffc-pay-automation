@@ -1,5 +1,11 @@
 /* global Given, When, Then */
 
+const { getEnvironmentConfig } = require('../../support/configLoader');
+
+const envConfig = getEnvironmentConfig();
+const env = envConfig.env;
+console.log('Environment Config:', envConfig);
+
 Given('I restart the local environment', () => {
   cy.restartLocalEnv();
 });
@@ -33,7 +39,7 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
     throw new Error(`Unknown database: ${databaseName}`);
   }
 
-  cy.databaseQuery({databaseName, sqlStatement}).then((results) => {
+  cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
     const data = results.rows[0];
     console.log('Data retrieved:', data);
     if (results.rows.length > 0) {
@@ -53,7 +59,7 @@ Then(/^I confirm that payment test data has not been inserted into the (.*) data
 
   case 'ffc-pay-processing':
     sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
-    cy.databaseQuery({databaseName, sqlStatement}).then((results) => {
+    cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
       cy.log('Results - ' + JSON.stringify(results));
 
       if (results.rowCount === 0) {
@@ -83,7 +89,7 @@ Then(/^I confirm that (.*) test data has been inserted into the (.*) database$/,
   cy.log('Querying ' + databaseName + ' with statement - ' + sqlStatement);
 
   containerName = 'ffc-pay-processing-ffc-pay-processing-1';
-  cy.databaseQuery({databaseName, sqlStatement}).then((results) => {
+  cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
 
     cy.log('Results - ' + JSON.stringify(results));
 
@@ -151,7 +157,7 @@ Then(/^I confirm that the settled value of (.*) is (.*) in database$/, (fileType
     throw new Error(`Unknown database: ${databaseName}`);
   }
 
-  cy.databaseQuery({ databaseName, sqlStatement }).then((results) => {
+  cy.databaseQuery({ env, databaseName, sqlStatement }).then((results) => {
     cy.log('Results - ' + JSON.stringify(results));
     const value = results.rows[0].settledValue;
     console.log(`Actual Value: ${value}`);
@@ -225,7 +231,7 @@ Then(/^I confirm that (.*) event can be found in Event Hub Database$/, (eventTyp
 
   cy.log('Querying ' + databaseName + ' with Statement - ' + sqlStatement);
 
-  cy.databaseQuery({databaseName, sqlStatement}).then((rows) => {
+  cy.databaseQuery({env, databaseName, sqlStatement}).then((rows) => {
     const results = JSON.stringify(rows, null, 2);
     console.log('Results ' + results);
 

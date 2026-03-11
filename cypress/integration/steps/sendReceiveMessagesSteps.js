@@ -1,5 +1,16 @@
 /* global Given, When, Then */
 
+const { getEnvironmentConfig } = require('../../support/configLoader');
+
+const envConfig = getEnvironmentConfig();
+const env = envConfig.env;
+console.log('Environment Config:', envConfig);
+
+
+ var nextFRN;
+ var nextContractNumber;
+ var nextAgreementNumber;
+
 Given('I send the updated {string} message to the service bus topic {string}', (message, topicName) => {
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
 
@@ -436,5 +447,101 @@ When('I send 5000 return messages using template {string} to the service bus top
     }));
     cy.sendMessagesBatch({messages, topicName}).then(() =>
       cy.log(`Finished sending ${messages.length} messages to topic: ${topicName}`));
+  });
+});
+
+When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async function (messageType, topicName) {
+
+  //This step is specifically for dev
+
+  var message;
+  var sqlStatement;
+  var databaseName;
+
+
+  switch (messageType) {
+  case 'sfi23 payment':
+    message = 'sfi23-paymentFileMessage'; break;
+  }
+
+  if (messageType.includes('payment')) {
+    sqlStatement = `SELECT
+  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+  MAX(CASE WHEN "contractNumber"::text ~ '^[0-9]' THEN "contractNumber" END) AS max_contract,
+  MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
+  FROM "paymentRequests"`;
+    databaseName = 'ffc-pay-processing';
+  }
+
+  cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const row = result.rows?.[0];
+
+  if (!row) {
+    throw new Error('No rows returned from database query');
+  }
+
+  const {
+    max_frn,
+    max_contract,
+    max_agreement_number
+  } = row;
+
+  cy.log(max_frn, max_contract, max_agreement_number);
+
+
+    console.log("Max FRN:", max_frn);
+    console.log("Max CONTRACT:", max_contract);
+    console.log("Max AGREEMENT_NUMBER:", max_agreement_number);
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      nextFRN = parseInt(max_frn) + 1;
+      nextContractNumber = parseInt(max_contract) + 1;
+      nextAgreementNumber = parseInt(max_agreement_number) + 1;
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        contractNumber: nextContractNumber.toString(),
+        agreementNumber: nextAgreementNumber.toString()
+      
+    };
+
+      cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+    });
+  });
+});
+
+Then(/^I confirm that payment test data in dev has been inserted into the (.*) database$/, (databaseName) => {
+  var sqlStatement = '';
+  switch (databaseName) {
+  case 'ffc-pay-injection':
+    sqlStatement = 'SELECT * FROM "manualUploads" WHERE "uploadId" = 1';
+    break;
+  case 'ffc-pay-processing':
+    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN;
+    break;
+  case 'ffc-pay-submission':
+    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN;
+    break;
+  default:
+    throw new Error(`Unknown database: ${databaseName}`);
+  }
+
+  cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
+    const data = results.rows[0];
+    console.log('Data retrieved:', data);
+    if (results.rows.length > 0) {
+      console.log('✅ Data exists in the database');
+    } else {
+      throw new Error('Data is not in database');
+    }
+
+    console.log(`✅ Test data has been inserted into the ${databaseName} database`);
+    cy.log(`✅ Test data has been inserted into the ${databaseName} database`);
   });
 });

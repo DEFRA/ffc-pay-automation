@@ -15,6 +15,7 @@ const uploadFileToBlobStorage = require('../utils/uploadFileToBlobStorage');
 const generateJWT = require('../utils/generateJWT');
 const databaseQuery = require('../utils/databaseQuery');
 const databaseInsert = require('../utils/databaseInsert');
+const generateAccessToken = require('../utils/generateAccessToken');
 
 
 
@@ -49,6 +50,10 @@ module.exports = (on, config) => {
 
     generateJWT ({ payload, secret, options }) {
       return generateJWT(payload, secret, options);
+    },
+
+    generateAccessToken () {
+      return generateAccessToken();
     },
 
     readFileIfExists (filePath) {
@@ -276,10 +281,10 @@ module.exports = (on, config) => {
       return '✅ All local doc environments restarted successfully';
     },
 
-    async databaseQuery ({databaseName, sqlStatement}) {
+    async databaseQuery ({env, databaseName, sqlStatement,}) {
 
       console.log('🔍 Checking Database values entered successfully');
-      return databaseQuery(databaseName, sqlStatement);
+      return databaseQuery(env, databaseName, sqlStatement);
 
     },
 
@@ -295,8 +300,8 @@ module.exports = (on, config) => {
       return null;
     },
 
-    async fetchPaymentsBlobById ({container, dir, scheme}) {
-      downloadPaymentsBlobById(container, dir, scheme);
+    async fetchPaymentsBlobById ({env, container, dir, scheme}) {
+      downloadPaymentsBlobById(env, container, dir, scheme);
       return null;
     },
 
@@ -307,15 +312,18 @@ module.exports = (on, config) => {
 
     getDockerLogs (containerName) {
 
-      // This task retrieves the logs from a specified Docker container.
+      const { spawn } = require('child_process');
+
       return new Promise((resolve, reject) => {
-        exec('docker logs ' + containerName, (err, stdout, stderr) => {
-          if (err) {
-            return reject(err);
-          }
-          console.log(`Logs from container "${containerName}":\n`, stdout);
-          resolve(stdout);
-        });
+        const proc = spawn('docker', ['logs', containerName]);
+        let output = '';
+
+        proc.stdout.on('data', (data) => output += data.toString());
+        proc.stderr.on('data', (data) => output += data.toString());
+
+        proc.on('close', () => resolve(output));
+        proc.on('error', reject);
+
       });
     },
 

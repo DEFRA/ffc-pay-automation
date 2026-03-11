@@ -33,6 +33,10 @@ Cypress.Commands.add('generateJWT', (payload, secret, options) => {
   return cy.task('generateJWT', { payload, secret, options });
 });
 
+Cypress.Commands.add('generateAccessToken', () => {
+  return cy.task('generateAccessToken');
+});
+
 Cypress.Commands.add('clickNextButtonUntilOnLastPage', () => {
   cy.get('body').then((body) => {
     if (body.find('[rel="next"] > .govuk-pagination__link-title').length > 0) {
@@ -91,8 +95,8 @@ Cypress.Commands.add('closeAllServices', () => {
   });
 });
 
-Cypress.Commands.add('databaseQuery', (databaseName, sqlStatement) => {
-  cy.task('databaseQuery', databaseName, sqlStatement);
+Cypress.Commands.add('databaseQuery', (env, databaseName, sqlStatement) => {
+  cy.task('databaseQuery', env, databaseName, sqlStatement);
 });
 
 Cypress.Commands.add('databaseInsert', (databaseName, sqlStatement) => {
@@ -103,8 +107,8 @@ Cypress.Commands.add('fetchStatementsBlobById', (container, dir, year) => {
   cy.task('fetchStatementsBlobById', container, dir, year);
 });
 
-Cypress.Commands.add('fetchPaymentsBlobById', (container, dir, scheme) => {
-  cy.task('fetchPaymentsBlobById', container, dir, scheme);
+Cypress.Commands.add('fetchPaymentsBlobById', (env, container, dir, scheme) => {
+  cy.task('fetchPaymentsBlobById', env, container, dir, scheme);
 });
 
 Cypress.Commands.add('uploadFileToBlobStorage', (container, dir, scheme) => {

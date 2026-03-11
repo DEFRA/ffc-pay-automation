@@ -468,3 +468,27 @@ Then(/^I confirm that I am on the "(.*)" homepage$/, (service) => {
   console.log(`Confirmed that I am on the ${service} homepage with URL: ${url}`);
   cy.log(`Confirmed that I am on the ${service} homepage with URL: ${url}`);
 });
+
+Then (/^I confirm that "(.*)" error message has been generated$/, (error) => {
+
+  var databaseName;
+  var expectedError;
+
+  switch (error) {
+  case 'invoice lines do not match':
+    databaseName = 'ffc-pay-enrichment-ffc-pay-enrichment-1';
+    expectedError = 'Payment request is invalid. Invoice line values (10000000) do not match header (-10000012)';
+    break;
+  }
+
+  cy.task('getDockerLogs', databaseName).then((logs) => {
+    cy.log(logs);
+    if (logs.includes(expectedError)) {
+      console.log(`✅ Error "${expectedError}" has been generated`);
+      cy.log(`✅ Error "${expectedError}" has been generated`);
+    } else {
+      throw new Error(`Error "${expectedError}" has not been generated`);
+    }
+  });
+
+});

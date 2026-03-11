@@ -1,5 +1,11 @@
 /* global Given, When, Then */
 
+const { getEnvironmentConfig } = require('../../support/configLoader');
+
+const envConfig = getEnvironmentConfig();
+const env = envConfig.env;
+console.log('Environment Config:', envConfig);
+
 Given(/^I restart and clear the local doc environment$/, () => {
   cy.restartLocalDocEnv();
 });
@@ -288,6 +294,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
   switch (fileType) {
   case '2025 statements':
     cy.task('fetchStatementsBlobById', {
+      env: env,
       container: 'statements',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       year: '2025'
@@ -295,6 +302,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case '2024 statements':
     cy.task('fetchStatementsBlobById', {
+      env: env,
       container: 'statements',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       year: '2024'
@@ -302,6 +310,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'glos payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'glos'
@@ -309,6 +318,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'imps payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'imps'
@@ -316,6 +326,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'genesis payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'genesis'
@@ -323,6 +334,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'dps payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'dps'
@@ -330,6 +342,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'vet visits':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'vet visits'
@@ -337,6 +350,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'cohtr':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'cohtr'
@@ -344,6 +358,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'cohtc':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'cohtc'
@@ -351,6 +366,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'cs payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'cs'
@@ -358,6 +374,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'bps payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'bps'
@@ -365,6 +382,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'lump sums payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'lump sums'
@@ -372,6 +390,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'sfi expanded payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'sfi expanded'
@@ -379,6 +398,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'sfi pilot payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'sfi pilot'
@@ -386,6 +406,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'delinked payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'delinked'
@@ -393,6 +414,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'sfi23 payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'sfi23'
@@ -400,6 +422,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'sfi22 payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'sfi22'
@@ -407,6 +430,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'manual payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'manual'
@@ -414,6 +438,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'ppa scenarios payments':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'ppa scenarios payments'
@@ -421,6 +446,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'ppa scenarios topups':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'ppa scenarios topups'
@@ -428,6 +454,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'ppa scenarios reductions':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'ppa scenarios reductions'
@@ -435,9 +462,18 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     break;
   case 'ppa scenarios recoveries':
     cy.task('fetchPaymentsBlobById', {
+      env: env,
       container: 'dax',
       dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
       scheme: 'ppa scenarios recoveries'
+    });
+    break;
+  case 'fptt':
+    cy.task('fetchPaymentsBlobById', {
+      env: env,
+      container: 'dax',
+      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      scheme: 'fptt'
     });
     break;
   default: throw new Error(`Unknown scheme: ${fileType}`);
@@ -464,7 +500,7 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
     throw new Error(`Unknown database: ${databaseName}`);
   }
 
-  cy.databaseQuery({databaseName, sqlStatement}).then((results) => {
+  cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
     cy.log('Results - ' + JSON.stringify(results));
 
     if (results.rowCount === 0) {
@@ -498,7 +534,7 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
     throw new Error(`Unknown database: ${databaseName}`);
   }
 
-  cy.databaseQuery({databaseName, sqlStatement}).then((results) => {
+  cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
     const data = results.rows[0];
     console.log('Data retrieved:', data);
     if (results.rows.length > 0) {
@@ -526,7 +562,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
       console.log('Executing query for year 2024 :', querySql);
       cy.log('Executing query for year 2024 :', querySql);
 
-      cy.databaseQuery(databaseName, querySql).then((results) => {
+      cy.databaseQuery(env, databaseName, querySql).then((results) => {
         const data = results.rows[0];
         console.log('Data retrieved:', data);
         cy.log('Data retrieved:', data);
@@ -547,7 +583,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
       const querySql = ""+ sqlStatement + i + "";
       console.log('Executing query for year 2025 :', querySql);
 
-      cy.databaseQuery(databaseName, querySql).then((results) => {
+      cy.databaseQuery(env, databaseName, querySql).then((results) => {
 
         const data = results.rows[0];
         console.log('Data retrieved:', data);
@@ -564,7 +600,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     containerName = 'ffc-doc-statement-constructor-development';
     databaseName = 'ffc-doc-statement-constructor';
     sqlStatement = 'SELECT * FROM "d365"';
-    cy.databaseQuery(databaseName, sqlStatement).then((results) => {
+    cy.databaseQuery(env, databaseName, sqlStatement).then((results) => {
 
       for (let i=0; i<results.rows.length; i++) {
 
@@ -587,7 +623,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     databaseName = 'ffc-doc-statement-generator';
     sqlStatement = 'SELECT * FROM "outbox"';
 
-    cy.databaseQuery(databaseName, sqlStatement).then((results) => {
+    cy.databaseQuery(env, databaseName, sqlStatement).then((results) => {
       for (let i=0; i<results.rows.length; i++) {
 
         if (results.rows.length > 19) {
