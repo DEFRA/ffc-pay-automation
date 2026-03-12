@@ -62,7 +62,7 @@ Feature: 02 Request Editor
     @test
     Examples:
       | frn        |
-      | 1102142158 |
+      | 1101991879 |
 
     @dev
     Examples:
@@ -127,17 +127,17 @@ Feature: 02 Request Editor
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I select 'COHT Capital' in the scheme dropdown
+    And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
     When I click the Scheme search button
-    Then each record in the table has the Scheme 'COHT Capital'
+    Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
 
   @test
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I select 'COHT Capital' in the scheme dropdown
+    And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
     When I click the Scheme search button
-    Then each record in the table has the Scheme 'COHT Capital'
+    Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
 
   @test @dev @local
   Scenario: 11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme
@@ -147,7 +147,7 @@ Feature: 02 Request Editor
     And I click the FRN number search button
     And I select 'SFI22' in the scheme dropdown
     When I click the Scheme search button
-    Then I take a screenshot for Feature 2 and Scenario 11
+    # Then I take a screenshot for Feature 2 and Scenario 11
     And each record in the table has the Scheme 'SFI22'
 
   @test @dev @local

@@ -7,9 +7,9 @@ const env = envConfig.env;
 console.log('Environment Config:', envConfig);
 
 
- var nextFRN;
- var nextContractNumber;
- var nextAgreementNumber;
+ let nextFRN;
+ let nextContractNumber;
+ let nextAgreementNumber;
 
 Given('I send the updated {string} message to the service bus topic {string}', (message, topicName) => {
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
@@ -462,16 +462,20 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
   switch (messageType) {
   case 'sfi23 payment':
     message = 'sfi23-paymentFileMessage'; break;
+  case 'sfi23 error':
+    message = 'sfi23Error-paymentFileMessage'; break;  
+  case 'sfi23 return':
+    message = 'sfi23-returnFileMessage'; break;  
   }
 
-  if (messageType.includes('payment')) {
+  if (messageType.includes('payment') || messageType.includes('error')) {
     sqlStatement = `SELECT
   MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "contractNumber"::text ~ '^[0-9]' THEN "contractNumber" END) AS max_contract,
   MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
   FROM "paymentRequests"`;
     databaseName = 'ffc-pay-processing';
-  }
+  
 
   cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
 
@@ -509,11 +513,45 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
       
     };
 
-      cy.sendMessage(message, topicName).then(() =>
+    cy.sendMessage(message, topicName).then(() =>
         cy.log(`Finished sending ${message} to topic: ${topicName}`));
       cy.wait(40000);
-    });
   });
+});
+
+   } else if(messageType.includes('return')) {
+
+    sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN;
+
+    cy.log("SQL statement = " + sqlStatement);
+    databaseName = 'ffc-pay-processing';
+  
+
+  cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const currentInvoiceNumber = result.rows[0].invoiceNumber;
+    cy.log(currentInvoiceNumber);
+
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        invoiceNumber: currentInvoiceNumber
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+
+   });
+  });
+}
 });
 
 Then(/^I confirm that payment test data in dev has been inserted into the (.*) database$/, (databaseName) => {
@@ -543,5 +581,95 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
 
     console.log(`✅ Test data has been inserted into the ${databaseName} database`);
     cy.log(`✅ Test data has been inserted into the ${databaseName} database`);
+  });
+});
+
+Then(/^I confirm that (.*) test data in dev has been inserted into the ffc-pay-processing database$/, (fileType) => {
+  var containerName;
+  var sqlStatement;
+
+  switch (fileType) {
+  case 'return': sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = ' + nextFRN; break;
+  case 'ppa': sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "paymentRequestId" = 2'; break;
+  case 'd365 rejection': sqlStatement = 'SELECT "holdCategoryId" FROM "holds" WHERE "holdId" = 1'; break;
+  case 'resubmission': sqlStatement = 'SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "completedPaymentRequestId" = 2'; break;
+  default:
+    throw new Error(`Unknown file type: ${fileType}`);
+  }
+
+  cy.log('Querying ffc-pay-processing with statement - ' + sqlStatement);
+
+  const databaseName = 'ffc-pay-processing';
+  containerName = 'ffc-pay-processing-ffc-pay-processing-1';
+  cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
+
+    cy.log('Results - ' + JSON.stringify(results));
+
+    if (fileType === 'd365 rejection') {
+
+      var holdCategoryId = results.rows[0].holdCategoryId;
+
+      if (holdCategoryId === 1) {
+        console.log('✅ Correct data has been added from ' + fileType + ' file');
+      } else {
+        throw new Error('Correct data has not been added from ' + fileType + ' file');
+      }
+    } else if (fileType === 'return') {
+
+      var settledValue = results.rows[0].settledValue;
+
+      if (settledValue != null) {
+        cy.log('✅ Settled value is ' + settledValue);
+        console.log('✅ Settled value is ' + settledValue);
+      }
+
+    } else {
+
+      if (results.rowCount === 1) {
+        console.log('✅ Correct data has been added from ' + fileType + ' file');
+      } else {
+        throw new Error('Correct data has not been added from ' + fileType + ' file');
+      }
+    }
+  });
+
+  cy.task('getDockerLogs', containerName).then((logs) => {
+    logs.split('\n').forEach((line) => {
+      if (line.trim()) {
+        console.log(line);
+      }
+    });
+  });
+  console.log(`✅ Test data was updated in the ${containerName} database`);
+  cy.log(`✅ Test data was updated in the ${containerName} database`);
+});
+
+Then(/^I confirm that payment test data in dev has not been inserted into the (.*) database$/, (databaseName) => {
+  var sqlStatement = '';
+  switch (databaseName) {
+  case 'ffc-pay-injection':
+    sqlStatement = 'SELECT * FROM "manualUploads" WHERE "uploadId" = 1';
+    break;
+  case 'ffc-pay-processing':
+    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN;
+    break;
+  case 'ffc-pay-submission':
+    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN;
+    break;
+  default:
+    throw new Error(`Unknown database: ${databaseName}`);
+  }
+
+  cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
+    const data = results.rows[0];
+    console.log('Data retrieved:', data);
+    if (results.rows.length > 0) {
+      throw new Error('Data was found in database');
+    } else {
+      console.log('✅ Data does not exist in the database');
+    }
+
+    console.log(`✅ Test data has not been inserted into the ${databaseName} database`);
+    cy.log(`✅ Test data has not been inserted into the ${databaseName} database`);
   });
 });
