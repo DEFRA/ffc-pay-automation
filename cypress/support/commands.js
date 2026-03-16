@@ -115,6 +115,10 @@ Cypress.Commands.add('uploadFileToBlobStorage', (container, dir, scheme) => {
   cy.task('uploadFileToBlobStorage', container, dir, scheme);
 });
 
+Cypress.Commands.add('commitTestFile', (service) => {
+  cy.task('commitTestFile', service);
+});
+
 
 Cypress.Commands.add('getDockerLogs', () => {
   cy.task('getDockerLogs').then((logs) => {

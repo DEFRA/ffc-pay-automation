@@ -492,3 +492,10 @@ Then (/^I confirm that "(.*)" error message has been generated$/, (error) => {
   });
 
 });
+
+Given (/^I add file containing dummy Github token to service "(.*)" and confirm that commit is rejected with correct error$/, (service) => {
+
+  cy.commitTestFile(service);
+  console.log('Confirmed that commit was rejected');
+  cy.log('Confirmed that commit was rejected');
+});

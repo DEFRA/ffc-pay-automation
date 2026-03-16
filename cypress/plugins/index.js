@@ -16,6 +16,7 @@ const generateJWT = require('../utils/generateJWT');
 const databaseQuery = require('../utils/databaseQuery');
 const databaseInsert = require('../utils/databaseInsert');
 const generateAccessToken = require('../utils/generateAccessToken');
+const commitTestFile = require('../utils/commitTestFile');
 
 
 
@@ -325,6 +326,11 @@ module.exports = (on, config) => {
         proc.on('error', reject);
 
       });
+    },
+
+    async commitTestFile (service) {
+      await commitTestFile(service);
+      return null;
     },
 
     loadReportData
