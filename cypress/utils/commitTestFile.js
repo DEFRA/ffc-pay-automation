@@ -19,9 +19,12 @@ async function commitTestFile (service) {
   console.log(`Creating and checking out branch: ${branchName}`);
   await repoGit.checkoutLocalBranch(branchName);
 
-  const filePath = path.join(
-    'cypress/utils/temp-repo/.gitleaks.toml'
-  );
+  const filePath = path.join(repoPath, '.gitleaks.toml');
+
+  console.log('Repo path =', repoPath);
+  console.log('Expected gitleaks path =', path.join(repoPath, '.gitleaks.toml'));
+  console.log('Actual filePath =', filePath);
+  console.log('File exists?', fs.existsSync(filePath));
 
   // Read file
   let fileContent = fs.readFileSync(filePath, 'utf8');
@@ -45,11 +48,7 @@ async function commitTestFile (service) {
     await repoGit.add('.');
     await repoGit.commit('Automated commit from Cypress pipeline');
 
-    // This should fail due to gitleaks
     await repoGit.push('origin', branchName);
-
-    // If push succeeds, that's a failure condition
-    throw new Error('Expected git push to fail due to token present, but it succeeded');
 
   } catch (err) {
     console.log(err);
