@@ -1,8 +1,73 @@
-@local
 Feature: 33 SFI22 Payments
 
 # This feature file is designed to test the end-to-end journey of SFI22 payment in the local environment.
 
+  @dev
+  Scenario: 01 insert incorrect SFI22 test data via service bus message to ffc-pay-request
+
+    Given I visit the "Request Editor" homepage
+    Then I take a screenshot for Feature 33 and Scenario 1
+    When I send "sfi22 error" test data message to the service bus topic "ffc-pay-request-dev"
+
+    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
+
+  @dev
+  Scenario: 02 insert test data via service bus message to ffc-pay-request
+
+  #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
+  #test data
+
+    Given I visit the "Request Editor" homepage
+
+  #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
+  #without the risk of data conflicts  
+
+    When I send "sfi22 payment" test data message to the service bus topic "ffc-pay-request-dev"
+
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+
+    Then I pull sfi22 payments file from Azure Blob Storage and confirm that correct values have been generated
+
+  #Updates template values with values used in payment message  
+
+    When I send "sfi22 return" test data message to the service bus topic "ffc-pay-return-dev"
+    Then I confirm that return test data in dev has been inserted into the ffc-pay-processing database
+
+  #Updates template values with values used in payment message
+
+    When I send "sfi22 ppa" test data message to the service bus topic "ffc-pay-request-dev"
+    Then I confirm that ppa test data in dev has been inserted into the ffc-pay-processing database
+
+  #The following steps complete the E2E journey in Request Editor using the values
+  #from payment file  
+
+    And I click on the "View awaiting reporting data" link
+    When I search for current FRN
+    And I click on the "Enrich" link
+    And I click on the "Irregular" debt type radio button
+    And I enter a valid debt discovered date in the past
+    And I click on the "Continue" button
+    And I click on the "Back" link
+    And I click on the "Sign Out" link
+
+    And I click on the "View awaiting ledger assignment" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes" provisional values radio button
+    And I click on the "Continue" button
+    And I am on the "quality-check" subpage
+    And I click on the "Sign Out" link
+
+    And I click on the "View awaiting quality check" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes" edited correctly radio button
+    Then I take a screenshot for Feature 33 and Scenario 2
+    And I click on the "Submit" button
+
+  @local
   Scenario: 01 insert incorrect SFI22 test data via service bus message to ffc-pay-request
 
  #First ensure that incorrect data will not be processed
@@ -13,6 +78,7 @@ Feature: 33 SFI22 Payments
     When I send the updated "sfi22Error-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 
+  @local
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
     When I send the updated "sfi22-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
@@ -28,6 +94,7 @@ Feature: 33 SFI22 Payments
 
     Then I pull sfi22 payments file from Azure Blob Storage and confirm that correct values have been generated
 
+  @local
   Scenario: 03 send return file message and confirm processing
 
 #This scenario confirms that a return file message can be sent and processed correctly
@@ -35,6 +102,7 @@ Feature: 33 SFI22 Payments
     When I send the updated "sfi22-returnFileMessage" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that return test data has been inserted into the ffc-pay-processing database
 
+  @local
   Scenario: 04 send SFI22 PPA file message and confirm processing
 
   #This scenario confirms that a PPA file message can be sent and processed correctly
@@ -42,6 +110,7 @@ Feature: 33 SFI22 Payments
     When I send the updated "sfi22-ppaFileMessage" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that ppa test data has been inserted into the ffc-pay-processing database
 
+  @local
   Scenario: 05 Approve payment from reporting data queue
 
   #This scenario confirms that payment has been routed to Request Editor and can be enriched from the reporting data queue
@@ -58,6 +127,7 @@ Feature: 33 SFI22 Payments
     And I click on the "Back" link
     And I click on the "Sign Out" link
 
+  @local
   Scenario: 06 Approve payment in ledger assignment queue
 
   #This scenario confirms that payment can be approved from the ledger assignment queue in Request Editor
@@ -73,6 +143,7 @@ Feature: 33 SFI22 Payments
     And I am on the "quality-check" subpage
     And I click on the "Sign Out" link
 
+  @local
   Scenario: 07 Approve payment from quality check queue
 
 #This scenario confirms that payment can be approved from the quality check queue in Request Editor and that E2E journey is complete

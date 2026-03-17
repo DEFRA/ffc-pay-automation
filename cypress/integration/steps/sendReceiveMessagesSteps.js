@@ -1,6 +1,7 @@
 /* global Given, When, Then */
 
 const { getEnvironmentConfig } = require('../../support/configLoader');
+import requestEditor from '../pages/requestEditorPage';
 
 const envConfig = getEnvironmentConfig();
 const env = envConfig.env;
@@ -10,6 +11,7 @@ console.log('Environment Config:', envConfig);
  let nextFRN;
  let nextContractNumber;
  let nextAgreementNumber;
+ let nextSBI;
 
 Given('I send the updated {string} message to the service bus topic {string}', (message, topicName) => {
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
@@ -454,19 +456,218 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
 
   //This step is specifically for dev
 
-  var message;
+  var messageTemplate;
   var sqlStatement;
   var databaseName;
 
 
   switch (messageType) {
   case 'sfi23 payment':
-    message = 'sfi23-paymentFileMessage'; break;
+    messageTemplate = 'sfi23-paymentFileMessage'; break;
   case 'sfi23 error':
-    message = 'sfi23Error-paymentFileMessage'; break;  
+    messageTemplate = 'sfi23Error-paymentFileMessage'; break;  
   case 'sfi23 return':
-    message = 'sfi23-returnFileMessage'; break;  
+    messageTemplate = 'sfi23-returnFileMessage'; break;  
+  case 'sfi23 ppa':
+    messageTemplate = 'sfi23-ppaFileMessage'; break;  
+  case 'sfi22 payment':
+    messageTemplate = 'sfi22-paymentFileMessage'; break;
+  case 'sfi22 error':
+    messageTemplate = 'sfi22Error-paymentFileMessage'; break;  
+  case 'sfi22 return':
+    messageTemplate = 'sfi22-returnFileMessage'; break;  
+  case 'sfi22 ppa':
+    messageTemplate = 'sfi22-ppaFileMessage'; break;  
+  case 'sfi pilot payment':
+    messageTemplate = 'sfiPilot-paymentFileMessage'; break;
+  case 'sfi pilot error':
+    messageTemplate = 'sfiPilotError-paymentFileMessage'; break;  
+  case 'sfi pilot return':
+    messageTemplate = 'sfiPilot-returnFileMessage'; break;  
+  case 'sfi pilot ppa':
+    messageTemplate = 'sfiPilot-ppaFileMessage'; break;  
+  case 'sfi expanded payment':
+    messageTemplate = 'sfiExpanded-paymentFileMessage'; break;
+  case 'sfi expanded error':
+    messageTemplate = 'sfiExpandedError-paymentFileMessage'; break;  
+  case 'sfi expanded return':
+    messageTemplate = 'sfiExpanded-returnFileMessage'; break;  
+  case 'sfi expanded ppa':
+    messageTemplate = 'sfiExpanded-ppaFileMessage'; break;  
+  case 'cs payment':
+    messageTemplate = 'cs-paymentFileMessage'; break;
+  case 'cs error':
+    messageTemplate = 'csError-paymentFileMessage'; break;  
+  case 'cs return':
+    messageTemplate = 'cs-returnFileMessage'; break;  
+  case 'cs ppa':
+    messageTemplate = 'cs-ppaFileMessage'; break; 
+  case 'cshtc payment':
+    messageTemplate = 'cohtc-paymentFileMessage'; break;
+  case 'cshtc error':
+    messageTemplate = 'cohtcError-paymentFileMessage'; break;  
+  case 'cshtc return':
+    messageTemplate = 'cohtc-returnFileMessage'; break;  
+  case 'cshtc ppa':
+    messageTemplate = 'cohtc-ppaFileMessage'; break  
+   case 'cshtr payment':
+    messageTemplate = 'cohtr-paymentFileMessage'; break;
+  case 'cshtr error':
+    messageTemplate = 'cohtrError-paymentFileMessage'; break;  
+  case 'cshtr return':
+    messageTemplate = 'cohtr-returnFileMessage'; break;  
+  case 'cshtr ppa':
+    messageTemplate = 'cohtr-ppaFileMessage'; break  
+  case 'delinked payment':
+    messageTemplate = 'delinked-paymentFileMessage'; break;
+  case 'delinked error':
+    messageTemplate = 'delinkedError-paymentFileMessage'; break;  
+  case 'delinked return':
+    messageTemplate = 'delinked-returnFileMessage'; break;  
+  case 'delinked ppa':
+    messageTemplate = 'delinked-ppaFileMessage'; break 
+  case 'lump sums payment':
+    messageTemplate = 'lumpSums-paymentFileMessage'; break;
+  case 'lump sums error':
+    messageTemplate = 'lumpSumsError-paymentFileMessage'; break;  
+  case 'lump sums return':
+    messageTemplate = 'lumpSums-returnFileMessage'; break;  
+  case 'lump sums ppa':
+    messageTemplate = 'lumpSums-ppaFileMessage'; break  
+  case 'bps payment':
+    messageTemplate = 'bps-paymentFileMessage'; break;
+  case 'bps error':
+    messageTemplate = 'bpsError-paymentFileMessage'; break;  
+  case 'bps return':
+    messageTemplate = 'bps-returnFileMessage'; break;  
+  case 'bps ppa':
+    messageTemplate = 'bps-ppaFileMessage'; break
+  case 'glos payment':
+    messageTemplate = 'glos-paymentFileMessage'; break;
+  case 'glos error':
+    messageTemplate = 'glosError-paymentFileMessage'; break;  
+  case 'glos return':
+    messageTemplate = 'glos-returnFileMessage'; break;  
+  case 'glos ppa':
+    messageTemplate = 'glos-ppaFileMessage'; break     
   }
+
+  if (messageType.includes('glos')){
+
+    if (messageType.includes('payment') || messageType.includes('error')) {
+    sqlStatement = `SELECT
+  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+  MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi
+  FROM "paymentRequests"`;
+    databaseName = 'ffc-pay-processing'
+
+       cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const row = result.rows?.[0];
+
+  if (!row) {
+    throw new Error('No rows returned from database query');
+  }
+
+  const {
+    max_frn,
+    max_sbi
+  } = row;
+
+  cy.log(max_frn, max_sbi);
+
+
+    console.log("Max FRN:", max_frn);
+    console.log("Max CONTRACT:", max_sbi);
+
+    nextFRN = parseInt(max_frn) + 1;
+    nextSBI = parseInt(max_sbi) + 1;
+
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  let name = "";
+
+  for (let i = 0; i < 8; i++) {
+    const index = Math.floor(Math.random() * letters.length);
+    name += letters[index];
+  }
+
+    //The following section maps frn to sbi to allow payment request
+
+    var message =
+    {
+      sbi: nextSBI.toString(),
+      addressLine1: Math.floor(100 + Math.random() * 900) + ' Fake Street',
+      addressLine2: 'Faketown',
+      addressLine3: 'Fake District',
+      city: 'Glasgow',
+      county: 'Glasgow',
+      postcode: 'G1 1AB',
+      emailAddress: name + '@gmail.com',
+      frn: nextFRN,
+      name: 'Test Farm',
+      updated: "28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS"
+    };
+
+    const customerTopic = 'ffc-pay-customer-dev'
+
+    cy.sendMessage(message, customerTopic).then(() =>
+        cy.log(`Finished sending ${message} to topic`));
+      cy.wait(40000);
+        });
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+   
+
+      var message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        sbi: nextSBI.toString(),
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+        });
+
+} else if(messageType.includes('return')) {
+
+    sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN;
+
+    cy.log("SQL statement = " + sqlStatement);
+    databaseName = 'ffc-pay-processing';
+  
+
+  cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const currentInvoiceNumber = result.rows[0].invoiceNumber;
+    cy.log(currentInvoiceNumber);
+
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        invoiceNumber: currentInvoiceNumber
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+
+   });
+  });
+}
+
+
+  } else {
 
   if (messageType.includes('payment') || messageType.includes('error')) {
     sqlStatement = `SELECT
@@ -498,7 +699,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
     console.log("Max CONTRACT:", max_contract);
     console.log("Max AGREEMENT_NUMBER:", max_agreement_number);
 
-    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
     cy.readFile(inputFilePath).then((template) => {
       nextFRN = parseInt(max_frn) + 1;
       nextContractNumber = parseInt(max_contract) + 1;
@@ -533,7 +734,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
     cy.log(currentInvoiceNumber);
 
 
-    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
     cy.readFile(inputFilePath).then((template) => {
       
 
@@ -551,7 +752,30 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
 
    });
   });
+} else if (messageType.includes('ppa')) {
+
+   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        contractNumber: nextContractNumber.toString(),
+        agreementNumber: nextAgreementNumber.toString()
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+  });
 }
+  }
+
+console.log('Sent ' + messageType + ' message to service bus topic ' + topicName);
+cy.log('Sent ' + messageType + ' message to service bus topic ' + topicName);
+
 });
 
 Then(/^I confirm that payment test data in dev has been inserted into the (.*) database$/, (databaseName) => {
@@ -590,7 +814,7 @@ Then(/^I confirm that (.*) test data in dev has been inserted into the ffc-pay-p
 
   switch (fileType) {
   case 'return': sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = ' + nextFRN; break;
-  case 'ppa': sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "paymentRequestId" = 2'; break;
+  case 'ppa': sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN; break;
   case 'd365 rejection': sqlStatement = 'SELECT "holdCategoryId" FROM "holds" WHERE "holdId" = 1'; break;
   case 'resubmission': sqlStatement = 'SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "completedPaymentRequestId" = 2'; break;
   default:
@@ -621,6 +845,14 @@ Then(/^I confirm that (.*) test data in dev has been inserted into the ffc-pay-p
       if (settledValue != null) {
         cy.log('✅ Settled value is ' + settledValue);
         console.log('✅ Settled value is ' + settledValue);
+      }
+
+    }else if (fileType === 'ppa') {
+
+      if (results.rowCount === 2) {
+        console.log('✅ Correct data has been added from ' + fileType + ' file');
+      } else {
+        throw new Error('Correct data has not been added from ' + fileType + ' file');
       }
 
     } else {
@@ -672,4 +904,12 @@ Then(/^I confirm that payment test data in dev has not been inserted into the (.
     console.log(`✅ Test data has not been inserted into the ${databaseName} database`);
     cy.log(`✅ Test data has not been inserted into the ${databaseName} database`);
   });
+});
+
+When(/^I search for current FRN$/, () => {
+
+  requestEditor.getFrnSearchField().type(nextFRN);
+  requestEditor.getFrnSearchButton().click();
+  console.log('Searched for current FRN - ' + nextFRN);
+  cy.log('Searched for current FRN - ' + nextFRN);
 });

@@ -33,16 +33,16 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   case 'genesis': partialFileName = 'outbound/FFCES_0001'; break;
   case 'dps': partialFileName = 'outbound/FFCBGAN2023'; break;
   case 'vet visits': partialFileName = 'outbound/FFCVV_0001'; break;
-  case 'cohtr': partialFileName = 'outbound/FFCSITICOHTR_0001'; break;
-  case 'cohtc': partialFileName = 'outbound/FFCSITICOHTC_0001'; break;
-  case 'cs': partialFileName = 'outbound/FFCCS_0001'; break;
-  case 'bps': partialFileName = 'outbound/FFCBPS_0001'; break;
-  case 'lump sums': partialFileName = 'outbound/FFCLS_0001'; break;
-  case 'sfi expanded': partialFileName = 'outbound/FFCESFIO_0001'; break;
-  case 'delinked': partialFileName = 'outbound/FFCDP_0001'; break;
-  case 'sfi pilot': partialFileName = 'outbound/FFCSFIP_0001'; break;
+  case 'cohtr': partialFileName = 'outbound/FFCSITICOHTR_'; break;
+  case 'cohtc': partialFileName = 'outbound/FFCSITICOHTC_'; break;
+  case 'cs': partialFileName = 'outbound/FFCCS_'; break;
+  case 'bps': partialFileName = 'outbound/FFCBPS_'; break;
+  case 'lump sums': partialFileName = 'outbound/FFCLS_'; break;
+  case 'sfi expanded': partialFileName = 'outbound/FFCESFIO_'; break;
+  case 'delinked': partialFileName = 'outbound/FFCDP_'; break;
+  case 'sfi pilot': partialFileName = 'outbound/FFCSFIP_'; break;
   case 'sfi23': partialFileName = 'outbound/FFCSFIA_'; break;
-  case 'sfi22': partialFileName = 'outbound/FFCSFI_0001'; break;
+  case 'sfi22': partialFileName = 'outbound/FFCSFI_'; break;
   case 'manual': partialFileName = 'outbound/FFCPMAN_SFIA_0001'; break;
   case 'ppa scenarios payments': partialFileName = 'outbound/FFCESFIO_0001'; break;
   case 'ppa scenarios topups': partialFileName = 'outbound/FFCESFIO_0002'; break;
@@ -103,7 +103,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   console.log('Blob name = ' + highestBlob);
 
   if (!highestBlob) {
-    throw new Error(`⚠️ No blobs found matching the partial name: "${highestBlob}"`);
+    throw new Error(`⚠️ No blobs found matching the partial name: "${partialFileName}"`);
   }
 
   console.log(`Matched Blob: ${highestBlob.name}`);

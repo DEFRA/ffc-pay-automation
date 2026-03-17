@@ -11,6 +11,61 @@ Feature: 32 SFI23 Payments
     Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
     Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
 
+  @dev
+  Scenario: 02 insert test data via service bus message to ffc-pay-request
+
+  #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
+  #test data
+
+    Given I visit the "Request Editor" homepage
+
+  #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
+  #without the risk of data conflicts  
+
+    When I send "sfi23 payment" test data message to the service bus topic "ffc-pay-request-dev"
+
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+
+    Then I pull sfi23 payments file from Azure Blob Storage and confirm that correct values have been generated
+
+  #Updates template values with values used in payment message  
+
+    When I send "sfi23 return" test data message to the service bus topic "ffc-pay-return-dev"
+    Then I confirm that return test data in dev has been inserted into the ffc-pay-processing database
+
+  #Updates template values with values used in payment message
+
+    When I send "sfi23 ppa" test data message to the service bus topic "ffc-pay-request-dev"
+    Then I confirm that ppa test data in dev has been inserted into the ffc-pay-processing database
+
+  #The following steps complete the E2E journey in Request Editor using the values
+  #from payment file  
+
+    And I click on the "View awaiting reporting data" link
+    When I search for current FRN
+    And I click on the "Enrich" link
+    And I click on the "Irregular" debt type radio button
+    And I enter a valid debt discovered date in the past
+    And I click on the "Continue" button
+    And I click on the "Back" link
+    And I click on the "Sign Out" link
+
+    And I click on the "View awaiting ledger assignment" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes" provisional values radio button
+    And I click on the "Continue" button
+    And I am on the "quality-check" subpage
+    And I click on the "Sign Out" link
+
+    And I click on the "View awaiting quality check" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes" edited correctly radio button
+    Then I take a screenshot for Feature 32 and Scenario 2
+    And I click on the "Submit" button
+
   @local
   Scenario: 01 insert incorrect SFI23 test data via service bus message to ffc-pay-request
 
@@ -21,22 +76,6 @@ Feature: 32 SFI23 Payments
     Then I take a screenshot for Feature 32 and Scenario 1
     When I send the updated "sfi23Error-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
-
-
-  @dev
-  Scenario: 02 insert test data via service bus message to ffc-pay-request
-
-    Given I visit the "Request Editor" homepage
-    When I send "sfi23 payment" test data message to the service bus topic "ffc-pay-request-dev"
-
-    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
-    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
-
-    Then I pull sfi23 payments file from Azure Blob Storage and confirm that correct values have been generated
-
-    When I send "sfi23 return" test data message to the service bus topic "ffc-pay-return-dev"
-    Then I confirm that return test data in dev has been inserted into the ffc-pay-processing database
-
 
   @local
   Scenario: 02 insert test data via service bus message to ffc-pay-request
