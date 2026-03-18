@@ -12,6 +12,9 @@ console.log('Environment Config:', envConfig);
  let nextContractNumber;
  let nextAgreementNumber;
  let nextSBI;
+ let nextVendor;
+ let nextTrader;
+ let nextInvoiceNumber;
 
 Given('I send the updated {string} message to the service bus topic {string}', (message, topicName) => {
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
@@ -550,7 +553,33 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
     messageTemplate = 'glos-returnFileMessage'; break;  
   case 'glos ppa':
     messageTemplate = 'glos-ppaFileMessage'; break     
+  case 'vet visits payment':
+    messageTemplate = 'vetVisits-paymentFileMessage'; break;
+  case 'vet visits error':
+    messageTemplate = 'vetVisitsError-paymentFileMessage'; break;  
+  case 'vet visits return':
+    messageTemplate = 'vetVisits-returnFileMessage'; break;  
+  case 'vet visits ppa':
+    messageTemplate = 'vetVisits-ppaFileMessage'; break
+  case 'genesis payment':
+    messageTemplate = 'genesis-paymentFileMessage'; break;
+  case 'genesis error':
+    messageTemplate = 'genesisError-paymentFileMessage'; break;  
+  case 'genesis return':
+    messageTemplate = 'genesis-returnFileMessage'; break;  
+  case 'genesis ppa':
+    messageTemplate = 'genesis-ppaFileMessage'; break   
+  case 'imps payment':
+    messageTemplate = 'imps-paymentFileMessage'; break;
+  case 'imps error':
+    messageTemplate = 'impsError-paymentFileMessage'; break;  
+  case 'imps return':
+    messageTemplate = 'imps-returnFileMessage'; break;  
+  case 'imps ppa':
+    messageTemplate = 'imps-ppaFileMessage'; break     
   }
+
+  ///////////////////////////////////GLOS SECTION///////////////////////////////////////////////////
 
   if (messageType.includes('glos')){
 
@@ -596,16 +625,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
     var message =
     {
       sbi: nextSBI.toString(),
-      addressLine1: Math.floor(100 + Math.random() * 900) + ' Fake Street',
-      addressLine2: 'Faketown',
-      addressLine3: 'Fake District',
-      city: 'Glasgow',
-      county: 'Glasgow',
-      postcode: 'G1 1AB',
-      emailAddress: name + '@gmail.com',
-      frn: nextFRN,
-      name: 'Test Farm',
-      updated: "28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS"
+      frn: nextFRN
     };
 
     const customerTopic = 'ffc-pay-customer-dev'
@@ -665,6 +685,262 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
    });
   });
 }
+
+//////////////////////////////////VET VISITS SECTION///////////////////////////////////////////////////
+
+  } else if (messageType.includes('vet visits')) {
+
+    if (messageType.includes('payment') || messageType.includes('error')) {
+    sqlStatement = `SELECT
+  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+  MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
+  MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
+  FROM "paymentRequests"`;
+    databaseName = 'ffc-pay-processing';
+  
+
+  cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const row = result.rows?.[0];
+
+  if (!row) {
+    throw new Error('No rows returned from database query');
+  }
+
+  const {
+    max_frn,
+    max_sbi,
+    max_agreement_number
+  } = row;
+
+  cy.log(max_frn, max_sbi, max_agreement_number);
+
+
+    console.log("Max FRN:", max_frn);
+    console.log("Max SBI:", max_sbi);
+    console.log("Max AGREEMENT_NUMBER:", max_agreement_number);
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      nextFRN = parseInt(max_frn) + 1;
+      nextSBI = parseInt(max_sbi) + 1;
+      nextAgreementNumber = parseInt(max_agreement_number) + 1;
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        sbi: nextSBI.toString(),
+        agreementNumber: nextAgreementNumber.toString()
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+  });
+});
+
+   } else if(messageType.includes('return')) {
+
+    sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN;
+
+    cy.log("SQL statement = " + sqlStatement);
+    databaseName = 'ffc-pay-processing';
+  
+
+  cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const currentInvoiceNumber = result.rows[0].invoiceNumber;
+    cy.log(currentInvoiceNumber);
+
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        invoiceNumber: currentInvoiceNumber
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+
+   });
+  });
+}
+
+///////////////////////////////////GENESIS SECTION////////////////////////////////////////////////////
+
+  } else if (messageType.includes('genesis')){
+
+    if (messageType.includes('payment') || messageType.includes('error')) {
+    sqlStatement = `SELECT
+  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+  MAX(CASE WHEN "vendor"::text ~ '^[0-9]' THEN "vendor" END) AS max_vendor,
+  MAX(CASE WHEN "contractNumber"::text LIKE 'AG00%' THEN "contractNumber" END) AS max_contract_number
+  FROM "paymentRequests"`;
+    databaseName = 'ffc-pay-processing';
+  
+
+  cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const row = result.rows?.[0];
+
+  if (!row) {
+    throw new Error('No rows returned from database query');
+  }
+
+  const {
+    max_frn,
+    max_vendor,
+    max_contract_number
+  } = row;
+
+  cy.log(max_frn, max_vendor, max_contract_number);
+
+
+    console.log("Max FRN:", max_frn);
+    console.log("Max VENDOR:", max_vendor);
+    console.log("Max CONTRACT_NUMBER:", max_contract_number);
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      nextFRN = parseInt(max_frn) + 1;
+      nextVendor = parseInt(max_vendor) + 1;
+
+      const contractPrefix = max_contract_number.substring(0,2);
+      const contractSuffix = max_contract_number.substring(2, max_contract_number.length);
+
+      nextContractNumber = contractPrefix + '00' + (parseInt(contractSuffix) + 1).toString();
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        vendor: nextVendor.toString(),
+        contractNumber: nextContractNumber.toString()
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+  });
+});
+
+   } else if(messageType.includes('return')) {
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        transactionNumber: nextContractNumber
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+
+   });
+}
+
+////////////////////////////////////IMPS SECTION//////////////////////////////////////////////////////
+
+  } else if (messageType.includes('imps')){
+
+    if (messageType.includes('payment') || messageType.includes('error')) {
+    sqlStatement = `SELECT
+  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+  MAX(CASE WHEN trader LIKE 'J%' AND trader ~ 'J[0-9]+' THEN trader END) AS max_trader
+  FROM "paymentRequests"`;
+    databaseName = 'ffc-pay-processing';
+  
+
+  cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const row = result.rows?.[0];
+
+  if (!row) {
+    throw new Error('No rows returned from database query');
+  }
+
+  const {
+    max_frn,
+    max_trader
+  } = row;
+
+  cy.log(max_frn, max_trader);
+
+
+    console.log("Max FRN:", max_frn);
+    console.log("Max VENDOR:", max_trader);
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      nextFRN = parseInt(max_frn) + 1;
+
+      const traderPrefix = max_trader.substring(0,1);
+      const traderSuffix = max_trader.substring(2, max_trader.length)
+
+      nextTrader = traderPrefix + '0' + (parseInt(traderSuffix) + 1).toString();
+
+      nextInvoiceNumber = 'FVR/' + nextTrader;
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        trader: nextTrader.toString(),
+        invoiceNumber: nextInvoiceNumber.toString(),
+        invoiceLines: template.invoiceLines.map(line => ({
+    ...line,
+    invoiceNumber: nextInvoiceNumber.toString()
+    }))
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+  });
+});
+
+   } else if(messageType.includes('return')) {
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        trader: nextTrader.toString(),
+        transactionNumber: nextInvoiceNumber.toString()
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+
+   });
+}
+
+
+
+////////////////////////////////////ALL OTHER SCHEMES/////////////////////////////////////////////////
 
 
   } else {

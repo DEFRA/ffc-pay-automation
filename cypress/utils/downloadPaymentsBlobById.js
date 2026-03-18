@@ -28,11 +28,11 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
 
   var partialFileName = '';
   switch (scheme) {
-  case 'glos': partialFileName = 'outbound/FFCFC_0001';break;
-  case 'imps': partialFileName = 'outbound/FFCIMPS_0001'; break;
-  case 'genesis': partialFileName = 'outbound/FFCES_0001'; break;
+  case 'glos': partialFileName = 'outbound/FFCFC_';break;
+  case 'imps': partialFileName = 'outbound/FFCIMPS_'; break;
+  case 'genesis': partialFileName = 'outbound/FFCES_'; break;
   case 'dps': partialFileName = 'outbound/FFCBGAN2023'; break;
-  case 'vet visits': partialFileName = 'outbound/FFCVV_0001'; break;
+  case 'vet visits': partialFileName = 'outbound/FFCVV_'; break;
   case 'cohtr': partialFileName = 'outbound/FFCSITICOHTR_'; break;
   case 'cohtc': partialFileName = 'outbound/FFCSITICOHTC_'; break;
   case 'cs': partialFileName = 'outbound/FFCCS_'; break;
