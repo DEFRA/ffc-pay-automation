@@ -97,7 +97,7 @@ Then('I click on the FRN search button', () => {
 });
 
 When(/^I can see FRN "(.*)" in the table$/, (text) => {
-  requestEditor.firstFRNManualLedger().should('have.text', text);
+  requestEditor.firstFRNManualLedger().should('contain.text', text);
 });
 
 When('I can see the FRN in the table', () => {

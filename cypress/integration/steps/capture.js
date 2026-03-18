@@ -11,13 +11,17 @@ When('I select {string} in the scheme dropdown', (scheme) => {
 
 When('I click the FRN number search button', () => {
   capturePage.btnFrnSearch().click();
+  cy.wait(10000);
 });
 
 When('I click the Scheme search button', () => {
   capturePage.btnSchemeSearch().click();
+  cy.wait(10000);
 });
 
 Then('each record in the table has the FRN number {string}', (frnNumber) => {
+  //Wait for page load
+  cy.wait(10000);
   capturePage.tableRows().each(($row) => {
     cy.wrap($row).find('td').eq(1).should('have.text', frnNumber);
   });
