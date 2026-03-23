@@ -13,7 +13,6 @@
   "schedule": "Q4",
   "dueDate": "2023-12-01",
   "value": 100,
-  "correlationId": "2b14b6ff-fe41-4c66-b8c8-8750749f9310",
   "invoiceLines": [
     {
       "schemeCode": "80201",

@@ -13,7 +13,6 @@
     "schedule": "Q4",
     "dueDate": "2025-01-01",
     "value": 200000.00,
-    "correlationId": "f9aaec8c-1947-42a1-864e-0e74a90cafef",
     "invoiceLines": [
         {
             "schemeCode": "80101",

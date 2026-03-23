@@ -288,10 +288,10 @@ module.exports = (on, config) => {
 
     },
 
-    async databaseInsert ({databaseName, sqlStatement}) {
+    async databaseInsert ({env, databaseName, sqlStatement}) {
 
       console.log('🔍 Inserting Database values');
-      return databaseInsert(databaseName, sqlStatement);
+      return databaseInsert(env, databaseName, sqlStatement);
 
     },
 

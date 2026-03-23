@@ -75,7 +75,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 2
@@ -106,7 +106,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 3
@@ -137,7 +137,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 4
@@ -168,7 +168,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 5
@@ -199,7 +199,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 6
@@ -230,7 +230,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 7
@@ -261,7 +261,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 8
@@ -292,7 +292,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 9
@@ -323,7 +323,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 10
@@ -354,7 +354,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 11
@@ -385,7 +385,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 12
@@ -416,7 +416,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 13
@@ -447,7 +447,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 14
@@ -478,7 +478,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 15
@@ -509,7 +509,7 @@ Feature: 43 Payment Alerts
     Then I should see "Demographics Update Failed"
     Then I should see "Event Save Alert"
     Then I should see "Table Create Alert"
-    # Then I should see "Responses Processing Failed"
+    Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 16
