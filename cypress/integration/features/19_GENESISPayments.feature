@@ -45,7 +45,6 @@ Feature: 19 GENESIS Payments
   @local
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-    Given I restart the local environment
     When I send the updated "genesis-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data

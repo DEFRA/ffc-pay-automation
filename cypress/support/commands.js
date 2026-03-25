@@ -99,8 +99,8 @@ Cypress.Commands.add('databaseQuery', (env, databaseName, sqlStatement) => {
   cy.task('databaseQuery', env, databaseName, sqlStatement);
 });
 
-Cypress.Commands.add('databaseInsert', (databaseName, sqlStatement) => {
-  cy.task('databaseInsert', databaseName, sqlStatement);
+Cypress.Commands.add('databaseInsert', (env, databaseName, sqlStatement) => {
+  cy.task('databaseInsert', env, databaseName, sqlStatement);
 });
 
 Cypress.Commands.add('fetchStatementsBlobById', (container, dir, year) => {

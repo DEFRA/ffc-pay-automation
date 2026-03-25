@@ -1,4 +1,3 @@
-@local
 Feature: 16 GLOS Payments
 
 # This feature file is designed to test the end-to-end journey of GLOS payment in the local environment.
@@ -45,7 +44,6 @@ Feature: 16 GLOS Payments
   @local
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-    Given I restart the local environment
     When I send the updated "glos-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data

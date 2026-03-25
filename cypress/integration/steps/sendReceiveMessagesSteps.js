@@ -550,33 +550,25 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
   case 'glos error':
     messageTemplate = 'glosError-paymentFileMessage'; break;  
   case 'glos return':
-    messageTemplate = 'glos-returnFileMessage'; break;  
-  case 'glos ppa':
-    messageTemplate = 'glos-ppaFileMessage'; break     
+    messageTemplate = 'glos-returnFileMessage'; break;      
   case 'vet visits payment':
     messageTemplate = 'vetVisits-paymentFileMessage'; break;
   case 'vet visits error':
     messageTemplate = 'vetVisitsError-paymentFileMessage'; break;  
   case 'vet visits return':
     messageTemplate = 'vetVisits-returnFileMessage'; break;  
-  case 'vet visits ppa':
-    messageTemplate = 'vetVisits-ppaFileMessage'; break
   case 'genesis payment':
     messageTemplate = 'genesis-paymentFileMessage'; break;
   case 'genesis error':
     messageTemplate = 'genesisError-paymentFileMessage'; break;  
   case 'genesis return':
-    messageTemplate = 'genesis-returnFileMessage'; break;  
-  case 'genesis ppa':
-    messageTemplate = 'genesis-ppaFileMessage'; break   
+    messageTemplate = 'genesis-returnFileMessage'; break;    
   case 'imps payment':
     messageTemplate = 'imps-paymentFileMessage'; break;
   case 'imps error':
     messageTemplate = 'impsError-paymentFileMessage'; break;  
   case 'imps return':
-    messageTemplate = 'imps-returnFileMessage'; break;  
-  case 'imps ppa':
-    messageTemplate = 'imps-ppaFileMessage'; break     
+    messageTemplate = 'imps-returnFileMessage'; break;     
   }
 
   ///////////////////////////////////GLOS SECTION///////////////////////////////////////////////////
