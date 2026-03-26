@@ -21,8 +21,8 @@ Given(/^I visit the "(.*)" homepage$/, (text) => {
     url = envConfig.paymentCalculatorUrl;
     break;
   }
-  cy.log("URL to open " + url);
-  console.log("URL to open " + url);
+  cy.log('URL to open ' + url);
+  console.log('URL to open ' + url);
 
   cy.visit(url);
   cy.wait(2000);
@@ -99,7 +99,7 @@ Then(/^I confirm there are no accessibility issues on the page$/, () => {
       cy.log(`Description: ${description}`);
       cy.log(`Help: ${help}`);
       cy.log(`More info: ${helpUrl}`);
-      cy.log(`Affected nodes:`);
+      cy.log('Affected nodes:');
 
       nodes.forEach(({ html, target }) => {
         cy.log(`  - HTML: ${html}`);
@@ -406,13 +406,13 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     switch (scenarioNumber) {
     case 1: scenarioString = '01 Confirm initial elements on View events page'; break;
     case 2: scenarioString = '02 Confirm initial elements on View processed payment requests page'; break;
-    case 3: scenarioString = '03 Load payment test data for later scenarios'; break;
-    case 4: scenarioString = '04 Search by FRN on View events page'; break;
-    case 5: scenarioString = '05 Search by Batch name on View events page'; break;
-    case 6: scenarioString = '06 Click View in Actions column and confirm page'; break;
-    case 7: scenarioString = '07 Confirm page elements when no results found'; break;
-    case 8: scenarioString = '08 View processed payment requests by scheme'; break;
-    case 9: scenarioString = '09 Confirm correct message when no results found'; break;
+    case 3: scenarioString = '03 Search by FRN on View events page'; break;
+    case 4: scenarioString = '04 Search by Batch name on View events page'; break;
+    case 5: scenarioString = '05 Click View in Actions column and confirm page'; break;
+    case 6: scenarioString = '06 Confirm page elements when no results found'; break;
+    case 7: scenarioString = '07 View processed payment requests by scheme'; break;
+    case 8: scenarioString = '08 Confirm correct message when no results found'; break;
+    case 9: scenarioString = '09 Confirm that payment request data is processed and ordered correctly'; break;
     }
     break;
   case 43: featureString = '43_PaymentAlerts.feature -- ';

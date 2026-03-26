@@ -36,7 +36,6 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
 });
 
 When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
-  const relativePath = `cypress/downloads/${text}.csv`;
 
   if (text === 'ffc-pay-mi-report-v2' || text === 'ffc-pay-hold-report' || text === 'ffc-pay-suppressed-report') {
     const relativePath = `cypress/downloads/${text}.csv`;
@@ -327,7 +326,7 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
 
   cy.wait(240000); // Waiting for the all payments to be processed and displayed on the Payment Status page
 
-  cy.get('a').contains("View payment status").scrollIntoView().click();
+  cy.get('a').contains('View payment status').scrollIntoView().click();
 
   const expectedFrns = ['1101264748', '1102172936', '1100510281', '1102368121', '1102468347',
     '1102383090', '1102316393', '1102353752', '1101123524', '1102420085', '1100064087', '1101327626',
@@ -942,12 +941,66 @@ Then (/^on the View events page I click the "(.*)"$/, (button) => {
   switch (button) {
   case 'frn search button': paymentEventMonitoringPage.searchByFRNButton().scrollIntoView().click(); break;
   case 'batch search button': paymentEventMonitoringPage.searchByBatchButton().scrollIntoView().click(); break;
-  case 'view link': paymentEventMonitoringPage.viewLink().scrollIntoView().click(); break;
-  default:
-    throw new Error('invalid button name');
+  case 'view link': cy.get(':nth-child(7) > a').then(($elements) => {
+    if ($elements.length > 0) {
+      $elements[0].click(); // Native JS click on the first element
+    } else {
+      throw new Error('No elements found for selector - nth-child(7) > a');
+    }
+  });
+    break;
   }
   cy.log(`Clicked on the ${button} successfully`);
   console.log(`Clicked on the ${button} successfully`);
+});
+
+Then (/^on the View events page I confirm that rows are ordered correctly by payment request$/, () => {
+
+  paymentEventMonitoringPage.firstPaymentRequestNumber().should('be.visible').and('contain.text', '1');
+  paymentEventMonitoringPage.secondPaymentRequestNumber().should('be.visible').and('contain.text', '2');
+
+  console.log('Confirmed that rows are ordered correctly by payment request');
+  cy.log('Confirmed that rows are ordered correctly by payment request');
+});
+
+Then (/^on the View events page I confirm that "(.*)" of entry number "(.*)" in table is "(.*)"$/, (columnName, rowNumber, expectedValue) => {
+
+  let element;
+
+  const today = new Date();
+
+  let day = today.getDate();
+  let month = today.getMonth() + 1;
+  let year = today.getFullYear();
+
+  day = String(day).padStart(2, '0');
+  month = String(month).padStart(2, '0');
+
+  const formattedDate = `${day}/${month}/${year}`;
+
+  console.log(formattedDate);
+  cy.log(formattedDate);
+
+  switch (columnName) {
+  case 'scheme': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(1)'); break;
+  case 'agreement': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(2)'); break;
+  case 'payment request': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(3)'); break;
+  case 'value': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(4)'); break;
+  case 'status': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(5)'); break;
+  case 'last updated': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(6)');
+
+    console.log(formattedDate);
+    cy.log(formattedDate);
+    expectedValue = formattedDate;
+    break;
+
+  default:
+    throw new Error('invalid element');
+  }
+  element.should('be.visible').and('contain.text', expectedValue);
+
+  console.log('Confirmed value of table entry ' + rowNumber + ' is ' + expectedValue);
+  cy.log('Confirmed value of table entry ' + rowNumber + ' is ' + expectedValue);
 });
 
 Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
@@ -1083,7 +1136,7 @@ Then(/^on the Add new alert recipient page I confirm that all options are presen
   cy.document().then(doc => {
     const pageText = doc.body.innerText;
     stringsToCheck.forEach(str => {
-      const count = (pageText.match(new RegExp(str, "g")) || []).length;
+      const count = (pageText.match(new RegExp(str, 'g')) || []).length;
       expect(count, `Occurrences of "${str}"`).to.eq(15);
     });
   });
@@ -1119,7 +1172,7 @@ Then(/^on the Add new alert recipient page I confirm that only one set of option
   cy.document().then(doc => {
     const pageText = doc.body.innerText;
     stringsToCheck.forEach(str => {
-      const count = (pageText.match(new RegExp(str, "g")) || []).length;
+      const count = (pageText.match(new RegExp(str, 'g')) || []).length;
       expect(count, `Occurrences of "${str}"`).to.eq(1);
     });
   });
