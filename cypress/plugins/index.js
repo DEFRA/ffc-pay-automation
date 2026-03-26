@@ -10,15 +10,11 @@ const { spawn } = require('child_process');
 const loadReportData = require('../utils/loadReportData');
 const downloadStatementsBlobById = require('../utils/downloadStatementsBlobById');
 const downloadPaymentsBlobById = require('../utils/downloadPaymentsBlobById');
-const { exec } = require('child_process');
 const uploadFileToBlobStorage = require('../utils/uploadFileToBlobStorage');
 const generateJWT = require('../utils/generateJWT');
 const databaseQuery = require('../utils/databaseQuery');
 const databaseInsert = require('../utils/databaseInsert');
 const generateAccessToken = require('../utils/generateAccessToken');
-
-
-
 
 module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
