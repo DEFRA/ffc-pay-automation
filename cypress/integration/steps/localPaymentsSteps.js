@@ -7,7 +7,10 @@ const env = envConfig.env;
 console.log('Environment Config:', envConfig);
 
 Given('I restart the local environment', () => {
-  cy.restartLocalEnv();
+
+  if (env.includes('local')) {
+    cy.restartLocalEnv();
+  }
 });
 
 Given('I start ffc-pay-dps service', () => {
@@ -24,33 +27,51 @@ When(/^I insert (.*) test data into Batch Processor service$/, (schemeName) => {
 });
 
 Then(/^I confirm that payment test data has been inserted into the (.*) database$/, (databaseName) => {
-  var sqlStatement = '';
-  switch (databaseName) {
-  case 'ffc-pay-injection':
-    sqlStatement = 'SELECT * FROM "manualUploads" WHERE "uploadId" = 1';
-    break;
-  case 'ffc-pay-processing':
-    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
-    break;
-  case 'ffc-pay-submission':
-    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
-    break;
-  default:
-    throw new Error(`Unknown database: ${databaseName}`);
-  }
 
-  cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
-    const data = results.rows[0];
-    console.log('Data retrieved:', data);
-    if (results.rows.length > 0) {
-      console.log('✅ Data exists in the database');
-    } else {
-      throw new Error('Data is not in database');
+
+  if (databaseName === 'ffc-pay-injection') {
+    cy.get('#main-content > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)').invoke('text').then((text) => {
+      const sqlStatement = `SELECT * FROM "manualUploads" WHERE "filename" = '${text}'`;
+
+      cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
+        const data = results.rows[0];
+        console.log('Data retrieved:', data);
+        if (results.rows.length > 0) {
+          console.log('✅ Data exists in the database');
+        } else {
+          throw new Error('Data is not in database');
+        }
+      });
+    });
+
+
+  } else {
+
+    var sqlStatement = '';
+    switch (databaseName) {
+    case 'ffc-pay-processing':
+      sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
+      break;
+    case 'ffc-pay-submission':
+      sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
+      break;
+    default:
+      throw new Error(`Unknown database: ${databaseName}`);
     }
 
-    console.log(`✅ Test data has been inserted into the ${databaseName} database`);
-    cy.log(`✅ Test data has been inserted into the ${databaseName} database`);
-  });
+    cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
+      const data = results.rows[0];
+      console.log('Data retrieved:', data);
+      if (results.rows.length > 0) {
+        console.log('✅ Data exists in the database');
+      } else {
+        throw new Error('Data is not in database');
+      }
+    });
+  }
+
+  console.log(`✅ Test data has been inserted into the ${databaseName} database`);
+  cy.log(`✅ Test data has been inserted into the ${databaseName} database`);
 });
 
 Then(/^I confirm that payment test data has not been inserted into the (.*) database$/, (databaseName) => {

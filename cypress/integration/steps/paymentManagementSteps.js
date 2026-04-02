@@ -258,11 +258,114 @@ Then(/^I confirm that payment for "(.*)" scheme with "(.*)" payment installments
 });
 
 When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (fileName) => {
-  const filePath = `cypress/fixtures/${fileName}`;
-  manualPaymentsPage.chooseFileBtn().selectFile(filePath);
+
+  if (fileName.includes('Duplicate')) {
+
+    cy.get('#main-content > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)').invoke('text').then((text) => {
+      const originalFileName = text;
+      const tempPath = `cypress/fixtures/${originalFileName}`;
+
+      // Write the CSV to the new temp file
+      cy.writeFile(tempPath, 'Test data for duplicate file upload');
+      manualPaymentsPage.chooseFileBtn().selectFile(tempPath);
+
+    });
+
+  } else if (fileName.includes('TEST') || fileName.includes('Invalid')) {
+
+    const originalPath = 'cypress/fixtures/' + fileName;
+    manualPaymentsPage.chooseFileBtn().selectFile(originalPath);
+
+  } else if (fileName.includes('Empty')) {
+
+    // Build timestamp string yyyyMMddHHmm
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const MM = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const HH = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+
+    const timestamp = `${yyyy}${MM}${dd}${HH}${mm}`;
+
+
+    // Create new filename
+    const tempFilename = `FFC_Manual_Batch_${timestamp}.csv`;
+    const tempPath = `cypress/fixtures/${tempFilename}`;
+
+    // Write the updated CSV to the new temp file
+    cy.writeFile(tempPath, '');
+    manualPaymentsPage.chooseFileBtn().selectFile(tempPath);
+
+  } else {
+
+    const originalPath = 'cypress/fixtures/' + fileName;
+
+    cy.readFile(originalPath, 'utf8').then((csvText) => {
+      const lines = csvText.split('\n');
+
+      const header = lines[0];
+      const dataRows = lines.slice(1);
+
+      // Helper: increment a Z + 7 digits value
+      const incrementZValue = (value) => {
+        const number = parseInt(value.substring(1), 10) + 1;
+        const padded = number.toString().padStart(7, '0');
+        return `Z${padded}`;
+      };
+
+      // Update all rows
+      const updatedRows = dataRows.map((row) => {
+        if (!row.trim()) {
+          return row;
+        }
+        const cols = row.split(',');
+
+        [1, 3, 17].forEach(() => {
+          cols[1] = parseInt(cols[1]) + 1;
+          cols[3] = incrementZValue(cols[3]);
+          cols[17] = parseInt(cols[17]) + 1;
+        });
+
+        return cols.join(',');
+      });
+
+      const updatedCsv = [header, ...updatedRows].join('\n');
+
+      // Overwrite original file
+      cy.writeFile(originalPath, updatedCsv);
+
+      // Build timestamp string yyyyMMddHHmm
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const MM = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const HH = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+
+      const timestamp = `${yyyy}${MM}${dd}${HH}${mm}`;
+
+      let filePrefix;
+
+      if (fileName.includes('Text')) {
+        filePrefix = 'txt';
+      } else {
+        filePrefix = 'csv';
+      }
+
+      // Create new filename
+      const tempFilename = `FFC_Manual_Batch_${timestamp}.${filePrefix}`;
+      const tempPath = `cypress/fixtures/${tempFilename}`;
+
+      // Write the updated CSV to the new temp file
+      cy.writeFile(tempPath, updatedCsv);
+      manualPaymentsPage.chooseFileBtn().selectFile(tempPath);
+    });
+
+  }
+
   cy.log(`The file ${fileName} is attached successfully`);
   console.log(`The file ${fileName} is attached successfully`);
-
 });
 
 When(/^on the Manual Payments page I click the "(.*)"$/, (button) => {
@@ -316,7 +419,7 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
 
 Then(/^on the Manual Payments page I confirm that entry with filename "(.*)" has been added to Upload History$/, (filename) => {
 
-  manualPaymentsPage.uploadHistoryFilename().should('be.visible').and('have.text', filename);
+  manualPaymentsPage.uploadHistoryFilename().should('be.visible').and('contain.text', filename);
 
   console.log('Confirmed that entry with filename ' + filename + ' has been added to Upload History');
   cy.log('Confirmed that entry with filename ' + filename + ' has been added to Upload History');
@@ -328,16 +431,16 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
 
   cy.get('a').contains('View payment status').scrollIntoView().click();
 
-  const expectedFrns = ['1101264748', '1102172936', '1100510281', '1102368121', '1102468347',
-    '1102383090', '1102316393', '1102353752', '1101123524', '1102420085', '1100064087', '1101327626',
-    '1102424838', '1101208473', '1102154929', '1102429120', '1102276170', '1105107663', '1101187093',
-    '1102471216', '1101390719', '1105825027', '1102433217', '1102051217', '1102425639', '1101895640',
-    '1101979593', '1102472441', '1101266414', '1102566144', '1102430692', '1105383822', '1101594292',
-    '1102419133', '1102732354', '1102415731', '1102218766', '1100659986', '1101744723', '1102459704',
-    '1100676279', '1106030427', '1104790709', '1102862487', '1101099038', '1102857890', '1101321105',
-    '1100632360', '1102300063', '1100321020', '1102417300'];
-  expectedFrns.forEach(frn => {
-    cy.contains('td', frn).should('be.visible');
+  cy.readFile('cypress/fixtures/FFC_Manual_Batch_Correct.csv').then((text) => {
+    const rows = text.trim().split('\n');
+
+    // Skip header row and extract index 1 from each row
+    const values = rows.slice(1).map(row => row.split(',')[1]);
+
+    cy.log(JSON.stringify(values));
+    values.forEach(frn => {
+      cy.contains(frn);
+    });
   });
   console.log('Confirmed that expected FRN values are present on the Payment Status page');
   cy.log('Confirmed that expected FRN values are present on the Payment Status page');

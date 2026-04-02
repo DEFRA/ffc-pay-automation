@@ -1,4 +1,4 @@
-@local
+@local @dev
 Feature: 15 Manual Payments
  
 # This feature file is designed to test the Manual Payments page in Payment Management.
@@ -29,13 +29,13 @@ Feature: 15 Manual Payments
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payment" link
     Then I am on the "manual-payments" subpage
-    When on the Manual Payments page I enter "FFC_Manual_Batch_202309121043.csv" as the file to upload
+    When on the Manual Payments page I enter "FFC_Manual_Batch_Correct.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     Then on the Manual Payments page I confirm that "file upload confirmation message" is present
     Then on the Manual Payments page I confirm that "return button" is present
     Then I take a screenshot for Feature 15 and Scenario 02
     When on the Manual Payments page I click the "return button"
-    Then on the Manual Payments page I confirm that entry with filename "FFC_Manual_Batch_202309121043.csv" has been added to Upload History
+    Then on the Manual Payments page I confirm that entry with filename "FFC_Manual_Batch" has been added to Upload History
     Then I confirm that payment test data has been inserted into the ffc-pay-injection database
 
     Then I pull manual payments file from Azure Blob Storage and confirm that correct values have been generated
@@ -47,7 +47,7 @@ Feature: 15 Manual Payments
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payment" link
     Then I am on the "manual-payments" subpage
-    When on the Manual Payments page I enter "FFC_Manual_Batch_202309121043.csv" as the file to upload
+    When on the Manual Payments page I enter "FFC_Manual_Batch_Duplicate.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     Then on the Manual Payments page I confirm that "duplicate file error message" is present
     Then on the Manual Payments page I confirm that "error return button" is present
@@ -60,7 +60,7 @@ Feature: 15 Manual Payments
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payment" link
     Then I am on the "manual-payments" subpage
-    When on the Manual Payments page I enter "FFC_Manual_Batch_202309121043.txt" as the file to upload
+    When on the Manual Payments page I enter "FFC_Manual_Batch_Text.txt" as the file to upload
     When on the Manual Payments page I click the "upload button"
     Then on the Manual Payments page I confirm that "invalid file type error message" is present
     Then I take a screenshot for Feature 15 and Scenario 04
@@ -72,7 +72,7 @@ Feature: 15 Manual Payments
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payment" link
     Then I am on the "manual-payments" subpage
-    When on the Manual Payments page I enter "FFC_TEST_Manual_Batch_202309121043.csv" as the file to upload
+    When on the Manual Payments page I enter "FFC_TEST_Manual_BatchTEST.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     Then on the Manual Payments page I confirm that "invalid name error message" is present
     Then I take a screenshot for Feature 15 and Scenario 05
@@ -84,7 +84,7 @@ Feature: 15 Manual Payments
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payment" link
     Then I am on the "manual-payments" subpage
-    When on the Manual Payments page I enter "FFC_Manual_Batch_202309121044.csv" as the file to upload
+    When on the Manual Payments page I enter "FFC_Manual_Batch_Invalid.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     Then on the Manual Payments page I confirm that "invalid file size message" is present
     Then I take a screenshot for Feature 15 and Scenario 06
@@ -96,7 +96,7 @@ Feature: 15 Manual Payments
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payment" link
     Then I am on the "manual-payments" subpage
-    When on the Manual Payments page I enter "FFC_Manual_Batch_202309121045.csv" as the file to upload
+    When on the Manual Payments page I enter "FFC_Manual_Batch_Empty.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     Then on the Manual Payments page I confirm that "empty file message" is present
     Then I take a screenshot for Feature 15 and Scenario 07

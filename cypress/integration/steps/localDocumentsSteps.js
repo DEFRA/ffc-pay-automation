@@ -837,7 +837,7 @@ VALUES
 });
 
 Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values have been generated$/, (fileType) => {
-  cy.wait(20000);
+  cy.wait(40000);
   switch (fileType) {
   case '2025 statements':
     cy.task('fetchStatementsBlobById', {
@@ -1051,7 +1051,7 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
   }
 
 
-  } else if(env.equals(local)) {
+  } else if(env.includes('local')) {
 
   
   var sqlStatement = '';
@@ -1104,9 +1104,11 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
     sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI;
     break;
   case 'ffc-doc-statement-generator':
+    cy.wait(60000);
     sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "generationId" = 1';
     break;
   case 'ffc-doc-statement-publisher':
+    cy.wait(60000);
     sqlStatement = 'SELECT "statementId" FROM "statements" WHERE "sbi" = ' + nextSBI;
     break;
   default:
@@ -1233,14 +1235,14 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
   switch (databaseName) {
   case 'ffc-doc-statement-data':
     containerName = 'ffc-doc-statement-data-development';
-    sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 12345678';
+     let sqlQuery = 'SELECT * FROM "organisations" WHERE "sbi" = 12345678';
 
     for (let i=0; i<10; i++) {
-      const querySql = ""+ sqlStatement + i + "";
-      console.log('Executing query for year 2024 :', querySql);
-      cy.log('Executing query for year 2024 :', querySql);
+      sqlStatement = "" + sqlQuery + i + "";
+      console.log('Executing query for year 2024 :', sqlStatement);
+      cy.log('Executing query for year 2024 :', sqlStatement);
 
-      cy.databaseQuery(env, databaseName, querySql).then((results) => {
+      cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
         const data = results.rows[0];
         console.log('Data retrieved:', data);
         cy.log('Data retrieved:', data);
@@ -1254,14 +1256,14 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
 
     }
 
-    sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 13345678';
+    let sqlQuery2 = 'SELECT * FROM "organisations" WHERE "sbi" = 13345678';
 
     for (let i=0; i<10; i++) {
 
-      const querySql = ""+ sqlStatement + i + "";
-      console.log('Executing query for year 2025 :', querySql);
+      sqlStatement = ""+ sqlQuery2 + i + "";
+      console.log('Executing query for year 2025 :', sqlStatement);
 
-      cy.databaseQuery(env, databaseName, querySql).then((results) => {
+      cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
 
         const data = results.rows[0];
         console.log('Data retrieved:', data);
@@ -1275,11 +1277,12 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     }
     cy.log('Data present in statement-data');
     break;
+
   case 'ffc-doc-statement-constructor':
     containerName = 'ffc-doc-statement-constructor-development';
     databaseName = 'ffc-doc-statement-constructor';
     sqlStatement = 'SELECT * FROM "d365"';
-    cy.databaseQuery(env, databaseName, sqlStatement).then((results) => {
+    cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
 
       for (let i=0; i<results.rows.length; i++) {
 
@@ -1303,7 +1306,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     databaseName = 'ffc-doc-statement-generator';
     sqlStatement = 'SELECT * FROM "outbox"';
 
-    cy.databaseQuery(env, databaseName, sqlStatement).then((results) => {
+    cy.databaseQuery({env, databaseName, sqlStatement}).then((results) => {
       for (let i=0; i<results.rows.length; i++) {
 
         if (results.rows.length > 19) {

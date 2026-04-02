@@ -569,6 +569,14 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
     messageTemplate = 'impsError-paymentFileMessage'; break;  
   case 'imps return':
     messageTemplate = 'imps-returnFileMessage'; break;     
+  case 'fptt payment':
+    messageTemplate = 'fptt-paymentFileMessage'; break;
+  case 'fptt error':
+    messageTemplate = 'fpttError-paymentFileMessage'; break;  
+  case 'fptt return':
+    messageTemplate = 'fptt-returnFileMessage'; break;  
+  case 'fptt ppa':
+    messageTemplate = 'fptt-ppaFileMessage'; break; 
   }
 
   ///////////////////////////////////GLOS SECTION///////////////////////////////////////////////////
@@ -930,7 +938,134 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
    });
 }
 
+///////////////////////////////////FPTT SECTION//////////////////////////////////////////////////////
 
+  }else if (messageType.includes('fptt')) {
+
+    if (messageType.includes('payment') || messageType.includes('error')) {
+    sqlStatement = `SELECT
+  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+  MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
+  MAX(CASE WHEN "contractNumber" LIKE 'R%' AND "contractNumber" ~ 'R[0-9]+' THEN "contractNumber" END) AS max_contract_number,
+  MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
+  FROM "paymentRequests"`;
+    databaseName = 'ffc-pay-processing';
+  
+
+  cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const row = result.rows?.[0];
+
+  if (!row) {
+    throw new Error('No rows returned from database query');
+  }
+
+  const {
+    max_frn,
+    max_sbi,
+    max_contract_number,
+    max_agreement_number
+  } = row;
+
+  cy.log(max_frn, max_sbi, max_contract_number, max_agreement_number);
+
+
+    console.log("Max FRN:", max_frn);
+    console.log("Max SBI:", max_sbi);
+    console.log("Max CONTRACT:", max_contract_number);
+    console.log("Max AGREEMENT_NUMBER:", max_agreement_number);
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      nextFRN = parseInt(max_frn) + 1;
+      nextSBI = parseInt(max_sbi) + 1;
+
+      const contractPrefix = max_contract_number.substring(0,1);
+      const contractSuffix = max_contract_number.substring(1, max_contract_number.length);
+
+      nextContractNumber = contractPrefix + (parseInt(contractSuffix) + 1).toString();
+      nextAgreementNumber = parseInt(max_agreement_number) + 1;
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        sbi: nextSBI.toString(),
+        contractNumber: nextContractNumber.toString(),
+        agreementNumber: nextAgreementNumber.toString(),
+        invoiceNumber: nextContractNumber.toString() + '-V001Q1',
+        invoiceLines: template.invoiceLines.map(line => ({
+    ...line,
+    agreementNumber: nextAgreementNumber.toString()
+       }))
+      
+    };
+
+    cy.log('Message details = ' + message);
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+  });
+});
+
+   } else if(messageType.includes('return')) {
+
+    sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN;
+
+    cy.log("SQL statement = " + sqlStatement);
+    databaseName = 'ffc-pay-processing';
+  
+
+  cy.databaseQuery({env, sqlStatement, databaseName}).then((result) => {
+
+    const currentInvoiceNumber = result.rows[0].invoiceNumber;
+    cy.log(currentInvoiceNumber);
+
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+      
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        invoiceNumber: currentInvoiceNumber
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+
+   });
+  });
+} else if (messageType.includes('ppa')) {
+
+   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+    cy.readFile(inputFilePath).then((template) => {
+
+      const message =
+    {
+        ...template,
+        frn: nextFRN.toString(),
+        sbi: nextSBI.toString(),
+        contractNumber: nextContractNumber.toString(),
+        agreementNumber: nextAgreementNumber.toString(),
+        invoiceNumber: nextContractNumber.toString() + '-V002Q1',
+        invoiceLines: template.invoiceLines.map(line => ({
+    ...line,
+    agreementNumber: nextAgreementNumber.toString()
+       }))
+      
+    };
+
+    cy.sendMessage(message, topicName).then(() =>
+        cy.log(`Finished sending ${message} to topic: ${topicName}`));
+      cy.wait(40000);
+  });
+}
 
 ////////////////////////////////////ALL OTHER SCHEMES/////////////////////////////////////////////////
 
