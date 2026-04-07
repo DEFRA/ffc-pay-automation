@@ -1108,6 +1108,11 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
       nextContractNumber = parseInt(max_contract) + 1;
       nextAgreementNumber = parseInt(max_agreement_number) + 1;
 
+      Cypress.env('nextFRN', nextFRN);
+      Cypress.env('nextContractNumber', nextContractNumber);
+      Cypress.env('nextAgreementNumber', nextAgreementNumber);
+      
+
       const message =
     {
         ...template,
@@ -1135,6 +1140,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, async
 
     const currentInvoiceNumber = result.rows[0].invoiceNumber;
     cy.log(currentInvoiceNumber);
+    Cypress.env('currentInvoiceNumber', currentInvoiceNumber);
 
 
     const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;

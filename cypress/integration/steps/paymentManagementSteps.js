@@ -861,13 +861,13 @@ Then (/^on the Reset payment request page I confirm that "(.*)" is displayed$/, 
     resetPaymentRequestPage.resetButton().should('be.visible').and('have.attr', 'type', 'submit'); break;
   case 'payment request does not exist error':
     resetPaymentRequestPage.errorTitle().should('be.visible').and('contain.text', 'There is a problem');
-    resetPaymentRequestPage.errorMessage().should('be.visible').and('contain.text', 'Payment request S279591940653785V001 does not exist'); break;
+    resetPaymentRequestPage.errorMessage().should('be.visible').and('contain.text', 'Payment request', 'does not exist'); break;
   case 'enter a valid invoice number error':
     resetPaymentRequestPage.errorTitle().should('be.visible').and('contain.text', 'There is a problem');
     resetPaymentRequestPage.errorMessage().should('be.visible').and('contain.text', 'ValidationError: Enter a valid invoice number'); break;
   case 'payment request successfully reset message':
     resetPaymentRequestPage.successTitle().should('be.visible').and('contain.text', 'Payment request successfully reset');
-    resetPaymentRequestPage.successMessage().should('be.visible').and('contain.text', 'Invoice number', 'S279591940653785V001'); break;
+    resetPaymentRequestPage.successMessage().should('be.visible').and('contain.text', 'Invoice number'); break;
   case 'what happens next subheader':
     resetPaymentRequestPage.whatHappensNextSubheader().should('be.visible').and('contain.text', 'What happens next'); break;
   case 'what happens next message':
@@ -894,6 +894,14 @@ Then (/^on the Reset payment request page I enter "(.*)" into the "(.*)" field$/
   cy.log(`Entered ${text} into the ${field} field on the Reset payment request page`);
 });
 
+Then (/^on the Reset payment request page I use current invoice number in the invoice number field$/, () => {
+
+  const currentInvoiceNumber = 'S2795919' + Cypress.env('nextContractNumber').toString() + 'V001';
+
+  resetPaymentRequestPage.invoiceNumberField().scrollIntoView().type(currentInvoiceNumber);
+});
+
+
 Then (/^on the Reset payment request page I click the "(.*)"$/, (button) => {
   switch (button) {
   case 'reset button': resetPaymentRequestPage.resetButton().scrollIntoView().click(); break;
@@ -906,6 +914,11 @@ Then (/^on the Reset payment request page I click the "(.*)"$/, (button) => {
 });
 
 Then(/^I confirm that second completedPaymentRequest entry has been made in database for invoice number "(.*)"$/, (invoiceNumber) => {
+
+  if (invoiceNumber.includes('Current')) {
+    invoiceNumber = 'S2795919' + Cypress.env('nextContractNumber').toString() + 'V001';
+
+  }
   const sqlStatement = `SELECT * FROM "completedPaymentRequests" WHERE "invoiceNumber" = '${invoiceNumber}'`;
   const databaseName = 'ffc-pay-processing';
 

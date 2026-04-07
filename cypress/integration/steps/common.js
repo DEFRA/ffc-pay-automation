@@ -398,6 +398,7 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 1: scenarioString = '01 Confirm initial elements on Reset Payment Request page'; break;
     case 2: scenarioString = '02 Attempt to reset payment request using invoice number that does not exist in database'; break;
     case 3: scenarioString = '03 Attempt to reset payment request without entering an invoice number'; break;
+    case 4: scenarioString = '04 Load payment request data'; break;
     case 5: scenarioString = '05 Reset payment request using valid invoice number'; break;
     case 6: scenarioString = '06 Confirm that Perform another action link redirects correctly'; break;
     }
