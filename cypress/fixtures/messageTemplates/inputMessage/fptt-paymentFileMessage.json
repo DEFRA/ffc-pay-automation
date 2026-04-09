@@ -1,5 +1,6 @@
 {
     "sourceSystem": "FPTT",
+    "schemeId": 17,
     "ledger": "AP",
     "deliveryBody": "RP00",
     "frn": 1234567890,

@@ -43,12 +43,12 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   case 'sfi pilot': partialFileName = 'outbound/FFCSFIP_'; break;
   case 'sfi23': partialFileName = 'outbound/FFCSFIA_'; break;
   case 'sfi22': partialFileName = 'outbound/FFCSFI_'; break;
-  case 'manual': partialFileName = 'outbound/FFCPMAN_SFIA_0001'; break;
+  case 'manual': partialFileName = 'outbound/FFCPMAN_SFIA_'; break;
   case 'ppa scenarios payments': partialFileName = 'outbound/FFCESFIO_0001'; break;
   case 'ppa scenarios topups': partialFileName = 'outbound/FFCESFIO_0002'; break;
   case 'ppa scenarios reductions': partialFileName = 'outbound/FFCESFIO_0002'; break;
   case 'ppa scenarios recoveries': partialFileName = 'outbound/FFCESFIO_0002'; break;
-  case 'fptt': partialFileName = 'outbound/FFCFALS_FPTT_0001'; break;
+  case 'fptt': partialFileName = 'outbound/FFCFALS_FPTT_'; break;
   default: throw new Error(`Unknown scheme: ${scheme}`);
   }
 
@@ -57,7 +57,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
 
   if (scheme.includes('fptt') || scheme.includes('manual')) {
 
-    match = partialFileName.match(/outbound\/(.+?_)(?=\d)/);
+    match = partialFileName.match(/outbound\/(.+)/);
     subString = match ? match[1] : null;
 
   } else {
@@ -103,6 +103,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   console.log('Blob name = ' + highestBlob);
 
   if (!highestBlob) {
+    console.log('Substring = ' + subString);
     throw new Error(`⚠️ No blobs found matching the partial name: "${partialFileName}"`);
   }
 
@@ -128,7 +129,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
     '2015', 'SOS710', 'DRD05', 'FC00'
   ]; break;
   case 'imps': requiredValues = [
-    '2022', '25057', 'DOM00', 'RP00', 'J07494'
+    '2022', '25057', 'DOM00', 'RP00'
   ]; break;
   case 'genesis' : requiredValues = [
     '2022', 'SOS229', 'EXQ00', 'NE00'

@@ -36,18 +36,19 @@
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.bracketPairs": "active",
     "editor.guides.indentation": false,
-    "cucumberautocomplete.smartSnippets": true,
-    "cucumberautocomplete.steps": "cypress/integration/steps/*.js",
-    "cucumberautocomplete.syncfeatures": "cypress/integration/features/*.feature",
-    "cucumberautocomplete.strictGherkinCompletion": false,
-    "cucumberautocomplete.strictGherkinValidation": false,
-    "cucumberautocomplete.skipDocStringsFormat": false,
-    "cucumberautocomplete.onTypeFormat": true,
     "editor.quickSuggestions": {
       "comments": false,
       "strings": true,
       "other": true
     },
+
+    "cucumberautocomplete.steps": [
+    "cypress/e2e/steps/**/*.js"
+  ],
+    "cucumberautocomplete.syncfeatures": "cypress/e2e/features/**/*.feature",
+    "cucumberautocomplete.strictGherkinCompletion": true,
+    "cucumberautocomplete.smartSnippets": true,
+    "cucumberautocomplete.stepsInvariants": true,
     "conf.view.indentSymbol": "space",
     "conf.view.identsBefore.Feature": 0,
     "conf.view.identsBefore.Scenario": 2,

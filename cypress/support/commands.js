@@ -1,5 +1,5 @@
 
-import requestEditor from '../integration/pages/requestEditorPage';
+import requestEditor from '../e2e/pages/requestEditorPage';
 
 Cypress.Commands.add('emptyFolder', (folderPath) => {
   cy.task('emptyFolder', folderPath).then((status) => {

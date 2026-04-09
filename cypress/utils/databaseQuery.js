@@ -92,7 +92,7 @@ async function databaseQuery (env, database, statement) {
       throw error; // Ensure the error is thrown to be caught by Cypress
     }
 
-    console.log('Data retrieved from Event Hub - ' + data);
+    console.log('Data retrieved from Database - ' + data);
 
     return data;
 
