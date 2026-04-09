@@ -36,7 +36,7 @@ When(/^I insert (.*) test data into Statement Data service$/, (year) => {
   cy.log(sqlStatement);
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -189,7 +189,7 @@ When(/^I send bulk test data for (.*) into Statement Data service$/, (year) => {
   cy.log(sqlStatement);
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -399,7 +399,7 @@ When(/^I send incorrect test data into (.*) service$/, (databaseName) => {
   cy.log(sqlStatement);
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -504,7 +504,7 @@ cy.log(sqlStatement);
   cy.log(sqlStatement);
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -605,7 +605,7 @@ cy.log(sqlStatement);
   cy.log(sqlStatement);
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
   const row = result.rows?.[0];
 
@@ -659,7 +659,7 @@ cy.log(sqlStatement);
   cy.log(sqlStatement);
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -1084,7 +1084,7 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
 cy.log(sqlStatement);
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+    .then((results) => {
     cy.log('Results - ' + JSON.stringify(results));
 
     if (results.rowCount === 0) {
@@ -1144,7 +1144,7 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
 }
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+    .then((results) => {
     const data = results.rows[0];
     console.log('Data retrieved:', data);
     if (results.rows.length > 0) {
@@ -1176,7 +1176,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
       cy.log('Executing query :', sqlStatement);
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+        .then((results) => {
         const data = results.rows[0];
         console.log('Data retrieved:', data);
         cy.log('Data retrieved:', data);
@@ -1201,8 +1201,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     cy.log('Executing query :',  sqlStatement);
 
     cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
-
+      .then((results) => {
 
       if (results.rows.length > 0) {
           console.log('✅ Data exists in the database');
@@ -1210,7 +1209,6 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
         } else {
           throw new Error('Data is not in database');
         }
-
       });
       nextCalculationId--;
     }
@@ -1223,14 +1221,13 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     sqlStatement = `SELECT * FROM "generations" WHERE "addressLine2" = 'Area'`;
 
     cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+      .then((results) => {
 
         if (results.rows.length > 19) {
           console.log('✅ Data exists in the database');
         } else {
           throw new Error('Data is not in database');
         }
-
         console.log('Number of rows retrieved:', results.rows.length);
       });
   
@@ -1255,7 +1252,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
       cy.log('Executing query for year 2024 :', sqlStatement);
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+        .then((results) => {
         const data = results.rows[0];
         console.log('Data retrieved:', data);
         cy.log('Data retrieved:', data);
@@ -1277,7 +1274,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
       console.log('Executing query for year 2025 :', sqlStatement);
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+        .then((results) => {
 
         const data = results.rows[0];
         console.log('Data retrieved:', data);
@@ -1297,7 +1294,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     databaseName = 'ffc-doc-statement-constructor';
     sqlStatement = 'SELECT * FROM "d365"';
     cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+      .then((results) => {
 
       for (let i=0; i<results.rows.length; i++) {
 
@@ -1322,7 +1319,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     sqlStatement = 'SELECT * FROM "outbox"';
 
     cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+      .then((results) => {
       for (let i=0; i<results.rows.length; i++) {
 
         if (results.rows.length > 19) {

@@ -20,7 +20,7 @@ module.exports = defineConfig({
 
 
       // ---------------------------------------------------------
-      // ⭐ YOUR EXISTING TASKS (unchanged)
+      // Custom tasks for managing local environment and database interactions
       // ---------------------------------------------------------
 
       const fs2 = require("fs");
@@ -233,13 +233,11 @@ module.exports = defineConfig({
 
         loadReportData
       });
-
-      } catch (err) {
+    } catch (err) {
   console.error("TASK REGISTRATION FAILED:", err);
-}
-
+    }
   return config;
-},
+  },
   
     reporter: "mochawesome",
     reporterOptions: {

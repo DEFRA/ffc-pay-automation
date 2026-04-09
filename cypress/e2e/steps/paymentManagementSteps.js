@@ -924,7 +924,7 @@ Then(/^I confirm that second completedPaymentRequest entry has been made in data
   const databaseName = 'ffc-pay-processing';
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
     const data = result.rows;
     cy.log(`Found ${data.length} completedPaymentRequest entries for invoice number ${invoiceNumber}`);
     if (data.length >= 2) {

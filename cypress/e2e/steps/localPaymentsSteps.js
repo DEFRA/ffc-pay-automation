@@ -35,7 +35,7 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
       const sqlStatement = `SELECT * FROM "manualUploads" WHERE "filename" = '${text}'`;
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+        .then((results) => {
         const data = results.rows[0];
         console.log('Data retrieved:', data);
         if (results.rows.length > 0) {
@@ -62,7 +62,7 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
     }
 
     cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+      .then((results) => {
       const data = results.rows[0];
       console.log('Data retrieved:', data);
       if (results.rows.length > 0) {
@@ -84,7 +84,7 @@ Then(/^I confirm that payment test data has not been inserted into the (.*) data
   case 'ffc-pay-processing':
     sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
     cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+      .then((results) => {
       cy.log('Results - ' + JSON.stringify(results));
 
       if (results.rowCount === 0) {
@@ -115,7 +115,7 @@ Then('I confirm that {string} test data has been inserted into the {string} data
 
   containerName = 'ffc-pay-processing-ffc-pay-processing-1';
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+    .then((results) => {
 
     cy.log('Results - ' + JSON.stringify(results));
 
@@ -184,7 +184,7 @@ Then(/^I confirm that the settled value of (.*) is (.*) in database$/, (fileType
   }
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+    .then((results) => {
     cy.log('Results - ' + JSON.stringify(results));
     const value = results.rows[0].settledValue;
     console.log(`Actual Value: ${value}`);
@@ -259,7 +259,7 @@ Then(/^I confirm that (.*) event can be found in Event Hub Database$/, (eventTyp
   cy.log('Querying ' + databaseName + ' with Statement - ' + sqlStatement);
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((rows) => {
+    .then((rows) => {
     const results = JSON.stringify(rows, null, 2);
     console.log('Results ' + results);
 

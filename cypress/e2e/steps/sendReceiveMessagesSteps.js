@@ -592,7 +592,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
     databaseName = 'ffc-pay-processing'
 
        cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+        .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -663,7 +663,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const currentInvoiceNumber = result.rows[0].invoiceNumber;
     cy.log(currentInvoiceNumber);
@@ -703,7 +703,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -754,7 +754,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const currentInvoiceNumber = result.rows[0].invoiceNumber;
     cy.log(currentInvoiceNumber);
@@ -794,7 +794,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -874,7 +874,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -960,7 +960,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -1026,7 +1026,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const currentInvoiceNumber = result.rows[0].invoiceNumber;
     cy.log(currentInvoiceNumber);
@@ -1091,7 +1091,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const row = result.rows?.[0];
 
@@ -1147,7 +1147,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((result) => {
+    .then((result) => {
 
     const currentInvoiceNumber = result.rows[0].invoiceNumber;
     cy.log(currentInvoiceNumber);
@@ -1215,7 +1215,7 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
   }
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+    .then((results) => {
     const data = results.rows[0];
     console.log('Data retrieved:', data);
     if (results.rows.length > 0) {
@@ -1247,7 +1247,7 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
   const databaseName = 'ffc-pay-processing';
   containerName = 'ffc-pay-processing-ffc-pay-processing-1';
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+    .then((results) => {
 
     cy.log('Results - ' + JSON.stringify(results));
 
@@ -1315,7 +1315,7 @@ Then(/^I confirm that payment test data in dev has not been inserted into the (.
   }
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
-.then((results) => {
+    .then((results) => {
     const data = results.rows[0];
     console.log('Data retrieved:', data);
     if (results.rows.length > 0) {
