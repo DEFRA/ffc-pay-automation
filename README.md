@@ -39,7 +39,20 @@ In this mode, Cypress runs tests all tests at once and generates a HTML report a
 1. `npm run cypress:local:all` Runs all tests for the Local environment.
 2. `npm run cypress:dev:all` Runs all tests for the Dev environment.
 3. `npm run cypress:test:all` Runs all tests for the Test environment.
-<br>
-<br>
-<br>
-*Last updated: 9th September 2024*
+4. `npm run cypress:local:one` Runs specified feature file on Local environment e.g npm run cypress:local:one -- "cypress/e2e/features/41_ResetPaymentRequest.feature"
+4. `npm run cypress:dev:one` Runs specified feature file on Dev environment e.g npm run cypress:dev:one -- "cypress/e2e/features/41_ResetPaymentRequest.feature"
+4. `npm run cypress:test:one` Runs specified feature file on Test environment e.g npm run cypress:test:one -- "cypress/e2e/features/41_ResetPaymentRequest.feature"
+
+### Reporting
+
+Reporting is done through mocha. Reporting JSON will only generate when running in headless mode, for targeted testing of one feature file, the following script order should be used
+
+1. `npm run cypress:local:one` This will run the specified feature file and create mochawesome.json
+2. `npm run report:merge` This merges all mochawesome.json into file for next step
+3. `npm run report:html` This converts output from mochawesome.json into HTML report
+
+This can also be done for multiple feature files at once by using one of the :all scripts for step 1
+
+Screenshots are also taken by dedicated feature file lines, these can be found in cypress/screenshot as well as mp4 video files showing Cypress running the tests can be found in cypress/videos
+
+*Last updated: 9th April 2026*

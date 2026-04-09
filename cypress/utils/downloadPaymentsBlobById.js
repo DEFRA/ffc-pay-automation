@@ -129,7 +129,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
     '2015', 'SOS710', 'DRD05', 'FC00'
   ]; break;
   case 'imps': requiredValues = [
-    '2022', '25057', 'DOM00', 'RP00', 'J07494'
+    '2022', '25057', 'DOM00', 'RP00'
   ]; break;
   case 'genesis' : requiredValues = [
     '2022', 'SOS229', 'EXQ00', 'NE00'
