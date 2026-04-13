@@ -1,6 +1,9 @@
-Feature: 44 Future Payments Technical Test
+Feature: 44 Farm Payments Technical Test
 
-# This feature file is designed to test E2E journey of Future Payments Technical Test scheme
+# npm run cypress:dev:one -- "cypress\e2e\features\44_FarmPaymentsTechnicalTest.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\44_FarmPaymentsTechnicalTest.feature"
+
+# This feature file is designed to test E2E journey of Farm Payments Technical Test scheme
 
   @dev
   Scenario: 01 Confirm that payment request will be rejected if there is a value mismatch

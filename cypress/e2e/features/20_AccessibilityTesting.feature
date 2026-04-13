@@ -1,6 +1,9 @@
 @dev @test
 Feature: 20 Accessibility Testing
 
+# npm run cypress:test:one -- "cypress\e2e\features\20_AccessibilityTesting.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\20_AccessibilityTesting.feature"
+
 #This feature tests confirms that there are no accessibility issues on key pages of the front-end applications using axe-core
 
   Scenario: 01 Check accessibility on Payment management

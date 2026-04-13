@@ -1,5 +1,8 @@
 Feature: 33 SFI22 Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\33_SFI22Payments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\33_SFI22Payments.feature"
+
 # This feature file is designed to test the end-to-end journey of SFI22 payment in the local environment.
 
   @dev

@@ -1,6 +1,8 @@
 @dev
 Feature: 12 PPA E2E Journey - Debit
 
+# npm run cypress:dev:one -- "cypress\e2e\features\12_PPAE2EJourneyDebit.feature"
+
   Scenario Outline: 01 Send debit payment request message (payment1)
     Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I create a message with the filename "paymentFileMessage" and update the following keys:

@@ -11,6 +11,7 @@ let nextFRN;
 let nextSBI;
 let nextCalculationId;
 let nextApplicationId;
+let nextPaymentReference;
 
 Given(/^I restart and clear the local doc environment$/, () => {
   if (env.includes('local')) {
@@ -29,7 +30,8 @@ When(/^I insert (.*) test data into Statement Data service$/, (year) => {
     var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
-  (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id
+  (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id,
+  (SELECT MAX("paymentReference") FROM "d365") AS max_payment_reference
   FROM "organisations"`;
 
   console.log(sqlStatement);
@@ -48,22 +50,31 @@ When(/^I insert (.*) test data into Statement Data service$/, (year) => {
     max_frn,
     max_sbi,
     max_calculation_id,
-    max_application_id
+    max_application_id,
+    max_payment_reference
   } = row;
 
-  cy.log(max_frn, max_sbi, max_calculation_id, max_application_id);
+  cy.log(max_frn, max_sbi, max_calculation_id, max_application_id, max_payment_reference);
 
 
     console.log("Max FRN:", max_frn);
     console.log("Max CONTRACT:", max_sbi);
     console.log("Max CALCULATION ID:", max_calculation_id);
     console.log("Max APPLICATION ID:", max_application_id);
+    console.log("Max PAYMENT REFERENCE:", max_payment_reference);
 
     nextFRN = parseInt(max_frn) + 1;
     nextSBI = parseInt(max_sbi) + 1;
     nextCalculationId = parseInt(max_calculation_id) + 1;
     nextApplicationId = parseInt(max_application_id) + 1;
+    prefix = max_payment_reference.slice(0, 2);
+    suffix = max_payment_reference.slice(2);
 
+    const incremented = (parseInt(suffix, 10) + 1)
+      .toString()
+      .padStart(suffix.length, '0');                     
+
+    nextPaymentReference = prefix + incremented;
 
     var sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
@@ -108,8 +119,11 @@ DO UPDATE SET
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
 VALUES
-(` + nextCalculationId + `,'` + year + `','PY0410241',37500.00,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'` + year + `');
+(` + nextCalculationId + `,'` + year + `','` + nextPaymentReference + `',37500.00,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'` + year + `');
 `;
+
+console.log(sqlStatement);
+cy.log(sqlStatement.substring(1500, sqlStatement.length)); // Log the SQL statement without the long initial part for better readability
 
     cy.task('databaseInsert', {env, databaseName, sqlStatement});
     cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
@@ -182,7 +196,8 @@ When(/^I send bulk test data for (.*) into Statement Data service$/, (year) => {
     var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
-  (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id
+  (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id,
+  (SELECT MAX("paymentReference") FROM "d365") AS max_payment_reference
   FROM "organisations"`;
 
   console.log(sqlStatement);
@@ -201,21 +216,32 @@ When(/^I send bulk test data for (.*) into Statement Data service$/, (year) => {
     max_frn,
     max_sbi,
     max_calculation_id,
-    max_application_id
+    max_application_id,
+    max_payment_reference
   } = row;
 
-  cy.log(max_frn, max_sbi, max_calculation_id, max_application_id);
+  cy.log(max_frn, max_sbi, max_calculation_id, max_application_id, max_payment_reference);
 
 
     console.log("Max FRN:", max_frn);
     console.log("Max CONTRACT:", max_sbi);
     console.log("Max CALCULATION ID:", max_calculation_id);
     console.log("Max APPLICATION ID:", max_application_id);
+    console.log("Max PAYMENT REFERENCE:", max_payment_reference);
 
     nextFRN = parseInt(max_frn) + 1;
     nextSBI = parseInt(max_sbi) + 1;
     nextCalculationId = parseInt(max_calculation_id) + 1;
     nextApplicationId = parseInt(max_application_id) + 1;
+
+    prefix = max_payment_reference.slice(0, 2);
+    suffix = max_payment_reference.slice(2);
+
+    const incremented = (parseInt(suffix, 10) + 1)
+      .toString()
+      .padStart(suffix.length, '0');                     
+
+    nextPaymentReference = prefix + incremented;
 
      for (let i=0; i<10; i++) {
 
@@ -275,7 +301,7 @@ DO UPDATE SET
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
 VALUES (
-  ${nextCalculationId}, '${year}', 'PY1410241', 37500.00, to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'${year}'
+  ${nextCalculationId}, '${year}', '` + nextPaymentReference + `', 37500.00, to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'${year}'
 );
 `;
 
@@ -285,6 +311,15 @@ VALUES (
     nextFRN++;
     nextApplicationId++;
     nextCalculationId++;
+    
+    prefix = nextPaymentReference.slice(0, 2);
+    suffix = nextPaymentReference.slice(2);
+
+    const incremented = (parseInt(suffix, 10) + 1)
+      .toString()
+      .padStart(suffix.length, '0');                     
+
+    nextPaymentReference = prefix + incremented;
 
   }
   if (year === '2025') {
@@ -1113,7 +1148,7 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
     break;
   case 'ffc-doc-statement-generator':
     cy.wait(60000);
-    sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "generationId" = 1';
+    sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "frn" = ' + nextFRN;
     break;
   case 'ffc-doc-statement-publisher':
     cy.wait(60000);
@@ -1169,6 +1204,8 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
   
     containerName = 'ffc-doc-statement-data-development';
 
+    nextSBI--;
+
     for (let i=0; i<20; i++) {
 
       sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI;
@@ -1191,6 +1228,8 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     }
     
   } else if(databaseName.includes('ffc-doc-statement-constructor')) {
+
+    nextCalculationId--;
 
     containerName = 'ffc-doc-statement-constructor-development';
 
@@ -1215,8 +1254,6 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
   } else if(databaseName.includes('ffc-doc-statement-generator')) {
 
     containerName = 'ffc-doc-statement-generator-development';
-
-      const name = "Area";
 
     sqlStatement = `SELECT * FROM "generations" WHERE "addressLine2" = 'Area'`;
 

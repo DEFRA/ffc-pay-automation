@@ -1,6 +1,8 @@
 @dev
 Feature: 40 Download Statements
 
+# npm run cypress:dev:one -- "cypress\e2e\features\40_DownloadStatements.feature"
+
 # This feature file is designed to test functionality of Download Statements page in Payment Management UI
 
   Scenario: 01 Confirm Download Statements page loads correctly

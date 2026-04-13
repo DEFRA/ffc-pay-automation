@@ -1,6 +1,8 @@
 @local
 Feature: 31 Notify API
 
+# npm run cypress:local:one -- "cypress\e2e\features\31_NotifyAPI.feature"
+
   #This feature file sends email message to Notify through it's API and confirms that the email
   #has been received with expected values. 
 

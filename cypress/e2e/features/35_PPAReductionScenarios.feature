@@ -1,6 +1,8 @@
 @local
 Feature: 35 PPA Reduction Scenarios
 
+# npm run cypress:local:one -- "cypress\e2e\features\35_PPAReductionScenarios.feature"
+
 # This feature file is designed to test PPA Reduction processing at various stages of payment installments
 
   Scenario: 01 PPA Reduction before first installment

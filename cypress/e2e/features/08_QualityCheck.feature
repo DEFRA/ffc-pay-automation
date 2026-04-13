@@ -1,6 +1,9 @@
 @test @dev
 Feature: 08 Quality Check
 
+# npm run cypress:test:one -- "cypress\e2e\features\08_QualityCheck.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\08_QualityCheck.feature"
+
   Background:
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting quality check" link

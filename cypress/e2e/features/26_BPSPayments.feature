@@ -1,5 +1,8 @@
 Feature: 26 BPS Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\26_BPSPayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\26_BPSPayments.feature"
+
 # This feature file is designed to test the end-to-end journey of BPS payment in the local environment.
 
   @dev

@@ -1,6 +1,8 @@
 @local
 Feature: 43 Payment Alerts
 
+# npm run cypress:local:one -- "cypress\e2e\features\43_PaymentAlerts.feature"
+
 # This feature file is designed to test functionality of Payment Alerts section in Payment Management UI
 
   Scenario: 01 Confirm initial elements on page

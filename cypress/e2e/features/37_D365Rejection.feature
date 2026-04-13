@@ -1,6 +1,8 @@
 @local
 Feature: 37 D365 Rejection
 
+# npm run cypress:local:one -- "cypress\e2e\features\37_D365Rejection.feature"
+
 # This feature file is designed to test D365 Rejection processing
 
   Scenario: 01 Process D365 Acknowledgment file

@@ -1,6 +1,10 @@
 @test @dev @local
 Feature: 01 Payment management
 
+# npm run cypress:test:one -- "cypress\e2e\features\01_PaymentManagement.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\01_PaymentManagement.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\01_PaymentManagement.feature"
+
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
 

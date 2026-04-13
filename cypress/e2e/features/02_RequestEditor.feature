@@ -1,5 +1,9 @@
 Feature: 02 Request Editor
 
+# npm run cypress:test:one -- "cypress\e2e\features\02_RequestEditor.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\02_RequestEditor.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\02_RequestEditor.feature"
+
   Background: Navigate to Request Editor homepage
     Given I visit the "Request Editor" homepage
 

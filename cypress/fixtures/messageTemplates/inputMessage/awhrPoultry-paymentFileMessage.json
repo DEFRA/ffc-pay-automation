@@ -1,0 +1,36 @@
+{
+    "sourceSystem": "AHWR",
+    "schemeId": 4,
+    "frn": "2842263042",
+    "sbi": "106284736",
+    "marketingYear": 2025,
+    "paymentRequestNumber": 1,
+    "invoiceNumber": "FPRS58",
+    "agreementNumber": "70012345",
+    "dueDate": "2025-12-05",
+    "value": 16002,
+    "contractNumber": "1",
+    "ledger": "AP",
+    "invoiceLines": [
+        {
+            "value": 1201,
+            "description": "G00 - 2026-03-05: AHWR Poultry",
+            "standardCode": "AHWR-Poultry"
+        },
+        {
+            "value": 6800,
+            "description": "G00 - 2026-03-05: AHWR Poultry",
+            "standardCode": "AHWR-Poultry"
+        },
+        {
+            "value": 1201,
+            "description": "G00 - 2026-03-05: AHWR Poultry",
+            "standardCode": "AHWR-Poultry"
+        },
+        {
+            "value": 6800,
+            "description": "G00 - 2026-03-05: AHWR Poultry",
+            "standardCode": "AHWR-Poultry"
+        }
+    ]
+}

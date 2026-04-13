@@ -2,6 +2,9 @@ Feature: 25 CS Payments
 
 # This feature file is designed to test the end-to-end journey of CS payment in the local environment.
 
+# npm run cypress:dev:one -- "cypress\e2e\features\25_CSPayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\25_CSPayments.feature"
+
   @dev
   Scenario: 01 insert incorrect CS test data via service bus message to ffc-pay-request
 

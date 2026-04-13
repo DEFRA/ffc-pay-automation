@@ -1,6 +1,8 @@
 @local
 Feature: 34 PPA Top-up Scenarios
 
+# npm run cypress:local:one -- "cypress\e2e\features\34_PPATopUpScenarios.feature"
+
 # This feature file is designed to test PPA Top-up processing at various stages of payment installments
 
   Scenario: 01 PPA Top-up before first installment

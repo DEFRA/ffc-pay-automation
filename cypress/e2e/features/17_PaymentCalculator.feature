@@ -1,6 +1,10 @@
 @test @dev @local
 Feature: 17 Payment Calculator
 
+# npm run cypress:test:one -- "cypress\e2e\features\17_PaymentCalculator.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\17_PaymentCalculator.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\17_PaymentCalculator.feature"
+
 #This feature tests confirms the elements Payment Calculator pages
 
   Scenario: 01 Confirm elements on Calculate your delinked payment homepage

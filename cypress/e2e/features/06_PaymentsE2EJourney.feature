@@ -1,6 +1,9 @@
 @dev @test
 Feature: 06 Standard Payments E2E Journey
 
+# npm run cypress:test:one -- "cypress\e2e\features\06_PaymentsE2EJourney.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\06_PaymentsE2EJourney.feature"
+
   Scenario Outline: 01 Process the payment file
     Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I create a message with the filename "paymentFileMessage" and update the following keys:

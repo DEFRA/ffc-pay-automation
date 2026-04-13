@@ -4,11 +4,17 @@ const fs = require('fs');
 const path = require('path');
 const pdf = require('pdf-parse');
 
-async function downloadStatementsBlobById (containerName, downloadDir, year) {
+async function downloadStatementsBlobById (env, containerName, downloadDir, year) {
 
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
+  var blobServiceClient = null;
 
-  const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.STATEMENTSBLOBCONNECTIONSTRING);
+   if (env.includes('local')) {
+      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.STATEMENTSBLOBCONNECTIONSTRING);
+    } else if (env.includes('dev')) {
+      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DEVPAYMENTSBLOBCONNECTIONSTRING);
+    }
+
   console.log('Blob Service Client = ' + blobServiceClient.url);
   const containerClient = blobServiceClient.getContainerClient(containerName);
   console.log('Container client = ' + containerClient.url);
@@ -62,7 +68,7 @@ async function downloadStatementsBlobById (containerName, downloadDir, year) {
 "CITY",
 "COUNTY",
 "AA1 1BB",
-"Single Business Identifier (SBI): 123456789",
+"Single Business Identifier (SBI):",
 "Business name: Test Farm",
 "Statement date: 1 August 2024",
 "Delinked payments " + year + ": payment statement",
@@ -72,7 +78,7 @@ async function downloadStatementsBlobById (containerName, downloadDir, year) {
 "What you've been paid",
 "Payment amount: £37,500",
 "This is usually paid into your account within 2 working days of 1 August 2024.",
-"Payment reference: PY0410241",
+"Payment reference:",
 "How your reference amount was calculated",
 "Your 'reference data' is your BPS payment amounts for the 2020, 2021 and 2022 scheme years",
 "(before some reductions and penalties). The 'reference amount' is the sum of the reference data",

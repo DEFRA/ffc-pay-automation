@@ -1,6 +1,10 @@
 Feature: 32 SFI23 Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\32_SFI23Payments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\32_SFI23Payments.feature"
+
 # This feature file is designed to test the end-to-end journey of SFI23 payment in the local environment.
+
   @dev
   Scenario: 01 insert incorrect SFI23 test data via service bus message to ffc-pay-request
 

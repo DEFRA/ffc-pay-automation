@@ -1,6 +1,9 @@
 @dev @local
 Feature: 13 Payment Holds
 
+# npm run cypress:dev:one -- "cypress\e2e\features\13_PaymentHolds.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\13_PaymentHolds.feature"
+
   Scenario Outline: 01 Send debit payment request message (payment1)
     Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I visit the "Payment management" homepage

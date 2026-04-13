@@ -13,7 +13,7 @@
     "cypress:dev:one": "cypress run --env env=dev,TAGS=@dev --spec",
     "cypress:test:one": "cypress run --env env=test,TAGS=@test --spec",
     "report:merge": "mochawesome-merge cypress/reports/mocha/mochawesome*.json > cypress/reports/mocha/output.json",
-    "report:html": "marge cypress/reports/mocha/output.json --reportDir cypress/reports/mocha --reportFilename index",
+    "report:html": "marge cypress/reports/mocha/output.json --reportDir cypress/reports/mocha --reportFilename index --inline --charts --code",
     "clean:reports": "powershell -Command \"Remove-Item -Recurse -Force cypress/reports/mocha/*; Remove-Item -Recurse -Force cypress/downloads/*; Remove-Item -Recurse -Force cypress/screenshots/*; Remove-Item -Recurse -Force cypress/videos/*\""
   },
   "devDependencies": {

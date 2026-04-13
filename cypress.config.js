@@ -71,8 +71,8 @@ module.exports = defineConfig({
           return getReceivedMessages(topicName);
         },
 
-        generateJWT({ payload, secret, options }) {
-          return generateJWT(payload, secret, options);
+        generateJWT() {
+          return generateJWT();
         },
 
         generateAccessToken() {
@@ -203,8 +203,8 @@ module.exports = defineConfig({
           return databaseInsert(env, databaseName, sqlStatement);
         },
 
-        async fetchStatementsBlobById({ container, dir, year }) {
-          downloadStatementsBlobById(container, dir, year);
+        async fetchStatementsBlobById({ env, container, dir, year }) {
+          downloadStatementsBlobById(env, container, dir, year);
           return null;
         },
 
@@ -244,7 +244,13 @@ module.exports = defineConfig({
       reportDir: "cypress/reports/mocha",
       overwrite: false,
       html: false,
-      json: true
+      json: true,
+      charts: true,
+      code: true,
+      autoOpen: false,
+      quiet: true,
+      screenshotOnRunFailure: true,
+      inlineAssets: true
     }
   }
 });

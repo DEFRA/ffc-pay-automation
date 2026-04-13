@@ -1,5 +1,8 @@
 Feature: 27 Lump Sums Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\27_LumpSumsPayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\27_LumpSumsPayments.feature"
+
 # This feature file is designed to test the end-to-end journey of Lump Sums payment in the local environment.
 
   @dev

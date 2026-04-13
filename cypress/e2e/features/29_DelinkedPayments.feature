@@ -1,5 +1,8 @@
 Feature: 29 Delinked Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\29_DelinkedPayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\29_DelinkedPayments.feature"
+
 # This feature file is designed to test the end-to-end journey of Delinked payment in the local environment.
 
   @dev

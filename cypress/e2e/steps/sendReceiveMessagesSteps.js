@@ -1336,3 +1336,26 @@ When(/^I search for current FRN$/, () => {
   console.log('Searched for current FRN - ' + nextFRN);
   cy.log('Searched for current FRN - ' + nextFRN);
 });
+
+Then('I confirm that payment for current FRN has scheme code of {string} in ffc-pay-processing database', (schemeCode) => {
+
+ const description = 'G00 - 2026-03-05: AHWR Poultry';
+
+const sqlStatement = `
+  SELECT "schemeCode"
+  FROM "invoiceLines"
+  WHERE "description" = '${description}'
+`;
+  const databaseName = 'ffc-pay-processing';
+
+  cy.task('databaseQuery', { env, databaseName, sqlStatement })
+    .then((results) => {
+      console.log('Expected scheme code: ' + schemeCode + ', Actual scheme code: ' + results.rows[0].schemeCode);
+      cy.log('Expected scheme code: ' + schemeCode + ', Actual scheme code: ' + results.rows[0].schemeCode);
+      if (results.rows[0].schemeCode === schemeCode) {
+        console.log('✅ Correct scheme code found in the database');
+      } else {
+        throw new Error('Correct scheme code not found in the database');
+      }
+    });
+});
