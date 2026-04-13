@@ -1,7 +1,7 @@
 @local
 Feature: 42 Payment Event Monitoring
 
-# npm run cypress:local:one -- "cypress\e2e\features\22_CSHigherTierRevenuePayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\42_PaymentEventMonitoring.feature"
 
 #####################################READ BEFORE RUNNING##########################################
 
