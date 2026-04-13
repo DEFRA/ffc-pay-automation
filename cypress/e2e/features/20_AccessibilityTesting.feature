@@ -219,7 +219,7 @@ Feature: 20 Accessibility Testing
 
 #This scenario checks all pages of Payment Calculator for accessibility issues
 
-    Given I visit the "Calculate your delinked payment " homepage
+    Given I visit the "Calculate your delinked payment" homepage
     Then I confirm there are no accessibility issues on the page
 
     When on the Payment Calculator page I click the "start button"
