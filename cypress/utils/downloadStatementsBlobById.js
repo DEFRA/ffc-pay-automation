@@ -9,11 +9,11 @@ async function downloadStatementsBlobById (env, containerName, downloadDir, year
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
   var blobServiceClient = null;
 
-   if (env.includes('local')) {
-      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.STATEMENTSBLOBCONNECTIONSTRING);
-    } else if (env.includes('dev')) {
-      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DEVPAYMENTSBLOBCONNECTIONSTRING);
-    }
+  if (env.includes('local')) {
+    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.STATEMENTSBLOBCONNECTIONSTRING);
+  } else if (env.includes('dev')) {
+    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DEVPAYMENTSBLOBCONNECTIONSTRING);
+  }
 
   console.log('Blob Service Client = ' + blobServiceClient.url);
   const containerClient = blobServiceClient.getContainerClient(containerName);

@@ -16,15 +16,15 @@ Given('I visit the {string} homepage', (text) => {
   let url;
 
   switch (text) {
-    case 'Payment management':
-      url = envConfig.paymentManagementUrl;
-      break;
-    case 'Request Editor':
-      url = envConfig.requestEditorUrl;
-      break;
-    case 'Calculate your delinked payment':
-      url = envConfig.paymentCalculatorUrl;
-      break;
+  case 'Payment management':
+    url = envConfig.paymentManagementUrl;
+    break;
+  case 'Request Editor':
+    url = envConfig.requestEditorUrl;
+    break;
+  case 'Calculate your delinked payment':
+    url = envConfig.paymentCalculatorUrl;
+    break;
   }
 
   cy.log('URL to open ' + url);
@@ -54,12 +54,12 @@ Given('I am on the {string} homepage', (text) => {
   let url;
 
   switch (text) {
-    case 'Payment management':
-      url = envConfig.paymentManagementUrl;
-      break;
-    case 'Request Editor':
-      url = envConfig.requestEditorUrl;
-      break;
+  case 'Payment management':
+    url = envConfig.paymentManagementUrl;
+    break;
+  case 'Request Editor':
+    url = envConfig.requestEditorUrl;
+    break;
   }
 
   cy.url().should('eq', url);
@@ -139,9 +139,9 @@ When('I verify status of external link - {string}', (text) => {
   let pageUrl = '';
 
   switch (text) {
-    case 'Rural Payments service.':
-      pageUrl = 'https://www.ruralpayments.service.gov.uk/customer-account/login';
-      break;
+  case 'Rural Payments service.':
+    pageUrl = 'https://www.ruralpayments.service.gov.uk/customer-account/login';
+    break;
   }
 
   cy.log('Verifying status of external link:', pageUrl);
