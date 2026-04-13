@@ -541,7 +541,7 @@ Feature: 43 Payment Alerts
     Then on the Add new alert recipient page I confirm that "select scheme label" is displayed
     Then on the Add new alert recipient page I confirm that "select scheme dropdown" is displayed
 
-    #Following line confirms that there are 15 instances of all alert types, one for each current scheme
+    #Following line confirms that there are 16 instances of all alert types, one for each current scheme
 
     Then on the Add new alert recipient page I confirm that all options are present when no filter selected
     Then I take a screenshot for Feature 43 and Scenario 18
