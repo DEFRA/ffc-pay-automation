@@ -1,6 +1,10 @@
 @dev @test @local
 Feature: 04 Upload and Process Payment Holds via CSV
 
+# npm run cypress:test:one -- "cypress\e2e\features\04_UploadPaymentHolds.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\04_UploadPaymentHolds.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\04_UploadPaymentHolds.feature"
+
   Background:
     Given I visit the "Payment management" homepage
     And I click on the "Manage holds" link

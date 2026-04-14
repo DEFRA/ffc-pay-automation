@@ -1,6 +1,10 @@
 @dev @test @local
 Feature: 05 Remove Payment Holds via CSV Upload
 
+# npm run cypress:test:one -- "cypress\e2e\features\05_RemovePaymentHolds.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\05_RemovePaymentHolds.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\05_RemovePaymentHolds.feature"
+
   Background:
     Given I visit the "Payment management" homepage
     And I click on the "Manage holds" link

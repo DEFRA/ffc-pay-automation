@@ -1,6 +1,8 @@
 @local
 Feature: 21 DPS Payments
 
+# npm run cypress:local:one -- "cypress\e2e\features\21_DPSPayments.feature"
+
 # This feature file is designed to test the end-to-end journey of DPS payments in the local environment.
 
   Scenario: 01 insert test data via file upload to Azure Blob Storage

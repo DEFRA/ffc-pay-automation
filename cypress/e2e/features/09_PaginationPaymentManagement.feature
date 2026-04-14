@@ -1,6 +1,9 @@
 @test @dev
 Feature: 09 Pagination - Payment Management
 
+# npm run cypress:test:one -- "cypress\e2e\features\09_PaginationPaymentManagement.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\09_PaginationPaymentManagement.feature"
+
   Background:
     Given I visit the "Payment management" homepage
 

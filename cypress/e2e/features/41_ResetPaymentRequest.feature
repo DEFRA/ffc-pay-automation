@@ -1,5 +1,8 @@
 Feature: 41 Reset Payment Request
 
+# npm run cypress:dev:one -- "cypress\e2e\features\41_ResetPaymentRequest.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\41_ResetPaymentRequest.feature"
+
 # This feature file is designed to test functionality of Reset Payment Request page in Payment Management UI
 
   @dev

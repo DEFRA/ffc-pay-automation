@@ -1,5 +1,8 @@
 Feature: 28 SFI Expanded Pilot Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\28_SFIExpandedPayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\28_SFIExpandedPayments.feature"
+
 # This feature file is designed to test the end-to-end journey of SFI Expanded payments in the local environment.
 
   @dev

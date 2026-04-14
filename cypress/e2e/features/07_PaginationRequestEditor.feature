@@ -1,6 +1,9 @@
 @dev @test
 Feature: 07 Pagination - Request Editor
 
+# npm run cypress:test:one -- "cypress\e2e\features\07_PaginationRequestEditor.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\07_PaginationRequestEditor.feature"
+
   Background:
     Given I visit the "Request Editor" homepage
 

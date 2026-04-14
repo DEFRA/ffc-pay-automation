@@ -1,6 +1,8 @@
 @local
 Feature: 43 Payment Alerts
 
+# npm run cypress:local:one -- "cypress\e2e\features\43_PaymentAlerts.feature"
+
 # This feature file is designed to test functionality of Payment Alerts section in Payment Management UI
 
   Scenario: 01 Confirm initial elements on page
@@ -539,7 +541,7 @@ Feature: 43 Payment Alerts
     Then on the Add new alert recipient page I confirm that "select scheme label" is displayed
     Then on the Add new alert recipient page I confirm that "select scheme dropdown" is displayed
 
-    #Following line confirms that there are 15 instances of all alert types, one for each current scheme
+    #Following line confirms that there are 16 instances of all alert types, one for each current scheme
 
     Then on the Add new alert recipient page I confirm that all options are present when no filter selected
     Then I take a screenshot for Feature 43 and Scenario 18

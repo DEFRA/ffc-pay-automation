@@ -13,7 +13,7 @@
     "cypress:dev:one": "cypress run --env env=dev,TAGS=@dev --spec",
     "cypress:test:one": "cypress run --env env=test,TAGS=@test --spec",
     "report:merge": "mochawesome-merge cypress/reports/mocha/mochawesome*.json > cypress/reports/mocha/output.json",
-    "report:html": "marge cypress/reports/mocha/output.json --reportDir cypress/reports/mocha --reportFilename index",
+    "report:html": "marge cypress/reports/mocha/output.json --reportDir cypress/reports/mocha --reportFilename index --inline --charts --code",
     "clean:reports": "powershell -Command \"Remove-Item -Recurse -Force cypress/reports/mocha/*; Remove-Item -Recurse -Force cypress/downloads/*; Remove-Item -Recurse -Force cypress/screenshots/*; Remove-Item -Recurse -Force cypress/videos/*\""
   },
   "devDependencies": {
@@ -27,10 +27,14 @@
     "cypress-axe": "^1.7.0",
     "cypress-dotenv": "^3.0.1",
     "esbuild": "^0.28.0",
+    "eslint": "^9.39.4",
+    "eslint-plugin-cucumber": "^2.0.0",
+    "eslint-plugin-cypress": "^6.3.0",
+    "eslint-plugin-jsonc": "^3.1.2",
+    "jsonc-eslint-parser": "^3.1.0",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^4.2.2",
-    "mochawesome-report-generator": "^6.2.0",
-    "multiple-cucumber-html-reporter": "^3.10.0"
+    "mochawesome-report-generator": "^6.2.0"
   },
   "cypress-cucumber-preprocessor": {
     "stepDefinitions": [

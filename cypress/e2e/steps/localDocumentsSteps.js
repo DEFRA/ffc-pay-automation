@@ -11,10 +11,11 @@ let nextFRN;
 let nextSBI;
 let nextCalculationId;
 let nextApplicationId;
+let nextPaymentReference;
 
 Given(/^I restart and clear the local doc environment$/, () => {
   if (env.includes('local')) {
-  cy.task('restartLocalDocEnv');
+    cy.task('restartLocalDocEnv');
   } else {
     cy.log('No restart needed in Dev/Test');
   }
@@ -29,43 +30,53 @@ When(/^I insert (.*) test data into Statement Data service$/, (year) => {
     var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
-  (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id
+  (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id,
+  (SELECT MAX("paymentReference") FROM "d365") AS max_payment_reference
   FROM "organisations"`;
 
-  console.log(sqlStatement);
-  cy.log(sqlStatement);
+    console.log(sqlStatement);
+    cy.log(sqlStatement);
 
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((result) => {
+    cy.task('databaseQuery', { env, databaseName, sqlStatement })
+      .then((result) => {
 
-    const row = result.rows?.[0];
+        const row = result.rows?.[0];
 
-  if (!row) {
-    throw new Error('No rows returned from database query');
-  }
+        if (!row) {
+          throw new Error('No rows returned from database query');
+        }
 
-  const {
-    max_frn,
-    max_sbi,
-    max_calculation_id,
-    max_application_id
-  } = row;
+        const {
+          max_frn,
+          max_sbi,
+          max_calculation_id,
+          max_application_id,
+          max_payment_reference
+        } = row;
 
-  cy.log(max_frn, max_sbi, max_calculation_id, max_application_id);
-
-
-    console.log("Max FRN:", max_frn);
-    console.log("Max CONTRACT:", max_sbi);
-    console.log("Max CALCULATION ID:", max_calculation_id);
-    console.log("Max APPLICATION ID:", max_application_id);
-
-    nextFRN = parseInt(max_frn) + 1;
-    nextSBI = parseInt(max_sbi) + 1;
-    nextCalculationId = parseInt(max_calculation_id) + 1;
-    nextApplicationId = parseInt(max_application_id) + 1;
+        cy.log(max_frn, max_sbi, max_calculation_id, max_application_id, max_payment_reference);
 
 
-    var sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
+        console.log("Max FRN:", max_frn);
+        console.log("Max CONTRACT:", max_sbi);
+        console.log("Max CALCULATION ID:", max_calculation_id);
+        console.log("Max APPLICATION ID:", max_application_id);
+        console.log("Max PAYMENT REFERENCE:", max_payment_reference);
+
+        nextFRN = parseInt(max_frn) + 1;
+        nextSBI = parseInt(max_sbi) + 1;
+        nextCalculationId = parseInt(max_calculation_id) + 1;
+        nextApplicationId = parseInt(max_application_id) + 1;
+        const prefix = max_payment_reference.slice(0, 2);
+        let suffix = max_payment_reference.slice(2);
+
+        const incremented = (parseInt(suffix, 10) + 1)
+          .toString()
+          .padStart(suffix.length, '0');
+
+        nextPaymentReference = prefix + incremented;
+
+        var sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
 (` + nextSBI + `,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',` + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
@@ -108,14 +119,17 @@ DO UPDATE SET
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
 VALUES
-(` + nextCalculationId + `,'` + year + `','PY0410241',37500.00,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'` + year + `');
+(` + nextCalculationId + `,'` + year + `','` + nextPaymentReference + `',37500.00,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'` + year + `');
 `;
 
-    cy.task('databaseInsert', {env, databaseName, sqlStatement});
-    cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
-    cy.log(`✅ Test data for year ${year} has been inserted into Statement Data service`);
+        console.log(sqlStatement);
+        cy.log(sqlStatement.substring(1500, sqlStatement.length)); // Log the SQL statement without the long initial part for better readability
 
-  });
+        cy.task('databaseInsert', {env, databaseName, sqlStatement});
+        cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
+        cy.log(`✅ Test data for year ${year} has been inserted into Statement Data service`);
+
+      });
 
   } else if (env.includes('local')) {
 
@@ -175,59 +189,71 @@ VALUES
 
 When(/^I send bulk test data for (.*) into Statement Data service$/, (year) => {
 
-  if(env.includes('dev')){
+  if (env.includes('dev')) {
 
     const databaseName = 'ffc-doc-statement-data';
 
     var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
-  (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id
+  (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id,
+  (SELECT MAX("paymentReference") FROM "d365") AS max_payment_reference
   FROM "organisations"`;
 
-  console.log(sqlStatement);
-  cy.log(sqlStatement);
+    console.log(sqlStatement);
+    cy.log(sqlStatement);
 
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((result) => {
+    cy.task('databaseQuery', { env, databaseName, sqlStatement })
+      .then((result) => {
 
-    const row = result.rows?.[0];
+        const row = result.rows?.[0];
 
-  if (!row) {
-    throw new Error('No rows returned from database query');
-  }
+        if (!row) {
+          throw new Error('No rows returned from database query');
+        }
 
-  const {
-    max_frn,
-    max_sbi,
-    max_calculation_id,
-    max_application_id
-  } = row;
+        const {
+          max_frn,
+          max_sbi,
+          max_calculation_id,
+          max_application_id,
+          max_payment_reference
+        } = row;
 
-  cy.log(max_frn, max_sbi, max_calculation_id, max_application_id);
+        cy.log(max_frn, max_sbi, max_calculation_id, max_application_id, max_payment_reference);
 
 
-    console.log("Max FRN:", max_frn);
-    console.log("Max CONTRACT:", max_sbi);
-    console.log("Max CALCULATION ID:", max_calculation_id);
-    console.log("Max APPLICATION ID:", max_application_id);
+        console.log("Max FRN:", max_frn);
+        console.log("Max CONTRACT:", max_sbi);
+        console.log("Max CALCULATION ID:", max_calculation_id);
+        console.log("Max APPLICATION ID:", max_application_id);
+        console.log("Max PAYMENT REFERENCE:", max_payment_reference);
 
-    nextFRN = parseInt(max_frn) + 1;
-    nextSBI = parseInt(max_sbi) + 1;
-    nextCalculationId = parseInt(max_calculation_id) + 1;
-    nextApplicationId = parseInt(max_application_id) + 1;
+        nextFRN = parseInt(max_frn) + 1;
+        nextSBI = parseInt(max_sbi) + 1;
+        nextCalculationId = parseInt(max_calculation_id) + 1;
+        nextApplicationId = parseInt(max_application_id) + 1;
 
-     for (let i=0; i<10; i++) {
+        const prefix = max_payment_reference.slice(0, 2);
+        let suffix = max_payment_reference.slice(2);
 
-      let number;
+        const incremented = (parseInt(suffix, 10) + 1)
+          .toString()
+          .padStart(suffix.length, '0');
 
-      if(year.includes('2024')){
-        number = i;
-      } else if (year.includes('2025')) {
-        number = "1" + i;
-      }
+        nextPaymentReference = prefix + incremented;
 
-    const sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
+        for (let i=0; i<10; i++) {
+
+          let number;
+
+          if (year.includes('2024')) {
+            number = i;
+          } else if (year.includes('2025')) {
+            number = "1" + i;
+          }
+
+          const sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
 (${nextSBI}, '${number} The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com','${nextFRN}','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
@@ -275,51 +301,59 @@ DO UPDATE SET
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
 VALUES (
-  ${nextCalculationId}, '${year}', 'PY1410241', 37500.00, to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'${year}'
+  ${nextCalculationId}, '${year}', '` + nextPaymentReference + `', 37500.00, to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'${year}'
 );
 `;
 
-    cy.task('databaseInsert', {env, databaseName, sqlStatement});
+          cy.task('databaseInsert', {env, databaseName, sqlStatement});
 
-    nextSBI++;
-    nextFRN++;
-    nextApplicationId++;
-    nextCalculationId++;
+          nextSBI++;
+          nextFRN++;
+          nextApplicationId++;
+          nextCalculationId++;
 
-  }
-  if (year === '2025') {
-    cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
-  }
-});
+          const prefix = nextPaymentReference.slice(0, 2);
+          let suffix = nextPaymentReference.slice(2);
 
-  } else if(env.includes('local')){
+          const incremented = (parseInt(suffix, 10) + 1)
+            .toString()
+            .padStart(suffix.length, '0');
 
-  const databaseName = 'ffc-doc-statement-data';
+          nextPaymentReference = prefix + incremented;
 
-  var sbi = '';
-  var frn = '';
-  var applicationId = '';
-  var calculationId = '';
+        }
+        if (year === '2025') {
+          cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
+        }
+      });
 
-  switch (year) {
-  case '2024':
-    sbi = '12345678';
-    frn = '123456789';
-    applicationId = '123456';
-    calculationId = '98765432';
-    break;
-  case '2025':
-    sbi = '13345678';
-    frn = '133456789';
-    applicationId = '123456';
-    calculationId = '88765432';
-    break;
+  } else if (env.includes('local')) {
 
-  }
+    const databaseName = 'ffc-doc-statement-data';
 
-  for (let i=0; i<10; i++) {
+    var sbi = '';
+    var frn = '';
+    var applicationId = '';
+    var calculationId = '';
 
-    const sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
+    switch (year) {
+    case '2024':
+      sbi = '12345678';
+      frn = '123456789';
+      applicationId = '123456';
+      calculationId = '98765432';
+      break;
+    case '2025':
+      sbi = '13345678';
+      frn = '133456789';
+      applicationId = '123456';
+      calculationId = '88765432';
+      break;
+    }
+
+    for (let i=0; i<10; i++) {
+
+      const sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
 (${sbi + i}, '${i} The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com','${frn + i}','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
@@ -371,67 +405,66 @@ VALUES (
 );
 `;
 
-    cy.task('databaseInsert', {env, databaseName, sqlStatement});
+      cy.task('databaseInsert', {env, databaseName, sqlStatement});
 
-  }
-  if (year === '2025') {
-    cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
-  }
-  
+    }
+    if (year === '2025') {
+      cy.wait(180000); // Wait for the data to be inserted and to be processed through all doc services
+    }
 
-  cy.log(`✅ Bulk test data for year ${year} has been inserted into Statement Data service`);
-}
+    cy.log(`✅ Bulk test data for year ${year} has been inserted into Statement Data service`);
+  }
 });
 
 When(/^I send incorrect test data into (.*) service$/, (databaseName) => {
 
-  if(env.includes('dev')) {
+  if (env.includes('dev')) {
 
-    if(databaseName.includes('data')) {
+    if (databaseName.includes('data')) {
 
-    var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+      var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
   (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id
   FROM "organisations"`;
 
-  console.log(sqlStatement);
-  cy.log(sqlStatement);
+      console.log(sqlStatement);
+      cy.log(sqlStatement);
 
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((result) => {
+      cy.task('databaseQuery', { env, databaseName, sqlStatement })
+        .then((result) => {
 
-    const row = result.rows?.[0];
+          const row = result.rows?.[0];
 
-  if (!row) {
-    throw new Error('No rows returned from database query');
-  }
+          if (!row) {
+            throw new Error('No rows returned from database query');
+          }
 
-  const {
-    max_frn,
-    max_sbi,
-    max_calculation_id,
-    max_application_id
-  } = row;
+          const {
+            max_frn,
+            max_sbi,
+            max_calculation_id,
+            max_application_id
+          } = row;
 
-  cy.log(max_frn, max_sbi, max_calculation_id, max_application_id);
+          cy.log(max_frn, max_sbi, max_calculation_id, max_application_id);
 
 
-    console.log("Max FRN:", max_frn);
-    console.log("Max CONTRACT:", max_sbi);
-    console.log("Max CALCULATION ID:", max_calculation_id);
-    console.log("Max APPLICATION ID:", max_application_id);
+          console.log("Max FRN:", max_frn);
+          console.log("Max CONTRACT:", max_sbi);
+          console.log("Max CALCULATION ID:", max_calculation_id);
+          console.log("Max APPLICATION ID:", max_application_id);
 
-    nextFRN = parseInt(max_frn) + 1;
-    nextSBI = parseInt(max_sbi) + 1;
-    nextCalculationId = parseInt(max_calculation_id) + 1;
-    nextApplicationId = parseInt(max_application_id) + 1;
+          nextFRN = parseInt(max_frn) + 1;
+          nextSBI = parseInt(max_sbi) + 1;
+          nextCalculationId = parseInt(max_calculation_id) + 1;
+          nextApplicationId = parseInt(max_application_id) + 1;
 
-    var expectedError = '';
-    var sqlStatement = '';
+          var expectedError = '';
+          var sqlStatement = '';
 
-  expectedError = 'value too long for type character varying(30)';
-    sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
+          expectedError = 'value too long for type character varying(30)';
+          sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
 (` + nextSBI + `,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',` + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
@@ -477,66 +510,66 @@ VALUES
 (` + nextCalculationId + `,'2025','PY04102412345678901234567890123',37500,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'), 2025);
 `;
 
-cy.log(sqlStatement);
+          cy.log(sqlStatement);
 
-  cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
-    console.log('Error generated', error);
-    cy.log('Error generated', error);
-    if (error === expectedError) {
-      console.log('✅ Correct error generated');
-      cy.log('✅ Correct error generated');
-    } else {
-      throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
-    }
-    cy.wait(10000);
-  });
-});
+          cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
+            console.log('Error generated', error);
+            cy.log('Error generated', error);
+            if (error === expectedError) {
+              console.log('✅ Correct error generated');
+              cy.log('✅ Correct error generated');
+            } else {
+              throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
+            }
+            cy.wait(10000);
+          });
+        });
 
-}else if(databaseName.includes('constructor')){
+    } else if (databaseName.includes('constructor')) {
 
-  var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+      var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
   (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id
   FROM "organisations"`;
 
-  console.log(sqlStatement);
-  cy.log(sqlStatement);
+      console.log(sqlStatement);
+      cy.log(sqlStatement);
 
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((result) => {
+      cy.task('databaseQuery', { env, databaseName, sqlStatement })
+        .then((result) => {
 
-    const row = result.rows?.[0];
+          const row = result.rows?.[0];
 
-  if (!row) {
-    throw new Error('No rows returned from database query');
-  }
+          if (!row) {
+            throw new Error('No rows returned from database query');
+          }
 
-  const {
-    max_frn,
-    max_sbi,
-    max_calculation_id,
-    max_application_id
-  } = row;
+          const {
+            max_frn,
+            max_sbi,
+            max_calculation_id,
+            max_application_id
+          } = row;
 
-  cy.log(max_frn, max_sbi, max_calculation_id, max_application_id);
+          cy.log(max_frn, max_sbi, max_calculation_id, max_application_id);
 
 
-    console.log("Max FRN:", max_frn);
-    console.log("Max CONTRACT:", max_sbi);
-    console.log("Max CALCULATION ID:", max_calculation_id);
-    console.log("Max APPLICATION ID:", max_application_id);
+          console.log("Max FRN:", max_frn);
+          console.log("Max CONTRACT:", max_sbi);
+          console.log("Max CALCULATION ID:", max_calculation_id);
+          console.log("Max APPLICATION ID:", max_application_id);
 
-    nextFRN = parseInt(max_frn) + 1;
-    nextSBI = parseInt(max_sbi) + 1;
-    nextCalculationId = parseInt(max_calculation_id) + 1;
-    nextApplicationId = parseInt(max_application_id) + 1;
+          nextFRN = parseInt(max_frn) + 1;
+          nextSBI = parseInt(max_sbi) + 1;
+          nextCalculationId = parseInt(max_calculation_id) + 1;
+          nextApplicationId = parseInt(max_application_id) + 1;
 
-    var expectedError = '';
-    var sqlStatement = '';
+          var expectedError = '';
+          var sqlStatement = '';
 
-    expectedError = 'value too long for type character varying(30)';
-    sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
+          expectedError = 'value too long for type character varying(30)';
+          sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
 (` + nextSBI + `,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',` + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
@@ -582,140 +615,137 @@ VALUES
 (` + nextCalculationId + `,'2025','PY04102412345678901234567890123',37500,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'), 2025);
 `;
 
-cy.log(sqlStatement);
+          cy.log(sqlStatement);
 
-  cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
-    console.log('Error generated', error);
-    cy.log('Error generated', error);
-    if (error === expectedError) {
-      console.log('✅ Correct error generated');
-      cy.log('✅ Correct error generated');
-    } else {
-      throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
-    }
-    cy.wait(10000);
-  });
-});
+          cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
+            console.log('Error generated', error);
+            cy.log('Error generated', error);
+            if (error === expectedError) {
+              console.log('✅ Correct error generated');
+              cy.log('✅ Correct error generated');
+            } else {
+              throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
+            }
+            cy.wait(10000);
+          });
+        });
 
-} else if(databaseName.includes('generator')){
+    } else if (databaseName.includes('generator')) {
 
-  var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn FROM "generations"`;
+      var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn FROM "generations"`;
 
-   console.log(sqlStatement);
-  cy.log(sqlStatement);
+      console.log(sqlStatement);
+      cy.log(sqlStatement);
 
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((result) => {
+      cy.task('databaseQuery', { env, databaseName, sqlStatement })
+        .then((result) => {
 
-  const row = result.rows?.[0];
+          const row = result.rows?.[0];
 
-  if (!row) {
-    throw new Error('No rows returned from database query');
-  }
+          if (!row) {
+            throw new Error('No rows returned from database query');
+          }
 
-  const {
-    max_frn,
-  } = row;
+          const {
+            max_frn,
+          } = row;
 
-  cy.log(max_frn);
+          cy.log(max_frn);
+          console.log("Max FRN:", max_frn);
 
+          nextFRN = parseInt(max_frn) + 1;
 
-  console.log("Max FRN:", max_frn);
+          var expectedError = '';
+          var sqlStatement = '';
 
-  nextFRN = parseInt(max_frn) + 1;
-
-  var expectedError = '';
-  var sqlStatement = '';
-
-  expectedError = 'value too long for type character varying(255)';
-    sqlStatement = `INSERT INTO "generations" ("statementData", "dateGenerated", "filename", "documentReference")
+          expectedError = 'value too long for type character varying(255)';
+          sqlStatement = `INSERT INTO "generations" ("statementData", "dateGenerated", "filename", "documentReference")
 VALUES
 ('{"address":{"line1":"8 The Street","line2":"Area","line3":"District","line4":"City","line5":"County","postcode":"AA1 1BB"},"businessName":"Test Farm","email":"documents.performance.test@gmail.com","frn":` + nextFRN + `,"sbi":` + nextSBI + `,"calculationId":` + nextCalculationId + `,"applicationId":` + nextApplicationId + `,"paymentBand1":"30000","paymentBand2":"50000","paymentBand3":"150000","paymentBand4":"99999999.99","percentageReduction1":"050.00","percentageReduction2":"055.00","percentageReduction3":"065.00","percentageReduction4":"070.00","progressiveReductions1":"15000.00","progressiveReductions2":"11000.00","progressiveReductions3":"65000.00","progressiveReductions4":"35000.00","referenceAmount":"2000000.00","totalProgressiveReduction":"126000.00","totalDelinkedPayment":"75000.00","paymentAmountCalculated":"37500.00","paymentReference":"PY0410241","paymentPeriod":"2025","marketingYear":2025,"paymentAmount":"37500","transactionDate":"2024-08-01T00:00:00.000Z","scheme":{"name":"Delinked Payment Statement","shortName":"DP","year":2025},"previousPaymentCount":0,"excludedFromNotify":false}',
 '2025-09-05 12:58:39.145','filenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefile.pdf', 100001);
 `;
 
-cy.log(sqlStatement);
+          cy.log(sqlStatement);
 
-  cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
-    console.log('Error generated', error);
-    cy.log('Error generated', error);
-    if (error === expectedError) {
-      console.log('✅ Correct error generated');
-      cy.log('✅ Correct error generated');
-    } else {
-      throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
-    }
-    cy.wait(10000);
-    });
-  });
+          cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
+            console.log('Error generated', error);
+            cy.log('Error generated', error);
+            if (error === expectedError) {
+              console.log('✅ Correct error generated');
+              cy.log('✅ Correct error generated');
+            } else {
+              throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
+            }
+            cy.wait(10000);
+          });
+        });
 
-}else if(databaseName.includes('publisher')) {
+    } else if (databaseName.includes('publisher')) {
 
-  var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+      var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi
   FROM "statements"`;
 
-  console.log(sqlStatement);
-  cy.log(sqlStatement);
+      console.log(sqlStatement);
+      cy.log(sqlStatement);
 
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((result) => {
+      cy.task('databaseQuery', { env, databaseName, sqlStatement })
+        .then((result) => {
 
-    const row = result.rows?.[0];
+          const row = result.rows?.[0];
 
-  if (!row) {
-    throw new Error('No rows returned from database query');
-  }
+          if (!row) {
+            throw new Error('No rows returned from database query');
+          }
 
-  const {
-    max_frn,
-    max_sbi,
-  } = row;
+          const {
+            max_frn,
+            max_sbi,
+          } = row;
 
-  cy.log(max_frn, max_sbi);
+          cy.log(max_frn, max_sbi);
 
-    console.log("Max FRN:", max_frn);
-    console.log("Max CONTRACT:", max_sbi);
+          console.log("Max FRN:", max_frn);
+          console.log("Max CONTRACT:", max_sbi);
 
-    nextFRN = parseInt(max_frn) + 1;
-    nextSBI = parseInt(max_sbi) + 1;
+          nextFRN = parseInt(max_frn) + 1;
+          nextSBI = parseInt(max_sbi) + 1;
 
-    var expectedError = '';
-    var sqlStatement = '';
-  
+          var expectedError = '';
+          var sqlStatement = '';
 
-    expectedError = 'value too long for type character varying(255)';
-    sqlStatement = `INSERT INTO "statements" ("frn", "sbi", "businessName", "addressLine1", "addressLine2", "addressLine3", "addressLine4", "addressLine5", "postcode", "email", "filename", "received", "schemeName", "schemeShortName", "schemeYear", "documentReference", "emailTemplate")
+          expectedError = 'value too long for type character varying(255)';
+          sqlStatement = `INSERT INTO "statements" ("frn", "sbi", "businessName", "addressLine1", "addressLine2", "addressLine3", "addressLine4", "addressLine5", "postcode", "email", "filename", "received", "schemeName", "schemeShortName", "schemeYear", "documentReference", "emailTemplate")
 VALUES
 (` + nextFRN + `,` + nextSBI + `,'Test Farm','8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',
 'filenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefile.pdf','2025-09-05 12:58:39.145','Delinked Payment Statement','DP','2025',100001,'838adf3d-15bd-4db5-b080-a318d54da1fc');
 `;
-    
-  cy.log(sqlStatement);
 
-  cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
-    console.log('Error generated', error);
-    cy.log('Error generated', error);
-    if (error === expectedError) {
-      console.log('✅ Correct error generated');
-      cy.log('✅ Correct error generated');
-    } else {
-      throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
+          cy.log(sqlStatement);
+
+          cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
+            console.log('Error generated', error);
+            cy.log('Error generated', error);
+            if (error === expectedError) {
+              console.log('✅ Correct error generated');
+              cy.log('✅ Correct error generated');
+            } else {
+              throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
+            }
+            cy.wait(10000);
+          });
+        });
     }
-    cy.wait(10000);
-  });
-  });
-}
 
-  } else if(env.includes('local')){
+  } else if (env.includes('local')) {
 
-  var expectedError = '';
-  var sqlStatement = '';
+    var expectedError = '';
+    var sqlStatement = '';
 
-  switch (databaseName) {
-  case 'ffc-doc-statement-constructor':
-    expectedError = 'value too long for type character varying(30)';
-    sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
+    switch (databaseName) {
+    case 'ffc-doc-statement-constructor':
+      expectedError = 'value too long for type character varying(30)';
+      sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
 (123456789,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com','1234567890','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
@@ -760,10 +790,10 @@ INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "payme
 VALUES
 (987654321,'2025','PY04102412345678901234567890123',37500,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'), 2025);
 `;
-    break;
-  case 'ffc-doc-statement-data':
-    expectedError = 'value too long for type character varying(30)';
-    sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
+      break;
+    case 'ffc-doc-statement-data':
+      expectedError = 'value too long for type character varying(30)';
+      sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
 (123456789,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com','1234567890','Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
@@ -808,39 +838,39 @@ INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "payme
 VALUES
 (987654321,'2025','PY04102412345678901234567890123',37500,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'), 2025);
 `;
-    break;
-  case 'ffc-doc-statement-publisher':
-    expectedError = 'value too long for type character varying(255)';
-    sqlStatement = `INSERT INTO "statements" ("statementId", "frn", "sbi", "businessName", "addressLine1", "addressLine2", "addressLine3", "addressLine4", "addressLine5", "postcode", "email", "filename", "received", "schemeName", "schemeShortName", "schemeYear", "documentReference", "emailTemplate")
+      break;
+    case 'ffc-doc-statement-publisher':
+      expectedError = 'value too long for type character varying(255)';
+      sqlStatement = `INSERT INTO "statements" ("statementId", "frn", "sbi", "businessName", "addressLine1", "addressLine2", "addressLine3", "addressLine4", "addressLine5", "postcode", "email", "filename", "received", "schemeName", "schemeShortName", "schemeYear", "documentReference", "emailTemplate")
 VALUES
 (1,1234567890,123456789,'Test Farm','8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',
 'filenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefile.pdf','2025-09-05 12:58:39.145','Delinked Payment Statement','DP','2025',100001,'838adf3d-15bd-4db5-b080-a318d54da1fc');
 `;
-    break;
-  case 'ffc-doc-statement-generator':
-    expectedError = 'value too long for type character varying(255)';
-    sqlStatement = `INSERT INTO "generations" ("generationId", "statementData", "dateGenerated", "filename", "documentReference")
+      break;
+    case 'ffc-doc-statement-generator':
+      expectedError = 'value too long for type character varying(255)';
+      sqlStatement = `INSERT INTO "generations" ("generationId", "statementData", "dateGenerated", "filename", "documentReference")
 VALUES
 (1,'{"address":{"line1":"8 The Street","line2":"Area","line3":"District","line4":"City","line5":"County","postcode":"AA1 1BB"},"businessName":"Test Farm","email":"documents.performance.test@gmail.com","frn":1234567890,"sbi":123456789,"calculationId":987654321,"applicationId":1234567,"paymentBand1":"30000","paymentBand2":"50000","paymentBand3":"150000","paymentBand4":"99999999.99","percentageReduction1":"050.00","percentageReduction2":"055.00","percentageReduction3":"065.00","percentageReduction4":"070.00","progressiveReductions1":"15000.00","progressiveReductions2":"11000.00","progressiveReductions3":"65000.00","progressiveReductions4":"35000.00","referenceAmount":"2000000.00","totalProgressiveReduction":"126000.00","totalDelinkedPayment":"75000.00","paymentAmountCalculated":"37500.00","paymentReference":"PY0410241","paymentPeriod":"2025","marketingYear":2025,"paymentAmount":"37500","transactionDate":"2024-08-01T00:00:00.000Z","scheme":{"name":"Delinked Payment Statement","shortName":"DP","year":2025},"previousPaymentCount":0,"excludedFromNotify":false}',
 '2025-09-05 12:58:39.145','filenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefile.pdf', 100001);
 `;
-    break;
-  default:
-    throw new Error(`Unknown database: ${databaseName}`);
-  }
-  
-  cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
-    console.log('Error generated', error);
-    cy.log('Error generated', error);
-    if (error === expectedError) {
-      console.log('✅ Correct error generated');
-      cy.log('✅ Correct error generated');
-    } else {
-      throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
+      break;
+    default:
+      throw new Error(`Unknown database: ${databaseName}`);
     }
-    cy.wait(10000);
-  });
-}
+
+    cy.task('databaseInsert', {env, databaseName, sqlStatement}).then((error) => {
+      console.log('Error generated', error);
+      cy.log('Error generated', error);
+      if (error === expectedError) {
+        console.log('✅ Correct error generated');
+        cy.log('✅ Correct error generated');
+      } else {
+        throw new Error(('❌ Correct error not generated. Expected: ' + expectedError + ' but got: ' + error));
+      }
+      cy.wait(10000);
+    });
+  }
 });
 
 Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values have been generated$/, (fileType) => {
@@ -1037,65 +1067,61 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
 
 Then(/^I confirm that test data has not been inserted into the (.*) database$/, (databaseName) => {
 
-  if(env.includes('dev')) {
+  if (env.includes('dev')) {
 
-  var sqlStatement = '';
-  switch (databaseName) {
-  case 'ffc-doc-statement-constructor':
-    sqlStatement = `SELECT * FROM "organisations" WHERE "sbi" = ` + nextSBI;
-    break;
-  case 'ffc-doc-statement-data':
-    sqlStatement = `SELECT * FROM "organisations" WHERE "sbi" = ` + nextSBI;
-    break;
-  case 'ffc-doc-statement-publisher':
-    sqlStatement = `SELECT "statementId" FROM "statements" WHERE "sbi" = ` + nextSBI;
-    break;
-  case 'ffc-doc-statement-generator':
-    sqlStatement = `SELECT "statementData" FROM "generations" WHERE "sbi" = ` + nextSBI;
-    break;
-  default:
-    throw new Error(`Unknown database: ${databaseName}`);
+    var sqlStatement = '';
+    switch (databaseName) {
+    case 'ffc-doc-statement-constructor':
+      sqlStatement = `SELECT * FROM "organisations" WHERE "sbi" = ` + nextSBI;
+      break;
+    case 'ffc-doc-statement-data':
+      sqlStatement = `SELECT * FROM "organisations" WHERE "sbi" = ` + nextSBI;
+      break;
+    case 'ffc-doc-statement-publisher':
+      sqlStatement = `SELECT "statementId" FROM "statements" WHERE "sbi" = ` + nextSBI;
+      break;
+    case 'ffc-doc-statement-generator':
+      sqlStatement = `SELECT "statementData" FROM "generations" WHERE "sbi" = ` + nextSBI;
+      break;
+    default:
+      throw new Error(`Unknown database: ${databaseName}`);
+    }
+
+
+  } else if (env.includes('local')) {
+
+    var sqlStatement = '';
+    switch (databaseName) {
+    case 'ffc-doc-statement-constructor':
+      sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
+      break;
+    case 'ffc-doc-statement-data':
+      sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
+      break;
+    case 'ffc-doc-statement-publisher':
+      sqlStatement = 'SELECT "statementId" FROM "statements" WHERE "sbi" = 123456789';
+      break;
+    case 'ffc-doc-statement-generator':
+      sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "generationId" = 1';
+      break;
+    default:
+      throw new Error(`Unknown database: ${databaseName}`);
+    }
   }
 
-
-  } else if(env.includes('local')) {
-
-  
-  var sqlStatement = '';
-  switch (databaseName) {
-  case 'ffc-doc-statement-constructor':
-    sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
-    break;
-  case 'ffc-doc-statement-data':
-    sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
-    break;
-  case 'ffc-doc-statement-publisher':
-    sqlStatement = 'SELECT "statementId" FROM "statements" WHERE "sbi" = 123456789';
-    break;
-  case 'ffc-doc-statement-generator':
-    sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "generationId" = 1';
-    break;
-  default:
-    throw new Error(`Unknown database: ${databaseName}`);
-  }
-
-}
-
-cy.log(sqlStatement);
+  cy.log(sqlStatement);
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
     .then((results) => {
-    cy.log('Results - ' + JSON.stringify(results));
+      cy.log('Results - ' + JSON.stringify(results));
 
-    if (results.rowCount === 0) {
-      cy.log('✅ Data does not exist in database ');
-      console.log('✅ Data does not exist in database ');
-    } else {
-      throw new Error('Data was found in database');
-    }
-  });
-
-
+      if (results.rowCount === 0) {
+        cy.log('✅ Data does not exist in database ');
+        console.log('✅ Data does not exist in database ');
+      } else {
+        throw new Error('Data was found in database');
+      }
+    });
 });
 
 Then(/^I confirm that test data has been inserted into the (.*) database$/, (databaseName) => {
@@ -1105,54 +1131,53 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
   if (env.includes('dev')) {
 
     switch (databaseName) {
-  case 'ffc-doc-statement-data':
-    sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI;
-    break;
-  case 'ffc-doc-statement-constructor':
-    sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI;
-    break;
-  case 'ffc-doc-statement-generator':
-    cy.wait(60000);
-    sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "generationId" = 1';
-    break;
-  case 'ffc-doc-statement-publisher':
-    cy.wait(60000);
-    sqlStatement = 'SELECT "statementId" FROM "statements" WHERE "sbi" = ' + nextSBI;
-    break;
-  default:
-    throw new Error(`Unknown database: ${databaseName}`);
-  }
+    case 'ffc-doc-statement-data':
+      sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI;
+      break;
+    case 'ffc-doc-statement-constructor':
+      sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI;
+      break;
+    case 'ffc-doc-statement-generator':
+      cy.wait(60000);
+      sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "frn" = ' + nextFRN;
+      break;
+    case 'ffc-doc-statement-publisher':
+      cy.wait(60000);
+      sqlStatement = 'SELECT "statementId" FROM "statements" WHERE "sbi" = ' + nextSBI;
+      break;
+    default:
+      throw new Error(`Unknown database: ${databaseName}`);
+    }
   } else if (env.includes('local')) {
 
-  
-  switch (databaseName) {
-  case 'ffc-doc-statement-data':
-    sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
-    break;
-  case 'ffc-doc-statement-constructor':
-    sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
-    break;
-  case 'ffc-doc-statement-generator':
-    sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "generationId" = 1';
-    break;
-  case 'ffc-doc-statement-publisher':
-    sqlStatement = 'SELECT "statementId" FROM "statements" WHERE "sbi" = 123456789';
-    break;
-  default:
-    throw new Error(`Unknown database: ${databaseName}`);
+    switch (databaseName) {
+    case 'ffc-doc-statement-data':
+      sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
+      break;
+    case 'ffc-doc-statement-constructor':
+      sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
+      break;
+    case 'ffc-doc-statement-generator':
+      sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "generationId" = 1';
+      break;
+    case 'ffc-doc-statement-publisher':
+      sqlStatement = 'SELECT "statementId" FROM "statements" WHERE "sbi" = 123456789';
+      break;
+    default:
+      throw new Error(`Unknown database: ${databaseName}`);
+    }
   }
-}
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
     .then((results) => {
-    const data = results.rows[0];
-    console.log('Data retrieved:', data);
-    if (results.rows.length > 0) {
-      console.log('✅ Data exists in the database');
-    } else {
-      throw new Error('Data is not in database');
-    }
-  });
+      const data = results.rows[0];
+      console.log('Data retrieved:', data);
+      if (results.rows.length > 0) {
+        console.log('✅ Data exists in the database');
+      } else {
+        throw new Error('Data is not in database');
+      }
+    });
 
   console.log(`✅ Test data has been inserted into the ${databaseName} database`);
   cy.log(`✅ Test data has been inserted into the ${databaseName} database`);
@@ -1160,184 +1185,182 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
 
 Then(/^I confirm that bulk test data has been successfully inserted into the (.*) database$/, (databaseName) => {
 
-  if(env.includes('dev')){
+  if (env.includes('dev')) {
 
-  var containerName = '';
-  var sqlStatement = '';
+    var containerName = '';
+    var sqlStatement = '';
 
-  if(databaseName.includes('ffc-doc-statement-data')){
-  
-    containerName = 'ffc-doc-statement-data-development';
+    if (databaseName.includes('ffc-doc-statement-data')) {
 
-    for (let i=0; i<20; i++) {
+      containerName = 'ffc-doc-statement-data-development';
 
-      sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI;
-    
-      cy.log('Executing query :', sqlStatement);
-
-      cy.task('databaseQuery', { env, databaseName, sqlStatement })
-        .then((results) => {
-        const data = results.rows[0];
-        console.log('Data retrieved:', data);
-        cy.log('Data retrieved:', data);
-        if (results.rows.length > 0) {
-          console.log('✅ Data exists in the database');
-          cy.log('✅ Data exists in the database');
-        } else {
-          throw new Error('Data is not in database');
-        }
-      });
       nextSBI--;
-    }
-    
-  } else if(databaseName.includes('ffc-doc-statement-constructor')) {
 
-    containerName = 'ffc-doc-statement-constructor-development';
+      for (let i=0; i<20; i++) {
 
-    for (let i=0; i<20; i++) {
+        sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI;
+        cy.log('Executing query :', sqlStatement);
 
-    sqlStatement = 'SELECT * FROM "d365" WHERE "calculationId" = ' + nextCalculationId;
+        cy.task('databaseQuery', { env, databaseName, sqlStatement })
+          .then((results) => {
+            const data = results.rows[0];
+            console.log('Data retrieved:', data);
+            cy.log('Data retrieved:', data);
+            if (results.rows.length > 0) {
+              console.log('✅ Data exists in the database');
+              cy.log('✅ Data exists in the database');
+            } else {
+              throw new Error('Data is not in database');
+            }
+          });
+        nextSBI--;
+      }
+    } else if (databaseName.includes('ffc-doc-statement-constructor')) {
 
-    cy.log('Executing query :',  sqlStatement);
-
-    cy.task('databaseQuery', { env, databaseName, sqlStatement })
-      .then((results) => {
-
-      if (results.rows.length > 0) {
-          console.log('✅ Data exists in the database');
-          cy.log('✅ Data exists in the database');
-        } else {
-          throw new Error('Data is not in database');
-        }
-      });
       nextCalculationId--;
-    }
-  } else if(databaseName.includes('ffc-doc-statement-generator')) {
 
-    containerName = 'ffc-doc-statement-generator-development';
+      containerName = 'ffc-doc-statement-constructor-development';
 
-      const name = "Area";
+      for (let i=0; i<20; i++) {
 
-    sqlStatement = `SELECT * FROM "generations" WHERE "addressLine2" = 'Area'`;
+        sqlStatement = 'SELECT * FROM "d365" WHERE "calculationId" = ' + nextCalculationId;
 
-    cy.task('databaseQuery', { env, databaseName, sqlStatement })
-      .then((results) => {
+        cy.log('Executing query :',  sqlStatement);
 
-        if (results.rows.length > 19) {
-          console.log('✅ Data exists in the database');
-        } else {
-          throw new Error('Data is not in database');
-        }
-        console.log('Number of rows retrieved:', results.rows.length);
-      });
-  
-  }
+        cy.task('databaseQuery', { env, databaseName, sqlStatement })
+          .then((results) => {
 
-  console.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
-  cy.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
+            if (results.rows.length > 0) {
+              console.log('✅ Data exists in the database');
+              cy.log('✅ Data exists in the database');
+            } else {
+              throw new Error('Data is not in database');
+            }
+          });
+        nextCalculationId--;
+      }
+    } else if (databaseName.includes('ffc-doc-statement-generator')) {
 
-  } else if(env.includes('local')){
+      containerName = 'ffc-doc-statement-generator-development';
 
-  var containerName = '';
-  var sqlStatement = '';
-
-  switch (databaseName) {
-  case 'ffc-doc-statement-data':
-    containerName = 'ffc-doc-statement-data-development';
-     let sqlQuery = 'SELECT * FROM "organisations" WHERE "sbi" = 12345678';
-
-    for (let i=0; i<10; i++) {
-      sqlStatement = "" + sqlQuery + i + "";
-      console.log('Executing query for year 2024 :', sqlStatement);
-      cy.log('Executing query for year 2024 :', sqlStatement);
-
-      cy.task('databaseQuery', { env, databaseName, sqlStatement })
-        .then((results) => {
-        const data = results.rows[0];
-        console.log('Data retrieved:', data);
-        cy.log('Data retrieved:', data);
-        if (results.rows.length > 0) {
-          console.log('✅ Data exists in the database');
-          cy.log('✅ Data exists in the database');
-        } else {
-          throw new Error('Data is not in database');
-        }
-      });
-
-    }
-
-    let sqlQuery2 = 'SELECT * FROM "organisations" WHERE "sbi" = 13345678';
-
-    for (let i=0; i<10; i++) {
-
-      sqlStatement = ""+ sqlQuery2 + i + "";
-      console.log('Executing query for year 2025 :', sqlStatement);
+      sqlStatement = `SELECT * FROM "generations" WHERE "addressLine2" = 'Area'`;
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((results) => {
 
-        const data = results.rows[0];
-        console.log('Data retrieved:', data);
-        if (results.rows.length > 0) {
-          console.log('✅ Data exists in the database');
-        } else {
-          console.log('Data is not in database');
-          throw Error;
-        }
-      });
+          if (results.rows.length > 19) {
+            console.log('✅ Data exists in the database');
+          } else {
+            throw new Error('Data is not in database');
+          }
+          console.log('Number of rows retrieved:', results.rows.length);
+        });
     }
-    cy.log('Data present in statement-data');
-    break;
 
-  case 'ffc-doc-statement-constructor':
-    containerName = 'ffc-doc-statement-constructor-development';
-    databaseName = 'ffc-doc-statement-constructor';
-    sqlStatement = 'SELECT * FROM "d365"';
-    cy.task('databaseQuery', { env, databaseName, sqlStatement })
-      .then((results) => {
+    console.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
+    cy.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
 
-      for (let i=0; i<results.rows.length; i++) {
+  } else if (env.includes('local')) {
 
-        if (results.rows.length > 19) {
-          console.log('✅ Data exists in the database');
-        } else {
-          console.log('Data is not in database');
-          throw Error;
-        }
+    var containerName = '';
+    var sqlStatement = '';
 
-        const data = results.rows[i];
-        console.log('Number of rows retrieved:', results.rows.length);
-        console.log('Data retrieved:', data);
+    switch (databaseName) {
+    case 'ffc-doc-statement-data':
+      containerName = 'ffc-doc-statement-data-development';
+      let sqlQuery = 'SELECT * FROM "organisations" WHERE "sbi" = 12345678';
+
+      for (let i=0; i<10; i++) {
+        sqlStatement = "" + sqlQuery + i + "";
+        console.log('Executing query for year 2024 :', sqlStatement);
+        cy.log('Executing query for year 2024 :', sqlStatement);
+
+        cy.task('databaseQuery', { env, databaseName, sqlStatement })
+          .then((results) => {
+            const data = results.rows[0];
+            console.log('Data retrieved:', data);
+            cy.log('Data retrieved:', data);
+            if (results.rows.length > 0) {
+              console.log('✅ Data exists in the database');
+              cy.log('✅ Data exists in the database');
+            } else {
+              throw new Error('Data is not in database');
+            }
+          });
       }
-    });
-     cy.log('Data present in statement-constructor');
-    break;
-  case 'ffc-doc-statement-generator':
 
-    containerName = 'ffc-doc-statement-generator-development';
-    databaseName = 'ffc-doc-statement-generator';
-    sqlStatement = 'SELECT * FROM "outbox"';
+      let sqlQuery2 = 'SELECT * FROM "organisations" WHERE "sbi" = 13345678';
 
-    cy.task('databaseQuery', { env, databaseName, sqlStatement })
-      .then((results) => {
-      for (let i=0; i<results.rows.length; i++) {
+      for (let i=0; i<10; i++) {
 
-        if (results.rows.length > 19) {
-          console.log('✅ Data exists in the database');
-        } else {
-          console.log('Data is not in database');
-          throw Error;
-        }
+        sqlStatement = ""+ sqlQuery2 + i + "";
+        console.log('Executing query for year 2025 :', sqlStatement);
 
-        const data = results.rows[i];
-        console.log('Number of rows retrieved:', results.rows.length);
-        console.log('Data retrieved:', data);
+        cy.task('databaseQuery', { env, databaseName, sqlStatement })
+          .then((results) => {
+
+            const data = results.rows[0];
+            console.log('Data retrieved:', data);
+            if (results.rows.length > 0) {
+              console.log('✅ Data exists in the database');
+            } else {
+              console.log('Data is not in database');
+              throw Error;
+            }
+          });
       }
-    });
-     cy.log('Data present in statement-generator');
-    break;
+      cy.log('Data present in statement-data');
+      break;
+
+    case 'ffc-doc-statement-constructor':
+      containerName = 'ffc-doc-statement-constructor-development';
+      databaseName = 'ffc-doc-statement-constructor';
+      sqlStatement = 'SELECT * FROM "d365"';
+      cy.task('databaseQuery', { env, databaseName, sqlStatement })
+        .then((results) => {
+
+          for (let i=0; i<results.rows.length; i++) {
+
+            if (results.rows.length > 19) {
+              console.log('✅ Data exists in the database');
+            } else {
+              console.log('Data is not in database');
+              throw Error;
+            }
+
+            const data = results.rows[i];
+            console.log('Number of rows retrieved:', results.rows.length);
+            console.log('Data retrieved:', data);
+          }
+        });
+      cy.log('Data present in statement-constructor');
+      break;
+    case 'ffc-doc-statement-generator':
+
+      containerName = 'ffc-doc-statement-generator-development';
+      databaseName = 'ffc-doc-statement-generator';
+      sqlStatement = 'SELECT * FROM "outbox"';
+
+      cy.task('databaseQuery', { env, databaseName, sqlStatement })
+        .then((results) => {
+          for (let i=0; i<results.rows.length; i++) {
+
+            if (results.rows.length > 19) {
+              console.log('✅ Data exists in the database');
+            } else {
+              console.log('Data is not in database');
+              throw Error;
+            }
+
+            const data = results.rows[i];
+            console.log('Number of rows retrieved:', results.rows.length);
+            console.log('Data retrieved:', data);
+          }
+        });
+      cy.log('Data present in statement-generator');
+      break;
+    }
   }
-}
 
   console.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
   cy.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);

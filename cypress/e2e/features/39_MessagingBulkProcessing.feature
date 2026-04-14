@@ -1,6 +1,9 @@
 @dev @local
 Feature: 39 Messaging Bulk Processing
 
+# npm run cypress:dev:one -- "cypress\e2e\features\39_MessagingBulkProcessing.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\39_MessagingBulkProcessing.feature"
+
 # This feature file is designed to load a high amount of payment messages into pay-enrichment
 # for the purpose of performance testing of the service and its ability to process messages in bulk
 

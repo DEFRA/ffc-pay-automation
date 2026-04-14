@@ -2,6 +2,9 @@ Feature: 24 Vet Visits Payments
 
 # This feature file is designed to test the end-to-end journey of Vet Visits payment in the local environment.
 
+# npm run cypress:dev:one -- "cypress\e2e\features\24_VetVisitsPayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\24_VetVisitsPayments.feature"
+
   @dev
   Scenario: 01 insert incorrect test data via service bus message to ffc-pay-request and confirm data is rejected
 
@@ -31,6 +34,19 @@ Feature: 24 Vet Visits Payments
 
     When I send "vet visits return" test data message to the service bus topic "ffc-pay-return-dev"
     Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
+
+  @dev
+  Scenario: 03 Confirm that new AWHR standard code is functioning correctly
+
+#This scenario confirms that Vet Visits payments can be processed correctly using the new AWHR standard code and that the
+#correct scheme code of 18005 will be added by enrichment
+
+    When I send the updated "awhrPoultry-paymentFileMessage" message to the service bus topic "ffc-pay-request-dev"
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+    Then I pull vet visits file from Azure Blob Storage and confirm that correct values have been generated
+
+    Then I confirm that payment for current FRN has scheme code of "18005" in ffc-pay-processing database
 
   @local
   Scenario: 01 insert incorrect test data via service bus message to ffc-pay-request and confirm data is rejected
@@ -64,3 +80,17 @@ Feature: 24 Vet Visits Payments
 
     When I send the updated "vetVisits-returnFileMessage" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
+
+  @local
+  Scenario: 04 Confirm that new AWHR standard code is functioning correctly
+
+#This scenario confirms that Vet Visits payments can be processed correctly using the new AWHR standard code and that the
+#correct scheme code of 18005 will be added by enrichment
+
+    Given I restart the local environment
+    When I send the updated "awhrPoultry-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    Then I confirm that payment test data has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data has been inserted into the ffc-pay-submission database
+    Then I pull vet visits file from Azure Blob Storage and confirm that correct values have been generated
+
+    Then I confirm that payment for current FRN has scheme code of "18005" in ffc-pay-processing database

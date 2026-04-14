@@ -1,5 +1,8 @@
 Feature: 10 Reports
 
+# npm run cypress:test:one -- "cypress\e2e\features\10_Reports.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\10_Reports.feature"
+
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
     And I click on the "Reports" link

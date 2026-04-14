@@ -1246,7 +1246,7 @@ Then(/^on the Add new alert recipient page I confirm that all options are presen
     'Demographics Update Failed',
     'Event Save Alert',
     'Table Create Alert',
-    // 'Responses Processing Failed',
+    'Responses Processing Failed',
     'Customer Update Processing Failed',
     'Tracking Update Failure'
   ];
@@ -1255,7 +1255,7 @@ Then(/^on the Add new alert recipient page I confirm that all options are presen
     const pageText = doc.body.innerText;
     stringsToCheck.forEach(str => {
       const count = (pageText.match(new RegExp(str, 'g')) || []).length;
-      expect(count, `Occurrences of "${str}"`).to.eq(15);
+      expect(count, `Occurrences of "${str}"`).to.eq(16);
     });
   });
   console.log('Confirmed that all options are present when no filter selected');
@@ -1282,7 +1282,7 @@ Then(/^on the Add new alert recipient page I confirm that only one set of option
     'Demographics Update Failed',
     'Event Save Alert',
     'Table Create Alert',
-    // 'Responses Processing Failed',
+    'Responses Processing Failed',
     'Customer Update Processing Failed',
     'Tracking Update Failure'
   ];

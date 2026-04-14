@@ -36,14 +36,14 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((results) => {
-        const data = results.rows[0];
-        console.log('Data retrieved:', data);
-        if (results.rows.length > 0) {
-          console.log('✅ Data exists in the database');
-        } else {
-          throw new Error('Data is not in database');
-        }
-      });
+          const data = results.rows[0];
+          console.log('Data retrieved:', data);
+          if (results.rows.length > 0) {
+            console.log('✅ Data exists in the database');
+          } else {
+            throw new Error('Data is not in database');
+          }
+        });
     });
 
 
@@ -63,14 +63,14 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
 
     cy.task('databaseQuery', { env, databaseName, sqlStatement })
       .then((results) => {
-      const data = results.rows[0];
-      console.log('Data retrieved:', data);
-      if (results.rows.length > 0) {
-        console.log('✅ Data exists in the database');
-      } else {
-        throw new Error('Data is not in database');
-      }
-    });
+        const data = results.rows[0];
+        console.log('Data retrieved:', data);
+        if (results.rows.length > 0) {
+          console.log('✅ Data exists in the database');
+        } else {
+          throw new Error('Data is not in database');
+        }
+      });
   }
 
   console.log(`✅ Test data has been inserted into the ${databaseName} database`);
@@ -85,15 +85,15 @@ Then(/^I confirm that payment test data has not been inserted into the (.*) data
     sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
     cy.task('databaseQuery', { env, databaseName, sqlStatement })
       .then((results) => {
-      cy.log('Results - ' + JSON.stringify(results));
+        cy.log('Results - ' + JSON.stringify(results));
 
-      if (results.rowCount === 0) {
-        cy.log('✅ Data does not exist in database ');
-        console.log('✅ Data does not exist in database ');
-      } else {
-        throw new Error('Data was found in database');
-      }
-    });
+        if (results.rowCount === 0) {
+          cy.log('✅ Data does not exist in database ');
+          console.log('✅ Data does not exist in database ');
+        } else {
+          throw new Error('Data was found in database');
+        }
+      });
     break;
   }
 });
@@ -117,26 +117,26 @@ Then('I confirm that {string} test data has been inserted into the {string} data
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
     .then((results) => {
 
-    cy.log('Results - ' + JSON.stringify(results));
+      cy.log('Results - ' + JSON.stringify(results));
 
-    if (fileType === 'd365 rejection') {
+      if (fileType === 'd365 rejection') {
 
-      var holdCategoryId = results.rows[0].holdCategoryId;
+        var holdCategoryId = results.rows[0].holdCategoryId;
 
-      if (holdCategoryId === 1) {
-        console.log('✅ Correct data has been added from ' + fileType + ' file');
+        if (holdCategoryId === 1) {
+          console.log('✅ Correct data has been added from ' + fileType + ' file');
+        } else {
+          throw new Error('Correct data has not been added from ' + fileType + ' file');
+        }
       } else {
-        throw new Error('Correct data has not been added from ' + fileType + ' file');
-      }
-    } else {
 
-      if (results.rowCount === 1) {
-        console.log('✅ Correct data has been added from ' + fileType + ' file');
-      } else {
-        throw new Error('Correct data has not been added from ' + fileType + ' file');
+        if (results.rowCount === 1) {
+          console.log('✅ Correct data has been added from ' + fileType + ' file');
+        } else {
+          throw new Error('Correct data has not been added from ' + fileType + ' file');
+        }
       }
-    }
-  });
+    });
 
   cy.task('getDockerLogs', containerName).then((logs) => {
     logs.split('\n').forEach((line) => {
@@ -185,18 +185,18 @@ Then(/^I confirm that the settled value of (.*) is (.*) in database$/, (fileType
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
     .then((results) => {
-    cy.log('Results - ' + JSON.stringify(results));
-    const value = results.rows[0].settledValue;
-    console.log(`Actual Value: ${value}`);
-    cy.log(`Actual Value: ${value}`);
-    if (value == expectedValue) {
-      console.log(`Settled Value confirmed as expected: ${value}`);
-      cy.log(`Settled Value confirmed as expected: ${value}`);
-    } else {
-      console.log(`Incorrect value found: ${value}, expected: ${expectedValue}`);
-      throw new Error(`Incorrect value found: ${value}`);
-    }
-  });
+      cy.log('Results - ' + JSON.stringify(results));
+      const value = results.rows[0].settledValue;
+      console.log(`Actual Value: ${value}`);
+      cy.log(`Actual Value: ${value}`);
+      if (value == expectedValue) {
+        console.log(`Settled Value confirmed as expected: ${value}`);
+        cy.log(`Settled Value confirmed as expected: ${value}`);
+      } else {
+        console.log(`Incorrect value found: ${value}, expected: ${expectedValue}`);
+        throw new Error(`Incorrect value found: ${value}`);
+      }
+    });
 });
 
 
@@ -260,15 +260,14 @@ Then(/^I confirm that (.*) event can be found in Event Hub Database$/, (eventTyp
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
     .then((rows) => {
-    const results = JSON.stringify(rows, null, 2);
-    console.log('Results ' + results);
+      const results = JSON.stringify(rows, null, 2);
+      console.log('Results ' + results);
 
-    if (results.includes(expectedType)) {
-      console.log('✅ Event with type ' + expectedType + ' was found in database');
-      cy.log('✅ Event with type ' + expectedType + ' was found in database');
-    } else {
-      throw new Error('Event with type ' + expectedType + ' was not found in database');
-    }
-
-  });
+      if (results.includes(expectedType)) {
+        console.log('✅ Event with type ' + expectedType + ' was found in database');
+        cy.log('✅ Event with type ' + expectedType + ' was found in database');
+      } else {
+        throw new Error('Event with type ' + expectedType + ' was not found in database');
+      }
+    });
 });

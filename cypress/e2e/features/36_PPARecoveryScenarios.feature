@@ -1,6 +1,8 @@
 @local
 Feature: 36 PPA Recovery Scenarios
 
+# npm run cypress:local:one -- "cypress\e2e\features\36_PPARecoveryScenarios.feature"
+
 # This feature file is designed to test PPA Recovery processing at various stages of payment installments
 
   Scenario: 01 PPA Recovery after first installment

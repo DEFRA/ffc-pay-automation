@@ -1,6 +1,8 @@
 @dev
 Feature: 38 Management Information
 
+# npm run cypress:dev:one -- "cypress\e2e\features\38_ManagementInformation.feature"
+
 # This feature file is designed to test functionality of Management Information page in Payment Management UI
 
   Scenario: 01 Confirm Management Information page loads correctly

@@ -1,6 +1,8 @@
 @local
 Feature: 42 Payment Event Monitoring
 
+# npm run cypress:local:one -- "cypress\e2e\features\42_PaymentEventMonitoring.feature"
+
 #####################################READ BEFORE RUNNING##########################################
 
 #As the later scenarios in this feature file are intended to test the ordering and processing of payment request following PPAs,

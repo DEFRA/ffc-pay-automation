@@ -1,5 +1,8 @@
 Feature: 22 CS Higher Tier Revenue Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\22_CSHigherTierRevenuePayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\22_CSHigherTierRevenuePayments.feature"
+
 # This feature file is designed to test the end-to-end journey of COHTR and COHTC payment in the local environment.
 
   @dev

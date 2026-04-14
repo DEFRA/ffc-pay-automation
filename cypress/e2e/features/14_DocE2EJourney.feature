@@ -1,6 +1,9 @@
 @local @dev @documents
 Feature: 14 Doc E2E Journey
 
+# npm run cypress:dev:one -- "cypress\e2e\features\14_DocE2EJourney.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\14_DocE2EJourney.feature"
+
  #This feature file is designed to test the end-to-end journey of document services in the local environment.
 
   Scenario: 01 insert test data into Statement Data service

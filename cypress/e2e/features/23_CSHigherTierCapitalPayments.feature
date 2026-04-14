@@ -1,5 +1,8 @@
 Feature: 23 CS Higher Tier Capital Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\23_CSHigherTierCapitalPayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\23_CSHigherTierCapitalPayments.feature"
+
   @dev
   Scenario: 01 insert incorrect COHTC test data via service bus message to ffc-pay-request
 

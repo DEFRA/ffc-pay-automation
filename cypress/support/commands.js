@@ -29,8 +29,8 @@ Cypress.Commands.add('stopMessageReception', () => {
   cy.task('stopMessageReception');
 });
 
-Cypress.Commands.add('generateJWT', (payload, secret, options) => {
-  return cy.task('generateJWT', { payload, secret, options });
+Cypress.Commands.add('generateJWT', () => {
+  return cy.task('generateJWT');
 });
 
 Cypress.Commands.add('generateAccessToken', () => {
@@ -103,8 +103,8 @@ Cypress.Commands.add('databaseInsert', (env, databaseName, sqlStatement) => {
   cy.task('databaseInsert', env, databaseName, sqlStatement);
 });
 
-Cypress.Commands.add('fetchStatementsBlobById', (container, dir, year) => {
-  cy.task('fetchStatementsBlobById', container, dir, year);
+Cypress.Commands.add('fetchStatementsBlobById', (env, container, dir, year) => {
+  cy.task('fetchStatementsBlobById', env, container, dir, year);
 });
 
 Cypress.Commands.add('fetchPaymentsBlobById', (env, container, dir, scheme) => {

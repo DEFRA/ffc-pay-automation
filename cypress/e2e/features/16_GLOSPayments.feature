@@ -1,5 +1,8 @@
 Feature: 16 GLOS Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\16_GLOSPayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\16_GLOSPayments.feature"
+
 # This feature file is designed to test the end-to-end journey of GLOS payment in the local environment.
 
   @dev

@@ -1,5 +1,8 @@
 Feature: 19 GENESIS Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\19_GENESISPayments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\19_GENESISPayments.feature"
+
 # This feature file is designed to test the end-to-end journey of GENESIS payment in the local environment.
 
   @dev

@@ -1,6 +1,10 @@
 Feature: 32 SFI23 Payments
 
+# npm run cypress:dev:one -- "cypress\e2e\features\32_SFI23Payments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\32_SFI23Payments.feature"
+
 # This feature file is designed to test the end-to-end journey of SFI23 payment in the local environment.
+
   @dev
   Scenario: 01 insert incorrect SFI23 test data via service bus message to ffc-pay-request
 
@@ -99,7 +103,7 @@ Feature: 32 SFI23 Payments
 #This scenario confirms that a return file message can be sent and processed correctly
 
     When I send the updated "sfi23-returnFileMessage" message to the service bus topic "ffc-pay-return-aw"
-    Then I confirm that return test data has been inserted into the ffc-pay-processing database
+    Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
 
   @local
   Scenario: 04 send SFI23 PPA file message and confirm processing
@@ -107,7 +111,7 @@ Feature: 32 SFI23 Payments
   #This scenario confirms that a PPA file message can be sent and processed correctly
 
     When I send the updated "sfi23-ppaFileMessage" message to the service bus topic "ffc-pay-request-aw"
-    Then I confirm that ppa test data has been inserted into the ffc-pay-processing database
+    Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
   @local
   Scenario: 05 Approve payment from reporting data queue
