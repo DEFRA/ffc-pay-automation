@@ -23,9 +23,10 @@ When(/^I can see "(.*)" as the header$/, (text) => {
 Then(/^I take a screenshot for "(.*)"$/, (text) => {
   Cypress.emit('log:step', 'I take a screenshot for ' + text);
 
-  const screenshotName = `01_PaymentManagement.feature -- 01 Verify ${text} links work correctly`;
-  console.log('Screenshot Name:', screenshotName);
-  cy.screenshot(screenshotName);
+  cy.screenshot(text).then(() => {
+    const existing = Cypress.env('screenshotNames') || [];
+    Cypress.env('screenshotNames', [...existing, text]);
+  });
 });
 
 Then(/^I am on the "(.*)" subpage$/, (text) => {
@@ -488,7 +489,7 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
 });
 
 Then(/^on the Processed Payment Requests page I confirm that entry is present for "(.*)" scheme with "(.*)" payments and a value of "(.*)"$/, (scheme, payments, value) => {
-  
+
   Cypress.emit('log:step', 'on the Processed Payment Requests page I confirm that entry is present for ' + scheme + ' scheme with ' + payments + ' payments and a value of ' + value);
   cy.wait(2000); // Waiting for data load
   cy.contains(scheme).should('be.visible');

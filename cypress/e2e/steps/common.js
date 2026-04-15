@@ -502,9 +502,10 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     }
     break;
   }
-  const screenshotName = featureString + scenarioString;
-  console.log('Screenshot Name:', screenshotName);
-  cy.screenshot(screenshotName);
+  const screenshotPath = `${scenarioString}`;
+  console.log('Screenshot Path:', screenshotPath);
+
+  cy.screenshot(screenshotPath, { overwrite: true });
 });
 
 Then('I confirm that I am on the {string} homepage', (service) => {

@@ -20,11 +20,6 @@ module.exports = defineConfig({
         })
       );
 
-
-      // ---------------------------------------------------------
-      // Custom tasks for managing local environment and database interactions
-      // ---------------------------------------------------------
-
       const fs2 = require("fs");
       const path2 = require("path");
       const { spawn } = require("child_process");
@@ -248,10 +243,9 @@ module.exports = defineConfig({
       html: false,
       json: true,
       charts: true,
-      code: true,
+      code: false,
       autoOpen: false,
       quiet: true,
-      screenshotOnRunFailure: true,
       inlineAssets: true
     }
   }
