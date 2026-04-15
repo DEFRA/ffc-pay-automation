@@ -6,6 +6,8 @@ import capturePage from '../pages/capturePage';
 const dayjs = require('dayjs');
 
 When('I create a new reporting dataset with the following values', (datatable) => {
+
+  Cypress.emit('log:step', 'I create a new reporting dataset with the following values');
   datatable.hashes().forEach((element) => {
     requestEditor.inputByValue(element.scheme).click();
     requestEditor.txtFrn().type(element.frn);
@@ -31,6 +33,8 @@ When('I create a new reporting dataset with the following values', (datatable) =
 });
 
 Then('I make a note of the dataset count', () => {
+
+  Cypress.emit('log:step', 'I make a note of the dataset count');
   requestEditor
     .unattachedReportingDatasetsCount()
     .should('be.visible')
@@ -40,6 +44,8 @@ Then('I make a note of the dataset count', () => {
 });
 
 Then('the dataset count has increased by 1', () => {
+
+  Cypress.emit('log:step', 'the dataset count has increased by 1');
   cy.get('@initialDatasetCount').then((initialCount) => {
     requestEditor
       .unattachedReportingDatasetsCount()
@@ -52,103 +58,143 @@ Then('the dataset count has increased by 1', () => {
 });
 
 Then('I should see the following schemes:', (dataTable) => {
+
+  Cypress.emit('log:step', 'I should see the following schemes:');
   dataTable.hashes().forEach(row => {
     requestEditor.getSchemeRadioButton(row['Scheme Name']).should('exist');
   });
 });
 
 Then('the extract is downloaded', () => {
+
+  Cypress.emit('log:step', 'the extract is downloaded');
   cy.readFile('cypress/downloads/ffc-pay-debts-report.csv', { timeout: 15000 });
 });
 
 When(/^I search for FRN "(.*)"$/, (text) => {
+
+  Cypress.emit('log:step', 'I search for FRN ' + text);
   requestEditor.getFrnSearchField().type(text);
 });
 
 When('I search for the FRN', () => {
+
+  Cypress.emit('log:step', 'I search for the FRN');
   cy.get('@lastFRN').then((lastFRN) => {
     capturePage.captureTxtFrn().scrollIntoView().type(lastFRN+'{enter}');
   });
 });
 
 When('I enter the random FRN in the search field', () => {
+
+  Cypress.emit('log:step', 'I enter the random FRN in the search field');
   cy.get('@frn').then((frn) => {
     requestEditor.getFrnSearchField().type(frn);
   });
 });
 
 When('I enter the newly generated FRN in the search field', () => {
+
+  Cypress.emit('log:step', 'I enter the newly generated FRN in the search field');
   const updatedFRN = Cypress.env('updatedMessageBody').frn;
   requestEditor.getFrnSearchField().type(updatedFRN);
 });
 
 Then('I should see the first FRN in the results matches the random FRN', () => {
+
+  Cypress.emit('log:step', 'I should see the first FRN in the results matches the random FRN');
   cy.get('@frn').then((frn) => {
     requestEditor.firstFRN().should('have.text', frn);
   });
 });
 
 Then('I should see the first FRN in the results matches the newly generated FRN', () => {
+
+  Cypress.emit('log:step', 'I should see the first FRN in the results matches the newly generated FRN');
   const updatedFRN = Cypress.env('updatedMessageBody').frn;
   requestEditor.firstFRN().should('have.text', updatedFRN);
 });
 
 Then('I click on the FRN search button', () => {
+
+  Cypress.emit('log:step', 'I click on the FRN search button');
   requestEditor.getFrnSearchButton().click();
 });
 
 When(/^I can see FRN "(.*)" in the table$/, (text) => {
+
+  Cypress.emit('log:step', 'I can see FRN ' + text + ' in the table');
   requestEditor.firstFRNManualLedger().should('contain.text', text);
 });
 
 When('I can see the FRN in the table', () => {
+
+  Cypress.emit('log:step', 'I can see the FRN in the table');
   cy.get('@lastFRN').then((lastFRN) => {
     requestEditor.firstFRN().should('have.text', lastFRN);
   });
 });
 
 When('I should see the first FRN in the results matches the last record FRN', () => {
+
+  Cypress.emit('log:step', 'I should see the first FRN in the results matches the last record FRN');
   cy.get('@lastFRN').then((lastFRN) => {
     requestEditor.firstFRN().should('have.text', lastFRN);
   });
 });
 
 When('I should see the first capture FRN in the results matches the last record FRN', () => {
+
+  Cypress.emit('log:step', 'I should see the first capture FRN in the results matches the last record FRN');
   cy.get('@lastFRN').then((lastFRN) => {
     requestEditor.firstCaptureFRN().should('have.text', lastFRN);
   });
 });
 
 Then('the application identifier field header is visible with text {string}', (text) => {
+
+  Cypress.emit('log:step', 'the application identifier field header is visible with text ' + text);
   requestEditor.applicationIdentifierHeader().should('be.visible').invoke('text').then((textFromElement) => {
     expect(textFromElement.trim()).to.eq(text);
   });
 });
 
 Then('the application identifier hint is visible with text {string}', (text) => {
+
+  Cypress.emit('log:step', 'the application identifier hint is visible with text ' + text);
   requestEditor.applicationIdentifierHint().should('be.visible').invoke('text').then((textFromElement) => {
     expect(textFromElement.trim()).to.eq(text);
   });
 });
 
 When('on the Payment Holds Page I select {string} from the number of records per page dropdown', (number) => {
+
+  Cypress.emit('log:step', 'on the Payment Holds Page I select ' + number + ' from the number of records per page dropdown');
   requestEditor.paymentHoldsRecordsPerPageDropdown().scrollIntoView().select(number);
 });
 
 When('I select {string} from the number of records per page dropdown', (number) => {
+
+  Cypress.emit('log:step', 'I select ' + number + ' from the number of records per page dropdown');
   requestEditor.recordsPerPageDropdown().scrollIntoView().select(number);
 });
 
 
 Then('I can see at most {int} records displayed in the table', (number) => {
+
+  Cypress.emit('log:step', 'I can see at most ' + number + ' records displayed in the table');
   requestEditor.dataSetRecords().should('have.length.at.most', number);
 });
 
 Then('I can see {string} in the page box', number => {
+
+  Cypress.emit('log:step', 'I can see ' + number + ' in the page box');
   requestEditor.pageNumber().scrollIntoView().should('contain.text', number);
 });
 
 When('I click on the {string} page button', txt => {
+
+  Cypress.emit('log:step', 'I click on the ' + txt + ' page button');
   if (txt === 'Next') {
     requestEditor.btnNext().click({ force: true });
   } else {
@@ -157,6 +203,8 @@ When('I click on the {string} page button', txt => {
 });
 
 Then('I can see the {string} button', btnText => {
+
+  Cypress.emit('log:step', 'I can see the ' + btnText + ' button');
   if (btnText === 'Next') {
     requestEditor.btnNext().scrollIntoView().should('be.visible').and('contain.text', btnText);
   } else if (btnText === 'Previous') {
@@ -167,6 +215,8 @@ Then('I can see the {string} button', btnText => {
 });
 
 Then('I cannot see the {string} button', btnText => {
+
+  Cypress.emit('log:step', 'I cannot see the ' + btnText + ' button');
   if (btnText === 'Next') {
     requestEditor.btnNext().should('not.exist');
   } else if (btnText === 'Previous') {
@@ -177,40 +227,56 @@ Then('I cannot see the {string} button', btnText => {
 });
 
 When('I visit the last page', () => {
+
+  Cypress.emit('log:step', 'I visit the last page');
   cy.clickNextButtonUntilOnLastPage();
 });
 
 When('I get the FRN of the last record', () => {
+
+  Cypress.emit('log:step', 'I get the FRN of the last record');
   requestEditor.lastFRN().invoke('text').then((text) => {
     cy.wrap(text.trim()).as('lastFRN');
   });
 });
 
 When('I enter the last record FRN in the search field', () => {
+
+  Cypress.emit('log:step', 'I enter the last record FRN in the search field');
   cy.get('@lastFRN').then((lastFRN) => {
     requestEditor.getFrnSearchField().type(lastFRN);
   });
 });
 
 When('I get the FRN of the last capture record', () => {
+
+  Cypress.emit('log:step', 'I get the FRN of the last capture record');
   capturePage.lastCaptureFRN().invoke('text').then((text) => {
     cy.wrap(text.trim()).as('lastFRN');
   });
 });
 
 Then('I see the {string} application identifier error message', error => {
+
+  Cypress.emit('log:step', 'I see the ' + error + ' application identifier error message');
   requestEditor.applicationIdentifierError().scrollIntoView().should('be.visible').and('contain.text', error);
 });
 
 Then('I see the {string} error summary title', (errorTitle) => {
+
+  Cypress.emit('log:step', 'I see the ' + errorTitle + ' error summary title');
   requestEditor.errorSummaryTitle().scrollIntoView().should('be.visible').and('contain.text', errorTitle);
 });
 
 Then('I see the {string} error summary item', (errorItem) => {
+
+  Cypress.emit('log:step', 'I see the ' + errorItem + ' error summary item');
   requestEditor.errorSummaryItem().scrollIntoView().should('be.visible').and('contain.text', errorItem);
 });
 
 Then('I click on the {string} show attached datasets button', (radioButton) => {
+
+  Cypress.emit('log:step', 'I click on the ' + radioButton + ' show attached datasets button');
   if (radioButton === 'Yes') {
     requestEditor.unattachedDataYesButton().scrollIntoView().click();
   } else if (radioButton === 'No') {
@@ -221,6 +287,8 @@ Then('I click on the {string} show attached datasets button', (radioButton) => {
 });
 
 Then('I click on the {string} provisional values radio button', (radioButton) => {
+
+  Cypress.emit('log:step', 'I click on the ' + radioButton + ' provisional values radio button');
   if (radioButton === 'Yes') {
     requestEditor.yesProvisionalValuesRadioButton().scrollIntoView().click();
   } else if (radioButton === 'No') {
@@ -231,6 +299,8 @@ Then('I click on the {string} provisional values radio button', (radioButton) =>
 });
 
 Then('I click on the {string} edited correctly radio button', (radioButton) => {
+
+  Cypress.emit('log:step', 'I click on the ' + radioButton + ' edited correctly radio button');
   if (radioButton === 'Yes') {
     requestEditor.yesEditedCorrectlyRadioButton().scrollIntoView().click();
   } else if (radioButton === 'No') {
@@ -241,6 +311,8 @@ Then('I click on the {string} edited correctly radio button', (radioButton) => {
 });
 
 Then('I make a note of the {string} count', (text) => {
+
+  Cypress.emit('log:step', 'I make a note of the ' + text + ' count');
   cy.contains('.govuk-heading-m', text)
     .parent()
     .find('.govuk-heading-xl')
@@ -251,6 +323,8 @@ Then('I make a note of the {string} count', (text) => {
 });
 
 Then('the {string} count has increased by 1', (text) => {
+
+  Cypress.emit('log:step', 'the ' + text + ' count has increased by 1');
   cy.wait(30000);
   cy.reload();
   cy.get(`@${text}Count`).then((oldCount) => {
@@ -268,6 +342,8 @@ Then('the {string} count has increased by 1', (text) => {
 });
 
 Then('the {string} count has decreased by 1', (text) => {
+
+  Cypress.emit('log:step', 'the ' + text + ' count has decreased by 1');
   cy.wait(20000);
   cy.reload();
   cy.get(`@${text}Count`).then((oldCount) => {
@@ -285,6 +361,8 @@ Then('the {string} count has decreased by 1', (text) => {
 });
 
 Then('I click on the {string} debt type radio button', (radioButton) => {
+
+  Cypress.emit('log:step', 'I click on the ' + radioButton + ' debt type radio button');
   if (radioButton === 'Irregular') {
     requestEditor.irregularRadioButton().scrollIntoView().click();
   } else if (radioButton === 'Administrative') {
@@ -295,11 +373,15 @@ Then('I click on the {string} debt type radio button', (radioButton) => {
 });
 
 Then('I enter a valid debt discovered date in the past', () => {
+
+  Cypress.emit('log:step', 'I enter a valid debt discovered date in the past');
   requestEditor.dayInput().clear().type('15');
   requestEditor.monthInput().clear().type('06');
   requestEditor.yearInput().clear().type('2018');
 });
 
 When('on the Awaiting Reporting Data page I click the FRN number search button', () => {
+
+  Cypress.emit('log:step', 'on the Awaiting Reporting Data page I click the FRN number search button');
   requestEditor.awaitingRepFRNSearchBtn().click();
 });

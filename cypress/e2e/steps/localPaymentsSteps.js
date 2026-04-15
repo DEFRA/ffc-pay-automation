@@ -9,16 +9,22 @@ console.log('Environment Config:', envConfig);
 
 Given('I restart the local environment', () => {
 
+  Cypress.emit('log:step', 'I restart the local environment');
+
   if (env.includes('local')) {
     cy.task('restartLocalEnv');
   }
 });
 
 Given('I start ffc-pay-dps service', () => {
+
+  Cypress.emit('log:step', 'I start ffc-pay-dps service');
   cy.task('startDPSService');
 });
 
 When(/^I insert (.*) test data into Batch Processor service$/, (schemeName) => {
+
+  Cypress.emit('log:step', 'I insert ' + schemeName + ' test data into Batch Processor service');
   switch (schemeName) {
   case 'GLOS':
     cy.task('insertGLOSBatchProcessorData');
@@ -29,6 +35,7 @@ When(/^I insert (.*) test data into Batch Processor service$/, (schemeName) => {
 
 Then(/^I confirm that payment test data has been inserted into the (.*) database$/, (databaseName) => {
 
+  Cypress.emit('log:step', 'I confirm that payment test data has been inserted into the ' + databaseName + ' database');
 
   if (databaseName === 'ffc-pay-injection') {
     cy.get('#main-content > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)').invoke('text').then((text) => {
@@ -78,6 +85,8 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
 });
 
 Then(/^I confirm that payment test data has not been inserted into the (.*) database$/, (databaseName) => {
+
+  Cypress.emit('log:step', 'I confirm that payment test data has not been inserted into the ' + databaseName + ' database');
   var sqlStatement = '';
   switch (databaseName) {
 
@@ -99,6 +108,9 @@ Then(/^I confirm that payment test data has not been inserted into the (.*) data
 });
 
 Then('I confirm that {string} test data has been inserted into the {string} database', (fileType, databaseName) => {
+
+  Cypress.emit('log:step', 'I confirm that ' + fileType + ' test data has been inserted into the ' + databaseName + ' database');
+
   var containerName;
   var sqlStatement;
 
@@ -154,6 +166,8 @@ Then(/^I confirm that the settled value of (.*) is (.*) in database$/, (fileType
   //This step checks the settled value in the database for PPA payments and confirms that it matches the value
   // entered in the feature file.
 
+  Cypress.emit('log:step', 'I confirm that the settled value of ' + fileType + ' is ' + expectedValue + ' in the database');
+
   const databaseName = 'ffc-pay-processing';
   var sqlStatement = '';
 
@@ -202,6 +216,8 @@ Then(/^I confirm that the settled value of (.*) is (.*) in database$/, (fileType
 
 
 When(/^I upload the (.*) payment file to the Azure Blob Storage container$/, (fileType) => {
+
+  Cypress.emit('log:step', 'I upload the ' + fileType + ' payment file to the Azure Blob Storage container');
   switch (fileType) {
   case 'dps':
     cy.task('uploadFileToBlobStorage', {
@@ -215,6 +231,8 @@ When(/^I upload the (.*) payment file to the Azure Blob Storage container$/, (fi
 });
 
 Then('I confirm that {string} alert has been generated', (alertMessage) => {
+
+  Cypress.emit('log:step', 'I confirm that ' + alertMessage + ' alert has been generated');
 
   console.log(`Checking for alert: "${alertMessage}"`);
   cy.log(`Checking for alert: "${alertMessage}"`);
@@ -230,6 +248,8 @@ Then('I confirm that {string} alert has been generated', (alertMessage) => {
 });
 
 Then(/^I confirm that (.*) event can be found in Event Hub Database$/, (eventType) => {
+
+  Cypress.emit('log:step', 'I confirm that ' + eventType + ' event can be found in Event Hub Database');
 
   var sqlStatement;
   var expectedType;

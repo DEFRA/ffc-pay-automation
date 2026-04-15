@@ -18,6 +18,8 @@ let nextTrader;
 let nextInvoiceNumber;
 
 Given('I send the updated {string} message to the service bus topic {string}', (message, topicName) => {
+
+  Cypress.emit('log:step', 'I send the updated ' + message + ' message to the service bus topic ' + topicName);
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
 
   cy.readFile(inputFilePath).then((messageBody) => {
@@ -29,14 +31,20 @@ Given('I send the updated {string} message to the service bus topic {string}', (
 });
 
 Given('I start the messaging service for the service bus topic {string}', (topicName) => {
+
+  Cypress.emit('log:step', 'I start the messaging service for the service bus topic ' + topicName);
   cy.task('startMessageReception', topicName);
 });
 
 Given('I stop the messaging service', () => {
+
+  Cypress.emit('log:step', 'I stop the messaging service');
   cy.task('stopMessageReception');
 });
 
 Then('the {string} message should be received successfully for the service bus topic {string}', (message, topicName) => {
+
+  Cypress.emit('log:step', 'the ' + message + ' message should be received successfully for the service bus topic ' + topicName);
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
   const outputFilePath = `cypress/fixtures/messageTemplates/outputMessage/${topicName}.json`;
 
@@ -87,6 +95,8 @@ Then('the {string} message should be received successfully for the service bus t
 });
 
 Then('I check service bus topic {string} for received messages', (topicName) => {
+
+  Cypress.emit('log:step', 'I check service bus topic ' + topicName + ' for received messages');
   const updatedFRN = Cypress.env('updatedMessageBody').frn;
 
   cy.task('fetchReceivedMessages', topicName).then((messages) => {
@@ -101,6 +111,8 @@ Then('I check service bus topic {string} for received messages', (topicName) => 
 });
 
 When('I update the {string} in message {string} to {string}', (key, inputTopicName, value) => {
+
+  Cypress.emit('log:step', 'I update the ' + key + ' in message ' + inputTopicName + ' to ' + value);
 
   //This function updates a specific key in the JSON message file with a new value
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
@@ -122,6 +134,8 @@ When('I update the {string} in message {string} to {string}', (key, inputTopicNa
 });
 
 When('I create a message with the filename {string} and update the following keys:', (inputTopicName, dataTable) => {
+
+  Cypress.emit('log:step', 'I create a message with the filename ' + inputTopicName + ' and update the following keys: ' + JSON.stringify(dataTable.rawTable));
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
 
   // Function to generate random values based on the key or existing value
@@ -198,6 +212,8 @@ When('I create a message with the filename {string} and update the following key
 });
 
 Given('I synchronize keys in {string} with values from {string}', (file2, file1) => {
+
+  Cypress.emit('log:step', 'I synchronize keys in ' + file2 + ' with values from ' + file1);
   const updateExistingKeys = (target, source, file2) => {
     const allowedKeys = file2 === 'ppa' ? ['agreementNumber', 'contractNumber', 'frn'] : null;
 
@@ -256,6 +272,8 @@ Given('I synchronize keys in {string} with values from {string}', (file2, file1)
 });
 
 Given('I regenerate the invoice number for {string} using the invoice number from {string}', (inputTopicName, reference) => {
+
+  Cypress.emit('log:step', 'I regenerate the invoice number for ' + inputTopicName + ' using the invoice number from ' + reference);
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
   const referenceFilePath = `cypress/fixtures/messageTemplates/outputMessage/${reference}.json`;
 
@@ -277,6 +295,8 @@ Given('I regenerate the invoice number for {string} using the invoice number fro
 });
 
 Given('I increase the invoice number by "{int}" for {string} using the invoice number from {string}', (number, inputTopicName, reference) => {
+
+  Cypress.emit('log:step', 'I increase the invoice number by ' + number + ' for ' + inputTopicName + ' using the invoice number from ' + reference);
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
   const referenceFilePath = `cypress/fixtures/messageTemplates/outputMessage/${reference}.json`;
 
@@ -299,6 +319,8 @@ Given('I increase the invoice number by "{int}" for {string} using the invoice n
 });
 
 Given('I update the value of {string} to "{int}"', (inputTopicName, number) => {
+
+  Cypress.emit('log:step', 'I update the value of ' + inputTopicName + ' to ' + number);
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
 
   cy.readFile(inputFilePath).then((inputMessage) => {
@@ -319,6 +341,8 @@ Given('I update the value of {string} to "{int}"', (inputTopicName, number) => {
 });
 
 Given('I update the {string} file with the newly generated FRN', (inputTopicName) => {
+
+  Cypress.emit('log:step', 'I update the ' + inputTopicName + ' file with the newly generated FRN');
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${inputTopicName}.json`;
 
   cy.readFile(inputFilePath).then((inputMessage) => {
@@ -334,6 +358,7 @@ Given('I update the {string} file with the newly generated FRN', (inputTopicName
 
 Given('I send email to Notify API', () => {
 
+  Cypress.emit('log:step', 'I send email to Notify API');
 
   var jwtToken = '';
 
@@ -374,6 +399,8 @@ Given('I send email to Notify API', () => {
 
 When('I pull new email from Notify API', () => {
 
+  Cypress.emit('log:step', 'I pull new email from Notify API');
+
   var jwtToken = '';
 
   cy.fixture('apiUpload.json').then((data) => {
@@ -407,6 +434,9 @@ When('I pull new email from Notify API', () => {
 });
 
 Then('I confirm that received email contains expected values', () => {
+
+  Cypress.emit('log:step', 'I confirm that received email contains expected values');
+
   cy.fixture('apiUpload.json').then((uploadData) => {
     cy.fixture('apiResults.json').then((resultData) => {
       expect(resultData.id).to.eq(uploadData.id);
@@ -420,6 +450,8 @@ Then('I confirm that received email contains expected values', () => {
 });
 
 When(/^I send 5000 payment messages using template "(.*)" to the service bus topic "(.*)"$/, (message, topicName) => {
+
+  Cypress.emit('log:step', 'I send 5000 payment messages using template ' + message + ' to the service bus topic ' + topicName);
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
   cy.readFile(inputFilePath).then((template) => {
     const startFrn = 10000; // adjust depending on which batch you're sending
@@ -439,6 +471,8 @@ When(/^I send 5000 payment messages using template "(.*)" to the service bus top
 });
 
 When('I send 5000 return messages using template {string} to the service bus topic {string}', (message, topicName) => {
+
+  Cypress.emit('log:step', 'I send 5000 return messages using template ' + message + ' to the service bus topic ' + topicName);
   const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`;
 
   cy.readFile(inputFilePath).then((template) => {
@@ -457,6 +491,8 @@ When('I send 5000 return messages using template {string} to the service bus top
 });
 
 When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, function (messageType, topicName) {
+
+  Cypress.emit('log:step', 'I send "' + messageType + '" test data message to the service bus topic "' + topicName + '"');
 
   //This step is specifically for dev
 
@@ -514,7 +550,7 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
     messageTemplate = 'cohtc-returnFileMessage'; break;
   case 'cshtc ppa':
     messageTemplate = 'cohtc-ppaFileMessage'; break;
-   case 'cshtr payment':
+  case 'cshtr payment':
     messageTemplate = 'cohtr-paymentFileMessage'; break;
   case 'cshtr error':
     messageTemplate = 'cohtrError-paymentFileMessage'; break;
@@ -1166,6 +1202,8 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
 });
 
 Then(/^I confirm that payment test data in dev has been inserted into the (.*) database$/, (databaseName) => {
+
+  Cypress.emit('log:step', 'I confirm that payment test data in dev has been inserted into the ' + databaseName + ' database');
   var sqlStatement = '';
   switch (databaseName) {
   case 'ffc-pay-injection':
@@ -1197,6 +1235,8 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
 });
 
 Then('I confirm that {string} test data in dev has been inserted into ffc-pay-processing database', (fileType) => {
+
+  Cypress.emit('log:step', 'I confirm that ' + fileType + ' test data in dev has been inserted into ffc-pay-processing database');
   var containerName;
   var sqlStatement;
 
@@ -1266,6 +1306,8 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
 });
 
 Then(/^I confirm that payment test data in dev has not been inserted into the (.*) database$/, (databaseName) => {
+
+  Cypress.emit('log:step', 'I confirm that payment test data in dev has not been inserted into the ' + databaseName + ' database');
   var sqlStatement = '';
   switch (databaseName) {
   case 'ffc-pay-injection':
@@ -1298,6 +1340,8 @@ Then(/^I confirm that payment test data in dev has not been inserted into the (.
 
 When(/^I search for current FRN$/, () => {
 
+  Cypress.emit('log:step', 'I search for current FRN');
+
   requestEditor.getFrnSearchField().type(nextFRN);
   requestEditor.getFrnSearchButton().click();
   console.log('Searched for current FRN - ' + nextFRN);
@@ -1306,6 +1350,7 @@ When(/^I search for current FRN$/, () => {
 
 Then('I confirm that payment for current FRN has scheme code of {string} in ffc-pay-processing database', (schemeCode) => {
 
+  Cypress.emit('log:step', 'I confirm that payment for current FRN has scheme code of ' + schemeCode + ' in ffc-pay-processing database');
   const description = 'G00 - 2026-03-05: AHWR Poultry';
 
   const sqlStatement = `

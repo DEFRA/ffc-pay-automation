@@ -5,10 +5,12 @@ const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esb
 
 module.exports = defineConfig({
   e2e: {
+    supportFile: "cypress/support/e2e.js",
     taskTimeout: 15 * 60 * 1000, // 15 minutes
     specPattern: "cypress/e2e/features/**/*.feature",
 
-    async setupNodeEvents(on, config) {
+    async setupNodeEvents (on, config) {
+
       await addCucumberPreprocessorPlugin(on, config);
 
       on(
@@ -47,6 +49,7 @@ module.exports = defineConfig({
 
       try {
         on("task", {
+
           emptyFolder: (folderPath) => emptyFolder(folderPath),
 
           sendMessagesBatch ({ messages, topicName }) {

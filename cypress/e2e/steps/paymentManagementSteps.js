@@ -21,13 +21,17 @@ When(/^I can see "(.*)" as the header$/, (text) => {
 });
 
 Then(/^I take a screenshot for "(.*)"$/, (text) => {
-  //This will pass the correct name to be used for screenshot, name must be correct in order for embedding to work
-  const screenshotName = `01_PaymentManagement.feature -- 01 Verify "${text}" links work correctly`;
+  Cypress.emit('log:step', 'I take a screenshot for ' + text);
+
+  const screenshotName = `01_PaymentManagement.feature -- 01 Verify ${text} links work correctly`;
   console.log('Screenshot Name:', screenshotName);
   cy.screenshot(screenshotName);
 });
 
 Then(/^I am on the "(.*)" subpage$/, (text) => {
+
+  Cypress.emit('log:step', 'I am on the ' + text + ' subpage');
+
   cy.url().should('include', text);
 
   paymentManagementPage
@@ -37,6 +41,8 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
 });
 
 When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
+
+  Cypress.emit('log:step', 'the CSV file is downloaded with ' + text + ' as the title');
 
   if (text === 'ffc-pay-mi-report-v2' || text === 'ffc-pay-hold-report' || text === 'ffc-pay-suppressed-report') {
     const relativePath = `cypress/downloads/${text}.csv`;
@@ -63,10 +69,14 @@ When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
 });
 
 Then('I should see the number of closures', () => {
+
+  Cypress.emit('log:step', 'I should see the number of closures');
   paymentManagementPage.noOfClosures().should('be.visible');
 });
 
 Then('I make a note of the closures count', () => {
+
+  Cypress.emit('log:step', 'I make a note of the closures count');
   paymentManagementPage
     .noOfClosures()
     .should('be.visible')
@@ -76,6 +86,8 @@ Then('I make a note of the closures count', () => {
 });
 
 Then('the closure count has increased by {int}', (increment) => {
+
+  Cypress.emit('log:step', 'the closure count has increased by ' + increment);
   cy.get('@initialClosureCount').then((initialCount) => {
     const expectedCount = Number(initialCount) + increment;
 
@@ -91,6 +103,8 @@ Then('the closure count has increased by {int}', (increment) => {
 });
 
 Then('I should see {string} number of closures', (count) => {
+
+  Cypress.emit('log:step', 'I should see ' + count + ' number of closures');
   paymentManagementPage
     .noOfClosures()
     .should('be.visible')
@@ -98,6 +112,8 @@ Then('I should see {string} number of closures', (count) => {
 });
 
 When('I select {string} from the {string} dropdown', (text, dropdown) => {
+
+  Cypress.emit('log:step', 'I select ' + text + ' from the ' + dropdown + ' dropdown');
   if (text === 'COHT Capital') {
     cy.wait(60000);
     cy.log('Wait for all payments to process');
@@ -131,6 +147,8 @@ When('I select {string} from the {string} dropdown', (text, dropdown) => {
 });
 
 When(/^I select the first visible year for the "(.*)" scheme$/, (schemeKey) => {
+
+  Cypress.emit('log:step', 'I select the first visible year for the ' + schemeKey + ' scheme');
   const schemeMap = {
     'delinked': 'delinked-payment-statement',
     'sfi-23': 'sustainable-farming-incentive'
@@ -160,6 +178,8 @@ When(/^I select the first visible year for the "(.*)" scheme$/, (schemeKey) => {
 });
 
 When('I type the {string} date as {string}', (dateType, date) => {
+
+  Cypress.emit('log:step', 'I type the ' + dateType + ' date as ' + date);
   const [day, month, year] = date.split('-');
 
   if (dateType === 'start') {
@@ -182,16 +202,22 @@ When('I type the {string} date as {string}', (dateType, date) => {
 });
 
 Given('the sample report data is loaded', () => {
+
+  Cypress.emit('log:step', 'the sample report data is loaded');
   cy.task('loadReportData').then((result) => {
     expect(result.success, result.error).to.be.true;
   });
 });
 
 When('I click on an available report', () => {
+
+  Cypress.emit('log:step', 'I click on an available report');
   reportsPage.availableReports().first().scrollIntoView().click({ force: true });
 });
 
 When(/^the user downloads the status report with text "(.*)"$/, (linkText) => {
+
+  Cypress.emit('log:step', 'the user downloads the status report with text ' + linkText);
   const { paymentManagementUrl } = getEnvironmentConfig();
 
   cy.contains('a.govuk-task-list__link', linkText)
@@ -221,6 +247,8 @@ When(/^the user downloads the status report with text "(.*)"$/, (linkText) => {
 });
 
 When(/^the status report is downloaded with "(.*)" as the title$/, function (title) {
+
+  Cypress.emit('log:step', 'the status report is downloaded with ' + title + ' as the title');
   cy.get('@downloadedFileName').then((fileName) => {
     const expectedFileName = `${title}.csv`;
     expect(fileName).to.include(expectedFileName);
@@ -244,12 +272,16 @@ When(/^the status report is downloaded with "(.*)" as the title$/, function (tit
 });
 
 Then(/^I select "(.*)" from the monitor schemes dropdown$/, (scheme) => {
+
+  Cypress.emit('log:step', 'I select ' + scheme + ' from the monitor schemes dropdown');
   paymentManagementPage.monitorSchemeDropdown().scrollIntoView().select(scheme);
   cy.log(`Selected ${scheme} from the monitor schemes dropdown`);
   console.log(`Selected ${scheme} from the monitor schemes dropdown`);
 });
 
 Then(/^I confirm that payment for "(.*)" scheme with "(.*)" payment installments totalling "(.*)" is displayed$/, (scheme, payments, value) => {
+
+  Cypress.emit('log:step', 'I confirm that payment for ' + scheme + ' scheme with ' + payments + ' payment installments totalling ' + value + ' is displayed');
   cy.wait(2000); // Waiting for data load
   cy.contains(scheme).should('be.visible');
   cy.contains(payments).should('be.visible');
@@ -259,6 +291,8 @@ Then(/^I confirm that payment for "(.*)" scheme with "(.*)" payment installments
 });
 
 When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (fileName) => {
+
+  Cypress.emit('log:step', 'on the Manual Payments page I enter ' + fileName + ' as the file to upload');
 
   if (fileName.includes('Duplicate')) {
 
@@ -370,6 +404,8 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
 });
 
 When(/^on the Manual Payments page I click the "(.*)"$/, (button) => {
+
+  Cypress.emit('log:step', 'on the Manual Payments page I click the ' + button);
   switch (button) {
   case 'upload button': manualPaymentsPage.uploadBtn().click(); break;
   case 'manual payments guidance link': manualPaymentsPage.manualPaymentsGuidanceLink().click(); break;
@@ -381,6 +417,8 @@ When(/^on the Manual Payments page I click the "(.*)"$/, (button) => {
 });
 
 Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Manual Payments page I confirm that ' + element + ' is present');
   switch (element) {
   case 'page title':
     manualPaymentsPage.pageTitle().should('be.visible').and('have.text', 'Manual payment upload'); break;
@@ -420,6 +458,7 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
 
 Then(/^on the Manual Payments page I confirm that entry with filename "(.*)" has been added to Upload History$/, (filename) => {
 
+  Cypress.emit('log:step', 'on the Manual Payments page I confirm that entry with filename ' + filename + ' has been added to Upload History');
   manualPaymentsPage.uploadHistoryFilename().should('be.visible').and('contain.text', filename);
 
   console.log('Confirmed that entry with filename ' + filename + ' has been added to Upload History');
@@ -428,6 +467,7 @@ Then(/^on the Manual Payments page I confirm that entry with filename "(.*)" has
 
 Then(/^on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present$/, () => {
 
+  Cypress.emit('log:step', 'on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present');
   cy.wait(240000); // Waiting for the all payments to be processed and displayed on the Payment Status page
 
   cy.get('a').contains('View payment status').scrollIntoView().click();
@@ -448,6 +488,8 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
 });
 
 Then(/^on the Processed Payment Requests page I confirm that entry is present for "(.*)" scheme with "(.*)" payments and a value of "(.*)"$/, (scheme, payments, value) => {
+  
+  Cypress.emit('log:step', 'on the Processed Payment Requests page I confirm that entry is present for ' + scheme + ' scheme with ' + payments + ' payments and a value of ' + value);
   cy.wait(2000); // Waiting for data load
   cy.contains(scheme).should('be.visible');
   cy.contains(payments).should('be.visible');
@@ -455,6 +497,8 @@ Then(/^on the Processed Payment Requests page I confirm that entry is present fo
 });
 
 When (/^on the Add New Alert Recipient page I click the "(.*)" button$/, (button) => {
+
+  Cypress.emit('log:step', 'on the Add New Alert Recipient page I click the ' + button);
   switch (button) {
   case 'Add recipient':
     paymentManagementPage.addNewAlertReceipientButton().click(); break;
@@ -464,6 +508,8 @@ When (/^on the Add New Alert Recipient page I click the "(.*)" button$/, (button
 });
 
 Then (/^on the Management Information page I confirm that "(.*)" is not displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Management Information page I confirm that ' + element + ' is not displayed');
   switch (element) {
   case 'select year filter dropdown':
     managementInformationPage.selectYearFilterDropdown().should('not.be.visible'); break;
@@ -479,6 +525,8 @@ Then (/^on the Management Information page I confirm that "(.*)" is not displaye
 
 
 Then (/^on the Management Information page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Management Information page I confirm that ' + element + ' is displayed');
   switch (element) {
   case 'page title':
     managementInformationPage.pageTitle().should('be.visible').and('have.text', 'Management Information'); break;
@@ -572,6 +620,8 @@ Then (/^on the Management Information page I confirm that "(.*)" is displayed$/,
 
 Then(/^on the Management Information page I select "(.*?)" in (.*?) filter$/, (option, filter) => {
 
+  Cypress.emit('log:step', 'on the Management Information page I select ' + option + ' in ' + filter + ' filter');
+
   if (filter === 'Time Period') {
     managementInformationPage.timePeriodFilterDropdown().scrollIntoView().select(option);
   } else if (filter === 'Select Year') {
@@ -587,6 +637,9 @@ Then(/^on the Management Information page I select "(.*?)" in (.*?) filter$/, (o
 });
 
 When(/^on the Management Information page I click on the "(.*)" button$/, (button) => {
+
+  Cypress.emit('log:step', 'on the Management Information page I click on the ' + button + ' button');
+
   switch (button) {
   case 'help with this page':
     managementInformationPage.helpDropdown().scrollIntoView().click(); break;
@@ -603,6 +656,9 @@ When(/^on the Management Information page I click on the "(.*)" button$/, (butto
 });
 
 Then(/^on the Management Information page I confirm that (.*) is (.*)$/, (field, expectedValue) => {
+
+  Cypress.emit('log:step', 'on the Management Information page I confirm that ' + field + ' is ' + expectedValue);
+
   let fieldNumber;
 
   switch (field) {
@@ -637,6 +693,9 @@ Then(/^on the Management Information page I confirm that (.*) is (.*)$/, (field,
 });
 
 Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Download Statements page I confirm that ' + element + ' is displayed');
+
   switch (element) {
   case 'page title':
     downloadStatementsPage.pageTitle().should('be.visible').and('have.text', 'Download Statements'); break;
@@ -702,6 +761,7 @@ Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (e
 
 Then (/^on the Download Statements page I confirm that "(.*)" is not displayed$/, (element) => {
 
+  Cypress.emit('log:step', 'on the Download Statements page I confirm that ' + element + ' is not displayed');
 
   switch (element) {
   case 'page title':
@@ -767,6 +827,8 @@ Then (/^on the Download Statements page I confirm that "(.*)" is not displayed$/
 });
 
 Then(/^on the Download Statements page I select "(.*)" from the select scheme dropdown$/, (scheme) => {
+
+  Cypress.emit('log:step', 'on the Download Statements page I select ' + scheme + ' from the select scheme dropdown');
   downloadStatementsPage.selectSchemeDropdown().scrollIntoView().select(scheme);
   cy.log(`Selected ${scheme} from the select scheme dropdown`);
   console.log(`Selected ${scheme} from the select scheme dropdown`);
@@ -774,6 +836,9 @@ Then(/^on the Download Statements page I select "(.*)" from the select scheme dr
 });
 
 Then(/^on the Download Statements page I click the "(.*)" button$/, (button) => {
+
+  Cypress.emit('log:step', 'on the Download Statements page I click the ' + button + ' button');
+
   switch (button) {
   case 'search':
     downloadStatementsPage.searchStatementsButton().scrollIntoView().click(); break;
@@ -789,6 +854,8 @@ Then(/^on the Download Statements page I click the "(.*)" button$/, (button) => 
 });
 
 Then(/^on the Download Statements page I confirm that the page number on Results sub header is "(.*)"$/, (expectedValue) => {
+
+  Cypress.emit('log:step', 'on the Download Statements page I confirm that the page number on Results sub header is ' + expectedValue);
   downloadStatementsPage.resultsSubHeader().should('be.visible').invoke('text').then((text) => {
 
     if (text.includes(`Page ${expectedValue}`)) {
@@ -803,6 +870,8 @@ Then(/^on the Download Statements page I confirm that the page number on Results
 });
 
 Then(/^on the Download Statements page I enter "(.*)" into the "(.*)" field$/, (filename, field) => {
+
+  Cypress.emit('log:step', 'on the Download Statements page I enter ' + filename + ' into the ' + field + ' field');
 
   switch (field) {
   case 'filename':
@@ -822,6 +891,8 @@ Then(/^on the Download Statements page I enter "(.*)" into the "(.*)" field$/, (
 });
 
 Then(/^on the Download Statements page I confirm that the text on "(.*)" reads "(.*)"$/, (element, expectedText) => {
+
+  Cypress.emit('log:step', 'on the Download Statements page I confirm that the text on ' + element + ' reads ' + expectedText);
   var selectedElement;
 
   switch (element) {
@@ -844,11 +915,16 @@ Then(/^on the Download Statements page I confirm that the text on "(.*)" reads "
 });
 
 Then(/^on the Download Statements page I confirm that statement can be downloaded$/, () => {
+
+  Cypress.emit('log:step', 'on the Download Statements page I confirm that statement can be downloaded');
   cy.request('/download-statements/download/FFC_PaymentDelinkedStatement_DP_2025_1105607649_2025101415310344.pdf')
     .its('status') .should('eq', 200);
 });
 
 Then (/^on the Reset payment request page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Reset payment request page I confirm that ' + element + ' is displayed');
+
   switch (element) {
   case 'page title':
     resetPaymentRequestPage.pageTitle().should('be.visible').and('have.text', 'Reset payment request'); break;
@@ -884,6 +960,9 @@ Then (/^on the Reset payment request page I confirm that "(.*)" is displayed$/, 
 });
 
 Then (/^on the Reset payment request page I enter "(.*)" into the "(.*)" field$/, (text, field) => {
+
+  Cypress.emit('log:step', 'on the Reset payment request page I enter ' + text + ' into the ' + field + ' field');
+
   switch (field) {
   case 'invoice number':
     resetPaymentRequestPage.invoiceNumberField().scrollIntoView().type(text); break;
@@ -897,6 +976,7 @@ Then (/^on the Reset payment request page I enter "(.*)" into the "(.*)" field$/
 
 Then (/^on the Reset payment request page I use current invoice number in the invoice number field$/, () => {
 
+  Cypress.emit('log:step', 'on the Reset payment request page I use current invoice number in the invoice number field');
   const currentInvoiceNumber = 'S2795919' + Cypress.env('nextContractNumber').toString() + 'V001';
 
   resetPaymentRequestPage.invoiceNumberField().scrollIntoView().type(currentInvoiceNumber);
@@ -904,6 +984,9 @@ Then (/^on the Reset payment request page I use current invoice number in the in
 
 
 Then (/^on the Reset payment request page I click the "(.*)"$/, (button) => {
+
+  Cypress.emit('log:step', 'on the Reset payment request page I click the ' + button);
+
   switch (button) {
   case 'reset button': resetPaymentRequestPage.resetButton().scrollIntoView().click(); break;
   case 'perform another action link': resetPaymentRequestPage.performAnotherActionLink().scrollIntoView().click(); break;
@@ -916,6 +999,8 @@ Then (/^on the Reset payment request page I click the "(.*)"$/, (button) => {
 
 Then(/^I confirm that second completedPaymentRequest entry has been made in database for invoice number "(.*)"$/, (invoiceNumber) => {
 
+  Cypress.emit('log:step', 'I confirm that second completedPaymentRequest entry has been made in database for invoice number ' + invoiceNumber);
+
   if (invoiceNumber.includes('Current')) {
     invoiceNumber = 'S2795919' + Cypress.env('nextContractNumber').toString() + 'V001';
 
@@ -925,20 +1010,23 @@ Then(/^I confirm that second completedPaymentRequest entry has been made in data
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
     .then((result) => {
-    const data = result.rows;
-    cy.log(`Found ${data.length} completedPaymentRequest entries for invoice number ${invoiceNumber}`);
-    if (data.length >= 2) {
-      console.log(`Confirmed that second completedPaymentRequest entry has been made in database for invoice number ${invoiceNumber}`);
-      cy.log(`Confirmed that second completedPaymentRequest entry has been made in database for invoice number ${invoiceNumber}`);
-    } else {
-      console.log(`Expected at least 2 completedPaymentRequest entries for invoice number ${invoiceNumber}, but found ${data.length}`);
-      cy.log(`Expected at least 2 completedPaymentRequest entries for invoice number ${invoiceNumber}, but found ${data.length}`);
-      throw new Error('Second completedPaymentRequest entry has not been made in database');
-    }
-  });
+      const data = result.rows;
+      cy.log(`Found ${data.length} completedPaymentRequest entries for invoice number ${invoiceNumber}`);
+      if (data.length >= 2) {
+        console.log(`Confirmed that second completedPaymentRequest entry has been made in database for invoice number ${invoiceNumber}`);
+        cy.log(`Confirmed that second completedPaymentRequest entry has been made in database for invoice number ${invoiceNumber}`);
+      } else {
+        console.log(`Expected at least 2 completedPaymentRequest entries for invoice number ${invoiceNumber}, but found ${data.length}`);
+        cy.log(`Expected at least 2 completedPaymentRequest entries for invoice number ${invoiceNumber}, but found ${data.length}`);
+        throw new Error('Second completedPaymentRequest entry has not been made in database');
+      }
+    });
 });
 
 Then (/^on the View events page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the View events page I confirm that ' + element + ' is displayed');
+
   switch (element) {
   case 'sub header':
     paymentEventMonitoringPage.subHeader().should('be.visible').and('contain.text', 'Monitoring'); break;
@@ -1003,6 +1091,9 @@ Then (/^on the View events page I confirm that "(.*)" is displayed$/, (element) 
 });
 
 Then (/^on the View processed payment requests page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the View processed payment requests page I confirm that ' + element + ' is displayed');
+
   switch (element) {
   case 'sub header':
     paymentEventMonitoringPage.subHeader().should('be.visible').and('contain.text', 'Schemes'); break;
@@ -1029,18 +1120,24 @@ Then (/^on the View processed payment requests page I confirm that "(.*)" is dis
 });
 
 Then (/^on the View processed payment requests page I click the Continue button$/, () => {
+
+  Cypress.emit('log:step', 'on the View processed payment requests page I click the Continue button');
   paymentEventMonitoringPage.selectSchemeButton().click();
   console.log('Clicked Continue button');
   cy.log('Clicked Continue button');
 });
 
 Then (/^on the View processed payment requests page I select "(.*)" in scheme dropdown$/, (selection) => {
+
+  Cypress.emit('log:step', 'on the View processed payment requests page I select ' + selection + ' in scheme dropdown');
   paymentEventMonitoringPage.selectSchemeDropdown().select(selection);
   console.log('Selected ' + selection + ' in Scheme dropdown');
   cy.log('Selected ' + selection + ' in Scheme dropdown');
 });
 
 Then (/^on the View events page I enter "(.*)" into the "(.*)" field$/, (filename, field) => {
+
+  Cypress.emit('log:step', 'on the View events page I enter ' + filename + ' into the ' + field + ' field');
 
   switch (field) {
   case 'frn':
@@ -1056,6 +1153,9 @@ Then (/^on the View events page I enter "(.*)" into the "(.*)" field$/, (filenam
 });
 
 Then (/^on the View events page I click the "(.*)"$/, (button) => {
+
+  Cypress.emit('log:step', 'on the View events page I click the ' + button);
+
   switch (button) {
   case 'frn search button': paymentEventMonitoringPage.searchByFRNButton().scrollIntoView().click(); break;
   case 'batch search button': paymentEventMonitoringPage.searchByBatchButton().scrollIntoView().click(); break;
@@ -1074,6 +1174,8 @@ Then (/^on the View events page I click the "(.*)"$/, (button) => {
 
 Then (/^on the View events page I confirm that rows are ordered correctly by payment request$/, () => {
 
+  Cypress.emit('log:step', 'on the View events page I confirm that rows are ordered correctly by payment request');
+
   paymentEventMonitoringPage.firstPaymentRequestNumber().should('be.visible').and('contain.text', '1');
   paymentEventMonitoringPage.secondPaymentRequestNumber().should('be.visible').and('contain.text', '2');
 
@@ -1082,6 +1184,8 @@ Then (/^on the View events page I confirm that rows are ordered correctly by pay
 });
 
 Then (/^on the View events page I confirm that "(.*)" of entry number "(.*)" in table is "(.*)"$/, (columnName, rowNumber, expectedValue) => {
+
+  Cypress.emit('log:step', 'on the View events page I confirm that ' + columnName + ' of entry number ' + rowNumber + ' in table is ' + expectedValue);
 
   let element;
 
@@ -1122,6 +1226,9 @@ Then (/^on the View events page I confirm that "(.*)" of entry number "(.*)" in 
 });
 
 Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Alerts page I confirm that ' + element + ' is displayed');
+
   switch (element) {
   case 'sub header': paymentAlertsPage.subHeader().should('be.visible').and('contain.text', 'Alerts'); break;
   case 'page description': paymentAlertsPage.pageDescription().should('be.visible').and('contain.text',
@@ -1174,6 +1281,9 @@ Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
 });
 
 Then (/^on the Alerts page I click the "(.*)"$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Alerts page I click the ' + element);
+
   switch (element) {
   case 'show all sections button': paymentAlertsPage.showAllSectionsButton().scrollIntoView().click(); break;
   case 'alerts information link': paymentAlertsPage.alertsInformationLink().scrollIntoView().click(); break;
@@ -1204,6 +1314,8 @@ Then (/^on the Alerts page I click the "(.*)"$/, (element) => {
 
 Then (/^on the Alerts page I confirm that all schemes have successfully cascaded$/, () => {
 
+  Cypress.emit('log:step', 'on the Alerts page I confirm that all schemes have successfully cascaded');
+
   cy.get('.govuk-accordion__section-toggle-text') .should($els => {
     // Convert to array and check each element's text
     const allAreHide = [...$els].every(el => el.textContent.trim() === 'Hide');
@@ -1212,6 +1324,9 @@ Then (/^on the Alerts page I confirm that all schemes have successfully cascaded
 });
 
 Then (/^on the Add new alert recipient page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Add new alert recipient page I confirm that ' + element + ' is displayed');
+
   switch (element) {
   case 'sub header': paymentAlertsPage.addNewSubHeader().should('be.visible').and('contain.text', 'Add new alert recipient'); break;
   case 'email label': paymentAlertsPage.addNewEmailLabel().should('be.visible').and('contain.text', 'Email address'); break;
@@ -1227,6 +1342,8 @@ Then (/^on the Add new alert recipient page I confirm that "(.*)" is displayed$/
 });
 
 Then(/^on the Add new alert recipient page I confirm that all options are present when no filter selected$/, () => {
+
+  Cypress.emit('log:step', 'on the Add new alert recipient page I confirm that all options are present when no filter selected');
 
   const stringsToCheck = [
     'Receive all alerts for this scheme',
@@ -1264,6 +1381,8 @@ Then(/^on the Add new alert recipient page I confirm that all options are presen
 
 Then(/^on the Add new alert recipient page I confirm that only one set of options is displayed$/, () => {
 
+  Cypress.emit('log:step', 'on the Add new alert recipient page I confirm that only one set of options is displayed');
+
   const stringsToCheck = [
     'Receive all alerts for this scheme',
     'Batch Rejected',
@@ -1300,6 +1419,8 @@ Then(/^on the Add new alert recipient page I confirm that only one set of option
 
 Then (/^on the Add new alert recipient page I select "(.*)" from Select Scheme dropdown$/, (option) => {
 
+  Cypress.emit('log:step', 'on the Add new alert recipient page I select ' + option + ' from Select Scheme dropdown');
+
   paymentAlertsPage.addNewSelectSchemeDropdown().select(option);
   console.log('Selected ' + option + ' from Select Scheme dropdown');
   cy.log('Selected ' + option + ' from Select Scheme dropdown');
@@ -1307,12 +1428,16 @@ Then (/^on the Add new alert recipient page I select "(.*)" from Select Scheme d
 
 Then (/^on the Add new alert recipient page I enter "(.*)" in the email field$/, (email) => {
 
+  Cypress.emit('log:step', 'on the Add new alert recipient page I enter ' + email + ' in the email field');
+
   paymentAlertsPage.addNewEmailField().scrollIntoView().type(email);
   console.log('Entered ' + email + ' into the email field');
   cy.log('Entered ' + email + ' into the email field');
 });
 
 Then (/^on the Add new alert recipient page I confirm that recipient "(.*)" has been added for each alert type$/, (email) => {
+
+  Cypress.emit('log:step', 'on the Add new alert recipient page I confirm that recipient ' + email + ' has been added for each alert type');
 
   //This step confirms that recipient has been added for all 19 alert types
   //The element locator is the same for each location aside from the nth-child integer at the beginning

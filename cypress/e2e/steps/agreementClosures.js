@@ -9,12 +9,18 @@ import reportsPage from '../pages/reportsPage';
 import capturePage from '../pages/capturePage';
 
 When('I see the new submission in the table', () => {
+
+  Cypress.emit('log:step', 'I see the new submission in the table');
+
   cy.get('@randomFrn').then((randomFrn) => {
     cy.contains(randomFrn).should('be.visible');
   });
 });
 
 When('I should not see the new submission in the table', () => {
+
+  Cypress.emit('log:step', 'I should not see the new submission in the table');
+
   cy.get('@initialClosureCount').then((initialCount) => {
     if (initialCount === 0) {
       cy.contains('There are no agreement closures.').should('be.visible');
@@ -27,6 +33,9 @@ When('I should not see the new submission in the table', () => {
 });
 
 When('I see the new bulk upload submissions in the table', () => {
+
+  Cypress.emit('log:step', 'I see the new bulk upload submissions in the table');
+
   cy.fixture('bulkUploadValid.csv').then((csvData) => {
     const rows = csvData.trim().split('\n');
     const data = rows.map((row) => row.split(',')).reverse();
@@ -43,6 +52,9 @@ When('I see the new bulk upload submissions in the table', () => {
 });
 
 Then('I should see a {string} link', (txt) => {
+
+  Cypress.emit('log:step', 'I should see a ' + txt + ' link');
+
   agreementClosuresPage
     .linkRemoveSubmission()
     .should('be.visible')
@@ -50,6 +62,9 @@ Then('I should see a {string} link', (txt) => {
 });
 
 Then('I should see the {string} field', (field) => {
+
+  Cypress.emit('log:step', 'I should see the ' + field + ' field');
+
   switch (field) {
   case 'Firm reference number (FRN)':
     agreementClosuresPage
@@ -98,6 +113,9 @@ Then('I should see the {string} field', (field) => {
 });
 
 When('I click on the Remove button next to the new submission', () => {
+
+  Cypress.emit('log:step', 'I click on the Remove button next to the new submission');
+
   cy.get('@randomFrn').then((randomFrn) => {
     capturePage.tableRows().contains('td', randomFrn).parent().contains('Remove').click();
   });
@@ -105,10 +123,15 @@ When('I click on the Remove button next to the new submission', () => {
 
 
 When('I upload {string} file', (file) => {
+
+  Cypress.emit('log:step', 'I upload ' + file + ' file');
   addBulkClosurePage.fileInput().selectFile(`cypress/fixtures/${file}`);
 });
 
 When('I click the {string} link', (text) => {
+
+  Cypress.emit('log:step', 'I click the ' + text + ' link');
+
   if (text === 'upload in bulk') {
     addClosurePage.bulkUploadLink().click();
   } else if (text === 'upload single') {
@@ -123,6 +146,9 @@ When('I click the {string} link', (text) => {
 });
 
 When('I type {string} in the {string} field', (text, field) => {
+
+  Cypress.emit('log:step', 'I type ' + text + ' in the ' + field + ' field');
+
   if (field === 'FRN') {
     if (text) {
       addClosurePage.frnInput().type(text);
@@ -149,6 +175,9 @@ When('I type {string} in the {string} field', (text, field) => {
 });
 
 When('I type a random FRN in the FRN field', () => {
+
+  Cypress.emit('log:step', 'I type a random FRN in the FRN field');
+
   const generateNumber = (digits) => {
     return ('0'.repeat(digits) + Math.floor(Math.random() * Math.pow(10, digits))).slice(-digits);
   };
@@ -160,6 +189,9 @@ When('I type a random FRN in the FRN field', () => {
 });
 
 When('I type a future date in the Closure date field', () => {
+
+  Cypress.emit('log:step', 'I type a future date in the Closure date field');
+
   const futureDate = new Date();
   futureDate.setDate(futureDate.getDate() + 1); // Add 1 day
 
@@ -177,6 +209,9 @@ When('I type a future date in the Closure date field', () => {
 });
 
 When('I type a date prior to {string} in the Closure date field', (date) => {
+
+  Cypress.emit('log:step', 'I type a date prior to ' + date + ' in the Closure date field');
+
   const formatDate = (date) => date.toString().padStart(2, '0');
 
   const [day, month, year] = date.split('/').map(Number);

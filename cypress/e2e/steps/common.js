@@ -12,6 +12,9 @@ console.log('Environment Config:', envConfig);
 // -------------------------
 
 Given('I visit the {string} homepage', (text) => {
+
+  Cypress.emit('log:step', 'I visit the ' + text + ' homepage');
+
   cy.log(text);
   let url;
 
@@ -51,6 +54,8 @@ Given('I visit the {string} homepage', (text) => {
 // -------------------------
 
 Given('I am on the {string} homepage', (text) => {
+
+  Cypress.emit('log:step', 'I am on the ' + text + ' homepage');
   let url;
 
   switch (text) {
@@ -71,6 +76,8 @@ Given('I am on the {string} homepage', (text) => {
 // -------------------------
 
 When('I click on the {string} button', (text) => {
+
+  Cypress.emit('log:step', 'I click on the ' + text + ' button');
   cy.get('button').contains(text).first().scrollIntoView().click();
   if (text === 'Submit') {
     cy.wait(10000);
@@ -78,6 +85,8 @@ When('I click on the {string} button', (text) => {
 });
 
 When('I click on {string}', (text) => {
+
+  Cypress.emit('log:step', 'I click on ' + text);
   cy.contains(text).scrollIntoView().click();
 });
 
@@ -86,6 +95,8 @@ When('I click on {string}', (text) => {
 // -------------------------
 
 Then('I should see {string}', (text) => {
+
+  Cypress.emit('log:step', 'I should see ' + text);
   cy.contains(text);
 });
 
@@ -94,6 +105,9 @@ Then('I should see {string}', (text) => {
 // -------------------------
 
 When('I click on the {string} link', (text) => {
+
+  Cypress.emit('log:step', 'I click on the ' + text + ' link');
+
   if (text === 'View awaiting ledger assignment') {
     cy.wait(30000);
     cy.log('Waiting for data to process');
@@ -111,6 +125,9 @@ When('I click on the {string} link', (text) => {
 // -------------------------
 
 Then('I confirm there are no accessibility issues on the page', () => {
+
+  Cypress.emit('log:step', 'I confirm there are no accessibility issues on the page');
+
   cy.injectAxe();
   cy.checkA11y(null, {
     rules: {
@@ -140,6 +157,8 @@ Then('I confirm there are no accessibility issues on the page', () => {
 // -------------------------
 
 When('I verify status of external link - {string}', (text) => {
+
+  Cypress.emit('log:step', 'I verify status of external link - ' + text);
   let pageUrl = '';
 
   switch (text) {
@@ -160,6 +179,8 @@ When('I verify status of external link - {string}', (text) => {
 // -------------------------
 
 When('I click on the {string} download link', (text) => {
+
+  Cypress.emit('log:step', 'I click on the ' + text + ' download link');
   if (text === 'Request Editor report') {
     cy.contains(text).click();
   } else {
@@ -175,6 +196,8 @@ When('I click on the {string} download link', (text) => {
 
 
 Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber, scenarioNumber) => {
+
+  Cypress.emit('log:step', 'I take a screenshot for Feature ' + featureNumber + ' and Scenario ' + scenarioNumber);
   var featureString = '';
   var scenarioString = '';
 
@@ -486,6 +509,7 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
 
 Then('I confirm that I am on the {string} homepage', (service) => {
 
+  Cypress.emit('log:step', 'I confirm that I am on the ' + service + ' homepage');
   var url;
 
   switch (service) {
@@ -509,6 +533,7 @@ Then('I confirm that I am on the {string} homepage', (service) => {
 
 Then('I confirm that {string} error message has been generated', (error) => {
 
+  Cypress.emit('log:step', 'I confirm that ' + error + ' error message has been generated');
   var databaseName;
   var expectedError;
 
