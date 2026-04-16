@@ -14,6 +14,9 @@ let nextApplicationId;
 let nextPaymentReference;
 
 Given(/^I restart and clear the local doc environment$/, () => {
+
+  Cypress.emit('log:step', 'I restart and clear the local doc environment');
+
   if (env.includes('local')) {
     cy.task('restartLocalDocEnv');
   } else {
@@ -22,6 +25,8 @@ Given(/^I restart and clear the local doc environment$/, () => {
 });
 
 When(/^I insert (.*) test data into Statement Data service$/, (year) => {
+
+  Cypress.emit('log:step', 'I insert ' + year + ' test data into Statement Data service');
 
   if (env.includes('dev')) {
 
@@ -188,6 +193,8 @@ VALUES
 });
 
 When(/^I send bulk test data for (.*) into Statement Data service$/, (year) => {
+
+  Cypress.emit('log:step', 'I send bulk test data for ' + year + ' into Statement Data service');
 
   if (env.includes('dev')) {
 
@@ -417,6 +424,8 @@ VALUES (
 });
 
 When(/^I send incorrect test data into (.*) service$/, (databaseName) => {
+
+  Cypress.emit('log:step', 'I send incorrect test data into ' + databaseName + ' service');
 
   if (env.includes('dev')) {
 
@@ -874,6 +883,8 @@ VALUES
 });
 
 Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values have been generated$/, (fileType) => {
+
+  Cypress.emit('log:step', 'I pull ' + fileType + ' file from Azure Blob Storage and confirm that correct values have been generated');
   cy.wait(40000);
   switch (fileType) {
   case '2025 statements':
@@ -1067,6 +1078,8 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
 
 Then(/^I confirm that test data has not been inserted into the (.*) database$/, (databaseName) => {
 
+  Cypress.emit('log:step', 'I confirm that test data has not been inserted into the ' + databaseName + ' database');
+
   if (env.includes('dev')) {
 
     var sqlStatement = '';
@@ -1126,6 +1139,8 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
 
 Then(/^I confirm that test data has been inserted into the (.*) database$/, (databaseName) => {
 
+  Cypress.emit('log:step', 'I confirm that test data has been inserted into the ' + databaseName + ' database');
+
   var sqlStatement = '';
 
   if (env.includes('dev')) {
@@ -1184,6 +1199,8 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
 });
 
 Then(/^I confirm that bulk test data has been successfully inserted into the (.*) database$/, (databaseName) => {
+
+  Cypress.emit('log:step', 'I confirm that bulk test data has been successfully inserted into the ' + databaseName + ' database');
 
   if (env.includes('dev')) {
 

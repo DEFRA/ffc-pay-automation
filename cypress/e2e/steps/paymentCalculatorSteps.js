@@ -7,6 +7,8 @@ import delinkedPaymentCalculationPage from '../pages/delinkedPaymentCalculationP
 import constants from '../../support/constants.json';
 
 When(/^on the Payment Calculator page I click the "(.*)"$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Payment Calculator page I click the ' + element);
   switch (element) {
   case 'start button':
     paymentCalculatorPage.startButton().should('be.visible').click(); break;
@@ -20,10 +22,14 @@ When(/^on the Payment Calculator page I click the "(.*)"$/, (element) => {
 });
 
 Then(/^I confirm that I am on the "(.*)" page$/, (text) => {
+
+  Cypress.emit('log:step', 'I confirm that I am on the ' + text + ' page');
   cy.url().should('include', text);
 });
 
 Then(/^I confirm that I am on the "(.*)" subpage$/, (text) => {
+
+  Cypress.emit('log:step', 'I confirm that I am on the ' + text + ' subpage');
   cy.url().should('include', text);
 
   enterYourDelinkedPaymentReferencePage
@@ -33,12 +39,16 @@ Then(/^I confirm that I am on the "(.*)" subpage$/, (text) => {
 });
 
 Then(/^on the Delinked payment calculation page I confirm that default year is "(.*)"$/, (year) => {
+
+  Cypress.emit('log:step', 'on the Delinked payment calculation page I confirm that default year is ' + year);
   cy.url().should('include', 'year' + year);
   console.log('Confirmed that default year is', year, 'on the Delinked payment calculation page');
   cy.log('Confirmed that default year is', year, 'on the Delinked payment calculation page');
 });
 
 Then(/^on the Payment Calculator page I confirm that "(.*)" is correctly displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Payment Calculator page I confirm that ' + element + ' is correctly displayed');
   switch (element) {
   case 'sub title':
     paymentCalculatorPage.subTitle().should('be.visible').and('contain.text', 'Calculate your delinked payment'); break;
@@ -83,6 +93,8 @@ Then(/^on the Payment Calculator page I confirm that "(.*)" is correctly display
 });
 
 Then(/^on the Enter your delinked payment reference amount page I confirm that "(.*)" is correctly displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Enter your delinked payment reference amount page I confirm that ' + element + ' is correctly displayed');
   switch (element) {
   case 'page title':
     enterYourDelinkedPaymentReferencePage.subHeader().should('be.visible').and('contain.text', 'Enter your delinked payment reference amount'); break;
@@ -120,12 +132,16 @@ Then(/^on the Enter your delinked payment reference amount page I confirm that "
 });
 
 When(/^on the Enter your delinked payment reference amount page I enter amount of "(.*)"$/, (amount) => {
+
+  Cypress.emit('log:step', 'on the Enter your delinked payment reference amount page I enter amount of ' + amount);
   enterYourDelinkedPaymentReferencePage.valueField().should('be.visible').clear().type(amount);
   console.log('Entered a valid amount of', amount, 'on the Enter your delinked payment reference amount page');
   cy.log('Entered a valid amount of', amount, 'on the Enter your delinked payment reference amount page');
 });
 
 Then(/^on the Enter your delinked payment reference amount page I click the "(.*)"$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Enter your delinked payment reference amount page I click the ' + element);
   switch (element) {
   case 'calculate button':
     enterYourDelinkedPaymentReferencePage.calculateButton().should('be.visible').click(); break;
@@ -135,6 +151,8 @@ Then(/^on the Enter your delinked payment reference amount page I click the "(.*
 });
 
 Then(/^on the Delinked payment calculation page I confirm that "(.*)" is correctly displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Delinked payment calculation page I confirm that ' + element + ' is correctly displayed');
   switch (element) {
   case 'page title':
     delinkedPaymentCalculationPage.subHeader().should('be.visible').and('contain.text', 'Delinked payment calculation'); break;

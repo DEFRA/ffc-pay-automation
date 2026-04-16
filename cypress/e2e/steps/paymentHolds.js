@@ -1,19 +1,24 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-
 import paymentHoldsPage from '../pages/paymentHoldsPage';
 import moment from 'moment';
 
 When('the {string} holds option is selected', (value) => {
+
+  Cypress.emit('log:step', 'the ' + value + ' holds option is selected');
   paymentHoldsPage.selectedOption().should('have.text', value);
 });
 
 When('I upload bulk payment holds file {string}', (file) => {
+
+  Cypress.emit('log:step', 'I upload bulk payment holds file ' + file);
   const fixturePath = `cypress/fixtures/${file}`;
 
   paymentHoldsPage.fileInput().selectFile(fixturePath);
 });
 
 When('I click the hold category option for {string}', (text) => {
+
+  Cypress.emit('log:step', 'I click the hold category option for ' + text);
   cy.get('fieldset')
     .contains(text)
     .parent()
@@ -23,10 +28,14 @@ When('I click the hold category option for {string}', (text) => {
 });
 
 When('I click the Create bulk payment holds button', () => {
+
+  Cypress.emit('log:step', 'I click the Create bulk payment holds button');
   paymentHoldsPage.btnSubmit().click();
 });
 
 Then('the new holds in {string} are visible along with the correct timestamp', (file) => {
+
+  Cypress.emit('log:step', 'the new holds in ' + file + ' are visible along with the correct timestamp');
   cy.fixture(file).then((csvData) => {
     const frnValues = csvData.split(',');
     const today = moment().format('DD/MM/YYYY'); // Get today's date once
@@ -60,6 +69,8 @@ Then('the new holds in {string} are visible along with the correct timestamp', (
 });
 
 Then('the {string} error message is displayed on the Payment holds page', (errMsg) => {
+
+  Cypress.emit('log:step', 'the ' + errMsg + ' error message is displayed on the Payment holds page');
   paymentHoldsPage
     .errorSummaryTitle()
     .should('be.visible')
@@ -71,6 +82,8 @@ Then('the {string} error message is displayed on the Payment holds page', (errMs
 });
 
 Then('the {string} error message is displayed on the Bulk upload page', (errMsg) => {
+
+  Cypress.emit('log:step', 'the ' + errMsg + ' error message is displayed on the Bulk upload page');
   paymentHoldsPage
     .bulkUploadErrorSummaryTitle()
     .should('be.visible')
@@ -82,23 +95,33 @@ Then('the {string} error message is displayed on the Bulk upload page', (errMsg)
 });
 
 When('the user selects to {string} holds', (option) => {
+
+  Cypress.emit('log:step', 'the user selects to ' + option + ' holds');
   paymentHoldsPage.sltAddRemoveHolds().select(option);
 });
 
 When('on the Payment Holds page I enter the newly generated FRN in the search field', () => {
+
+  Cypress.emit('log:step', 'on the Payment Holds page I enter the newly generated FRN in the search field');
   const updatedFRN = Cypress.env('updatedMessageBody').frn;
   paymentHoldsPage.frnSearchField().type(updatedFRN);
 });
 
 Then('on the Payment Holds page I click the FRN search button', () => {
+
+  Cypress.emit('log:step', 'on the Payment Holds page I click the FRN search button');
   paymentHoldsPage.frnSearchButton().click();
 });
 
 Then('on the Payment Holds page I confirm that scheme filter box is visible', () => {
+
+  Cypress.emit('log:step', 'on the Payment Holds page I confirm that scheme filter box is visible');
   paymentHoldsPage.schemeFilterBox().should('be.visible');
 });
 
 Then('on the Payment Holds page I confirm that correct options are available for {string} scheme', (scheme) => {
+
+  Cypress.emit('log:step', 'on the Payment Holds page I confirm that correct options are available for ' + scheme + ' scheme');
   var expectedOptions = [];
 
   switch (scheme.toLowerCase()) {
@@ -170,6 +193,8 @@ Then('on the Payment Holds page I confirm that correct options are available for
 
 
 Then('the payment requests related to the {string} CSV are not in the table', (file) => {
+
+  Cypress.emit('log:step', 'the payment requests related to the ' + file + ' CSV are not in the table');
   cy.fixture(file).then((csvData) => {
     const frnValues = csvData
       .trim()

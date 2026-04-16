@@ -5,10 +5,12 @@ const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esb
 
 module.exports = defineConfig({
   e2e: {
+    supportFile: "cypress/support/e2e.js",
     taskTimeout: 15 * 60 * 1000, // 15 minutes
     specPattern: "cypress/e2e/features/**/*.feature",
 
-    async setupNodeEvents(on, config) {
+    async setupNodeEvents (on, config) {
+
       await addCucumberPreprocessorPlugin(on, config);
 
       on(
@@ -17,11 +19,6 @@ module.exports = defineConfig({
           plugins: [createEsbuildPlugin(config)],
         })
       );
-
-
-      // ---------------------------------------------------------
-      // Custom tasks for managing local environment and database interactions
-      // ---------------------------------------------------------
 
       const fs2 = require("fs");
       const path2 = require("path");
@@ -47,6 +44,7 @@ module.exports = defineConfig({
 
       try {
         on("task", {
+
           emptyFolder: (folderPath) => emptyFolder(folderPath),
 
           sendMessagesBatch ({ messages, topicName }) {
@@ -245,10 +243,9 @@ module.exports = defineConfig({
       html: false,
       json: true,
       charts: true,
-      code: true,
+      code: false,
       autoOpen: false,
       quiet: true,
-      screenshotOnRunFailure: true,
       inlineAssets: true
     }
   }
