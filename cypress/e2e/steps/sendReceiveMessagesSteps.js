@@ -622,9 +622,10 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
 
     if (messageType.includes('payment') || messageType.includes('error')) {
       sqlStatement = `SELECT
-  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
-  MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi
-  FROM "paymentRequests"`;
+  MAX(CASE WHEN "frn"::text ~ '^1[0-9]*' THEN "frn" END) AS max_frn,
+  MAX(CASE WHEN "invoiceNumber"::text ~ '^[0-9]{5} 1$' THEN "invoiceNumber" END) AS max_invoice_number
+FROM "paymentRequests";
+`;
       databaseName = 'ffc-pay-processing';
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
@@ -638,55 +639,42 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
 
           const {
             max_frn,
-            max_sbi
+            max_invoice_number
           } = row;
 
-          cy.log(max_frn, max_sbi);
+          cy.log(max_frn, max_invoice_number);
 
 
           console.log("Max FRN:", max_frn);
-          console.log("Max CONTRACT:", max_sbi);
+          console.log("Max INVOICE_NUMBER:", max_invoice_number);
 
           nextFRN = parseInt(max_frn) + 1;
-          nextSBI = parseInt(max_sbi) + 1;
 
-          const letters = "abcdefghijklmnopqrstuvwxyz";
-          let name = "";
+          //The following code separates the main body of the invoice number from the lone digit at the end
+          // and iterates the main body by 1 before joining back together
 
-          for (let i = 0; i < 8; i++) {
-            const index = Math.floor(Math.random() * letters.length);
-            name += letters[index];
-          }
+          const baseInvoice = parseInt(max_invoice_number.substring(0, 5));
+          const incremented = baseInvoice + 1;
+          const padded = incremented.toString().padStart(5, "0");
 
-          //The following section maps frn to sbi to allow payment request
+          nextInvoiceNumber = `${padded} 1`;
 
-          var messageBody =
-    {
-      sbi: nextSBI.toString(),
-      frn: nextFRN
-    };
 
-          const topicName = 'ffc-pay-customer-dev';
+          const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+          cy.readFile(inputFilePath).then((template) => {
 
-          cy.task('sendMessage', { messageBody, topicName }).then(() =>
-            cy.log(`Finished sending ${messageBody} to topic`));
-          cy.wait(40000);
+            var messageBody =
+          {
+            ...template,
+            frn: nextFRN.toString(),
+            invoiceNumber: nextInvoiceNumber
+          };
+
+            cy.task('sendMessage', { messageBody, topicName }).then(() =>
+              cy.log(`Finished sending ${messageBody} to topic: ${topicName}`));
+            cy.wait(40000);
+          });
         });
-
-      const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
-      cy.readFile(inputFilePath).then((template) => {
-
-        var messageBody =
-    {
-      ...template,
-      frn: nextFRN.toString(),
-      sbi: nextSBI.toString(),
-    };
-
-        cy.task('sendMessage', { messageBody, topicName }).then(() =>
-          cy.log(`Finished sending ${messageBody} to topic: ${topicName}`));
-        cy.wait(40000);
-      });
 
     } else if (messageType.includes('return')) {
 

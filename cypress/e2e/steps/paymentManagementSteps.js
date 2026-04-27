@@ -1,4 +1,4 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
 
 import paymentManagementPage from '../pages/paymentManagementPage';
@@ -275,6 +275,7 @@ When(/^the status report is downloaded with "(.*)" as the title$/, function (tit
 Then(/^I select "(.*)" from the monitor schemes dropdown$/, (scheme) => {
 
   Cypress.emit('log:step', 'I select ' + scheme + ' from the monitor schemes dropdown');
+  cy.wait(120000); //Wait for all PRs, returns and PPAs to process
   paymentManagementPage.monitorSchemeDropdown().scrollIntoView().select(scheme);
   cy.log(`Selected ${scheme} from the monitor schemes dropdown`);
   console.log(`Selected ${scheme} from the monitor schemes dropdown`);
@@ -1450,3 +1451,46 @@ Then (/^on the Add new alert recipient page I confirm that recipient "(.*)" has 
   console.log('confirmed that recipient ' + email + ' has been added for each alert type');
   cy.log('confirmed that recipient ' + email + ' has been added for each alert type');
 });
+
+Then('I store the number of payments and total value of payments for the current scheme', () => {
+
+  paymentEventMonitoringPage
+    .processedRequestsNumberOf()
+    .invoke('text')
+    .then(text => text.trim())
+    .as('numberOfPayments');
+
+  paymentEventMonitoringPage
+    .processedRequestsValue()
+    .invoke('text')
+    .then(text => text.trim())
+    .as('totalValueOfPayments');
+
+});
+
+Then('I confirm that number of payments has increased by {int} and total value of payments has increased by {string}',
+  function (paymentIncrease, valueIncrease) {
+
+    Cypress.emit('log:step', `I confirm that number of payments has increased by "${paymentIncrease}" and total value of payments has increased by "${valueIncrease}"`);
+
+    const previousCount = parseInt(this.numberOfPayments);
+    const previousValue = parseFloat(this.totalValueOfPayments.replace(/[^0-9.-]+/g, ''));
+
+    const expectedCount = previousCount + paymentIncrease;
+    const expectedValue = previousValue + parseFloat(valueIncrease.replace(/[^0-9.-]+/g, ''));
+
+    paymentEventMonitoringPage
+      .processedRequestsNumberOf()
+      .invoke('text')
+      .then(text => {
+        expect(parseInt(text)).to.eq(expectedCount);
+      });
+
+    paymentEventMonitoringPage
+      .processedRequestsValue()
+      .invoke('text')
+      .then(text => {
+        const numeric = parseFloat(text.replace(/[^0-9.-]+/g, '')).toFixed(2);
+        expect(Number(numeric)).to.eq(parseFloat(Number(expectedValue).toFixed(2)));
+      });
+  });

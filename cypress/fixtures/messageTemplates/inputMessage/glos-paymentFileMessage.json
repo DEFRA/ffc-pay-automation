@@ -4,14 +4,13 @@
   "batch": "FCAP_0746_240320220119.dat",
   "invoiceNumber": "15381 1",
   "paymentRequestNumber": 1,
-  "frn": "1102702234",
-  "sbi": "108507498",
+  "frn": 1102702234,
   "claimDate": "20/03/2024 22:01:18",
   "invoiceLines": [
     {
       "standardCode": "028B541Q",
       "description": "English Woodland Grant Scheme",
-      "value": 227.7
+      "value": 227.70
     }
   ]
 }

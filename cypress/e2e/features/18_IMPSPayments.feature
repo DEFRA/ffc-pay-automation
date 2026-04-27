@@ -23,6 +23,15 @@ Feature: 18 IMPS Payments
   #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
   #without the risk of data conflicts  
 
+  #Following section gets values from View processed payment request page and stores them in variables to be used later in the scenario
+  #the scenario to confirm that the new payment request has been added
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "IMPS" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I store the number of payments and total value of payments for the current scheme
+
     When I send "imps payment" test data message to the service bus topic "ffc-pay-request-dev"
 
     Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
@@ -34,6 +43,15 @@ Feature: 18 IMPS Payments
 
     When I send "imps return" test data message to the service bus topic "ffc-pay-return-dev"
     Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "IMPS" from the monitor schemes dropdown
+    And I click on the "Continue" button
+
+    Then I confirm that number of payments has increased by 1 and total value of payments has increased by "227.70"
+
+    Then I take a screenshot for Feature 18 and Scenario 2
 
   @local
   Scenario: 01 insert incorrect test data via service bus message to ffc-pay-request and confirm data is rejected
@@ -67,3 +85,13 @@ Feature: 18 IMPS Payments
 
     When I send the updated "imps-returnFileMessage" message to the service bus topic "ffc-pay-return-aw"
     Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
+
+  @local
+  Scenario: 04 Confirm payment request processed in Payment Management
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "IMPS" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I confirm that payment for "IMPS" scheme with "1" payment installments totalling "£227.70" is displayed
+    Then I take a screenshot for Feature 18 and Scenario 4

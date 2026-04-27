@@ -140,6 +140,14 @@ class paymentEventMonitoringPage {
     return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(3)');
   }
 
+  processedRequestsNumberOf () {
+    return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(2)');
+  }
+
+  processedRequestsValue () {
+    return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(3)');
+  }
+
   firstPaymentRequestNumber () {
     return cy.get('.govuk-table__body > :nth-child(1) > :nth-child(3)');
   }

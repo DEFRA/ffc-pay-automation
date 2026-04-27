@@ -8,7 +8,6 @@ Feature: 27 Lump Sums Payments
   @dev
   Scenario: 01 insert incorrect Lump sums test data via service bus message to ffc-pay-request
 
-    Given I visit the "Request Editor" homepage
     Then I take a screenshot for Feature 27 and Scenario 1
     When I send "lump sums error" test data message to the service bus topic "ffc-pay-request-dev"
 
@@ -21,7 +20,11 @@ Feature: 27 Lump Sums Payments
   #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
   #test data
 
-    Given I visit the "Request Editor" homepage
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "Lump Sums" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I store the number of payments and total value of payments for the current scheme
 
   #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
   #without the risk of data conflicts  
@@ -46,6 +49,7 @@ Feature: 27 Lump Sums Payments
   #The following steps complete the E2E journey in Request Editor using the values
   #from payment file  
 
+    Given I visit the "Request Editor" homepage
     And I click on the "View awaiting reporting data" link
     When I search for current FRN
     And I click on the "Enrich" link
@@ -67,8 +71,16 @@ Feature: 27 Lump Sums Payments
     When I search for current FRN
     And I click on the "Review" link
     And I click on the "Yes" edited correctly radio button
-    Then I take a screenshot for Feature 27 and Scenario 2
     And I click on the "Submit" button
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "Lump Sums" from the monitor schemes dropdown
+    And I click on the "Continue" button
+
+    Then I take a screenshot for Feature 27 and Scenario 2
+    Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
+
 
   @local
   Scenario: 01 insert incorrect Lump sums test data via service bus message to ffc-pay-request
@@ -106,7 +118,7 @@ Feature: 27 Lump Sums Payments
     Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
 
   @local
-  Scenario: 04 send BPS PPA file message and confirm processing
+  Scenario: 04 send Lump Sums PPA file message and confirm processing
 
   #This scenario confirms that a PPA file message can be sent and processed correctly
 
@@ -159,3 +171,13 @@ Feature: 27 Lump Sums Payments
     And I click on the "Yes" edited correctly radio button
     Then I take a screenshot for Feature 27 and Scenario 7
     And I click on the "Submit" button
+
+  @local
+  Scenario: 08 Confirm payment request processed in Payment Management
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "Lump Sums" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I confirm that payment for "Lump Sums" scheme with "3" payment installments totalling "£10,000.00" is displayed
+    Then I take a screenshot for Feature 27 and Scenario 8

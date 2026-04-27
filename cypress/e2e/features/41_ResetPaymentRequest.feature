@@ -143,8 +143,8 @@ Feature: 41 Reset Payment Request
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
 
-    Then I confirm that payment test data has been inserted into the "ffc-pay-processing" database
-    Then I confirm that payment test data has been inserted into the "ffc-pay-submission" database
+    Then I confirm that payment test data has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data has been inserted into the ffc-pay-submission database
 
 #The following step downloads file from Azure Blob Storage and confirms that the values given in the data inserted into the 
 #Pay Submission Service have been correctly added to the generated statement

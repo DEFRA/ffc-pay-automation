@@ -42,7 +42,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   case 'delinked': partialFileName = 'outbound/FFCDP_'; break;
   case 'sfi pilot': partialFileName = 'outbound/FFCSFIP_'; break;
   case 'sfi23': partialFileName = 'outbound/FFCSFIA_'; break;
-  case 'sfi22': partialFileName = 'outbound/FFCSFI_'; break;
+  case 'sfi22': partialFileName = 'outbound/FFCSITI_SFI_'; break;
   case 'manual': partialFileName = 'outbound/FFCPMAN_SFIA_'; break;
   case 'ppa scenarios payments': partialFileName = 'outbound/FFCESFIO_0001'; break;
   case 'ppa scenarios topups': partialFileName = 'outbound/FFCESFIO_0002'; break;
@@ -55,7 +55,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   let match;
   let subString;
 
-  if (scheme.includes('fptt') || scheme.includes('manual')) {
+  if (scheme.includes('fptt') || scheme.includes('manual') || scheme.includes('sfi22')) {
 
     match = partialFileName.match(/outbound\/(.+)/);
     subString = match ? match[1] : null;
