@@ -19,7 +19,11 @@ Feature: 23 CS Higher Tier Capital Payments
   #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
   #test data
 
-    Given I visit the "Request Editor" homepage
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "COHT Capital" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I store the number of payments and total value of payments for the current scheme
 
   #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
   #without the risk of data conflicts  
@@ -44,6 +48,7 @@ Feature: 23 CS Higher Tier Capital Payments
   #The following steps complete the E2E journey in Request Editor using the values
   #from payment file  
 
+    Given I visit the "Request Editor" homepage
     And I click on the "View awaiting reporting data" link
     When I search for current FRN
     And I click on the "Enrich" link
@@ -65,8 +70,15 @@ Feature: 23 CS Higher Tier Capital Payments
     When I search for current FRN
     And I click on the "Review" link
     And I click on the "Yes" edited correctly radio button
-    Then I take a screenshot for Feature 23 and Scenario 2
     And I click on the "Submit" button
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "COHT Capital" from the monitor schemes dropdown
+    And I click on the "Continue" button
+
+    Then I take a screenshot for Feature 23 and Scenario 2
+    Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
 
   @local
   Scenario: 01 insert incorrect COHTC test data via service bus message to ffc-pay-request
@@ -147,3 +159,13 @@ Feature: 23 CS Higher Tier Capital Payments
     And I click on the "Yes" edited correctly radio button
     Then I take a screenshot for Feature 23 and Scenario 7
     And I click on the "Submit" button
+
+  @local
+  Scenario: 08 Confirm payment request processed in Payment Management
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "COHT Capital" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I confirm that payment for "COHT Capital" scheme with "3" payment installments totalling "£10,000.00" is displayed
+    Then I take a screenshot for Feature 23 and Scenario 8

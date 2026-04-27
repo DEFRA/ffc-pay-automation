@@ -18,6 +18,12 @@ Feature: 44 Farm Payments Technical Test
   @dev
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "Farm Payments Technical Test" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I store the number of payments and total value of payments for the current scheme
+
     When I send "fptt payment" test data message to the service bus topic "ffc-pay-request-dev"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
@@ -42,6 +48,13 @@ Feature: 44 Farm Payments Technical Test
 
     When I send "fptt ppa" test data message to the service bus topic "ffc-pay-request-dev"
     Then I confirm that "ppa" test data in dev has been inserted into ffc-pay-processing database
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "Farm Payments Technical Test" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I take a screenshot for Feature 44 and Scenario 2
+    Then I confirm that number of payments has increased by 2 and total value of payments has increased by "0"
 
 
   @local
@@ -90,3 +103,13 @@ Feature: 44 Farm Payments Technical Test
 
     When I send the updated "fptt-ppaFileMessage" message to the service bus topic "ffc-pay-request-aw"
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
+
+  @local
+  Scenario: 05 Confirm payment request processed in Payment Management
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "Farm Payments Technical Test" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I confirm that payment for "Farm Payments Technical Test" scheme with "2" payment installments totalling "£0.00" is displayed
+    Then I take a screenshot for Feature 44 and Scenario 5

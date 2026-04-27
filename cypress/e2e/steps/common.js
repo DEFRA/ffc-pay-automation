@@ -298,6 +298,12 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 8: scenarioString = '08 Upload History table'; break;
     }
     break;
+  case 16: featureString = '16_GLOSPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 2: scenarioString = '02 insert test data via service bus message to ffc-pay-request'; break;
+    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
   case 17: featureString = '17_PaymentCalculator.feature -- ';
     switch (scenarioNumber) {
     case 1: scenarioString = '01 Confirm elements on Calculate your delinked payment homepage'; break;
@@ -308,6 +314,18 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 6: scenarioString = '06 Confirm that new schemes and grants link functions correctly'; break;
     case 7: scenarioString = '07 Confirm that replacing the Basic Payment Scheme link functions correctly'; break;
     case 8: scenarioString = '08 Confirm that Rural Payments service link functions correctly'; break;
+    }
+    break;
+  case 18: featureString = '18_IMPSPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 2: scenarioString = '02 insert test data via service bus message to ffc-pay-request'; break;
+    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
+  case 19: featureString = '19_GENESISPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 2: scenarioString = '02 insert test data via service bus message to ffc-pay-request'; break;
+    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break;
     }
     break;
   case 22: featureString = '22_CSHigherTierRevenuePayments.feature -- ';
@@ -326,6 +344,11 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
     case 7: scenarioString = '07 Approve payment from quality check queue'; break;
     case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    }
+    break;
+  case 24: featureString = '24_VetVisitsPayments.feature -- ';
+    switch (scenarioNumber) {
+    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break;
     }
     break;
   case 25: featureString = '25_CSPayments.feature -- ';
@@ -499,6 +522,11 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 19: scenarioString = '19 Confirm filter by scheme is functioning correctly'; break;
     case 20: scenarioString = '20 Confirm that correct error message is displayed when invalid email used'; break;
     case 21: scenarioString = '21 Confirm that new alert recipient can be successfully added'; break;
+    }
+    break;
+  case 44: featureString = '44_FarmPaymentsTechnicalTest.feature -- ';
+    switch (scenarioNumber) {
+    case 5: '05 Confirm payment request processed in Payment Management'; break;
     }
     break;
   }

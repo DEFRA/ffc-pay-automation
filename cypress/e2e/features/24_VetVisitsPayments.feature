@@ -8,7 +8,6 @@ Feature: 24 Vet Visits Payments
   @dev
   Scenario: 01 insert incorrect test data via service bus message to ffc-pay-request and confirm data is rejected
 
-    Given I visit the "Request Editor" homepage
     When I send "vet visits error" test data message to the service bus topic "ffc-pay-request-dev"
 
     Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
@@ -19,6 +18,12 @@ Feature: 24 Vet Visits Payments
 
   #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
   #test data
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "Vet Visits" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I store the number of payments and total value of payments for the current scheme
 
   #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
   #without the risk of data conflicts  
@@ -34,6 +39,13 @@ Feature: 24 Vet Visits Payments
 
     When I send "vet visits return" test data message to the service bus topic "ffc-pay-return-dev"
     Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
+
+    When I click on the "View processed payment requests" link
+    And I select "Vet Visits" from the monitor schemes dropdown
+    And I click on the "Continue" button
+
+    Then I take a screenshot for Feature 24 and Scenario 2
+    Then I confirm that number of payments has increased by 1 and total value of payments has increased by "£16,002.00"
 
   @dev
   Scenario: 03 Confirm that new AWHR standard code is functioning correctly
@@ -82,7 +94,17 @@ Feature: 24 Vet Visits Payments
     Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
 
   @local
-  Scenario: 04 Confirm that new AWHR standard code is functioning correctly
+  Scenario: 04 Confirm payment request processed in Payment Management
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View processed payment requests" link
+    And I select "Vet Visits" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I confirm that payment for "Vet Visits" scheme with "1" payment installments totalling "£16,002.00" is displayed
+    Then I take a screenshot for Feature 24 and Scenario 4
+
+  @local
+  Scenario: 05 Confirm that new AWHR standard code is functioning correctly
 
 #This scenario confirms that Vet Visits payments can be processed correctly using the new AWHR standard code and that the
 #correct scheme code of 18005 will be added by enrichment
