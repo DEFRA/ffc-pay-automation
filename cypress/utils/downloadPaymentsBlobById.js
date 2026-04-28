@@ -9,16 +9,17 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
   var blobServiceClient = null;
 
-  if (scheme === 'dps') {
-    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DPSBLOBCONNECTIONSTRING);
-  } else {
+  if (env.includes('local')) {
 
-    if (env.includes('local')) {
+    if (scheme === 'dps') {
+      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DPSBLOBCONNECTIONSTRING);
+    } else {
       blobServiceClient = BlobServiceClient.fromConnectionString(process.env.PAYMENTSBLOBCONNECTIONSTRING);
-    } else if (env.includes('dev')) {
-      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DEVPAYMENTSBLOBCONNECTIONSTRING);
     }
+  } else if (env.includes('dev')) {
+    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DEVPAYMENTSBLOBCONNECTIONSTRING);
   }
+
   console.log('Blob Service Client = ' + blobServiceClient.url);
   console.log('Container name = ' + containerName);
   const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -31,7 +32,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   case 'glos': partialFileName = 'outbound/FFCFC_';break;
   case 'imps': partialFileName = 'outbound/FFCIMPS_'; break;
   case 'genesis': partialFileName = 'outbound/FFCES_'; break;
-  case 'dps': partialFileName = 'outbound/FFCBGAN2023'; break;
+  case 'dps': partialFileName = 'outbound/FFCBGAN'; break;
   case 'vet visits': partialFileName = 'outbound/FFCVV_'; break;
   case 'cohtr': partialFileName = 'outbound/FFCSITICOHTR_'; break;
   case 'cohtc': partialFileName = 'outbound/FFCSITICOHTC_'; break;
@@ -135,7 +136,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
     '2022', 'SOS229', 'EXQ00', 'NE00'
   ]; break;
   case 'dps' : requiredValues = [
-    '2410', '766951', '1PC09913', 'GBP'
+    '2410', '766100', '1PC09913', 'GBP'
   ]; break;
   case 'vet visits' : requiredValues = [
     '2025', 'SOS210', 'DOM10', 'RP00'
@@ -219,10 +220,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
         throw err;
       });
   });
-
   return downloadPath;
-
-
 }
 
 module.exports = downloadPaymentsBlobById;

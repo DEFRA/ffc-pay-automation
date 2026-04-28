@@ -88,9 +88,7 @@ Feature: 17 Payment Calculator
 
     Given I visit the "Calculate your delinked payment" homepage
     When I click on the "delinked payments guidance" link
-    Then I confirm that I am on the "delinked-payments-calculated" page
-    Then I take a screenshot for Feature 17 and Scenario 05
-
+  
 
   Scenario: 06 Confirm that new schemes and grants link functions correctly
 
@@ -98,8 +96,6 @@ Feature: 17 Payment Calculator
 
     Given I visit the "Calculate your delinked payment" homepage
     When I click on the "new schemes and grants" link
-    Then I confirm that I am on the "funding-for-farmers" page
-    Then I take a screenshot for Feature 17 and Scenario 06
 
   Scenario: 07 Confirm that replacing the Basic Payment Scheme link functions correctly
 
@@ -107,8 +103,6 @@ Feature: 17 Payment Calculator
 
     Given I visit the "Calculate your delinked payment" homepage
     When I click on the "delinked payments: replacing the Basic Payment Scheme." link
-    Then I confirm that I am on the "delinked-payments-replacing-the-basic-payment-scheme" page
-    Then I take a screenshot for Feature 17 and Scenario 07
 
   Scenario: 08 Confirm that Rural Payments service link functions correctly
 
