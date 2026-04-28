@@ -7,32 +7,22 @@ Cypress.on('uncaught:exception', (err) => {
   }
 });
 
-// Step log for the current test
 let stepLog = [];
-
-// Context objects staged for the current test
 let pendingContext = [];
+let screenshotPathsThisTest = [];
 
-// Screenshot paths for the current test
-let screenshotsThisTest = [];
-
-// ------------------------------------------------------------
 // STEP LOGGING
-// ------------------------------------------------------------
 
 Cypress.on('log:step', (step) => {
   stepLog.push(step);
 });
 
-// ------------------------------------------------------------
 // SCREENSHOT CAPTURE
-// ------------------------------------------------------------
 
 Cypress.Screenshot.defaults({
-  onAfterScreenshot(_details, results) {
-    // results.path is the full path to the screenshot file
+  onAfterScreenshot (_details, results) {
     if (results && results.path) {
-      screenshotsThisTest.push(results.path);
+      screenshotPathsThisTest.push(results.path);
     }
   }
 });
@@ -44,34 +34,29 @@ afterEach(() => {
     });
     stepLog = [];
   }
+
+  // Convert each screenshot to a base64 data URI so that embedded screenshots are not lost upon file transfer
+  screenshotPathsThisTest.forEach((screenshotPath) => {
+    cy.task('readScreenshotAsBase64', screenshotPath, { log: false }).then((base64) => {
+      if (base64) {
+        pendingContext.push({
+          title: 'Screenshot',
+          value: `data:image/png;base64,${base64}`
+        });
+      }
+    });
+  });
+  screenshotPathsThisTest = [];
 });
 
-// ------------------------------------------------------------
-// Attach steps + screenshots + errors
-// ------------------------------------------------------------
-
 Cypress.on('test:after:run', (test) => {
-  // Attach steps
   pendingContext.forEach(({ title, value }) => {
     addContext({ test }, { title, value });
   });
   pendingContext = [];
-
-  // Attach screenshots
-  screenshotsThisTest.forEach((path) => {
-    const relativePath = path.replace(/^cypress[\\/]/, '../../');
-    addContext({ test }, {
-      title: 'Screenshot',
-      value: relativePath
-    });
-  });
-  screenshotsThisTest = [];
 });
 
-
-// ------------------------------------------------------------
 // ERROR LOGGING
-// ------------------------------------------------------------
 
 Cypress.on('fail', (error, runnable) => {
   addContext({ test: runnable }, {

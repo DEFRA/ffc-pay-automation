@@ -18,8 +18,10 @@ Given('I restart the local environment', () => {
 
 Given('I start ffc-pay-dps service', () => {
 
-  Cypress.emit('log:step', 'I start ffc-pay-dps service');
-  cy.task('startDPSService');
+  if (env.includes('local')) {
+    Cypress.emit('log:step', 'I start ffc-pay-dps service');
+    cy.task('startDPSService');
+  }
 });
 
 When(/^I insert (.*) test data into Batch Processor service$/, (schemeName) => {
@@ -221,6 +223,7 @@ When(/^I upload the (.*) payment file to the Azure Blob Storage container$/, (fi
   switch (fileType) {
   case 'dps':
     cy.task('uploadFileToBlobStorage', {
+      env: env,
       container: 'batch',
       dir: 'inbound/',
       scheme: 'dps'

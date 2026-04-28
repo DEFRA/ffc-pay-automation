@@ -140,7 +140,7 @@ Feature: 40 Download Statements
     Then on the Download Statements page I click the "search" button
 
     Then on the Download Statements page I confirm that the page number on Results sub header is "1"
-    Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 5 on this page (5 items)"
+    Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 6 on this page (6 items)"
     Then I take a screenshot for Feature 40 and Scenario 6
 
   Scenario: 07 Search by Timestamp

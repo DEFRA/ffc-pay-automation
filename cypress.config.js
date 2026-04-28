@@ -202,17 +202,17 @@ module.exports = defineConfig({
           },
 
           async fetchStatementsBlobById ({ env, container, dir, year }) {
-            downloadStatementsBlobById(env, container, dir, year);
+            await downloadStatementsBlobById(env, container, dir, year);
             return null;
           },
 
           async fetchPaymentsBlobById ({ env, container, dir, scheme }) {
-            downloadPaymentsBlobById (env, container, dir, scheme);
+            await downloadPaymentsBlobById (env, container, dir, scheme);
             return null;
           },
 
-          async uploadFileToBlobStorage ({ container, dir, scheme }) {
-            await uploadFileToBlobStorage(container, dir, scheme);
+          async uploadFileToBlobStorage ({ env, container, dir, scheme }) {
+            await uploadFileToBlobStorage(env, container, dir, scheme);
             return null;
           },
 
@@ -229,7 +229,17 @@ module.exports = defineConfig({
             });
           },
 
-          loadReportData
+          loadReportData,
+
+          // Reads a screenshot from disk and returns it as a base64 string
+          // so it can be embedded as a data URI in the Mochawesome HTML report.
+          // This makes the report fully self-contained for upload to Jira.
+          readScreenshotAsBase64 (filePath) {
+            if (fs2.existsSync(filePath)) {
+              return fs2.readFileSync(filePath).toString('base64');
+            }
+            return null;
+          }
         });
       } catch (err) {
         console.error("TASK REGISTRATION FAILED:", err);

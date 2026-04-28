@@ -111,8 +111,8 @@ Cypress.Commands.add('fetchPaymentsBlobById', (env, container, dir, scheme) => {
   cy.task('fetchPaymentsBlobById', env, container, dir, scheme);
 });
 
-Cypress.Commands.add('uploadFileToBlobStorage', (container, dir, scheme) => {
-  cy.task('uploadFileToBlobStorage', container, dir, scheme);
+Cypress.Commands.add('uploadFileToBlobStorage', (env, container, dir, scheme) => {
+  cy.task('uploadFileToBlobStorage', env, container, dir, scheme);
 });
 
 
