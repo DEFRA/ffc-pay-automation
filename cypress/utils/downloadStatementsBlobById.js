@@ -7,7 +7,7 @@ const pdf = require('pdf-parse');
 async function downloadStatementsBlobById (env, containerName, downloadDir, year) {
 
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
-  var blobServiceClient = null;
+  let blobServiceClient = null;
 
   if (env.includes('local')) {
     blobServiceClient = BlobServiceClient.fromConnectionString(process.env.STATEMENTSBLOBCONNECTIONSTRING);

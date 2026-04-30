@@ -159,7 +159,7 @@ Then('on the Payment Holds page I confirm that scheme filter box is visible', ()
 Then('on the Payment Holds page I confirm that correct options are available for {string} scheme', (scheme) => {
 
   Cypress.emit('log:step', 'on the Payment Holds page I confirm that correct options are available for ' + scheme + ' scheme');
-  var expectedOptions = [];
+  let expectedOptions = [];
 
   switch (scheme.toLowerCase()) {
 

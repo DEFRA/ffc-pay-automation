@@ -58,7 +58,7 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
 
   } else {
 
-    var sqlStatement = '';
+    let sqlStatement = '';
     switch (databaseName) {
     case 'ffc-pay-processing':
       sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
@@ -89,7 +89,7 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
 Then(/^I confirm that payment test data has not been inserted into the (.*) database$/, (databaseName) => {
 
   Cypress.emit('log:step', 'I confirm that payment test data has not been inserted into the ' + databaseName + ' database');
-  var sqlStatement = '';
+  let sqlStatement = '';
   switch (databaseName) {
 
   case 'ffc-pay-processing':
@@ -113,8 +113,8 @@ Then('I confirm that {string} test data has been inserted into the {string} data
 
   Cypress.emit('log:step', 'I confirm that ' + fileType + ' test data has been inserted into the ' + databaseName + ' database');
 
-  var containerName;
-  var sqlStatement;
+  let containerName;
+  let sqlStatement;
 
   switch (fileType) {
   case 'return': sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "paymentRequestId" = 1'; break;
@@ -135,7 +135,7 @@ Then('I confirm that {string} test data has been inserted into the {string} data
 
       if (fileType === 'd365 rejection') {
 
-        var holdCategoryId = results.rows[0].holdCategoryId;
+        let holdCategoryId = results.rows[0].holdCategoryId;
 
         if (holdCategoryId === 1) {
           console.log('✅ Correct data has been added from ' + fileType + ' file');
@@ -171,7 +171,7 @@ Then(/^I confirm that the settled value of (.*) is (.*) in database$/, (fileType
   Cypress.emit('log:step', 'I confirm that the settled value of ' + fileType + ' is ' + expectedValue + ' in the database');
 
   const databaseName = 'ffc-pay-processing';
-  var sqlStatement = '';
+  let sqlStatement = '';
 
   switch (fileType) {
   case 'PPA':
@@ -273,9 +273,9 @@ Then(/^I confirm that (.*) event can be found in Event Hub Database$/, (eventTyp
 
   Cypress.emit('log:step', 'I confirm that ' + eventType + ' event can be found in Event Hub Database');
 
-  var sqlStatement;
-  var expectedType;
-  var databaseName;
+  let sqlStatement;
+  let expectedType;
+  let databaseName;
 
   if (env.includes('dev')) {
 

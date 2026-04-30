@@ -18,8 +18,8 @@ async function databaseInsert (env, database, statement) {
     const statementGeneratorPort = process.env.STATEMENTGENERATORPORT;
     const statementGeneratorDatabase = process.env.STATEMENTGENERATORDATABASE;
 
-    var currentPort = '';
-    var currentDatabase = '';
+    let currentPort = '';
+    let currentDatabase = '';
 
     switch (database) {
     case 'ffc-doc-statement-constructor':

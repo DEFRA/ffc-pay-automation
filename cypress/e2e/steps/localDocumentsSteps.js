@@ -32,7 +32,7 @@ When(/^I insert (.*) test data into Statement Data service$/, (year) => {
 
     const databaseName = 'ffc-doc-statement-data';
 
-    var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+    let sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
   (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id,
@@ -81,7 +81,7 @@ When(/^I insert (.*) test data into Statement Data service$/, (year) => {
 
         nextPaymentReference = prefix + incremented;
 
-        var sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
+        let sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
 (` + nextSBI + `,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',` + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
@@ -200,7 +200,7 @@ When(/^I send bulk test data for (.*) into Statement Data service$/, (year) => {
 
     const databaseName = 'ffc-doc-statement-data';
 
-    var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+    let sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
   (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id,
@@ -338,10 +338,10 @@ VALUES (
 
     const databaseName = 'ffc-doc-statement-data';
 
-    var sbi = '';
-    var frn = '';
-    var applicationId = '';
-    var calculationId = '';
+    let sbi = '';
+    let frn = '';
+    let applicationId = '';
+    let calculationId = '';
 
     switch (year) {
     case '2024':
@@ -431,7 +431,7 @@ When(/^I send incorrect test data into (.*) service$/, (databaseName) => {
 
     if (databaseName.includes('data')) {
 
-      var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+      let sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
   (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id
@@ -469,8 +469,8 @@ When(/^I send incorrect test data into (.*) service$/, (databaseName) => {
           nextCalculationId = parseInt(max_calculation_id) + 1;
           nextApplicationId = parseInt(max_application_id) + 1;
 
-          var expectedError = '';
-          var sqlStatement = '';
+          let expectedError = '';
+          let sqlStatement = '';
 
           expectedError = 'value too long for type character varying(30)';
           sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
@@ -536,7 +536,7 @@ VALUES
 
     } else if (databaseName.includes('constructor')) {
 
-      var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+      let sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   (SELECT MAX("calculationId") FROM "delinkedCalculation") AS max_calculation_id,
   (SELECT MAX("applicationId") FROM "delinkedCalculation") AS max_application_id
@@ -574,8 +574,8 @@ VALUES
           nextCalculationId = parseInt(max_calculation_id) + 1;
           nextApplicationId = parseInt(max_application_id) + 1;
 
-          var expectedError = '';
-          var sqlStatement = '';
+          let expectedError = '';
+          let sqlStatement = '';
 
           expectedError = 'value too long for type character varying(30)';
           sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
@@ -641,7 +641,7 @@ VALUES
 
     } else if (databaseName.includes('generator')) {
 
-      var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn FROM "generations"`;
+      let sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn FROM "generations"`;
 
       console.log(sqlStatement);
       cy.log(sqlStatement);
@@ -664,8 +664,8 @@ VALUES
 
           nextFRN = parseInt(max_frn) + 1;
 
-          var expectedError = '';
-          var sqlStatement = '';
+          let expectedError = '';
+          let sqlStatement = '';
 
           expectedError = 'value too long for type character varying(255)';
           sqlStatement = `INSERT INTO "generations" ("statementData", "dateGenerated", "filename", "documentReference")
@@ -691,7 +691,7 @@ VALUES
 
     } else if (databaseName.includes('publisher')) {
 
-      var sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
+      let sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi
   FROM "statements"`;
 
@@ -720,8 +720,8 @@ VALUES
           nextFRN = parseInt(max_frn) + 1;
           nextSBI = parseInt(max_sbi) + 1;
 
-          var expectedError = '';
-          var sqlStatement = '';
+          let expectedError = '';
+          let sqlStatement = '';
 
           expectedError = 'value too long for type character varying(255)';
           sqlStatement = `INSERT INTO "statements" ("frn", "sbi", "businessName", "addressLine1", "addressLine2", "addressLine3", "addressLine4", "addressLine5", "postcode", "email", "filename", "received", "schemeName", "schemeShortName", "schemeYear", "documentReference", "emailTemplate")
@@ -748,8 +748,8 @@ VALUES
 
   } else if (env.includes('local')) {
 
-    var expectedError = '';
-    var sqlStatement = '';
+    let expectedError = '';
+    let sqlStatement = '';
 
     switch (databaseName) {
     case 'ffc-doc-statement-constructor':
@@ -1082,7 +1082,7 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
 
   if (env.includes('dev')) {
 
-    var sqlStatement = '';
+    let sqlStatement = '';
     switch (databaseName) {
     case 'ffc-doc-statement-constructor':
       sqlStatement = `SELECT * FROM "organisations" WHERE "sbi" = ` + nextSBI;
@@ -1103,7 +1103,7 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
 
   } else if (env.includes('local')) {
 
-    var sqlStatement = '';
+    let sqlStatement = '';
     switch (databaseName) {
     case 'ffc-doc-statement-constructor':
       sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
@@ -1141,7 +1141,7 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
 
   Cypress.emit('log:step', 'I confirm that test data has been inserted into the ' + databaseName + ' database');
 
-  var sqlStatement = '';
+  let sqlStatement = '';
 
   if (env.includes('dev')) {
 
@@ -1204,8 +1204,8 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
 
   if (env.includes('dev')) {
 
-    var containerName = '';
-    var sqlStatement = '';
+    let containerName = '';
+    let sqlStatement = '';
 
     if (databaseName.includes('ffc-doc-statement-data')) {
 
@@ -1279,8 +1279,8 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
 
   } else if (env.includes('local')) {
 
-    var containerName = '';
-    var sqlStatement = '';
+    let containerName = '';
+    let sqlStatement = '';
 
     switch (databaseName) {
     case 'ffc-doc-statement-data':

@@ -198,8 +198,8 @@ When('I click on the {string} download link', (text) => {
 Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber, scenarioNumber) => {
 
   Cypress.emit('log:step', 'I take a screenshot for Feature ' + featureNumber + ' and Scenario ' + scenarioNumber);
-  var featureString = '';
-  var scenarioString = '';
+  let featureString = '';
+  let scenarioString = '';
 
   switch (featureNumber) {
   case 1: featureString = '01_PaymentManagement.feature -- ';
@@ -539,7 +539,7 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
 Then('I confirm that I am on the {string} homepage', (service) => {
 
   Cypress.emit('log:step', 'I confirm that I am on the ' + service + ' homepage');
-  var url;
+  let url;
 
   switch (service) {
   case 'payment management':
@@ -563,8 +563,8 @@ Then('I confirm that I am on the {string} homepage', (service) => {
 Then('I confirm that {string} error message has been generated', (error) => {
 
   Cypress.emit('log:step', 'I confirm that ' + error + ' error message has been generated');
-  var databaseName;
-  var expectedError;
+  let databaseName;
+  let expectedError;
 
   switch (error) {
   case 'invoice lines do not match':

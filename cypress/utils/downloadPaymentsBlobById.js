@@ -7,7 +7,7 @@ const csv = require('csv-parser');
 async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme) {
 
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
-  var blobServiceClient = null;
+  let blobServiceClient = null;
 
   if (env.includes('local')) {
 
@@ -27,7 +27,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
 
   let blobs = containerClient.listBlobsFlat();
 
-  var partialFileName = '';
+  let partialFileName = '';
   switch (scheme) {
   case 'glos': partialFileName = 'outbound/FFCFC_';break;
   case 'imps': partialFileName = 'outbound/FFCIMPS_'; break;
@@ -124,7 +124,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   }
 
   const results = [];
-  var requiredValues = [];
+  let requiredValues = [];
   switch (scheme) {
   case 'glos': requiredValues = [
     '2015', 'SOS710', 'DRD05', 'FC00'

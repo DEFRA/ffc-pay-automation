@@ -360,7 +360,7 @@ Given('I send email to Notify API', () => {
 
   Cypress.emit('log:step', 'I send email to Notify API');
 
-  var jwtToken = '';
+  let jwtToken = '';
 
 
   cy.task('generateJWT').then((token) => {
@@ -401,7 +401,7 @@ When('I pull new email from Notify API', () => {
 
   Cypress.emit('log:step', 'I pull new email from Notify API');
 
-  var jwtToken = '';
+  let jwtToken = '';
 
   cy.fixture('apiUpload.json').then((data) => {
     const id = data.id;
@@ -496,9 +496,9 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
 
   //This step is specifically for dev
 
-  var messageTemplate;
-  var sqlStatement;
-  var databaseName;
+  let messageTemplate;
+  let sqlStatement;
+  let databaseName;
 
 
   switch (messageType) {
@@ -665,7 +665,7 @@ FROM "paymentRequests";
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
           cy.readFile(inputFilePath).then((template) => {
 
-            var messageBody =
+            let messageBody =
           {
             ...template,
             frn: nextFRN.toString(),
@@ -1226,7 +1226,7 @@ FROM "paymentRequests";
 Then(/^I confirm that payment test data in dev has been inserted into the (.*) database$/, (databaseName) => {
 
   Cypress.emit('log:step', 'I confirm that payment test data in dev has been inserted into the ' + databaseName + ' database');
-  var sqlStatement = '';
+  let sqlStatement = '';
   switch (databaseName) {
   case 'ffc-pay-injection':
     sqlStatement = 'SELECT * FROM "manualUploads" WHERE "uploadId" = 1';
@@ -1259,8 +1259,8 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
 Then('I confirm that {string} test data in dev has been inserted into ffc-pay-processing database', (fileType) => {
 
   Cypress.emit('log:step', 'I confirm that ' + fileType + ' test data in dev has been inserted into ffc-pay-processing database');
-  var containerName;
-  var sqlStatement;
+  let containerName;
+  let sqlStatement;
 
   switch (fileType) {
   case 'return': sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = ' + nextFRN; break;
@@ -1282,7 +1282,7 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
 
       if (fileType === 'd365 rejection') {
 
-        var holdCategoryId = results.rows[0].holdCategoryId;
+        let holdCategoryId = results.rows[0].holdCategoryId;
 
         if (holdCategoryId === 1) {
           console.log('✅ Correct data has been added from ' + fileType + ' file');
@@ -1291,7 +1291,7 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
         }
       } else if (fileType === 'return') {
 
-        var settledValue = results.rows[0].settledValue;
+        let settledValue = results.rows[0].settledValue;
 
         if (settledValue != null) {
           cy.log('✅ Settled value is ' + settledValue);
@@ -1330,7 +1330,7 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
 Then(/^I confirm that payment test data in dev has not been inserted into the (.*) database$/, (databaseName) => {
 
   Cypress.emit('log:step', 'I confirm that payment test data in dev has not been inserted into the ' + databaseName + ' database');
-  var sqlStatement = '';
+  let sqlStatement = '';
   switch (databaseName) {
   case 'ffc-pay-injection':
     sqlStatement = 'SELECT * FROM "manualUploads" WHERE "uploadId" = 1';
