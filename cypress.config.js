@@ -22,6 +22,7 @@ module.exports = defineConfig({
 
       const fs2 = require("fs");
       const path2 = require("path");
+      const { exec } = require("child_process");
       const { spawn } = require("child_process");
 
       const { emptyFolder } = require("./cypress/utils/empty-folder");
@@ -41,6 +42,9 @@ module.exports = defineConfig({
       const databaseQuery = require("./cypress/utils/databaseQuery");
       const databaseInsert = require("./cypress/utils/databaseInsert");
       const generateAccessToken = require("./cypress/utils/generateAccessToken");
+
+      config.env.KUBERNETES_NAMESPACE = process.env.KUBERNETES_NAMESPACE;
+      config.env.KUBERNETES_ALERTING_LABEL = process.env.KUBERNETES_ALERTING_LABEL;
 
       try {
         on("task", {
@@ -190,7 +194,7 @@ module.exports = defineConfig({
             });
 
             await new Promise((res) => setTimeout(res, 60000));
-            return "All local doc environments restarted successfully";
+            return 'All local doc environments restarted successfully';
           },
 
           async databaseQuery ({ env, databaseName, sqlStatement }) {
@@ -216,10 +220,29 @@ module.exports = defineConfig({
             return null;
           },
 
+          getPodLogs ({ namespace, label }) {
+            return new Promise((resolve, reject) => {
+              const kubeconfig = process.env.KUBECONFIG;
+              const cmd = `kubectl --kubeconfig="${kubeconfig}" logs -n ${namespace} -l ${label} --tail=200`;
+
+              console.log('RUNNING:', cmd);
+
+              exec(cmd, (err, stdout, stderr) => {
+                console.log('STDOUT:', stdout);
+                console.log('STDERR:', stderr);
+
+                if (err) {
+                  return reject(stderr || err);
+                }
+                resolve(stdout);
+              });
+            });
+          },
+
           getDockerLogs (containerName) {
             return new Promise((resolve, reject) => {
               const proc = spawn("docker", ["logs", containerName]);
-              let output = "";
+              let output = '';
 
               proc.stdout.on("data", (d) => (output += d.toString()));
               proc.stderr.on("data", (d) => (output += d.toString()));

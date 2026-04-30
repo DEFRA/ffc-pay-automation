@@ -240,14 +240,33 @@ Then('I confirm that {string} alert has been generated', (alertMessage) => {
   console.log(`Checking for alert: "${alertMessage}"`);
   cy.log(`Checking for alert: "${alertMessage}"`);
 
-  cy.task('getDockerLogs', 'ffc-pay-alerting-development').then((logs) => {
-    if (logs.includes(alertMessage)) {
-      console.log(`✅ Alert "${alertMessage}" has been generated`);
-      cy.log(`✅ Alert "${alertMessage}" has been generated`);
-    } else {
-      throw new Error(`Alert "${alertMessage}" has not been generated`);
-    }
-  });
+  if (env.includes('dev')) {
+
+    cy.task ('getPodLogs', {
+      namespace: Cypress.env('KUBERNETES_NAMESPACE'),
+      label: Cypress.env('KUBERNETES_ALERTING_LABEL')
+    }).then((logs) => {
+      cy.log(logs);
+      console.log(logs);
+      if (logs.includes(alertMessage)) {
+        console.log(`✅ Alert "${alertMessage}" has been generated`);
+        cy.log(`✅ Alert "${alertMessage}" has been generated`);
+      } else {
+        throw new Error(`Alert "${alertMessage}" has not been generated`);
+      }
+    });
+
+  } else if (env.includes('local')) {
+
+    cy.task ('getDockerLogs', 'ffc-pay-alerting-development').then((logs) => {
+      if (logs.includes(alertMessage)) {
+        console.log(`✅ Alert "${alertMessage}" has been generated`);
+        cy.log(`✅ Alert "${alertMessage}" has been generated`);
+      } else {
+        throw new Error(`Alert "${alertMessage}" has not been generated`);
+      }
+    });
+  }
 });
 
 Then(/^I confirm that (.*) event can be found in Event Hub Database$/, (eventType) => {

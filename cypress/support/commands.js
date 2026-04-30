@@ -115,6 +115,15 @@ Cypress.Commands.add('uploadFileToBlobStorage', (env, container, dir, scheme) =>
   cy.task('uploadFileToBlobStorage', env, container, dir, scheme);
 });
 
+Cypress.Commands.add('getPodLogs', (namespace, label) => {
+  cy.task('getPodLogs', namespace, label).then((logs) => {
+    logs.split('\n').forEach((line) => {
+      if (line.trim()) {
+        console.log(line);
+      }
+    });
+  });
+});
 
 Cypress.Commands.add('getDockerLogs', () => {
   cy.task('getDockerLogs').then((logs) => {

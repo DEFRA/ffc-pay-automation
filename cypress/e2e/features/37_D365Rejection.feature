@@ -30,7 +30,7 @@ Feature: 37 D365 Rejection
 
 #The step below queries the logs from ffc-pay-alerting to confirm that the alert for No valid bank details has been generated
 
-    # Then I confirm that 'No valid bank details held' alert has been generated
+    Then I confirm that 'No valid bank details held' alert has been generated
 
 #This scenario confirms that the hold created by the D365 rejection processing is visible in the Payment Management UI
 
