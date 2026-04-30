@@ -107,6 +107,43 @@ When('on the Payment Holds page I enter the newly generated FRN in the search fi
   paymentHoldsPage.frnSearchField().type(updatedFRN);
 });
 
+When('on the Payment Holds page I enter {string} in the FRN search field', (frn) => {
+
+  Cypress.emit('log:step', 'on the Payment Holds page I enter ' + frn + ' in the FRN search field');
+
+  if (frn.includes('current FRN')) {
+
+    let env = 'dev';
+    let sqlStatement = `SELECT
+  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn
+  FROM "paymentRequests"`;
+    let databaseName = 'ffc-pay-processing';
+
+    cy.task('databaseQuery', { env, databaseName, sqlStatement })
+      .then((result) => {
+
+        const row = result.rows?.[0];
+
+        if (!row) {
+          throw new Error('No rows returned from database query');
+        }
+
+        const {
+          max_frn,
+        } = row;
+
+        cy.log(max_frn);
+
+
+        console.log('Max FRN:', max_frn);
+        paymentHoldsPage.frnSearchField().type(max_frn);
+      });
+
+  } else {
+    paymentHoldsPage.frnSearchField().type(frn);
+  }
+});
+
 Then('on the Payment Holds page I click the FRN search button', () => {
 
   Cypress.emit('log:step', 'on the Payment Holds page I click the FRN search button');

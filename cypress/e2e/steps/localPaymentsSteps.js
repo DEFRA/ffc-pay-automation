@@ -256,41 +256,106 @@ Then(/^I confirm that (.*) event can be found in Event Hub Database$/, (eventTyp
 
   var sqlStatement;
   var expectedType;
-  const databaseName = 'ffc-pay-event-hub';
+  var databaseName;
 
-  switch (eventType) {
-  case 'batch':
-    sqlStatement = 'SELECT * FROM "batches"';
-    expectedType = 'uk.gov.defra.ffc.pay.batch.created.dax';
-    break;
-  case 'holds':
-    sqlStatement = 'SELECT * FROM "holds"';
-    expectedType = 'uk.gov.defra.ffc.pay.hold.added';
-    break;
-  case 'payments':
-    sqlStatement = 'SELECT * FROM "payments"';
-    expectedType = 'uk.gov.defra.ffc.pay.payment.processed';
-    break;
-  case 'warnings':
-    sqlStatement = 'SELECT * FROM "warnings"';
-    expectedType = 'uk.gov.defra.ffc.pay.warning.bank.missing';
-    break;
-  default:
-    throw new Error(`Unknown event type: ${eventType}`);
+  if (env.includes('dev')) {
+
+    sqlStatement = `SELECT
+  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn
+  FROM "paymentRequests"`;
+    databaseName = 'ffc-pay-processing';
+
+    cy.task('databaseQuery', { env, databaseName, sqlStatement })
+      .then((result) => {
+
+        const row = result.rows?.[0];
+
+        if (!row) {
+          throw new Error('No rows returned from database query');
+        }
+
+        const {
+          max_frn,
+        } = row;
+
+        cy.log(max_frn);
+
+
+        console.log('Max FRN:', max_frn);
+
+        let maxFRN = parseInt(max_frn);
+
+        if (eventType.includes('batch')) {
+          sqlStatement = 'SELECT * FROM "batches" WHERE DATE("timestamp") = CURRENT_DATE;';
+          expectedType = 'uk.gov.defra.ffc.pay.batch.created.dax';
+        } else if (eventType.includes('holds')) {
+          sqlStatement = `SELECT * FROM "holds" WHERE "partitionKey" = '${maxFRN}'`;
+          expectedType = 'uk.gov.defra.ffc.pay.hold.added';
+        } else if (eventType.includes('payments')) {
+          sqlStatement = `SELECT * FROM "payments" WHERE data @> '{"frn": "${maxFRN}"}'`;
+          expectedType = 'uk.gov.defra.ffc.pay.payment.processed';
+        } else if (eventType.includes('warnings')) {
+          sqlStatement = `SELECT * FROM "warnings" WHERE data @> '{"frn": "${maxFRN}"}'`;
+          expectedType = 'uk.gov.defra.ffc.pay.warning.bank.missing';
+        }
+
+
+        databaseName = 'ffc-pay-event-hub';
+
+        cy.log('Querying ' + databaseName + ' with Statement - ' + sqlStatement);
+
+        cy.task('databaseQuery', { env, databaseName, sqlStatement })
+          .then((rows) => {
+            const results = JSON.stringify(rows, null, 2);
+            console.log('Results ' + results);
+
+            if (results.includes(expectedType)) {
+              console.log('✅ Event with type ' + expectedType + ' was found in database');
+              cy.log('✅ Event with type ' + expectedType + ' was found in database');
+            } else {
+              throw new Error('Event with type ' + expectedType + ' was not found in database');
+            }
+          });
+      });
+
+  } else if (env.includes('local')) {
+
+    switch (eventType) {
+    case 'batch':
+      sqlStatement = 'SELECT * FROM "batches"';
+      expectedType = 'uk.gov.defra.ffc.pay.batch.created.dax';
+      break;
+    case 'holds':
+      sqlStatement = 'SELECT * FROM "holds"';
+      expectedType = 'uk.gov.defra.ffc.pay.hold.added';
+      break;
+    case 'payments':
+      sqlStatement = 'SELECT * FROM "payments"';
+      expectedType = 'uk.gov.defra.ffc.pay.payment.processed';
+      break;
+    case 'warnings':
+      sqlStatement = 'SELECT * FROM "warnings"';
+      expectedType = 'uk.gov.defra.ffc.pay.warning.bank.missing';
+      break;
+    default:
+      throw new Error(`Unknown event type: ${eventType}`);
+    }
+
+    databaseName = 'ffc-pay-event-hub';
+
+    cy.log('Querying ' + databaseName + ' with Statement - ' + sqlStatement);
+
+    cy.task('databaseQuery', { env, databaseName, sqlStatement })
+      .then((rows) => {
+        const results = JSON.stringify(rows, null, 2);
+        console.log('Results ' + results);
+
+        if (results.includes(expectedType)) {
+          console.log('✅ Event with type ' + expectedType + ' was found in database');
+          cy.log('✅ Event with type ' + expectedType + ' was found in database');
+        } else {
+          throw new Error('Event with type ' + expectedType + ' was not found in database');
+        }
+      });
   }
-
-  cy.log('Querying ' + databaseName + ' with Statement - ' + sqlStatement);
-
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((rows) => {
-      const results = JSON.stringify(rows, null, 2);
-      console.log('Results ' + results);
-
-      if (results.includes(expectedType)) {
-        console.log('✅ Event with type ' + expectedType + ' was found in database');
-        cy.log('✅ Event with type ' + expectedType + ' was found in database');
-      } else {
-        throw new Error('Event with type ' + expectedType + ' was not found in database');
-      }
-    });
 });

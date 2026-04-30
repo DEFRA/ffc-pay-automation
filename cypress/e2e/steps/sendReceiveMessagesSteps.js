@@ -614,6 +614,8 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
     messageTemplate = 'fptt-returnFileMessage'; break;
   case 'fptt ppa':
     messageTemplate = 'fptt-ppaFileMessage'; break;
+  case 'd365 acknowledgement':
+    messageTemplate = 'd365Rejection-acknowledgementMessage'; break;
   }
 
   ///////////////////////////////////GLOS SECTION///////////////////////////////////////////////////
@@ -1074,6 +1076,38 @@ FROM "paymentRequests";
       });
     }
 
+    ////////////////////////////////////D365 ACKNOWLEDGEMENT//////////////////////////////////////////////
+
+  } else if (messageType.includes('acknowledgement')) {
+
+    sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN;
+
+    cy.log("SQL statement = " + sqlStatement);
+    databaseName = 'ffc-pay-processing';
+
+    cy.task('databaseQuery', { env, databaseName, sqlStatement })
+      .then((result) => {
+
+        const currentInvoiceNumber = result.rows[0].invoiceNumber;
+        cy.log(currentInvoiceNumber);
+
+
+        const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`;
+        cy.readFile(inputFilePath).then((template) => {
+
+          const messageBody =
+    {
+      ...template,
+      frn: nextFRN,
+      invoiceNumber: currentInvoiceNumber
+    };
+
+          cy.task('sendMessage', { messageBody, topicName }).then(() =>
+            cy.log(`Finished sending ${messageBody} to topic: ${topicName}`));
+          cy.wait(40000);
+        });
+      });
+
     ////////////////////////////////////ALL OTHER SCHEMES/////////////////////////////////////////////////
 
 
@@ -1231,8 +1265,8 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
   switch (fileType) {
   case 'return': sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = ' + nextFRN; break;
   case 'ppa': sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN; break;
-  case 'd365 rejection': sqlStatement = 'SELECT "holdCategoryId" FROM "holds" WHERE "holdId" = 1'; break;
-  case 'resubmission': sqlStatement = 'SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "completedPaymentRequestId" = 2'; break;
+  case 'd365 rejection': sqlStatement = 'SELECT "holdCategoryId" FROM "holds" WHERE "frn" = ' + nextFRN; break;
+  case 'resubmission': sqlStatement = 'SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "frn" = ' + nextFRN; break;
   default:
     throw new Error(`Unknown file type: ${fileType}`);
   }
@@ -1274,7 +1308,7 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
 
       } else {
 
-        if (results.rowCount === 1) {
+        if (results.rowCount >= 1) {
           console.log('✅ Correct data has been added from ' + fileType + ' file');
         } else {
           throw new Error('Correct data has not been added from ' + fileType + ' file');
