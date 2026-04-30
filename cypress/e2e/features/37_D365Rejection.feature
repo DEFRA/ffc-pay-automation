@@ -1,10 +1,72 @@
-@local
 Feature: 37 D365 Rejection
 
 # npm run cypress:local:one -- "cypress\e2e\features\37_D365Rejection.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\37_D365Rejection.feature"
 
 # This feature file is designed to test D365 Rejection processing
 
+  @dev
+  Scenario: 01 Process D365 Acknowledgment file
+
+#This scenario loads an SFI22 payment message followed by a D365 rejection acknowledgement message
+#It then confirms that the correct hold entry has been created in the Pay Processing database  
+
+    Given I visit the "Payment management" homepage
+    When I send "sfi22 payment" test data message to the service bus topic "ffc-pay-request-dev"
+
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+
+    Then I pull sfi22 payments file from Azure Blob Storage and confirm that correct values have been generated
+
+#Processing of acknowledgement message to simulate D365 rejection  
+
+    When I send "d365 acknowledgement" test data message to the service bus topic "ffc-pay-acknowledgement-dev"
+
+#Following processing a hold entry should be created in the Pay Processing database with a hold category of 1
+#Which indicates a Bank account anomaly
+
+    Then I confirm that "d365 rejection" test data in dev has been inserted into ffc-pay-processing database
+
+#The step below queries the logs from ffc-pay-alerting to confirm that the alert for No valid bank details has been generated
+
+    Then I confirm that 'No valid bank details held' alert has been generated
+
+#This scenario confirms that the hold created by the D365 rejection processing is visible in the Payment Management UI
+
+    Given I visit the "Payment management" homepage
+    And I click on the "Manage holds" link
+    And I am on the "payment-holds" subpage
+    When on the Payment Holds page I enter "current FRN" in the FRN search field
+    Then on the Payment Holds page I click the FRN search button
+    Then I take a screenshot for Feature 37 and Scenario 1
+    And I should see "Bank account anomaly"
+
+#This scenario removes the hold created by the D365 rejection processing and confirms that a secondary completedPaymentRequest
+#entry is subsequently created in the Pay Processing database
+
+    Given I visit the "Payment management" homepage
+    And I click on the "Manage holds" link
+    And I am on the "payment-holds" subpage
+    When on the Payment Holds page I enter "current FRN" in the FRN search field
+    Then on the Payment Holds page I click the FRN search button
+    When I click on the "Remove" button
+    And I click on the "Manage holds" link
+
+  #Following this hold removal a secondary completedPaymentRequest entry should be created in the Pay Processing database
+
+    Then I confirm that "resubmission" test data in dev has been inserted into ffc-pay-processing database
+
+#This scenario confirms that events are being correctly generated in Event Hub database following updates to merge Data Hub's code
+#into Event Hub
+
+    Then I confirm that batch event can be found in Event Hub Database
+    Then I confirm that holds event can be found in Event Hub Database
+    Then I confirm that payments event can be found in Event Hub Database
+    Then I confirm that warnings event can be found in Event Hub Database
+
+
+  @local
   Scenario: 01 Process D365 Acknowledgment file
 
 #This scenario loads an SFI22 payment message followed by a D365 rejection acknowledgement message
@@ -39,6 +101,7 @@ Feature: 37 D365 Rejection
 
     Then I confirm that 'No valid bank details held' alert has been generated
 
+  @local
   Scenario: 02 Verify D365 Rejection hold in Payment Management UI
 
 #This scenario confirms that the hold created by the D365 rejection processing is visible in the Payment Management UI
@@ -50,6 +113,7 @@ Feature: 37 D365 Rejection
     And I should see "1258445148"
     And I should see "Bank account anomaly"
 
+  @local
   Scenario: 03 Remove hold in Payment Management UI and confirm secondary completedPaymentRequest entry created
 
 #This scenario removes the hold created by the D365 rejection processing and confirms that a secondary completedPaymentRequest
@@ -66,6 +130,7 @@ Feature: 37 D365 Rejection
 
     Then I confirm that "resubmission" test data has been inserted into the "ffc-pay-processing" database
 
+  @local
   Scenario: 04 Confirm that events have generated correctly in Event Hub
 
 #This scenario confirms that events are being correctly generated in Event Hub database following updates to merge Data Hub's code

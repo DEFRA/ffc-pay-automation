@@ -895,7 +895,7 @@ Then(/^on the Download Statements page I enter "(.*)" into the "(.*)" field$/, (
 Then(/^on the Download Statements page I confirm that the text on "(.*)" reads "(.*)"$/, (element, expectedText) => {
 
   Cypress.emit('log:step', 'on the Download Statements page I confirm that the text on ' + element + ' reads ' + expectedText);
-  var selectedElement;
+  let selectedElement;
 
   switch (element) {
   case 'number of results':

@@ -186,11 +186,4 @@ Feature: 42 Payment Event Monitoring
     Then on the View events page I confirm that "last updated" of entry number "2" in table is "Today"
 
     Then I take a screenshot for Feature 42 and Scenario 9
-
     
-
-
-
-
-
-  

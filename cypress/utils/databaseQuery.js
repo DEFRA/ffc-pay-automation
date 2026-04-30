@@ -7,7 +7,7 @@ const generateAccessToken = require('../utils/generateAccessToken');
 
 async function databaseQuery (env, database, statement) {
 
-  var data;
+  let data;
 
   if (env.includes('local')) {
 
@@ -30,8 +30,8 @@ async function databaseQuery (env, database, statement) {
     const payEventHubDatabase = process.env.PAYEVENTHUBDATABASE;
 
 
-    var currentPort = '';
-    var currentDatabase = '';
+    let currentPort = '';
+    let currentDatabase = '';
 
     switch (database) {
     case 'ffc-pay-processing':

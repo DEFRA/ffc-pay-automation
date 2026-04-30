@@ -58,7 +58,7 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
 
   } else {
 
-    var sqlStatement = '';
+    let sqlStatement = '';
     switch (databaseName) {
     case 'ffc-pay-processing':
       sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1';
@@ -89,7 +89,7 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
 Then(/^I confirm that payment test data has not been inserted into the (.*) database$/, (databaseName) => {
 
   Cypress.emit('log:step', 'I confirm that payment test data has not been inserted into the ' + databaseName + ' database');
-  var sqlStatement = '';
+  let sqlStatement = '';
   switch (databaseName) {
 
   case 'ffc-pay-processing':
@@ -113,8 +113,8 @@ Then('I confirm that {string} test data has been inserted into the {string} data
 
   Cypress.emit('log:step', 'I confirm that ' + fileType + ' test data has been inserted into the ' + databaseName + ' database');
 
-  var containerName;
-  var sqlStatement;
+  let containerName;
+  let sqlStatement;
 
   switch (fileType) {
   case 'return': sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "paymentRequestId" = 1'; break;
@@ -135,7 +135,7 @@ Then('I confirm that {string} test data has been inserted into the {string} data
 
       if (fileType === 'd365 rejection') {
 
-        var holdCategoryId = results.rows[0].holdCategoryId;
+        let holdCategoryId = results.rows[0].holdCategoryId;
 
         if (holdCategoryId === 1) {
           console.log('✅ Correct data has been added from ' + fileType + ' file');
@@ -171,7 +171,7 @@ Then(/^I confirm that the settled value of (.*) is (.*) in database$/, (fileType
   Cypress.emit('log:step', 'I confirm that the settled value of ' + fileType + ' is ' + expectedValue + ' in the database');
 
   const databaseName = 'ffc-pay-processing';
-  var sqlStatement = '';
+  let sqlStatement = '';
 
   switch (fileType) {
   case 'PPA':
@@ -240,57 +240,141 @@ Then('I confirm that {string} alert has been generated', (alertMessage) => {
   console.log(`Checking for alert: "${alertMessage}"`);
   cy.log(`Checking for alert: "${alertMessage}"`);
 
-  cy.task('getDockerLogs', 'ffc-pay-alerting-development').then((logs) => {
-    if (logs.includes(alertMessage)) {
-      console.log(`✅ Alert "${alertMessage}" has been generated`);
-      cy.log(`✅ Alert "${alertMessage}" has been generated`);
-    } else {
-      throw new Error(`Alert "${alertMessage}" has not been generated`);
-    }
-  });
+  if (env.includes('dev')) {
+
+    cy.task ('getPodLogs', {
+      namespace: Cypress.env('KUBERNETES_NAMESPACE'),
+      label: Cypress.env('KUBERNETES_ALERTING_LABEL')
+    }).then((logs) => {
+      cy.log(logs);
+      console.log(logs);
+      if (logs.includes(alertMessage)) {
+        console.log(`✅ Alert "${alertMessage}" has been generated`);
+        cy.log(`✅ Alert "${alertMessage}" has been generated`);
+      } else {
+        throw new Error(`Alert "${alertMessage}" has not been generated`);
+      }
+    });
+
+  } else if (env.includes('local')) {
+
+    cy.task ('getDockerLogs', 'ffc-pay-alerting-development').then((logs) => {
+      if (logs.includes(alertMessage)) {
+        console.log(`✅ Alert "${alertMessage}" has been generated`);
+        cy.log(`✅ Alert "${alertMessage}" has been generated`);
+      } else {
+        throw new Error(`Alert "${alertMessage}" has not been generated`);
+      }
+    });
+  }
 });
 
 Then(/^I confirm that (.*) event can be found in Event Hub Database$/, (eventType) => {
 
   Cypress.emit('log:step', 'I confirm that ' + eventType + ' event can be found in Event Hub Database');
 
-  var sqlStatement;
-  var expectedType;
-  const databaseName = 'ffc-pay-event-hub';
+  let sqlStatement;
+  let expectedType;
+  let databaseName;
 
-  switch (eventType) {
-  case 'batch':
-    sqlStatement = 'SELECT * FROM "batches"';
-    expectedType = 'uk.gov.defra.ffc.pay.batch.created.dax';
-    break;
-  case 'holds':
-    sqlStatement = 'SELECT * FROM "holds"';
-    expectedType = 'uk.gov.defra.ffc.pay.hold.added';
-    break;
-  case 'payments':
-    sqlStatement = 'SELECT * FROM "payments"';
-    expectedType = 'uk.gov.defra.ffc.pay.payment.processed';
-    break;
-  case 'warnings':
-    sqlStatement = 'SELECT * FROM "warnings"';
-    expectedType = 'uk.gov.defra.ffc.pay.warning.bank.missing';
-    break;
-  default:
-    throw new Error(`Unknown event type: ${eventType}`);
+  if (env.includes('dev')) {
+
+    sqlStatement = `SELECT
+  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn
+  FROM "paymentRequests"`;
+    databaseName = 'ffc-pay-processing';
+
+    cy.task('databaseQuery', { env, databaseName, sqlStatement })
+      .then((result) => {
+
+        const row = result.rows?.[0];
+
+        if (!row) {
+          throw new Error('No rows returned from database query');
+        }
+
+        const {
+          max_frn,
+        } = row;
+
+        cy.log(max_frn);
+
+
+        console.log('Max FRN:', max_frn);
+
+        let maxFRN = parseInt(max_frn);
+
+        if (eventType.includes('batch')) {
+          sqlStatement = 'SELECT * FROM "batches" WHERE DATE("timestamp") = CURRENT_DATE;';
+          expectedType = 'uk.gov.defra.ffc.pay.batch.created.dax';
+        } else if (eventType.includes('holds')) {
+          sqlStatement = `SELECT * FROM "holds" WHERE "partitionKey" = '${maxFRN}'`;
+          expectedType = 'uk.gov.defra.ffc.pay.hold.added';
+        } else if (eventType.includes('payments')) {
+          sqlStatement = `SELECT * FROM "payments" WHERE data @> '{"frn": "${maxFRN}"}'`;
+          expectedType = 'uk.gov.defra.ffc.pay.payment.processed';
+        } else if (eventType.includes('warnings')) {
+          sqlStatement = `SELECT * FROM "warnings" WHERE data @> '{"frn": "${maxFRN}"}'`;
+          expectedType = 'uk.gov.defra.ffc.pay.warning.bank.missing';
+        }
+
+
+        databaseName = 'ffc-pay-event-hub';
+
+        cy.log('Querying ' + databaseName + ' with Statement - ' + sqlStatement);
+
+        cy.task('databaseQuery', { env, databaseName, sqlStatement })
+          .then((rows) => {
+            const results = JSON.stringify(rows, null, 2);
+            console.log('Results ' + results);
+
+            if (results.includes(expectedType)) {
+              console.log('✅ Event with type ' + expectedType + ' was found in database');
+              cy.log('✅ Event with type ' + expectedType + ' was found in database');
+            } else {
+              throw new Error('Event with type ' + expectedType + ' was not found in database');
+            }
+          });
+      });
+
+  } else if (env.includes('local')) {
+
+    switch (eventType) {
+    case 'batch':
+      sqlStatement = 'SELECT * FROM "batches"';
+      expectedType = 'uk.gov.defra.ffc.pay.batch.created.dax';
+      break;
+    case 'holds':
+      sqlStatement = 'SELECT * FROM "holds"';
+      expectedType = 'uk.gov.defra.ffc.pay.hold.added';
+      break;
+    case 'payments':
+      sqlStatement = 'SELECT * FROM "payments"';
+      expectedType = 'uk.gov.defra.ffc.pay.payment.processed';
+      break;
+    case 'warnings':
+      sqlStatement = 'SELECT * FROM "warnings"';
+      expectedType = 'uk.gov.defra.ffc.pay.warning.bank.missing';
+      break;
+    default:
+      throw new Error(`Unknown event type: ${eventType}`);
+    }
+
+    databaseName = 'ffc-pay-event-hub';
+
+    cy.log('Querying ' + databaseName + ' with Statement - ' + sqlStatement);
+
+    cy.task('databaseQuery', { env, databaseName, sqlStatement })
+      .then((rows) => {
+        const results = JSON.stringify(rows, null, 2);
+        console.log('Results ' + results);
+
+        if (results.includes(expectedType)) {
+          console.log('✅ Event with type ' + expectedType + ' was found in database');
+          cy.log('✅ Event with type ' + expectedType + ' was found in database');
+        } else {
+          throw new Error('Event with type ' + expectedType + ' was not found in database');
+        }
+      });
   }
-
-  cy.log('Querying ' + databaseName + ' with Statement - ' + sqlStatement);
-
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((rows) => {
-      const results = JSON.stringify(rows, null, 2);
-      console.log('Results ' + results);
-
-      if (results.includes(expectedType)) {
-        console.log('✅ Event with type ' + expectedType + ' was found in database');
-        cy.log('✅ Event with type ' + expectedType + ' was found in database');
-      } else {
-        throw new Error('Event with type ' + expectedType + ' was not found in database');
-      }
-    });
 });
