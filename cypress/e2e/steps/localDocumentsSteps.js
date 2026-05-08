@@ -1080,9 +1080,9 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
 
   Cypress.emit('log:step', 'I confirm that test data has not been inserted into the ' + databaseName + ' database');
 
+  let sqlStatement = '';
   if (env.includes('dev')) {
 
-    let sqlStatement = '';
     switch (databaseName) {
     case 'ffc-doc-statement-constructor':
       sqlStatement = `SELECT * FROM "organisations" WHERE "sbi" = ` + nextSBI;
@@ -1103,7 +1103,6 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
 
   } else if (env.includes('local')) {
 
-    let sqlStatement = '';
     switch (databaseName) {
     case 'ffc-doc-statement-constructor':
       sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = 123456789';
@@ -1236,8 +1235,6 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
 
       nextCalculationId--;
 
-      containerName = 'ffc-doc-statement-constructor-development';
-
       for (let i=0; i<20; i++) {
 
         sqlStatement = 'SELECT * FROM "d365" WHERE "calculationId" = ' + nextCalculationId;
@@ -1258,8 +1255,6 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
       }
     } else if (databaseName.includes('ffc-doc-statement-generator')) {
 
-      containerName = 'ffc-doc-statement-generator-development';
-
       sqlStatement = `SELECT * FROM "generations" WHERE "addressLine2" = 'Area'`;
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
@@ -1274,18 +1269,19 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
         });
     }
 
-    console.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
-    cy.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
+    console.log(`✅ Bulk Test data has been inserted into the database`);
+    cy.log(`✅ Bulk Test data has been inserted into the database`);
 
   } else if (env.includes('local')) {
 
-    let containerName = '';
     let sqlStatement = '';
+    let sqlQuery = '';
+    let sqlQuery2 = '';
 
     switch (databaseName) {
     case 'ffc-doc-statement-data':
-      containerName = 'ffc-doc-statement-data-development';
-      let sqlQuery = 'SELECT * FROM "organisations" WHERE "sbi" = 12345678';
+
+      sqlQuery = 'SELECT * FROM "organisations" WHERE "sbi" = 12345678';
 
       for (let i=0; i<10; i++) {
         sqlStatement = "" + sqlQuery + i + "";
@@ -1306,7 +1302,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
           });
       }
 
-      let sqlQuery2 = 'SELECT * FROM "organisations" WHERE "sbi" = 13345678';
+      sqlQuery2 = 'SELECT * FROM "organisations" WHERE "sbi" = 13345678';
 
       for (let i=0; i<10; i++) {
 
@@ -1330,7 +1326,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
       break;
 
     case 'ffc-doc-statement-constructor':
-      containerName = 'ffc-doc-statement-constructor-development';
+
       databaseName = 'ffc-doc-statement-constructor';
       sqlStatement = 'SELECT * FROM "d365"';
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
@@ -1354,7 +1350,6 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
       break;
     case 'ffc-doc-statement-generator':
 
-      containerName = 'ffc-doc-statement-generator-development';
       databaseName = 'ffc-doc-statement-generator';
       sqlStatement = 'SELECT * FROM "outbox"';
 
@@ -1379,6 +1374,6 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     }
   }
 
-  console.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
-  cy.log(`✅ Bulk Test data has been inserted into the ${containerName} database`);
+  console.log(`✅ Bulk Test data has been inserted into the database`);
+  cy.log(`✅ Bulk Test data has been inserted into the database`);
 });
