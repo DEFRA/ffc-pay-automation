@@ -1,10 +1,11 @@
-@local
 Feature: 43 Payment Alerts
 
 # npm run cypress:local:one -- "cypress\e2e\features\43_PaymentAlerts.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\43_PaymentAlerts.feature"
 
 # This feature file is designed to test functionality of Payment Alerts section in Payment Management UI
 
+  @local @dev
   Scenario: 01 Confirm initial elements on page
 
   #This scenario confirms that all expected elements are present on initial page load
@@ -51,6 +52,7 @@ Feature: 43 Payment Alerts
     Then on the Alerts page I confirm that "csht capital show button" is displayed
     Then I take a screenshot for Feature 43 and Scenario 1
 
+  @local @dev
   Scenario: 02 Confirm correct alert types for SFI-22
 
    #This scenario confirms that correct alert types are present for SFI-22 scheme
@@ -82,6 +84,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 2
 
+  @local @dev
   Scenario: 03 Confirm correct alert types for SFI-Pilot
 
    #This scenario confirms that correct alert types are present for SFI-Pilot scheme
@@ -113,6 +116,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 3
 
+  @local @dev
   Scenario: 04 Confirm correct alert types for Lump Sums
 
    #This scenario confirms that correct alert types are present for Lump Sums scheme
@@ -144,6 +148,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 4
 
+  @local @dev
   Scenario: 05 Confirm correct alert types for Vet Visits
 
    #This scenario confirms that correct alert types are present for Vet Visits scheme
@@ -175,6 +180,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 5
 
+  @local @dev
   Scenario: 06 Confirm correct alert types for Countryside Stewardship
 
    #This scenario confirms that correct alert types are present for Countryside Stewardship scheme
@@ -206,6 +212,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 6
 
+  @local @dev
   Scenario: 07 Confirm correct alert types for Basic Payment Scheme
 
    #This scenario confirms that correct alert types are present for Basic Payment Scheme
@@ -237,6 +244,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 7
 
+  @local @dev
   Scenario: 08 Confirm correct alert types for Manual Injection scheme
 
    #This scenario confirms that correct alert types are present for Manual Injection scheme
@@ -268,6 +276,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 8
 
+  @local @dev
   Scenario: 09 Confirm correct alert types for Environmental Stewardship scheme
 
    #This scenario confirms that correct alert types are present for Environmental Stewardship scheme
@@ -299,6 +308,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 9
 
+  @local @dev
   Scenario: 10 Confirm correct alert types for IMPS scheme
 
    #This scenario confirms that correct alert types are present for IMPS scheme
@@ -330,6 +340,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 10
 
+  @local @dev
   Scenario: 11 Confirm correct alert types for Forestry Commission scheme
 
    #This scenario confirms that correct alert types are present for Forestry Commission scheme
@@ -361,6 +372,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 11
 
+  @local @dev
   Scenario: 12 Confirm correct alert types for SFI-23 scheme
 
    #This scenario confirms that correct alert types are present for SFI-23 scheme
@@ -392,6 +404,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 12
 
+  @local @dev
   Scenario: 13 Confirm correct alert types for Delinked Payments scheme
 
    #This scenario confirms that correct alert types are present for Delinked Payments scheme
@@ -423,6 +436,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 13
 
+  @local @dev
   Scenario: 14 Confirm correct alert types for Expanded SFI Offer scheme
 
    #This scenario confirms that correct alert types are present for Expanded SFI Offer scheme
@@ -454,6 +468,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 14
 
+  @local @dev
   Scenario: 15 Confirm correct alert types for Countryside Stewardship Higher Tier (Revenue) scheme
 
    #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Revenue) scheme
@@ -485,6 +500,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 15
 
+  @local @dev
   Scenario: 16 Confirm correct alert types for Countryside Stewardship Higher Tier (Capital) scheme
 
    #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Capital) scheme
@@ -516,6 +532,7 @@ Feature: 43 Payment Alerts
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 16
 
+  @local @dev
   Scenario: 17 Confirm that all schemes are successfully cascaded when Show All Sections is clicked
 
   #This scenario confirms that all schemes are successfully cascaded when Show All Sections is clicked
@@ -529,6 +546,7 @@ Feature: 43 Payment Alerts
 
     Then on the Alerts page I confirm that all schemes have successfully cascaded
 
+  @local @dev
   Scenario: 18 Confirm initial elements on Add new alert recipient page
 
     Given I visit the "Payment management" homepage
@@ -546,6 +564,7 @@ Feature: 43 Payment Alerts
     Then on the Add new alert recipient page I confirm that all options are present when no filter selected
     Then I take a screenshot for Feature 43 and Scenario 18
 
+  @local @dev
   Scenario: 19 Confirm filter by scheme is functioning correctly
 
     Given I visit the "Payment management" homepage
@@ -576,6 +595,7 @@ Feature: 43 Payment Alerts
     Then on the Add new alert recipient page I confirm that only one set of options is displayed
     Then I take a screenshot for Feature 43 and Scenario 19
 
+  @local @dev
   Scenario: 20 Confirm that correct error message is displayed when invalid email used
 
   #This scenario confirms that correct error message is displayed when email with invalid format is used
@@ -591,6 +611,7 @@ Feature: 43 Payment Alerts
     Then on the Add new alert recipient page I confirm that "invalid email error message" is displayed
     Then I take a screenshot for Feature 43 and Scenario 20
 
+  @local
   Scenario: 21 Confirm that new alert recipient can be successfully added
 
   #This scenario confirms that new alert recipient can be successfully added to all alert types
@@ -608,5 +629,29 @@ Feature: 43 Payment Alerts
     Then on the Add new alert recipient page I confirm that recipient "fake.user@atos.net" has been added for each alert type
     Then I take a screenshot for Feature 43 and Scenario 21
 
+  @dev
+  Scenario: 21 Confirm that new alert recipient can be successfully added
 
-    
+  #This scenario confirms that new alert recipient can be successfully added to all alert types
+
+    Given I visit the "Payment management" homepage
+    When I click on the "View all alert recipients" link
+
+  #For this to be repeatable in Dev, dummy email address will need to be deleted prior to being
+  #added again.
+
+    Then on the Alerts page I click the "sfi pilot show button"
+    Then on the Alerts page I click the "edit button"
+    Then on the Alerts page I click the "remove email button"
+    Then on the Alerts page I click the "remove email button"
+
+    Then on the Alerts page I click the "add new alerts recipient button"
+
+    Then on the Add new alert recipient page I enter "john.doe@defra.gov.uk" in the email field
+    Then on the Add new alert recipient page I select "SFI-Pilot" from Select Scheme dropdown
+    Then on the Alerts page I click the "sfi pilot all alerts button"
+    Then on the Alerts page I click the "create new alert recipient button"
+    Then on the Alerts page I click the "sfi pilot show button"
+
+    Then on the Add new alert recipient page I confirm that recipient "john.doe@defra.gov.uk" has been added for each alert type
+    Then I take a screenshot for Feature 43 and Scenario 21

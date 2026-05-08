@@ -657,7 +657,7 @@ When(/^on the Management Information page I click on the "(.*)" button$/, (butto
   console.log('Clicked' + button + 'on Management Information page');
 });
 
-Then(/^on the Management Information page I confirm that (.*) is (.*)$/, (field, expectedValue) => {
+Then(/^on the Management Information page I confirm that (.*) value is (.*)$/, (field, expectedValue) => {
 
   Cypress.emit('log:step', 'on the Management Information page I confirm that ' + field + ' is ' + expectedValue);
 
@@ -1229,6 +1229,9 @@ Then (/^on the View events page I confirm that "(.*)" of entry number "(.*)" in 
 
 Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
 
+  // The order of elements on the Alerts page is different for local and dev environments, as a result
+  // dev version of this script has page elements adjusted to account for this
+
   Cypress.emit('log:step', 'on the Alerts page I confirm that ' + element + ' is displayed');
 
   switch (element) {
@@ -1257,19 +1260,62 @@ Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
   case 'countryside stewardship show button': paymentAlertsPage.countrysideStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
   case 'basic payment scheme label': paymentAlertsPage.basicPaymentSchemeLabel().should('be.visible').and('contain.text', 'Basic Payment Scheme'); break;
   case 'basic payment scheme show button': paymentAlertsPage.basicPaymentSchemeShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
-  case 'manual injection label': paymentAlertsPage.manualInjectionLabel().should('be.visible').and('contain.text', 'Manual Injection'); break;
-  case 'manual injection show button': paymentAlertsPage.manualInjectionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
-  case 'environmental stewardship label': paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').and('contain.text', 'Environmental Stewardship'); break;
+  case 'manual injection label':
+    if (env.includes('local')) {
+      paymentAlertsPage.manualInjectionLabel().should('be.visible').and('contain.text', 'Manual Injection');
+    } else if (env.includes('dev')) {
+      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').and('contain.text', 'Manual Injection');
+    }
+    break;
+  case 'manual injection show button':
+    paymentAlertsPage.manualInjectionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
+  case 'environmental stewardship label':
+    if (env.includes('local')) {
+      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').and('contain.text', 'Environmental Stewardship');
+    } else if (env.includes('dev')) {
+      paymentAlertsPage.manualInjectionLabel().should('be.visible').and('contain.text', 'Environmental Stewardship');
+    }
+    break;
   case 'environmental stewardship show button': paymentAlertsPage.environmentalStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
-  case 'imps label': paymentAlertsPage.impsLabel().should('be.visible').and('contain.text', 'IMPS'); break;
+  case 'imps label':
+    if (env.includes('local')) {
+      paymentAlertsPage.impsLabel().should('be.visible').and('contain.text', 'IMPS');
+    } else if (env.includes('dev')) {
+      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').and('contain.text', 'IMPS');
+    }
+    break;
   case 'imps show button': paymentAlertsPage.impsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
-  case 'forestry commission label': paymentAlertsPage.forestryCommissionLabel().should('be.visible').and('contain.text', 'Forestry Commission'); break;
+  case 'forestry commission label':
+    if (env.includes('local')) {
+      paymentAlertsPage.forestryCommissionLabel().should('be.visible').and('contain.text', 'Forestry Commission');
+    } else if (env.includes('dev')) {
+      paymentAlertsPage.impsLabel().should('be.visible').and('contain.text', 'Forestry Commission');
+    }
+    break;
   case 'forestry commission show button': paymentAlertsPage.forestryCommissionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
-  case 'sfi23 label': paymentAlertsPage.sfi23Label().should('be.visible').and('contain.text', 'SFI-23'); break;
+  case 'sfi23 label':
+    if (env.includes('local')) {
+      paymentAlertsPage.sfi23Label().should('be.visible').and('contain.text', 'SFI-23');
+    } else if (env.includes('dev')) {
+      paymentAlertsPage.forestryCommissionLabel().should('be.visible').and('contain.text', 'SFI-23');
+    }
+    break;
   case 'sfi23 show button': paymentAlertsPage.sfi23Show().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
-  case 'delinked payments label': paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').and('contain.text', 'Delinked Payments'); break;
+  case 'delinked payments label':
+    if (env.includes('local')) {
+      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').and('contain.text', 'Delinked Payments');
+    } else if (env.includes('dev')) {
+      paymentAlertsPage.sfi23Label().should('be.visible').and('contain.text', 'Delinked Payments');
+    }
+    break;
   case 'delinked payments show button': paymentAlertsPage.delinkedPaymentsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
-  case 'expanded sfi label': paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').and('contain.text', 'Expanded SFI Offer'); break;
+  case 'expanded sfi label':
+    if (env.includes('local')) {
+      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').and('contain.text', 'Expanded SFI Offer');
+    } else if (env.includes('dev')) {
+      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').and('contain.text', 'Expanded SFI Offer');
+    }
+    break;
   case 'expanded sfi show button': paymentAlertsPage.expandedSFIOfferShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
   case 'csht revenue label': paymentAlertsPage.cshtRevenueLabel().should('be.visible').and('contain.text', 'Countryside Stewardship Higher Tier (Revenue)'); break;
   case 'csht revenue show button': paymentAlertsPage.cshtRevenueShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break;
@@ -1306,7 +1352,10 @@ Then (/^on the Alerts page I click the "(.*)"$/, (element) => {
   case 'csht revenue show button': paymentAlertsPage.cshtRevenueShow().scrollIntoView().click(); break;
   case 'csht capital show button': paymentAlertsPage.cshtCapitalShow().scrollIntoView().click(); break;
   case 'sfi22 all alerts button': paymentAlertsPage.addNewSFI22All().scrollIntoView().click(); break;
+  case 'sfi pilot all alerts button': paymentAlertsPage.addNewSFIPilotAll().scrollIntoView().click(); break;
   case 'create new alert recipient button': paymentAlertsPage.createNewAlertRecipientButton().scrollIntoView().click(); break;
+  case 'edit button': paymentAlertsPage.editButton().scrollIntoView().click(); break;
+  case 'remove email button': paymentAlertsPage.removeEmailButton().scrollIntoView().click(); break;
   default:
     throw new Error('invalid element');
   }

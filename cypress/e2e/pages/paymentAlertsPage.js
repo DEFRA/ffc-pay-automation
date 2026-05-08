@@ -168,12 +168,24 @@ class paymentAlertsPage {
     return cy.get('#sfi-22-all');
   }
 
+  addNewSFIPilotAll () {
+    return cy.get('#sfi-pilot-all');
+  }
+
   addNewInvalidEmailError () {
     return cy.get('.govuk-error-message');
   }
 
   createNewAlertRecipientButton () {
     return cy.get('#submit');
+  }
+
+  editButton () {
+    return cy.get('#scheme-accordion-content-2 > :nth-child(2) > .govuk-table__body > .govuk-table__row > :nth-child(2) > .govuk-link');
+  }
+
+  removeEmailButton () {
+    return cy.get('.govuk-button--warning');
   }
 }
 

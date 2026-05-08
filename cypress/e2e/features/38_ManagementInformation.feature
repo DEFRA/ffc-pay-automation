@@ -148,9 +148,9 @@ Feature: 38 Management Information
 
 #All values should be 0    
 
-    Then on the Management Information page I confirm that number of payments is 0
-    Then on the Management Information page I confirm that payment amount is £0
-    Then on the Management Information page I confirm that number of documents is 0
+    Then on the Management Information page I confirm that number of payments value is 0
+    Then on the Management Information page I confirm that payment amount value is £0
+    Then on the Management Information page I confirm that number of documents value is 0
 
 #A message should appear under both the Payments and Documents panel advising that there is no data available for selected period    
 
@@ -174,9 +174,9 @@ Feature: 38 Management Information
 
  #Payments should be 10, Amount should be £104,284 and Documents should be 80,129 
 
-    Then on the Management Information page I confirm that number of payments is 10
-    Then on the Management Information page I confirm that payment amount is £104,284
-    Then on the Management Information page I confirm that number of documents is 80,129
+    Then on the Management Information page I confirm that number of payments value is 10
+    Then on the Management Information page I confirm that payment amount value is £104,284
+    Then on the Management Information page I confirm that number of documents value is 80,129
 
   #Confirm that Clear filters button is functioning correctly
 
