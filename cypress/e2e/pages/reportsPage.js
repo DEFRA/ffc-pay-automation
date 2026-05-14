@@ -62,6 +62,10 @@ class reportsPage {
   statusReportSchemeDropdown () {
     return cy.get('#select-type');
   }
+
+  firstAvailableReport () {
+    return cy.get(':nth-child(1) > .govuk-task-list__name-and-hint > .govuk-link');
+  }
 }
 
 export default new reportsPage();

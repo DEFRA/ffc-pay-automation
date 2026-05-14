@@ -205,7 +205,7 @@ Then(/^I confirm that the settled value of (.*) is (.*) in database$/, (fileType
       const value = results.rows[0].settledValue;
       console.log(`Actual Value: ${value}`);
       cy.log(`Actual Value: ${value}`);
-      if (value == expectedValue) {
+      if (String(value) === String(expectedValue)) {
         console.log(`Settled Value confirmed as expected: ${value}`);
         cy.log(`Settled Value confirmed as expected: ${value}`);
       } else {

@@ -68,7 +68,10 @@
   "alerts": {
     "pageSubHeader": "Alerts"
   },
-  "metric": {
+  "metrics": {
     "pageSubHeader": "Management Information"
+  },
+  "download-statements": {
+    "pageSubHeader": "Download Statements"
   }
 }

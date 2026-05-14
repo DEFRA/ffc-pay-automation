@@ -89,16 +89,17 @@ Feature: 10 Reports
     And I select "<scheme>" from the "statusReportScheme" dropdown
     And I select the first visible year for the "<scheme>" scheme
     And I click on the "Find Reports" button
+    When on the Available reports page I select first available report
     When the user downloads the status report with text "<date>"
     Then the status report is downloaded with "<title>" as the title
 
     @dev
     Examples:
-      | scheme   | year | date         | title                                                          |
-      | Delinked | 2025 | 15 July 2025 | reports_delinked-payment-statement-2025-07-15T15_35_40.097Z    |
-      | SFI-23   | 2025 | 15 May 2025  | reports_sustainable-farming-incentive-2025-05-15T11_48_14.892Z |
+      | scheme   | year | date          | title                                                          |
+      | Delinked | 2026 | 15 March 2026 | reports_delinked-payment-statement-2026-03-15T15_39_01.141Z    |
+      | SFI-23   | 2026 | 15 April 2026 | reports_sustainable-farming-incentive-2026-04-15T12_11_39.249Z |
 
     @test
     Examples:
-      | scheme   | year | date        | title                                                       |
-      | Delinked | 2025 | 15 May 2025 | reports_delinked-payment-statement-2025-05-15T15_50_00.687Z |
+      | scheme   | year | date          | title                                                       |
+      | Delinked | 2026 | 15 March 2026 | reports_delinked-payment-statement-2026-03-15T16_52_31.068Z |

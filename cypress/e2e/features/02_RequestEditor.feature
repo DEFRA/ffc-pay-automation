@@ -38,6 +38,7 @@ Feature: 02 Request Editor
       | Combined Offer Higher Tier Revenue |
       | Combined Offer Higher Tier Capital |
       | SFI23                              |
+      | Farm Payments Technical Test       |
 
   @test @dev @local
   Scenario: 03 Download Extract

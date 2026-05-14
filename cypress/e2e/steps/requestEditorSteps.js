@@ -229,7 +229,7 @@ Then('I cannot see the {string} button', btnText => {
 When('I visit the last page', () => {
 
   Cypress.emit('log:step', 'I visit the last page');
-  cy.clickNextButtonUntilOnLastPage();
+  cy.task('clickNextButtonUntilOnLastPage');
 });
 
 When('I get the FRN of the last record', () => {

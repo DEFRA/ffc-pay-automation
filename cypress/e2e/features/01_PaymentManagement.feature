@@ -24,3 +24,6 @@ Feature: 01 Payment management
       | Add closure                     | closure/add           |
       | Add bulk closures               | closure/bulk          |
       | Reports                         | report-list           |
+      | Upload manual payment file      | manual-payments       |
+      | View management information     | metrics               |
+      | Download statements             | download-statements   |

@@ -41,7 +41,7 @@ Cypress.Commands.add('clickNextButtonUntilOnLastPage', () => {
   cy.get('body').then((body) => {
     if (body.find('[rel="next"] > .govuk-pagination__link-title').length > 0) {
       requestEditor.btnNext().scrollIntoView().click({ force: true });
-      cy.clickNextButtonUntilOnLastPage();
+      cy.task('clickNextButtonUntilOnLastPage');
     }
   });
 });

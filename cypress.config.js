@@ -1,53 +1,53 @@
-const { defineConfig } = require("cypress");
-const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
-const { addCucumberPreprocessorPlugin } = require("@badeball/cypress-cucumber-preprocessor");
-const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esbuild").default;
+const { defineConfig } = require('cypress');
+const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
+const { addCucumberPreprocessorPlugin } = require('@badeball/cypress-cucumber-preprocessor');
+const createEsbuildPlugin = require('@badeball/cypress-cucumber-preprocessor/esbuild').default;
 
 module.exports = defineConfig({
   e2e: {
-    supportFile: "cypress/support/e2e.js",
+    supportFile: 'cypress/support/e2e.js',
     taskTimeout: 15 * 60 * 1000, // 15 minutes
-    specPattern: "cypress/e2e/features/**/*.feature",
+    specPattern: 'cypress/e2e/features/**/*.feature',
 
     async setupNodeEvents (on, config) {
 
       await addCucumberPreprocessorPlugin(on, config);
 
       on(
-        "file:preprocessor",
+        'file:preprocessor',
         createBundler({
           plugins: [createEsbuildPlugin(config)],
         })
       );
 
-      const fs2 = require("fs");
-      const path2 = require("path");
-      const { exec } = require("child_process");
-      const { spawn } = require("child_process");
+      const fs2 = require('fs');
+      const path2 = require('path');
+      const { exec } = require('child_process');
+      const { spawn } = require('child_process');
 
-      const { emptyFolder } = require("./cypress/utils/empty-folder");
-      const { sendMessage } = require("./cypress/utils/sendMessage");
-      const sendMessagesBatch = require("./cypress/utils/sendMessagesBatch");
+      const { emptyFolder } = require('./cypress/utils/empty-folder');
+      const { sendMessage } = require('./cypress/utils/sendMessage');
+      const sendMessagesBatch = require('./cypress/utils/sendMessagesBatch');
       const {
         startReceivingMessages,
         stopReceivingMessages,
         getReceivedMessages
-      } = require("./cypress/utils/receiveMessage");
+      } = require('./cypress/utils/receiveMessage');
 
-      const loadReportData = require("./cypress/utils/loadReportData");
-      const downloadStatementsBlobById = require("./cypress/utils/downloadStatementsBlobById");
-      const downloadPaymentsBlobById = require("./cypress/utils/downloadPaymentsBlobById");
-      const uploadFileToBlobStorage = require("./cypress/utils/uploadFileToBlobStorage");
-      const generateJWT = require("./cypress/utils/generateJWT");
-      const databaseQuery = require("./cypress/utils/databaseQuery");
-      const databaseInsert = require("./cypress/utils/databaseInsert");
-      const generateAccessToken = require("./cypress/utils/generateAccessToken");
+      const loadReportData = require('./cypress/utils/loadReportData');
+      const downloadStatementsBlobById = require('./cypress/utils/downloadStatementsBlobById');
+      const downloadPaymentsBlobById = require('./cypress/utils/downloadPaymentsBlobById');
+      const uploadFileToBlobStorage = require('./cypress/utils/uploadFileToBlobStorage');
+      const generateJWT = require('./cypress/utils/generateJWT');
+      const databaseQuery = require('./cypress/utils/databaseQuery');
+      const databaseInsert = require('./cypress/utils/databaseInsert');
+      const generateAccessToken = require('./cypress/utils/generateAccessToken');
 
       config.env.KUBERNETES_NAMESPACE = process.env.KUBERNETES_NAMESPACE;
       config.env.KUBERNETES_ALERTING_LABEL = process.env.KUBERNETES_ALERTING_LABEL;
 
       try {
-        on("task", {
+        on('task', {
 
           emptyFolder: (folderPath) => emptyFolder(folderPath),
 
@@ -83,7 +83,7 @@ module.exports = defineConfig({
 
           readFileIfExists (filePath) {
             if (fs2.existsSync(filePath)) {
-              return JSON.parse(fs2.readFileSync(filePath, "utf8"));
+              return JSON.parse(fs2.readFileSync(filePath, 'utf8'));
             }
             return null;
           },
@@ -99,20 +99,21 @@ module.exports = defineConfig({
 
           startDPSService () {
             const dir = process.env.WSL_TEST_DIR;
-            if (!dir) throw new Error("⚠️ WSL_TEST_DIR not set in .env");
-
+            if (!dir) {
+              throw new Error('⚠️ WSL_TEST_DIR not set in .env');
+            }
             const shellCommand = `cd ${dir} && ./stop -v && cd .. && cd ffc-pay-dps && cd scripts && ./start`;
 
             return new Promise((resolve) => {
-              const child = spawn("wsl", ["bash", "-ic", shellCommand], { stdio: "pipe" });
-              let output = "";
+              const child = spawn('wsl', ['bash', '-ic', shellCommand], { stdio: 'pipe' });
+              let output = '';
 
-              const timeout = setTimeout(() => child.kill("SIGTERM"), 30000);
+              const timeout = setTimeout(() => child.kill('SIGTERM'), 30000);
 
-              child.stdout.on("data", (d) => (output += d.toString()));
-              child.stderr.on("data", (d) => (output += d.toString()));
+              child.stdout.on('data', (d) => (output += d.toString()));
+              child.stderr.on('data', (d) => (output += d.toString()));
 
-              child.on("close", () => {
+              child.on('close', () => {
                 clearTimeout(timeout);
                 resolve(output);
               });
@@ -121,18 +122,20 @@ module.exports = defineConfig({
 
           restartLocalEnv () {
             const dir = process.env.WSL_TEST_DIR;
-            if (!dir) throw new Error("⚠️ WSL_TEST_DIR not set in .env");
+            if (!dir) {
+              throw new Error('⚠️ WSL_TEST_DIR not set in .env');
+            }
 
             const shellCommand = `cd ${dir} && ./stop -v && ./start -p`;
 
             return new Promise((resolve, reject) => {
-              const child = spawn("wsl", ["bash", "-ic", shellCommand], { stdio: "pipe" });
-              let output = "";
+              const child = spawn('wsl', ['bash', '-ic', shellCommand], { stdio: 'pipe' });
+              let output = '';
 
-              child.stdout.on("data", (d) => (output += d.toString()));
-              child.stderr.on("data", (d) => (output += d.toString()));
+              child.stdout.on('data', (d) => (output += d.toString()));
+              child.stderr.on('data', (d) => (output += d.toString()));
 
-              child.on("close", (code) => {
+              child.on('close', (code) => {
                 code === 0 ? resolve(output) : reject(new Error(`restartLocalEnv failed with code ${code}`));
               });
             });
@@ -140,18 +143,19 @@ module.exports = defineConfig({
 
           restartLocalDocEnv () {
             const dir = process.env.WSL_TEST_DIR;
-            if (!dir) throw new Error("⚠️ WSL_TEST_DIR not set in .env");
-
+            if (!dir) {
+              throw new Error('⚠️ WSL_TEST_DIR not set in .env');
+            }
             const shellCommand = `cd ${dir} && ./stop -v && ./start -d`;
 
             return new Promise((resolve, reject) => {
-              const child = spawn("wsl", ["bash", "-ic", shellCommand], { stdio: "pipe" });
-              let output = "";
+              const child = spawn('wsl', ['bash', '-ic', shellCommand], { stdio: 'pipe' });
+              let output = '';
 
-              child.stdout.on("data", (d) => (output += d.toString()));
-              child.stderr.on("data", (d) => (output += d.toString()));
+              child.stdout.on('data', (d) => (output += d.toString()));
+              child.stderr.on('data', (d) => (output += d.toString()));
 
-              child.on("close", (code) => {
+              child.on('close', (code) => {
                 code === 0 ? resolve(output) : reject(new Error(`restartLocalDocEnv failed with code ${code}`));
               });
             });
@@ -159,18 +163,19 @@ module.exports = defineConfig({
 
           closeAllServices () {
             const dir = process.env.WSL_TEST_DIR;
-            if (!dir) throw new Error("⚠️ WSL_TEST_DIR not set in .env");
-
+            if (!dir) {
+              throw new Error('⚠️ WSL_TEST_DIR not set in .env');
+            }
             const shellCommand = `cd ${dir} && ./stop -v`;
 
             return new Promise((resolve, reject) => {
-              const child = spawn("wsl", ["bash", "-ic", shellCommand], { stdio: "pipe" });
-              let output = "";
+              const child = spawn('wsl', ['bash', '-ic', shellCommand], { stdio: 'pipe' });
+              let output = '';
 
-              child.stdout.on("data", (d) => (output += d.toString()));
-              child.stderr.on("data", (d) => (output += d.toString()));
+              child.stdout.on('data', (d) => (output += d.toString()));
+              child.stderr.on('data', (d) => (output += d.toString()));
 
-              child.on("close", (code) => {
+              child.on('close', (code) => {
                 code === 0 ? resolve(output) : reject(new Error(`closeAllServices failed with code ${code}`));
               });
             });
@@ -186,8 +191,8 @@ module.exports = defineConfig({
             ];
 
             dirs.forEach((dir) => {
-              const child = spawn("wsl", ["bash", "-ic", `cd ${dir} && ./start`], {
-                stdio: "pipe",
+              const child = spawn('wsl', ['bash', '-ic', `cd ${dir} && ./start`], {
+                stdio: 'pipe',
                 detached: true
               });
               child.unref();
@@ -220,6 +225,10 @@ module.exports = defineConfig({
             return null;
           },
 
+          clickNextButtonUntilOnLastPage () {
+            return null;
+          },
+
           getPodLogs ({ namespace, label }) {
             return new Promise((resolve, reject) => {
               const kubeconfig = process.env.KUBECONFIG;
@@ -241,14 +250,14 @@ module.exports = defineConfig({
 
           getDockerLogs (containerName) {
             return new Promise((resolve, reject) => {
-              const proc = spawn("docker", ["logs", containerName]);
+              const proc = spawn('docker', ['logs', containerName]);
               let output = '';
 
-              proc.stdout.on("data", (d) => (output += d.toString()));
-              proc.stderr.on("data", (d) => (output += d.toString()));
+              proc.stdout.on('data', (d) => (output += d.toString()));
+              proc.stderr.on('data', (d) => (output += d.toString()));
 
-              proc.on("close", () => resolve(output));
-              proc.on("error", reject);
+              proc.on('close', () => resolve(output));
+              proc.on('error', reject);
             });
           },
 
@@ -265,13 +274,13 @@ module.exports = defineConfig({
           }
         });
       } catch (err) {
-        console.error("TASK REGISTRATION FAILED:", err);
+        console.error('TASK REGISTRATION FAILED:', err);
       }
       return config;
     },
-    reporter: "mochawesome",
+    reporter: 'mochawesome',
     reporterOptions: {
-      reportDir: "cypress/reports/mocha",
+      reportDir: 'cypress/reports/mocha',
       overwrite: false,
       html: false,
       json: true,
