@@ -3,6 +3,10 @@ class paymentManagementPage {
     return cy.get('h1.govuk-heading-l');
   }
 
+  mainHeader () {
+    return cy.get('.govuk-heading-xl');
+  }
+
   subHeader () {
     return cy.get('.govuk-heading-l');
   }

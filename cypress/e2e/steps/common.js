@@ -1,4 +1,4 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
 import paymentManagementPage from '../pages/paymentManagementPage';
 const { getEnvironmentConfig } = require('../../support/configLoader');
@@ -79,7 +79,7 @@ When('I click on the {string} button', (text) => {
 
   Cypress.emit('log:step', 'I click on the ' + text + ' button');
   cy.get('button').contains(text).first().scrollIntoView().click();
-  if (text === 'Submit') {
+  if (text === 'Submit' || text === 'Download report') {
     cy.wait(10000);
   }
 });

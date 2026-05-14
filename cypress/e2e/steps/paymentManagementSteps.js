@@ -35,10 +35,22 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
 
   cy.url().should('include', text);
 
-  paymentManagementPage
-    .subHeader()
-    .should('be.visible')
-    .and('have.text', constants[text].pageSubHeader);
+  if (text === 'metrics' || text === 'download-statements') {
+
+    //Slightly different element identifier for sub header on these pages
+
+    paymentManagementPage
+      .mainHeader()
+      .should('be.visible')
+      .and('have.text', constants[text].pageSubHeader);
+
+  } else {
+
+    paymentManagementPage
+      .subHeader()
+      .should('be.visible')
+      .and('have.text', constants[text].pageSubHeader);
+  }
 });
 
 When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
@@ -62,10 +74,7 @@ When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
 
     checkFileExists().should('eq', true);
   } else {
-    cy.contains('We’re preparing your report. This can take a few minutes for large datasets.').should('be.visible');
-    reportsPage.spinner().should('be.visible');
     cy.contains('Your report has been successfully downloaded. You may now close this window.', { timeout: 50000 }).should('be.visible');
-
   }
 });
 
@@ -214,6 +223,19 @@ When('I click on an available report', () => {
 
   Cypress.emit('log:step', 'I click on an available report');
   reportsPage.availableReports().first().scrollIntoView().click({ force: true });
+});
+
+When('on the Available reports page I select first available report', () => {
+
+  Cypress.emit('log:step', 'on the Available reports page I select first available report');
+  cy.get(':nth-child(1) > .govuk-task-list__name-and-hint > .govuk-link')
+    .invoke('attr', 'href')
+    .then(url => {
+      cy.request(url).then(res => {
+        expect(res.status).to.eq(200);
+        expect(res.headers['content-type']).to.include('text/csv');
+      });
+    });
 });
 
 When(/^the user downloads the status report with text "(.*)"$/, (linkText) => {

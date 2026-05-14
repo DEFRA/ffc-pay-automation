@@ -11,7 +11,6 @@ Feature: 41 Reset Payment Request
 #This scenario confirms that the initial elements on the Reset Payment Request page are displayed correctly and
 #that correct options are available in the select scheme dropdown
 
-    Given I restart the local environment
     Given I visit the "Payment management" homepage
     When I click on the "Reset payment request" link
 
