@@ -1,10 +1,10 @@
 class capturePage {
   txtFrn () {
-    return cy.get('#user-search');
+    return cy.get('#user-search')
   }
 
   captureTxtFrn () {
-    return cy.get('#user-search-frn');
+    return cy.get('#user-search-frn')
   }
 
   btnFrnSearch () {
@@ -12,28 +12,28 @@ class capturePage {
   }
 
   sltScheme () {
-    return cy.get('[name="scheme"]');
+    return cy.get('[name="scheme"]')
   }
 
   btnSchemeSearch () {
-    return cy.get(':nth-child(5) > .govuk-button');
+    return cy.get(':nth-child(5) > .govuk-button')
   }
 
   tableRows () {
-    return cy.get('.govuk-table__body .govuk-table__row');
+    return cy.get('.govuk-table__body .govuk-table__row')
   }
 
   lastCaptureFRN () {
-    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(1);
+    return cy.get('.govuk-table__row').last().find('.govuk-table__cell').eq(1)
   }
 
   errorMessage () {
-    return cy.get('#error-message');
+    return cy.get('#error-message')
   }
 
   noDataSetsMessage () {
-    return cy.get('.govuk-inset-text');
+    return cy.get('.govuk-inset-text')
   }
 }
 
-export default new capturePage();
+export default new capturePage()

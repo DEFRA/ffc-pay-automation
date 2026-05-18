@@ -1,55 +1,55 @@
 class manualPaymentsPage {
   pageTitle () {
-    return cy.get('h1.govuk-heading-l');
+    return cy.get('h1.govuk-heading-l')
   }
 
   pageDescription () {
-    return cy.get('p.govuk-body');
+    return cy.get('p.govuk-body')
   }
 
   chooseFileBtn () {
-    return cy.get('#file');
+    return cy.get('#file')
   }
 
   uploadBtn () {
-    return cy.get('#submit');
+    return cy.get('#submit')
   }
 
   manualPaymentsGuidanceLink () {
-    return cy.get('.govuk-body > .govuk-link');
+    return cy.get('.govuk-body > .govuk-link')
   }
 
   statusText () {
-    return cy.get('#progress-status-text');
+    return cy.get('#progress-status-text')
   }
 
   errorText () {
-    return cy.get('#error-message-text');
+    return cy.get('#error-message-text')
   }
 
   typeErrorText () {
-    return cy.get('.govuk-error-message');
+    return cy.get('.govuk-error-message')
   }
 
   nameErrorText () {
-    return cy.get('.govuk-error-message');
+    return cy.get('.govuk-error-message')
   }
 
   returnButton () {
-    return cy.get('.govuk-notification-banner__content > .redirect-link > .govuk-link');
+    return cy.get('.govuk-notification-banner__content > .redirect-link > .govuk-link')
   }
 
   errorReturnButton () {
-    return cy.get('#error-message > .redirect-link > .govuk-link');
+    return cy.get('#error-message > .redirect-link > .govuk-link')
   }
 
   uploadHistoryTable () {
-    return cy.get(':nth-child(1) > .govuk-grid-row > .govuk-grid-column-full');
+    return cy.get(':nth-child(1) > .govuk-grid-row > .govuk-grid-column-full')
   }
 
   uploadHistoryFilename () {
-    return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(2)');
+    return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(2)')
   }
 }
 
-export default new manualPaymentsPage();
+export default new manualPaymentsPage()

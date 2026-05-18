@@ -1,387 +1,386 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
-
-import requestEditor from '../pages/requestEditorPage';
-import capturePage from '../pages/capturePage';
-const dayjs = require('dayjs');
+import requestEditor from '../pages/requestEditorPage'
+import capturePage from '../pages/capturePage'
+const dayjs = require('dayjs')
 
 When('I create a new reporting dataset with the following values', (datatable) => {
 
-  Cypress.emit('log:step', 'I create a new reporting dataset with the following values');
+  Cypress.emit('log:step', 'I create a new reporting dataset with the following values')
   datatable.hashes().forEach((element) => {
-    requestEditor.inputByValue(element.scheme).click();
-    requestEditor.txtFrn().type(element.frn);
+    requestEditor.inputByValue(element.scheme).click()
+    requestEditor.txtFrn().type(element.frn)
     if (element.agreementNumber !== '') {
-      requestEditor.txtApplicationIdentifier().type(element.agreementNumber);
+      requestEditor.txtApplicationIdentifier().type(element.agreementNumber)
     }
-    requestEditor.txtNetValue().type(element.netValue);
-    requestEditor.inputByValue(element.typeOfDebt).click();
+    requestEditor.txtNetValue().type(element.netValue)
+    requestEditor.inputByValue(element.typeOfDebt).click()
 
     if (element.dateDebtDiscovered === 'today') {
-      const today = dayjs();
-      const dayOfMonth = today.date();
-      requestEditor.txtDay().type(dayOfMonth);
+      const today = dayjs()
+      const dayOfMonth = today.date()
+      requestEditor.txtDay().type(dayOfMonth)
 
-      const month = today.month();
-      const monthNumber = month + 1;
-      requestEditor.txtMonth().type(monthNumber);
+      const month = today.month()
+      const monthNumber = month + 1
+      requestEditor.txtMonth().type(monthNumber)
 
-      const year = today.year();
-      requestEditor.txtYear().type(year);
+      const year = today.year()
+      requestEditor.txtYear().type(year)
     }
-  });
-});
+  })
+})
 
 Then('I make a note of the dataset count', () => {
 
-  Cypress.emit('log:step', 'I make a note of the dataset count');
+  Cypress.emit('log:step', 'I make a note of the dataset count')
   requestEditor
     .unattachedReportingDatasetsCount()
     .should('be.visible')
     .invoke('text').then(($datasetCount) => {
-      cy.wrap(parseInt($datasetCount), { log: true }).as('initialDatasetCount');
-    });
-});
+      cy.wrap(parseInt($datasetCount), { log: true }).as('initialDatasetCount')
+    })
+})
 
 Then('the dataset count has increased by 1', () => {
 
-  Cypress.emit('log:step', 'the dataset count has increased by 1');
+  Cypress.emit('log:step', 'the dataset count has increased by 1')
   cy.get('@initialDatasetCount').then((initialCount) => {
     requestEditor
       .unattachedReportingDatasetsCount()
       .should('be.visible')
       .invoke('text').then(($datasetCount) => {
-        const currentCount = parseInt($datasetCount);
-        expect(currentCount).to.equal(initialCount + 1);
-      });
-  });
-});
+        const currentCount = parseInt($datasetCount)
+        expect(currentCount).to.equal(initialCount + 1)
+      })
+  })
+})
 
 Then('I should see the following schemes:', (dataTable) => {
 
-  Cypress.emit('log:step', 'I should see the following schemes:');
+  Cypress.emit('log:step', 'I should see the following schemes:')
   dataTable.hashes().forEach(row => {
-    requestEditor.getSchemeRadioButton(row['Scheme Name']).should('exist');
-  });
-});
+    requestEditor.getSchemeRadioButton(row['Scheme Name']).should('exist')
+  })
+})
 
 Then('the extract is downloaded', () => {
 
-  Cypress.emit('log:step', 'the extract is downloaded');
-  cy.readFile('cypress/downloads/ffc-pay-debts-report.csv', { timeout: 15000 });
-});
+  Cypress.emit('log:step', 'the extract is downloaded')
+  cy.readFile('cypress/downloads/ffc-pay-debts-report.csv', { timeout: 15000 })
+})
 
 When(/^I search for FRN "(.*)"$/, (text) => {
 
-  Cypress.emit('log:step', 'I search for FRN ' + text);
-  requestEditor.getFrnSearchField().type(text);
-});
+  Cypress.emit('log:step', 'I search for FRN ' + text)
+  requestEditor.getFrnSearchField().type(text)
+})
 
 When('I search for the FRN', () => {
 
-  Cypress.emit('log:step', 'I search for the FRN');
+  Cypress.emit('log:step', 'I search for the FRN')
   cy.get('@lastFRN').then((lastFRN) => {
-    capturePage.captureTxtFrn().scrollIntoView().type(lastFRN+'{enter}');
-  });
-});
+    capturePage.captureTxtFrn().scrollIntoView().type(lastFRN+'{enter}')
+  })
+})
 
 When('I enter the random FRN in the search field', () => {
 
-  Cypress.emit('log:step', 'I enter the random FRN in the search field');
+  Cypress.emit('log:step', 'I enter the random FRN in the search field')
   cy.get('@frn').then((frn) => {
-    requestEditor.getFrnSearchField().type(frn);
-  });
-});
+    requestEditor.getFrnSearchField().type(frn)
+  })
+})
 
 When('I enter the newly generated FRN in the search field', () => {
 
-  Cypress.emit('log:step', 'I enter the newly generated FRN in the search field');
-  const updatedFRN = Cypress.env('updatedMessageBody').frn;
-  requestEditor.getFrnSearchField().type(updatedFRN);
-});
+  Cypress.emit('log:step', 'I enter the newly generated FRN in the search field')
+  const updatedFRN = Cypress.env('updatedMessageBody').frn
+  requestEditor.getFrnSearchField().type(updatedFRN)
+})
 
 Then('I should see the first FRN in the results matches the random FRN', () => {
 
-  Cypress.emit('log:step', 'I should see the first FRN in the results matches the random FRN');
+  Cypress.emit('log:step', 'I should see the first FRN in the results matches the random FRN')
   cy.get('@frn').then((frn) => {
-    requestEditor.firstFRN().should('have.text', frn);
-  });
-});
+    requestEditor.firstFRN().should('have.text', frn)
+  })
+})
 
 Then('I should see the first FRN in the results matches the newly generated FRN', () => {
 
-  Cypress.emit('log:step', 'I should see the first FRN in the results matches the newly generated FRN');
-  const updatedFRN = Cypress.env('updatedMessageBody').frn;
-  requestEditor.firstFRN().should('have.text', updatedFRN);
-});
+  Cypress.emit('log:step', 'I should see the first FRN in the results matches the newly generated FRN')
+  const updatedFRN = Cypress.env('updatedMessageBody').frn
+  requestEditor.firstFRN().should('have.text', updatedFRN)
+})
 
 Then('I click on the FRN search button', () => {
 
-  Cypress.emit('log:step', 'I click on the FRN search button');
-  requestEditor.getFrnSearchButton().click();
-});
+  Cypress.emit('log:step', 'I click on the FRN search button')
+  requestEditor.getFrnSearchButton().click()
+})
 
 When(/^I can see FRN "(.*)" in the table$/, (text) => {
 
-  Cypress.emit('log:step', 'I can see FRN ' + text + ' in the table');
-  requestEditor.firstFRNManualLedger().should('contain.text', text);
-});
+  Cypress.emit('log:step', 'I can see FRN ' + text + ' in the table')
+  requestEditor.firstFRNManualLedger().should('contain.text', text)
+})
 
 When('I can see the FRN in the table', () => {
 
-  Cypress.emit('log:step', 'I can see the FRN in the table');
+  Cypress.emit('log:step', 'I can see the FRN in the table')
   cy.get('@lastFRN').then((lastFRN) => {
-    requestEditor.firstFRN().should('have.text', lastFRN);
-  });
-});
+    requestEditor.firstFRN().should('have.text', lastFRN)
+  })
+})
 
 When('I should see the first FRN in the results matches the last record FRN', () => {
 
-  Cypress.emit('log:step', 'I should see the first FRN in the results matches the last record FRN');
+  Cypress.emit('log:step', 'I should see the first FRN in the results matches the last record FRN')
   cy.get('@lastFRN').then((lastFRN) => {
-    requestEditor.firstFRN().should('have.text', lastFRN);
-  });
-});
+    requestEditor.firstFRN().should('have.text', lastFRN)
+  })
+})
 
 When('I should see the first capture FRN in the results matches the last record FRN', () => {
 
-  Cypress.emit('log:step', 'I should see the first capture FRN in the results matches the last record FRN');
+  Cypress.emit('log:step', 'I should see the first capture FRN in the results matches the last record FRN')
   cy.get('@lastFRN').then((lastFRN) => {
-    requestEditor.firstCaptureFRN().should('have.text', lastFRN);
-  });
-});
+    requestEditor.firstCaptureFRN().should('have.text', lastFRN)
+  })
+})
 
 Then('the application identifier field header is visible with text {string}', (text) => {
 
-  Cypress.emit('log:step', 'the application identifier field header is visible with text ' + text);
+  Cypress.emit('log:step', 'the application identifier field header is visible with text ' + text)
   requestEditor.applicationIdentifierHeader().should('be.visible').invoke('text').then((textFromElement) => {
-    expect(textFromElement.trim()).to.eq(text);
-  });
-});
+    expect(textFromElement.trim()).to.eq(text)
+  })
+})
 
 Then('the application identifier hint is visible with text {string}', (text) => {
 
-  Cypress.emit('log:step', 'the application identifier hint is visible with text ' + text);
+  Cypress.emit('log:step', 'the application identifier hint is visible with text ' + text)
   requestEditor.applicationIdentifierHint().should('be.visible').invoke('text').then((textFromElement) => {
-    expect(textFromElement.trim()).to.eq(text);
-  });
-});
+    expect(textFromElement.trim()).to.eq(text)
+  })
+})
 
 When('on the Payment Holds Page I select {string} from the number of records per page dropdown', (number) => {
 
-  Cypress.emit('log:step', 'on the Payment Holds Page I select ' + number + ' from the number of records per page dropdown');
-  requestEditor.paymentHoldsRecordsPerPageDropdown().scrollIntoView().select(number);
-});
+  Cypress.emit('log:step', 'on the Payment Holds Page I select ' + number + ' from the number of records per page dropdown')
+  requestEditor.paymentHoldsRecordsPerPageDropdown().scrollIntoView().select(number)
+})
 
 When('I select {string} from the number of records per page dropdown', (number) => {
 
-  Cypress.emit('log:step', 'I select ' + number + ' from the number of records per page dropdown');
-  requestEditor.recordsPerPageDropdown().scrollIntoView().select(number);
-});
+  Cypress.emit('log:step', 'I select ' + number + ' from the number of records per page dropdown')
+  requestEditor.recordsPerPageDropdown().scrollIntoView().select(number)
+})
 
 
 Then('I can see at most {int} records displayed in the table', (number) => {
 
-  Cypress.emit('log:step', 'I can see at most ' + number + ' records displayed in the table');
-  requestEditor.dataSetRecords().should('have.length.at.most', number);
-});
+  Cypress.emit('log:step', 'I can see at most ' + number + ' records displayed in the table')
+  requestEditor.dataSetRecords().should('have.length.at.most', number)
+})
 
 Then('I can see {string} in the page box', number => {
 
-  Cypress.emit('log:step', 'I can see ' + number + ' in the page box');
-  requestEditor.pageNumber().scrollIntoView().should('contain.text', number);
-});
+  Cypress.emit('log:step', 'I can see ' + number + ' in the page box')
+  requestEditor.pageNumber().scrollIntoView().should('contain.text', number)
+})
 
 When('I click on the {string} page button', txt => {
 
-  Cypress.emit('log:step', 'I click on the ' + txt + ' page button');
+  Cypress.emit('log:step', 'I click on the ' + txt + ' page button')
   if (txt === 'Next') {
-    requestEditor.btnNext().click({ force: true });
+    requestEditor.btnNext().click({ force: true })
   } else {
-    throw new Error('Button not found');
+    throw new Error('Button not found')
   }
-});
+})
 
 Then('I can see the {string} button', btnText => {
 
-  Cypress.emit('log:step', 'I can see the ' + btnText + ' button');
+  Cypress.emit('log:step', 'I can see the ' + btnText + ' button')
   if (btnText === 'Next') {
-    requestEditor.btnNext().scrollIntoView().should('be.visible').and('contain.text', btnText);
+    requestEditor.btnNext().scrollIntoView().should('be.visible').and('contain.text', btnText)
   } else if (btnText === 'Previous') {
-    requestEditor.btnPrevious().scrollIntoView().should('be.visible').and('contain.text', btnText);
+    requestEditor.btnPrevious().scrollIntoView().should('be.visible').and('contain.text', btnText)
   } else {
-    throw new Error('Button not found');
+    throw new Error('Button not found')
   }
-});
+})
 
 Then('I cannot see the {string} button', btnText => {
 
-  Cypress.emit('log:step', 'I cannot see the ' + btnText + ' button');
+  Cypress.emit('log:step', 'I cannot see the ' + btnText + ' button')
   if (btnText === 'Next') {
-    requestEditor.btnNext().should('not.exist');
+    requestEditor.btnNext().should('not.exist')
   } else if (btnText === 'Previous') {
-    requestEditor.btnPrevious().should('not.exist');
+    requestEditor.btnPrevious().should('not.exist')
   } else {
-    throw new Error('Button not found');
+    throw new Error('Button not found')
   }
-});
+})
 
 When('I visit the last page', () => {
 
-  Cypress.emit('log:step', 'I visit the last page');
-  cy.task('clickNextButtonUntilOnLastPage');
-});
+  Cypress.emit('log:step', 'I visit the last page')
+  cy.task('clickNextButtonUntilOnLastPage')
+})
 
 When('I get the FRN of the last record', () => {
 
-  Cypress.emit('log:step', 'I get the FRN of the last record');
+  Cypress.emit('log:step', 'I get the FRN of the last record')
   requestEditor.lastFRN().invoke('text').then((text) => {
-    cy.wrap(text.trim()).as('lastFRN');
-  });
-});
+    cy.wrap(text.trim()).as('lastFRN')
+  })
+})
 
 When('I enter the last record FRN in the search field', () => {
 
-  Cypress.emit('log:step', 'I enter the last record FRN in the search field');
+  Cypress.emit('log:step', 'I enter the last record FRN in the search field')
   cy.get('@lastFRN').then((lastFRN) => {
-    requestEditor.getFrnSearchField().type(lastFRN);
-  });
-});
+    requestEditor.getFrnSearchField().type(lastFRN)
+  })
+})
 
 When('I get the FRN of the last capture record', () => {
 
-  Cypress.emit('log:step', 'I get the FRN of the last capture record');
+  Cypress.emit('log:step', 'I get the FRN of the last capture record')
   capturePage.lastCaptureFRN().invoke('text').then((text) => {
-    cy.wrap(text.trim()).as('lastFRN');
-  });
-});
+    cy.wrap(text.trim()).as('lastFRN')
+  })
+})
 
 Then('I see the {string} application identifier error message', error => {
 
-  Cypress.emit('log:step', 'I see the ' + error + ' application identifier error message');
-  requestEditor.applicationIdentifierError().scrollIntoView().should('be.visible').and('contain.text', error);
-});
+  Cypress.emit('log:step', 'I see the ' + error + ' application identifier error message')
+  requestEditor.applicationIdentifierError().scrollIntoView().should('be.visible').and('contain.text', error)
+})
 
 Then('I see the {string} error summary title', (errorTitle) => {
 
-  Cypress.emit('log:step', 'I see the ' + errorTitle + ' error summary title');
-  requestEditor.errorSummaryTitle().scrollIntoView().should('be.visible').and('contain.text', errorTitle);
-});
+  Cypress.emit('log:step', 'I see the ' + errorTitle + ' error summary title')
+  requestEditor.errorSummaryTitle().scrollIntoView().should('be.visible').and('contain.text', errorTitle)
+})
 
 Then('I see the {string} error summary item', (errorItem) => {
 
-  Cypress.emit('log:step', 'I see the ' + errorItem + ' error summary item');
-  requestEditor.errorSummaryItem().scrollIntoView().should('be.visible').and('contain.text', errorItem);
-});
+  Cypress.emit('log:step', 'I see the ' + errorItem + ' error summary item')
+  requestEditor.errorSummaryItem().scrollIntoView().should('be.visible').and('contain.text', errorItem)
+})
 
 Then('I click on the {string} show attached datasets button', (radioButton) => {
 
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' show attached datasets button');
+  Cypress.emit('log:step', 'I click on the ' + radioButton + ' show attached datasets button')
   if (radioButton === 'Yes') {
-    requestEditor.unattachedDataYesButton().scrollIntoView().click();
+    requestEditor.unattachedDataYesButton().scrollIntoView().click()
   } else if (radioButton === 'No') {
-    requestEditor.unattachedDataNoButton().scrollIntoView().click();
+    requestEditor.unattachedDataNoButton().scrollIntoView().click()
   } else {
-    throw new Error('Radio button not found');
+    throw new Error('Radio button not found')
   }
-});
+})
 
 Then('I click on the {string} provisional values radio button', (radioButton) => {
 
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' provisional values radio button');
+  Cypress.emit('log:step', 'I click on the ' + radioButton + ' provisional values radio button')
   if (radioButton === 'Yes') {
-    requestEditor.yesProvisionalValuesRadioButton().scrollIntoView().click();
+    requestEditor.yesProvisionalValuesRadioButton().scrollIntoView().click()
   } else if (radioButton === 'No') {
-    requestEditor.noProvisionalValuesRadioButton().scrollIntoView().click();
+    requestEditor.noProvisionalValuesRadioButton().scrollIntoView().click()
   } else {
-    throw new Error('Radio button not found');
+    throw new Error('Radio button not found')
   }
-});
+})
 
 Then('I click on the {string} edited correctly radio button', (radioButton) => {
 
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' edited correctly radio button');
+  Cypress.emit('log:step', 'I click on the ' + radioButton + ' edited correctly radio button')
   if (radioButton === 'Yes') {
-    requestEditor.yesEditedCorrectlyRadioButton().scrollIntoView().click();
+    requestEditor.yesEditedCorrectlyRadioButton().scrollIntoView().click()
   } else if (radioButton === 'No') {
-    requestEditor.noEditedCorrectlyRadioButton().scrollIntoView().click();
+    requestEditor.noEditedCorrectlyRadioButton().scrollIntoView().click()
   } else {
-    throw new Error('Radio button not found');
+    throw new Error('Radio button not found')
   }
-});
+})
 
 Then('I make a note of the {string} count', (text) => {
 
-  Cypress.emit('log:step', 'I make a note of the ' + text + ' count');
+  Cypress.emit('log:step', 'I make a note of the ' + text + ' count')
   cy.contains('.govuk-heading-m', text)
     .parent()
     .find('.govuk-heading-xl')
     .invoke('text')
     .then((count) => {
-      cy.wrap(count.trim()).as(`${text}Count`);
-    });
-});
+      cy.wrap(count.trim()).as(`${text}Count`)
+    })
+})
 
 Then('the {string} count has increased by 1', (text) => {
 
-  Cypress.emit('log:step', 'the ' + text + ' count has increased by 1');
-  cy.wait(30000);
-  cy.reload();
+  Cypress.emit('log:step', 'the ' + text + ' count has increased by 1')
+  cy.wait(30000)
+  cy.reload()
   cy.get(`@${text}Count`).then((oldCount) => {
-    const previous = parseInt(oldCount, 10);
+    const previous = parseInt(oldCount, 10)
 
     cy.contains('.govuk-heading-m', text)
       .parent()
       .find('.govuk-heading-xl')
       .invoke('text')
       .then((newCountText) => {
-        const current = parseInt(newCountText.trim(), 10);
-        expect(current).to.eq(previous + 1);
-      });
-  });
-});
+        const current = parseInt(newCountText.trim(), 10)
+        expect(current).to.eq(previous + 1)
+      })
+  })
+})
 
 Then('the {string} count has decreased by 1', (text) => {
 
-  Cypress.emit('log:step', 'the ' + text + ' count has decreased by 1');
-  cy.wait(20000);
-  cy.reload();
+  Cypress.emit('log:step', 'the ' + text + ' count has decreased by 1')
+  cy.wait(20000)
+  cy.reload()
   cy.get(`@${text}Count`).then((oldCount) => {
-    const previous = parseInt(oldCount, 10);
+    const previous = parseInt(oldCount, 10)
 
     cy.contains('.govuk-heading-m', text)
       .parent()
       .find('.govuk-heading-xl')
       .invoke('text')
       .then((newCountText) => {
-        const current = parseInt(newCountText.trim(), 10);
-        expect(current).to.eq(previous - 1);
-      });
-  });
-});
+        const current = parseInt(newCountText.trim(), 10)
+        expect(current).to.eq(previous - 1)
+      })
+  })
+})
 
 Then('I click on the {string} debt type radio button', (radioButton) => {
 
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' debt type radio button');
+  Cypress.emit('log:step', 'I click on the ' + radioButton + ' debt type radio button')
   if (radioButton === 'Irregular') {
-    requestEditor.irregularRadioButton().scrollIntoView().click();
+    requestEditor.irregularRadioButton().scrollIntoView().click()
   } else if (radioButton === 'Administrative') {
-    requestEditor.administrativeRadioButton().scrollIntoView().click();
+    requestEditor.administrativeRadioButton().scrollIntoView().click()
   } else {
-    throw new Error('Radio button not found');
+    throw new Error('Radio button not found')
   }
-});
+})
 
 Then('I enter a valid debt discovered date in the past', () => {
 
-  Cypress.emit('log:step', 'I enter a valid debt discovered date in the past');
-  requestEditor.dayInput().clear().type('15');
-  requestEditor.monthInput().clear().type('06');
-  requestEditor.yearInput().clear().type('2018');
-});
+  Cypress.emit('log:step', 'I enter a valid debt discovered date in the past')
+  requestEditor.dayInput().clear().type('15')
+  requestEditor.monthInput().clear().type('06')
+  requestEditor.yearInput().clear().type('2018')
+})
 
 When('on the Awaiting Reporting Data page I click the FRN number search button', () => {
 
-  Cypress.emit('log:step', 'on the Awaiting Reporting Data page I click the FRN number search button');
-  requestEditor.awaitingRepFRNSearchBtn().click();
-});
+  Cypress.emit('log:step', 'on the Awaiting Reporting Data page I click the FRN number search button')
+  requestEditor.awaitingRepFRNSearchBtn().click()
+})

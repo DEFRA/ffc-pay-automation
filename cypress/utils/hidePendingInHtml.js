@@ -1,7 +1,7 @@
-const fs = require('fs');
+const fs = require('fs')
 
-function hidePendingInHtml(htmlFile) {
-  let html = fs.readFileSync(htmlFile, 'utf8');
+function hidePendingInHtml (htmlFile) {
+  let html = fs.readFileSync(htmlFile, 'utf8')
 
   const script = `
 <script>
@@ -47,11 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
   document.body.prepend(btn);
 });
 </script>
-`;
+`
 
-  html = html.replace(/<\/body>/i, script + '\n</body>');
-  fs.writeFileSync(htmlFile, html, 'utf8');
-  console.log('✔ Pending tests hidden using MutationObserver.');
+  html = html.replace(/<\/body>/i, script + '\n</body>')
+  fs.writeFileSync(htmlFile, html, 'utf8')
+  console.log('✔ Pending tests hidden using MutationObserver.')
 }
 
-hidePendingInHtml(process.argv[2]);
+hidePendingInHtml(process.argv[2])

@@ -1,52 +1,52 @@
 class resetPaymentRequestPage {
 
   pageTitle () {
-    return cy.get('.govuk-heading-l');
+    return cy.get('.govuk-heading-l')
   }
 
   pageDescription () {
-    return cy.get('.govuk-label');
+    return cy.get('.govuk-label')
   }
 
   pageInstructions () {
-    return cy.get('.govuk-hint');
+    return cy.get('.govuk-hint')
   }
 
   invoiceNumberField () {
-    return cy.get('#invoiceNumber');
+    return cy.get('#invoiceNumber')
   }
 
   resetButton () {
-    return cy.get('#submit');
+    return cy.get('#submit')
   }
 
   errorTitle () {
-    return cy.get('#error-summary-title');
+    return cy.get('#error-summary-title')
   }
 
   errorMessage () {
-    return cy.get('.govuk-error-message');
+    return cy.get('.govuk-error-message')
   }
 
   successTitle () {
-    return cy.get('.govuk-panel__title');
+    return cy.get('.govuk-panel__title')
   }
 
   successMessage () {
-    return cy.get('.govuk-panel__body');
+    return cy.get('.govuk-panel__body')
   }
 
   whatHappensNextSubheader () {
-    return cy.get('.govuk-heading-m');
+    return cy.get('.govuk-heading-m')
   }
 
   whatHappensNextMessage () {
-    return cy.get('.govuk-width-container > :nth-child(3)');
+    return cy.get('.govuk-width-container > :nth-child(3)')
   }
 
   performAnotherActionLink () {
-    return cy.get('#main-content > div > div > div > p:nth-child(4) > a');
+    return cy.get('#main-content > div > div > div > p:nth-child(4) > a')
   }
 }
 
-export default new resetPaymentRequestPage();
+export default new resetPaymentRequestPage()

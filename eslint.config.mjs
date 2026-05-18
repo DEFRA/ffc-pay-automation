@@ -1,9 +1,9 @@
-import { defineConfig } from 'eslint/config';
-import globals from 'globals';
-import * as jsoncParser from 'jsonc-eslint-parser';
-import jsoncPlugin from 'eslint-plugin-jsonc';
-import cypressPlugin from 'eslint-plugin-cypress';
-import js from '@eslint/js';
+import { defineConfig } from 'eslint/config'
+import globals from 'globals'
+import * as jsoncParser from 'jsonc-eslint-parser'
+import jsoncPlugin from 'eslint-plugin-jsonc'
+import cypressPlugin from 'eslint-plugin-cypress'
+import js from '@eslint/js'
 
 export default defineConfig([
 
@@ -69,7 +69,7 @@ export default defineConfig([
       'brace-style': ['error', '1tbs'],
       quotes: ['warn', 'single', 'avoid-escape'],
       eqeqeq: ['error', 'allow-null'],
-      semi: ['error', 'always'],
+      semi: ['error', 'never'],
       'new-cap': 'off',
       'no-console': 'off',
       'no-empty': 'off',
@@ -83,4 +83,4 @@ export default defineConfig([
     }
   }
 
-]);
+])
