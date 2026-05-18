@@ -1,85 +1,84 @@
-require('dotenv').config();
-const { BlobServiceClient } = require('@azure/storage-blob');
-const fs = require('fs');
-const path = require('path');
-const csv = require('csv-parser');
+require('dotenv').config()
+const { BlobServiceClient } = require('@azure/storage-blob')
+const fs = require('fs')
+const path = require('path')
+const csv = require('csv-parser')
 
 async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme) {
 
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
-  let blobServiceClient = null;
+  let blobServiceClient = null
 
   if (env.includes('local')) {
 
     if (scheme === 'dps') {
-      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DPSBLOBCONNECTIONSTRING);
+      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DPSBLOBCONNECTIONSTRING)
     } else {
-      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.PAYMENTSBLOBCONNECTIONSTRING);
+      blobServiceClient = BlobServiceClient.fromConnectionString(process.env.PAYMENTSBLOBCONNECTIONSTRING)
     }
   } else if (env.includes('dev')) {
-    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DEVPAYMENTSBLOBCONNECTIONSTRING);
+    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DEVPAYMENTSBLOBCONNECTIONSTRING)
   }
 
-  console.log('Blob Service Client = ' + blobServiceClient.url);
-  console.log('Container name = ' + containerName);
-  const containerClient = blobServiceClient.getContainerClient(containerName);
-  console.log('Container client = ' + containerClient.url);
+  console.log('Blob Service Client = ' + blobServiceClient.url)
+  console.log('Container name = ' + containerName)
+  const containerClient = blobServiceClient.getContainerClient(containerName)
+  console.log('Container client = ' + containerClient.url)
 
-  let blobs = containerClient.listBlobsFlat();
+  let blobs = containerClient.listBlobsFlat()
 
-  let partialFileName = '';
+  let partialFileName = ''
   switch (scheme) {
-  case 'glos': partialFileName = 'outbound/FFCFC_';break;
-  case 'imps': partialFileName = 'outbound/FFCIMPS_'; break;
-  case 'genesis': partialFileName = 'outbound/FFCES_'; break;
-  case 'dps': partialFileName = 'outbound/FFCBGAN'; break;
-  case 'vet visits': partialFileName = 'outbound/FFCVV_'; break;
-  case 'cohtr': partialFileName = 'outbound/FFCSITICOHTR_'; break;
-  case 'cohtc': partialFileName = 'outbound/FFCSITICOHTC_'; break;
-  case 'cs': partialFileName = 'outbound/FFCCS_'; break;
-  case 'bps': partialFileName = 'outbound/FFCBPS_'; break;
-  case 'lump sums': partialFileName = 'outbound/FFCLS_'; break;
-  case 'sfi expanded': partialFileName = 'outbound/FFCESFIO_'; break;
-  case 'delinked': partialFileName = 'outbound/FFCDP_'; break;
-  case 'sfi pilot': partialFileName = 'outbound/FFCSFIP_'; break;
-  case 'sfi23': partialFileName = 'outbound/FFCSFIA_'; break;
-  case 'sfi22': partialFileName = 'outbound/FFCSITI_SFI_'; break;
-  case 'manual': partialFileName = 'outbound/FFCPMAN_SFIA_'; break;
-  case 'ppa scenarios payments': partialFileName = 'outbound/FFCESFIO_0001'; break;
-  case 'ppa scenarios topups': partialFileName = 'outbound/FFCESFIO_0002'; break;
-  case 'ppa scenarios reductions': partialFileName = 'outbound/FFCESFIO_0002'; break;
-  case 'ppa scenarios recoveries': partialFileName = 'outbound/FFCESFIO_0002'; break;
-  case 'fptt': partialFileName = 'outbound/FFCFALS_FPTT_'; break;
-  default: throw new Error(`Unknown scheme: ${scheme}`);
+  case 'glos': partialFileName = 'outbound/FFCFC_';break
+  case 'imps': partialFileName = 'outbound/FFCIMPS_'; break
+  case 'genesis': partialFileName = 'outbound/FFCES_'; break
+  case 'dps': partialFileName = 'outbound/FFCBGAN'; break
+  case 'vet visits': partialFileName = 'outbound/FFCVV_'; break
+  case 'cohtr': partialFileName = 'outbound/FFCSITICOHTR_'; break
+  case 'cohtc': partialFileName = 'outbound/FFCSITICOHTC_'; break
+  case 'cs': partialFileName = 'outbound/FFCCS_'; break
+  case 'bps': partialFileName = 'outbound/FFCBPS_'; break
+  case 'lump sums': partialFileName = 'outbound/FFCLS_'; break
+  case 'sfi expanded': partialFileName = 'outbound/FFCESFIO_'; break
+  case 'delinked': partialFileName = 'outbound/FFCDP_'; break
+  case 'sfi pilot': partialFileName = 'outbound/FFCSFIP_'; break
+  case 'sfi23': partialFileName = 'outbound/FFCSFIA_'; break
+  case 'sfi22': partialFileName = 'outbound/FFCSITI_SFI_'; break
+  case 'manual': partialFileName = 'outbound/FFCPMAN_SFIA_'; break
+  case 'ppa scenarios payments': partialFileName = 'outbound/FFCESFIO_0001'; break
+  case 'ppa scenarios topups': partialFileName = 'outbound/FFCESFIO_0002'; break
+  case 'ppa scenarios reductions': partialFileName = 'outbound/FFCESFIO_0002'; break
+  case 'ppa scenarios recoveries': partialFileName = 'outbound/FFCESFIO_0002'; break
+  case 'fptt': partialFileName = 'outbound/FFCFALS_FPTT_'; break
+  default: throw new Error(`Unknown scheme: ${scheme}`)
   }
 
-  let match;
-  let subString;
+  let match
+  let subString
 
   if (scheme.includes('fptt') || scheme.includes('manual') || scheme.includes('sfi22')) {
 
-    match = partialFileName.match(/outbound\/(.+)/);
-    subString = match ? match[1] : null;
+    match = partialFileName.match(/outbound\/(.+)/)
+    subString = match ? match[1] : null
 
   } else {
-    match = partialFileName.match(/outbound\/([^_]+_)/);
-    subString = match ? match[1] : null;
+    match = partialFileName.match(/outbound\/([^_]+_)/)
+    subString = match ? match[1] : null
   }
 
-  console.log('Substring = ' + subString);
-
+  console.log('Substring = ' + subString)
 
   //This finds the file by it's partial name as they are autogenerated with names predicated on time of creation
 
-  let highestBlob = null;
-  let highestNumber = -1;
+  let highestBlob = null
+  let highestNumber = -1
 
   if (scheme.includes('dps')) {
 
     for await (const blob of blobs) {
       if (blob.name.includes(partialFileName)) {
-        highestBlob = blob;
-        console.log('Highest blob = ' + highestBlob);
+        highestBlob = blob
+        console.log('Highest blob = ' + highestBlob)
       }
     }
 
@@ -88,108 +87,108 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
     for await (const blob of blobs) {
       if (blob.name.startsWith(partialFileName)) {
       // Extract the 4-digit suffix
-        const match = blob.name.match(new RegExp(`${subString}(\\d{4})`));
+        const match = blob.name.match(new RegExp(`${subString}(\\d{4})`))
         if (match) {
-          const num = parseInt(match[1], 10);
+          const num = parseInt(match[1], 10)
 
           if (num > highestNumber) {
-            highestNumber = num;
-            highestBlob = blob;
+            highestNumber = num
+            highestBlob = blob
           }
         }
       }
     }
   }
 
-  console.log('Blob name = ' + highestBlob);
+  console.log('Blob name = ' + highestBlob)
 
   if (!highestBlob) {
-    console.log('Substring = ' + subString);
-    throw new Error(`⚠️ No blobs found matching the partial name: "${partialFileName}"`);
+    console.log('Substring = ' + subString)
+    throw new Error(`⚠️ No blobs found matching the partial name: "${partialFileName}"`)
   }
 
-  console.log(`Matched Blob: ${highestBlob.name}`);
+  console.log(`Matched Blob: ${highestBlob.name}`)
 
-  const downloadPath = path.join(downloadDir, path.basename(highestBlob.name));
-  console.log('Download path = ' + downloadPath);
+  const downloadPath = path.join(downloadDir, path.basename(highestBlob.name))
+  console.log('Download path = ' + downloadPath)
 
   //Downloads file to cypress/downloads
 
   try {
-    await containerClient.getBlobClient(highestBlob.name).downloadToFile(downloadPath);
-    console.log(`📍 Saved to: ${downloadPath}`);
+    await containerClient.getBlobClient(highestBlob.name).downloadToFile(downloadPath)
+    console.log(`📍 Saved to: ${downloadPath}`)
 
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error)
   }
 
-  const results = [];
-  let requiredValues = [];
+  const results = []
+  let requiredValues = []
   switch (scheme) {
   case 'glos': requiredValues = [
     '2015', 'SOS710', 'DRD05', 'FC00'
-  ]; break;
+  ]; break
   case 'imps': requiredValues = [
     '2022', '25057', 'DOM00', 'RP00'
-  ]; break;
+  ]; break
   case 'genesis' : requiredValues = [
     '2022', 'SOS229', 'EXQ00', 'NE00'
-  ]; break;
+  ]; break
   case 'dps' : requiredValues = [
     '2410', '766100', '1PC09913', 'GBP'
-  ]; break;
+  ]; break
   case 'vet visits' : requiredValues = [
     '2025', 'SOS210', 'DOM10', 'RP00'
-  ]; break;
+  ]; break
   case 'cohtr' : requiredValues = [
     '2025', 'SOS710', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'cohtc' : requiredValues = [
     '2025', 'SOS710', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'cs' : requiredValues = [
     '2025', 'SOS710', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'bps' : requiredValues = [
     '2025', '80101', 'DOM10', 'RP00'
-  ]; break;
+  ]; break
   case 'lump sums' : requiredValues = [
     '2025', '80101', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'sfi expanded' : requiredValues = [
     '2025', '80101', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'delinked' : requiredValues = [
     '2025', '80101', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'sfi pilot' : requiredValues = [
     '2025', '80101', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'sfi23' : requiredValues = [
     '2023', '80101', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'sfi22' : requiredValues = [
     '2022', '80101', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'manual' : requiredValues = [
     '2024', '80281', 'DRD10', 'SOS710', 'NE00'
-  ]; break;
+  ]; break
   case 'ppa scenarios payments' : requiredValues = [
     '2025', '80101', 'SOS710', 'DRD10', 'RP00','1000000.00'
-  ]; break;
+  ]; break
   case 'ppa scenarios topups' : requiredValues = [
     '2025', '80101', 'SOS710', 'DRD10', 'RP00','400000.00'
-  ]; break;
+  ]; break
   case 'ppa scenarios reductions' : requiredValues = [
     '2025', '80101', 'SOS710', 'DRD10', 'RP00','-200000.00'
-  ]; break;
+  ]; break
   case 'ppa scenarios recoveries' : requiredValues = [
     '2025', '80101', 'SOS710', 'DRD10', 'RP00'
-  ]; break;
+  ]; break
   case 'fptt': requiredValues = [
     '2026', '84001', 'SOS710', 'DRD10', 'RP00'
-  ]; break;
-  default: throw new Error(`Unknown scheme: ${scheme}`);
+  ]; break
+  default: throw new Error(`Unknown scheme: ${scheme}`)
   }
 
   await new Promise((resolve, reject) => {
@@ -197,30 +196,30 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
       .pipe(csv())
       .on('data', (data) => results.push(data))
       .on('end', () => {
-        console.log('Extracted CSV Data:\n', results);
+        console.log('Extracted CSV Data:\n', results)
 
         // Flatten all values from all rows into a single array of strings
-        const allValues = results.flatMap(row => Object.values(row).map(String));
+        const allValues = results.flatMap(row => Object.values(row).map(String))
 
         // Check if every required value is present
-        const missingValues = requiredValues.filter(val => !allValues.includes(val));
+        const missingValues = requiredValues.filter(val => !allValues.includes(val))
 
         if (missingValues.length === 0) {
-          console.log('✅ All required values are present in the CSV.');
+          console.log('✅ All required values are present in the CSV.')
         } else {
-          console.error(`❌ Missing values: ${missingValues.join(', ')}`);
-          throw new Error('CSV does not contain all expected data.');
+          console.error(`❌ Missing values: ${missingValues.join(', ')}`)
+          throw new Error('CSV does not contain all expected data.')
         }
 
-        resolve();
+        resolve()
       })
       .on('error', (err) => {
-        console.error(`⚠️ Error reading CSV file: ${err.message}`);
-        reject(err);
-        throw err;
-      });
-  });
-  return downloadPath;
+        console.error(`⚠️ Error reading CSV file: ${err.message}`)
+        reject(err)
+        throw err
+      })
+  })
+  return downloadPath
 }
 
-module.exports = downloadPaymentsBlobById;
+module.exports = downloadPaymentsBlobById

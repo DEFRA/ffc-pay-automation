@@ -1,39 +1,39 @@
 class paymentManagementPage {
   header () {
-    return cy.get('h1.govuk-heading-l');
+    return cy.get('h1.govuk-heading-l')
   }
 
   mainHeader () {
-    return cy.get('.govuk-heading-xl');
+    return cy.get('.govuk-heading-xl')
   }
 
   subHeader () {
-    return cy.get('.govuk-heading-l');
+    return cy.get('.govuk-heading-l')
   }
 
   tableCaption () {
-    return cy.get('.govuk-table__caption');
+    return cy.get('.govuk-table__caption')
   }
 
   agreementClosuresHeader () {
-    return cy.get('.govuk-card--dashboard').eq(4).find('h2.govuk-heading-m');
+    return cy.get('.govuk-card--dashboard').eq(4).find('h2.govuk-heading-m')
   }
 
   agreementClosuresCount () {
-    return cy.get('.govuk-card--dashboard').eq(4).find('p.govuk-heading-l');
+    return cy.get('.govuk-card--dashboard').eq(4).find('p.govuk-heading-l')
   }
 
   noOfClosures () {
-    return cy.get(':nth-child(3) > :nth-child(2) > .govuk-heading-l');
+    return cy.get(':nth-child(3) > :nth-child(2) > .govuk-heading-l')
   }
 
   addNewAlertReceipientButton () {
-    return cy.get('.govuk-button');
+    return cy.get('.govuk-button')
   }
 
   monitorSchemeDropdown () {
-    return cy.get('#schemeId');
+    return cy.get('#schemeId')
   }
 }
 
-export default new paymentManagementPage();
+export default new paymentManagementPage()

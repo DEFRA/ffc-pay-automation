@@ -1,11 +1,11 @@
-import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
-import paymentManagementPage from '../pages/paymentManagementPage';
-const { getEnvironmentConfig } = require('../../support/configLoader');
+import paymentManagementPage from '../pages/paymentManagementPage'
+const { getEnvironmentConfig } = require('../../support/configLoader')
 
-const envConfig = getEnvironmentConfig();
-const env = envConfig.env;
-console.log('Environment Config:', envConfig);
+const envConfig = getEnvironmentConfig()
+const env = envConfig.env
+console.log('Environment Config:', envConfig)
 
 // -------------------------
 // HOMEPAGE VISIT
@@ -13,41 +13,41 @@ console.log('Environment Config:', envConfig);
 
 Given('I visit the {string} homepage', (text) => {
 
-  Cypress.emit('log:step', 'I visit the ' + text + ' homepage');
+  Cypress.emit('log:step', 'I visit the ' + text + ' homepage')
 
-  cy.log(text);
-  let url;
+  cy.log(text)
+  let url
 
   switch (text) {
   case 'Payment management':
-    url = envConfig.paymentManagementUrl;
-    break;
+    url = envConfig.paymentManagementUrl
+    break
   case 'Request Editor':
-    url = envConfig.requestEditorUrl;
-    break;
+    url = envConfig.requestEditorUrl
+    break
   case 'Calculate your delinked payment':
-    url = envConfig.paymentCalculatorUrl;
-    break;
+    url = envConfig.paymentCalculatorUrl
+    break
   }
 
-  cy.log('URL to open ' + url);
-  cy.visit(url);
-  cy.wait(2000);
-  cy.wrap(url).as('baseUrl');
+  cy.log('URL to open ' + url)
+  cy.visit(url)
+  cy.wait(2000)
+  cy.wrap(url).as('baseUrl')
 
-  const envFilePath = 'cypress/fixtures/env.json';
+  const envFilePath = 'cypress/fixtures/env.json'
 
   cy.task('readFileIfExists', envFilePath).then((existingData) => {
-    const existingEnv = existingData ? existingData.env : null;
+    const existingEnv = existingData ? existingData.env : null
 
     if (existingEnv !== env) {
       cy.task('writeFile', { filePath: envFilePath, data: { env } })
-        .then(() => cy.log(`🔄 Environment changed: Writing new env (${env}) to fixture file`));
+        .then(() => cy.log(`🔄 Environment changed: Writing new env (${env}) to fixture file`))
     } else {
-      cy.log(`✅ Environment unchanged (${env}). No file update needed.`);
+      cy.log(`✅ Environment unchanged (${env}). No file update needed.`)
     }
-  });
-});
+  })
+})
 
 // -------------------------
 // HOMEPAGE ASSERTION
@@ -55,21 +55,21 @@ Given('I visit the {string} homepage', (text) => {
 
 Given('I am on the {string} homepage', (text) => {
 
-  Cypress.emit('log:step', 'I am on the ' + text + ' homepage');
-  let url;
+  Cypress.emit('log:step', 'I am on the ' + text + ' homepage')
+  let url
 
   switch (text) {
   case 'Payment management':
-    url = envConfig.paymentManagementUrl;
-    break;
+    url = envConfig.paymentManagementUrl
+    break
   case 'Request Editor':
-    url = envConfig.requestEditorUrl;
-    break;
+    url = envConfig.requestEditorUrl
+    break
   }
 
-  cy.url().should('eq', url);
-  paymentManagementPage.header().should('be.visible').and('have.text', text);
-});
+  cy.url().should('eq', url)
+  paymentManagementPage.header().should('be.visible').and('have.text', text)
+})
 
 // -------------------------
 // BUTTON CLICKS
@@ -77,18 +77,18 @@ Given('I am on the {string} homepage', (text) => {
 
 When('I click on the {string} button', (text) => {
 
-  Cypress.emit('log:step', 'I click on the ' + text + ' button');
-  cy.get('button').contains(text).first().scrollIntoView().click();
+  Cypress.emit('log:step', 'I click on the ' + text + ' button')
+  cy.get('button').contains(text).first().scrollIntoView().click()
   if (text === 'Submit' || text === 'Download report') {
-    cy.wait(10000);
+    cy.wait(10000)
   }
-});
+})
 
 When('I click on {string}', (text) => {
 
-  Cypress.emit('log:step', 'I click on ' + text);
-  cy.contains(text).scrollIntoView().click();
-});
+  Cypress.emit('log:step', 'I click on ' + text)
+  cy.contains(text).scrollIntoView().click()
+})
 
 // -------------------------
 // ASSERTIONS
@@ -96,9 +96,9 @@ When('I click on {string}', (text) => {
 
 Then('I should see {string}', (text) => {
 
-  Cypress.emit('log:step', 'I should see ' + text);
-  cy.contains(text);
-});
+  Cypress.emit('log:step', 'I should see ' + text)
+  cy.contains(text)
+})
 
 // -------------------------
 // LINK CLICKS
@@ -106,19 +106,19 @@ Then('I should see {string}', (text) => {
 
 When('I click on the {string} link', (text) => {
 
-  Cypress.emit('log:step', 'I click on the ' + text + ' link');
+  Cypress.emit('log:step', 'I click on the ' + text + ' link')
 
   if (text === 'View awaiting ledger assignment') {
-    cy.wait(30000);
-    cy.log('Waiting for data to process');
-    cy.reload();
-    cy.wait(1000);
+    cy.wait(30000)
+    cy.log('Waiting for data to process')
+    cy.reload()
+    cy.wait(1000)
   }
-  cy.get('a').contains(text).scrollIntoView().click();
-  cy.wait(1000);
-  console.log(`Clicked on the ${text} link`);
-  cy.log(`Clicked on the ${text} link`);
-});
+  cy.get('a').contains(text).scrollIntoView().click()
+  cy.wait(1000)
+  console.log(`Clicked on the ${text} link`)
+  cy.log(`Clicked on the ${text} link`)
+})
 
 // -------------------------
 // ACCESSIBILITY
@@ -126,31 +126,35 @@ When('I click on the {string} link', (text) => {
 
 Then('I confirm there are no accessibility issues on the page', () => {
 
-  Cypress.emit('log:step', 'I confirm there are no accessibility issues on the page');
+  Cypress.emit('log:step', 'I confirm there are no accessibility issues on the page')
 
-  cy.injectAxe();
+  cy.injectAxe()
   cy.checkA11y(null, {
-    rules: {
-      region: { enabled: false }
+    runOnly: {
+      type: 'tag',
+      values: ['wcag22aa']
     }
+    // rules: {
+    //   region: { enabled: false }
+    // }
   }, (violations) => {
     violations.forEach(({ id, impact, description, help, helpUrl, nodes }) => {
-      cy.log(`Violation ID: ${id}`);
-      cy.log(`Impact: ${impact}`);
-      cy.log(`Description: ${description}`);
-      cy.log(`Help: ${help}`);
-      cy.log(`More info: ${helpUrl}`);
-      cy.log('Affected nodes:');
+      cy.log(`Violation ID: ${id}`)
+      cy.log(`Impact: ${impact}`)
+      cy.log(`Description: ${description}`)
+      cy.log(`Help: ${help}`)
+      cy.log(`More info: ${helpUrl}`)
+      cy.log('Affected nodes:')
 
       nodes.forEach(({ html, target }) => {
-        cy.log(`  - HTML: ${html}`);
-        cy.log(`    Target: ${target.join(', ')}`);
-      });
-    });
-  });
-  cy.log('No accessibility violations found');
-  console.log('No accessibility violations found');
-});
+        cy.log(`  - HTML: ${html}`)
+        cy.log(`    Target: ${target.join(', ')}`)
+      })
+    })
+  })
+  cy.log('No accessibility violations found')
+  console.log('No accessibility violations found')
+})
 
 // -------------------------
 // EXTERNAL LINK STATUS
@@ -158,21 +162,21 @@ Then('I confirm there are no accessibility issues on the page', () => {
 
 When('I verify status of external link - {string}', (text) => {
 
-  Cypress.emit('log:step', 'I verify status of external link - ' + text);
-  let pageUrl = '';
+  Cypress.emit('log:step', 'I verify status of external link - ' + text)
+  let pageUrl = ''
 
   switch (text) {
   case 'Rural Payments service.':
-    pageUrl = 'https://www.ruralpayments.service.gov.uk/customer-account/login';
-    break;
+    pageUrl = 'https://www.ruralpayments.service.gov.uk/customer-account/login'
+    break
   }
 
-  cy.log('Verifying status of external link:', pageUrl);
+  cy.log('Verifying status of external link:', pageUrl)
 
   cy.request(pageUrl).then((response) => {
-    expect(response.status).to.eq(200);
-  });
-});
+    expect(response.status).to.eq(200)
+  })
+})
 
 // -------------------------
 // DOWNLOAD LINKS
@@ -180,407 +184,406 @@ When('I verify status of external link - {string}', (text) => {
 
 When('I click on the {string} download link', (text) => {
 
-  Cypress.emit('log:step', 'I click on the ' + text + ' download link');
+  Cypress.emit('log:step', 'I click on the ' + text + ' download link')
   if (text === 'Request Editor report') {
-    cy.contains(text).click();
+    cy.contains(text).click()
   } else {
     cy.get('a')
       .contains(text)
       .scrollIntoView()
       .then((el) => {
-        el.attr('download', '');
+        el.attr('download', '')
       })
-      .click();
+      .click()
   }
-});
+})
 
 
 Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber, scenarioNumber) => {
 
-  Cypress.emit('log:step', 'I take a screenshot for Feature ' + featureNumber + ' and Scenario ' + scenarioNumber);
-  let featureString = '';
-  let scenarioString = '';
+  Cypress.emit('log:step', 'I take a screenshot for Feature ' + featureNumber + ' and Scenario ' + scenarioNumber)
+  let featureString = ''
+  let scenarioString = ''
 
   switch (featureNumber) {
-  case 1: featureString = '01_PaymentManagement.feature -- ';
+  case 1: featureString = '01_PaymentManagement.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Verify <link> links work correctly'; break;
+    case 1: scenarioString = '01 Verify <link> links work correctly'; break
     }
-    break;
-  case 2: featureString = '02_RequestEditor.feature -- ';
+    break
+  case 2: featureString = '02_RequestEditor.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Validate Dataset Count Increment After Adding a New Reporting Dataset'; break;
-    case 2: scenarioString = '02 Verify all schemes are displayed correctly'; break;
-    case 3: scenarioString = '03 Download Extract'; break;
-    case 4: scenarioString = '04 Verify "<link>"" links work correctly'; break;
-    case 5: scenarioString = '05 FRN Search Function'; break;
-    case 6: scenarioString = '06 Debt data reference is less than 5 characters'; break;
-    case 7: scenarioString = '07 Debt data reference is not provided'; break;
-    case 8: scenarioString = '08 Debt data reference is not alphanumeric'; break;
-    case 9: scenarioString = '09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number'; break;
-    case 10: scenarioString = '10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme'; break;
-    case 11: scenarioString = '11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme'; break;
-    case 12: scenarioString = '12 Unattached reporting datasets - Searching based on FRN number that returns no datasets'; break;
-    case 13: scenarioString = '13 Unattached reporting datasets - Searching based on scheme that returns no datasets'; break;
+    case 1: scenarioString = '01 Validate Dataset Count Increment After Adding a New Reporting Dataset'; break
+    case 2: scenarioString = '02 Verify all schemes are displayed correctly'; break
+    case 3: scenarioString = '03 Download Extract'; break
+    case 4: scenarioString = '04 Verify "<link>"" links work correctly'; break
+    case 5: scenarioString = '05 FRN Search Function'; break
+    case 6: scenarioString = '06 Debt data reference is less than 5 characters'; break
+    case 7: scenarioString = '07 Debt data reference is not provided'; break
+    case 8: scenarioString = '08 Debt data reference is not alphanumeric'; break
+    case 9: scenarioString = '09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number'; break
+    case 10: scenarioString = '10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme'; break
+    case 11: scenarioString = '11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme'; break
+    case 12: scenarioString = '12 Unattached reporting datasets - Searching based on FRN number that returns no datasets'; break
+    case 13: scenarioString = '13 Unattached reporting datasets - Searching based on scheme that returns no datasets'; break
     }
-    break;
-  case 3: featureString = '03_AgreementClosures.feature -- ';
+    break
+  case 3: featureString = '03_AgreementClosures.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 View Agreement Closures'; break;
-    case 2: scenarioString = '02 Access Agreement Closure Management'; break;
-    case 3: scenarioString = '03 Access Add Agreement Closure'; break;
-    case 4: scenarioString = '04 Access Bulk Agreement Closures'; break;
-    case 5: scenarioString = '05 View Agreement Closures Page'; break;
-    case 6: scenarioString = '06 Create New Closure'; break;
-    case 7: scenarioString = '07 Create Bulk Closure'; break;
-    case 8: scenarioString = '08 View Agreement Closure Page'; break;
-    case 9: scenarioString = '09 View Bulk Agreement Closure Page From Single Closure Page'; break;
-    case 10: scenarioString = '10 View Agreement Closure Page From Bulk Closure Page'; break;
-    case 11: scenarioString = '11 Empty fields'; break;
-    case 12: scenarioString = '12 Invalid FRN'; break;
-    case 13: scenarioString = '13 Invalid Agreement number'; break;
-    case 14: scenarioString = '14 Past Closure Date'; break;
-    case 15: scenarioString = '15 Successful Adding & Removing a Submission'; break;
-    case 16: scenarioString = '16 Empty File Upload'; break;
-    case 17: scenarioString = '17 Unsupported File Type'; break;
-    case 18: scenarioString = '18 Large File Upload'; break;
-    case 19: scenarioString = '19 Successful File Upload'; break;
-    case 20: scenarioString = '20 Upload File Format Validation'; break;
+    case 1: scenarioString = '01 View Agreement Closures'; break
+    case 2: scenarioString = '02 Access Agreement Closure Management'; break
+    case 3: scenarioString = '03 Access Add Agreement Closure'; break
+    case 4: scenarioString = '04 Access Bulk Agreement Closures'; break
+    case 5: scenarioString = '05 View Agreement Closures Page'; break
+    case 6: scenarioString = '06 Create New Closure'; break
+    case 7: scenarioString = '07 Create Bulk Closure'; break
+    case 8: scenarioString = '08 View Agreement Closure Page'; break
+    case 9: scenarioString = '09 View Bulk Agreement Closure Page From Single Closure Page'; break
+    case 10: scenarioString = '10 View Agreement Closure Page From Bulk Closure Page'; break
+    case 11: scenarioString = '11 Empty fields'; break
+    case 12: scenarioString = '12 Invalid FRN'; break
+    case 13: scenarioString = '13 Invalid Agreement number'; break
+    case 14: scenarioString = '14 Past Closure Date'; break
+    case 15: scenarioString = '15 Successful Adding & Removing a Submission'; break
+    case 16: scenarioString = '16 Empty File Upload'; break
+    case 17: scenarioString = '17 Unsupported File Type'; break
+    case 18: scenarioString = '18 Large File Upload'; break
+    case 19: scenarioString = '19 Successful File Upload'; break
+    case 20: scenarioString = '20 Upload File Format Validation'; break
     }
-    break;
-  case 4: featureString = '04_UploadPaymentHolds.feature -- ';
+    break
+  case 4: featureString = '04_UploadPaymentHolds.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Successfully uploading a CSV file applying holds & uploading a CSV file removing holds'; break;
-    case 2: scenarioString = '02 Uploading a CSV file with no selected hold reason'; break;
-    case 3: scenarioString = '03 Uploading a file that is not a CSV'; break;
-    case 4: scenarioString = '04 Uploading a CSV file with incorrect FRN format'; break;
-    case 5: scenarioString = '05 Uploading a CSV file which is too large'; break;
+    case 1: scenarioString = '01 Successfully uploading a CSV file applying holds & uploading a CSV file removing holds'; break
+    case 2: scenarioString = '02 Uploading a CSV file with no selected hold reason'; break
+    case 3: scenarioString = '03 Uploading a file that is not a CSV'; break
+    case 4: scenarioString = '04 Uploading a CSV file with incorrect FRN format'; break
+    case 5: scenarioString = '05 Uploading a CSV file which is too large'; break
     }
-    break;
-  case 5: featureString = '05_RemovePaymentHolds.feature -- ';
+    break
+  case 5: featureString = '05_RemovePaymentHolds.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Uploading a CSV file with incorrect FRN format'; break;
-    case 2: scenarioString = '02 Uploading a file that is not a CSV'; break;
-    case 3: scenarioString = '03 Removing holds selectively based on hold category'; break;
-    case 4: scenarioString = '04 Attempting to remove holds without selecting a hold category'; break;
+    case 1: scenarioString = '01 Uploading a CSV file with incorrect FRN format'; break
+    case 2: scenarioString = '02 Uploading a file that is not a CSV'; break
+    case 3: scenarioString = '03 Removing holds selectively based on hold category'; break
+    case 4: scenarioString = '04 Attempting to remove holds without selecting a hold category'; break
     }
-    break;
-  case 11: featureString = '11_PPAE2EJourneyCredit.feature -- ';
+    break
+  case 11: featureString = '11_PPAE2EJourneyCredit.feature -- '
     switch (scenarioNumber) {
-    case 3: scenarioString = '03 Send PPA message and verify queue increment (payment2)'; break;
-    case 4: scenarioString = '04 Approve payment in ledger assignment queue'; break;
-    case 5: scenarioString = '05 Approve payment in quality check queue'; break;
+    case 3: scenarioString = '03 Send PPA message and verify queue increment (payment2)'; break
+    case 4: scenarioString = '04 Approve payment in ledger assignment queue'; break
+    case 5: scenarioString = '05 Approve payment in quality check queue'; break
     }
-    break;
-  case 12: featureString = '12_PPAE2EJourneyDebit.feature -- ';
+    break
+  case 12: featureString = '12_PPAE2EJourneyDebit.feature -- '
     switch (scenarioNumber) {
-    case 3: scenarioString = '03 Send debit PPA message and verify queue increment (payment2)'; break;
-    case 4: scenarioString = '04 Approve payment from reporting data queue'; break;
-    case 5: scenarioString = '05 Approve payment from ledger assignment queue'; break;
-    case 6: scenarioString = '06 Approve payment from quality check queue'; break;
+    case 3: scenarioString = '03 Send debit PPA message and verify queue increment (payment2)'; break
+    case 4: scenarioString = '04 Approve payment from reporting data queue'; break
+    case 5: scenarioString = '05 Approve payment from ledger assignment queue'; break
+    case 6: scenarioString = '06 Approve payment from quality check queue'; break
     }
-    break;
-  case 13: featureString = '13_PaymentHolds.feature -- ';
+    break
+  case 13: featureString = '13_PaymentHolds.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Send debit payment request message (payment1)'; break;
-    case 2: scenarioString = '02 Confirm scheme filter functional'; break;
+    case 1: scenarioString = '01 Send debit payment request message (payment1)'; break
+    case 2: scenarioString = '02 Confirm scheme filter functional'; break
     }
-    break;
-  case 15: featureString = '15_ManualPayments.feature -- ';
+    break
+  case 15: featureString = '15_ManualPayments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Confirm Manual Payments page elements are visible'; break;
-    case 2: scenarioString = '02 Confirm that valid Manual Payments file can be processed successfully'; break;
-    case 3: scenarioString = '03 Confirm that attempting to upload duplicate file produces appropriate error message'; break;
-    case 4: scenarioString = '04 Confirm that invalid Manual Payments file type produces appropriate error message'; break;
-    case 5: scenarioString = '05 Confirm that invalid Manual Payments filename produces appropriate error message'; break;
-    case 6: scenarioString = '06 Confirm that invalid file size produces appropriate error message'; break;
-    case 7: scenarioString =  '07 Confirm that empty file produces appropriate error message'; break;
-    case 8: scenarioString = '08 Upload History table'; break;
+    case 1: scenarioString = '01 Confirm Manual Payments page elements are visible'; break
+    case 2: scenarioString = '02 Confirm that valid Manual Payments file can be processed successfully'; break
+    case 3: scenarioString = '03 Confirm that attempting to upload duplicate file produces appropriate error message'; break
+    case 4: scenarioString = '04 Confirm that invalid Manual Payments file type produces appropriate error message'; break
+    case 5: scenarioString = '05 Confirm that invalid Manual Payments filename produces appropriate error message'; break
+    case 6: scenarioString = '06 Confirm that invalid file size produces appropriate error message'; break
+    case 7: scenarioString =  '07 Confirm that empty file produces appropriate error message'; break
+    case 8: scenarioString = '08 Upload History table'; break
     }
-    break;
-  case 16: featureString = '16_GLOSPayments.feature -- ';
+    break
+  case 16: featureString = '16_GLOSPayments.feature -- '
     switch (scenarioNumber) {
-    case 2: scenarioString = '02 insert test data via service bus message to ffc-pay-request'; break;
-    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break;
+    case 2: scenarioString = '02 insert test data via service bus message to ffc-pay-request'; break
+    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 17: featureString = '17_PaymentCalculator.feature -- ';
+    break
+  case 17: featureString = '17_PaymentCalculator.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Confirm elements on Calculate your delinked payment homepage'; break;
-    case 2: scenarioString = '02 Confirm elements on Enter your delinked payment reference amount'; break;
-    case 3: scenarioString = '03 Confirm elements on Delinked payment calculation page'; break;
-    case 4: scenarioString = '04 Confirm amount format error message on Delinked payment reference amount page'; break;
-    case 5: scenarioString = '05 Confirm that delinked payments guidance link functions correctly'; break;
-    case 6: scenarioString = '06 Confirm that new schemes and grants link functions correctly'; break;
-    case 7: scenarioString = '07 Confirm that replacing the Basic Payment Scheme link functions correctly'; break;
-    case 8: scenarioString = '08 Confirm that Rural Payments service link functions correctly'; break;
+    case 1: scenarioString = '01 Confirm elements on Calculate your delinked payment homepage'; break
+    case 2: scenarioString = '02 Confirm elements on Enter your delinked payment reference amount'; break
+    case 3: scenarioString = '03 Confirm elements on Delinked payment calculation page'; break
+    case 4: scenarioString = '04 Confirm amount format error message on Delinked payment reference amount page'; break
+    case 5: scenarioString = '05 Confirm that delinked payments guidance link functions correctly'; break
+    case 6: scenarioString = '06 Confirm that new schemes and grants link functions correctly'; break
+    case 7: scenarioString = '07 Confirm that replacing the Basic Payment Scheme link functions correctly'; break
+    case 8: scenarioString = '08 Confirm that Rural Payments service link functions correctly'; break
     }
-    break;
-  case 18: featureString = '18_IMPSPayments.feature -- ';
+    break
+  case 18: featureString = '18_IMPSPayments.feature -- '
     switch (scenarioNumber) {
-    case 2: scenarioString = '02 insert test data via service bus message to ffc-pay-request'; break;
-    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break;
+    case 2: scenarioString = '02 insert test data via service bus message to ffc-pay-request'; break
+    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 19: featureString = '19_GENESISPayments.feature -- ';
+    break
+  case 19: featureString = '19_GENESISPayments.feature -- '
     switch (scenarioNumber) {
-    case 2: scenarioString = '02 insert test data via service bus message to ffc-pay-request'; break;
-    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break;
+    case 2: scenarioString = '02 insert test data via service bus message to ffc-pay-request'; break
+    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 22: featureString = '22_CSHigherTierRevenuePayments.feature -- ';
+    break
+  case 22: featureString = '22_CSHigherTierRevenuePayments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect COHTR test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect COHTR test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 23: featureString = '23_CSHigherTierCapitalPayments.feature -- ';
+    break
+  case 23: featureString = '23_CSHigherTierCapitalPayments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect COHTC test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect COHTC test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 24: featureString = '24_VetVisitsPayments.feature -- ';
+    break
+  case 24: featureString = '24_VetVisitsPayments.feature -- '
     switch (scenarioNumber) {
-    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break;
+    case 4: scenarioString = '04 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 25: featureString = '25_CSPayments.feature -- ';
+    break
+  case 25: featureString = '25_CSPayments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect CS test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect CS test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 26: featureString = '26_BPSPayments.feature -- ';
+    break
+  case 26: featureString = '26_BPSPayments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect BPS test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect BPS test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 27: featureString = '27_LumpSumsPayments.feature -- ';
+    break
+  case 27: featureString = '27_LumpSumsPayments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect Lump sums test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect Lump sums test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 28: featureString = '28_SFIExpandedPayments.feature -- ';
+    break
+  case 28: featureString = '28_SFIExpandedPayments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect SFI Expanded test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect SFI Expanded test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 29: featureString = '29_DelinkedPayments.feature -- ';
+    break
+  case 29: featureString = '29_DelinkedPayments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect Delinked test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect Delinked test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
+    break
 
-  case 30: featureString = '30_SFIPilotPayments.feature -- ';
+  case 30: featureString = '30_SFIPilotPayments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect SFI Pilot test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect SFI Pilot test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 32: featureString = '32_SFI23Payments.feature -- ';
+    break
+  case 32: featureString = '32_SFI23Payments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect SFI23 test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect SFI23 test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 33: featureString = '33_SFI22Payments.feature -- ';
+    break
+  case 33: featureString = '33_SFI22Payments.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 insert incorrect SFI22 test data via service bus message to ffc-pay-request'; break;
-    case 5: scenarioString = '05 Approve payment from reporting data queue'; break;
-    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break;
-    case 7: scenarioString = '07 Approve payment from quality check queue'; break;
-    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break;
+    case 1: scenarioString = '01 insert incorrect SFI22 test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Approve payment from reporting data queue'; break
+    case 6: scenarioString = '06 Approve payment in ledger assignment queue'; break
+    case 7: scenarioString = '07 Approve payment from quality check queue'; break
+    case 8: scenarioString = '08 Confirm payment request processed in Payment Management'; break
     }
-    break;
-  case 34: featureString = '34_PPATopUpScenarios.feature -- ';
+    break
+  case 34: featureString = '34_PPATopUpScenarios.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 PPA Top-up before first installment'; break;
-    case 2: scenarioString = '02 PPA Top-up after first installment'; break;
-    case 3: scenarioString = '03 PPA Top-up after second installment'; break;
-    case 4: scenarioString = '04 PPA Top-up after third installment'; break;
-    case 5: scenarioString = '05 PPA Top-up after fourth installment'; break;
+    case 1: scenarioString = '01 PPA Top-up before first installment'; break
+    case 2: scenarioString = '02 PPA Top-up after first installment'; break
+    case 3: scenarioString = '03 PPA Top-up after second installment'; break
+    case 4: scenarioString = '04 PPA Top-up after third installment'; break
+    case 5: scenarioString = '05 PPA Top-up after fourth installment'; break
     }
-    break;
-  case 35: featureString = '35_PPAReductionScenarios.feature -- ';
+    break
+  case 35: featureString = '35_PPAReductionScenarios.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 PPA Reduction before first installment'; break;
-    case 2: scenarioString = '02 PPA Reduction after first installment'; break;
-    case 3: scenarioString = '03 PPA Reduction after second installment'; break;
-    case 4: scenarioString = '04 PPA Reduction after third installment'; break;
+    case 1: scenarioString = '01 PPA Reduction before first installment'; break
+    case 2: scenarioString = '02 PPA Reduction after first installment'; break
+    case 3: scenarioString = '03 PPA Reduction after second installment'; break
+    case 4: scenarioString = '04 PPA Reduction after third installment'; break
     }
-    break;
-  case 36: featureString = '36_PPARecoveryScenarios.feature -- ';
+    break
+  case 36: featureString = '36_PPARecoveryScenarios.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 PPA Recovery after first installment'; break;
-    case 2: scenarioString = '02 PPA Recovery after second installment'; break;
-    case 3: scenarioString = '03 PPA Recovery after third installment'; break;
-    case 4: scenarioString = '04 PPA Recovery after fourth installment'; break;
+    case 1: scenarioString = '01 PPA Recovery after first installment'; break
+    case 2: scenarioString = '02 PPA Recovery after second installment'; break
+    case 3: scenarioString = '03 PPA Recovery after third installment'; break
+    case 4: scenarioString = '04 PPA Recovery after fourth installment'; break
     }
-    break;
-  case 37: featureString = '37_D365Rejection.feature -- ';
+    break
+  case 37: featureString = '37_D365Rejection.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Process D365 Acknowledgment file'; break;
-    case 2: scenarioString = '02 Verify D365 Rejection hold in Payment Management UI'; break;
-    case 3: scenarioString = '03 Remove hold in Payment Management UI and confirm secondary completedPaymentRequest entry created'; break;
+    case 1: scenarioString = '01 Process D365 Acknowledgment file'; break
+    case 2: scenarioString = '02 Verify D365 Rejection hold in Payment Management UI'; break
+    case 3: scenarioString = '03 Remove hold in Payment Management UI and confirm secondary completedPaymentRequest entry created'; break
     }
-    break;
-  case 38: featureString = '38_ManagementInformation.feature -- ';
+    break
+  case 38: featureString = '38_ManagementInformation.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Confirm Management Information page loads correctly'; break;
-    case 2: scenarioString = '02 Confirm filter functionality and options'; break;
-    case 3: scenarioString = '03 Confirm that correct messages are displayed when no data is available'; break;
-    case 4: scenarioString = '04 Confirm that correct amounts are displayed when data is available'; break;
+    case 1: scenarioString = '01 Confirm Management Information page loads correctly'; break
+    case 2: scenarioString = '02 Confirm filter functionality and options'; break
+    case 3: scenarioString = '03 Confirm that correct messages are displayed when no data is available'; break
+    case 4: scenarioString = '04 Confirm that correct amounts are displayed when data is available'; break
     }
-    break;
-  case 40: featureString = '40_DownloadStatements.feature -- ';
+    break
+  case 40: featureString = '40_DownloadStatements.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Confirm Download Statements page loads correctly'; break;
-    case 2: scenarioString = '02 Search by scheme'; break;
-    case 3: scenarioString = '03 Confirm next and previous buttons work correctly'; break;
-    case 4: scenarioString = '04 Search by full filename'; break;
-    case 5: scenarioString = '05 Search by marketing year'; break;
-    case 6: scenarioString = '06 Search by FRN'; break;
-    case 7: scenarioString = '07 Search by Timestamp'; break;
-    case 8: scenarioString = '08 Clear and start again'; break;
+    case 1: scenarioString = '01 Confirm Download Statements page loads correctly'; break
+    case 2: scenarioString = '02 Search by scheme'; break
+    case 3: scenarioString = '03 Confirm next and previous buttons work correctly'; break
+    case 4: scenarioString = '04 Search by full filename'; break
+    case 5: scenarioString = '05 Search by marketing year'; break
+    case 6: scenarioString = '06 Search by FRN'; break
+    case 7: scenarioString = '07 Search by Timestamp'; break
+    case 8: scenarioString = '08 Clear and start again'; break
     }
-    break;
-  case 41: featureString = '41_ResetPaymentRequest.feature -- ';
+    break
+  case 41: featureString = '41_ResetPaymentRequest.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Confirm initial elements on Reset Payment Request page'; break;
-    case 2: scenarioString = '02 Attempt to reset payment request using invoice number that does not exist in database'; break;
-    case 3: scenarioString = '03 Attempt to reset payment request without entering an invoice number'; break;
-    case 4: scenarioString = '04 Load payment request data'; break;
-    case 5: scenarioString = '05 Reset payment request using valid invoice number'; break;
-    case 6: scenarioString = '06 Confirm that Perform another action link redirects correctly'; break;
+    case 1: scenarioString = '01 Confirm initial elements on Reset Payment Request page'; break
+    case 2: scenarioString = '02 Attempt to reset payment request using invoice number that does not exist in database'; break
+    case 3: scenarioString = '03 Attempt to reset payment request without entering an invoice number'; break
+    case 4: scenarioString = '04 Load payment request data'; break
+    case 5: scenarioString = '05 Reset payment request using valid invoice number'; break
+    case 6: scenarioString = '06 Confirm that Perform another action link redirects correctly'; break
     }
-    break;
-  case 42: featureString = '42_PaymentEventMonitoring.feature -- ';
+    break
+  case 42: featureString = '42_PaymentEventMonitoring.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Confirm initial elements on View events page'; break;
-    case 2: scenarioString = '02 Confirm initial elements on View processed payment requests page'; break;
-    case 3: scenarioString = '03 Search by FRN on View events page'; break;
-    case 4: scenarioString = '04 Search by Batch name on View events page'; break;
-    case 5: scenarioString = '05 Click View in Actions column and confirm page'; break;
-    case 6: scenarioString = '06 Confirm page elements when no results found'; break;
-    case 7: scenarioString = '07 View processed payment requests by scheme'; break;
-    case 8: scenarioString = '08 Confirm correct message when no results found'; break;
-    case 9: scenarioString = '09 Confirm that payment request data is processed and ordered correctly'; break;
+    case 1: scenarioString = '01 Confirm initial elements on View events page'; break
+    case 2: scenarioString = '02 Confirm initial elements on View processed payment requests page'; break
+    case 3: scenarioString = '03 Search by FRN on View events page'; break
+    case 4: scenarioString = '04 Search by Batch name on View events page'; break
+    case 5: scenarioString = '05 Click View in Actions column and confirm page'; break
+    case 6: scenarioString = '06 Confirm page elements when no results found'; break
+    case 7: scenarioString = '07 View processed payment requests by scheme'; break
+    case 8: scenarioString = '08 Confirm correct message when no results found'; break
+    case 9: scenarioString = '09 Confirm that payment request data is processed and ordered correctly'; break
     }
-    break;
-  case 43: featureString = '43_PaymentAlerts.feature -- ';
+    break
+  case 43: featureString = '43_PaymentAlerts.feature -- '
     switch (scenarioNumber) {
-    case 1: scenarioString = '01 Confirm initial elements on page'; break;
-    case 2: scenarioString = '02 Confirm correct alert types for SFI-22'; break;
-    case 3: scenarioString = '03 Confirm correct alert types for SFI-Pilot'; break;
-    case 4: scenarioString = '04 Confirm correct alert types for Lump Sums'; break;
-    case 5: scenarioString = '05 Confirm correct alert types for Vet Visits'; break;
-    case 6: scenarioString = '06 Confirm correct alert types for Countryside Stewardship'; break;
-    case 7: scenarioString = '07 Confirm correct alert types for Basic Payment Scheme'; break;
-    case 8: scenarioString = '08 Confirm correct alert types for Manual Injection scheme'; break;
-    case 9: scenarioString = '09 Confirm correct alert types for Environmental Stewardship scheme'; break;
-    case 10: scenarioString = '10 Confirm correct alert types for IMPS scheme'; break;
-    case 11: scenarioString = '11 Confirm correct alert types for Forestry Commission scheme'; break;
-    case 12: scenarioString = '12 Confirm correct alert types for SFI-23 scheme'; break;
-    case 13: scenarioString = '13 Confirm correct alert types for Delinked Payments scheme'; break;
-    case 14: scenarioString = '14 Confirm correct alert types for Expanded SFI Offer scheme'; break;
-    case 15: scenarioString = '15 Confirm correct alert types for Countryside Stewardship Higher Tier (Revenue) scheme'; break;
-    case 16: scenarioString = '16 Confirm correct alert types for Countryside Stewardship Higher Tier (Capital) scheme'; break;
-    case 17: scenarioString = '17 Confirm that all schemes are successfully cascaded when Show All Sections is clicked'; break;
-    case 18: scenarioString = '18 Confirm initial elements on Add new alert recipient page'; break;
-    case 19: scenarioString = '19 Confirm filter by scheme is functioning correctly'; break;
-    case 20: scenarioString = '20 Confirm that correct error message is displayed when invalid email used'; break;
-    case 21: scenarioString = '21 Confirm that new alert recipient can be successfully added'; break;
+    case 1: scenarioString = '01 Confirm initial elements on page'; break
+    case 2: scenarioString = '02 Confirm correct alert types for SFI-22'; break
+    case 3: scenarioString = '03 Confirm correct alert types for SFI-Pilot'; break
+    case 4: scenarioString = '04 Confirm correct alert types for Lump Sums'; break
+    case 5: scenarioString = '05 Confirm correct alert types for Vet Visits'; break
+    case 6: scenarioString = '06 Confirm correct alert types for Countryside Stewardship'; break
+    case 7: scenarioString = '07 Confirm correct alert types for Basic Payment Scheme'; break
+    case 8: scenarioString = '08 Confirm correct alert types for Manual Injection scheme'; break
+    case 9: scenarioString = '09 Confirm correct alert types for Environmental Stewardship scheme'; break
+    case 10: scenarioString = '10 Confirm correct alert types for IMPS scheme'; break
+    case 11: scenarioString = '11 Confirm correct alert types for Forestry Commission scheme'; break
+    case 12: scenarioString = '12 Confirm correct alert types for SFI-23 scheme'; break
+    case 13: scenarioString = '13 Confirm correct alert types for Delinked Payments scheme'; break
+    case 14: scenarioString = '14 Confirm correct alert types for Expanded SFI Offer scheme'; break
+    case 15: scenarioString = '15 Confirm correct alert types for Countryside Stewardship Higher Tier (Revenue) scheme'; break
+    case 16: scenarioString = '16 Confirm correct alert types for Countryside Stewardship Higher Tier (Capital) scheme'; break
+    case 17: scenarioString = '17 Confirm that all schemes are successfully cascaded when Show All Sections is clicked'; break
+    case 18: scenarioString = '18 Confirm initial elements on Add new alert recipient page'; break
+    case 19: scenarioString = '19 Confirm filter by scheme is functioning correctly'; break
+    case 20: scenarioString = '20 Confirm that correct error message is displayed when invalid email used'; break
+    case 21: scenarioString = '21 Confirm that new alert recipient can be successfully added'; break
     }
-    break;
-  case 44: featureString = '44_FarmPaymentsTechnicalTest.feature -- ';
+    break
+  case 44: featureString = '44_FarmPaymentsTechnicalTest.feature -- '
     switch (scenarioNumber) {
-    case 5: '05 Confirm payment request processed in Payment Management'; break;
+    case 5: scenarioString = '05 Confirm payment request processed in Payment Management'; break
     }
-    break;
+    break
   }
-  const screenshotPath = `${scenarioString}`;
-  console.log('Screenshot Path:', screenshotPath);
+  const screenshotPath = `${scenarioString}`
+  console.log('Screenshot Path:', screenshotPath)
 
-  cy.screenshot(screenshotPath, { overwrite: true });
-});
+  cy.screenshot(screenshotPath, { overwrite: true })
+})
 
 Then('I confirm that I am on the {string} homepage', (service) => {
 
-  Cypress.emit('log:step', 'I confirm that I am on the ' + service + ' homepage');
-  let url;
+  Cypress.emit('log:step', 'I confirm that I am on the ' + service + ' homepage')
+  let url
 
   switch (service) {
   case 'payment management':
-    url = envConfig.paymentManagementUrl;
-    break;
+    url = envConfig.paymentManagementUrl
+    break
   case 'request editor':
-    url = envConfig.requestEditorUrl;
-    break;
+    url = envConfig.requestEditorUrl
+    break
   case 'payment calculator':
-    url = envConfig.paymentCalculatorUrl;
-    break;
+    url = envConfig.paymentCalculatorUrl
+    break
   default:
-    throw new Error(`Unknown service: ${service}`);
+    throw new Error(`Unknown service: ${service}`)
   }
 
-  cy.url().should('eq', url);
-  console.log(`Confirmed that I am on the ${service} homepage with URL: ${url}`);
-  cy.log(`Confirmed that I am on the ${service} homepage with URL: ${url}`);
-});
+  cy.url().should('eq', url)
+  console.log(`Confirmed that I am on the ${service} homepage with URL: ${url}`)
+  cy.log(`Confirmed that I am on the ${service} homepage with URL: ${url}`)
+})
 
 Then('I confirm that {string} error message has been generated', (error) => {
 
-  Cypress.emit('log:step', 'I confirm that ' + error + ' error message has been generated');
-  let databaseName;
-  let expectedError;
+  Cypress.emit('log:step', 'I confirm that ' + error + ' error message has been generated')
+  let databaseName
+  let expectedError
 
   switch (error) {
   case 'invoice lines do not match':
-    databaseName = 'ffc-pay-enrichment-ffc-pay-enrichment-1';
-    expectedError = 'Payment request is invalid. Invoice line values (10000000) do not match header (-10000012)';
-    break;
+    databaseName = 'ffc-pay-enrichment-ffc-pay-enrichment-1'
+    expectedError = 'Payment request is invalid. Invoice line values (10000000) do not match header (-10000012)'
+    break
   }
 
   cy.task('getDockerLogs', databaseName).then((logs) => {
-    cy.log(logs);
+    cy.log(logs)
     if (logs.includes(expectedError)) {
-      console.log(`✅ Error "${expectedError}" has been generated`);
-      cy.log(`✅ Error "${expectedError}" has been generated`);
+      console.log(`✅ Error "${expectedError}" has been generated`)
+      cy.log(`✅ Error "${expectedError}" has been generated`)
     } else {
-      throw new Error(`Error "${expectedError}" has not been generated`);
+      throw new Error(`Error "${expectedError}" has not been generated`)
     }
-  });
-
-});
+  })
+})

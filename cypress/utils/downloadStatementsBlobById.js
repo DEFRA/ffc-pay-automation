@@ -1,80 +1,77 @@
-require('dotenv').config();
-const { BlobServiceClient } = require('@azure/storage-blob');
-const fs = require('fs');
-const path = require('path');
-const pdf = require('pdf-parse');
+require('dotenv').config()
+const { BlobServiceClient } = require('@azure/storage-blob')
+const fs = require('fs')
+const path = require('path')
+const pdf = require('pdf-parse')
 
 async function downloadStatementsBlobById (env, containerName, downloadDir, year) {
 
   //This function downloads report from Azure Blob storage and checks that relevant values are correct
-  let blobServiceClient = null;
+  let blobServiceClient = null
 
   if (env.includes('local')) {
-    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.STATEMENTSBLOBCONNECTIONSTRING);
+    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.STATEMENTSBLOBCONNECTIONSTRING)
   } else if (env.includes('dev')) {
-    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DEVSTATEMENTSBLOBCONNECTIONSTRING);
+    blobServiceClient = BlobServiceClient.fromConnectionString(process.env.DEVSTATEMENTSBLOBCONNECTIONSTRING)
   }
 
-  const containerClient = blobServiceClient.getContainerClient(containerName);
+  const containerClient = blobServiceClient.getContainerClient(containerName)
 
-  let blobs = containerClient.listBlobsFlat();
-  let matchingBlobs = [];
+  let blobs = containerClient.listBlobsFlat()
+  let matchingBlobs = []
 
-  let filenamePrefix;
+  let filenamePrefix
 
   if (year.includes('2024')) {
-    filenamePrefix = 'outbound/FFC_PaymentDelinkedStatement_DP_2024_';
+    filenamePrefix = 'outbound/FFC_PaymentDelinkedStatement_DP_2024_'
   } else if (year.includes('2025')) {
-    filenamePrefix = 'outbound/FFC_PaymentDelinkedStatement_DP_2025_';
+    filenamePrefix = 'outbound/FFC_PaymentDelinkedStatement_DP_2025_'
   } else {
-    throw new Error('invalid year selected');
+    throw new Error('invalid year selected')
   }
 
   // Collect all matching blobs
   for await (const blob of blobs) {
     if (blob.name.startsWith(filenamePrefix)) {
-      matchingBlobs.push(blob);
+      matchingBlobs.push(blob)
     }
   }
 
   if (matchingBlobs.length === 0) {
-    console.error(`⚠️ No blobs found matching prefix: ${filenamePrefix}`);
-    return;
+    console.error(`⚠️ No blobs found matching prefix: ${filenamePrefix}`)
+    return
   }
 
   // Extract 10-digit number and sort
   const extractNumber = (name) => {
-    const match = name.replace(filenamePrefix, '').match(/^(\d{10})_/);
-    return match ? Number(match[1]) : -1;
-  };
+    const match = name.replace(filenamePrefix, '').match(/^(\d{10})_/)
+    return match ? Number(match[1]) : -1
+  }
 
-  matchingBlobs.sort((a, b) => extractNumber(b.name) - extractNumber(a.name));
+  matchingBlobs.sort((a, b) => extractNumber(b.name) - extractNumber(a.name))
 
-  const matchingBlob = matchingBlobs[0];
+  const matchingBlob = matchingBlobs[0]
+  console.log(`Matched Blob: ${matchingBlob.name}`)
 
-  console.log(`Matched Blob: ${matchingBlob.name}`);
-
-
-  const downloadPath = path.join(downloadDir, path.basename(matchingBlob.name));
-  console.log('Download path = ' + downloadPath);
+  const downloadPath = path.join(downloadDir, path.basename(matchingBlob.name))
+  console.log('Download path = ' + downloadPath)
 
   //Downloads file to cypress/downloads
 
   try {
-    await containerClient.getBlobClient(matchingBlob.name).downloadToFile(downloadPath);
-    console.log(`📍 Saved to: ${downloadPath}`);
+    await containerClient.getBlobClient(matchingBlob.name).downloadToFile(downloadPath)
+    console.log(`📍 Saved to: ${downloadPath}`)
 
   } catch (error) {
-    console.log(error);
-    throw error;
+    console.log(error)
+    throw error
   }
-
   //Converts PDF content into readable text string and confirms presence of expected values
 
   try {
-    const dataBuffer = fs.readFileSync(downloadPath);
-    const pdfData = await pdf(dataBuffer);
-    console.log('Extracted Text:\n', pdfData.text);
+    const dataBuffer = fs.readFileSync(downloadPath)
+    const pdfData = await pdf(dataBuffer)
+    console.log('Extracted Text:\n', pdfData.text)
 
     //Following strings represent all text expected in output PDF
 
@@ -144,16 +141,17 @@ async function downloadStatementsBlobById (env, containerName, downloadDir, year
 "call 03000 200 301 (Monday to Friday, 8: 30am to 5pm) - you'll need your SBI number",
 "If you think your payment is wrong",
 "Read how to submit an appeal and the deadlines that apply at www.gov.uk/government/organisations/rural-payments-agency/about/complaints-procedure.")) {
-      console.log('PDF contains expected data');
+
+      console.log('PDF contains expected data')
     } else {
-      console.log('PDF does not contain expected data');
-      throw 'Error';
+      console.log('PDF does not contain expected data')
+      throw 'Error'
     }
   } catch (err) {
-    console.error(`⚠️ Error reading file: ${err.message}`);
-    throw err;
+    console.error(`⚠️ Error reading file: ${err.message}`)
+    throw err
   }
-  return downloadPath;
+  return downloadPath
 }
 
-module.exports = downloadStatementsBlobById;
+module.exports = downloadStatementsBlobById
