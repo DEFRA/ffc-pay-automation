@@ -57,7 +57,7 @@ class managementInformationPage {
   }
 
   timePeriodFilterButton () {
-    return cy.get('.govuk-button')
+    return cy.get(':nth-child(4) > .govuk-button')
   }
 
   paymentMetricsSubHeader () {
@@ -161,7 +161,7 @@ class managementInformationPage {
   }
 
   clearFiltersButton () {
-    return cy.get('.govuk-link')
+    return cy.get(':nth-child(4) > .govuk-link')
   }
 
 }

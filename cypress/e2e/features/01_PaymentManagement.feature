@@ -14,16 +14,13 @@ Feature: 01 Payment management
     Then I take a screenshot for "<link>"
 
     Examples:
-      | link                            | subPage               |
-      | Manage holds                    | payment-holds         |
-      | View all alert recipients       | alerts                |
-      | Reset payment request           | payment-request/reset |
-      | View events                     | monitoring            |
-      | View processed payment requests | monitoring/schemes    |
-      | Manage closures                 | closure               |
-      | Add closure                     | closure/add           |
-      | Add bulk closures               | closure/bulk          |
-      | Reports                         | report-list           |
-      | Upload manual payment file      | manual-payments       |
-      | View management information     | metrics               |
-      | Download statements             | download-statements   |
+      | link                   | subPage               |
+      | Manage holds           | payment-holds         |
+      | Alerts                 | alerts                |
+      | Reset payment request  | payment-request/reset |
+      | Monitoring             | monitoring            |
+      | Manage closures        | closure               |
+      | Reports                | report-list           |
+      | Manual payment upload  | manual-payments       |
+      | Management information | metrics               |
+      | Download statements    | download-statements   |

@@ -12,7 +12,7 @@ Feature: 43 Payment Alerts
 
     Given I restart the local environment
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
 
     Then on the Alerts page I confirm that "sub header" is displayed
     Then on the Alerts page I confirm that "page description" is displayed
@@ -58,7 +58,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for SFI-22 scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "sfi22 show button"
 
   #The following alert types should now be visible  
@@ -90,7 +90,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for SFI-Pilot scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "sfi pilot show button"
 
   #The following alert types should now be visible  
@@ -122,7 +122,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Lump Sums scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "lump sums show button"
 
   #The following alert types should now be visible  
@@ -154,7 +154,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Vet Visits scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "vet visits show button"
 
   #The following alert types should now be visible  
@@ -186,7 +186,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Countryside Stewardship scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "countryside stewardship show button"
 
   #The following alert types should now be visible  
@@ -218,7 +218,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Basic Payment Scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "basic payment scheme show button"
 
   #The following alert types should now be visible  
@@ -250,7 +250,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Manual Injection scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "manual injection show button"
 
   #The following alert types should now be visible  
@@ -282,7 +282,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Environmental Stewardship scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "environmental stewardship show button"
 
   #The following alert types should now be visible  
@@ -314,7 +314,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for IMPS scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "imps show button"
 
   #The following alert types should now be visible  
@@ -346,7 +346,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Forestry Commission scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "forestry commission show button"
 
   #The following alert types should now be visible  
@@ -378,7 +378,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for SFI-23 scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "sfi23 show button"
 
   #The following alert types should now be visible  
@@ -410,7 +410,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Delinked Payments scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "delinked payments show button"
 
   #The following alert types should now be visible  
@@ -442,7 +442,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Expanded SFI Offer scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "expanded sfi show button"
 
   #The following alert types should now be visible  
@@ -474,7 +474,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Revenue) scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "csht revenue show button"
 
   #The following alert types should now be visible  
@@ -506,7 +506,7 @@ Feature: 43 Payment Alerts
    #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Capital) scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "csht capital show button"
 
   #The following alert types should now be visible  
@@ -539,7 +539,7 @@ Feature: 43 Payment Alerts
   #Please note, Cypress is unable to screenshot this scenario due to the extreme length of page when all schemes are cascaded
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "show all sections button"
 
   #The following line confirms that all "Show" chevrons have converted to "Hide"
@@ -550,7 +550,7 @@ Feature: 43 Payment Alerts
   Scenario: 18 Confirm initial elements on Add new alert recipient page
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "add new alerts recipient button"
 
     Then on the Add new alert recipient page I confirm that "sub header" is displayed
@@ -568,7 +568,7 @@ Feature: 43 Payment Alerts
   Scenario: 19 Confirm filter by scheme is functioning correctly
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "add new alerts recipient button"
 
 #Cycle through options in Select Scheme dropdown to confirm all expected are present
@@ -601,7 +601,7 @@ Feature: 43 Payment Alerts
   #This scenario confirms that correct error message is displayed when email with invalid format is used
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "add new alerts recipient button"
 
     Then on the Add new alert recipient page I enter "test@gmail.com" in the email field
@@ -617,7 +617,7 @@ Feature: 43 Payment Alerts
   #This scenario confirms that new alert recipient can be successfully added to all alert types
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then on the Alerts page I click the "add new alerts recipient button"
 
     Then on the Add new alert recipient page I enter "fake.user@atos.net" in the email field
@@ -635,7 +635,7 @@ Feature: 43 Payment Alerts
   #This scenario confirms that new alert recipient can be successfully added to all alert types
 
     Given I visit the "Payment management" homepage
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
 
   #For this to be repeatable in Dev, dummy email address will need to be deleted prior to being
   #added again.

@@ -27,12 +27,16 @@ class paymentManagementPage {
     return cy.get(':nth-child(3) > :nth-child(2) > .govuk-heading-l')
   }
 
-  addNewAlertReceipientButton () {
-    return cy.get('.govuk-button')
+  addNewAlertRecipientButton () {
+    return cy.get('.govuk-grid-column-full > .govuk-button-group > .govuk-button')
   }
 
   monitorSchemeDropdown () {
     return cy.get('#schemeId')
+  }
+
+  signOutLink () {
+    return cy.get('.govuk-service-navigation__link')
   }
 }
 

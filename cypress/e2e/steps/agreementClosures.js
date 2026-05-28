@@ -7,6 +7,7 @@ import addClosurePage from '../pages/addClosurePage'
 import paymentHoldsPage from '../pages/paymentHoldsPage'
 import reportsPage from '../pages/reportsPage'
 import capturePage from '../pages/capturePage'
+import paymentManagementPage from '../pages/paymentManagementPage'
 
 When('I see the new submission in the table', () => {
 
@@ -140,6 +141,8 @@ When('I click the {string} link', (text) => {
     addClosurePage.btnSubmit().click()
   } else if (text === 'Add or remove holds in bulk') {
     paymentHoldsPage.btnAddRemoveHoldsInBulk().click()
+  } else if (text === 'Sign Out') {
+    paymentManagementPage.signOutLink().click()
   } else {
     throw new Error('Invalid link')
   }

@@ -8,7 +8,7 @@ class paymentHoldsPage {
   }
 
   btnSubmit () {
-    return cy.get('.govuk-button')
+    return cy.get('form > .govuk-button')
   }
 
   holdCategoryId () {

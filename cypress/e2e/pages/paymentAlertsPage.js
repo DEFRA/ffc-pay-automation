@@ -17,7 +17,7 @@ class paymentAlertsPage {
   }
 
   addNewRecipientButton () {
-    return cy.get('.govuk-button')
+    return cy.get('.govuk-grid-column-full > .govuk-button-group > .govuk-button')
   }
 
   showAllSectionsButton () {
