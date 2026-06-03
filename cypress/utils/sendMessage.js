@@ -4,9 +4,16 @@ require('dotenv').config()
 async function sendMessage ({ messageBody, topicName }) {
   const serviceBusClient = new ServiceBusClient(process.env.connectionString)
   const messageSender = serviceBusClient.createSender(topicName)
+
   const message = {
-    body: messageBody
+    body: messageBody,
+    contentType: 'application/json',
+    subject: messageBody.type,
+    applicationProperties: {
+      type: messageBody.type
+    }
   }
+
   try {
     await messageSender.sendMessages(message)
     return 'Message sent successfully!'
