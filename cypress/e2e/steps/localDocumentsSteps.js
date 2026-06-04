@@ -256,7 +256,7 @@ When(/^I send bulk test data for (.*) into Statement Data service$/, (year) => {
           if (year.includes('2024')) {
             number = i
           } else if (year.includes('2025')) {
-            number = "1" + i
+            number = '1' + i
           }
 
           const sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
@@ -1375,15 +1375,33 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
 
 Then(/^I confirm that alert has been generated from "(.*)"$/, (serviceName) => {
 
-  const databaseName = 'ffc-doc-alerting-development'
+  if (env.includes('local')) {
 
-  cy.task('getDockerLogs', databaseName).then((logs) => {
-    cy.log(logs)
-    if (logs.includes(serviceName)) {
-      console.log(`✅ Alert for "${serviceName}" has been generated`)
-      cy.log(`✅ Alert for "${serviceName}" has been generated`)
-    } else {
-      throw new Error(`Alert for "${serviceName}" has not been generated`)
-    }
-  })
+    const databaseName = 'ffc-doc-alerting-development'
+
+    cy.task('getDockerLogs', databaseName).then((logs) => {
+      cy.log(logs)
+      if (logs.includes(serviceName)) {
+        console.log(`✅ Alert for "${serviceName}" has been generated`)
+        cy.log(`✅ Alert for "${serviceName}" has been generated`)
+      } else {
+        throw new Error(`Alert for "${serviceName}" has not been generated`)
+      }
+    })
+  } else if (env.includes('dev')) {
+
+    cy.task ('getPodLogs', {
+      namespace: Cypress.env('KUBERNETES_DOC_NAMESPACE'),
+      label: Cypress.env('KUBERNETES_DOC_ALERTING_LABEL')
+    }).then((logs) => {
+      cy.log(logs)
+      console.log(logs)
+      if (logs.includes(serviceName)) {
+        console.log(`✅ Alert "${serviceName}" has been generated`)
+        cy.log(`✅ Alert "${serviceName}" has been generated`)
+      } else {
+        throw new Error(`Alert "${serviceName}" has not been generated`)
+      }
+    })
+  }
 })
