@@ -52,7 +52,7 @@ class requestEditorPage {
   }
 
   getFrnSearchButton () {
-    return cy.get('.govuk-button')
+    return cy.get('form > .govuk-button')
   }
 
   firstFRN () {
@@ -152,7 +152,7 @@ class requestEditorPage {
   }
 
   awaitingRepFRNSearchBtn () {
-    return cy.get('.govuk-button')
+    return cy.get('form > .govuk-button')
   }
 }
 

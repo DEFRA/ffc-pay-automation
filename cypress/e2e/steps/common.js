@@ -134,9 +134,6 @@ Then('I confirm there are no accessibility issues on the page', () => {
       type: 'tag',
       values: ['wcag22aa']
     }
-    // rules: {
-    //   region: { enabled: false }
-    // }
   }, (violations) => {
     violations.forEach(({ id, impact, description, help, helpUrl, nodes }) => {
       cy.log(`Violation ID: ${id}`)

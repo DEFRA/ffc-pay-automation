@@ -1,7 +1,7 @@
 class downloadStatementsPage {
 
   pageTitle () {
-    return cy.get('.govuk-heading-xl')
+    return cy.get('.govuk-heading-l')
   }
 
   pageDescription () {
@@ -73,7 +73,7 @@ class downloadStatementsPage {
   }
 
   resultsSubHeader () {
-    return cy.get('.govuk-heading-m')
+    return cy.get(':nth-child(2) > .govuk-grid-column-two-thirds > .govuk-heading-m')
   }
 
   numberOfResults () {

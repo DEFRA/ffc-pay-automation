@@ -15,16 +15,16 @@
     "pageSubHeader": "Monitoring"
   },
   "monitoring/schemes": {
-    "pageSubHeader": "Schemes"
+    "pageSubHeader": "Monitoring by scheme"
   },
   "closure": {
     "pageSubHeader": "Agreement closures"
   },
   "closure/add": {
-    "pageSubHeader": "Agreement closure"
+    "pageSubHeader": "Add agreement closure"
   },
   "closure/bulk": {
-    "pageSubHeader": "Bulk agreement closure"
+    "pageSubHeader": "Add agreement closures in bulk"
   },
   "capture": {
     "pageSubHeader": "Capture reporting data"
@@ -36,7 +36,7 @@
     "pageSubHeader": "Requests awaiting reporting data"
   },
   "ap-ar-report": {
-    "pageSubHeader": "AP/AR Listing Report"
+    "pageSubHeader": "AP/AR listing report"
   },
   "transaction-summary": {
     "pageSubHeader": "Combined Transaction Report"
@@ -45,7 +45,7 @@
     "pageSubHeader": "Claim Level Report"
   },
   "payment-requests-v2": {
-    "pageSubHeader": "Payment Request Statuses Report"
+    "pageSubHeader": "Payment request statuses report"
   },
   "report-list": {
     "pageSubHeader": "Reports"
@@ -66,12 +66,12 @@
     "pageSubHeader": "Enter your delinked payment reference amount"
   },
   "alerts": {
-    "pageSubHeader": "Alerts"
+    "pageSubHeader": "Manage alerts"
   },
   "metrics": {
-    "pageSubHeader": "Management Information"
+    "pageSubHeader": "Management information"
   },
   "download-statements": {
-    "pageSubHeader": "Download Statements"
+    "pageSubHeader": "Download statements"
   }
 }

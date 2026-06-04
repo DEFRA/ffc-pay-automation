@@ -34,9 +34,9 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
 
   cy.url().should('include', text)
 
-  if (text === 'metrics' || text === 'download-statements') {
+  if (text === 'metrics') {
 
-    //Slightly different element identifier for sub header on these pages
+    //Slightly different element identifier for sub header on this page
 
     paymentManagementPage
       .mainHeader()
@@ -521,7 +521,7 @@ When (/^on the Add New Alert Recipient page I click the "(.*)" button$/, (button
   Cypress.emit('log:step', 'on the Add New Alert Recipient page I click the ' + button)
   switch (button) {
   case 'Add recipient':
-    paymentManagementPage.addNewAlertReceipientButton().click(); break
+    paymentManagementPage.addNewAlertRecipientButton().click(); break
   }
   cy.log(`Clicked on the ${button} button successfully`)
   console.log(`Clicked on the ${button} button successfully`)
@@ -549,13 +549,13 @@ Then (/^on the Management Information page I confirm that "(.*)" is displayed$/,
   Cypress.emit('log:step', 'on the Management Information page I confirm that ' + element + ' is displayed')
   switch (element) {
   case 'page title':
-    managementInformationPage.pageTitle().should('be.visible').and('have.text', 'Management Information'); break
+    managementInformationPage.pageTitle().should('be.visible').and('have.text', 'Management information'); break
   case 'page description':
     managementInformationPage.pageDescription().should('be.visible').and('contain.text', 'View payment and document metrics filtered by time period.'); break
   case 'help dropdown':
     managementInformationPage.helpDropdown().should('be.visible').and('contain.text', 'Help with this page'); break
   case 'help description':
-    managementInformationPage.helpDescription().should('be.visible').and('have.text', 'This dashboard provides operational metrics for payments and documents.'); break
+    managementInformationPage.helpDescription().should('be.visible').and('contain.text', 'This dashboard provides operational metrics for payments and documents.'); break
   case 'show all description':
     managementInformationPage.showAllDescription().should('be.visible').and('have.text', '\n              Show all - View complete dataset with no date filtering (includes year breakdown)'); break
   case 'year to date description':
@@ -718,7 +718,7 @@ Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (e
 
   switch (element) {
   case 'page title':
-    downloadStatementsPage.pageTitle().should('be.visible').and('have.text', 'Download Statements'); break
+    downloadStatementsPage.pageTitle().should('be.visible').and('have.text', 'Download statements'); break
   case 'page description':
     downloadStatementsPage.pageDescription().should('be.visible').and('contain.text', 'Search for payment statements. At least one field is required.'); break
   case 'page instructions':
@@ -968,7 +968,7 @@ Then (/^on the Reset payment request page I confirm that "(.*)" is displayed$/, 
   case 'what happens next subheader':
     resetPaymentRequestPage.whatHappensNextSubheader().should('be.visible').and('contain.text', 'What happens next'); break
   case 'what happens next message':
-    resetPaymentRequestPage.whatHappensNextMessage().should('be.visible').and('contain.text', 'The payment request will be reprocessed and resent to DAX.'); break
+    resetPaymentRequestPage.whatHappensNextMessage().should('be.visible').and('contain.text', 'The payment request will be reprocessed and resent to D365.'); break
   case 'perform another action link':
     resetPaymentRequestPage.performAnotherActionLink().should('be.visible').and('contain.text', 'Perform another action'); break
   default:
@@ -1253,7 +1253,7 @@ Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
   Cypress.emit('log:step', 'on the Alerts page I confirm that ' + element + ' is displayed')
 
   switch (element) {
-  case 'sub header': paymentAlertsPage.subHeader().should('be.visible').and('contain.text', 'Alerts'); break
+  case 'sub header': paymentAlertsPage.subHeader().should('be.visible').and('contain.text', 'Manage alerts'); break
   case 'page description': paymentAlertsPage.pageDescription().should('be.visible').and('contain.text',
     'This section allows users to see payment alerts that are in place for each scheme and',
     'manage who is set up to receive each type of alert. If a payment is rejected, alerts are',

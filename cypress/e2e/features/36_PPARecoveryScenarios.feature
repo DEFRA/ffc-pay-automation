@@ -38,7 +38,7 @@ Feature: 36 PPA Recovery Scenarios
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Back" link
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment" link
@@ -48,7 +48,7 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
@@ -142,7 +142,7 @@ Feature: 36 PPA Recovery Scenarios
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Back" link
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment" link
@@ -152,7 +152,7 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
@@ -238,7 +238,7 @@ Feature: 36 PPA Recovery Scenarios
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Back" link
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment" link
@@ -248,7 +248,7 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
@@ -332,7 +332,7 @@ Feature: 36 PPA Recovery Scenarios
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Back" link
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment" link
@@ -342,7 +342,7 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
 #Following steps complete the journey as full value of initial payment has been made and PPA Recovery processed
 

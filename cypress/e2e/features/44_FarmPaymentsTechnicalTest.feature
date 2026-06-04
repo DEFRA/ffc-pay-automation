@@ -19,7 +19,7 @@ Feature: 44 Farm Payments Technical Test
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Farm Payments Technical Test" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
@@ -50,7 +50,7 @@ Feature: 44 Farm Payments Technical Test
     Then I confirm that "ppa" test data in dev has been inserted into ffc-pay-processing database
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Farm Payments Technical Test" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I take a screenshot for Feature 44 and Scenario 2
@@ -108,7 +108,7 @@ Feature: 44 Farm Payments Technical Test
   Scenario: 05 Confirm payment request processed in Payment Management
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Farm Payments Technical Test" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Farm Payments Technical Test" scheme with "2" payment installments totalling "£0.00" is displayed

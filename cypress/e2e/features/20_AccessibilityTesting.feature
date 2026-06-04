@@ -41,14 +41,14 @@ Feature: 20 Accessibility Testing
     And I click on the "Download report" button
     Then I confirm there are no accessibility issues on the page
 
-    When I click on the "Report List" link
+    When I click on the "Reports" link
 
 #AP/AR Listing Report page
 
     When I click on the "AP-AR listing report" link
     Then I confirm there are no accessibility issues on the page
 
-    When I click on the "Report List" link
+    When I click on the "Reports" link
 
 #Payment statement status report page
 
@@ -59,7 +59,7 @@ Feature: 20 Accessibility Testing
 
 #Alerts recipients page
 
-    When I click on the "View all alert recipients" link
+    When I click on the "Alerts" link
     Then I confirm there are no accessibility issues on the page
 
     And on the Add New Alert Recipient page I click the "Add recipient" button
@@ -84,33 +84,23 @@ Feature: 20 Accessibility Testing
     When I click on the "Manage closures" link
     Then I confirm there are no accessibility issues on the page
 
+#Force error message on page through invalid input and confirm accessibility again
+
     And I click on the "Home" link
-    And I click on the "Add closure" link
+    And I click on the "Bulk agreement closure" link
     Then I confirm there are no accessibility issues on the page
 
 #Force error message on page through invalid input and confirm accessibility again
-
-    And I click on the "Create" button
-    Then I confirm there are no accessibility issues on the page
-
-    And I click on the "Home" link
-    And I click on the "Add bulk closures" link
-    Then I confirm there are no accessibility issues on the page
-
-#Force error message on page through invalid input and confirm accessibility again
-
-    And I click on the "Create" button
-    Then I confirm there are no accessibility issues on the page
 
     And I click on the "Home" link
 
 #Monitoring page
 
-    When I click on the "View events" link
+    When I click on the "Monitoring" link
     Then I confirm there are no accessibility issues on the page
     And I click on the "Home" link
 
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     Then I confirm there are no accessibility issues on the page
 
     Then I select "COHT Capital" from the monitor schemes dropdown
@@ -122,7 +112,7 @@ Feature: 20 Accessibility Testing
 
 #Manual Payment page
 
-    When I click on the "Upload manual payment" link
+    When I click on the "Manual payment upload" link
     Then I confirm there are no accessibility issues on the page
 
 #Force error message on page through invalid input and confirm accessibility again
@@ -134,7 +124,7 @@ Feature: 20 Accessibility Testing
 
  #Management Information page   
    
-    When I click on the "View management information" link
+    When I click on the "Management information" link
     Then I confirm there are no accessibility issues on the page
 
     And I click on the "Home" link
@@ -162,7 +152,7 @@ Feature: 20 Accessibility Testing
     When I click on the "Continue" button
     Then I confirm there are no accessibility issues on the page
 
-    When I click on the "Back" link
+    When I click on the "Home" link
 
 #Requests awaiting reporting data page
 
@@ -172,7 +162,7 @@ Feature: 20 Accessibility Testing
     When on the Awaiting Reporting Data page I click the FRN number search button
     Then I confirm there are no accessibility issues on the page
 
-    When I click on the "Back" link
+    When I click on the "Home" link
 
 #Manual ledger assignment page  
 
@@ -192,14 +182,14 @@ Feature: 20 Accessibility Testing
     When I click on the "Continue" button
     Then I confirm there are no accessibility issues on the page
 
-    When I click on the "Back" link
-    When I click on the "Back" link
+    When I click on the "Home" link
+
+    When I click the "Sign Out" link
 
 #Ledger assignments awaiting quality check page
 
     When I click on the "View awaiting quality check" link
     Then I confirm there are no accessibility issues on the page
-
 
 #Force error message on page through invalid input and confirm accessibility again
 

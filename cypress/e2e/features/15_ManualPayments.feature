@@ -15,7 +15,7 @@ Feature: 15 Manual Payments
 
     Given I restart the local environment
     Given I visit the "Payment management" homepage
-    When I click on the "Upload manual payment" link
+    When I click on the "Manual payment upload" link
     Then I am on the "manual-payments" subpage
     Then I take a screenshot for Feature 15 and Scenario 01
     Then on the Manual Payments page I confirm that "page title" is present
@@ -30,7 +30,7 @@ Feature: 15 Manual Payments
 # #This scenario confirms that a valid Manual Payments CSV file can be uploaded and processed successfully
 
     Given I visit the "Payment management" homepage
-    When I click on the "Upload manual payment" link
+    When I click on the "Manual payment upload" link
     Then I am on the "manual-payments" subpage
     When on the Manual Payments page I enter "FFC_Manual_Batch_Correct.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
@@ -48,7 +48,7 @@ Feature: 15 Manual Payments
 #This scenario confirms that attempting to upload a file that has already been processed produces the correct error message  
 
     Given I visit the "Payment management" homepage
-    When I click on the "Upload manual payment" link
+    When I click on the "Manual payment upload" link
     Then I am on the "manual-payments" subpage
     When on the Manual Payments page I enter "FFC_Manual_Batch_Duplicate.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
@@ -61,7 +61,7 @@ Feature: 15 Manual Payments
 #This scenario confirms that attempting to upload a file that is not a CSV produces the correct error message
 
     Given I visit the "Payment management" homepage
-    When I click on the "Upload manual payment" link
+    When I click on the "Manual payment upload" link
     Then I am on the "manual-payments" subpage
     When on the Manual Payments page I enter "FFC_Manual_Batch_Text.txt" as the file to upload
     When on the Manual Payments page I click the "upload button"
@@ -73,7 +73,7 @@ Feature: 15 Manual Payments
 #This scenario confirms that attempting to upload a file with an incorrect filename produces the correct error message
 
     Given I visit the "Payment management" homepage
-    When I click on the "Upload manual payment" link
+    When I click on the "Manual payment upload" link
     Then I am on the "manual-payments" subpage
     When on the Manual Payments page I enter "FFC_TEST_Manual_BatchTEST.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
@@ -85,7 +85,7 @@ Feature: 15 Manual Payments
 #     #This scenario confirms that attempting to upload a file with an invalid filesize produces the correct error message
 
     Given I visit the "Payment management" homepage
-    When I click on the "Upload manual payment" link
+    When I click on the "Manual payment upload" link
     Then I am on the "manual-payments" subpage
     When on the Manual Payments page I enter "FFC_Manual_Batch_Invalid.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
@@ -97,7 +97,7 @@ Feature: 15 Manual Payments
 #     #This scenario confirms that attempting to upload an empty file produces the correct error message
 
     Given I visit the "Payment management" homepage
-    When I click on the "Upload manual payment" link
+    When I click on the "Manual payment upload" link
     Then I am on the "manual-payments" subpage
     When on the Manual Payments page I enter "FFC_Manual_Batch_Empty.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
@@ -109,7 +109,7 @@ Feature: 15 Manual Payments
 #This scenario confirms that the View Payment status link directs to the correct page and that expected FRN values are present  
 
     Given I visit the "Payment management" homepage
-    When I click on the "Upload manual payment" link
+    When I click on the "Manual payment upload" link
     Then I am on the "manual-payments" subpage
     Then on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present
     Then I take a screenshot for Feature 15 and Scenario 08

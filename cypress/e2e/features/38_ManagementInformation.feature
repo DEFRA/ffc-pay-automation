@@ -8,7 +8,7 @@ Feature: 38 Management Information
   Scenario: 01 Confirm Management Information page loads correctly
 
     Given I visit the "Payment management" homepage
-    When I click on the "View management information" link
+    When I click on the "Management information" link
 
 #Click on help link to ensure that all possible screen elements are visible simultaneously
 
@@ -58,7 +58,7 @@ Feature: 38 Management Information
   Scenario: 02 Confirm filter functionality and options
 
     Given I visit the "Payment management" homepage
-    When I click on the "View management information" link
+    When I click on the "Management information" link
 
 #Confirm available options in Time Period filter dropdown and that it can be interacted with
 
@@ -136,7 +136,7 @@ Feature: 38 Management Information
   Scenario: 03 Confirm that correct messages are displayed when no data is available
 
     Given I visit the "Payment management" homepage
-    When I click on the "View management information" link
+    When I click on the "Management information" link
 
 #Jan 2015 selected here due to no data for this time in Dev environment    
 
@@ -161,7 +161,7 @@ Feature: 38 Management Information
   Scenario: 04 Confirm that correct amounts are displayed when data is available
 
     Given I visit the "Payment management" homepage
-    When I click on the "View management information" link
+    When I click on the "Management information" link
 
 #IMPORTANT - this date and subsequent values may need to be altered following change to data in Dev
 #such as database cleanouts
@@ -176,7 +176,7 @@ Feature: 38 Management Information
 
     Then on the Management Information page I confirm that number of payments value is 10
     Then on the Management Information page I confirm that payment amount value is £104,284
-    Then on the Management Information page I confirm that number of documents value is 80,129
+    Then on the Management Information page I confirm that number of documents value is 80,128
 
   #Confirm that Clear filters button is functioning correctly
 

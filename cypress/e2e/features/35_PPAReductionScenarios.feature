@@ -32,7 +32,7 @@ Feature: 35 PPA Reduction Scenarios
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
@@ -134,7 +134,7 @@ Feature: 35 PPA Reduction Scenarios
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
@@ -236,7 +236,7 @@ Feature: 35 PPA Reduction Scenarios
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
@@ -331,7 +331,7 @@ Feature: 35 PPA Reduction Scenarios
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage

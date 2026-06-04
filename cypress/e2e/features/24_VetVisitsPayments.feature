@@ -20,7 +20,7 @@ Feature: 24 Vet Visits Payments
   #test data
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Vet Visits" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
@@ -40,7 +40,7 @@ Feature: 24 Vet Visits Payments
     When I send "vet visits return" test data message to the service bus topic "ffc-pay-return-dev"
     Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
 
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Vet Visits" from the monitor schemes dropdown
     And I click on the "Continue" button
 
@@ -97,7 +97,7 @@ Feature: 24 Vet Visits Payments
   Scenario: 04 Confirm payment request processed in Payment Management
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Vet Visits" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Vet Visits" scheme with "1" payment installments totalling "£16,002.00" is displayed
