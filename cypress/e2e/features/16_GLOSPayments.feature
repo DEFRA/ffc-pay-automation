@@ -26,7 +26,7 @@ Feature: 16 GLOS Payments
   #the scenario to confirm that the new payment request has been added
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "FC" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
@@ -44,7 +44,7 @@ Feature: 16 GLOS Payments
     Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "FC" from the monitor schemes dropdown
     And I click on the "Continue" button
 
@@ -89,7 +89,7 @@ Feature: 16 GLOS Payments
   Scenario: 04 Confirm payment request processed in Payment Management
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "FC" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "FC" scheme with "1" payment installments totalling "£227.70" is displayed

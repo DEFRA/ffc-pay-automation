@@ -176,7 +176,7 @@ Feature: 38 Management Information
 
     Then on the Management Information page I confirm that number of payments value is 10
     Then on the Management Information page I confirm that payment amount value is £104,284
-    Then on the Management Information page I confirm that number of documents value is 80,129
+    Then on the Management Information page I confirm that number of documents value is 80,128
 
   #Confirm that Clear filters button is functioning correctly
 

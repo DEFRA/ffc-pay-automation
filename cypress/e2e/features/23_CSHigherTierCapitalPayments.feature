@@ -20,7 +20,7 @@ Feature: 23 CS Higher Tier Capital Payments
   #test data
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "COHT Capital" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
@@ -56,7 +56,7 @@ Feature: 23 CS Higher Tier Capital Payments
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Back" link
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
     And I click on the "View awaiting ledger assignment" link
     When I search for current FRN
@@ -64,7 +64,7 @@ Feature: 23 CS Higher Tier Capital Payments
     And I click on the "Yes" provisional values radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
     And I click on the "View awaiting quality check" link
     When I search for current FRN
@@ -73,7 +73,7 @@ Feature: 23 CS Higher Tier Capital Payments
     And I click on the "Submit" button
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "COHT Capital" from the monitor schemes dropdown
     And I click on the "Continue" button
 
@@ -132,7 +132,7 @@ Feature: 23 CS Higher Tier Capital Payments
     Then I take a screenshot for Feature 23 and Scenario 5
     And I click on the "Continue" button
     And I click on the "Back" link
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
   @local
   Scenario: 06 Approve payment in ledger assignment queue
@@ -146,7 +146,7 @@ Feature: 23 CS Higher Tier Capital Payments
     Then I take a screenshot for Feature 23 and Scenario 6
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
-    And I click on the "Sign Out" link
+    And I click on the "Sign out" link
 
   @local
   Scenario: 07 Approve payment from quality check queue
@@ -164,7 +164,7 @@ Feature: 23 CS Higher Tier Capital Payments
   Scenario: 08 Confirm payment request processed in Payment Management
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "COHT Capital" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "COHT Capital" scheme with "3" payment installments totalling "£10,000.00" is displayed

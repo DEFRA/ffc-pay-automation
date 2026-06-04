@@ -87,7 +87,7 @@ Feature: 34 PPA Top-up Scenarios
 #Confirm correct payment request values in Payment Management UI    
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed
@@ -172,7 +172,7 @@ Feature: 34 PPA Top-up Scenarios
 #Confirm correct payment request values in Payment Management UI    
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed
@@ -250,7 +250,7 @@ Feature: 34 PPA Top-up Scenarios
 #Confirm correct payment request values in Payment Management UI
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed
@@ -322,7 +322,7 @@ Feature: 34 PPA Top-up Scenarios
 #Confirm correct payment request values in Payment Management UI
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed
@@ -388,7 +388,7 @@ Feature: 34 PPA Top-up Scenarios
 #Confirm correct payment request values in Payment Management UI
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed

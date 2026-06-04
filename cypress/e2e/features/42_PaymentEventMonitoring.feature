@@ -18,7 +18,7 @@ Feature: 42 Payment Event Monitoring
 # This scenario confirms that the correct elements are displayed on initial View events page load  
 
     Given I visit the "Payment management" homepage
-    When I click on the "View events" link
+    When I click on the "Monitoring" link
 
     Then on the View events page I confirm that "sub header" is displayed
     Then on the View events page I confirm that "frn search instructions" is displayed
@@ -37,7 +37,7 @@ Feature: 42 Payment Event Monitoring
 # This scenario confirms that the correct elements are displayed on initial View processed payment requests page load  
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
 
     Then on the View processed payment requests page I confirm that "sub header" is displayed
     Then on the View processed payment requests page I confirm that "select scheme label" is displayed
@@ -131,7 +131,7 @@ Feature: 42 Payment Event Monitoring
 #This scenario confirms that correct page elements are displayed when viewing processed payment requests by scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
 
     Then on the View processed payment requests page I select "SFI23" in scheme dropdown
     Then on the View processed payment requests page I click the Continue button
@@ -147,7 +147,7 @@ Feature: 42 Payment Event Monitoring
 #This scenario confirms that correct page elements are displayed when no results are found in View processed payment requests
 
     Given I visit the "Payment management" homepage
-    When I click on the "View processed payment requests" link
+    When I click on the "Schemes" link
 
     Then on the View processed payment requests page I select "SFI" in scheme dropdown
     Then on the View processed payment requests page I click the Continue button
