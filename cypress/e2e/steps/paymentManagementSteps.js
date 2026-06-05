@@ -1521,6 +1521,8 @@ Then (/^on the Add new alert recipient page I confirm that recipient "(.*)" has 
 
 Then('I store the number of payments and total value of payments for the current scheme', () => {
 
+  Cypress.emit('log:step', 'I store the number of payments and total value of payments for the current scheme')
+
   paymentEventMonitoringPage
     .processedRequestsNumberOf()
     .invoke('text')
