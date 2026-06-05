@@ -37,7 +37,6 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Irregular" debt type radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
-    And I click on the "Back" link
     And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
@@ -141,7 +140,6 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Irregular" debt type radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
-    And I click on the "Back" link
     And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
@@ -237,7 +235,6 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Irregular" debt type radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
-    And I click on the "Back" link
     And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
@@ -331,7 +328,6 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Irregular" debt type radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
-    And I click on the "Back" link
     And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage

@@ -55,7 +55,6 @@ Feature: 28 SFI Expanded Pilot Payments
     And I click on the "Irregular" debt type radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
-    And I click on the "Back" link
     And I click on the "Sign out" link
 
     And I click on the "View awaiting ledger assignment" link
