@@ -55,7 +55,6 @@ Feature: 12 PPA E2E Journey - Debit
     And I click on the "Irregular" debt type radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
-    And I click on the "Back" link
     Then I take a screenshot for Feature 12 and Scenario 4
     Then the "Requests awaiting reporting data" count has decreased by 1
 

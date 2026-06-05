@@ -57,7 +57,6 @@ Feature: 25 CS Payments
     And I click on the "Irregular" debt type radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
-    And I click on the "Back" link
     And I click on the "Sign out" link
 
     And I click on the "View awaiting ledger assignment" link
@@ -139,7 +138,6 @@ Feature: 25 CS Payments
     And I enter a valid debt discovered date in the past
     Then I take a screenshot for Feature 25 and Scenario 5
     And I click on the "Continue" button
-    And I click on the "Back" link
     And I click on the "Sign out" link
 
   @local
