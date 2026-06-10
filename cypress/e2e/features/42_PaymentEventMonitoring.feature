@@ -50,7 +50,7 @@ Feature: 42 Payment Event Monitoring
 #This scenario confirms that correct page elements are displayed when searching events by FRN  
 
     Given I visit the "Payment management" homepage
-    When I click on the "View events" link
+    When I click on the "Monitoring" link
 
     Then on the View events page I enter "1258445148" into the "frn" field
     Then on the View events page I click the "frn search button"
@@ -71,7 +71,7 @@ Feature: 42 Payment Event Monitoring
 #This scenario confirms that correct page elements are displayed when searching events by Batch name  
 
     Given I visit the "Payment management" homepage
-    When I click on the "View events" link
+    When I click on the "Monitoring" link
 
     Then on the View events page I enter "SITISFIA0001_AP_20230810085609205.dat" into the "batch" field
     Then on the View events page I click the "batch search button"
@@ -94,7 +94,7 @@ Feature: 42 Payment Event Monitoring
 #This scenario confirms that correct page elements are displayed when clicking View link in the Actions column
 
     Given I visit the "Payment management" homepage
-    When I click on the "View events" link
+    When I click on the "Monitoring" link
 
     Then on the View events page I enter "1258445148" into the "frn" field
     Then on the View events page I click the "frn search button"
@@ -118,7 +118,7 @@ Feature: 42 Payment Event Monitoring
 #This scenario confirms that correct page elements are displayed when no results are found in View Events
 
     Given I visit the "Payment management" homepage
-    When I click on the "View events" link
+    When I click on the "Monitoring" link
 
     Then on the View events page I enter "1111111111" into the "frn" field
     Then on the View events page I click the "frn search button"
@@ -157,7 +157,7 @@ Feature: 42 Payment Event Monitoring
   Scenario: 09 Confirm that payment request data is processed and ordered correctly
 
     Given I visit the "Payment management" homepage
-    When I click on the "View events" link
+    When I click on the "Monitoring" link
 
     Then on the View events page I enter "1258445148" into the "frn" field
     Then on the View events page I click the "frn search button"
