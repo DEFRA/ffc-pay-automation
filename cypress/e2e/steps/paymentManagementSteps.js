@@ -9,6 +9,10 @@ import downloadStatementsPage from '../pages/downloadStatementsPage'
 import resetPaymentRequestPage from '../pages/resetPaymentRequestPage'
 import paymentEventMonitoringPage from '../pages/paymentEventMonitoringPage'
 import paymentAlertsPage from '../pages/paymentAlertsPage'
+import cookiesPage from '../pages/cookiesPage'
+import accessibilityStatementPage from '../pages/accessibilityStatementPage'
+import privacyNoticePage from '../pages/privacyNoticePage'
+
 const { getEnvironmentConfig } = require('../../support/configLoader')
 
 const envConfig = getEnvironmentConfig()
@@ -50,6 +54,389 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
       .should('be.visible')
       .and('have.text', constants[text].pageSubHeader)
   }
+})
+
+When(/^on the Home Page I click the "(.*)" button$/, (button) => {
+
+  Cypress.emit('log:step', 'on the Home Page I click the ' + button + ' button')
+
+  let element
+
+  switch (button) {
+  case 'accept cookies':  element = paymentManagementPage.cookieBannerAcceptBtn(); break
+  case 'reject cookies':  element = paymentManagementPage.cookieBannerRejectBtn(); break
+  case 'hide message': element = paymentManagementPage.cookieBannerHideBtn(); break
+  case 'cookies accepted hide button': element = paymentManagementPage.cookieBannerAcceptedHideBtn(); break
+  case 'cookies rejected hide button': element = paymentManagementPage.cookieBannerRejectedHideBtn(); break
+  }
+  element.click()
+  cy.log('Clicked the ' + button + ' button')
+  console.log('Clicked the ' + button + ' button')
+})
+
+Then(/^on the Home Page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Home Page I confirm that ' + element + ' is displayed')
+
+  switch (element) {
+
+  case 'application header':
+    paymentManagementPage.applicationHeader().should('be.visible').and('contain.text', 'Payment management')
+    break
+  case 'sign out link':
+    paymentManagementPage.signOutLink().should('be.visible').and('contain.text', 'Sign out')
+    break
+  case 'page header':
+    paymentManagementPage.pageHeader().should('be.visible').and('contain.text', 'Payment management')
+    break
+  case 'reports card':
+    paymentManagementPage.reportsHeader().should('be.visible').and('contain.text', 'Reports')
+    paymentManagementPage.reportsDescription().should('be.visible').and('contain.text', 'Generate and download reports')
+    paymentManagementPage.reportsLink().should('be.visible').and('contain.text', 'Reports')
+    break
+  case 'payment events card':
+    paymentManagementPage.paymentEventsHeader().should('be.visible').and('contain.text', 'Payment events')
+    paymentManagementPage.paymentEventsDescription().should('be.visible').and('contain.text', 'View payment and events and requests')
+    paymentManagementPage.monitoringLink().should('be.visible').and('contain.text', 'Monitoring')
+    paymentManagementPage.schemesLink().should('be.visible').and('contain.text', 'Schemes')
+    break
+  case 'payment holds card':
+    paymentManagementPage.paymentHoldsHeader().should('be.visible').and('contain.text', 'Payment holds')
+    paymentManagementPage.paymentHoldsDescription().should('be.visible').and('contain.text', 'View, add or remove payment holds')
+    paymentManagementPage.manageHoldsLink().should('be.visible').and('contain.text', 'Manage holds')
+    break
+  case 'manual payments card':
+    paymentManagementPage.manualPaymentsHeader().should('be.visible').and('contain.text', 'Manual payments')
+    paymentManagementPage.manualPaymentsDescription().should('be.visible').and('contain.text', 'Manually upload payment files')
+    paymentManagementPage.manualPaymentUploadLink().should('be.visible').and('contain.text', 'Manual payment upload')
+    break
+  case 'agreement closures card':
+    paymentManagementPage.agreementClosuresHeader().should('be.visible').and('contain.text', 'Agreement closures')
+    paymentManagementPage.agreementClosuresDescription().should('be.visible').and('contain.text', 'Update, add and remove payment suppressions')
+    paymentManagementPage.manageClosuresLink().should('be.visible').and('contain.text', 'Manage closures')
+    paymentManagementPage.agreementClosuresLink().should('be.visible').and('contain.text', 'Agreement closure')
+    paymentManagementPage.bulkAgreementClosuresLink().should('be.visible').and('contain.text', 'Bulk agreement closure')
+    break
+  case 'email alerts card':
+    paymentManagementPage.emailAlertsHeader().should('be.visible').and('contain.text', 'Email alerts')
+    paymentManagementPage.emailAlertsDescription().should('be.visible').and('contain.text', 'Manage where payment alerts are sent by the scheme or recipient')
+    paymentManagementPage.alertsLink().should('be.visible').and('contain.text', 'Alerts')
+    break
+  case 'statements card':
+    paymentManagementPage.statementsHeader().should('be.visible').and('contain.text', 'Statements')
+    paymentManagementPage.statementsDescription().should('be.visible').and('contain.text', 'Download payment statements and view payment status reports')
+    paymentManagementPage.downloadStatementsLink().should('be.visible').and('contain.text', 'Download statements')
+    break
+  case 'metrics card':
+    paymentManagementPage.metricsHeader().should('be.visible').and('contain.text', 'Metrics')
+    paymentManagementPage.metricsDescription().should('be.visible').and('contain.text', 'View payment and document metrics by scheme')
+    paymentManagementPage.managementInformationLink().should('be.visible').and('contain.text', 'Management information')
+    break
+  case 'reset payment requests card':
+    paymentManagementPage.resetPaymentRequestsHeader().should('be.visible').and('contain.text', 'Reset payment requests')
+    paymentManagementPage.resetPaymentRequestsDescription().should('be.visible').and('contain.text', 'Manually reset payment requests')
+    paymentManagementPage.resetPaymentRequestsLink().should('be.visible').and('contain.text', 'Reset payment request')
+    break
+  case 'cookie banner header':
+    paymentManagementPage.cookieBannerHeader().should('be.visible').and('contain.text', 'Cookies on Payment management')
+    break
+  case 'cookie banner content':
+    paymentManagementPage.cookieBannerContentOne().should('be.visible').and('contain.text', 'We use some essential cookies to make this service work.')
+    paymentManagementPage.cookieBannerContentTwo().should('be.visible').and('contain.text', 'We’d like to set additional cookies so we can remember your settings, understand how people use the service and make improvements.')
+    break
+  case 'cookie banner accept button':
+    paymentManagementPage.cookieBannerAcceptBtn().should('be.visible').and('contain.text', 'Accept analytics cookies')
+    break
+  case 'cookie banner reject button':
+    paymentManagementPage.cookieBannerRejectBtn().should('be.visible').and('contain.text', 'Reject analytics cookies')
+    break
+  case 'cookie banner view link':
+    paymentManagementPage.cookieBannerViewLink().should('be.visible').and('contain.text', 'View cookies')
+    break
+  case 'cookie banner accepted message':
+    paymentManagementPage.cookieBannerAcceptedMessage().should('be.visible').and('contain.text', 'You’ve accepted analytics cookies. You can change your cookie settings at any time.')
+    break
+  case 'cookie banner accepted hide button':
+    paymentManagementPage.cookieBannerAcceptedHideBtn().should('be.visible').and('contain.text', 'Hide this message')
+    break
+  case 'cookie banner rejected message':
+    paymentManagementPage.cookieBannerRejectedMessage().should('be.visible').and('contain.text', 'You’ve rejected analytics cookies. You can change your cookie settings at any time.')
+    break
+  case 'cookie banner rejected hide button':
+    paymentManagementPage.cookieBannerRejectedHideBtn().should('be.visible').and('contain.text', 'Hide this message')
+    break
+  }
+
+  cy.log('Confirmed that ' + element + ' is displayed')
+  console.log('Confirmed that ' + element + ' is displayed')
+})
+
+Then(/^on the Home Page I confirm that "(.*)" is not displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Home Page I confirm that ' + element + ' is not displayed')
+
+  let elementId
+
+  switch (element) {
+  case 'cookie banner header':
+    elementId = paymentManagementPage.cookieBannerHeader(); break
+  case 'cookie banner content':
+    elementId = paymentManagementPage.cookieBannerContentOne(); break
+  case 'cookie banner accept button':
+    elementId = paymentManagementPage.cookieBannerAcceptBtn(); break
+  case 'cookie banner reject button':
+    elementId = paymentManagementPage.cookieBannerRejectBtn(); break
+  case 'cookie banner view link':
+    elementId = paymentManagementPage.cookieBannerViewLink(); break
+  case 'cookie banner accepted message':
+    elementId = paymentManagementPage.cookieBannerAcceptedMessage(); break
+  case 'cookie banner accepted hide button':
+    elementId = paymentManagementPage.cookieBannerAcceptedHideBtn(); break
+  case 'cookie banner rejected message':
+    elementId = paymentManagementPage.cookieBannerRejectedMessage(); break
+  case 'cookie banner rejected hide button':
+    elementId = paymentManagementPage.cookieBannerRejectedHideBtn(); break
+  }
+
+  elementId.should('not.be.visible')
+
+  cy.log('Confirmed that ' + element + ' is not displayed')
+  console.log('Confirmed that ' + element + ' is not displayed')
+})
+
+When(/^on the Cookies Page I click the "(.*)" button$/, (button) => {
+
+  Cypress.emit('log:step', 'on the Cookies Page I click the ' + button + ' button')
+
+  let element
+
+  switch (button) {
+  case 'accept cookies': element = cookiesPage.acceptAnalyticsYesBtn(); break
+  case 'reject cookies': element = cookiesPage.acceptAnalyticsNoBtn(); break
+  case 'save cookie settings': element = cookiesPage.saveCookieSettingsBtn(); break
+  }
+
+  element.click()
+  cy.log('Clicked the ' + button + ' button')
+  console.log('Clicked the ' + button + ' button')
+})
+
+Then(/^on the Cookies Page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Cookies Page I confirm that ' + element + ' is displayed')
+
+  switch (element) {
+  case 'page header':
+    cookiesPage.pageHeader().should('be.visible').and('contain.text', 'Cookies')
+    break
+  case 'description':
+    cookiesPage.descriptionOne().should('be.visible').and('contain.text', 'Cookies are small files saved on your phone, tablet or computer when you visit a website.')
+    cookiesPage.descriptionTwo().should('be.visible').and('contain.text', 'We use cookies to make the Defra Payment management site work and to collect information about how you use our service.')
+    break
+  case 'essential cookies subheader':
+    cookiesPage.essentialCookiesSubheader().should('be.visible').and('contain.text', 'Essential cookies')
+    break
+  case 'essential cookies description':
+    cookiesPage.essentialCookiesDescription().should('be.visible').and('contain.text', 'Essential cookies keep your information secure while you use this service. We do not need to ask permission to use them.')
+    break
+  case 'essential cookies name':
+    cookiesPage.essentialCookiesName().should('be.visible').and('contain.text', 'cookies_policy')
+    break
+  case 'essential cookies purpose':
+    cookiesPage.essentialCookiesPurpose().should('be.visible').and('contain.text', 'Saves your cookie consent settings')
+    break
+  case 'essential cookies expires':
+    cookiesPage.essentialCookiesExpires().should('be.visible').and('contain.text', '1 year')
+    break
+  case 'analytics cookies subheader':
+    cookiesPage.analyticsCookiesSubheader().should('be.visible').and('contain.text', 'Analytics cookies (optional)')
+    break
+  case 'analytics cookies description':
+    cookiesPage.analyticsDescriptionOne().should('be.visible').and('contain.text', 'With your permission, we use Google Analytics to collect data about how you use this service. This information helps us to improve our service.')
+    cookiesPage.analyticsDescriptionTwo().should('be.visible').and('contain.text', 'Google is not allowed to use or share our analytics data with anyone.')
+    cookiesPage.analyticsDescriptionThree().should('be.visible').and('contain.text', 'Google Analytics stores anonymised information about:')
+    break
+  case 'analytics cookies bullet points':
+    cookiesPage.analyticsBulletPointOne().should('be.visible').and('contain.text', 'how you got to this service')
+    cookiesPage.analyticsBulletPointTwo().should('be.visible').and('contain.text', 'the pages you visit on this service and how long you spend on them')
+    cookiesPage.analyticsBulletPointThree().should('be.visible').and('contain.text', 'any errors you see while using this service')
+    break
+  case 'analytics cookies names':
+    cookiesPage.analyticsCookiesNameOne().should('be.visible').and('contain.text', '_ga')
+    cookiesPage.analyticsCookiesNameTwo().should('be.visible').and('contain.text', '_gid')
+    break
+  case 'analytics cookies purposes':
+    cookiesPage.analyticsCookiesPurposeOne().should('be.visible').and('contain.text', 'Helps us count how many people visit this service by tracking if you have visited before')
+    cookiesPage.analyticsCookiesPurposeTwo().should('be.visible').and('contain.text', 'Checks if you’ve visited this before. This helps us count how many people visit our site.')
+    break
+  case 'analytics cookies expirations':
+    cookiesPage.analyticsCookiesExpiresOne().should('be.visible').and('contain.text', '2 years')
+    cookiesPage.analyticsCookiesExpiresTwo().should('be.visible').and('contain.text', '24 hours')
+    break
+  case 'accept analytics cookies subheader':
+    cookiesPage.acceptAnalyticsCookiesSubheader().should('be.visible').and('contain.text', 'Do you want to accept analytics cookies?')
+    break
+  case 'accept analytics cookies description':
+    cookiesPage.acceptAnalyticsCookiesDescription().should('be.visible').and('contain.text', 'Do you want to accept cookies that measure website use?')
+    break
+  case 'accept analytics cookies option buttons':
+    cookiesPage.acceptAnalyticsYesBtn().should('be.visible')
+    cookiesPage.acceptAnalyticsNoBtn().should('be.visible')
+    break
+  case 'save cookie settings button':
+    cookiesPage.saveCookieSettingsBtn().should('be.visible').and('contain.text', 'Save cookie settings')
+    break
+  case 'cookie preference banner':
+    cookiesPage.cookiePreferencesBannerHeader().should('be.visible').and('contain.text', 'Success')
+    cookiesPage.cookiePreferencesBannerDescription().should('be.visible').and('contain.text', 'You’ve set your cookie preferences')
+    cookiesPage.backToPageLink().should('be.visible').and('contain.text', 'Go back to the page you were looking at')
+  }
+  cy.log('Confirmed that ' + element + ' is displayed')
+  console.log('Confirmed that ' + element + ' is displayed')
+})
+
+Then(/^on the Accessibility Statement Page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Accessibility Statement Page I confirm that ' + element + ' is displayed')
+
+  switch (element) {
+  case 'page header':
+    accessibilityStatementPage.pageHeader().should('be.visible').and('contain.text', 'Accessibility statement')
+    break
+  case 'description':
+    accessibilityStatementPage.descriptionOne().should('be.visible').and('contain.text', 'This service is run by Defra. We want as many people as possible to be able to use this website.', 'For example, that means you should be able to:')
+    accessibilityStatementPage.bulletPointOne().should('be.visible').and('contain.text', 'change colours, contrast levels and fonts')
+    accessibilityStatementPage.bulletPointTwo().should('be.visible').and('contain.text', 'zoom in up to 200% without the text spilling off the screen')
+    accessibilityStatementPage.bulletPointThree().should('be.visible').and('contain.text', 'navigate most of the website using just a keyboard')
+    accessibilityStatementPage.bulletPointFour().should('be.visible').and('contain.text', 'navigate most of the website using speech recognition software')
+    accessibilityStatementPage.bulletPointFive().should('be.visible').and('contain.text', 'listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)')
+    accessibilityStatementPage.descriptionTwo().should('be.visible').and('contain.text', 'We have also made the website text as simple as possible to understand.')
+    accessibilityStatementPage.descriptionThree().should('be.visible').and('contain.text', 'AbilityNet has advice on making your device easier to use if you have a disability.')
+    break
+  case 'how accessible this website is':
+    accessibilityStatementPage.howAccessibleSubheader().should('be.visible').and('contain.text', 'How accessible this website is')
+    accessibilityStatementPage.howAccessibleDescription().should('be.visible').and('contain.text', 'We believe this website is fully accessible. If you find any accessibility issues, please contact us using the details below.')
+    break
+  case 'feedback and contact info':
+    accessibilityStatementPage.feebackSubheader().should('be.visible').and('contain.text', 'Feedback and contact information')
+    accessibilityStatementPage.feedbackDescription().should('be.visible').and('contain.text', 'If you find any problems not listed on this page or think we\'re not meeting accessibility requirements, contact us at: contentteam@defra.gov.uk.')
+    break
+  case 'enforcement procedure':
+    accessibilityStatementPage.enforcementProcedureSubheader().should('be.visible').and('contain.text', 'Enforcement procedure')
+    accessibilityStatementPage.enforcementProcedureDescription().should('be.visible').and('contain.text', 'The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).', 'If you\'re not happy with how we respond to your complaint, contact the Equality Advisory and Support Service (EASS).')
+    break
+  case 'technical info':
+    accessibilityStatementPage.technicalInformationSubheader().should('be.visible').and('contain.text', 'Technical information about this website’s accessibility')
+    accessibilityStatementPage.technicalInformationDescription().should('be.visible').and('contain.text', 'Defra is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.')
+    break
+  case 'compliance status':
+    accessibilityStatementPage.complianceStatusSubheader().should('be.visible').and('contain.text', 'Compliance status')
+    accessibilityStatementPage.complianceStatusDescription().should('be.visible').and('contain.text', 'This website is fully compliant with the Web Content Accessibility Guidelines version 2.2 AA standard.')
+    break
+  case 'improving accessiblity':
+    accessibilityStatementPage.improvingAccessibilitySubheader().should('be.visible').and('contain.text', 'What we\'re doing to improve accessibility')
+    accessibilityStatementPage.improvingAccessibilityDescription().should('be.visible').and('contain.text', 'We are committed to maintaining accessibility standards. Our ongoing activities include:')
+    accessibilityStatementPage.improvingAccessibilityBulletPointOne().should('be.visible').and('contain.text', 'conducting regular accessibility audits')
+    accessibilityStatementPage.improvingAccessibilityBulletPointTwo().should('be.visible').and('contain.text', 'training our team on accessibility best practices')
+    break
+  case 'preparation of statement':
+    accessibilityStatementPage.preparationSubheader().should('be.visible').and('contain.text', 'Preparation of this accessibility statement')
+    accessibilityStatementPage.preparationDescriptionOne().should('be.visible').and('contain.text', 'This statement was prepared on', 'It was last reviewed on')
+    accessibilityStatementPage.preparationDescriptionTwo().should('be.visible').and('contain.text', 'This website was last tested on',  'The test was carried out using automated testing tools against WCAG 2.2 AA criteria.')
+    break
+  }
+  cy.log('Confirmed that ' + element + ' is displayed')
+  console.log('Confirmed that ' + element + ' is displayed')
+})
+
+Then(/^on the Privacy Notice Page I confirm that "(.*)" is displayed$/, (element) => {
+
+  Cypress.emit('log:step', 'on the Privacy Notice Page I confirm that ' + element + ' is displayed')
+
+  switch (element) {
+  case 'page header':
+    privacyNoticePage.pageHeader().should('be.visible').and('contain.text', 'Privacy notice')
+    break
+  case 'description':
+    privacyNoticePage.descriptionOne().should('be.visible').and('contain.text', 'Payment management is provided by Defra.')
+    privacyNoticePage.descriptionTwo().should('be.visible').and('contain.text', 'Defra is the data controller for pages starting with ffc-pay-web -', 'for example, the site\'s accessibility statement.')
+    privacyNoticePage.descriptionThree().should('be.visible').and('contain.text', 'If you follow a link to a service provided by another government department, agency or local authority, that organisation will:')
+    privacyNoticePage.bulletPointOne().should('be.visible').and('contain.text', 'be the data controller')
+    privacyNoticePage.bulletPointTwo().should('be.visible').and('contain.text', 'be responsible for processing any data you share with them')
+    privacyNoticePage.bulletPointThree().should('be.visible').and('contain.text', 'publish and manage their own privacy notice with details of how to contact them')
+    privacyNoticePage.descriptionFour().should('be.visible').and('contain.text', 'A data controller determines how and why personal data is processed.', 'For more information, read the Cabinet Office’s entry in the Data Protection Public Register.')
+    break
+  case 'what data we collect':
+    privacyNoticePage.whatDataSubheader().should('be.visible').and('contain.text', 'What data we collect')
+    privacyNoticePage.whatDataDescriptionOne().should('be.visible').and('contain.text', 'The personal data we collect from you includes:')
+    privacyNoticePage.whatDataBulletPointOne().should('be.visible').and('contain.text', 'your Internet Protocol (IP) address, and details of which version of web browser you used')
+    privacyNoticePage.whatDataBulletPointTwo().should('be.visible').and('contain.text', 'information on how you use the site, using cookies and page tagging techniques')
+    privacyNoticePage.whatDataDescriptionTwo().should('be.visible').and('contain.text', 'Where you provide your consent, we use Google Analytics to collect information about how you use GOV.UK.', 'This includes IP addresses.')
+    privacyNoticePage.whatDataDescriptionThree().should('be.visible').and('contain.text', 'Google Analytics processes information about:')
+    privacyNoticePage.whatDataBulletPointThree().should('be.visible').and('contain.text', 'the pages you visit on GOV.UK')
+    privacyNoticePage.whatDataBulletPointFour().should('be.visible').and('contain.text', 'how long you spend on each GOV.UK page')
+    privacyNoticePage.whatDataBulletPointFive().should('be.visible').and('contain.text', 'how you got to the site')
+    privacyNoticePage.whatDataBulletPointSix().should('be.visible').and('contain.text', 'what you click on while you’re visiting the site')
+    privacyNoticePage.whatDataDescriptionFour().should('be.visible').and('contain.text', 'We will not combine analytics information with other data sets in a way that would directly identify who you are.')
+    privacyNoticePage.whatDataMoreInfoLink().should('be.visible').and('contain.text', 'Find out more about how we use Google Analytics and other cookies on this service')
+    break
+  case 'why we need your data':
+    privacyNoticePage.whyWeNeedDataSubheader().should('be.visible').and('contain.text', 'Why we need your data')
+    privacyNoticePage.whyWeNeedDataDescriptionOne().should('be.visible').and('contain.text', 'We collect your personal data in order to:')
+    privacyNoticePage.whyWeNeedDataBulletPointOne().should('be.visible').and('contain.text', 'gather feedback to improve our services')
+    privacyNoticePage.whyWeNeedDataBulletPointTwo().should('be.visible').and('contain.text', 'monitor use of the site to identify security threats')
+    privacyNoticePage.whyWeNeedDataBulletPointThree().should('be.visible').and('contain.text', 'monitor the performance of the site to identify inefficiencies and JavaScript errors')
+    privacyNoticePage.whyWeNeedDataDescriptionTwo().should('be.visible').and('contain.text', 'We use the information we collect through Google Analytics to see how you use the service and to see how well the site performs on your device.')
+    privacyNoticePage.whyWeNeedDataDescriptionThree().should('be.visible').and('contain.text', 'We do this to help:')
+    privacyNoticePage.whyWeNeedDataBulletPointFour().should('be.visible').and('contain.text', 'make sure the service is meeting the needs of its users')
+    privacyNoticePage.whyWeNeedDataBulletPointFive().should('be.visible').and('contain.text', 'make improvements')
+    privacyNoticePage.whyWeNeedDataBulletPointSix().should('be.visible').and('contain.text', 'make performance improvements, for example improving page load time and data usage')
+    break
+  case 'what we do with your data':
+    privacyNoticePage.whatWeDoSubheader().should('be.visible').and('contain.text', 'What we do with your data')
+    privacyNoticePage.whatWeDoDescriptionOne().should('be.visible').and('contain.text', 'The data we collect with Google Analytics cookies is transferred and stored with Google where we analyse it with Google Analytics software (Universal Analytics).', 'We do not allow Google to use or share this data for their own purposes.')
+    privacyNoticePage.whatWeDoDescriptionTwo().should('be.visible').and('contain.text', 'We will not:')
+    privacyNoticePage.whatWeDoBulletPointOne().should('be.visible').and('contain.text', 'sell or rent your data to third parties')
+    privacyNoticePage.whatWeDoBulletPointTwo().should('be.visible').and('contain.text', 'share your data with third parties for marketing purposes')
+    break
+  case 'where your data is processed and stored':
+    privacyNoticePage.whereDataIsProcessedSubheader().should('be.visible').and('contain.text', 'Where your data is processed and stored')
+    privacyNoticePage.whereDataIsProcessedDescription().should('be.visible').and('contain.text', 'All personal data is stored in the European Economic Area (EEA).', 'Data collected by Google Analytics may be transferred outside the EEA for processing.')
+    break
+  case 'how we protect your data':
+    privacyNoticePage.howWeProtectDataSubheader().should('be.visible').and('contain.text', 'How we protect your data and keep it secure')
+    privacyNoticePage.howWeProtectDataDescription().should('be.visible').and('contain.text', 'We are committed to doing all that we can to keep your data secure.', 'We have set up systems and processes to prevent unauthorised access or disclosure of your data - ', 'for example, we protect your data using varying levels of encryption.')
+    break
+  case 'your rights':
+    privacyNoticePage.yourRightsSubheader().should('be.visible').and('contain.text', 'Your rights')
+    privacyNoticePage.yourRightsDescriptionOne().should('be.visible').and('contain.text', 'You have the right to request:')
+    privacyNoticePage.yourRightsBulletPointOne().should('be.visible').and('contain.text', 'information about how your personal data is processed')
+    privacyNoticePage.yourRightsBulletPointTwo().should('be.visible').and('contain.text', 'a copy of that personal data')
+    privacyNoticePage.yourRightsBulletPointThree().should('be.visible').and('contain.text', 'that anything inaccurate in your personal data is corrected immediately')
+    privacyNoticePage.yourRightsDescriptionTwo().should('be.visible').and('contain.text', 'You can also:')
+    privacyNoticePage.yourRightsBulletPointFour().should('be.visible').and('contain.text', 'raise an objection about how your personal data is processed')
+    privacyNoticePage.yourRightsBulletPointFive().should('be.visible').and('contain.text', 'request that your personal data is erased if there is no longer a justification for it')
+    privacyNoticePage.yourRightsBulletPointSix().should('be.visible').and('contain.text', 'ask that the processing of your personal data is restricted in certain circumstances')
+    privacyNoticePage.yourRightsDescriptionThree().should('be.visible').and('contain.text', 'If you have any of these requests, get in contact with our Privacy Team.')
+    break
+  case 'links to other websites':
+    privacyNoticePage.otherLinksSubheader().should('be.visible').and('contain.text', 'Links to other websites')
+    privacyNoticePage.otherLinksDescriptionOne().should('be.visible').and('contain.text', 'This service contains links to other websites.')
+    privacyNoticePage.otherLinksDescriptionTwo().should('be.visible').and('contain.text', 'This privacy notice only applies to Calculate my progressive reductions, and does not cover other government services and transactions that we link to.', 'These services, have their own terms and conditions and privacy policies.')
+    privacyNoticePage.followingLinksSubheader().should('be.visible').and('contain.text', 'Following a link to another website')
+    privacyNoticePage.followingLinksDescription().should('be.visible').and('contain.text', 'If you go to another website from this one, read the privacy policy on that website to find out what it does with your information.')
+    break
+  case 'contact us':
+    privacyNoticePage.contactInfoSubheader().should('be.visible').and('contain.text', 'Contact us or make a complaint')
+    privacyNoticePage.contactInfoDescription().should('be.visible').and('contain.text', 'You can contact our Data Protection Officer (DPO):')
+    privacyNoticePage.contactInfoAddress().should('be.visible').and('contain.text', 'DPO', 'DefraGroupDataProtectionOfficer@defra.gov.uk', 'Defra', 'Department for the Environment, Food and Rural Affairs', '2 Marsham Street', 'London', 'SW1P 4DF')
+    break
+  case 'last updated notice':
+    privacyNoticePage.lastUpdatedNotice().should('be.visible').and('contain.text', 'This notice was last updated on')
+    break
+  }
+  cy.log('Confirmed that ' + element + ' is displayed')
+  console.log('Confirmed that ' + element + ' is displayed')
 })
 
 When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
@@ -1116,7 +1503,7 @@ Then (/^on the View processed payment requests page I confirm that "(.*)" is dis
 
   switch (element) {
   case 'sub header':
-    paymentEventMonitoringPage.subHeader().should('be.visible').and('contain.text', 'Schemes'); break
+    paymentEventMonitoringPage.subHeader().should('be.visible').and('contain.text', 'Monitoring by scheme'); break
   case 'select scheme label':
     paymentEventMonitoringPage.selectSchemeLabel().should('be.visible').and('contain.text', 'Select the scheme to view data for'); break
   case 'select scheme dropdown':

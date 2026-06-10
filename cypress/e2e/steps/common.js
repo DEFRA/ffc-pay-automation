@@ -206,6 +206,13 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
   case 1: featureString = '01_PaymentManagement.feature -- '
     switch (scenarioNumber) {
     case 1: scenarioString = '01 Verify <link> links work correctly'; break
+    case 2: scenarioString = '02 Confirm content on home page'; break
+    case 3: scenarioString = '03 Confirm cookie banner displays correctly on page load'; break
+    case 4: scenarioString = '04 Confirm accept cookies functions correctly'; break
+    case 5: scenarioString = '05 Confirm reject cookies functions correctly'; break
+    case 6: scenarioString = '06 Confirm content on cookies page'; break
+    case 7: scenarioString = '07 Confirm content on Accessibility Statement page'; break
+    case 8: scenarioString = '08 Confirm content on Privacy Notice page'; break
     }
     break
   case 2: featureString = '02_RequestEditor.feature -- '
