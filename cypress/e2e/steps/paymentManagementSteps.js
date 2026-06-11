@@ -684,7 +684,7 @@ Then(/^I select "(.*)" from the monitor schemes dropdown$/, (scheme) => {
 
   Cypress.emit('log:step', 'I select ' + scheme + ' from the monitor schemes dropdown')
   cy.wait(120000) //Wait for all PRs, returns and PPAs to process
-  paymentManagementPage.monitorSchemeDropdown().scrollIntoView().select(scheme)
+  paymentEventMonitoringPage.selectSchemeDropdown().scrollIntoView().select(scheme)
   cy.log(`Selected ${scheme} from the monitor schemes dropdown`)
   console.log(`Selected ${scheme} from the monitor schemes dropdown`)
 })
