@@ -1,6 +1,7 @@
 Feature: 45 Document Alerts
 
 # npm run cypress:local:one -- "cypress\e2e\features\45_DocumentAlerts.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\45_DocumentAlerts.feature"
 
 # This feature file is designed to test the generation of alerts in the Document services. First a message is sent to the
 # service bus topic, then the test confirms that an alert has been generated in the respective service.
