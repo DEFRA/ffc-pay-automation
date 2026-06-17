@@ -18,7 +18,7 @@ Feature: 01 Payment management
 
     Examples:
       | link                   | subPage               |
-      | Manage holds           | payment-holds         |
+      | Manage payment holds   | payment-holds         |
       | Alerts                 | alerts                |
       | Reset payment request  | payment-request/reset |
       | Monitoring             | monitoring            |

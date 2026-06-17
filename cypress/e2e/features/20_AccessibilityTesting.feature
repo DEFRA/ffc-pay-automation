@@ -15,17 +15,24 @@ Feature: 20 Accessibility Testing
 
 #Manage holds page
 
-    When I click on the "Manage holds" link
+    When I click on the "Manage payment holds" link
     Then I confirm there are no accessibility issues on the page
 
-    And I click on the "Create new hold" link
+    And I click on the "Create a new payment hold" link
+    Then I confirm there are no accessibility issues on the page
+   
+    When I click on the "Manage payment holds" link
+    And I click on the "Search for a payment hold" link
     Then I confirm there are no accessibility issues on the page
 
-#Create error message on page through invalid input and confirm accessibility again
-    
-    And I type "abc" in the "FRN" field
-    And I click on the "Create" button
+    When I click on the "Manage payment holds" link
+    And I click on the "Manage payment holds in bulk" link
     Then I confirm there are no accessibility issues on the page
+
+    When I click on the "Manage payment holds" link
+    And I click on the "Manage payment hold types" link
+    Then I confirm there are no accessibility issues on the page
+
     And I click on the "Home" link
 
 #Reports page
