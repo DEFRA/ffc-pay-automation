@@ -908,7 +908,7 @@ When (/^on the Add New Alert Recipient page I click the "(.*)" button$/, (button
   Cypress.emit('log:step', 'on the Add New Alert Recipient page I click the ' + button)
   switch (button) {
   case 'Add recipient':
-    paymentManagementPage.addNewAlertRecipientButton().click(); break
+    paymentAlertsPage.addNewRecipientButton().click(); break
   }
   cy.log(`Clicked on the ${button} button successfully`)
   console.log(`Clicked on the ${button} button successfully`)

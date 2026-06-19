@@ -35,8 +35,8 @@ Feature: 37 D365 Rejection
 #This scenario confirms that the hold created by the D365 rejection processing is visible in the Payment Management UI
 
     Given I visit the "Payment management" homepage
-    And I click on the "Manage holds" link
-    And I am on the "payment-holds" subpage
+    And I click on the "Manage payment holds" link
+    And I click on the "Search for a payment hold" link
     When on the Payment Holds page I enter "current FRN" in the FRN search field
     Then on the Payment Holds page I click the FRN search button
     Then I take a screenshot for Feature 37 and Scenario 1
@@ -46,12 +46,13 @@ Feature: 37 D365 Rejection
 #entry is subsequently created in the Pay Processing database
 
     Given I visit the "Payment management" homepage
-    And I click on the "Manage holds" link
-    And I am on the "payment-holds" subpage
+    And I click on the "Manage payment holds" link
+    And I click on the "Search for a payment hold" link
+    
     When on the Payment Holds page I enter "current FRN" in the FRN search field
     Then on the Payment Holds page I click the FRN search button
     When I click on the "Remove" button
-    And I click on the "Manage holds" link
+    And I click on the "Manage payment holds" link
 
   #Following this hold removal a secondary completedPaymentRequest entry should be created in the Pay Processing database
 
@@ -69,8 +70,8 @@ Feature: 37 D365 Rejection
   @local
   Scenario: 01 Process D365 Acknowledgment file
 
-#This scenario loads an SFI22 payment message followed by a D365 rejection acknowledgement message
-#It then confirms that the correct hold entry has been created in the Pay Processing database  
+This scenario loads an SFI22 payment message followed by a D365 rejection acknowledgement message
+    It then confirms that the correct hold entry has been created in the Pay Processing database
 
     Given I restart the local environment
     Given I visit the "Payment management" homepage
@@ -107,8 +108,10 @@ Feature: 37 D365 Rejection
 #This scenario confirms that the hold created by the D365 rejection processing is visible in the Payment Management UI
 
     Given I visit the "Payment management" homepage
-    And I click on the "Manage holds" link
-    And I am on the "payment-holds" subpage
+    And I click on the "Manage payment holds" link
+    And I click on the "Search for a payment hold" link
+    When on the Payment Holds page I enter "1258445148" in the FRN search field
+    Then on the Payment Holds page I click the FRN search button
     Then I take a screenshot for Feature 37 and Scenario 2
     And I should see "1258445148"
     And I should see "Bank account anomaly"
@@ -120,10 +123,13 @@ Feature: 37 D365 Rejection
 #entry is subsequently created in the Pay Processing database
 
     Given I visit the "Payment management" homepage
-    And I click on the "Manage holds" link
-    And I am on the "payment-holds" subpage
+    And I click on the "Manage payment holds" link
+    And I click on the "Search for a payment hold" link
+    When on the Payment Holds page I enter "1258445148" in the FRN search field
+    Then on the Payment Holds page I click the FRN search button
     When I click on the "Remove" button
-    And I click on the "Manage holds" link
+    And I click on the "Yes, remove" button
+    And I click on the "Manage payment holds" link
     Then I take a screenshot for Feature 37 and Scenario 3
 
   #Following this hold removal a secondary completedPaymentRequest entry should be created in the Pay Processing database

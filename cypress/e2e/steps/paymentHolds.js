@@ -64,6 +64,9 @@ Then('the new holds in {string} are visible along with the correct timestamp', (
           }
         })
       })
+
+      cy.get('a').contains('Manage payment holds').scrollIntoView().click()
+      cy.get('a').contains('Search for a payment hold').scrollIntoView().click()
     })
   })
 })
@@ -156,6 +159,12 @@ Then('on the Payment Holds page I confirm that scheme filter box is visible', ()
   paymentHoldsPage.schemeFilterBox().should('be.visible')
 })
 
+Then('on the Payment Holds page I enter {string} in the scheme filter box', (scheme) => {
+
+  Cypress.emit('log:step', 'on the Payment Holds page I enter ' + scheme + ' in the scheme filter box')
+  paymentHoldsPage.schemeFilterBox().type(scheme)
+})
+
 Then('on the Payment Holds page I confirm that correct options are available for {string} scheme', (scheme) => {
 
   Cypress.emit('log:step', 'on the Payment Holds page I confirm that correct options are available for ' + scheme + ' scheme')
@@ -230,26 +239,25 @@ Then('on the Payment Holds page I confirm that correct options are available for
 Then('the payment requests related to the {string} CSV are not in the table', (file) => {
 
   Cypress.emit('log:step', 'the payment requests related to the ' + file + ' CSV are not in the table')
+
   cy.fixture(file).then((csvData) => {
     const frnValues = csvData
       .trim()
       .split(/\r?\n/)
       .map((line) => line.split(',')[0].trim())
 
-    cy.get('body').then(($body) => {
-      if ($body.text().includes('There are no payment holds.')) {
-        cy.log('No payment holds message is displayed')
-        cy.contains('There are no payment holds.').should('be.visible')
-      } else {
-        paymentHoldsPage.allFirstColumnCells().then(($cells) => {
-          const tableValues = [...$cells].map((cell) => cell.innerText.trim())
 
-          frnValues.forEach((frnValue) => {
-            cy.log(`Checking that table does not contain: ${frnValue}`)
-            expect(tableValues).to.not.include(frnValue)
-          })
-        })
-      }
+    frnValues.forEach((frnValue) => {
+      paymentHoldsPage.frnSearchField().clear().type(frnValue)
+      paymentHoldsPage.frnSearchButton().click()
+
+      cy.get('body').then(($body) => {
+        if ($body.text().includes('No payment holds found for FRN ' + frnValue)) {
+          cy.log('Confirmed that ' + frnValue + ' is not present in the table')
+        } else {
+          throw new Error('Holds for ' + frnValue + ' were found in table')
+        }
+      })
     })
   })
 })

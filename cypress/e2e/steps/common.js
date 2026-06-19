@@ -259,10 +259,9 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
   case 4: featureString = '04_UploadPaymentHolds.feature -- '
     switch (scenarioNumber) {
     case 1: scenarioString = '01 Successfully uploading a CSV file applying holds & uploading a CSV file removing holds'; break
-    case 2: scenarioString = '02 Uploading a CSV file with no selected hold reason'; break
-    case 3: scenarioString = '03 Uploading a file that is not a CSV'; break
-    case 4: scenarioString = '04 Uploading a CSV file with incorrect FRN format'; break
-    case 5: scenarioString = '05 Uploading a CSV file which is too large'; break
+    case 2: scenarioString = '02 Uploading a file that is not a CSV'; break
+    case 3: scenarioString = '03 Uploading a CSV file with incorrect FRN format'; break
+    case 4: scenarioString = '04 Uploading a CSV file which is too large'; break
     }
     break
   case 5: featureString = '05_RemovePaymentHolds.feature -- '
@@ -270,7 +269,6 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 1: scenarioString = '01 Uploading a CSV file with incorrect FRN format'; break
     case 2: scenarioString = '02 Uploading a file that is not a CSV'; break
     case 3: scenarioString = '03 Removing holds selectively based on hold category'; break
-    case 4: scenarioString = '04 Attempting to remove holds without selecting a hold category'; break
     }
     break
   case 11: featureString = '11_PPAE2EJourneyCredit.feature -- '

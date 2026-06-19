@@ -13,10 +13,10 @@ Feature: 09 Pagination - Payment Management
     Then I can see at most <number> records displayed in the table
 
     Examples:
-      | link         | number | page          |
-      | Manage holds | 100    | Payment holds |
-      | Manage holds | 500    | Payment holds |
-      | Manage holds | 1000   | Payment holds |
+      | link                 | number | page          |
+      | Manage payment holds | 100    | Payment holds |
+      | Manage payment holds | 500    | Payment holds |
+      | Manage payment holds | 1000   | Payment holds |
 
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
@@ -25,8 +25,8 @@ Feature: 09 Pagination - Payment Management
     And I cannot see the "Previous" button
 
     Examples:
-      | link         | page          |
-      | Manage holds | Payment holds |
+      | link                 | page          |
+      | Manage payment holds | Payment holds |
 
   Scenario Outline: 03 Verify Previous on second page of "<page>" page
     And I click on the "<link>" link
@@ -35,8 +35,8 @@ Feature: 09 Pagination - Payment Management
     And I can see the "Previous" button
 
     Examples:
-      | link         | page          |
-      | Manage holds | Payment holds |
+      | link                 | page          |
+      | Manage payment holds | Payment holds |
 
   Scenario Outline: 04 Verify Next/Previous on last page of "<page>" page
     And I click on the "<link>" link
@@ -45,5 +45,5 @@ Feature: 09 Pagination - Payment Management
     And I can see the "Previous" button
 
     Examples:
-      | link         | page          |
-      | Manage holds | Payment holds |
+      | link                 | page          |
+      | Manage payment holds | Payment holds |
