@@ -47,3 +47,10 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And I click on the "Search for a payment hold" link
     And the payment requests related to the "selectiveFrnRemove.csv" CSV are not in the table
     Then I take a screenshot for Feature 5 and Scenario 3
+
+  Scenario: 04 Attempting to remove holds without selecting a hold category
+    And I click on the "Remove payment holds in bulk" link
+    And I upload bulk payment holds file 'frnsBulkUploadValid.csv'
+    And I click on the "Remove holds" button
+    Then the 'Category is required' error message is displayed on the Payment holds page
+    Then I take a screenshot for Feature 5 and Scenario 4
