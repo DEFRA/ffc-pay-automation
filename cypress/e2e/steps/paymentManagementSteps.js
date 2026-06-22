@@ -103,7 +103,7 @@ Then(/^on the Home Page I confirm that "(.*)" is displayed$/, (element) => {
   case 'payment holds card':
     paymentManagementPage.paymentHoldsHeader().should('be.visible').and('contain.text', 'Payment holds')
     paymentManagementPage.paymentHoldsDescription().should('be.visible').and('contain.text', 'View, add or remove payment holds')
-    paymentManagementPage.manageHoldsLink().should('be.visible').and('contain.text', 'Manage holds')
+    paymentManagementPage.manageHoldsLink().should('be.visible').and('contain.text', 'Manage payment holds')
     break
   case 'manual payments card':
     paymentManagementPage.manualPaymentsHeader().should('be.visible').and('contain.text', 'Manual payments')

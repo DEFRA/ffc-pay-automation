@@ -58,6 +58,11 @@ class paymentHoldsPage {
   schemeFilterBox () {
     return cy.get('#selectScheme')
   }
+
+  holdsFilterBox () {
+    return cy.get('#selectHoldCategoryId')
+  }
+
 }
 
 export default new paymentHoldsPage()
