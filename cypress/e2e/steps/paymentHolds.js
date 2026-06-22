@@ -162,7 +162,18 @@ Then('on the Payment Holds page I confirm that scheme filter box is visible', ()
 Then('on the Payment Holds page I enter {string} in the scheme filter box', (scheme) => {
 
   Cypress.emit('log:step', 'on the Payment Holds page I enter ' + scheme + ' in the scheme filter box')
-  paymentHoldsPage.schemeFilterBox().type(scheme)
+  paymentHoldsPage.schemeFilterBox().select(scheme)
+})
+
+Then('on the Payment Holds page I enter {string} hold for scheme {string}', (holds, scheme) => {
+
+  Cypress.emit('log:step', 'on the Payment Holds page I enter ' + holds + ' in the scheme filter box')
+  paymentHoldsPage.holdsFilterBox()
+    .find(`option[data-scheme-name="${scheme}"]:not([hidden])`)
+    .then($o => cy.get('#selectHoldCategoryId')
+      .select($o.val()))
+
+
 })
 
 Then('on the Payment Holds page I confirm that correct options are available for {string} scheme', (scheme) => {
