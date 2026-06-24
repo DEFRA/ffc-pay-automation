@@ -1,12 +1,7 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 import paymentHoldsPage from '../pages/paymentHoldsPage'
 import moment from 'moment'
-
-When('the {string} holds option is selected', (value) => {
-
-  Cypress.emit('log:step', 'the ' + value + ' holds option is selected')
-  paymentHoldsPage.selectedOption().should('have.text', value)
-})
+import { schemeAndHolds } from '../../support/data/paymentHolds.data.js'
 
 When('I upload bulk payment holds file {string}', (file) => {
 
@@ -16,16 +11,6 @@ When('I upload bulk payment holds file {string}', (file) => {
   paymentHoldsPage.fileInput().selectFile(fixturePath)
 })
 
-When('I click the hold category option for {string}', (text) => {
-
-  Cypress.emit('log:step', 'I click the hold category option for ' + text)
-  cy.get('fieldset')
-    .contains(text)
-    .parent()
-    .find('.govuk-radios__input')
-    .first()
-    .check()
-})
 
 When('I click the Create bulk payment holds button', () => {
 
@@ -176,76 +161,29 @@ Then('on the Payment Holds page I enter {string} hold for scheme {string}', (hol
 
 })
 
-Then('on the Payment Holds page I confirm that correct options are available for {string} scheme', (scheme) => {
+// Check all holds match respectively for all schemes. loops through all the schemes and holds inside paymentholds.data.js
 
-  Cypress.emit('log:step', 'on the Payment Holds page I confirm that correct options are available for ' + scheme + ' scheme')
-  let expectedOptions = []
+Then('on the Payment Holds page all schemes have correct holds', () => {
 
-  switch (scheme.toLowerCase()) {
+  cy.wrap(Object.entries(schemeAndHolds)).each(([scheme, expectedOptions]) => {
 
-  case 'coht capital':
-    expectedOptions = ['Bank account anomaly', 'Dax rejection', 'Non-payable', 'Other admin', 'Recovery', 'Withdrawal', 'Manual payment']
-    break
-  case 'coht revenue':
-    expectedOptions = ['Bank account anomaly', 'Dax rejection', 'Non-payable', 'Other admin', 'Recovery', 'Withdrawal', 'Manual payment']
-    break
-  case 'expanded sfi offer':
-    expectedOptions = ['Accelerated payment', 'Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up']
-    break
-  case 'delinked':
-    expectedOptions = ['Delinked payment hold', 'Bank account anomaly', 'Dax rejection']
-    break
-  case 'sfi23':
-    expectedOptions = ['Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up', 'Accelerated payment', 'Partial recovery process']
-    break
-  case 'imps':
-    expectedOptions = ['Dax rejection', 'Bank account anomaly']
-    break
-  case 'fc':
-    expectedOptions = ['Bank account anomaly', 'Dax rejection']
-    break
-  case 'es':
-    expectedOptions = ['Dax rejection', 'Bank account anomaly']
-    break
-  case 'manual invoice':
-    expectedOptions = ['Dax rejection', 'Bank account anomaly']
-    break
-  case 'fdmr':
-    expectedOptions = ['Bank account anomaly', 'Dax rejection', 'Recovery', 'Top up', 'Incorrect currency preference - fdm']
-    break
-  case 'bps':
-    expectedOptions = ['Bank account anomaly', 'Dax rejection', 'Recovery', 'Top up', 'Bacs recalls xc only', 'Delta validation check', '3yp', 'Ex-gratia', 'Bridging payments', 'Commons manual', 'Cross border d2p', 'Cross border e2p', 'Frns with debts', 'Greyed out lines', 'Hardship case', 'Incorrect currency preference', 'Manual payments - june', 'Nf commons manual', 'Non-declaration penalties', 'Non-payable', 'Payment hold 2016', 'Qa', 'Rpa land bank', 'Unregistered customer', 'Withdrawal', 'Xcomp obstruction', 'Migration hold']
-    break
-  case 'cs':
-    expectedOptions = ['Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up', '2016 interim', '2017 bridging payment', '2017 hardship', '2018 bridging payment', '2019 bridging payment', 'Advance tick', 'Capital payments', 'Capital recoveries', 'Claim affected by inc0553223', 'Fsp', 'Treasury', 'Migration hold']
-    break
-  case 'annual health and welfare review':
-    expectedOptions = ['Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up', 'Awaiting assurance check']
-    break
-  case 'lump sums':
-    expectedOptions = ['Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up' ]
-    break
-  case 'sfi pilot':
-    expectedOptions = ['Dax rejection', 'Migrated hold', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up']
-    break
-  case 'sfi22':
-    expectedOptions = ['Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up']
-    break
-  default:
-    throw new Error(`Scheme "${scheme}" is not recognized.`)
-  }
-  paymentHoldsPage.schemeFilterBox().select(scheme)
-  cy.wait(1000) // Wait for options to load
+    cy.log(`Validating scheme: ${scheme}`)
 
-  for (let i = 0; i < expectedOptions.length; i++) {
-    cy.contains(expectedOptions[i])
-    console.log('Option - ' + expectedOptions[i] + ' is visible')
-    cy.log('Option - ' + expectedOptions[i] + ' is visible')
-  }
+    paymentHoldsPage.schemeFilterBox().select(scheme)
 
-  console.log(`Expected options for ${scheme} scheme are displayed: ${expectedOptions.join(', ')}`)
-  cy.log(`Expected options for ${scheme} scheme are displayed: ${expectedOptions.join(', ')}`)
+    cy.get('#selectHoldCategoryId')
+      .find(`option[data-scheme-name="${scheme}"]:not([hidden])`)
+      .then($options => {
+        const actual = [...$options].map(o => o.textContent.trim())
+
+        expect(actual, `Mismatch for ${scheme}`)
+          .to.have.members(expectedOptions)
+      })
+
+  })
+
 })
+
 
 Then('the payment requests related to the {string} CSV are not in the table', (file) => {
 
