@@ -67,3 +67,10 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I click on the "Add holds" button
     Then I take a screenshot for Feature 4 and Scenario 4
     Then the 'The uploaded file is too large. Please upload a file smaller than 1 MB.' error message is displayed on the Payment holds page
+
+
+  Scenario: 05 Verification that all that hold dropdown types map correctly to all schemes
+    And I click on the "Manage payment holds in bulk" link
+    And I click on the "Add payment holds in bulk" link
+    And I upload bulk payment holds file 'frnsBulkUploadBulk.csv'
+    Then on the Payment Holds page all schemes have correct holds
