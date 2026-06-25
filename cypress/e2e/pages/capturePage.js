@@ -16,7 +16,7 @@ class capturePage {
   }
 
   btnSchemeSearch () {
-    return cy.get(':nth-child(5) > .govuk-button')
+    return cy.get(':nth-child(9) > .govuk-button')
   }
 
   tableRows () {

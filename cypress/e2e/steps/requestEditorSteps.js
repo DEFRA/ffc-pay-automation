@@ -8,7 +8,7 @@ When('I create a new reporting dataset with the following values', (datatable) =
 
   Cypress.emit('log:step', 'I create a new reporting dataset with the following values')
   datatable.hashes().forEach((element) => {
-    requestEditor.inputByValue(element.scheme).click()
+    cy.get('#scheme').select(element.scheme)
     requestEditor.txtFrn().type(element.frn)
     if (element.agreementNumber !== '') {
       requestEditor.txtApplicationIdentifier().type(element.agreementNumber)
@@ -30,6 +30,25 @@ When('I create a new reporting dataset with the following values', (datatable) =
     }
   })
 })
+
+
+Then('I note the number of datasets displayed', () => {
+  cy.get('table tbody tr')
+    .its('length')
+    .as('initialCount')
+})
+
+Then('I should see one more dataset in the table', () => {
+  cy.get('@initialCount').then(initialCount => {
+    cy.get('table tbody tr')
+      .should('have.length', initialCount + 1)
+  })
+})
+
+Then('the dataset {string} should be present', (agreementNumber) => {
+  cy.contains('tr', agreementNumber).should('exist')
+})
+
 
 Then('I make a note of the dataset count', () => {
 
@@ -59,8 +78,12 @@ Then('the dataset count has increased by 1', () => {
 Then('I should see the following schemes:', (dataTable) => {
 
   Cypress.emit('log:step', 'I should see the following schemes:')
+
   dataTable.hashes().forEach(row => {
-    requestEditor.getSchemeRadioButton(row['Scheme Name']).should('exist')
+    cy.get('#scheme')
+      .find('option')
+      .should('contain.text', row['Scheme Name'])
+
   })
 })
 
