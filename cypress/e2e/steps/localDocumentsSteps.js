@@ -83,7 +83,7 @@ When(/^I insert (.*) test data into Statement Data service$/, (year) => {
 
         let sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
-(` + nextSBI + `,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',` + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
+(` + nextSBI + ',\'8 The Street\',\'Area\',\'District\',\'City\',\'County\',\'AA1 1BB\',\'documents.performance.test@gmail.com\',' + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
 DO UPDATE SET
   "addressLine1" = EXCLUDED."addressLine1",
@@ -99,7 +99,7 @@ DO UPDATE SET
 
 INSERT INTO "delinkedCalculation" ("applicationId", "calculationId", "sbi", "frn", "paymentBand1", "paymentBand2", "paymentBand3", "paymentBand4", "percentageReduction1", "percentageReduction2", "percentageReduction3", "percentageReduction4", "progressiveReductions1", "progressiveReductions2", "progressiveReductions3", "progressiveReductions4", "totalProgressiveReduction", "referenceAmount", "totalDelinkedPayment", "paymentAmountCalculated", "updated")
 VALUES
-(` + nextApplicationId + `,` + nextCalculationId + `,` + nextSBI + `,` + nextFRN + `,30000,50000,150000,99999999.99,50.00,55.00,65.00,70.00,15000.00,11000.00,65000.00,35000.00,126000.00,2000000.00,75000.00,37500.00,'2025-09-04 13:34:26.219')
+(` + nextApplicationId + ',' + nextCalculationId + ',' + nextSBI + ',' + nextFRN + `,30000,50000,150000,99999999.99,50.00,55.00,65.00,70.00,15000.00,11000.00,65000.00,35000.00,126000.00,2000000.00,75000.00,37500.00,'2025-09-04 13:34:26.219')
 ON CONFLICT ("calculationId")
 DO UPDATE SET
   "applicationId" = EXCLUDED."applicationId",
@@ -124,7 +124,7 @@ DO UPDATE SET
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
 VALUES
-(` + nextCalculationId + `,'` + year + `','` + nextPaymentReference + `',37500.00,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'` + year + `');
+(` + nextCalculationId + ',\'' + year + '\',\'' + nextPaymentReference + '\',37500.00,to_date(\'01-AUG-24 12:00:00\',\'DD-MON-YY HH:MI:SS\'),\'' + year + `');
 `
 
         console.log(sqlStatement)
@@ -182,7 +182,7 @@ DO UPDATE SET
 
 INSERT INTO "d365" ("calculationId", "paymentPeriod", "paymentReference", "paymentAmount", "transactionDate", "marketingYear")
 VALUES
-(987654321,'` + year + `','PY0410241',37500.00,to_date('01-AUG-24 12:00:00','DD-MON-YY HH:MI:SS'),'` + year + `');
+(987654321,'` + year + '\',\'PY0410241\',37500.00,to_date(\'01-AUG-24 12:00:00\',\'DD-MON-YY HH:MI:SS\'),\'' + year + `');
 `
 
     cy.task('databaseInsert', {env, databaseName, sqlStatement})
@@ -474,7 +474,7 @@ When(/^I send incorrect test data into (.*) service$/, (databaseName) => {
           expectedError = 'value too long for type character varying(30)'
           sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
-(` + nextSBI + `,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',` + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
+(` + nextSBI + ',\'8 The Street\',\'Area\',\'District\',\'City\',\'County\',\'AA1 1BB\',\'documents.performance.test@gmail.com\',' + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
 DO UPDATE SET
   "addressLine1" = EXCLUDED."addressLine1",
@@ -490,7 +490,7 @@ DO UPDATE SET
 
 INSERT INTO "delinkedCalculation" ("applicationId", "calculationId", "sbi", "frn", "paymentBand1", "paymentBand2", "paymentBand3", "paymentBand4", "percentageReduction1", "percentageReduction2", "percentageReduction3", "percentageReduction4", "progressiveReductions1", "progressiveReductions2", "progressiveReductions3", "progressiveReductions4", "totalProgressiveReduction", "referenceAmount", "totalDelinkedPayment", "paymentAmountCalculated")
 VALUES
-(` + nextApplicationId + `,` + nextCalculationId + `,` + nextSBI + `,` + nextFRN + `,'30000','50000','150000','99999999.99','50','55','65','70','15000','11000','65000','35000','126000','2000000','75000',37500)
+(` + nextApplicationId + ',' + nextCalculationId + ',' + nextSBI + ',' + nextFRN + `,'30000','50000','150000','99999999.99','50','55','65','70','15000','11000','65000','35000','126000','2000000','75000',37500)
 ON CONFLICT ("calculationId")
 DO UPDATE SET
   "applicationId" = EXCLUDED."applicationId",
@@ -579,7 +579,7 @@ VALUES
           expectedError = 'value too long for type character varying(30)'
           sqlStatement = `INSERT INTO "organisations" ("sbi","addressLine1", "addressLine2", "addressLine3", "city", "county", "postcode", "emailAddress", "frn", "name", "updated")
 VALUES
-(` + nextSBI + `,'8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',` + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
+(` + nextSBI + ',\'8 The Street\',\'Area\',\'District\',\'City\',\'County\',\'AA1 1BB\',\'documents.performance.test@gmail.com\',' + nextFRN + `,'Test Farm',to_date('28-JUN-24 03:54:41','DD-MON-YY HH:MI:SS'))
 ON CONFLICT ("sbi")
 DO UPDATE SET
   "addressLine1" = EXCLUDED."addressLine1",
@@ -595,7 +595,7 @@ DO UPDATE SET
 
 INSERT INTO "delinkedCalculation" ("applicationId", "calculationId", "sbi", "frn", "paymentBand1", "paymentBand2", "paymentBand3", "paymentBand4", "percentageReduction1", "percentageReduction2", "percentageReduction3", "percentageReduction4", "progressiveReductions1", "progressiveReductions2", "progressiveReductions3", "progressiveReductions4", "totalProgressiveReduction", "referenceAmount", "totalDelinkedPayment", "paymentAmountCalculated")
 VALUES
-(` + nextApplicationId + `,` + nextCalculationId + `,` + nextSBI + `,` + nextFRN + `,'30000','50000','150000','99999999.99','50','55','65','70','15000','11000','65000','35000','126000','2000000','75000',37500)
+(` + nextApplicationId + ',' + nextCalculationId + ',' + nextSBI + ',' + nextFRN + `,'30000','50000','150000','99999999.99','50','55','65','70','15000','11000','65000','35000','126000','2000000','75000',37500)
 ON CONFLICT ("calculationId")
 DO UPDATE SET
   "applicationId" = EXCLUDED."applicationId",
@@ -640,7 +640,7 @@ VALUES
 
     } else if (databaseName.includes('generator')) {
 
-      let sqlStatement = `SELECT MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn FROM "generations"`
+      let sqlStatement = 'SELECT MAX(CASE WHEN "frn"::text ~ \'^[0-9]\' THEN "frn" END) AS max_frn FROM "generations"'
 
       console.log(sqlStatement)
       cy.log(sqlStatement)
@@ -669,7 +669,7 @@ VALUES
           expectedError = 'value too long for type character varying(255)'
           sqlStatement = `INSERT INTO "generations" ("statementData", "dateGenerated", "filename", "documentReference")
 VALUES
-('{"address":{"line1":"8 The Street","line2":"Area","line3":"District","line4":"City","line5":"County","postcode":"AA1 1BB"},"businessName":"Test Farm","email":"documents.performance.test@gmail.com","frn":` + nextFRN + `,"sbi":` + nextSBI + `,"calculationId":` + nextCalculationId + `,"applicationId":` + nextApplicationId + `,"paymentBand1":"30000","paymentBand2":"50000","paymentBand3":"150000","paymentBand4":"99999999.99","percentageReduction1":"050.00","percentageReduction2":"055.00","percentageReduction3":"065.00","percentageReduction4":"070.00","progressiveReductions1":"15000.00","progressiveReductions2":"11000.00","progressiveReductions3":"65000.00","progressiveReductions4":"35000.00","referenceAmount":"2000000.00","totalProgressiveReduction":"126000.00","totalDelinkedPayment":"75000.00","paymentAmountCalculated":"37500.00","paymentReference":"PY0410241","paymentPeriod":"2025","marketingYear":2025,"paymentAmount":"37500","transactionDate":"2024-08-01T00:00:00.000Z","scheme":{"name":"Delinked Payment Statement","shortName":"DP","year":2025},"previousPaymentCount":0,"excludedFromNotify":false}',
+('{"address":{"line1":"8 The Street","line2":"Area","line3":"District","line4":"City","line5":"County","postcode":"AA1 1BB"},"businessName":"Test Farm","email":"documents.performance.test@gmail.com","frn":` + nextFRN + ',"sbi":' + nextSBI + ',"calculationId":' + nextCalculationId + ',"applicationId":' + nextApplicationId + `,"paymentBand1":"30000","paymentBand2":"50000","paymentBand3":"150000","paymentBand4":"99999999.99","percentageReduction1":"050.00","percentageReduction2":"055.00","percentageReduction3":"065.00","percentageReduction4":"070.00","progressiveReductions1":"15000.00","progressiveReductions2":"11000.00","progressiveReductions3":"65000.00","progressiveReductions4":"35000.00","referenceAmount":"2000000.00","totalProgressiveReduction":"126000.00","totalDelinkedPayment":"75000.00","paymentAmountCalculated":"37500.00","paymentReference":"PY0410241","paymentPeriod":"2025","marketingYear":2025,"paymentAmount":"37500","transactionDate":"2024-08-01T00:00:00.000Z","scheme":{"name":"Delinked Payment Statement","shortName":"DP","year":2025},"previousPaymentCount":0,"excludedFromNotify":false}',
 '2025-09-05 12:58:39.145','filenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefile.pdf', 100001);
 `
 
@@ -725,7 +725,7 @@ VALUES
           expectedError = 'value too long for type character varying(255)'
           sqlStatement = `INSERT INTO "statements" ("frn", "sbi", "businessName", "addressLine1", "addressLine2", "addressLine3", "addressLine4", "addressLine5", "postcode", "email", "filename", "received", "schemeName", "schemeShortName", "schemeYear", "documentReference", "emailTemplate")
 VALUES
-(` + nextFRN + `,` + nextSBI + `,'Test Farm','8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',
+(` + nextFRN + ',' + nextSBI + `,'Test Farm','8 The Street','Area','District','City','County','AA1 1BB','documents.performance.test@gmail.com',
 'filenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefilenamefile.pdf','2025-09-05 12:58:39.145','Delinked Payment Statement','DP','2025',100001,'838adf3d-15bd-4db5-b080-a318d54da1fc');
 `
 
@@ -890,7 +890,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchStatementsBlobById', {
       env: env,
       container: 'statements',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       year: '2025'
     })
     break
@@ -898,7 +898,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchStatementsBlobById', {
       env: env,
       container: 'statements',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       year: '2024'
     })
     break
@@ -906,7 +906,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'glos'
     })
     break
@@ -914,7 +914,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'imps'
     })
     break
@@ -922,7 +922,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'genesis'
     })
     break
@@ -930,7 +930,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'dps'
     })
     break
@@ -938,7 +938,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'vet visits'
     })
     break
@@ -946,7 +946,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'cohtr'
     })
     break
@@ -954,7 +954,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'cohtc'
     })
     break
@@ -962,7 +962,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'cs'
     })
     break
@@ -970,7 +970,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'bps'
     })
     break
@@ -978,7 +978,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'lump sums'
     })
     break
@@ -986,7 +986,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'sfi expanded'
     })
     break
@@ -994,7 +994,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'sfi pilot'
     })
     break
@@ -1002,7 +1002,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'delinked'
     })
     break
@@ -1010,7 +1010,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'sfi23'
     })
     break
@@ -1018,7 +1018,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'sfi22'
     })
     break
@@ -1026,7 +1026,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'manual'
     })
     break
@@ -1034,7 +1034,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'ppa scenarios payments'
     })
     break
@@ -1042,7 +1042,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'ppa scenarios topups'
     })
     break
@@ -1050,7 +1050,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'ppa scenarios reductions'
     })
     break
@@ -1058,7 +1058,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'ppa scenarios recoveries'
     })
     break
@@ -1066,7 +1066,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/ffc-automation/ffc-pay-automation/cypress/downloads',
+      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
       scheme: 'fptt'
     })
     break
@@ -1083,16 +1083,16 @@ Then(/^I confirm that test data has not been inserted into the (.*) database$/, 
 
     switch (databaseName) {
     case 'ffc-doc-statement-constructor':
-      sqlStatement = `SELECT * FROM "organisations" WHERE "sbi" = ` + nextSBI
+      sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI
       break
     case 'ffc-doc-statement-data':
-      sqlStatement = `SELECT * FROM "organisations" WHERE "sbi" = ` + nextSBI
+      sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI
       break
     case 'ffc-doc-statement-publisher':
-      sqlStatement = `SELECT "statementId" FROM "statements" WHERE "sbi" = ` + nextSBI
+      sqlStatement = 'SELECT "statementId" FROM "statements" WHERE "sbi" = ' + nextSBI
       break
     case 'ffc-doc-statement-generator':
-      sqlStatement = `SELECT "statementData" FROM "generations" WHERE "sbi" = ` + nextSBI
+      sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "sbi" = ' + nextSBI
       break
     default:
       throw new Error(`Unknown database: ${databaseName}`)
@@ -1250,7 +1250,7 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
       }
     } else if (databaseName.includes('ffc-doc-statement-generator')) {
 
-      sqlStatement = `SELECT * FROM "generations" WHERE "addressLine2" = 'Area'`
+      sqlStatement = 'SELECT * FROM "generations" WHERE "addressLine2" = \'Area\''
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((results) => {
@@ -1264,8 +1264,8 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
         })
     }
 
-    console.log(`✅ Bulk Test data has been inserted into the database`)
-    cy.log(`✅ Bulk Test data has been inserted into the database`)
+    console.log('✅ Bulk Test data has been inserted into the database')
+    cy.log('✅ Bulk Test data has been inserted into the database')
 
   } else if (env.includes('local')) {
 
@@ -1369,8 +1369,8 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
     }
   }
 
-  console.log(`✅ Bulk Test data has been inserted into the database`)
-  cy.log(`✅ Bulk Test data has been inserted into the database`)
+  console.log('✅ Bulk Test data has been inserted into the database')
+  cy.log('✅ Bulk Test data has been inserted into the database')
 })
 
 Then(/^I confirm that alert has been generated from "(.*)"$/, (serviceName) => {
