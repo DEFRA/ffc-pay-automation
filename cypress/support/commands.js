@@ -133,3 +133,15 @@ Cypress.Commands.add('getDockerLogs', () => {
     })
   })
 })
+
+
+Cypress.Commands.add('clickBreadcrumb', (breadcrumbText) => {
+  cy.get('.govuk-breadcrumbs')
+    .should('be.visible')
+    .within(() => {
+      cy.get('a.govuk-breadcrumbs__link')
+        .contains(new RegExp(`^\\s*${breadcrumbText.trim()}\\s*$`))
+        .should('be.visible')
+        .click()
+    })
+})
