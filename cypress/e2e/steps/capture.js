@@ -14,17 +14,11 @@ When('I select {string} in the scheme dropdown', (scheme) => {
   capturePage.sltScheme().select(scheme)
 })
 
-When('I click the FRN number search button', () => {
 
-  Cypress.emit('log:step', 'I click the FRN number search button')
-  capturePage.btnFrnSearch().click()
-  cy.wait(10000)
-})
+When('I click the search button', () => {
 
-When('I click the Scheme search button', () => {
-
-  Cypress.emit('log:step', 'I click the Scheme search button')
-  capturePage.btnSchemeSearch().click()
+  Cypress.emit('log:step', 'I click the search button')
+  capturePage.btnSearch().click()
   cy.wait(10000)
 })
 

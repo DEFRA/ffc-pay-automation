@@ -31,12 +31,64 @@ When('I create a new reporting dataset with the following values', (datatable) =
   })
 })
 
+When('I verify my new reporting dataset with the following values', (datatable) => {
+  const data = datatable.hashes()[0]
+
+  const resolveTodaysDate = (value) => {
+    if (value === 'today') {
+      return dayjs().format('DD/MM/YYYY')
+    }
+    return value
+  }
+
+  const assertSummaryRow = (label, expectedValue) => {
+    cy.contains('.govuk-summary-list__row', label)
+      .within(() => {
+        cy.get('.govuk-summary-list__value')
+          .should('be.visible')
+          .and('contain.text', expectedValue)
+      })
+  }
+
+  const assertConfirmDetails = (data) => {
+    assertSummaryRow('Scheme', data.scheme)
+    assertSummaryRow('FRN (Firm Reference Number)', data.frn)
+    assertSummaryRow('Agreement / claim number', data.agreementNumber)
+    assertSummaryRow('Net value', data.netValue)
+    assertSummaryRow('Debt type', data.typeOfDebt)
+    assertSummaryRow('Date debt discovered',resolveTodaysDate(data.dateDebtDiscovered)
+    )
+  }
+  assertConfirmDetails(data)
+}
+)
+
+Then('I see a success message for {string}', (successMessage) => {
+  cy.url().should('include', 'debtAdded=true')
+
+
+  cy.get('.govuk-notification-banner')
+    .within(() => {
+      cy.contains('Success')
+      cy.contains(successMessage)
+    })
+
+})
+
 
 Then('I note the number of datasets displayed', () => {
-  cy.get('table tbody tr')
-    .its('length')
-    .as('initialCount')
+  cy.get('body').then(($body) => {
+
+    if ($body.find('table tbody tr').length > 0) {
+      const count = $body.find('table tbody tr').length
+      cy.wrap(count).as('initialCount')
+    } else {
+      cy.wrap(0).as('initialCount')
+    }
+
+  })
 })
+
 
 Then('I should see one more dataset in the table', () => {
   cy.get('@initialCount').then(initialCount => {

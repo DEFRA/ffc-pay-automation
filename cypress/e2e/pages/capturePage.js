@@ -15,7 +15,7 @@ class capturePage {
     return cy.get('[name="scheme"]')
   }
 
-  btnSchemeSearch () {
+  btnSearch () {
     return cy.get(':nth-child(9) > .govuk-button')
   }
 

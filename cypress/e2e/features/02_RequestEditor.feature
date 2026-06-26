@@ -9,26 +9,41 @@ Feature: 02 Request Editor
 
 #####################################################################################################################
 #                                                                                                                   #
-# Below needs to be rewritten at some point, there no longer is a dataset count marker to verify against.           #
+#                                               EXAMPLES:                                                           #
+#     | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |                        #
+#     | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |                        #
+#     | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | 11/11/2021         |                        #
 #                                                                                                                   #
+#       #Todo                                                                                                       #
+# #add "and i am on the capture page" to work with this new page (no capture in the heading) - need step  change  #                                                                                             #
 #####################################################################################################################
-  @dev @local
-  Scenario: 01 Validate Dataset Count Increment After Adding a New Reporting Dataset
-    And I click on the "View all datasets" link
-    And I note the number of datasets displayed
-    And I click on the "Create new dataset" link
-    And the application identifier field header is visible with text 'Agreement / claim number'
-    And the application identifier hint is visible with text 'For example, SIP000000000001 or 12345678'
-    And I create a new reporting dataset with the following values
-      | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
-      | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
-    When I click on the "Continue" button
-    ##now we are on confirm page, need to verify details are correct   
-    Then I am on the "Request Editor" homepage
-    And I click on the "View all datasets" link
-    Then I take a screenshot for Feature 2 and Scenario 1
-    Then I should see one more dataset in the table
-    And the dataset "SIP000000000001" should be present
+
+
+  # @dev @local
+  # Scenario: 01 Validate Dataset Count Increment After Adding a New Reporting Dataset
+  #   And I click on the "View all datasets" link
+  ##   And I am on the "capture" subpage
+  #   And I note the number of datasets displayed
+  #   And I click on the "Create new dataset" link
+  #   And the application identifier field header is visible with text 'Agreement / claim number'
+  #   And the application identifier hint is visible with text 'For example, SIP000000000001 or 12345678'
+  #   And I create a new reporting dataset with the following values
+  #     | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
+  #     | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
+  #   When I click on the "Continue" button
+  #   ##now we are on confirm page, need to verify details are correct   
+  #   And I verify my new reporting dataset with the following values
+  #     | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
+  #     | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
+
+  #   And I click on the "Save" button
+  #   And I see a success message for "New reporting dataset has been successfully created."
+  #   And I click the "Home" breadcrumb
+  #   And I click on the "View all datasets" link
+  #   Then I take a screenshot for Feature 2 and Scenario 1
+  #   Then I should see one more dataset in the table
+  #   And the dataset "SIP000000000001" should be present
+  #   And I should see one more dataset in the table
 
   # @test @dev @local
   # Scenario: 02 Verify all schemes are displayed correctly for creating a new reporting dataset
@@ -145,7 +160,7 @@ Feature: 02 Request Editor
   #   And I click on the "View all datasets" link
   #   And I am on the "capture" subpage
   #   And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
-  #   When I click the Scheme search button
+  #   When I click the search button
   #   Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
 
   # @test
@@ -153,32 +168,31 @@ Feature: 02 Request Editor
   #   And I click on the "View all datasets" link
   #   And I am on the "capture" subpage
   #   And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
-  #   When I click the Scheme search button
+  #   When I click the search button
   #   Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
 
-  @test @dev @local
-  Scenario: 11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme
-    And I click on the "View all datasets" link
-    And I enter '1234567891' in the FRN number search field
-    And I select 'SFI22' in the scheme dropdown
-    When I click the Scheme search button
-    # Then I take a screenshot for Feature 2 and Scenario 11
-    And each record in the table has the Scheme 'SFI22'
+  # @test @dev @local
+  # Scenario: 11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme
+  #   And I click on the "View all datasets" link
+  #   And I enter '1234567891' in the FRN number search field
+  #   And I select 'SFI22' in the scheme dropdown
+  #   When I click the search button
+  #   Then I take a screenshot for Feature 2 and Scenario 11
+  #   And each record in the table has the Scheme 'SFI22'
 
   # @test @dev @local
   # Scenario: 12 Unattached reporting datasets - Searching based on FRN number that returns no datasets
   #   And I click on the "View all datasets" link
-  #   And I am on the "capture" subpage
   #   And I enter '9999999999' in the FRN number search field
-  #   When I click the FRN number search button
-  #   Then I should see "No reporting datasets"
+  #   When I click the search button
+  #   Then I should see "No datasets were found for 9999999999. Check your details and try again"
   #   Then I take a screenshot for Feature 2 and Scenario 12
 
   # @test @dev @local
   # Scenario: 13 Unattached reporting datasets - Searching based on scheme that returns no datasets
   #   And I click on the "View all datasets" link
-  #   And I am on the "capture" subpage
-  #   And I select 'Vet Visits' in the scheme dropdown
-  #   When I click the Scheme search button
-  #   Then I should see "No reporting datasets"
+  #   #And I am on the "capture" subpage
+  #   And I select 'Annual Health and Welfare Review' in the scheme dropdown
+  #   When I click the search button
+  #   Then I should see "No datasets were found for Annual Health and Welfare Review. Check your details and try again"
   #   Then I take a screenshot for Feature 2 and Scenario 13

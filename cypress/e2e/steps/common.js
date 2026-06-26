@@ -120,6 +120,12 @@ When('I click on the {string} link', (text) => {
   cy.log(`Clicked on the ${text} link`)
 })
 
+
+When('I click the {string} breadcrumb', (breadcrumbText) => {
+  cy.clickBreadcrumb(breadcrumbText)
+})
+
+
 // -------------------------
 // ACCESSIBILITY
 // -------------------------
