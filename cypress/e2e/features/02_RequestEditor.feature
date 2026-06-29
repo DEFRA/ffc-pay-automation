@@ -37,7 +37,7 @@ Feature: 02 Request Editor
     And I click on the "View all datasets" link
     Then I take a screenshot for Feature 2 and Scenario 1
     Then I should see one more dataset in the table
-    And the dataset "SIP000000000001" should be present
+    And the dataset value "SIP000000000001" should be present
     And I should see one more dataset in the table
 
   @test @dev @local
@@ -162,7 +162,7 @@ Feature: 02 Request Editor
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I select 'Combined Offer Hcigher Tier Capital' in the scheme dropdown
+    And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
     When I click the search button
     Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
 

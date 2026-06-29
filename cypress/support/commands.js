@@ -177,7 +177,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add('verifyDownloadedFile', (
   filePath,
-  timeout
+  timeout = 15000
 ) => {
-  cy.readFile(filePath, timeout )
+  cy.readFile(filePath, { timeout })
 })
