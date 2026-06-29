@@ -34,6 +34,11 @@ class capturePage {
   noDataSetsMessage () {
     return cy.get('.govuk-inset-text')
   }
+  enterDebtDiscoveredDate ({ day, month, year }) {
+    this.txtDay().type(day)
+    this.txtMonth().type(month)
+    this.txtYear().type(year)
+  }
 }
 
 export default new capturePage()

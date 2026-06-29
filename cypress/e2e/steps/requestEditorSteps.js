@@ -1,143 +1,82 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 import requestEditor from '../pages/requestEditorPage'
 import capturePage from '../pages/capturePage'
-const dayjs = require('dayjs')
 
 
-
-
-
-
-// needs cleaned up and formatted, lots of not outdated functionality specifically for dev/test scenarios
+//takes data from cucumber steps and aligns it with form on request editor
 When('I create a new reporting dataset with the following values', (datatable) => {
 
   Cypress.emit('log:step', 'I create a new reporting dataset with the following values')
-  datatable.hashes().forEach((element) => {
-    cy.get('#scheme').select(element.scheme)
-    requestEditor.txtFrn().type(element.frn)
-    if (element.agreementNumber !== '') {
-      requestEditor.txtApplicationIdentifier().type(element.agreementNumber)
-    }
-    requestEditor.txtNetValue().type(element.netValue)
-    requestEditor.inputByValue(element.typeOfDebt).click()
-
-    if (element.dateDebtDiscovered === 'today') {
-      const today = dayjs()
-      const dayOfMonth = today.date()
-      requestEditor.txtDay().type(dayOfMonth)
-
-      const month = today.month()
-      const monthNumber = month + 1
-      requestEditor.txtMonth().type(monthNumber)
-
-      const year = today.year()
-      requestEditor.txtYear().type(year)
-    }
+  datatable.hashes().forEach(dataset => {
+    requestEditor.createDataset(dataset)
   })
 })
 
-When('I verify my new reporting dataset with the following values', (datatable) => {
-  const data = datatable.hashes()[0]
 
-  const resolveTodaysDate = (value) => {
-    if (value === 'today') {
-      return dayjs().format('DD/MM/YYYY')
-    }
-    return value
-  }
-
-  const assertSummaryRow = (label, expectedValue) => {
-    cy.contains('.govuk-summary-list__row', label)
-      .within(() => {
-        cy.get('.govuk-summary-list__value')
-          .should('be.visible')
-          .and('contain.text', expectedValue)
-      })
-  }
-
-  const assertConfirmDetails = (data) => {
-    assertSummaryRow('Scheme', data.scheme)
-    assertSummaryRow('FRN (Firm Reference Number)', data.frn)
-    assertSummaryRow('Agreement / claim number', data.agreementNumber)
-    assertSummaryRow('Net value', data.netValue)
-    assertSummaryRow('Debt type', data.typeOfDebt)
-    assertSummaryRow('Date debt discovered',resolveTodaysDate(data.dateDebtDiscovered)
-    )
-  }
-  assertConfirmDetails(data)
+//verifies data is showing correctly on request editor confirmation screen
+When( 'I verify my new reporting dataset with the following values', (datatable) => {
+  requestEditor.verifyDatasetSummary(
+    datatable.hashes()[0]
+  )
 }
 )
 
+//generic success message verification, also checks url is correct
 Then('I see a success message for {string}', (successMessage) => {
   cy.url().should('include', 'debtAdded=true')
-
-
-  cy.get('.govuk-notification-banner')
-    .within(() => {
-      cy.contains('Success')
-      cy.contains(successMessage)
-    })
-
+  cy.assertSuccessBanner(successMessage)
 })
 
-
+//saves a var of how many datasets are currently present
 Then('I note the number of datasets displayed', () => {
-  cy.get('body').then(($body) => {
-
-    if ($body.find('table tbody tr').length > 0) {
-      const count = $body.find('table tbody tr').length
-      cy.wrap(count).as('initialCount')
-    } else {
-      cy.wrap(0).as('initialCount')
-    }
-
-  })
+  Cypress.emit('log:step', 'I note the number of datasets displayed')
+  cy.noteTableRowCount()
 })
 
-
+//verifies that the number of database entries increases after entering in new dataset
 Then('I should see one more dataset in the table', () => {
-  cy.get('@initialCount').then(initialCount => {
-    cy.get('table tbody tr')
-      .should('have.length', initialCount + 1)
-  })
+  cy.assertTableRowCountIncreasedBy(
+    'initialDatasetCount'
+  )
 })
 
-Then('the dataset {string} should be present', (agreementNumber) => {
-  cy.contains('tr', agreementNumber).should('exist')
+//ensures that the value is present in table, reusable for any value (FRN, agreement number, scheme ETC)
+Then('the dataset value {string} should be present', (value) => {
+  requestEditor.assertRowPresent(value)
 })
 
-
-Then('I make a note of the dataset count', () => {
-
-  Cypress.emit('log:step', 'I make a note of the dataset count')
-  requestEditor
-    .unattachedReportingDatasetsCount()
-    .should('be.visible')
-    .invoke('text').then(($datasetCount) => {
-      cy.wrap(parseInt($datasetCount), { log: true }).as('initialDatasetCount')
-    })
-})
 
 
 //Checks for the schemes based on the input given in the actual feature file. Can't use the saved file in /common/paymentholds.data.js because they don't match, atleast for now
+
 Then('I should see the following schemes:', (dataTable) => {
-
   Cypress.emit('log:step', 'I should see the following schemes:')
-
   dataTable.hashes().forEach(row => {
-    cy.get('#scheme')
-      .find('option')
-      .should('contain.text', row['Scheme Name'])
-
+    requestEditor.assertSchemeExists(
+      row['Scheme Name']
+    )
   })
 })
 
-Then('the extract is downloaded', () => {
 
+//Verifies csv downloads successfully
+Then('the extract is downloaded', () => {
   Cypress.emit('log:step', 'the extract is downloaded')
-  cy.readFile('cypress/downloads/ffc-pay-debts-report.csv', { timeout: 15000 })
+  const timeout = 15000
+  cy.verifyDownloadedFile(
+    'cypress/downloads/ffc-pay-debts-report.csv', timeout
+  )
 })
 
+// simple page button clicker, valid inputs are next or previous
+When('I click on the {string} page button', (button) => {
+  Cypress.emit( 'log:step', 'I click on the ${button} page button')
+  requestEditor.clickPageButton(button)
+})
+
+//########################################################################################################################
+
+//Everything below here is a mess and needs fixed or deleted. These are used in dev env
 When(/^I search for FRN "(.*)"$/, (text) => {
 
   Cypress.emit('log:step', 'I search for FRN ' + text)
@@ -259,15 +198,7 @@ Then('I can see {string} in the page box', number => {
   requestEditor.pageNumber().scrollIntoView().should('contain.text', number)
 })
 
-When('I click on the {string} page button', txt => {
 
-  Cypress.emit('log:step', 'I click on the ' + txt + ' page button')
-  if (txt === 'Next') {
-    requestEditor.btnNext().click({ force: true })
-  } else {
-    throw new Error('Button not found')
-  }
-})
 
 Then('I can see the {string} button', btnText => {
 

@@ -1,3 +1,5 @@
+import { resolveDate, getTodayDateParts } from  '../../utils/date.js'
+
 class requestEditorPage {
   errorSummaryTitle () {
     return cy.get('.govuk-error-summary__title')
@@ -39,12 +41,13 @@ class requestEditorPage {
     return this.inputById('debt-discovered-year')
   }
 
-  unattachedReportingDatasetsCount () {
-    return cy.get('.govuk-heading-xl').first()
+  schemeDropdown () {
+    return cy.get('#scheme')
   }
 
-  getSchemeRadioButton (schemeName) {
-    return cy.contains('label', schemeName)
+
+  unattachedReportingDatasetsCount () {
+    return cy.get('.govuk-heading-xl').first()
   }
 
   getFrnSearchField () {
@@ -133,6 +136,73 @@ class requestEditorPage {
   awaitingRepFRNSearchBtn () {
     return cy.get('form > .govuk-button')
   }
+  enterDebtDiscoveredDate ({ day, month, year }) {
+    this.txtDay().type(day)
+    this.txtMonth().type(month)
+    this.txtYear().type(year)
+  }
+
+  assertSummaryRow (label, expectedValue) {
+    cy.contains('.govuk-summary-list__row', label)
+      .within(() => {
+        cy.get('.govuk-summary-list__value')
+          .should('be.visible')
+          .and('contain.text', expectedValue)
+      })
+  }
+  verifyDatasetSummary (data) {
+    this.assertSummaryRow('Scheme', data.scheme)
+    this.assertSummaryRow('FRN (Firm Reference Number)', data.frn)
+    this.assertSummaryRow('Agreement / claim number', data.agreementNumber)
+    this.assertSummaryRow('Net value', data.netValue)
+    this.assertSummaryRow('Debt type', data.typeOfDebt)
+    this.assertSummaryRow(
+      'Date debt discovered',
+      resolveDate(data.dateDebtDiscovered)
+    )
+  }
+
+  createDataset (dataset) {
+    cy.get('#scheme').select(dataset.scheme)
+    this.txtFrn().type(dataset.frn)
+    if (dataset.agreementNumber) {
+      this.txtApplicationIdentifier()
+        .type(dataset.agreementNumber)
+    }
+    this.txtNetValue().type(dataset.netValue)
+    this.inputByValue(dataset.typeOfDebt).click()
+    if (dataset.dateDebtDiscovered === 'today') {
+      this.enterDebtDiscoveredDate(
+        getTodayDateParts()
+      )
+    }
+
+  }
+  assertRowPresent (value) {
+    cy.contains('tr', value)
+      .should('exist')
+  }
+
+  assertSchemeExists (schemeName) {
+    this.schemeDropdown()
+      .find('option')
+      .should('contain.text', schemeName)
+  }
+
+  clickPageButton (button) {
+
+    const buttons = {
+      Next: () => this.btnNext().click({ force: true }),
+      Previous: () => this.btnPrevious().click({ force: true })
+    }
+
+    if (!buttons[button]) {
+      throw new Error(`Page button '${button}' not found`)
+    }
+
+    buttons[button]()
+  }
+
 }
 
 export default new requestEditorPage()
