@@ -1,9 +1,14 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
-
 import requestEditor from '../pages/requestEditorPage'
 import capturePage from '../pages/capturePage'
 const dayjs = require('dayjs')
 
+
+
+
+
+
+// needs cleaned up and formatted, lots of not outdated functionality specifically for dev/test scenarios
 When('I create a new reporting dataset with the following values', (datatable) => {
 
   Cypress.emit('log:step', 'I create a new reporting dataset with the following values')
@@ -113,20 +118,8 @@ Then('I make a note of the dataset count', () => {
     })
 })
 
-Then('the dataset count has increased by 1', () => {
 
-  Cypress.emit('log:step', 'the dataset count has increased by 1')
-  cy.get('@initialDatasetCount').then((initialCount) => {
-    requestEditor
-      .unattachedReportingDatasetsCount()
-      .should('be.visible')
-      .invoke('text').then(($datasetCount) => {
-        const currentCount = parseInt($datasetCount)
-        expect(currentCount).to.equal(initialCount + 1)
-      })
-  })
-})
-
+//Checks for the schemes based on the input given in the actual feature file. Can't use the saved file in /common/paymentholds.data.js because they don't match, atleast for now
 Then('I should see the following schemes:', (dataTable) => {
 
   Cypress.emit('log:step', 'I should see the following schemes:')
@@ -348,42 +341,6 @@ Then('I see the {string} error summary item', (errorItem) => {
   requestEditor.errorSummaryItem().scrollIntoView().should('be.visible').and('contain.text', errorItem)
 })
 
-Then('I click on the {string} show attached datasets button', (radioButton) => {
-
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' show attached datasets button')
-  if (radioButton === 'Yes') {
-    requestEditor.unattachedDataYesButton().scrollIntoView().click()
-  } else if (radioButton === 'No') {
-    requestEditor.unattachedDataNoButton().scrollIntoView().click()
-  } else {
-    throw new Error('Radio button not found')
-  }
-})
-
-Then('I click on the {string} provisional values radio button', (radioButton) => {
-
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' provisional values radio button')
-  if (radioButton === 'Yes') {
-    requestEditor.yesProvisionalValuesRadioButton().scrollIntoView().click()
-  } else if (radioButton === 'No') {
-    requestEditor.noProvisionalValuesRadioButton().scrollIntoView().click()
-  } else {
-    throw new Error('Radio button not found')
-  }
-})
-
-Then('I click on the {string} edited correctly radio button', (radioButton) => {
-
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' edited correctly radio button')
-  if (radioButton === 'Yes') {
-    requestEditor.yesEditedCorrectlyRadioButton().scrollIntoView().click()
-  } else if (radioButton === 'No') {
-    requestEditor.noEditedCorrectlyRadioButton().scrollIntoView().click()
-  } else {
-    throw new Error('Radio button not found')
-  }
-})
-
 Then('I make a note of the {string} count', (text) => {
 
   Cypress.emit('log:step', 'I make a note of the ' + text + ' count')
@@ -434,17 +391,7 @@ Then('the {string} count has decreased by 1', (text) => {
   })
 })
 
-Then('I click on the {string} debt type radio button', (radioButton) => {
 
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' debt type radio button')
-  if (radioButton === 'Irregular') {
-    requestEditor.irregularRadioButton().scrollIntoView().click()
-  } else if (radioButton === 'Administrative') {
-    requestEditor.administrativeRadioButton().scrollIntoView().click()
-  } else {
-    throw new Error('Radio button not found')
-  }
-})
 
 Then('I enter a valid debt discovered date in the past', () => {
 
