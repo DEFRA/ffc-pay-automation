@@ -183,6 +183,19 @@ class requestEditorPage {
       .should('exist')
   }
 
+  assertTableRow (expectedValues, rowNumber = 1) {
+
+    cy.get('.govuk-table__body tr')
+      .eq(rowNumber - 1)
+      .within(() => {
+
+        expectedValues.forEach(value => {
+          cy.contains(value)
+        })
+
+      })
+  }
+
   assertSchemeExists (schemeName) {
     this.schemeDropdown()
       .find('option')
@@ -203,6 +216,28 @@ class requestEditorPage {
     buttons[button]()
   }
 
+
+  verifyAwaitingReportingData (data) {
+
+    this.assertTableRow([
+      data.scheme,
+      data.schemeYear,
+      data.frn,
+      data.agreementNumber,
+      data.totalAmount,
+      data.daysWaiting
+    ])
+  }
+
+  verifyAwaitingDatasetSummary (data) {
+    this.assertSummaryRows({
+      'FRN': data.frn,
+      'Scheme': data.scheme,
+      'Scheme year': data.schemeYear,
+      'Agreement number': data.agreementNumber,
+      //something to verify Invoice number in the future? where is this generated?
+    })
+  }
 }
 
 export default new requestEditorPage()

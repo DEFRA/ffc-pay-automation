@@ -21,6 +21,22 @@ When( 'I verify my new reporting dataset with the following values', (datatable)
 }
 )
 
+//verifies data is showing correctly on awaiting payment data enrich screen
+When( 'I verify my data to be enriched is correct ', (datatable) => {
+  requestEditor.verifyAwaitingDatasetSummary(
+    datatable.hashes()[0]
+  )
+}
+
+)
+// Verifies data is showing correctly in awaiting payment data screen in the table
+When( 'I verify my new awaiting payment data with the following values', (datatable) => {
+  requestEditor.verifyAwaitingReportingData(
+    datatable.hashes()[0]
+  )
+}
+)
+
 //generic success message verification, also checks url is correct
 Then('I see a success message for {string}', (successMessage) => {
   cy.url().should('include', 'debtAdded=true')
@@ -74,9 +90,10 @@ When('I click on the {string} page button', (button) => {
   requestEditor.clickPageButton(button)
 })
 
+
 //########################################################################################################################
 
-//Everything below here is a mess and needs fixed or deleted. These are used in dev env
+//Everything below here is a mess and needs fixed or deleted. These are used in dev env so i'm not going to delete them until I test dev
 When(/^I search for FRN "(.*)"$/, (text) => {
 
   Cypress.emit('log:step', 'I search for FRN ' + text)
