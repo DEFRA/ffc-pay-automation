@@ -22,13 +22,20 @@ When( 'I verify my new reporting dataset with the following values', (datatable)
 )
 
 //verifies data is showing correctly on awaiting payment data enrich screen
-When( 'I verify my data to be enriched is correct ', (datatable) => {
+When( 'I verify my data to be enriched is correct', (datatable) => {
   requestEditor.verifyAwaitingDatasetSummary(
+    datatable.hashes()[0]
+  )
+})
+
+When( 'I verify my enrichment request is correct', (datatable) => {
+  requestEditor.verifyEnrichmentData(
     datatable.hashes()[0]
   )
 }
 
 )
+
 // Verifies data is showing correctly in awaiting payment data screen in the table
 When( 'I verify my new awaiting payment data with the following values', (datatable) => {
   requestEditor.verifyAwaitingReportingData(
@@ -89,6 +96,25 @@ When('I click on the {string} page button', (button) => {
   Cypress.emit( 'log:step', 'I click on the ${button} page button')
   requestEditor.clickPageButton(button)
 })
+
+
+
+When(
+  'I enter {string} as the debt discovered date',
+  (date) => {
+
+    const [day, month, year] = date.split('/')
+
+    requestEditor.enterDateField(
+      'debt-discovered-date',
+      { day, month, year }
+    )
+  }
+)
+
+
+
+
 
 
 //########################################################################################################################

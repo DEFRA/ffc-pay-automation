@@ -90,6 +90,14 @@ When('I click on {string}', (text) => {
   cy.contains(text).scrollIntoView().click()
 })
 
+When('I click on the {string} radio button', (option) => {
+  cy.contains('.govuk-radios__item', option)
+    .find('input[type="radio"]')
+    .check({ force: true })
+
+})
+
+
 // -------------------------
 // ASSERTIONS
 // -------------------------

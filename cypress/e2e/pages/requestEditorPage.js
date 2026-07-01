@@ -202,6 +202,26 @@ class requestEditorPage {
       .should('contain.text', schemeName)
   }
 
+
+  assertKeyValuePairs (rows) {
+
+    Object.entries(rows).forEach(([key, value], index) => {
+
+      cy.get('.govuk-summary-list__row')
+        .eq(index)
+        .within(() => {
+
+          cy.get('.govuk-summary-list__key')
+            .should('contain.text', key)
+
+          cy.get('.govuk-summary-list__value')
+            .should('contain.text', value)
+
+        })
+    })
+  }
+
+
   clickPageButton (button) {
 
     const buttons = {
@@ -230,13 +250,29 @@ class requestEditorPage {
   }
 
   verifyAwaitingDatasetSummary (data) {
-    this.assertSummaryRows({
+    this.assertKeyValuePairs({
       'FRN': data.frn,
       'Scheme': data.scheme,
-      'Scheme year': data.schemeYear,
+      'Year': data.schemeYear,
       'Agreement number': data.agreementNumber,
       //something to verify Invoice number in the future? where is this generated?
     })
+  }
+
+  verifyEnrichmentData (data) {
+    this.assertKeyValuePairs({
+      'Debt type': data.debtType,
+      'Date debt discovered': data.dateDebtDiscovered,
+    })
+  }
+
+  enterDateField (fieldId, { day, month, year }) {
+
+    cy.get(`#${fieldId}-day`).clear().type(day)
+    cy.get(`#${fieldId}-month`).clear().type(month)
+    cy.get(`#${fieldId}-year`).clear().type(year)
+
+
   }
 }
 
