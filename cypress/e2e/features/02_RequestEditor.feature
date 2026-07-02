@@ -7,30 +7,64 @@ Feature: 02 Request Editor
   Background: Navigate to Request Editor homepage
     Given I visit the "Request Editor" homepage
 
+#####################################################################################################################
+#                                                                                                                   #
+#                                               EXAMPLES:                                                           #
+#     | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |                        #
+#     | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |                        #
+#     | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | 11/11/2021         |                        #
+#                                                                                                                   #
+#     NOTES                                                                                                         #
+#     - Running Scenario 14 onwards requires a fresh environment in order for the flow to complete succesfully.     #
+#     - This is why we restart the environment in Scenario 01, if you already have a fresh env just comment it out. # 
+#                                                                                                                   #
+#     TODO                                                                                                          #
+#      - Need to retire capturePage.js and have all in the one RequestEditorPage                                    #
+#                                                                                                                   #
+#                                                                                                                   #
+#####################################################################################################################
+
+###################################################################   
+#                                                                 #
+# "Unattached reporting datasets" section of Request editor       #
+#                                                                 #
+###################################################################
+
+
   @dev @local
   Scenario: 01 Validate Dataset Count Increment After Adding a New Reporting Dataset
-    And I make a note of the dataset count
-    And I click on the "Capture new dataset" link
-    And the application identifier field header is visible with text "Agreement/claim number"
-    And the application identifier hint is visible with text "Enter the agreement/claim number, for example SIP000000000001 or 1234567"
-    And I create a new reporting dataset with the following values
+    Given I restart the local environment
+    And I click on the "View all datasets" link
+    And I note the number of datasets displayed
+    And I click on the "Create new dataset" link
+    And the application identifier field header is visible with text 'Agreement / claim number'
+    And the application identifier hint is visible with text 'For example, SIP000000000001 or 12345678'
+    And I create a new debt dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
       | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
     When I click on the "Continue" button
-    Then I am on the "Request Editor" homepage
+    And I verify my new debt dataset with the following values on the confirmation screen
+      | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
+      | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
+    And I click on the "Save" button
+    And I see a success message for "New reporting dataset has been successfully created."
+    And I click the "Home" breadcrumb
+    And I click on the "View all datasets" link
     Then I take a screenshot for Feature 2 and Scenario 1
-    And the dataset count has increased by 1
+    Then I should see one more dataset in the table
+    And the dataset value "SIP000000000001" should be present
 
   @test @dev @local
-  Scenario: 02 Verify all schemes are displayed correctly
-    When I click on the "Capture new dataset" link
+  Scenario: 02 Verify all schemes are displayed correctly for creating a new reporting dataset
+    And I click on the "View all datasets" link
+    When I click on the "Create new dataset" link
     Then I take a screenshot for Feature 2 and Scenario 2
     Then I should see the following schemes:
       | Scheme Name                        |
+      | Annual Health and Welfare Review   |
       | SFI22                              |
       | SFI Pilot                          |
       | Lump Sums                          |
-      | Vet Visits                         |
       | CS                                 |
       | BPS                                |
       | Delinked                           |
@@ -43,8 +77,7 @@ Feature: 02 Request Editor
   @test @dev @local
   Scenario: 03 Download Extract
     And I click on the "View all datasets" link
-    And I am on the "capture" subpage
-    When I click on the "Download an extract" download link
+    When I click on the "Download as CSV" download link
     Then the extract is downloaded
 
   @test @dev
@@ -75,44 +108,47 @@ Feature: 02 Request Editor
       | 1230521262 |
 
   @dev @local
-  Scenario: 06 Debt data reference is less than 5 characters
-    And I click on the "Capture new dataset" link
-    And I create a new reporting dataset with the following values
+  Scenario: 06 Agreement/Claim Number is less than 5 characters
+    And I click on the "View all datasets" link
+    And I click on the "Create new dataset" link
+    And I create a new debt dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
       | SFI22  | 1234567891 | 1234            | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I take a screenshot for Feature 2 and Scenario 6
-    Then I see the 'The agreement/claim number must be at least 5 characters long.' application identifier error message
+    Then I see the 'The Agreement / claim number must be at least 5 characters long' application identifier error message
     And I see the 'There is a problem' error summary title
-    And I see the 'The agreement/claim number must be at least 5 characters long.' error summary item
+    And I see the 'The Agreement / claim number must be at least 5 characters long' error summary item
 
   @dev @local
-  Scenario: 07 Debt data reference is not provided
-    And I click on the "Capture new dataset" link
-    And I create a new reporting dataset with the following values
+  Scenario: 07 Agreement/Claim Number is not provided
+    And I click on the "View all datasets" link
+    And I click on the "Create new dataset" link
+    And I create a new debt dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
       | SFI22  | 1234567891 |                 | 10000    | irr        | today              |
     When I click on the "Continue" button
-    Then I see the 'The agreement/claim number is required.' application identifier error message
+    Then I see the 'The Agreement / claim number is required' application identifier error message
     Then I take a screenshot for Feature 2 and Scenario 7
     And I see the 'There is a problem' error summary title
-    And I see the 'The agreement/claim number is required.' error summary item
+    And I see the 'The Agreement / claim number is required' error summary item
 
   @dev @local
-  Scenario: 08 Debt data reference is not alphanumeric
-    And I click on the "Capture new dataset" link
-    And I create a new reporting dataset with the following values
+  Scenario: 08 Agreement/Claim Number is not alphanumeric
+    And I click on the "View all datasets" link
+    And I click on the "Create new dataset" link
+    And I create a new debt dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
       | SFI22  | 1234567891 | !@£$%^&%*       | 10000    | irr        | today              |
     When I click on the "Continue" button
-    Then I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' application identifier error message
+    Then I see the 'The Agreement / claim number must be a string consisting of alphanumeric characters and underscores' application identifier error message
     Then I take a screenshot for Feature 2 and Scenario 8
     And I see the 'There is a problem' error summary title
-    And I see the 'The agreement/claim number must be a string consisting of alphanumeric characters and underscores.' error summary item
+    And I see the 'The Agreement / claim number must be a string consisting of alphanumeric characters and underscores' error summary item
 
   Scenario Outline: 09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number
     And I click on the "View all datasets" link
-    And I am on the "capture" subpage
+    And I click on the "Create new dataset" link
     And I enter '<frn>' in the FRN number search field
     When I click the FRN number search button
     Then each record in the table has the FRN number '<frn>'
@@ -133,7 +169,7 @@ Feature: 02 Request Editor
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
     And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
-    When I click the Scheme search button
+    When I click the search button
     Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
 
   @test
@@ -141,34 +177,148 @@ Feature: 02 Request Editor
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
     And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
-    When I click the Scheme search button
+    When I click the search button
     Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
 
   @test @dev @local
   Scenario: 11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme
     And I click on the "View all datasets" link
-    And I am on the "capture" subpage
     And I enter '1234567891' in the FRN number search field
-    And I click the FRN number search button
     And I select 'SFI22' in the scheme dropdown
-    When I click the Scheme search button
-    # Then I take a screenshot for Feature 2 and Scenario 11
+    When I click the search button
+    Then I take a screenshot for Feature 2 and Scenario 11
     And each record in the table has the Scheme 'SFI22'
 
   @test @dev @local
   Scenario: 12 Unattached reporting datasets - Searching based on FRN number that returns no datasets
     And I click on the "View all datasets" link
-    And I am on the "capture" subpage
     And I enter '9999999999' in the FRN number search field
-    When I click the FRN number search button
-    Then I should see "No reporting datasets"
+    When I click the search button
+    Then I should see "No datasets were found for 9999999999. Check your details and try again"
     Then I take a screenshot for Feature 2 and Scenario 12
 
   @test @dev @local
   Scenario: 13 Unattached reporting datasets - Searching based on scheme that returns no datasets
     And I click on the "View all datasets" link
-    And I am on the "capture" subpage
-    And I select 'Vet Visits' in the scheme dropdown
-    When I click the Scheme search button
-    Then I should see "No reporting datasets"
+    And I select 'Annual Health and Welfare Review' in the scheme dropdown
+    When I click the search button
+    Then I should see "No datasets were found for Annual Health and Welfare Review. Check your details and try again"
     Then I take a screenshot for Feature 2 and Scenario 13
+
+
+  ###################################################################   
+  #                                                                 #
+  # "Requests awaiting debt data" section of Request editor         #
+  #                                                                 #
+  ###################################################################
+
+
+
+  @local
+  Scenario: 14 insert test data via service bus message to ffc-pay-request
+    ##This scenario adds in data so we can see items in the "Request awaiting reporting data" section for local verification. 
+    ##It is taken from SFI23Payments.feature. You will need to restart env with -v to rerun it, so comment this section
+    ##out if you don't need this for your run
+    When I send the updated "sfi23-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
+    Then I confirm that payment test data has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data has been inserted into the ffc-pay-submission database
+    Then I pull sfi23 payments file from Azure Blob Storage and confirm that correct values have been generated
+    When I send the updated "sfi23-returnFileMessage" message to the service bus topic "ffc-pay-return-auto"
+    Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
+    When I send the updated "sfi23-ppaFileMessage" message to the service bus topic "ffc-pay-request-auto"
+    Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
+
+  @local
+  Scenario:15 Requests awaiting debt data - verify table matches input file
+    And I click on the "View awaiting debt data" link
+    And I verify my new awaiting payment data with the following values displays on the table
+      | scheme | schemeYear | frn        | agreementNumber | totalAmount | daysWaiting |
+      | SFI23  | 2023       | 1258445148 | 40770826        | 10,000      | 0           |
+    And I take a screenshot for Feature 2 and Scenario 15
+
+  @local
+  Scenario:16 Requests awaiting debt data - Searching based on FRN number that returns no reporting data
+    And I click on the "View awaiting debt data" link
+    And I enter '9999999999' in the FRN number search field
+    When I click the search button
+    Then I should see "No requests awaiting reporting data were found."
+    Then I take a screenshot for Feature 2 and Scenario 16
+
+  @local
+  Scenario:17 Requests awaiting debt data - Searching based on invalid FRN number throws error
+    And I click on the "View awaiting debt data" link
+    And I enter '1234' in the FRN number search field
+    When I click on the "Search" button
+    Then I take a screenshot for Feature 2 and Scenario 17
+  #Below do not work right now due to defect 
+  #   Then I see the 'The FRN number must be at least 10 characters long' application identifier error message
+  #   And I see the 'There is a problem' error summary title
+  #   And I see the 'The Agreement / claim number must be at least 5 characters long' error summary item
+
+  @local
+  Scenario:18 Requests awaiting debt data - Searching based on FRN number displays only records related to both that FRN number
+    And I click on the "View awaiting debt data" link
+    And I enter '1258445148' in the FRN number search field
+    When I click on the "Search" button
+    And I verify my new awaiting payment data with the following values displays on the table
+      | scheme | schemeYear | frn        | agreementNumber | totalAmount | daysWaiting |
+      | SFI23  | 2023       | 1258445148 | 40770826        | 10,000      | 0           |
+
+  @local
+  Scenario:19 Requests awaiting debt data - enrich data
+    And I click on the "View awaiting debt data" link
+    And I enter '1258445148' in the FRN number search field
+    ##this only works if theres only one entry returned after searching - i think it will?
+    And I click on the "Enrich" link
+    And I verify my data to be enriched is correct in the confirmation screen
+      | frn        | scheme | schemeYear | agreementNumber |
+      | 1258445148 | SFI23  | 2023       | 40770826        |
+    And I click on the "Administrative" radio button
+    And I enter "11/11/2023" as the debt discovered date
+    And I click on the "Continue" button
+    And I verify my enrichment request is correctly showing in the table
+      | debtType       | dateDebtDiscovered |
+      | Administrative | 11/11/2023         |
+    And I click on the "Submit" button
+    Then I see a success message for "Payment request was successfully updated."
+    Then I take a screenshot for Feature 2 and Scenario 19
+
+
+  ###################################################################  
+  #                                                                 #
+  # "Manual ledger assignment" section of Request editor            #
+  #                                                                 #
+  ###################################################################
+    
+    
+  @local
+  Scenario:20 Manual ledger assignment - search by frn, verify table matches enrichment, then review
+    And I click on the "View awaiting manual ledger assignment" link
+    And I enter '1258445148' in the FRN number search field
+    When I click on the "Search" button
+    Then I verify my awaiting ledger assignment data is displaying correctly with the following values on the table
+      | scheme | schemeYear | frn        | agreementNumber | received |
+      | SFI23  | 2023       | 1258445148 | 40770826        | today    |
+    And I click on the "Review" link
+    #probably could do with some more verification here
+    #also another scenario where we click the no i dont agree button
+    And I click on the "Yes, I agree" radio button
+    And I click on the "Continue" button
+    Then I see a success message for "has been updated and sent for quality checking."
+    And I take a screenshot for Feature 2 and Scenario 20
+
+  ###################################################################  
+  #                                                                 #
+  # "Ledger assignment quality check" section of Request editor     #
+  #                                                                 #
+  ###################################################################
+
+  @local
+  Scenario:21 Ledger assignment quality check - verify search and visibility of request
+    And I click on the "View awaiting ledger assignment quality check" link
+    And I enter '1258445148' in the FRN number search field
+    When I click on the "Search" button
+    And I verify my ledger quality check data is displaying correctly with the following values on the table
+      | scheme | schemeYear | frn        | agreementNumber |
+      | SFI23  | 2023       | 1258445148 | 40770826        |
+    And I take a screenshot for Feature 2 and Scenario 21

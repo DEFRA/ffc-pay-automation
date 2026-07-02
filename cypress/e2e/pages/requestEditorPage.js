@@ -1,3 +1,5 @@
+import { resolveDate, getTodayDateParts } from  '../../utils/date.js'
+
 class requestEditorPage {
   errorSummaryTitle () {
     return cy.get('.govuk-error-summary__title')
@@ -39,12 +41,13 @@ class requestEditorPage {
     return this.inputById('debt-discovered-year')
   }
 
-  unattachedReportingDatasetsCount () {
-    return cy.get('.govuk-heading-xl').first()
+  schemeDropdown () {
+    return cy.get('#scheme')
   }
 
-  getSchemeRadioButton (schemeName) {
-    return cy.contains('label', schemeName)
+
+  unattachedReportingDatasetsCount () {
+    return cy.get('.govuk-heading-xl').first()
   }
 
   getFrnSearchField () {
@@ -106,27 +109,6 @@ class requestEditorPage {
   btnPrevious () {
     return cy.get('[rel="prev"] > .govuk-pagination__link-title')
   }
-
-  yesProvisionalValuesRadioButton () {
-    return cy.get('#agree')
-  }
-
-  noProvisionalValuesRadioButton () {
-    return cy.get('#agree-2')
-  }
-
-  yesEditedCorrectlyRadioButton () {
-    return cy.get('#status')
-  }
-
-  noEditedCorrectlyRadioButton () {
-    return cy.get('#status-2')
-  }
-
-  irregularRadioButton () {
-    return cy.get('#debt-type')
-  }
-
   administrativeRadioButton () {
     return cy.get('#debt-type-2')
   }
@@ -153,6 +135,160 @@ class requestEditorPage {
 
   awaitingRepFRNSearchBtn () {
     return cy.get('form > .govuk-button')
+  }
+  enterDebtDiscoveredDate ({ day, month, year }) {
+    this.txtDay().type(day)
+    this.txtMonth().type(month)
+    this.txtYear().type(year)
+  }
+  createDataset (dataset) {
+    cy.get('#scheme').select(dataset.scheme)
+    this.txtFrn().type(dataset.frn)
+    if (dataset.agreementNumber) {
+      this.txtApplicationIdentifier()
+        .type(dataset.agreementNumber)
+    }
+    this.txtNetValue().type(dataset.netValue)
+    this.inputByValue(dataset.typeOfDebt).click()
+    if (dataset.dateDebtDiscovered === 'today') {
+      this.enterDebtDiscoveredDate(
+        getTodayDateParts()
+      )
+    }
+
+  }
+
+  assertSummaryRow (label, expectedValue) {
+    cy.contains('.govuk-summary-list__row', label)
+      .within(() => {
+        cy.get('.govuk-summary-list__value')
+          .should('be.visible')
+          .and('contain.text', expectedValue)
+      })
+  }
+  verifyDatasetSummary (data) {
+    this.assertSummaryRow('Scheme', data.scheme)
+    this.assertSummaryRow('FRN (Firm Reference Number)', data.frn)
+    this.assertSummaryRow('Agreement / claim number', data.agreementNumber)
+    this.assertSummaryRow('Net value', data.netValue)
+    this.assertSummaryRow('Debt type', data.typeOfDebt)
+    this.assertSummaryRow(
+      'Date debt discovered',
+      resolveDate(data.dateDebtDiscovered)
+    )
+  }
+  verifyAwaitingReportingData (data) {
+
+    this.assertTableRow([
+      data.scheme,
+      data.schemeYear,
+      data.frn,
+      data.agreementNumber,
+      data.totalAmount,
+      data.daysWaiting
+    ])
+  }
+  verifyLedgerAssignmentData (data) {
+
+    this.assertTableRow([
+      data.scheme,
+      data.schemeYear,
+      data.frn,
+      data.agreementNumber,
+      resolveDate(data.received),
+    ])
+  }
+
+  verifyAwaitingDatasetSummary (data) {
+    this.assertKeyValuePairs({
+      'FRN': data.frn,
+      'Scheme': data.scheme,
+      'Year': data.schemeYear,
+      'Agreement number': data.agreementNumber,
+      //something to verify Invoice number in the future? where is this generated?
+    })
+  }
+
+  verifyEnrichmentData (data) {
+    this.assertKeyValuePairs({
+      'Debt type': data.debtType,
+      'Date debt discovered': data.dateDebtDiscovered,
+    })
+  }
+
+  verifyLedgerQualityCheck (data) {
+
+    this.assertTableRow([
+      data.scheme,
+      data.schemeYear,
+      data.frn,
+      data.agreementNumber,
+    ])
+  }
+
+  assertRowPresent (value) {
+    cy.contains('tr', value)
+      .should('exist')
+  }
+
+  assertTableRow (expectedValues, rowNumber = 1) {
+
+    cy.get('.govuk-table__body tr')
+      .eq(rowNumber - 1)
+      .within(() => {
+
+        expectedValues.forEach(value => {
+          cy.contains(value)
+        })
+
+      })
+  }
+
+  assertSchemeExists (schemeName) {
+    this.schemeDropdown()
+      .find('option')
+      .should('contain.text', schemeName)
+  }
+
+
+  assertKeyValuePairs (rows) {
+
+    Object.entries(rows).forEach(([key, value], index) => {
+
+      cy.get('.govuk-summary-list__row')
+        .eq(index)
+        .within(() => {
+
+          cy.get('.govuk-summary-list__key')
+            .should('contain.text', key)
+
+          cy.get('.govuk-summary-list__value')
+            .should('contain.text', value)
+
+        })
+    })
+  }
+
+  enterDateField (fieldId, { day, month, year }) {
+
+    cy.get(`#${fieldId}-day`).clear().type(day)
+    cy.get(`#${fieldId}-month`).clear().type(month)
+    cy.get(`#${fieldId}-year`).clear().type(year)
+
+
+  }
+  clickPageButton (button) {
+
+    const buttons = {
+      Next: () => this.btnNext().click({ force: true }),
+      Previous: () => this.btnPrevious().click({ force: true })
+    }
+
+    if (!buttons[button]) {
+      throw new Error(`Page button '${button}' not found`)
+    }
+
+    buttons[button]()
   }
 }
 

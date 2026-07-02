@@ -1,75 +1,160 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
-
 import requestEditor from '../pages/requestEditorPage'
 import capturePage from '../pages/capturePage'
-const dayjs = require('dayjs')
 
-When('I create a new reporting dataset with the following values', (datatable) => {
+
+//+-----------------------------+
+//| Creating a new debt dataset |
+//+-----------------------------+
+
+
+//takes table data from cucumber steps and enters it on create new debt form
+When('I create a new debt dataset with the following values', (datatable) => {
 
   Cypress.emit('log:step', 'I create a new reporting dataset with the following values')
-  datatable.hashes().forEach((element) => {
-    requestEditor.inputByValue(element.scheme).click()
-    requestEditor.txtFrn().type(element.frn)
-    if (element.agreementNumber !== '') {
-      requestEditor.txtApplicationIdentifier().type(element.agreementNumber)
-    }
-    requestEditor.txtNetValue().type(element.netValue)
-    requestEditor.inputByValue(element.typeOfDebt).click()
-
-    if (element.dateDebtDiscovered === 'today') {
-      const today = dayjs()
-      const dayOfMonth = today.date()
-      requestEditor.txtDay().type(dayOfMonth)
-
-      const month = today.month()
-      const monthNumber = month + 1
-      requestEditor.txtMonth().type(monthNumber)
-
-      const year = today.year()
-      requestEditor.txtYear().type(year)
-    }
+  datatable.hashes().forEach(dataset => {
+    requestEditor.createDataset(dataset)
   })
 })
 
-Then('I make a note of the dataset count', () => {
 
-  Cypress.emit('log:step', 'I make a note of the dataset count')
-  requestEditor
-    .unattachedReportingDatasetsCount()
-    .should('be.visible')
-    .invoke('text').then(($datasetCount) => {
-      cy.wrap(parseInt($datasetCount), { log: true }).as('initialDatasetCount')
-    })
+//verifies data is showing correctly on request editor confirmation screen
+When( 'I verify my new debt dataset with the following values on the confirmation screen', (datatable) => {
+  requestEditor.verifyDatasetSummary(
+    datatable.hashes()[0]
+  )
+}
+)
+
+//+----------------------------------------------------------------+
+//| Requests awaiting debt data (we enrich the data at this point) |
+//+----------------------------------------------------------------+
+
+
+//verifies data is showing correctly on awaiting payment data enrich screen
+When( 'I verify my data to be enriched is correct in the confirmation screen', (datatable) => {
+  requestEditor.verifyAwaitingDatasetSummary(
+    datatable.hashes()[0]
+  )
 })
 
-Then('the dataset count has increased by 1', () => {
-
-  Cypress.emit('log:step', 'the dataset count has increased by 1')
-  cy.get('@initialDatasetCount').then((initialCount) => {
-    requestEditor
-      .unattachedReportingDatasetsCount()
-      .should('be.visible')
-      .invoke('text').then(($datasetCount) => {
-        const currentCount = parseInt($datasetCount)
-        expect(currentCount).to.equal(initialCount + 1)
-      })
-  })
+//Verifies data in the confirmation table is correct for the enrichment inside the awaiting reporting data section
+When( 'I verify my enrichment request is correctly showing in the table', (datatable) => {
+  requestEditor.verifyEnrichmentData(
+    datatable.hashes()[0]
+  )
 })
+
+
+// Verifies data is showing correctly in awaiting payment data screen in the table
+When( 'I verify my new awaiting payment data with the following values displays on the table', (datatable) => {
+  requestEditor.verifyAwaitingReportingData(
+    datatable.hashes()[0]
+  )
+}
+)
+
+//+-----------------------------+
+//| Manual ledger assignment    |
+//+-----------------------------+
+
+
+When( 'I verify my awaiting ledger assignment data is displaying correctly with the following values on the table', (datatable) => {
+  requestEditor.verifyLedgerAssignmentData(
+    datatable.hashes()[0]
+  )
+}
+)
+
+//+------------------------------------+
+//| Ledger assignment quality check    |
+//+------------------------------------+
+
+
+
+When( 'I verify my ledger quality check data is displaying correctly with the following values on the table', (datatable) => {
+  requestEditor.verifyLedgerQualityCheck(
+    datatable.hashes()[0]
+  )
+}
+)
+
+//+-----------------------------+
+//| Generic - Data assertions   |
+//+-----------------------------+
+
+
+//saves a var of how many datasets are currently present
+Then('I note the number of datasets displayed', () => {
+  Cypress.emit('log:step', 'I note the number of datasets displayed')
+  cy.noteTableRowCount()
+})
+
+//verifies that the number of database entries increases after entering in new dataset
+Then('I should see one more dataset in the table', () => {
+  cy.assertTableRowCountIncreasedBy(
+    'initialDatasetCount'
+  )
+})
+
+//ensures that the single value is present in table, reusable for any value (FRN, agreement number, scheme ETC)
+Then('the dataset value {string} should be present', (value) => {
+  requestEditor.assertRowPresent(value)
+})
+
+
+//Checks for the schemes based on the input given in the actual feature file. Can't use the saved file in /common/paymentholds.data.js because they don't match, atleast for now
 
 Then('I should see the following schemes:', (dataTable) => {
-
   Cypress.emit('log:step', 'I should see the following schemes:')
   dataTable.hashes().forEach(row => {
-    requestEditor.getSchemeRadioButton(row['Scheme Name']).should('exist')
+    requestEditor.assertSchemeExists(
+      row['Scheme Name']
+    )
   })
 })
 
-Then('the extract is downloaded', () => {
 
+//Verifies csv downloads successfully
+Then('the extract is downloaded', () => {
   Cypress.emit('log:step', 'the extract is downloaded')
-  cy.readFile('cypress/downloads/ffc-pay-debts-report.csv', { timeout: 15000 })
+  const timeout = 15000
+  cy.verifyDownloadedFile(
+    'cypress/downloads/ffc-pay-debts-report.csv', timeout
+  )
 })
 
+// simple page button clicker, valid inputs are next or previous
+When('I click on the {string} page button', (button) => {
+  Cypress.emit( 'log:step', 'I click on the ${button} page button')
+  requestEditor.clickPageButton(button)
+})
+
+
+
+When(
+  'I enter {string} as the debt discovered date',
+  (date) => {
+
+    const [day, month, year] = date.split('/')
+
+    requestEditor.enterDateField(
+      'debt-discovered-date',
+      { day, month, year }
+    )
+  }
+)
+
+//generic FRN search field helper, works across all pages
+When('I enter {string} in the FRN number search field', (frnNumber) => {
+
+  Cypress.emit('log:step', 'I enter ' + frnNumber + ' in the FRN number search field')
+  capturePage.captureTxtFrn().type(frnNumber)
+})
+
+//########################################################################################################################
+
+//Everything below here is a mess and needs fixed or deleted. These are used in dev env so i'm not going to delete them until I test dev
 When(/^I search for FRN "(.*)"$/, (text) => {
 
   Cypress.emit('log:step', 'I search for FRN ' + text)
@@ -191,15 +276,7 @@ Then('I can see {string} in the page box', number => {
   requestEditor.pageNumber().scrollIntoView().should('contain.text', number)
 })
 
-When('I click on the {string} page button', txt => {
 
-  Cypress.emit('log:step', 'I click on the ' + txt + ' page button')
-  if (txt === 'Next') {
-    requestEditor.btnNext().click({ force: true })
-  } else {
-    throw new Error('Button not found')
-  }
-})
 
 Then('I can see the {string} button', btnText => {
 
@@ -273,42 +350,6 @@ Then('I see the {string} error summary item', (errorItem) => {
   requestEditor.errorSummaryItem().scrollIntoView().should('be.visible').and('contain.text', errorItem)
 })
 
-Then('I click on the {string} show attached datasets button', (radioButton) => {
-
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' show attached datasets button')
-  if (radioButton === 'Yes') {
-    requestEditor.unattachedDataYesButton().scrollIntoView().click()
-  } else if (radioButton === 'No') {
-    requestEditor.unattachedDataNoButton().scrollIntoView().click()
-  } else {
-    throw new Error('Radio button not found')
-  }
-})
-
-Then('I click on the {string} provisional values radio button', (radioButton) => {
-
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' provisional values radio button')
-  if (radioButton === 'Yes') {
-    requestEditor.yesProvisionalValuesRadioButton().scrollIntoView().click()
-  } else if (radioButton === 'No') {
-    requestEditor.noProvisionalValuesRadioButton().scrollIntoView().click()
-  } else {
-    throw new Error('Radio button not found')
-  }
-})
-
-Then('I click on the {string} edited correctly radio button', (radioButton) => {
-
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' edited correctly radio button')
-  if (radioButton === 'Yes') {
-    requestEditor.yesEditedCorrectlyRadioButton().scrollIntoView().click()
-  } else if (radioButton === 'No') {
-    requestEditor.noEditedCorrectlyRadioButton().scrollIntoView().click()
-  } else {
-    throw new Error('Radio button not found')
-  }
-})
-
 Then('I make a note of the {string} count', (text) => {
 
   Cypress.emit('log:step', 'I make a note of the ' + text + ' count')
@@ -359,17 +400,7 @@ Then('the {string} count has decreased by 1', (text) => {
   })
 })
 
-Then('I click on the {string} debt type radio button', (radioButton) => {
 
-  Cypress.emit('log:step', 'I click on the ' + radioButton + ' debt type radio button')
-  if (radioButton === 'Irregular') {
-    requestEditor.irregularRadioButton().scrollIntoView().click()
-  } else if (radioButton === 'Administrative') {
-    requestEditor.administrativeRadioButton().scrollIntoView().click()
-  } else {
-    throw new Error('Radio button not found')
-  }
-})
 
 Then('I enter a valid debt discovered date in the past', () => {
 
