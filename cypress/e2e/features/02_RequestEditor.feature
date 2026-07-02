@@ -321,4 +321,4 @@ Feature: 02 Request Editor
     And I verify my ledger quality check data is displaying correctly with the following values on the table
       | scheme | schemeYear | frn        | agreementNumber |
       | SFI23  | 2023       | 1258445148 | 40770826        |
-    And I take a screenshot for Feature 2 and Scenario 20
+    And I take a screenshot for Feature 2 and Scenario 21
