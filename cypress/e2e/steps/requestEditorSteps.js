@@ -3,8 +3,13 @@ import requestEditor from '../pages/requestEditorPage'
 import capturePage from '../pages/capturePage'
 
 
-//takes data from cucumber steps and aligns it with form on request editor
-When('I create a new reporting dataset with the following values', (datatable) => {
+//+-----------------------------+
+//| Creating a new debt dataset |
+//+-----------------------------+
+
+
+//takes table data from cucumber steps and enters it on create new debt form
+When('I create a new debt dataset with the following values', (datatable) => {
 
   Cypress.emit('log:step', 'I create a new reporting dataset with the following values')
   datatable.hashes().forEach(dataset => {
@@ -14,41 +19,70 @@ When('I create a new reporting dataset with the following values', (datatable) =
 
 
 //verifies data is showing correctly on request editor confirmation screen
-When( 'I verify my new reporting dataset with the following values', (datatable) => {
+When( 'I verify my new debt dataset with the following values on the confirmation screen', (datatable) => {
   requestEditor.verifyDatasetSummary(
     datatable.hashes()[0]
   )
 }
 )
 
+//+----------------------------------------------------------------+
+//| Requests awaiting debt data (we enrich the data at this point) |
+//+----------------------------------------------------------------+
+
+
 //verifies data is showing correctly on awaiting payment data enrich screen
-When( 'I verify my data to be enriched is correct', (datatable) => {
+When( 'I verify my data to be enriched is correct in the confirmation screen', (datatable) => {
   requestEditor.verifyAwaitingDatasetSummary(
     datatable.hashes()[0]
   )
 })
 
-When( 'I verify my enrichment request is correct', (datatable) => {
+//Verifies data in the confirmation table is correct for the enrichment inside the awaiting reporting data section
+When( 'I verify my enrichment request is correctly showing in the table', (datatable) => {
   requestEditor.verifyEnrichmentData(
     datatable.hashes()[0]
   )
-}
+})
 
-)
 
 // Verifies data is showing correctly in awaiting payment data screen in the table
-When( 'I verify my new awaiting payment data with the following values', (datatable) => {
+When( 'I verify my new awaiting payment data with the following values displays on the table', (datatable) => {
   requestEditor.verifyAwaitingReportingData(
     datatable.hashes()[0]
   )
 }
 )
 
-//generic success message verification, also checks url is correct
-Then('I see a success message for {string}', (successMessage) => {
-  cy.url().should('include', 'debtAdded=true')
-  cy.assertSuccessBanner(successMessage)
-})
+//+-----------------------------+
+//| Manual ledger assignment    |
+//+-----------------------------+
+
+
+When( 'I verify my awaiting ledger assignment data is displaying correctly with the following values on the table', (datatable) => {
+  requestEditor.verifyLedgerAssignmentData(
+    datatable.hashes()[0]
+  )
+}
+)
+
+//+------------------------------------+
+//| Ledger assignment quality check    |
+//+------------------------------------+
+
+
+
+When( 'I verify my ledger quality check data is displaying correctly with the following values on the table', (datatable) => {
+  requestEditor.verifyLedgerQualityCheck(
+    datatable.hashes()[0]
+  )
+}
+)
+
+//+-----------------------------+
+//| Generic - Data assertions   |
+//+-----------------------------+
+
 
 //saves a var of how many datasets are currently present
 Then('I note the number of datasets displayed', () => {
@@ -63,11 +97,10 @@ Then('I should see one more dataset in the table', () => {
   )
 })
 
-//ensures that the value is present in table, reusable for any value (FRN, agreement number, scheme ETC)
+//ensures that the single value is present in table, reusable for any value (FRN, agreement number, scheme ETC)
 Then('the dataset value {string} should be present', (value) => {
   requestEditor.assertRowPresent(value)
 })
-
 
 
 //Checks for the schemes based on the input given in the actual feature file. Can't use the saved file in /common/paymentholds.data.js because they don't match, atleast for now
@@ -112,10 +145,12 @@ When(
   }
 )
 
+//generic FRN search field helper, works across all pages
+When('I enter {string} in the FRN number search field', (frnNumber) => {
 
-
-
-
+  Cypress.emit('log:step', 'I enter ' + frnNumber + ' in the FRN number search field')
+  capturePage.captureTxtFrn().type(frnNumber)
+})
 
 //########################################################################################################################
 

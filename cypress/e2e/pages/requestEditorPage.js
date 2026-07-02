@@ -141,6 +141,22 @@ class requestEditorPage {
     this.txtMonth().type(month)
     this.txtYear().type(year)
   }
+  createDataset (dataset) {
+    cy.get('#scheme').select(dataset.scheme)
+    this.txtFrn().type(dataset.frn)
+    if (dataset.agreementNumber) {
+      this.txtApplicationIdentifier()
+        .type(dataset.agreementNumber)
+    }
+    this.txtNetValue().type(dataset.netValue)
+    this.inputByValue(dataset.typeOfDebt).click()
+    if (dataset.dateDebtDiscovered === 'today') {
+      this.enterDebtDiscoveredDate(
+        getTodayDateParts()
+      )
+    }
+
+  }
 
   assertSummaryRow (label, expectedValue) {
     cy.contains('.govuk-summary-list__row', label)
@@ -161,23 +177,55 @@ class requestEditorPage {
       resolveDate(data.dateDebtDiscovered)
     )
   }
+  verifyAwaitingReportingData (data) {
 
-  createDataset (dataset) {
-    cy.get('#scheme').select(dataset.scheme)
-    this.txtFrn().type(dataset.frn)
-    if (dataset.agreementNumber) {
-      this.txtApplicationIdentifier()
-        .type(dataset.agreementNumber)
-    }
-    this.txtNetValue().type(dataset.netValue)
-    this.inputByValue(dataset.typeOfDebt).click()
-    if (dataset.dateDebtDiscovered === 'today') {
-      this.enterDebtDiscoveredDate(
-        getTodayDateParts()
-      )
-    }
-
+    this.assertTableRow([
+      data.scheme,
+      data.schemeYear,
+      data.frn,
+      data.agreementNumber,
+      data.totalAmount,
+      data.daysWaiting
+    ])
   }
+  verifyLedgerAssignmentData (data) {
+
+    this.assertTableRow([
+      data.scheme,
+      data.schemeYear,
+      data.frn,
+      data.agreementNumber,
+      resolveDate(data.received),
+    ])
+  }
+
+  verifyAwaitingDatasetSummary (data) {
+    this.assertKeyValuePairs({
+      'FRN': data.frn,
+      'Scheme': data.scheme,
+      'Year': data.schemeYear,
+      'Agreement number': data.agreementNumber,
+      //something to verify Invoice number in the future? where is this generated?
+    })
+  }
+
+  verifyEnrichmentData (data) {
+    this.assertKeyValuePairs({
+      'Debt type': data.debtType,
+      'Date debt discovered': data.dateDebtDiscovered,
+    })
+  }
+
+  verifyLedgerQualityCheck (data) {
+
+    this.assertTableRow([
+      data.scheme,
+      data.schemeYear,
+      data.frn,
+      data.agreementNumber,
+    ])
+  }
+
   assertRowPresent (value) {
     cy.contains('tr', value)
       .should('exist')
@@ -221,7 +269,14 @@ class requestEditorPage {
     })
   }
 
+  enterDateField (fieldId, { day, month, year }) {
 
+    cy.get(`#${fieldId}-day`).clear().type(day)
+    cy.get(`#${fieldId}-month`).clear().type(month)
+    cy.get(`#${fieldId}-year`).clear().type(year)
+
+
+  }
   clickPageButton (button) {
 
     const buttons = {
@@ -234,45 +289,6 @@ class requestEditorPage {
     }
 
     buttons[button]()
-  }
-
-
-  verifyAwaitingReportingData (data) {
-
-    this.assertTableRow([
-      data.scheme,
-      data.schemeYear,
-      data.frn,
-      data.agreementNumber,
-      data.totalAmount,
-      data.daysWaiting
-    ])
-  }
-
-  verifyAwaitingDatasetSummary (data) {
-    this.assertKeyValuePairs({
-      'FRN': data.frn,
-      'Scheme': data.scheme,
-      'Year': data.schemeYear,
-      'Agreement number': data.agreementNumber,
-      //something to verify Invoice number in the future? where is this generated?
-    })
-  }
-
-  verifyEnrichmentData (data) {
-    this.assertKeyValuePairs({
-      'Debt type': data.debtType,
-      'Date debt discovered': data.dateDebtDiscovered,
-    })
-  }
-
-  enterDateField (fieldId, { day, month, year }) {
-
-    cy.get(`#${fieldId}-day`).clear().type(day)
-    cy.get(`#${fieldId}-month`).clear().type(month)
-    cy.get(`#${fieldId}-year`).clear().type(year)
-
-
   }
 }
 

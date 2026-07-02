@@ -108,6 +108,11 @@ Then('I should see {string}', (text) => {
   cy.contains(text)
 })
 
+//generic success message assertion
+Then('I see a success message for {string}', (successMessage) => {
+  cy.assertSuccessBanner(successMessage)
+})
+
 // -------------------------
 // LINK CLICKS
 // -------------------------
@@ -116,7 +121,7 @@ When('I click on the {string} link', (text) => {
 
   Cypress.emit('log:step', 'I click on the ' + text + ' link')
 
-  if (text === 'View awaiting ledger assignment') {
+  if (text === 'View awaiting ledger assignment' && !env.local ) {
     cy.wait(30000)
     cy.log('Waiting for data to process')
     cy.reload()
@@ -249,6 +254,8 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 17: scenarioString = '17 Requests awaiting reporting data - Searching based on invalid FRN number throws error'; break
     case 18: scenarioString = '18 Requests awaiting reporting data - Searching based on FRN number displays only records related to both that FRN number'; break
     case 19: scenarioString = '19 Requests awaiting reporting data - enrich data'; break
+    case 20: scenarioString = '20 Awaiting ledger assignment - search by frn, verify table matches enrichment, then review'; break
+    case 21: scenarioString = '21 Requests awaiting quality check - verify search and visibility of request'; break
     }
     break
   case 3: featureString = '03_AgreementClosures.feature -- '

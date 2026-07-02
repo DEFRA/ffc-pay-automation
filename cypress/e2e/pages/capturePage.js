@@ -12,7 +12,7 @@ class capturePage {
   }
 
   sltScheme () {
-    return cy.get('[name="scheme"]')
+    return cy.get('#user-search-scheme')
   }
 
   btnSearch () {

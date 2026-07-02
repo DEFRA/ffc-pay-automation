@@ -2,11 +2,6 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 import capturePage from '../pages/capturePage'
 
-When('I enter {string} in the FRN number search field', (frnNumber) => {
-
-  Cypress.emit('log:step', 'I enter ' + frnNumber + ' in the FRN number search field')
-  capturePage.captureTxtFrn().type(frnNumber)
-})
 
 When('I select {string} in the scheme dropdown', (scheme) => {
 
