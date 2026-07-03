@@ -12,11 +12,11 @@ class capturePage {
   }
 
   sltScheme () {
-    return cy.get('[name="scheme"]')
+    return cy.get('#user-search-scheme')
   }
 
-  btnSchemeSearch () {
-    return cy.get(':nth-child(5) > .govuk-button')
+  btnSearch () {
+    return cy.contains('button', 'Search')
   }
 
   tableRows () {

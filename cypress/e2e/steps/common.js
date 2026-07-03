@@ -90,6 +90,14 @@ When('I click on {string}', (text) => {
   cy.contains(text).scrollIntoView().click()
 })
 
+When('I click on the {string} radio button', (option) => {
+  cy.contains('.govuk-radios__item', option)
+    .find('input[type="radio"]')
+    .check({ force: true })
+
+})
+
+
 // -------------------------
 // ASSERTIONS
 // -------------------------
@@ -100,6 +108,11 @@ Then('I should see {string}', (text) => {
   cy.contains(text)
 })
 
+//generic success message assertion
+Then('I see a success message for {string}', (successMessage) => {
+  cy.assertSuccessBanner(successMessage)
+})
+
 // -------------------------
 // LINK CLICKS
 // -------------------------
@@ -108,7 +121,7 @@ When('I click on the {string} link', (text) => {
 
   Cypress.emit('log:step', 'I click on the ' + text + ' link')
 
-  if (text === 'View awaiting ledger assignment') {
+  if (text === 'View awaiting ledger assignment' && !env.local ) {
     cy.wait(30000)
     cy.log('Waiting for data to process')
     cy.reload()
@@ -119,6 +132,12 @@ When('I click on the {string} link', (text) => {
   console.log(`Clicked on the ${text} link`)
   cy.log(`Clicked on the ${text} link`)
 })
+
+
+When('I click the {string} breadcrumb', (breadcrumbText) => {
+  cy.clickBreadcrumb(breadcrumbText)
+})
+
 
 // -------------------------
 // ACCESSIBILITY
@@ -230,6 +249,13 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 11: scenarioString = '11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme'; break
     case 12: scenarioString = '12 Unattached reporting datasets - Searching based on FRN number that returns no datasets'; break
     case 13: scenarioString = '13 Unattached reporting datasets - Searching based on scheme that returns no datasets'; break
+    case 15: scenarioString = '15 Requests awaiting reporting data - verify table matches input file'; break
+    case 16: scenarioString = '16 Requests awaiting reporting data - Searching based on FRN number that returns no reporting data'; break
+    case 17: scenarioString = '17 Requests awaiting reporting data - Searching based on invalid FRN number throws error'; break
+    case 18: scenarioString = '18 Requests awaiting reporting data - Searching based on FRN number displays only records related to both that FRN number'; break
+    case 19: scenarioString = '19 Requests awaiting reporting data - enrich data'; break
+    case 20: scenarioString = '20 Awaiting ledger assignment - search by frn, verify table matches enrichment, then review'; break
+    case 21: scenarioString = '21 Requests awaiting quality check - verify search and visibility of request'; break
     }
     break
   case 3: featureString = '03_AgreementClosures.feature -- '
