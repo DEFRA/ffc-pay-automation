@@ -79,7 +79,6 @@ class downloadStatementsPage {
     return cy.contains('.govuk-heading-m', 'Statements')
   }
 
-
   schemeColumn () {
     return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(1)')
   }

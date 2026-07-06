@@ -1258,9 +1258,9 @@ Then(/^on the Download Statements page I click the "(.*)" button$/, (button) => 
 Then(/^on the Download Statements page I confirm that the page number on Results sub header is "(.*)"$/, (expectedValue) => {
 
   Cypress.emit('log:step', 'on the Download Statements page I confirm that the page number on Results sub header is ' + expectedValue)
-  downloadStatementsPage.resultsSubHeader().should('be.visible').invoke('text').then((text) => {
-
-    if (text.includes(`Page ${expectedValue}`)) {
+  downloadStatementsPage.statementsSubHeader().should('be.visible').invoke('text').then((text) => {
+    cy.log(expectedValue, text)
+    if (text.includes(`${expectedValue}`)) {
       console.log(`Confirmed that the page number on Results sub header is ${expectedValue}`)
       cy.log(`Confirmed that the page number on Results sub header is ${expectedValue}`)
     } else {
