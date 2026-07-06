@@ -57,6 +57,17 @@ Cypress.Commands.add('startDPSService', () => {
   })
 })
 
+Cypress.Commands.add('restartLocalPayEnv', () => {
+  cy.task('restartPayLocalEnv', null, { timeout: 15 * 60 * 1000 }).then((output) => {
+    const lines = output.split('\n')
+    lines.forEach((line) => {
+      if (line.trim()) {
+        console.log(line)
+      }
+    })
+  })
+})
+
 Cypress.Commands.add('restartLocalEnv', () => {
   cy.task('restartLocalEnv', null, { timeout: 15 * 60 * 1000 }).then((output) => {
     const lines = output.split('\n')

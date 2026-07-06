@@ -122,13 +122,34 @@ module.exports = defineConfig({
             })
           },
 
-          restartLocalEnv () {
+          restartLocalPayEnv () {
             const dir = process.env.WSL_TEST_DIR
             if (!dir) {
               throw new Error('⚠️ WSL_TEST_DIR not set in .env')
             }
 
             const shellCommand = `cd ${dir} && ./stop -v && ./start -p`
+
+            return new Promise((resolve, reject) => {
+              const child = spawn('wsl', ['bash', '-ic', shellCommand], { stdio: 'pipe' })
+              let output = ''
+
+              child.stdout.on('data', (d) => (output += d.toString()))
+              child.stderr.on('data', (d) => (output += d.toString()))
+
+              child.on('close', (code) => {
+                code === 0 ? resolve(output) : reject(new Error(`restartLocalPayEnv failed with code ${code}`))
+              })
+            })
+          },
+
+          restartLocalEnv () {
+            const dir = process.env.WSL_TEST_DIR
+            if (!dir) {
+              throw new Error('⚠️ WSL_TEST_DIR not set in .env')
+            }
+
+            const shellCommand = `cd ${dir} && ./stop -v && ./start`
 
             return new Promise((resolve, reject) => {
               const child = spawn('wsl', ['bash', '-ic', shellCommand], { stdio: 'pipe' })
