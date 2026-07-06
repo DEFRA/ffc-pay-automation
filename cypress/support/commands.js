@@ -89,6 +89,17 @@ Cypress.Commands.add('restartLocalDocEnv', () => {
     })
   })
 })
+Cypress.Commands.add('restartStatementData', () => {
+  cy.task('restartStatementData', null, {
+    timeout: 5 * 60 * 1000
+  }).then(output => {
+    output.split('\n').forEach(line => {
+      if (line.trim()) {
+        console.log(line)
+      }
+    })
+  })
+})
 
 Cypress.Commands.add('startLocalDocEnv', () => {
   cy.task('startLocalDocEnv', null, { timeout: 15 * 60 * 1000 })

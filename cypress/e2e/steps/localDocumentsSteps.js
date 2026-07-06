@@ -179,15 +179,15 @@ INSERT INTO "organisations" (
 )
 VALUES (
   111704302,
-  '012 Maple Road',
+  '012 Test Road',
   '1234',
   '4567',
   'Leeds',
-  'West Yorkshire',
+  'Test Yorkshire',
   '012 GH',
   'svend.kristensen@atos.ai',
   1101717386,
-  '1 The Cedars',
+  '1 The Testers',
   to_date('14-FEB-24 01:34:17', 'DD-MON-YY HH:MI:SS')
 )
 ON CONFLICT ("sbi")
@@ -325,7 +325,7 @@ VALUES
 
     cy.task('databaseInsert', { env, databaseName, sqlStatement })
 
-    cy.wait(180000)
+    cy.wait(20000)
 
     cy.log(`✅ ${scheme} data has been inserted into Statement Data service`)
   } else {

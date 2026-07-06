@@ -11,7 +11,10 @@ Feature: 40 Download Statements
     Given I restart the local environment
     Then I insert Delinked Payments data into Statement Data service
     Then I insert SFI 23 data into Statement Data service
-  # cant verify its there just yet as seems to be hardcoded for a sbi we are not using atm
+   #we restart the process here because it ensure we pick up the new data we have put in, otherwise it doesnt manage it in time
+    And I restart the statement data service
+  #Cant verify its there just yet as seems to be hardcoded for a sbi we are not using atm - needs to be fixed
+  #But it works
   
   
   @local @dev

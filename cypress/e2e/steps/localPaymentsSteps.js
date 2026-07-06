@@ -25,6 +25,14 @@ Given('I restart the local environment', () => {
   }
 })
 
+Given('I restart the statement data service', () => {
+  Cypress.emit('log:step', 'I restart statement-data')
+
+  if (env.includes('local')) {
+    cy.restartStatementData()
+  }
+  cy.wait(90000)
+})
 
 Given('I start ffc-pay-dps service', () => {
 

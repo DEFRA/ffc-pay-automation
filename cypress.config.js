@@ -121,6 +121,33 @@ module.exports = defineConfig({
               })
             })
           },
+          restartStatementData () {
+            const dir = process.env.WSL_TEST_DIR
+
+            if (!dir) {
+              throw new Error('⚠️ WSL_TEST_DIR not set in .env')
+            }
+
+            const shellCommand = `cd ${dir} && cd .. && cd ffc-doc-statement-data && docker compose restart `
+
+            return new Promise((resolve, reject) => {
+              const child = spawn('wsl', ['bash', '-ic', shellCommand], { stdio: 'pipe' })
+
+              let output = ''
+
+              child.stdout.on('data', d => {
+                output += d.toString()
+              })
+              child.stderr.on('data', d => {
+                output += d.toString()
+              })
+              child.on('close', code => {
+                code === 0
+                  ? resolve(output)
+                  : reject(new Error(`restartStatementData failed with code ${code}`))
+              })
+            })
+          },
 
           restartLocalPayEnv () {
             const dir = process.env.WSL_TEST_DIR
