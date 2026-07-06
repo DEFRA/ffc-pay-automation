@@ -503,9 +503,10 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 3: scenarioString = '03 Confirm next and previous buttons work correctly'; break
     case 4: scenarioString = '04 Search by full filename'; break
     case 5: scenarioString = '05 Search by marketing year'; break
-    case 6: scenarioString = '06 Search by FRN'; break
-    case 7: scenarioString = '07 Search by Timestamp'; break
-    case 8: scenarioString = '08 Clear and start again'; break
+    case 6: scenarioString = '06 Search by FRN - dev'; break
+    case 7: scenarioString = '07 Search by FRN - local'; break
+    case 8: scenarioString = '08 Search by Timestamp'; break
+    case 9: scenarioString = '09 Clear and start again'; break
     }
     break
   case 41: featureString = '41_ResetPaymentRequest.feature -- '

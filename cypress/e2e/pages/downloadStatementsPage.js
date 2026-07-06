@@ -24,16 +24,19 @@ class downloadStatementsPage {
     return cy.get('form > .govuk-body')
   }
 
-  selectSchemeLabel () {
-    return cy.get(':nth-child(4) > .govuk-label')
-  }
-
   selectSchemeDropdown () {
     return cy.get('#schemeId')
   }
+  selectSchemeRadioDelinked () {
+    return cy.get('#schemeId-1')
+  }
+
+  selectSchemeRadioSFI () {
+    return cy.get('#schemeId-2')
+  }
 
   marketingYearLabel () {
-    return cy.get(':nth-child(5) > .govuk-label')
+    return cy.contains('.govuk-label', 'Marketing year')
   }
 
   marketingYearField () {
@@ -41,7 +44,7 @@ class downloadStatementsPage {
   }
 
   frnLabel () {
-    return cy.get(':nth-child(6) > .govuk-label')
+    return cy.contains('.govuk-label', 'Firm reference number (FRN)')
   }
 
   frnSearchInstructions () {
@@ -53,7 +56,7 @@ class downloadStatementsPage {
   }
 
   timestampLabel () {
-    return cy.get(':nth-child(7) > .govuk-label')
+    return cy.contains('.govuk-label', 'Timestamp')
   }
 
   timestampSearchInstructions () {
@@ -72,12 +75,8 @@ class downloadStatementsPage {
     return cy.get('.govuk-button--secondary')
   }
 
-  resultsSubHeader () {
-    return cy.get(':nth-child(2) > .govuk-grid-column-two-thirds > .govuk-heading-m')
-  }
-
-  numberOfResults () {
-    return cy.get('.govuk-body-s')
+  statementsSubHeader () {
+    return cy.contains('.govuk-heading-m', 'Statements')
   }
 
   schemeColumn () {

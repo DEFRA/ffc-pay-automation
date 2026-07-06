@@ -7,6 +7,15 @@ const envConfig = getEnvironmentConfig()
 const env = envConfig.env
 console.log('Environment Config:', envConfig)
 
+Given('I restart the local pay environment', () => {
+
+  Cypress.emit('log:step', 'I restart the local pay environment')
+
+  if (env.includes('local')) {
+    cy.task('restartLocalPayEnv')
+  }
+})
+
 Given('I restart the local environment', () => {
 
   Cypress.emit('log:step', 'I restart the local environment')
@@ -14,6 +23,15 @@ Given('I restart the local environment', () => {
   if (env.includes('local')) {
     cy.task('restartLocalEnv')
   }
+})
+
+Given('I restart the statement data service', () => {
+  Cypress.emit('log:step', 'I restart statement-data')
+
+  if (env.includes('local')) {
+    cy.restartStatementData()
+  }
+  cy.wait(90000)
 })
 
 Given('I start ffc-pay-dps service', () => {

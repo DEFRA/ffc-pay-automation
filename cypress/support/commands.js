@@ -57,6 +57,17 @@ Cypress.Commands.add('startDPSService', () => {
   })
 })
 
+Cypress.Commands.add('restartLocalPayEnv', () => {
+  cy.task('restartPayLocalEnv', null, { timeout: 15 * 60 * 1000 }).then((output) => {
+    const lines = output.split('\n')
+    lines.forEach((line) => {
+      if (line.trim()) {
+        console.log(line)
+      }
+    })
+  })
+})
+
 Cypress.Commands.add('restartLocalEnv', () => {
   cy.task('restartLocalEnv', null, { timeout: 15 * 60 * 1000 }).then((output) => {
     const lines = output.split('\n')
@@ -72,6 +83,17 @@ Cypress.Commands.add('restartLocalDocEnv', () => {
   cy.task('restartLocalDocEnv', null, { timeout: 15 * 60 * 1000 }).then((output) => {
     const lines = output.split('\n')
     lines.forEach((line) => {
+      if (line.trim()) {
+        console.log(line)
+      }
+    })
+  })
+})
+Cypress.Commands.add('restartStatementData', () => {
+  cy.task('restartStatementData', null, {
+    timeout: 5 * 60 * 1000
+  }).then(output => {
+    output.split('\n').forEach(line => {
       if (line.trim()) {
         console.log(line)
       }

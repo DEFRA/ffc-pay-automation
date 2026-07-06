@@ -1105,21 +1105,21 @@ Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (e
 
   switch (element) {
   case 'page title':
-    downloadStatementsPage.pageTitle().should('be.visible').and('have.text', 'Download statements'); break
+    downloadStatementsPage.pageTitle().should('be.visible').and('contain.text', 'Download payment statements'); break
   case 'page description':
-    downloadStatementsPage.pageDescription().should('be.visible').and('contain.text', 'Search for payment statements. At least one field is required.'); break
+    downloadStatementsPage.pageDescription().should('be.visible').and('contain.text', 'Statements provide customers with payment details.'); break
   case 'page instructions':
-    downloadStatementsPage.pageInstructions().should('be.visible').and('contain.text', 'Search using the full filename if known.'); break
+    downloadStatementsPage.pageInstructions().should('be.visible').and('contain.text', 'Full filename'); break
   case 'instruction examples':
     downloadStatementsPage.instructionExamples().should('be.visible').and('contain.text', 'Examples:', 'FFC_PaymentDelinkedStatement_DP_2024_1100021264_2025101508224868.pdf', 'FFC_PaymentSfi23QuarterlyStatement_DP_2024_1100021264_2025101508224868.pdf\n  '); break
   case 'filename field':
     downloadStatementsPage.filenameField().should('be.visible').and('have.attr', 'type', 'text'); break
   case 'individual criteria instructions':
     downloadStatementsPage.individualCriteriaInstructions().should('be.visible').and('contain.text', 'Or search by individual criteria:'); break
-  case 'select scheme label':
-    downloadStatementsPage.selectSchemeLabel().should('be.visible').and('contain.text', 'Select the scheme to view data for'); break
-  case 'select scheme dropdown':
-    downloadStatementsPage.selectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break
+  case 'select scheme Delinked Radio':
+    downloadStatementsPage.selectSchemeRadioDelinked().should('exist'); break
+  case 'select scheme SFI Radio':
+    downloadStatementsPage.selectSchemeRadioSFI().should('exist'); break
   case 'marketing year label':
     downloadStatementsPage.marketingYearLabel().should('be.visible').and('contain.text', 'Marketing year'); break
   case 'marketing year field':
@@ -1133,17 +1133,15 @@ Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (e
   case 'timestamp label':
     downloadStatementsPage.timestampLabel().should('be.visible').and('contain.text', 'Timestamp'); break
   case 'timestamp search instructions':
-    downloadStatementsPage.timestampSearchInstructions().should('be.visible').and('contain.text', '16 digits, e.g. 2025101508224868'); break
+    downloadStatementsPage.timestampSearchInstructions().should('be.visible').and('contain.text', 'For example, 06-01-2026 18:00'); break
   case 'timestamp field':
     downloadStatementsPage.timestampField().should('be.visible').and('have.attr', 'type', 'text'); break
   case 'search statements button':
     downloadStatementsPage.searchStatementsButton().should('be.visible').and('have.attr', 'class', 'govuk-button'); break
   case 'clear button':
     downloadStatementsPage.clearButton().should('be.visible').and('have.attr', 'type', 'button'); break
-  case 'results sub header':
-    downloadStatementsPage.resultsSubHeader().should('be.visible').and('contain.text', 'Results'); break
-  case 'number of results':
-    downloadStatementsPage.numberOfResults().should('be.visible').and('contain.text', 'Showing items', 'on this page'); break
+  case 'statements sub header and number of results':
+    downloadStatementsPage.statementsSubHeader().should('be.visible').and('contain.text', 'Statements'); break
   case 'scheme column':
     downloadStatementsPage.schemeColumn().should('be.visible').and('contain.text', 'Scheme'); break
   case 'year column':
@@ -1155,7 +1153,12 @@ Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (e
   case 'action column':
     downloadStatementsPage.actionColumn().should('be.visible').and('contain.text', 'Action'); break
   case 'next button':
-    downloadStatementsPage.nextButton().should('be.visible').and('have.attr', 'class', 'govuk-link govuk-pagination__link'); break
+    if (!env.includes('local')) {
+      downloadStatementsPage.nextButton().should('be.visible').and('have.class', 'govuk-pagination__link')
+    } else {
+      downloadStatementsPage.nextButton().should('not.exist')
+    }
+    break
   case 'previous button':
     downloadStatementsPage.previousButton().should('be.visible').and('have.attr', 'class', 'govuk-link govuk-pagination__link'); break
   default:
@@ -1207,8 +1210,8 @@ Then (/^on the Download Statements page I confirm that "(.*)" is not displayed$/
     downloadStatementsPage.searchStatementsButton().should('not.exist'); break
   case 'clear button':
     downloadStatementsPage.clearButton().should('not.exist'); break
-  case 'results sub header':
-    downloadStatementsPage.resultsSubHeader().should('not.exist'); break
+  case 'statements sub header and number of results':
+    downloadStatementsPage.statementsSubHeader().should('not.exist'); break
   case 'number of results':
     downloadStatementsPage.numberOfResults().should('not.exist'); break
   case 'scheme column':
@@ -1233,14 +1236,6 @@ Then (/^on the Download Statements page I confirm that "(.*)" is not displayed$/
   cy.log('Confirmed that' + element + 'is not displayed on the Download Statements page')
 })
 
-Then(/^on the Download Statements page I select "(.*)" from the select scheme dropdown$/, (scheme) => {
-
-  Cypress.emit('log:step', 'on the Download Statements page I select ' + scheme + ' from the select scheme dropdown')
-  downloadStatementsPage.selectSchemeDropdown().scrollIntoView().select(scheme)
-  cy.log(`Selected ${scheme} from the select scheme dropdown`)
-  console.log(`Selected ${scheme} from the select scheme dropdown`)
-
-})
 
 Then(/^on the Download Statements page I click the "(.*)" button$/, (button) => {
 
@@ -1263,9 +1258,9 @@ Then(/^on the Download Statements page I click the "(.*)" button$/, (button) => 
 Then(/^on the Download Statements page I confirm that the page number on Results sub header is "(.*)"$/, (expectedValue) => {
 
   Cypress.emit('log:step', 'on the Download Statements page I confirm that the page number on Results sub header is ' + expectedValue)
-  downloadStatementsPage.resultsSubHeader().should('be.visible').invoke('text').then((text) => {
-
-    if (text.includes(`Page ${expectedValue}`)) {
+  downloadStatementsPage.statementsSubHeader().should('be.visible').invoke('text').then((text) => {
+    cy.log(expectedValue, text)
+    if (text.includes(`${expectedValue}`)) {
       console.log(`Confirmed that the page number on Results sub header is ${expectedValue}`)
       cy.log(`Confirmed that the page number on Results sub header is ${expectedValue}`)
     } else {
