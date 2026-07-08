@@ -27,7 +27,7 @@ Given(/^I restart and clear the local doc environment$/, () => {
 
 
 When(/^I insert (.*) data into Statement Data service$/, (scheme) => {
-  Cypress.emit('log:step', `I insert ${scheme} data into Statement Data service`)
+  Cypress.emit('log:step', 'I insert ${scheme} data into Statement Data service')
 
   const databaseName = 'ffc-doc-statement-data'
   let sqlFile = ''
@@ -37,6 +37,9 @@ When(/^I insert (.*) data into Statement Data service$/, (scheme) => {
     sqlFile = 'cypress/fixtures/sql/delinkedExample.sql'
     break
 
+  case '500 sfi records':
+    sqlFile = 'cypress/fixtures/sql/500SFIStatements.sql'
+    break
   case 'sfi 23':
   case 'sfi23':
     sqlFile = 'cypress/fixtures/sql/sfi23Example.sql'
@@ -64,6 +67,7 @@ When(/^I insert (.*) data into Statement Data service$/, (scheme) => {
     cy.log(`No data inserted because environment is ${env}`)
   }
 })
+
 
 
 When(/^I insert (.*) test data into Statement Data service$/, (year) => {

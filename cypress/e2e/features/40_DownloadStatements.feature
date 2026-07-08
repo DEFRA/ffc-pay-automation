@@ -6,7 +6,7 @@ Feature: 40 Download Statements
 
   
   @local
-  Scenario Outline: 00 Data setup for local env
+  Scenario: 00 Data setup for local env
   #This scenario sets up statements in the environment so we can download them. Local only since statements already exist in Dev
     Given I restart the local environment
     Then I insert Delinked Payments data into Statement Data service
