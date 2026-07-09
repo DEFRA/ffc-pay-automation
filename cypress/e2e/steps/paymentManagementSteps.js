@@ -17,6 +17,8 @@ const { getEnvironmentConfig } = require('../../support/configLoader')
 
 const envConfig = getEnvironmentConfig()
 const env = envConfig.env
+import homePageCards from '../support/data/homePageCards.json'
+
 console.log('Environment Config:', envConfig)
 
 When(/^I can see "(.*)" as the header$/, (text) => {
@@ -76,101 +78,114 @@ When(/^on the Home Page I click the "(.*)" button$/, (button) => {
 })
 
 Then(/^on the Home Page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step', `on the Home Page I confirm that ${element} is displayed`)
 
-  Cypress.emit('log:step', 'on the Home Page I confirm that ' + element + ' is displayed')
+  if (homePageCards[element]) {
+    const card = homePageCards[element]
 
-  switch (element) {
+    paymentManagementPage
+      .cardHeader(card.title)
+      .should('be.visible')
+      .and('contain.text', card.title)
 
-  case 'application header':
-    paymentManagementPage.applicationHeader().should('be.visible').and('contain.text', 'Payment management')
-    break
-  case 'sign out link':
-    paymentManagementPage.signOutLink().should('be.visible').and('contain.text', 'Sign out')
-    break
-  case 'page header':
-    paymentManagementPage.pageHeader().should('be.visible').and('contain.text', 'Payments and Documents Services')
-    break
-  case 'reports card':
-    paymentManagementPage.reportsHeader().should('be.visible').and('contain.text', 'Reports')
-    paymentManagementPage.reportsDescription().should('be.visible').and('contain.text', 'Generate and download reports')
-    paymentManagementPage.reportsLink().should('be.visible').and('contain.text', 'Reports')
-    break
-  case 'payment events card':
-    paymentManagementPage.paymentEventsHeader().should('be.visible').and('contain.text', 'Payment events')
-    paymentManagementPage.paymentEventsDescription().should('be.visible').and('contain.text', 'View payment and events and requests')
-    paymentManagementPage.monitoringLink().should('be.visible').and('contain.text', 'Monitoring')
-    paymentManagementPage.schemesLink().should('be.visible').and('contain.text', 'Schemes')
-    break
-  case 'payment holds card':
-    paymentManagementPage.paymentHoldsHeader().should('be.visible').and('contain.text', 'Payment holds')
-    paymentManagementPage.paymentHoldsDescription().should('be.visible').and('contain.text', 'View, add or remove payment holds')
-    paymentManagementPage.manageHoldsLink().should('be.visible').and('contain.text', 'Manage payment holds')
-    break
-  case 'manual payments card':
-    paymentManagementPage.manualPaymentsHeader().should('be.visible').and('contain.text', 'Manual payments')
-    paymentManagementPage.manualPaymentsDescription().should('be.visible').and('contain.text', 'Manually upload payment files')
-    paymentManagementPage.manualPaymentUploadLink().should('be.visible').and('contain.text', 'Manual payment upload')
-    break
-  case 'agreement closures card':
-    paymentManagementPage.agreementClosuresHeader().should('be.visible').and('contain.text', 'Agreement closures')
-    paymentManagementPage.agreementClosuresDescription().should('be.visible').and('contain.text', 'Update, add and remove payment suppressions')
-    paymentManagementPage.manageClosuresLink().should('be.visible').and('contain.text', 'Manage closures')
-    paymentManagementPage.agreementClosuresLink().should('be.visible').and('contain.text', 'Agreement closure')
-    paymentManagementPage.bulkAgreementClosuresLink().should('be.visible').and('contain.text', 'Bulk agreement closure')
-    break
-  case 'email alerts card':
-    paymentManagementPage.emailAlertsHeader().should('be.visible').and('contain.text', 'Email alerts')
-    paymentManagementPage.emailAlertsDescription().should('be.visible').and('contain.text', 'Manage where payment alerts are sent by the scheme or recipient')
-    paymentManagementPage.alertsLink().should('be.visible').and('contain.text', 'Alerts')
-    break
-  case 'statements card':
-    paymentManagementPage.statementsHeader().should('be.visible').and('contain.text', 'Statements')
-    paymentManagementPage.statementsDescription().should('be.visible').and('contain.text', 'Download payment statements and view payment status reports')
-    paymentManagementPage.downloadPaymentStatementsLink().should('be.visible').and('contain.text', 'Download payment statements')
-    paymentManagementPage.downloadStatementsStatusReport().should('be.visible').and('contain.text', 'Download statement status report')
-    break
-  case 'metrics card':
-    paymentManagementPage.metricsHeader().should('be.visible').and('contain.text', 'Metrics')
-    paymentManagementPage.metricsDescription().should('be.visible').and('contain.text', 'View payment and document metrics by scheme')
-    paymentManagementPage.managementInformationLink().should('be.visible').and('contain.text', 'Management information')
-    break
-  case 'reset payment requests card':
-    paymentManagementPage.resetPaymentRequestsHeader().should('be.visible').and('contain.text', 'Reset payment requests')
-    paymentManagementPage.resetPaymentRequestsDescription().should('be.visible').and('contain.text', 'Manually reset payment requests')
-    paymentManagementPage.resetPaymentRequestsLink().should('be.visible').and('contain.text', 'Reset payment request')
-    break
-  case 'cookie banner header':
-    paymentManagementPage.cookieBannerHeader().should('be.visible').and('contain.text', 'Cookies on Payment management')
-    break
-  case 'cookie banner content':
-    paymentManagementPage.cookieBannerContentOne().should('be.visible').and('contain.text', 'We use some essential cookies to make this service work.')
-    paymentManagementPage.cookieBannerContentTwo().should('be.visible').and('contain.text', 'We’d like to set additional cookies so we can remember your settings, understand how people use the service and make improvements.')
-    break
-  case 'cookie banner accept button':
-    paymentManagementPage.cookieBannerAcceptBtn().should('be.visible').and('contain.text', 'Accept analytics cookies')
-    break
-  case 'cookie banner reject button':
-    paymentManagementPage.cookieBannerRejectBtn().should('be.visible').and('contain.text', 'Reject analytics cookies')
-    break
-  case 'cookie banner view link':
-    paymentManagementPage.cookieBannerViewLink().should('be.visible').and('contain.text', 'View cookies')
-    break
-  case 'cookie banner accepted message':
-    paymentManagementPage.cookieBannerAcceptedMessage().should('be.visible').and('contain.text', 'You’ve accepted analytics cookies. You can change your cookie settings at any time.')
-    break
-  case 'cookie banner accepted hide button':
-    paymentManagementPage.cookieBannerAcceptedHideBtn().should('be.visible').and('contain.text', 'Hide this message')
-    break
-  case 'cookie banner rejected message':
-    paymentManagementPage.cookieBannerRejectedMessage().should('be.visible').and('contain.text', 'You’ve rejected analytics cookies. You can change your cookie settings at any time.')
-    break
-  case 'cookie banner rejected hide button':
-    paymentManagementPage.cookieBannerRejectedHideBtn().should('be.visible').and('contain.text', 'Hide this message')
-    break
+    paymentManagementPage
+      .cardDescription(card.title)
+      .should('be.visible')
+      .and('contain.text', card.description)
+
+    card.links.forEach(link => {
+      paymentManagementPage
+        .cardLink(card.title, link)
+        .should('be.visible')
+        .and('contain.text', link)
+    })
+
+    cy.log(`Confirmed that ${element} is displayed`)
+    return
   }
 
-  cy.log('Confirmed that ' + element + ' is displayed')
-  console.log('Confirmed that ' + element + ' is displayed')
+  switch (element) {
+  case 'application header':
+    paymentManagementPage.applicationHeader()
+      .should('be.visible')
+      .and('contain.text', 'Payment management')
+    break
+
+  case 'sign out link':
+    paymentManagementPage.signOutLink()
+      .should('be.visible')
+      .and('contain.text', 'Sign out')
+    break
+
+  case 'page header':
+    paymentManagementPage.pageHeader()
+      .should('be.visible')
+      .and('contain.text', 'Payments and Documents Services')
+    break
+
+  case 'cookie banner header':
+    paymentManagementPage.cookieBannerHeader()
+      .should('be.visible')
+      .and('contain.text', 'Cookies on Payment management')
+    break
+
+  case 'cookie banner content':
+    paymentManagementPage.cookieBannerContentOne()
+      .should('be.visible')
+      .and('contain.text', 'We use some essential cookies to make this service work.')
+
+    paymentManagementPage.cookieBannerContentTwo()
+      .should('be.visible')
+      .and('contain.text', 'We’d like to set additional cookies so we can remember your settings, understand how people use the service and make improvements.')
+    break
+
+  case 'cookie banner accept button':
+    paymentManagementPage.cookieBannerAcceptBtn()
+      .should('be.visible')
+      .and('contain.text', 'Accept analytics cookies')
+    break
+
+  case 'cookie banner reject button':
+    paymentManagementPage.cookieBannerRejectBtn()
+      .should('be.visible')
+      .and('contain.text', 'Reject analytics cookies')
+    break
+
+  case 'cookie banner view link':
+    paymentManagementPage.cookieBannerViewLink()
+      .should('be.visible')
+      .and('contain.text', 'View cookies')
+    break
+
+  case 'cookie banner accepted message':
+    paymentManagementPage.cookieBannerAcceptedMessage()
+      .should('be.visible')
+      .and('contain.text', 'You’ve accepted analytics cookies. You can change your cookie settings at any time.')
+    break
+
+  case 'cookie banner accepted hide button':
+    paymentManagementPage.cookieBannerAcceptedHideBtn()
+      .should('be.visible')
+      .and('contain.text', 'Hide this message')
+    break
+
+  case 'cookie banner rejected message':
+    paymentManagementPage.cookieBannerRejectedMessage()
+      .should('be.visible')
+      .and('contain.text', 'You’ve rejected analytics cookies. You can change your cookie settings at any time.')
+    break
+
+  case 'cookie banner rejected hide button':
+    paymentManagementPage.cookieBannerRejectedHideBtn()
+      .should('be.visible')
+      .and('contain.text', 'Hide this message')
+    break
+
+  default:
+    throw new Error(`Unknown home page element: ${element}`)
+  }
+
+  cy.log(`Confirmed that ${element} is displayed`)
 })
 
 Then(/^on the Home Page I confirm that "(.*)" is not displayed$/, (element) => {

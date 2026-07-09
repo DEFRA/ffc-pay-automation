@@ -1,5 +1,4 @@
-class paymentManagementPage {
-
+class PaymentManagementPage {
   applicationHeader () {
     return cy.get('.govuk-service-navigation__text')
   }
@@ -9,155 +8,109 @@ class paymentManagementPage {
   }
 
   pageHeader () {
-    return cy.get('.govuk-heading-l')
+    return cy.get('.govuk-heading-l').first()
   }
 
   mainHeader () {
-    return cy.get('.govuk-heading-xl')
+    return cy.get('.govuk-heading-xl').first()
   }
 
   subHeader () {
-    return cy.get('.govuk-heading-l')
+    return cy.get('.govuk-heading-l').first()
   }
 
   header () {
-    return cy.get('h1.govuk-heading-l')
+    return cy.get('h1').first()
   }
 
-  reportsHeader () {
-    return cy.get(':nth-child(2) > :nth-child(1) > .govuk-heading-m')
+  // ---------------------------+
+  // Generic Card Helpers       |
+  // ---------------------------+
+
+  card (cardTitle) {
+    return cy
+      .contains('.govuk-heading-m', cardTitle)
+      .closest('.govuk-card--dashboard')
   }
 
-  reportsDescription () {
-    return cy.get(':nth-child(2) > :nth-child(1) > .govuk-hint')
+  cardHeader (cardTitle) {
+    return this.card(cardTitle)
+      .find('.govuk-heading-m')
   }
 
-  reportsLink () {
-    return cy.get(':nth-child(2) > :nth-child(1) > .govuk-list > li > .govuk-link')
+  cardDescription (cardTitle) {
+    return this.card(cardTitle)
+      .find('.govuk-hint')
   }
 
-  paymentEventsHeader () {
-    return cy.get(':nth-child(2) > :nth-child(2) > .govuk-heading-m')
+  cardLink (cardTitle, linkText) {
+    return this.card(cardTitle)
+      .contains('.govuk-link', linkText)
   }
 
-  paymentEventsDescription () {
-    return cy.get(':nth-child(2) > :nth-child(2) > .govuk-hint')
+  cardLinks (cardTitle) {
+    return this.card(cardTitle)
+      .find('.govuk-link')
   }
 
-  monitoringLink () {
-    return cy.get(':nth-child(2) > :nth-child(2) > .govuk-list > :nth-child(1) > .govuk-link')
+  // ---------------------------+
+  // Convenience wrappers       |
+  // ---------------------------+
+
+  reportsCard () {
+    return this.card('Reports')
   }
 
-  schemesLink () {
-    return cy.get(':nth-child(2) > .govuk-list > :nth-child(2) > .govuk-link')
+  paymentEventsCard () {
+    return this.card('Payment Events')
   }
 
-  paymentHoldsHeader () {
-    return cy.get(':nth-child(3) > :nth-child(1) > .govuk-heading-m')
+  paymentHoldsCard () {
+    return this.card('Payment Holds')
   }
 
-  paymentHoldsDescription () {
-    return cy.get(':nth-child(3) > :nth-child(1) > .govuk-hint')
+  manualPaymentsCard () {
+    return this.card('Manual Payments')
   }
 
-  manageHoldsLink () {
-    return cy.get(':nth-child(3) > :nth-child(1) > .govuk-list > li > .govuk-link')
+  agreementClosuresCard () {
+    return this.card('Agreement Closures')
   }
 
-  manualPaymentsHeader () {
-    return cy.get(':nth-child(3) > :nth-child(2) > .govuk-heading-m')
+  emailAlertsCard () {
+    return this.card('Email Alerts')
   }
 
-  manualPaymentsDescription () {
-    return cy.get(':nth-child(3) > :nth-child(2) > .govuk-hint')
+  statementsCard () {
+    return this.card('Statements')
   }
 
-  manualPaymentUploadLink () {
-    return cy.get(':nth-child(3) > :nth-child(2) > .govuk-list > li > .govuk-link')
+  metricsCard () {
+    return this.card('Metrics')
   }
 
-  agreementClosuresHeader () {
-    return cy.get(':nth-child(4) > :nth-child(1) > .govuk-heading-m')
+  resetPaymentRequestsCard () {
+    return this.card('Reset Payment Requests')
   }
 
-  agreementClosuresDescription () {
-    return cy.get(':nth-child(4) > :nth-child(1) > .govuk-hint')
-  }
-
-  manageClosuresLink () {
-    return cy.get(':nth-child(4) > :nth-child(1) > .govuk-list > :nth-child(1) > .govuk-link')
-  }
-
-  agreementClosuresLink () {
-    return cy.get(':nth-child(1) > .govuk-list > :nth-child(2) > .govuk-link')
-  }
-
-  bulkAgreementClosuresLink () {
-    return cy.get(':nth-child(3) > .govuk-link')
-  }
-
-  emailAlertsHeader () {
-    return cy.get(':nth-child(4) > :nth-child(2) > .govuk-heading-m')
-  }
-
-  emailAlertsDescription () {
-    return cy.get(':nth-child(4) > :nth-child(2) > .govuk-hint')
-  }
-
-  alertsLink () {
-    return cy.get(':nth-child(4) > :nth-child(2) > .govuk-list > li > .govuk-link')
-  }
-
-  statementsHeader () {
-    return cy.get(':nth-child(5) > :nth-child(1) > .govuk-heading-m')
-  }
-
-  statementsDescription () {
-    return cy.get(':nth-child(5) > :nth-child(1) > .govuk-hint')
-  }
-
-  downloadPaymentStatementsLink () {
-    return cy.get(':nth-child(5) > :nth-child(1) > .govuk-list > li > .govuk-link')
-  }
-
-  downloadStatementsStatusReport () {
-    return cy.get(':nth-child(4) > :nth-child(1) > .govuk-list > :nth-child(2) > .govuk-link')
-  }
-
-  metricsHeader () {
-    return cy.get(':nth-child(5) > :nth-child(2) > .govuk-heading-m')
-  }
-
-  metricsDescription () {
-    return cy.get(':nth-child(5) > :nth-child(2) > .govuk-hint')
-  }
-
-  managementInformationLink () {
-    return cy.get(':nth-child(5) > :nth-child(2) > .govuk-list > li > .govuk-link')
-  }
-
-  resetPaymentRequestsHeader () {
-    return cy.get(':nth-child(6) > .govuk-card--dashboard > .govuk-heading-m')
-  }
-
-  resetPaymentRequestsDescription () {
-    return cy.get(':nth-child(6) > .govuk-card--dashboard > .govuk-hint')
-  }
-
-  resetPaymentRequestsLink () {
-    return cy.get(':nth-child(6) > .govuk-card--dashboard > .govuk-list > li > .govuk-link')
-  }
+  // -----------------------+
+  // Cookie Banner          |
+  // -----------------------+
 
   cookieBannerHeader () {
     return cy.get('.govuk-cookie-banner__heading')
   }
 
   cookieBannerContentOne () {
-    return cy.get('.js-question-banner > .govuk-grid-row > .govuk-grid-column-two-thirds > .govuk-cookie-banner__content > :nth-child(1)')
+    return cy.get('.js-question-banner .govuk-cookie-banner__content')
+      .find('p')
+      .first()
   }
 
   cookieBannerContentTwo () {
-    return cy.get('.govuk-cookie-banner__content > :nth-child(2)')
+    return cy.get('.govuk-cookie-banner__content')
+      .find('p')
+      .eq(1)
   }
 
   cookieBannerAcceptBtn () {
@@ -169,24 +122,24 @@ class paymentManagementPage {
   }
 
   cookieBannerViewLink () {
-    return cy.get('.govuk-button-group > .govuk-link')
+    return cy.get('.govuk-button-group .govuk-link')
   }
 
   cookieBannerAcceptedMessage () {
-    return cy.get('.js-cookies-accepted > .govuk-grid-row > .govuk-grid-column-two-thirds > .govuk-cookie-banner__content > .govuk-body')
+    return cy.get('.js-cookies-accepted .govuk-body')
   }
 
   cookieBannerRejectedMessage () {
-    return cy.get('.js-cookies-rejected > .govuk-grid-row > .govuk-grid-column-two-thirds > .govuk-cookie-banner__content > .govuk-body')
+    return cy.get('.js-cookies-rejected .govuk-body')
   }
 
   cookieBannerAcceptedHideBtn () {
-    return cy.get('.js-cookies-accepted > .govuk-button-group > .govuk-button')
+    return cy.get('.js-cookies-accepted .govuk-button')
   }
 
   cookieBannerRejectedHideBtn () {
-    return cy.get('.js-cookies-rejected > .govuk-button-group > .govuk-button')
+    return cy.get('.js-cookies-rejected .govuk-button')
   }
 }
 
-export default new paymentManagementPage()
+export default new PaymentManagementPage()
