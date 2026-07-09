@@ -116,8 +116,12 @@ class paymentManagementPage {
     return cy.get(':nth-child(5) > :nth-child(1) > .govuk-hint')
   }
 
-  downloadStatementsLink () {
+  downloadPaymentStatementsLink () {
     return cy.get(':nth-child(5) > :nth-child(1) > .govuk-list > li > .govuk-link')
+  }
+
+  downloadStatementsStatusReport () {
+    return cy.get(':nth-child(4) > :nth-child(1) > .govuk-list > :nth-child(2) > .govuk-link')
   }
 
   metricsHeader () {

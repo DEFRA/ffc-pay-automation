@@ -50,7 +50,8 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
   } else {
 
     paymentManagementPage
-      .subHeader()
+    //grabs the first subheader avail, otherwise if there is multiple subheaders it grabs all of them
+      .subHeader().first()
       .should('be.visible')
       .and('have.text', constants[text].pageSubHeader)
   }
@@ -87,7 +88,7 @@ Then(/^on the Home Page I confirm that "(.*)" is displayed$/, (element) => {
     paymentManagementPage.signOutLink().should('be.visible').and('contain.text', 'Sign out')
     break
   case 'page header':
-    paymentManagementPage.pageHeader().should('be.visible').and('contain.text', 'Payment management')
+    paymentManagementPage.pageHeader().should('be.visible').and('contain.text', 'Payments and Documents Services')
     break
   case 'reports card':
     paymentManagementPage.reportsHeader().should('be.visible').and('contain.text', 'Reports')
@@ -125,7 +126,8 @@ Then(/^on the Home Page I confirm that "(.*)" is displayed$/, (element) => {
   case 'statements card':
     paymentManagementPage.statementsHeader().should('be.visible').and('contain.text', 'Statements')
     paymentManagementPage.statementsDescription().should('be.visible').and('contain.text', 'Download payment statements and view payment status reports')
-    paymentManagementPage.downloadStatementsLink().should('be.visible').and('contain.text', 'Download statements')
+    paymentManagementPage.downloadPaymentStatementsLink().should('be.visible').and('contain.text', 'Download payment statements')
+    paymentManagementPage.downloadStatementsStatusReport().should('be.visible').and('contain.text', 'Download statement status report')
     break
   case 'metrics card':
     paymentManagementPage.metricsHeader().should('be.visible').and('contain.text', 'Metrics')
