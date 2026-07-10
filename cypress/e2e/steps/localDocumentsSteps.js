@@ -26,7 +26,7 @@ Given(/^I restart and clear the local doc environment$/, () => {
 })
 
 
-When(/^I insert (.*) data into Statement Data service$/, (scheme) => {
+When(/^I insert (.*) specific data into Statement Data service$/, (scheme) => {
   Cypress.emit('log:step', 'I insert ${scheme} data into Statement Data service')
 
   const databaseName = 'ffc-doc-statement-data'

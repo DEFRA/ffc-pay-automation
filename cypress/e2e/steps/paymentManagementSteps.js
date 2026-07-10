@@ -12,12 +12,12 @@ import paymentAlertsPage from '../pages/paymentAlertsPage'
 import cookiesPage from '../pages/cookiesPage'
 import accessibilityStatementPage from '../pages/accessibilityStatementPage'
 import privacyNoticePage from '../pages/privacyNoticePage'
-
+import homePageCards from '../../support/data/homePageCards.json'
 const { getEnvironmentConfig } = require('../../support/configLoader')
 
 const envConfig = getEnvironmentConfig()
 const env = envConfig.env
-import homePageCards from '../support/data/homePageCards.json'
+
 
 console.log('Environment Config:', envConfig)
 

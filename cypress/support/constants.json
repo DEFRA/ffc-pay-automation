@@ -27,13 +27,13 @@
     "pageSubHeader": "Add agreement closures in bulk"
   },
   "capture": {
-    "pageSubHeader": "Capture reporting data"
+    "pageSubHeader": "Manage unattached debt data"
   },
   "manual-ledger": {
     "pageSubHeader": "Manual ledger assignment"
   },
   "enrich": {
-    "pageSubHeader": "Requests awaiting reporting data"
+    "pageSubHeader": "Requests awaiting debt data"
   },
   "ap-ar-report": {
     "pageSubHeader": "AP/AR listing report"
@@ -51,7 +51,7 @@
     "pageSubHeader": "Reports"
   },
   "quality-check": {
-    "pageSubHeader": "Ledger assignments awaiting quality check"
+    "pageSubHeader": "Ledger assignment quality check"
   },
   "status-report": {
     "pageSubHeader": "Payment statement status report"
