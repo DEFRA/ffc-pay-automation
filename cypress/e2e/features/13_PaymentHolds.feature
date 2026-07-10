@@ -10,6 +10,8 @@ Feature: 13 Payment Holds
     And I click on the "Manage payment holds" link
     And I click on the "Create a new payment hold" link
     And I type a random FRN in the FRN field
+    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I take a screenshot for Feature 13 and Scenario 1
     And I click on the "Continue" button
     And I click on the "Create payment hold" button
@@ -29,8 +31,8 @@ Feature: 13 Payment Holds
     Then the "paymentFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
     Examples:
-      | sendToTopic        | receiveOnTopic    |
-      | ffc-pay-request-aw | ffc-pay-submit-aw |
+      | sendToTopic          | receiveOnTopic      |
+      | ffc-pay-request-auto | ffc-pay-submit-auto |
 
   Scenario: 02 Confirm scheme filter functional
 
