@@ -60,16 +60,7 @@ Then(/^on the Payment Calculator page I confirm that "(.*)" is correctly display
     paymentCalculatorPage.paragraphThree().should('be.visible').and('contain.text', 'To receive delinked payments, you must have claimed, and been eligible for, BPS 2023 in England (except in some inheritance cases).'); break
   case 'paragraph four':
     paymentCalculatorPage.paragraphFour()
-      .should('be.visible')
-      .and(($el) => {
-        const html = $el.html()
-        expect(html).to.match(/<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/) // checks for anchor tag
-      })
-      .and('contain.text', 'Use this calculator to estimate how progressive reductions could reduce your delinked payment for 2026 and 2027.')
-      .and('contain.text', 'The estimate for 2026 and 2027 is based on the proposed progressive reduction ')
-      .and('contain.text', 'figures for these years shown in the')
-      .and('contain.text', 'The calculator also shows how progressive reductions affected your 2024 and 2025 delinked payment.')
-    break
+      .should('be.visible').and('contain.text', 'Use this calculator to estimate how progressive reductions could reduce your delinked payment for 2026 and 2027. The calculator also shows how progressive reductions affected your 2024 and 2025 delinked payment.'); break
   case 'start button':
     paymentCalculatorPage.startButton().should('be.visible').and('contain.text', 'Start now'); break
   case 'paragraph five':

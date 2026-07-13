@@ -151,7 +151,7 @@ Feature: 20 Accessibility Testing
 
 #Create new reporting dataset page
 
-    And I click on the "Capture new dataset" link
+    And I click on the "Create new dataset" link
     Then I confirm there are no accessibility issues on the page
 
 # Force error message on page through invalid input and confirm accessibility again
@@ -163,20 +163,20 @@ Feature: 20 Accessibility Testing
 
 #Requests awaiting reporting data page
 
-    When I click on the "View awaiting reporting data" link
+    When I click on the "View awaiting debt data" link
     Then I confirm there are no accessibility issues on the page
 
-    When on the Awaiting Reporting Data page I click the FRN number search button
+    When I click on the "Search" button
     Then I confirm there are no accessibility issues on the page
 
     When I click on the "Home" link
 
 #Manual ledger assignment page  
 
-    When I click on the "View awaiting ledger assignment" link
+    When I click on the "View awaiting manual ledger assignment" link
     Then I confirm there are no accessibility issues on the page
 
-    When on the Awaiting Reporting Data page I click the FRN number search button
+    When I click on the "Search" button
     Then I confirm there are no accessibility issues on the page
 
 #Review ledger assignment page    
@@ -195,12 +195,12 @@ Feature: 20 Accessibility Testing
 
 #Ledger assignments awaiting quality check page
 
-    When I click on the "View awaiting quality check" link
+    When I click on the "View awaiting ledger assignment quality check" link
     Then I confirm there are no accessibility issues on the page
 
 #Force error message on page through invalid input and confirm accessibility again
 
-    When on the Awaiting Reporting Data page I click the FRN number search button
+    When I click on the "Search" button
     Then I confirm there are no accessibility issues on the page
 
     When I click on the "Review" link
