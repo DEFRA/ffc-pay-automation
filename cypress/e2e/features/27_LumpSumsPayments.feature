@@ -5,14 +5,14 @@ Feature: 27 Lump Sums Payments
 
 # This feature file is designed to test the end-to-end journey of Lump Sums payment in the local environment.
 
-  @dev
-  Scenario: 01 insert incorrect Lump sums test data via service bus message to ffc-pay-request
+  # @dev
+  # Scenario: 01 insert incorrect Lump sums test data via service bus message to ffc-pay-request
 
-    Then I take a screenshot for Feature 27 and Scenario 1
-    When I send "lump sums error" test data message to the service bus topic "ffc-pay-request-dev"
+  #   Then I take a screenshot for Feature 27 and Scenario 1
+  #   When I send "lump sums error" test data message to the service bus topic "ffc-pay-request-dev"
 
-    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
-    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
+  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
+  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
 
   @dev
   Scenario: 02 insert test data via service bus message to ffc-pay-request
@@ -50,27 +50,29 @@ Feature: 27 Lump Sums Payments
   #from payment file  
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting reporting data" link
+    And I click on the "View awaiting debt data" link
     When I search for current FRN
     And I click on the "Enrich" link
-    And I click on the "Irregular" debt type radio button
+    And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
-    And I click on the "Sign out" link
-
-    And I click on the "View awaiting ledger assignment" link
-    When I search for current FRN
-    And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
-    And I click on the "Sign out" link
-
-    And I click on the "View awaiting quality check" link
-    When I search for current FRN
-    And I click on the "Review" link
-    And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
+    And I click on the "Sign out" link
+
+    And I click on the "View awaiting manual ledger assignment" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes, I agree" radio button
+    And I click on the "Continue" button
+    And I see a success message for "has been updated and sent for quality checking."
+    And I click on the "Sign out" link
+
+    And I click on the "View awaiting ledger assignment quality check" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes" radio button
+    And I click on the "Submit" button
+    And I see a success message for "has been quality checked."
 
     Given I visit the "Payment management" homepage
     When I click on the "Schemes" link

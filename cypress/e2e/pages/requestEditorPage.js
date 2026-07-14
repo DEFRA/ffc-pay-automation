@@ -55,7 +55,7 @@ class requestEditorPage {
   }
 
   getFrnSearchButton () {
-    return cy.get('form > .govuk-button')
+    return cy.get('.govuk-button').contains('Search')
   }
 
   firstFRN () {

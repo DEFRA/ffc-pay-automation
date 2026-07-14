@@ -49,27 +49,29 @@ Feature: 23 CS Higher Tier Capital Payments
   #from payment file  
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting reporting data" link
+    And I click on the "View awaiting debt data" link
     When I search for current FRN
     And I click on the "Enrich" link
-    And I click on the "Irregular" debt type radio button
+    And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
-    And I click on the "Sign out" link
-
-    And I click on the "View awaiting ledger assignment" link
-    When I search for current FRN
-    And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
-    And I click on the "Sign out" link
-
-    And I click on the "View awaiting quality check" link
-    When I search for current FRN
-    And I click on the "Review" link
-    And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
+    And I click on the "Sign out" link
+
+    And I click on the "View awaiting manual ledger assignment" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes, I agree" radio button
+    And I click on the "Continue" button
+    And I see a success message for "has been updated and sent for quality checking."
+    And I click on the "Sign out" link
+
+    And I click on the "View awaiting ledger assignment quality check" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes" radio button
+    And I click on the "Submit" button
+    And I see a success message for "has been quality checked."
 
     Given I visit the "Payment management" homepage
     When I click on the "Schemes" link
@@ -122,11 +124,11 @@ Feature: 23 CS Higher Tier Capital Payments
   Scenario: 05 Approve payment from reporting data queue
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting reporting data" link
+    And I click on the "View awaiting debt data" link
     When I search for FRN "1258445148"
     When I click on the FRN search button
     And I click on the "Enrich" link
-    And I click on the "Irregular" debt type radio button
+    And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     Then I take a screenshot for Feature 23 and Scenario 5
     And I click on the "Continue" button
@@ -136,11 +138,11 @@ Feature: 23 CS Higher Tier Capital Payments
   Scenario: 06 Approve payment in ledger assignment queue
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1258445148"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     Then I take a screenshot for Feature 23 and Scenario 6
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
@@ -150,11 +152,11 @@ Feature: 23 CS Higher Tier Capital Payments
   Scenario: 07 Approve payment from quality check queue
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1258445148"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     Then I take a screenshot for Feature 23 and Scenario 7
     And I click on the "Submit" button
 
