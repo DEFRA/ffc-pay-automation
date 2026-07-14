@@ -1236,7 +1236,7 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
   default:
     throw new Error(`Unknown database: ${databaseName}`)
   }
-
+  cy.wait(140000)
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
     .then((results) => {
       const data = results.rows[0]
@@ -1340,7 +1340,7 @@ Then(/^I confirm that payment test data in dev has not been inserted into the (.
   default:
     throw new Error(`Unknown database: ${databaseName}`)
   }
-
+  cy.wait(140000)
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
     .then((results) => {
       const data = results.rows[0]
