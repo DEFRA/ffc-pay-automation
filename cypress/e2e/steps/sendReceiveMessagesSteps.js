@@ -1219,38 +1219,61 @@ FROM "paymentRequests";
   cy.log('Sent ' + messageType + ' message to service bus topic ' + topicName)
 })
 
-Then(/^I confirm that payment test data in dev has been inserted into the (.*) database$/, (databaseName) => {
 
-  Cypress.emit('log:step', 'I confirm that payment test data in dev has been inserted into the ' + databaseName + ' database')
+Then(/^I confirm that payment test data in dev has been inserted into the (.*) database$/, (databaseName) => {
+  Cypress.emit(
+    'log:step',
+    'I confirm that payment test data in dev has been inserted into the ' + databaseName + ' database'
+  )
+
   let sqlStatement = ''
+
   switch (databaseName) {
   case 'ffc-pay-injection':
     sqlStatement = 'SELECT * FROM "manualUploads" WHERE "uploadId" = 1'
     break
+
   case 'ffc-pay-processing':
     sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN
     break
+
   case 'ffc-pay-submission':
     sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN
     break
+
   default:
     throw new Error(`Unknown database: ${databaseName}`)
   }
-  cy.wait(140000)
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((results) => {
-      const data = results.rows[0]
-      console.log('Data retrieved:', data)
-      if (results.rows.length > 0) {
-        console.log('✅ Data exists in the database')
-      } else {
-        throw new Error('Data is not in database')
-      }
 
-      console.log(`✅ Test data has been inserted into the ${databaseName} database`)
-      cy.log(`✅ Test data has been inserted into the ${databaseName} database`)
-    })
+  const start = Date.now()
+
+  const checkDatabase = () => {
+    cy.task('databaseQuery', { env, databaseName, sqlStatement })
+      .then((results) => {
+        if (results.rows.length > 0) {
+          const data = results.rows[0]
+
+          console.log('Data retrieved:', data)
+          console.log('✅ Data exists in the database')
+
+          cy.log(`✅ Test data has been inserted into the ${databaseName} database`)
+          return
+        }
+
+        if (Date.now() - start > 240000) {
+          throw new Error(`Timed out waiting for data in ${databaseName}`)
+        }
+
+        cy.log('Data not found yet, retrying...')
+        cy.wait(5000)
+
+        checkDatabase()
+      })
+  }
+
+  checkDatabase()
 })
+
 
 Then('I confirm that {string} test data in dev has been inserted into ffc-pay-processing database', (fileType) => {
 
