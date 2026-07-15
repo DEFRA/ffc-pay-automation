@@ -137,7 +137,7 @@ Feature: 41 Reset Payment Request
     Given I visit the "Payment management" homepage
 
     Then I take a screenshot for Feature 41 and Scenario 4
-    When I send the updated "sfi23-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "sfi23-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly

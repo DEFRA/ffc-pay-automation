@@ -11,7 +11,7 @@ Feature: 39 Messaging Bulk Processing
 
   #Due to call stack limits, 5000 has been determined as the best amount of messages to send in one batch. 
   #This scenario can be re-run multiple times to increase the total number of messages sent however instructions
-  #found in Step Definition - 'When I send 5000 payment messages using template "paymentFileMessage" to the service bus topic "ffc-pay-request-aw"'
+  #found in Step Definition - 'When I send 5000 payment messages using template "paymentFileMessage" to the service bus topic "ffc-pay-request-auto"'
   #must be followed and the correct code must be commented/uncommented to avoid data duplication
 
     Given I restart the local environment

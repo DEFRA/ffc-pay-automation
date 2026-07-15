@@ -47,18 +47,21 @@ Feature: 24 Vet Visits Payments
     Then I take a screenshot for Feature 24 and Scenario 2
     Then I confirm that number of payments has increased by 1 and total value of payments has increased by "£16,002.00"
 
-  @dev
-  Scenario: 03 Confirm that new AWHR standard code is functioning correctly
 
-#This scenario confirms that Vet Visits payments can be processed correctly using the new AWHR standard code and that the
-#correct scheme code of 18005 will be added by enrichment
+# This scenario will not run as AWHR is inactive.
 
-    When I send the updated "awhrPoultry-paymentFileMessage" message to the service bus topic "ffc-pay-request-dev"
-    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
-    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
-    Then I pull vet visits file from Azure Blob Storage and confirm that correct values have been generated
+#   @dev
+#   Scenario: 03 Confirm that new AWHR standard code is functioning correctly
 
-    Then I confirm that payment for current FRN has scheme code of "18005" in ffc-pay-processing database
+# #This scenario confirms that Vet Visits payments can be processed correctly using the new AWHR standard code and that the
+# #correct scheme code of 18005 will be added by enrichment
+
+#     When I send the updated "awhrPoultry-paymentFileMessage" message to the service bus topic "ffc-pay-request-dev"
+#     Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+#     Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+#     Then I pull vet visits file from Azure Blob Storage and confirm that correct values have been generated
+
+#     Then I confirm that payment for current FRN has scheme code of "18005" in ffc-pay-processing database
 
   @local
   Scenario: 01 insert incorrect test data via service bus message to ffc-pay-request and confirm data is rejected
@@ -66,13 +69,13 @@ Feature: 24 Vet Visits Payments
 #This scenario confirms that attempting to insert data that does not conform to the database limits is rejected correctly
 
     Given I restart the local environment
-    When I send the updated "vetVisitsError-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "vetVisitsError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 
   @local
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-    When I send the updated "vetVisits-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "vetVisits-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
@@ -90,7 +93,7 @@ Feature: 24 Vet Visits Payments
 
 #This scenario confirms that a return file message can be sent and processed correctly
 
-    When I send the updated "vetVisits-returnFileMessage" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "vetVisits-returnFileMessage" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
 
   @local
@@ -110,7 +113,7 @@ Feature: 24 Vet Visits Payments
 #correct scheme code of 18005 will be added by enrichment
 
     Given I restart the local environment
-    When I send the updated "awhrPoultry-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "awhrPoultry-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has been inserted into the ffc-pay-processing database
     Then I confirm that payment test data has been inserted into the ffc-pay-submission database
     Then I pull vet visits file from Azure Blob Storage and confirm that correct values have been generated

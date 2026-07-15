@@ -11,7 +11,7 @@ Feature: 35 PPA Reduction Scenarios
 
     Given I restart the local environment
     Given I visit the "Request Editor" homepage
-    When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
@@ -21,7 +21,7 @@ Feature: 35 PPA Reduction Scenarios
 
     #PPA Reduction processed prior to first installment payment
 
-    When I send the updated "ppaScenarios-reductionMessageOne" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "ppaScenarios-reductionMessageOne" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
@@ -48,11 +48,11 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-5000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-01-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 25000000 in database
     Then I confirm that the settled value of PPA is -5000000 in database
@@ -62,11 +62,11 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-10000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-04-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 50000000 in database
     Then I confirm that the settled value of PPA is -10000000 in database
@@ -75,11 +75,11 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-15000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-06-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 75000000 in database
     Then I confirm that the settled value of PPA is -15000000 in database
@@ -88,11 +88,11 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-20000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-09-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is -20000000 in database
@@ -106,7 +106,7 @@ Feature: 35 PPA Reduction Scenarios
 
     Given I restart the local environment
     Given I visit the "Request Editor" homepage
-    When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
@@ -118,12 +118,12 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that the settled value of Return is 25000000 in database
 
   #PPA Reduction processed after first installment payment
 
-    When I send the updated "ppaScenarios-reductionMessageOne" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "ppaScenarios-reductionMessageOne" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
@@ -150,18 +150,18 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-5000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-01-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that the settled value of PPA is -5000000 in database
 
     #Second installment payment including PPA Reduction 
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-10000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-04-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 50000000 in database
     Then I confirm that the settled value of PPA is -10000000 in database
@@ -170,11 +170,11 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-15000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-06-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 75000000 in database
     Then I confirm that the settled value of PPA is -15000000 in database
@@ -183,11 +183,11 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-20000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-09-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is -20000000 in database
@@ -201,7 +201,7 @@ Feature: 35 PPA Reduction Scenarios
 
     Given I restart the local environment
     Given I visit the "Request Editor" homepage
-    When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
@@ -213,19 +213,19 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that the settled value of Return is 25000000 in database
 
   #Second installment payment
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that the settled value of Return is 50000000 in database
 
   #PPA Reduction processed after second installment payment
 
-    When I send the updated "ppaScenarios-reductionMessageOne" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "ppaScenarios-reductionMessageOne" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
@@ -252,18 +252,18 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-10000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-04-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that the settled value of PPA is -10000000 in database
 
     #Third installment payment including PPA Reduction 
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-15000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-06-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 75000000 in database
     Then I confirm that the settled value of PPA is -15000000 in database
@@ -272,11 +272,11 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-20000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-09-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is -20000000 in database
@@ -290,7 +290,7 @@ Feature: 35 PPA Reduction Scenarios
 
     Given I restart the local environment
     Given I visit the "Request Editor" homepage
-    When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
@@ -302,25 +302,25 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "25000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-01-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that the settled value of Return is 25000000 in database
 
   #Second installment payment
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "50000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-04-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that the settled value of Return is 50000000 in database
 
   #Third installment payment
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "75000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-06-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that the settled value of Return is 75000000 in database
 
   #PPA Reduction processed after third installment payment
-    When I send the updated "ppaScenarios-reductionMessageOne" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "ppaScenarios-reductionMessageOne" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
@@ -347,18 +347,18 @@ Feature: 35 PPA Reduction Scenarios
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-15000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-06-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that the settled value of PPA is -15000000 in database
 
     #Fourth installment payment including PPA Reduction 
 
     When I update the "value" in message "ppaScenarios-returnMessageOne" to "100000000"
     When I update the "settlementDate" in message "ppaScenarios-returnMessageOne" to "2025-09-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-returnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     When I update the "value" in message "ppaScenarios-reductionReturnMessageOne" to "-20000000"
     When I update the "settlementDate" in message "ppaScenarios-reductionReturnMessageOne" to "2025-09-02T00:00:00.000Z"
-    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "ppaScenarios-reductionReturnMessageOne" message to the service bus topic "ffc-pay-return-auto"
 
     Then I confirm that the settled value of Return is 100000000 in database
     Then I confirm that the settled value of PPA is -20000000 in database
