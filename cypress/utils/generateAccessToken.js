@@ -46,7 +46,7 @@ function getAccessToken () {
   })
 }
 
-async function generateAccessToken (maxRetries = 3) {
+async function generateAccessToken (maxRetries = 6) {
   let lastError
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
