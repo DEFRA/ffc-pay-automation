@@ -1,5 +1,5 @@
-import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 const { getEnvironmentConfig } = require('../../support/configLoader')
 
@@ -936,7 +936,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchStatementsBlobById', {
       env: env,
       container: 'statements',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       year: '2025'
     })
     break
@@ -944,7 +944,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchStatementsBlobById', {
       env: env,
       container: 'statements',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       year: '2024'
     })
     break
@@ -952,7 +952,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'glos'
     })
     break
@@ -960,7 +960,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'imps'
     })
     break
@@ -968,7 +968,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'genesis'
     })
     break
@@ -976,7 +976,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'dps'
     })
     break
@@ -984,7 +984,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'vet visits'
     })
     break
@@ -992,7 +992,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'cohtr'
     })
     break
@@ -1000,7 +1000,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'cohtc'
     })
     break
@@ -1008,7 +1008,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'cs'
     })
     break
@@ -1016,7 +1016,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'bps'
     })
     break
@@ -1024,7 +1024,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'lump sums'
     })
     break
@@ -1032,7 +1032,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'sfi expanded'
     })
     break
@@ -1040,7 +1040,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'sfi pilot'
     })
     break
@@ -1048,7 +1048,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'delinked'
     })
     break
@@ -1056,7 +1056,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'sfi23'
     })
     break
@@ -1064,7 +1064,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'sfi22'
     })
     break
@@ -1072,7 +1072,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'manual'
     })
     break
@@ -1080,7 +1080,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'ppa scenarios payments'
     })
     break
@@ -1088,7 +1088,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'ppa scenarios topups'
     })
     break
@@ -1096,7 +1096,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'ppa scenarios reductions'
     })
     break
@@ -1104,7 +1104,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'ppa scenarios recoveries'
     })
     break
@@ -1112,7 +1112,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'fptt'
     })
     break
