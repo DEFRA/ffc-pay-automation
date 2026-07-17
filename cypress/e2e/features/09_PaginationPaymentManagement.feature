@@ -8,15 +8,17 @@ Feature: 09 Pagination - Payment Management
     Given I visit the "Payment management" homepage
 
   Scenario Outline: 01 "<number>" records per page on "<page>" page
+    And I click on the "Manage payment holds" link
     And I click on the "<link>" link
+    And I click on the "Search" button
     When on the Payment Holds Page I select "<number>" from the number of records per page dropdown
     Then I can see at most <number> records displayed in the table
 
     Examples:
-      | link                 | number | page          |
-      | Manage payment holds | 100    | Payment holds |
-      | Manage payment holds | 500    | Payment holds |
-      | Manage payment holds | 1000   | Payment holds |
+      | link                      | number | page          |
+      | Search for a payment hold | 100    | Payment holds |
+      | Search for a payment hold | 500    | Payment holds |
+      | Search for a payment hold | 1000   | Payment holds |
 
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
