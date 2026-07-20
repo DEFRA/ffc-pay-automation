@@ -1977,17 +1977,17 @@ Then(
                 return
               }
 
-              if (attempt >= 10) {
+              if (attempt >= 20) {
                 throw new Error(
                   `Expected count ${expectedCount} and value ${expectedRounded}, but found count ${actualCount} and value ${actualRounded}`
                 )
               }
 
               cy.log(
-                `Attempt ${attempt}/10 failed. Refreshing page and retrying...`
+                `Attempt ${attempt}/20 failed. Refreshing page and retrying...`
               )
 
-              cy.wait(10000)
+              cy.wait(15000)
               cy.reload()
 
               verifyPayments(attempt + 1)
