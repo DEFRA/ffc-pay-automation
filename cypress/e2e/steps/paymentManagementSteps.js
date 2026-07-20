@@ -1935,29 +1935,66 @@ Then('I store the number of payments and total value of payments for the current
 
 })
 
-Then('I confirm that number of payments has increased by {int} and total value of payments has increased by {string}',
+Then(
+  'I confirm that number of payments has increased by {int} and total value of payments has increased by {string}',
   function (paymentIncrease, valueIncrease) {
-
-    Cypress.emit('log:step', `I confirm that number of payments has increased by "${paymentIncrease}" and total value of payments has increased by "${valueIncrease}"`)
+    Cypress.emit(
+      'log:step', `I confirm that number of payments has increased by "${paymentIncrease}" and total value of payments has increased by "${valueIncrease}"`)
 
     const previousCount = parseInt(this.numberOfPayments)
-    const previousValue = parseFloat(this.totalValueOfPayments.replace(/[^0-9.-]+/g, ''))
+    const previousValue = parseFloat(
+      this.totalValueOfPayments.replace(/[^0-9.-]+/g, '')
+    )
 
     const expectedCount = previousCount + paymentIncrease
-    const expectedValue = previousValue + parseFloat(valueIncrease.replace(/[^0-9.-]+/g, ''))
+    const expectedValue =
+      previousValue +
+      parseFloat(valueIncrease.replace(/[^0-9.-]+/g, ''))
 
-    paymentEventMonitoringPage
-      .processedRequestsNumberOf()
-      .invoke('text')
-      .then(text => {
-        expect(parseInt(text)).to.eq(expectedCount)
-      })
+    const verifyPayments = (attempt = 1) => {
+      paymentEventMonitoringPage
+        .processedRequestsNumberOf()
+        .invoke('text')
+        .then(countText => {
+          const actualCount = parseInt(countText)
 
-    paymentEventMonitoringPage
-      .processedRequestsValue()
-      .invoke('text')
-      .then(text => {
-        const numeric = parseFloat(text.replace(/[^0-9.-]+/g, '')).toFixed(2)
-        expect(Number(numeric)).to.eq(parseFloat(Number(expectedValue).toFixed(2)))
-      })
-  })
+          paymentEventMonitoringPage
+            .processedRequestsValue()
+            .invoke('text')
+            .then(valueText => {
+              const actualValue = parseFloat(
+                valueText.replace(/[^0-9.-]+/g, '')
+              )
+
+              const expectedRounded = parseFloat(expectedValue.toFixed(2))
+              const actualRounded = parseFloat(actualValue.toFixed(2))
+
+              if (
+                actualCount === expectedCount &&
+                actualRounded === expectedRounded
+              ) {
+                cy.log('Expected payment values found')
+                return
+              }
+
+              if (attempt >= 10) {
+                throw new Error(
+                  `Expected count ${expectedCount} and value ${expectedRounded}, but found count ${actualCount} and value ${actualRounded}`
+                )
+              }
+
+              cy.log(
+                `Attempt ${attempt}/10 failed. Refreshing page and retrying...`
+              )
+
+              cy.wait(10000)
+              cy.reload()
+
+              verifyPayments(attempt + 1)
+            })
+        })
+    }
+
+    verifyPayments()
+  }
+)

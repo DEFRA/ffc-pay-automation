@@ -14,19 +14,19 @@ Feature: 07 Pagination - Request Editor
 
     @dev @test
     Examples:
-      | link                            | number | page                             |
-      | View all datasets               | 2500   | Unattached reporting datasets    |
-      | View all datasets               | 5000   | Unattached reporting datasets    |
-      | View all datasets               | 10000  | Unattached reporting datasets    |
-      | View awaiting reporting data    | 100    | Requests awaiting reporting data |
-      | View awaiting reporting data    | 500    | Requests awaiting reporting data |
-      | View awaiting reporting data    | 1000   | Requests awaiting reporting data |
-      | View awaiting ledger assignment | 100    | Awaiting ledger assignment       |
-      | View awaiting ledger assignment | 500    | Awaiting ledger assignment       |
-      | View awaiting ledger assignment | 1000   | Awaiting ledger assignment       |
-      | View awaiting quality check     | 100    | Requests awaiting quality check  |
-      | View awaiting quality check     | 500    | Requests awaiting quality check  |
-      | View awaiting quality check     | 1000   | Requests awaiting quality check  |
+      | link                                          | number | page                             |
+      | View all datasets                             | 2500   | Unattached reporting datasets    |
+      | View all datasets                             | 5000   | Unattached reporting datasets    |
+      | View all datasets                             | 10000  | Unattached reporting datasets    |
+      | View awaiting debt data                       | 100    | Requests awaiting reporting data |
+      | View awaiting debt data                       | 500    | Requests awaiting reporting data |
+      | View awaiting debt data                       | 1000   | Requests awaiting reporting data |
+      | View awaiting manual ledger assignment        | 100    | Awaiting ledger assignment       |
+      | View awaiting manual ledger assignment        | 500    | Awaiting ledger assignment       |
+      | View awaiting manual ledger assignment        | 1000   | Awaiting ledger assignment       |
+      | View awaiting ledger assignment quality check | 100    | Requests awaiting quality check  |
+      | View awaiting ledger assignment quality check | 500    | Requests awaiting quality check  |
+      | View awaiting ledger assignment quality check | 1000   | Requests awaiting quality check  |
 
     @local
     Examples:
@@ -42,11 +42,11 @@ Feature: 07 Pagination - Request Editor
     And I cannot see the "Previous" button
 
     Examples:
-      | link                            | page                             |
-      | View all datasets               | Unattached reporting datasets    |
-      | View awaiting reporting data    | Requests awaiting reporting data |
-      | View awaiting ledger assignment | Awaiting ledger assignment       |
-      | View awaiting quality check     | Requests awaiting quality check  |
+      | link                                          | page                             |
+      | View all datasets                             | Unattached reporting datasets    |
+      | View awaiting debt data                       | Requests awaiting reporting data |
+      | View awaiting manual ledger assignment        | Awaiting ledger assignment       |
+      | View awaiting ledger assignment quality check | Requests awaiting quality check  |
 
   Scenario Outline: 03 Verify Next/Previous on second page of "<page>" page
     And I click on the "<link>" link
