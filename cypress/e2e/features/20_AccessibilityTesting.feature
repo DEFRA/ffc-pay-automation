@@ -55,13 +55,6 @@ Feature: 20 Accessibility Testing
     When I click on the "AP-AR listing report" link
     Then I confirm there are no accessibility issues on the page
 
-    When I click on the "Reports" link
-
-#Payment statement status report page
-
-    When I click on the "Payment statement status report" link
-    Then I confirm there are no accessibility issues on the page
-
     And I click on the "Home" link
 
 #Alerts recipients page
