@@ -55,25 +55,28 @@ Feature: 12 PPA E2E Journey - Debit
     And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
+    And I click on the "Submit" button
+    And I click on the "Sign out" link
     Then I take a screenshot for Feature 12 and Scenario 4
-    Then the "Requests awaiting reporting data" count has decreased by 1
+    And I visit the "Request Editor" homepage
+    Then the "Requests awaiting debt data" count has decreased by 1
 
   Scenario: 05 Approve payment from ledger assignment queue
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     And I enter the newly generated FRN in the search field
     When I click on the "Search" button
     Then I should see the first FRN in the results matches the newly generated FRN
     And I click on the "Review" link
     And I click on the "Yes" radio button
     And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+    And I see a success message for "has been updated and sent for quality checking."
     Then I take a screenshot for Feature 12 and Scenario 5
     And I click on the "Sign out" link
 
   Scenario: 06 Approve payment from quality check queue
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     And I enter the newly generated FRN in the search field
     When I click on the "Search" button
     Then I should see the first FRN in the results matches the newly generated FRN

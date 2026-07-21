@@ -363,21 +363,42 @@ Then('I make a note of the {string} count', (text) => {
 })
 
 Then('the {string} count has increased by 1', (text) => {
+  Cypress.emit('log:step', `the ${text} count has increased by 1`)
 
-  Cypress.emit('log:step', 'the ' + text + ' count has increased by 1')
-  cy.wait(30000)
-  cy.reload()
   cy.get(`@${text}Count`).then((oldCount) => {
     const previous = parseInt(oldCount, 10)
 
-    cy.contains('.govuk-heading-m', text)
-      .parent()
-      .find('.govuk-heading-xl')
-      .invoke('text')
-      .then((newCountText) => {
-        const current = parseInt(newCountText.trim(), 10)
-        expect(current).to.eq(previous + 1)
-      })
+    const verifyCount = (attempt = 1) => {
+      cy.reload()
+
+      cy.contains('.govuk-heading-m', text)
+        .parent()
+        .find('.govuk-heading-xl')
+        .invoke('text')
+        .then((newCountText) => {
+          const current = parseInt(newCountText.trim(), 10)
+
+          if (current === previous + 1) {
+            cy.log(`Expected ${text} count found`)
+            return
+          }
+
+          if (attempt >= 20) {
+            throw new Error(
+              `Expected ${text} count to be ${previous + 1} but found ${current}`
+            )
+          }
+
+          cy.log(
+            `Attempt ${attempt}/20 failed. Retrying in 15 seconds...`
+          )
+
+          cy.wait(15000)
+          verifyCount(attempt + 1)
+        })
+    }
+
+    verifyCount()
   })
 })
 
