@@ -1271,21 +1271,25 @@ Then(/^on the Download Statements page I click the "(.*)" button$/, (button) => 
   }
 })
 
-Then(/^on the Download Statements page I confirm that the page number on Results sub header is "(.*)"$/, (expectedValue) => {
 
-  Cypress.emit('log:step', 'on the Download Statements page I confirm that the page number on Results sub header is ' + expectedValue)
-  downloadStatementsPage.statementsSubHeader().should('be.visible').invoke('text').then((text) => {
-    cy.log(expectedValue, text)
-    if (text.includes(`${expectedValue}`)) {
-      console.log(`Confirmed that the page number on Results sub header is ${expectedValue}`)
-      cy.log(`Confirmed that the page number on Results sub header is ${expectedValue}`)
-    } else {
-      console.log(`Page number on Results sub header is not ${expectedValue}, actual value is ${text}`)
-      cy.log(`Page number on Results sub header is not ${expectedValue}, actual value is ${text}`)
-      throw new Error('Incorrect page number')
-    }
-  })
-})
+Then(
+  /^on the Download Statements page I confirm that the page number is "(.*)"$/,
+  (expectedValue) => {
+    Cypress.emit(
+      'log:step',
+      `on the Download Statements page I confirm that the page number is ${expectedValue}`
+    )
+
+
+    downloadStatementsPage
+      .currentPageNumber()
+      .should(($el) => {
+        expect($el.text().trim()).to.eq(expectedValue)
+      })
+
+  }
+)
+
 
 Then(/^on the Download Statements page I enter "(.*)" into the "(.*)" field$/, (filename, field) => {
 

@@ -31,8 +31,8 @@ Feature: 13 Payment Holds
     Then the "paymentFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
 
     Examples:
-      | sendToTopic          | receiveOnTopic      |
-      | ffc-pay-request-auto | ffc-pay-submit-auto |
+      | sendToTopic         | receiveOnTopic     |
+      | ffc-pay-request-dev | ffc-pay-submit-dev |
 
   Scenario: 02 Confirm scheme filter functional
 
@@ -40,20 +40,6 @@ Feature: 13 Payment Holds
     And I click on the "Manage payment holds" link
     And I click on the "Create a new payment hold" link
     Then on the Payment Holds page I confirm that scheme filter box is visible
-    Then on the Payment Holds page I confirm that correct options are available for "COHT Capital" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "COHT Revenue" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "Expanded SFI Offer" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "Delinked" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "SFI23" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "IMPS" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "FC" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "ES" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "Manual Invoice" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "BPS" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "CS" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "Annual Health and Welfare Review" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "Lump Sums" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "SFI Pilot" scheme
-    Then on the Payment Holds page I confirm that correct options are available for "SFI22" scheme
+    Then on the Payment Holds page all schemes have correct holds
     And I take a screenshot for Feature 13 and Scenario 2
   

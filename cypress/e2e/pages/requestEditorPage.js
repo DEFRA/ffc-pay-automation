@@ -94,6 +94,14 @@ class requestEditorPage {
     return cy.get('#records')
   }
 
+
+
+  recordsPerPageLink (number) {
+    return cy.contains('a', new RegExp(`^${number}$`))
+  }
+
+
+
   dataSetRecords () {
     return cy.get('tbody > tr')
   }

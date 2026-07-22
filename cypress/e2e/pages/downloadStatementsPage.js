@@ -79,6 +79,11 @@ class downloadStatementsPage {
     return cy.contains('.govuk-heading-m', 'Statements')
   }
 
+  currentPageNumber () {
+    return cy.get('.govuk-pagination__item--current > .govuk-link')
+  }
+
+
   schemeColumn () {
     return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(1)')
   }

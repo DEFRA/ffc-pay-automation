@@ -11,7 +11,8 @@ Feature: 09 Pagination - Payment Management
     And I click on the "Manage payment holds" link
     And I click on the "<link>" link
     And I click on the "Search" button
-    When on the Payment Holds Page I select "<number>" from the number of records per page dropdown
+    When on the Payment Holds Page I select "<number>" records per page
+    #When on the Payment Holds Page I select "<number>" from the number of records per page dropdown
     Then I can see at most <number> records displayed in the table
 
     Examples:

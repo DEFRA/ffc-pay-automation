@@ -264,6 +264,14 @@ When('I select {string} from the number of records per page dropdown', (number) 
 })
 
 
+When('on the Payment Holds Page I select {string} records per page', (number) => {
+  Cypress.emit( 'log:step', `on the Payment Holds Page I select ${number} records per page`
+  )
+
+  requestEditor.recordsPerPageLink(number).scrollIntoView().click()
+}
+)
+
 Then('I can see at most {int} records displayed in the table', (number) => {
 
   Cypress.emit('log:step', 'I can see at most ' + number + ' records displayed in the table')

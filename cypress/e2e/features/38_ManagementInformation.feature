@@ -167,16 +167,16 @@ Feature: 38 Management Information
 #such as database cleanouts
 
     Then on the Management Information page I select "By month" in Time Period filter
-    Then on the Management Information page I select "2025" in Select Year filter
-    Then on the Management Information page I select "December" in Select Month filter
+    Then on the Management Information page I select "2026" in Select Year filter
+    Then on the Management Information page I select "July" in Select Month filter
     
     When on the Management Information page I click on the "apply filters" button
 
  #Payments should be 10, Amount should be £104,284 and Documents should be 80,129 
 
-    Then on the Management Information page I confirm that number of payments value is 10
-    Then on the Management Information page I confirm that payment amount value is £104,284
-    Then on the Management Information page I confirm that number of documents value is 80,128
+    Then on the Management Information page I confirm that number of payments value is 193
+    Then on the Management Information page I confirm that payment amount value is £9,005,858.52
+    Then on the Management Information page I confirm that number of documents value is 41
 
   #Confirm that Clear filters button is functioning correctly
 
