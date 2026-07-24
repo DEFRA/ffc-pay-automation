@@ -217,7 +217,7 @@ Feature: 02 Request Editor
 
   @local
   Scenario: 14 insert test data via service bus message to ffc-pay-request
-    ##This scenario adds in data so we can see items in the "Request awaiting reporting data" section for local verification. 
+    ##This scenario adds in data so we can see items in the "Request awaiting debt data" section for local verification. 
     ##It is taken from SFI23Payments.feature. You will need to restart env with -v to rerun it, so comment this section
     ##out if you don't need this for your run
     When I send the updated "sfi23-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"

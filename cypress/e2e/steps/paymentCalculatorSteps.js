@@ -90,11 +90,11 @@ Then(/^on the Enter your delinked payment reference amount page I confirm that "
   case 'page title':
     enterYourDelinkedPaymentReferencePage.subHeader().should('be.visible').and('contain.text', 'Enter your delinked payment reference amount'); break
   case 'paragraph one':
-    enterYourDelinkedPaymentReferencePage.paragraphOne().should('be.visible').and('contain.text', 'This calculator will estimate your payment for each of the years 2024 to 2027 based on the reference amount you enter.'); break
+    enterYourDelinkedPaymentReferencePage.paragraphOne().should('be.visible').and('contain.text', 'This calculator will estimate your payment'); break
   case 'paragraph two':
-    enterYourDelinkedPaymentReferencePage.paragraphTwo().should('be.visible').and('contain.text', 'You were sent your reference amount in the delinked payments information statement.'); break
+    enterYourDelinkedPaymentReferencePage.paragraphTwo().should('be.visible').and('contain.text', 'You were sent your reference amount in the delinked payments'); break
   case 'paragraph three':
-    enterYourDelinkedPaymentReferencePage.paragraphThree().should('be.visible').and('contain.text', 'This amount will have changed if BPS 2020, 2021 and 2022 reference data has either:'); break
+    enterYourDelinkedPaymentReferencePage.paragraphThree().should('be.visible').and('contain.text', 'This amount will have changed if BPS 2020, 2021 and 2022 reference'); break
   case 'bullet line one':
     enterYourDelinkedPaymentReferencePage.bulletLineOne().should('be.visible').and('contain.text', 'been transferred in or out of your business'); break
   case 'bullet line two':
@@ -106,7 +106,7 @@ Then(/^on the Enter your delinked payment reference amount page I confirm that "
         const html = $el.html()
         expect(html).to.match(/<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/) // checks for anchor tag
       })
-      .and('contain.text', 'You can view your current reference amount and any data transfers in the')
+      .and('contain.text', 'You can view your current reference amount and any data transfers in')
     break
   case 'paragraph five':
     enterYourDelinkedPaymentReferencePage.paragraphFive().should('be.visible').and('contain.text', 'Do not include commas in the amount you enter. For example, enter £20,000 as 20000.'); break

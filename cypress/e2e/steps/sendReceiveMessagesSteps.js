@@ -616,6 +616,8 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
     messageTemplate = 'fptt-ppaFileMessage'; break
   case 'd365 acknowledgement':
     messageTemplate = 'd365Rejection-acknowledgementMessage'; break
+  case 'SFI22 acknowledgement':
+    messageTemplate = 'sfi22-acknowledgementMessage'; break
   }
 
   ///////////////////////////////////GLOS SECTION///////////////////////////////////////////////////
