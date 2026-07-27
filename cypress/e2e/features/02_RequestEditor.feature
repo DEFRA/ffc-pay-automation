@@ -20,7 +20,7 @@ Feature: 02 Request Editor
 #                                                                                                                   #
 #     TODO                                                                                                          #
 #      - Need to retire capturePage.js and have all in the one RequestEditorPage                                    #
-#      - more tests can be added to dev to mirror local testingv                                                    #
+#      - more tests can be added to dev to mirror local testing                                                     #
 #                                                                                                                   #
 #####################################################################################################################
 
