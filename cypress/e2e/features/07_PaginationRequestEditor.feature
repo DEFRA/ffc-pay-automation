@@ -12,8 +12,8 @@ Feature: 07 Pagination - Request Editor
     When on the Payment Holds Page I select "<number>" records per page
     Then I can see at most <number> records displayed in the table
 
-    @dev @test
-    ##Commented out lines can't be clicked because they're already default selected. Keeping incase it changes back to dropdown
+@dev @test
+##Commented out lines can't be clicked because they're already default selected. This is raised as a CI ticket
     Examples:
       | link              | number | page                          |
       | View all datasets | 100    | Unattached reporting datasets |
