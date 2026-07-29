@@ -17,6 +17,57 @@ let nextVendor
 let nextTrader
 let nextInvoiceNumber
 
+
+const waitForDatabaseCount = (
+  databaseName,
+  sqlStatement,
+  expectedCount,
+  maxAttempts = 60
+) => {
+  let attempts = 0
+
+  const check = () => {
+    attempts++
+
+    return cy.task('databaseQuery', {
+      env,
+      databaseName,
+      sqlStatement
+    }).then((result) => {
+      const count = Number(result.rows[0].count)
+
+      cy.log(`Attempt ${attempts}: Found ${count}/${expectedCount}`)
+
+      if (count >= expectedCount) {
+        cy.log(`✅ Expected count reached: ${count}`)
+        return
+      }
+
+      if (attempts >= maxAttempts) {
+        throw new Error(
+          `Expected ${expectedCount} records but found ${count}`
+        )
+      }
+
+      cy.wait(10000)
+
+      return check()
+    })
+  }
+
+  return check()
+}
+
+const getBatchFrnRange = (batchNumber, expectedCount) => {
+  const startFrn = Number(`10000${batchNumber}`)
+  const endFrn = startFrn + expectedCount - 1
+
+  return {
+    startFrn,
+    endFrn
+  }
+}
+
 Given('I send the updated {string} message to the service bus topic {string}', (message, topicName) => {
 
   Cypress.emit('log:step', 'I send the updated ' + message + ' message to the service bus topic ' + topicName)
@@ -449,47 +500,194 @@ Then('I confirm that received email contains expected values', () => {
   })
 })
 
-When(/^I send 5000 payment messages using template "(.*)" to the service bus topic "(.*)"$/, (message, topicName) => {
+When(
+  'I send {int} payment messages using template {string} to the service bus topic {string} with the batch number {int}',
+  (messageCount, message, topicName, batchNumber) => {
+    Cypress.emit(
+      'log:step',
+      `I send ${messageCount} payment messages using template ${message} to the service bus topic ${topicName} with the batch number ${batchNumber}`
+    )
 
-  Cypress.emit('log:step', 'I send 5000 payment messages using template ' + message + ' to the service bus topic ' + topicName)
-  const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`
-  cy.readFile(inputFilePath).then((template) => {
-    const startFrn = 10000 // adjust depending on which batch you're sending
-    const startInvoice = 10000
-    const startAgreement = 10000
-    const startContract = 10000
-    const messages = Array.from({ length: 5000 }, (_, i) => ({
-      body: {
-        ...template,
-        frn: '10000' + (startFrn + i),
-        invoiceNumber: 'SFI22' + (startInvoice + i),
-        agreementNumber: '100' + (startAgreement + i),
-        contractNumber: '100' + (startContract + i) } }))
-    cy.task('sendMessagesBatch', { messages, topicName }).then(() =>
-      cy.log(`Finished sending ${messages.length} messages to topic: ${topicName}`))
-  })
-})
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`
 
-When('I send 5000 return messages using template {string} to the service bus topic {string}', (message, topicName) => {
+    cy.readFile(inputFilePath).then((template) => {
+      const startFrn = batchNumber
+      const startInvoice = batchNumber
+      const startAgreement = batchNumber
+      const startContract = batchNumber
 
-  Cypress.emit('log:step', 'I send 5000 return messages using template ' + message + ' to the service bus topic ' + topicName)
-  const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`
+      const messages = Array.from({ length: messageCount }, (_, i) => ({
+        body: {
+          ...template,
+          frn: '10000' + (startFrn + i),
+          invoiceNumber: 'SFI22' + (startInvoice + i),
+          agreementNumber: '100' + (startAgreement + i),
+          contractNumber: '100' + (startContract + i)
+        }
+      }))
 
-  cy.readFile(inputFilePath).then((template) => {
-    const startFrn = 10000 // adjust depending on which batch you're sending
-    const startInvoice = 10000
-    const messages = Array.from({ length: 5000 }, (_, i) => ({
-      body: {
-        ...template,
-        frn: '10000' + (startFrn + i),
-        invoiceNumber: 'S22' + (startInvoice + i) + '100' + (startInvoice + i) + 'V001'
-      }
-    }))
-    cy.task('sendMessagesBatch', { messages, topicName }).then(() =>
-      cy.log(`Finished sending ${messages.length} messages to topic: ${topicName}`))
-  })
-})
+      cy.task('sendMessagesBatch', { messages, topicName }).then(() => {
+        cy.log(`Finished sending ${messages.length} messages to topic: ${topicName}`)
+      })
+    })
+  }
+)
 
+When(
+  'I send {int} return messages using template {string} to the service bus topic {string} with the batch number {int}',
+  (messageCount, message, topicName, batchNumber) => {
+    Cypress.emit(
+      'log:step',
+      `I send ${messageCount} return messages using template ${message} to the service bus topic ${topicName} with the batch number ${batchNumber}`
+    )
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`
+
+    cy.readFile(inputFilePath).then((template) => {
+      const startFrn = batchNumber
+      const startInvoice = batchNumber
+
+      const messages = Array.from({ length: messageCount }, (_, i) => ({
+        body: {
+          ...template,
+          frn: '10000' + (startFrn + i),
+          invoiceNumber:
+            'S22' +
+            (startInvoice + i) +
+            '100' +
+            (startInvoice + i) +
+            'V001'
+        }
+      }))
+
+      cy.task('sendMessagesBatch', { messages, topicName }).then(() => {
+        cy.log(`Finished sending ${messages.length} messages to topic: ${topicName}`)
+      })
+    })
+  }
+)
+
+
+When(
+  'I send {int} ppa messages using template {string} to the service bus topic {string} with the batch number {int}',
+  (messageCount, message, topicName, batchNumber) => {
+    Cypress.emit(
+      'log:step',
+      `I send ${messageCount} ppa messages using template ${message} to the service bus topic ${topicName} with the batch number ${batchNumber}`
+    )
+
+    const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${message}.json`
+
+    cy.readFile(inputFilePath).then((template) => {
+      const startFrn = batchNumber
+      const startAgreement = batchNumber
+      const startContract = batchNumber
+      const startInvoice = batchNumber
+
+      const messages = Array.from({ length: messageCount }, (_, i) => {
+        const agreementNumber = '100' + (startAgreement + i)
+
+        return {
+          body: {
+            ...template,
+            frn: '10000' + (startFrn + i),
+            invoiceNumber: 'SFI' + (startInvoice + i),
+            agreementNumber,
+            contractNumber: '100' + (startContract + i),
+            paymentRequestNumber: 2,
+            invoiceLines: template.invoiceLines.map(line => ({
+              ...line,
+              agreementNumber
+            }))
+          }
+        }
+      })
+
+      cy.task('sendMessagesBatch', { messages, topicName }).then(() => {
+        cy.log(`Finished sending ${messages.length} PPA messages to topic: ${topicName}`)
+      })
+    })
+  }
+)
+
+
+//These below SQL statements need to be updated for the range of FRN's you're using for testing
+
+Then(
+  'I wait for {int} payment requests to be ready for settlement for batch {int}',
+  (expectedCount, batchNumber) => {
+    Cypress.emit(
+      'log:step',
+      `I wait for ${expectedCount} payment requests to be ready for settlement for batch ${batchNumber}`
+    )
+
+    const { startFrn, endFrn } = getBatchFrnRange(batchNumber, expectedCount)
+
+    waitForDatabaseCount(
+      'ffc-pay-processing',
+      `
+        SELECT COUNT(*) AS count
+        FROM "outbox" o
+        JOIN "completedPaymentRequests" cpr
+          ON cpr."completedPaymentRequestId" = o."completedPaymentRequestId"
+        WHERE cpr."frn" BETWEEN ${startFrn} AND ${endFrn}
+        AND cpr."paymentRequestNumber" = 1
+      `,
+      expectedCount,
+      120
+    )
+  }
+)
+
+Then(
+  'I wait for {int} returns to be processed for batch {int}',
+  (expectedCount, batchNumber) => {
+    Cypress.emit(
+      'log:step',
+      `I wait for ${expectedCount} returns to be processed for batch ${batchNumber}`
+    )
+
+    const { startFrn, endFrn } = getBatchFrnRange(batchNumber, expectedCount)
+
+    waitForDatabaseCount(
+      'ffc-pay-processing',
+      `
+        SELECT COUNT(*) AS count
+        FROM "completedPaymentRequests"
+        WHERE "frn" BETWEEN ${startFrn} AND ${endFrn}
+        AND "paymentRequestNumber" = 1
+        AND "settledValue" IS NOT NULL
+      `,
+      expectedCount,
+      120
+    )
+  }
+)
+
+Then(
+  'I wait for {int} ppas to be processed for batch {int}',
+  (expectedCount, batchNumber) => {
+    Cypress.emit(
+      'log:step',
+      `I wait for ${expectedCount} ppas to be processed for batch ${batchNumber}`
+    )
+
+    const startFrn = Number(`10000${batchNumber}`)
+    const endFrn = startFrn + expectedCount - 1
+
+    waitForDatabaseCount(
+      'ffc-pay-processing',
+      `
+        SELECT COUNT(*) AS count
+        FROM "paymentRequests"
+        WHERE "frn" BETWEEN ${startFrn} AND ${endFrn}
+        AND "paymentRequestNumber" = 2
+      `,
+      expectedCount,
+      120
+    )
+  }
+)
 When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, function (messageType, topicName) {
 
   Cypress.emit('log:step', 'I send "' + messageType + '" test data message to the service bus topic "' + topicName + '"')
@@ -1259,7 +1457,7 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
           console.log('✅ Data exists in the database')
 
           cy.log(`✅ Test data has been inserted into the ${databaseName} database`)
-          return
+          return cy.wrap(results.rows[0])
         }
 
         if (Date.now() - start > 240000) {
