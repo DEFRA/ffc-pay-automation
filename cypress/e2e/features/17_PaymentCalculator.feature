@@ -82,12 +82,12 @@ Feature: 17 Payment Calculator
     Then on the Enter your delinked payment reference amount page I confirm that "amount format error message" is correctly displayed
     Then I take a screenshot for Feature 17 and Scenario 04
 
-  # Scenario: 05 Confirm that delinked payments guidance link functions correctly
+  Scenario: 05 Confirm that Funding for farmers, growers and land managers link functions correctly
 
-  #   #This scenario confirms that the delinked payments guidance link on the Payment Calculator pages functions correctly
+    #This scenario confirms that the Funding for farmers, growers and land managers link on the Payment Calculator pages functions correctly
 
-  #   Given I visit the "Calculate your delinked payment" homepage
-  #   When I click on the "delinked payments guidance" link
+    Given I visit the "Calculate your delinked payment" homepage
+    When I click on the "Funding for farmers, growers and land managers" link
   
 
   Scenario: 06 Confirm that new schemes and grants link functions correctly

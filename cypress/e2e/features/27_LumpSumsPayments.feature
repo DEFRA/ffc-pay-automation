@@ -5,14 +5,14 @@ Feature: 27 Lump Sums Payments
 
 # This feature file is designed to test the end-to-end journey of Lump Sums payment in the local environment.
 
-  # @dev
-  # Scenario: 01 insert incorrect Lump sums test data via service bus message to ffc-pay-request
+  @dev
+  Scenario: 01 insert incorrect Lump sums test data via service bus message to ffc-pay-request
 
-  #   Then I take a screenshot for Feature 27 and Scenario 1
-  #   When I send "lump sums error" test data message to the service bus topic "ffc-pay-request-dev"
+    Then I take a screenshot for Feature 27 and Scenario 1
+    When I send "lump sums error" test data message to the service bus topic "ffc-pay-request-dev"
 
-  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
-  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
+    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
 
   @dev
   Scenario: 02 insert test data via service bus message to ffc-pay-request

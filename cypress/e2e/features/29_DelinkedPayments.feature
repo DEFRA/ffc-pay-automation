@@ -3,15 +3,15 @@ Feature: 29 Delinked Payments
 # npm run cypress:dev:one -- "cypress\e2e\features\29_DelinkedPayments.feature"
 # npm run cypress:local:one -- "cypress\e2e\features\29_DelinkedPayments.feature"
 
-# This feature file is designed to test the end-to-end journey of Delinked payment in the local environment.
+#This feature file is designed to test the end-to-end journey of Delinked payment in the local environment.
 
-  # @dev
-  # Scenario: 01 insert incorrect Delinked test data via service bus message to ffc-pay-request
+  @dev
+  Scenario: 01 insert incorrect Delinked test data via service bus message to ffc-pay-request
 
-  #   When I send "delinked error" test data message to the service bus topic "ffc-pay-request-dev"
+    When I send "delinked error" test data message to the service bus topic "ffc-pay-request-dev"
 
-  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
-  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
+    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
 
   @dev
   Scenario: 02 insert test data via service bus message to ffc-pay-request
