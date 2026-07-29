@@ -444,3 +444,29 @@ When('on the Awaiting Reporting Data page I click the FRN number search button',
   Cypress.emit('log:step', 'on the Awaiting Reporting Data page I click the FRN number search button')
   requestEditor.awaitingRepFRNSearchBtn().click()
 })
+
+
+///this is a loop for creating datasets, mostly used to fill dev up with data
+//There isn't a step file that uses it, just running it in an untracked feature file
+//Wil fail after 20 entries due to cypress config not allowing more than 20 redirects to the same URL
+Then('I create {int} debt datasets', (count) => {
+  cy.wrap(Array.from({ length: count })).each((_, i) => {
+    const dataset = {
+      scheme: 'SFI22',
+      frn: String(1234567800 + i),
+      agreementNumber: `SIP${String(i + 1).padStart(12, '0')}`,
+      netValue: '10000',
+      typeOfDebt: 'irr',
+      dateDebtDiscovered: 'today'
+    }
+
+    cy.contains('Create new dataset').click()
+
+    requestEditor.createDataset(dataset)
+
+    cy.contains('Continue').click()
+    cy.contains('Save').click()
+
+    cy.log(`Created debt dataset ${i + 1}/${count}`)
+  })
+})
