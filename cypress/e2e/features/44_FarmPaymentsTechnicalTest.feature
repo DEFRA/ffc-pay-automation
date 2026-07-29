@@ -65,14 +65,14 @@ Feature: 44 Farm Payments Technical Test
   #generated
 
     Given I restart the local environment
-    When I send the updated "fpttError-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "fpttError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
     Then I confirm that "invoice lines do not match" error message has been generated
 
   @local
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-    When I send the updated "fptt-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "fptt-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
@@ -90,7 +90,7 @@ Feature: 44 Farm Payments Technical Test
 
 #This scenario confirms that a return file message can be sent and processed correctly
 
-    When I send the updated "fptt-returnFileMessage" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "fptt-returnFileMessage" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
 
   @local
@@ -101,7 +101,7 @@ Feature: 44 Farm Payments Technical Test
 #Please note that FPTT PPA files do not result in a routing to Request Editor as is
 #the case with most other schemes but instead is handled as a separated payment and goes straight to submission  
 
-    When I send the updated "fptt-ppaFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "fptt-ppaFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
   @local

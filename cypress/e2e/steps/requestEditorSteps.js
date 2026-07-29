@@ -264,6 +264,14 @@ When('I select {string} from the number of records per page dropdown', (number) 
 })
 
 
+When('on the Payment Holds Page I select {string} records per page', (number) => {
+  Cypress.emit( 'log:step', `on the Payment Holds Page I select ${number} records per page`
+  )
+
+  requestEditor.recordsPerPageLink(number).scrollIntoView().click()
+}
+)
+
 Then('I can see at most {int} records displayed in the table', (number) => {
 
   Cypress.emit('log:step', 'I can see at most ' + number + ' records displayed in the table')
@@ -363,21 +371,42 @@ Then('I make a note of the {string} count', (text) => {
 })
 
 Then('the {string} count has increased by 1', (text) => {
+  Cypress.emit('log:step', `the ${text} count has increased by 1`)
 
-  Cypress.emit('log:step', 'the ' + text + ' count has increased by 1')
-  cy.wait(30000)
-  cy.reload()
   cy.get(`@${text}Count`).then((oldCount) => {
     const previous = parseInt(oldCount, 10)
 
-    cy.contains('.govuk-heading-m', text)
-      .parent()
-      .find('.govuk-heading-xl')
-      .invoke('text')
-      .then((newCountText) => {
-        const current = parseInt(newCountText.trim(), 10)
-        expect(current).to.eq(previous + 1)
-      })
+    const verifyCount = (attempt = 1) => {
+      cy.reload()
+
+      cy.contains('.govuk-heading-m', text)
+        .parent()
+        .find('.govuk-heading-xl')
+        .invoke('text')
+        .then((newCountText) => {
+          const current = parseInt(newCountText.trim(), 10)
+
+          if (current === previous + 1) {
+            cy.log(`Expected ${text} count found`)
+            return
+          }
+
+          if (attempt >= 20) {
+            throw new Error(
+              `Expected ${text} count to be ${previous + 1} but found ${current}`
+            )
+          }
+
+          cy.log(
+            `Attempt ${attempt}/20 failed. Retrying in 15 seconds...`
+          )
+
+          cy.wait(15000)
+          verifyCount(attempt + 1)
+        })
+    }
+
+    verifyCount()
   })
 })
 
@@ -414,4 +443,30 @@ When('on the Awaiting Reporting Data page I click the FRN number search button',
 
   Cypress.emit('log:step', 'on the Awaiting Reporting Data page I click the FRN number search button')
   requestEditor.awaitingRepFRNSearchBtn().click()
+})
+
+
+///this is a loop for creating datasets, mostly used to fill dev up with data
+//There isn't a step file that uses it, just running it in an untracked feature file
+//Wil fail after 20 entries due to cypress config not allowing more than 20 redirects to the same URL
+Then('I create {int} debt datasets', (count) => {
+  cy.wrap(Array.from({ length: count })).each((_, i) => {
+    const dataset = {
+      scheme: 'SFI22',
+      frn: String(1234567800 + i),
+      agreementNumber: `SIP${String(i + 1).padStart(12, '0')}`,
+      netValue: '10000',
+      typeOfDebt: 'irr',
+      dateDebtDiscovered: 'today'
+    }
+
+    cy.contains('Create new dataset').click()
+
+    requestEditor.createDataset(dataset)
+
+    cy.contains('Continue').click()
+    cy.contains('Save').click()
+
+    cy.log(`Created debt dataset ${i + 1}/${count}`)
+  })
 })

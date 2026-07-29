@@ -117,17 +117,39 @@ Then('I see a success message for {string}', (successMessage) => {
 // LINK CLICKS
 // -------------------------
 
-When('I click on the {string} link', (text) => {
 
+
+When('I click on the {string} link', (text) => {
   Cypress.emit('log:step', 'I click on the ' + text + ' link')
 
-  if (text === 'View awaiting ledger assignment' && !env.local ) {
-    cy.wait(30000)
-    cy.log('Waiting for data to process')
-    cy.reload()
-    cy.wait(1000)
+  if (['Enrich', 'Review'].includes(text)) {
+    cy.log('Waiting for link to appear')
+
+    const start = Date.now()
+
+    const findLink = () => {
+      cy.get('body').then(($body) => {
+        if ($body.find(`a:contains("${text}")`).length) {
+          return
+        }
+
+        if (Date.now() - start > 240000) {
+          throw new Error(`Timed out waiting for ${text} link`)
+        }
+
+        cy.wait(5000)
+        cy.reload()
+        findLink()
+      })
+    }
+
+    findLink()
   }
-  cy.get('a').contains(text).scrollIntoView().click()
+
+  cy.contains('a', text)
+    .scrollIntoView()
+    .click()
+
   cy.wait(1000)
   console.log(`Clicked on the ${text} link`)
   cy.log(`Clicked on the ${text} link`)

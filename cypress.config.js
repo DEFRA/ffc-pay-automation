@@ -47,6 +47,7 @@ module.exports = defineConfig({
       config.env.KUBERNETES_ALERTING_LABEL = process.env.KUBERNETES_ALERTING_LABEL
       config.env.KUBERNETES_DOC_NAMESPACE = process.env.KUBERNETES_DOC_NAMESPACE
       config.env.KUBERNETES_DOC_ALERTING_LABEL = process.env.KUBERNETES_DOC_ALERTING_LABEL
+      config.env.FILE_DOWNLOAD_LOCATION_LOCALENV = process.env.FILE_DOWNLOAD_LOCATION_LOCALENV
 
       try {
         on('task', {

@@ -59,13 +59,13 @@ Feature: 19 GENESIS Payments
 #This scenario confirms that attempting to insert data that does not conform to the database limits is rejected correctly
 
     Given I restart the local environment
-    When I send the updated "genesisError-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "genesisError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 
   @local
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-    When I send the updated "genesis-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "genesis-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
@@ -83,7 +83,7 @@ Feature: 19 GENESIS Payments
 
 #This scenario confirms that a return file message can be sent and processed correctly
 
-    When I send the updated "genesis-returnFileMessage" message to the service bus topic "ffc-pay-return-aw"
+    When I send the updated "genesis-returnFileMessage" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
 
   @local

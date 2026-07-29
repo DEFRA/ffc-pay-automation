@@ -1,0 +1,57 @@
+{
+  "reports card": {
+    "title": "Reports",
+    "description": "Generate and download reports",
+    "links": ["Reports"]
+  },
+  "payment events card": {
+    "title": "Payment events",
+    "description": "View payment and events and requests",
+    "links": [
+      "Monitoring",
+      "Schemes"
+    ]
+  },
+  "payment holds card": {
+    "title": "Payment holds",
+    "description": "View, add or remove payment holds",
+    "links": ["Manage payment holds"]
+  },
+  "manual payments card": {
+    "title": "Manual payments",
+    "description": "Manually upload payment files",
+    "links": ["Manual payment upload"]
+  },
+  "agreement closures card": {
+    "title": "Agreement closures",
+    "description": "Update, add and remove payment suppressions",
+    "links": [
+      "Manage closures",
+      "Agreement closure",
+      "Bulk agreement closure"
+    ]
+  },
+  "email alerts card": {
+    "title": "Email alerts",
+    "description": "Manage where payment alerts are sent by the scheme or recipient",
+    "links": ["Alerts"]
+  },
+  "statements card": {
+    "title": "Statements",
+    "description": "Find and download payment statements and statement status reports.",
+    "links": [
+      "Download payment statements",
+      "Download statement status report"
+    ]
+  },
+  "metrics card": {
+    "title": "Metrics",
+    "description": "View payment and document metrics by scheme",
+    "links": ["Management information"]
+  },
+  "reset payment requests card": {
+    "title": "Reset payment requests",
+    "description": "Manually reset payment requests",
+    "links": ["Reset payment request"]
+  }
+}

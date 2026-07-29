@@ -1,4 +1,3 @@
-@dev @test
 Feature: 07 Pagination - Request Editor
 
 # npm run cypress:test:one -- "cypress\e2e\features\07_PaginationRequestEditor.feature"
@@ -9,24 +8,26 @@ Feature: 07 Pagination - Request Editor
 
   Scenario Outline: 01 "<number>" records per page on "<page>" page
     And I click on the "<link>" link
-    When I select "<number>" from the number of records per page dropdown
+    #When I select "<number>" from the number of records per page dropdown
+    When on the Payment Holds Page I select "<number>" records per page
     Then I can see at most <number> records displayed in the table
 
-    @dev @test
+@dev @test
+##Commented out lines can't be clicked because they're already default selected. This is raised as a CI ticket
     Examples:
-      | link                            | number | page                             |
-      | View all datasets               | 2500   | Unattached reporting datasets    |
-      | View all datasets               | 5000   | Unattached reporting datasets    |
-      | View all datasets               | 10000  | Unattached reporting datasets    |
-      | View awaiting reporting data    | 100    | Requests awaiting reporting data |
-      | View awaiting reporting data    | 500    | Requests awaiting reporting data |
-      | View awaiting reporting data    | 1000   | Requests awaiting reporting data |
-      | View awaiting ledger assignment | 100    | Awaiting ledger assignment       |
-      | View awaiting ledger assignment | 500    | Awaiting ledger assignment       |
-      | View awaiting ledger assignment | 1000   | Awaiting ledger assignment       |
-      | View awaiting quality check     | 100    | Requests awaiting quality check  |
-      | View awaiting quality check     | 500    | Requests awaiting quality check  |
-      | View awaiting quality check     | 1000   | Requests awaiting quality check  |
+      | link              | number | page                          |
+      | View all datasets | 100    | Unattached reporting datasets |
+      | View all datasets | 500    | Unattached reporting datasets |
+      | View all datasets | 1000   | Unattached reporting datasets |
+      #| View awaiting debt data                       | 100    | Requests awaiting reporting data |
+      | View awaiting debt data | 500  | Requests awaiting reporting data |
+      | View awaiting debt data | 1000 | Requests awaiting reporting data |
+      #| View awaiting manual ledger assignment        | 100    | Awaiting ledger assignment       |
+      | View awaiting manual ledger assignment | 500  | Awaiting ledger assignment |
+      | View awaiting manual ledger assignment | 1000 | Awaiting ledger assignment |
+      #| View awaiting ledger assignment quality check | 100    | Requests awaiting quality check  |
+      | View awaiting ledger assignment quality check | 500  | Requests awaiting quality check |
+      | View awaiting ledger assignment quality check | 1000 | Requests awaiting quality check |
 
     @local
     Examples:
@@ -35,6 +36,7 @@ Feature: 07 Pagination - Request Editor
       | View all datasets | 5000   | Unattached reporting datasets |
       | View all datasets | 10000  | Unattached reporting datasets |
 
+  @dev @test
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
     Then I can see "1" in the page box
@@ -42,12 +44,13 @@ Feature: 07 Pagination - Request Editor
     And I cannot see the "Previous" button
 
     Examples:
-      | link                            | page                             |
-      | View all datasets               | Unattached reporting datasets    |
-      | View awaiting reporting data    | Requests awaiting reporting data |
-      | View awaiting ledger assignment | Awaiting ledger assignment       |
-      | View awaiting quality check     | Requests awaiting quality check  |
+      | link                                          | page                             |
+      | View all datasets                             | Unattached reporting datasets    |
+      | View awaiting debt data                       | Requests awaiting reporting data |
+      | View awaiting manual ledger assignment        | Awaiting ledger assignment       |
+      | View awaiting ledger assignment quality check | Requests awaiting quality check  |
 
+  @dev @test
   Scenario Outline: 03 Verify Next/Previous on second page of "<page>" page
     And I click on the "<link>" link
     When I click on the "Next" page button
@@ -56,12 +59,13 @@ Feature: 07 Pagination - Request Editor
     And I can see the "Previous" button
 
     Examples:
-      | link                            | page                             |
-      | View all datasets               | Unattached reporting datasets    |
-      | View awaiting reporting data    | Requests awaiting reporting data |
-      | View awaiting ledger assignment | Awaiting ledger assignment       |
-      | View awaiting quality check     | Requests awaiting quality check  |
+      | link                                          | page                             |
+      | View all datasets                             | Unattached reporting datasets    |
+      | View awaiting debt data                       | Requests awaiting reporting data |
+      | View awaiting manual ledger assignment        | Awaiting ledger assignment       |
+      | View awaiting ledger assignment quality check | Requests awaiting quality check  |
 
+  @dev @test
   Scenario Outline: 04 Verify Next/Previous on last page of "<page>" page
     And I click on the "<link>" link
     When I visit the last page
@@ -69,12 +73,13 @@ Feature: 07 Pagination - Request Editor
     And I can see the "Previous" button
 
     Examples:
-      | link                            | page                             |
-      | View all datasets               | Unattached reporting datasets    |
-      | View awaiting reporting data    | Requests awaiting reporting data |
-      | View awaiting ledger assignment | Awaiting ledger assignment       |
-      | View awaiting quality check     | Requests awaiting quality check  |
+      | link                                          | page                             |
+      | View all datasets                             | Unattached reporting datasets    |
+      | View awaiting debt data                       | Requests awaiting reporting data |
+      | View awaiting manual ledger assignment        | Awaiting ledger assignment       |
+      | View awaiting ledger assignment quality check | Requests awaiting quality check  |
 
+  @dev @test
   Scenario: 05 Search for a record from another page
     And I click on the "View all datasets" link
     And I select "10000" from the number of records per page dropdown

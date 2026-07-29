@@ -34,7 +34,7 @@ const schemeAndHolds = {
     'Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up', '2016 interim', '2017 bridging payment', '2017 hardship', '2018 bridging payment', '2019 bridging payment', 'Advance tick', 'Capital payments', 'Capital recoveries', 'Claim affected by inc0553223', 'Fsp', 'Treasury', 'Migration hold', 'Ai marketing year error', 'Delta validation check'
   ],
   'Annual Health and Welfare Review': [
-    'Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up', 'Awaiting assurance check'
+    'Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up', 'Withdrawal'
   ],
   'Lump Sums': [
     'Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up'

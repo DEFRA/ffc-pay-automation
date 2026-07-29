@@ -17,19 +17,20 @@ Feature: 01 Payment management
     Then I take a screenshot for "<link>"
 
     Examples:
-      | link                   | subPage               |
-      | Manage payment holds   | payment-holds         |
-      | Alerts                 | alerts                |
-      | Reset payment request  | payment-request/reset |
-      | Monitoring             | monitoring            |
-      | Schemes                | monitoring/schemes    |
-      | Manage closures        | closure               |
-      | Agreement closure      | closure/add           |
-      | Bulk agreement closure | closure/bulk          |
-      | Reports                | report-list           |
-      | Manual payment upload  | manual-payments       |
-      | Management information | metrics               |
-      | Download statements    | download-statements   |
+      | link                             | subPage               |
+      | Manage payment holds             | payment-holds         |
+      | Alerts                           | alerts                |
+      | Reset payment request            | payment-request/reset |
+      | Monitoring                       | monitoring            |
+      | Schemes                          | monitoring/schemes    |
+      | Manage closures                  | closure               |
+      | Agreement closure                | closure/add           |
+      | Bulk agreement closure           | closure/bulk          |
+      | Reports                          | report-list           |
+      | Manual payment upload            | manual-payments       |
+      | Management information           | metrics               |
+      | Download payment statements      | download-statements   |
+      | Download statement status report | status-report         |
 
   
   @test @dev @local

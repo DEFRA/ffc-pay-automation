@@ -146,7 +146,7 @@ Feature: 03 Agreement Closures
   Scenario: 19 Successful File Upload
     And I click on the "Manage closures" link
     When I click on the "Create bulk closure" link
-    And I upload 'bulkUploadValid.csv' file
+    And I upload 'bulkClosureUploadValid.csv' file
     And I click the "Create" link
     And I am on the "closure" subpage
     And I see the new bulk upload submissions in the table

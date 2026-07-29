@@ -55,7 +55,7 @@ class requestEditorPage {
   }
 
   getFrnSearchButton () {
-    return cy.get('form > .govuk-button')
+    return cy.get('.govuk-button').contains('Search')
   }
 
   firstFRN () {
@@ -93,6 +93,14 @@ class requestEditorPage {
   paymentHoldsRecordsPerPageDropdown () {
     return cy.get('#records')
   }
+
+
+
+  recordsPerPageLink (number) {
+    return cy.contains('a', new RegExp(`^${number}$`))
+  }
+
+
 
   dataSetRecords () {
     return cy.get('tbody > tr')

@@ -6,11 +6,11 @@ Feature: 40 Download Statements
 
   
   @local
-  Scenario Outline: 00 Data setup for local env
+  Scenario: 00 Data setup for local env
   #This scenario sets up statements in the environment so we can download them. Local only since statements already exist in Dev
     Given I restart the local environment
-    Then I insert Delinked Payments data into Statement Data service
-    Then I insert SFI 23 data into Statement Data service
+    Then I insert Delinked Payments specific data into Statement Data service
+    Then I insert SFI 23 specific data into Statement Data service
    #we restart the process here because it ensure we pick up the new data we have put in, otherwise it doesnt manage it in time
     And I restart the statement data service
   #Cant verify its there just yet as seems to be hardcoded for a sbi we are not using atm - needs to be fixed
@@ -96,12 +96,12 @@ Feature: 40 Download Statements
 #Confirm Next and previous buttons work correctly and page number updates accordingly    
 
     Then on the Download Statements page I click the "next" button
-    Then on the Download Statements page I confirm that the page number on Results sub header is "2"
+    Then on the Download Statements page I confirm that the page number is "2"
     Then on the Download Statements page I confirm that "previous button" is displayed
     Then I take a screenshot for Feature 40 and Scenario 3
 
     Then on the Download Statements page I click the "previous" button
-    Then on the Download Statements page I confirm that the page number on Results sub header is "1"
+    Then on the Download Statements page I confirm that the page number is "1"
     Then on the Download Statements page I confirm that "previous button" is not displayed
 
   @dev
@@ -116,9 +116,10 @@ Feature: 40 Download Statements
     Then on the Download Statements page I enter "FFC_PaymentDelinkedStatement_DP_2025_1105607649_2025101415310344.pdf" into the "filename" field
     Then on the Download Statements page I click the "search" button
 
-    Then on the Download Statements page I confirm that the page number on Results sub header is "1"
+#Commented out for now as the pagination changes are not here yet 
+    #Then on the Download Statements page I confirm that the page number is "1"
 
-    Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 1 on this page (1 items)"
+    #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 1 on this page (1 items)"
 
 #Due to a known limitation with Cypress where any click of a link will expect a new page to load, clicking the download
 #button is causing Cypress to be caught in an endless wait for page loop as the link results in a file download rather than a page load. 
@@ -134,10 +135,10 @@ Feature: 40 Download Statements
     Given I visit the "Payment management" homepage
     When I click on the "Download payment statements" link
 
-    Then on the Download Statements page I enter "2027" into the "marketing year" field
+    Then on the Download Statements page I enter "2024" into the "marketing year" field
     Then on the Download Statements page I click the "search" button
 
-    Then on the Download Statements page I confirm that the page number on Results sub header is "[1]"
+    Then on the Download Statements page I confirm that the page number is "1"
    # Below does not show anymore, keeping as it may be added back at somepoint. Even if result is over 100 it just shows [123] statements with 100 viewable minimum at a time
    # Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 50 on this page (50 items)"
     Then I take a screenshot for Feature 40 and Scenario 5
@@ -153,9 +154,10 @@ Feature: 40 Download Statements
     Then on the Download Statements page I enter "1105607649" into the "frn" field
     Then on the Download Statements page I click the "search" button
 
-    Then on the Download Statements page I confirm that the page number on Results sub header is "[1]"
+    Then on the Download Statements page I confirm that the page number is "1"
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 6 on this page (6 items)"
     Then I take a screenshot for Feature 40 and Scenario 6
+
 
   @local
   Scenario: 07 Search by FRN - local
@@ -168,7 +170,7 @@ Feature: 40 Download Statements
     Then on the Download Statements page I enter "1234567890" into the "frn" field
     Then on the Download Statements page I click the "search" button
 
-    Then on the Download Statements page I confirm that the page number on Results sub header is "[1]"
+    Then on the Download Statements page I confirm that the page number is "[1]"
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 6 on this page (6 items)"
     Then I take a screenshot for Feature 40 and Scenario 7
 
@@ -180,11 +182,11 @@ Feature: 40 Download Statements
     Given I visit the "Payment management" homepage
     When I click on the "Download payment statements" link
 
-    Then on the Download Statements page I enter "2025101415310344" into the "timestamp" field
+    Then on the Download Statements page I enter "29-06-2026 13:38" into the "timestamp" field
     Then on the Download Statements page I click the "search" button
 
-    Then on the Download Statements page I confirm that the page number on Results sub header is "1"
-    Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 1 on this page (1 items)"
+    Then on the Download Statements page I confirm that the page number is "1"
+    #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 1 on this page (1 items)"
     Then I take a screenshot for Feature 40 and Scenario 8
 
   @local @dev

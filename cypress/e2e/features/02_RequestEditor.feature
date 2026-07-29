@@ -20,7 +20,7 @@ Feature: 02 Request Editor
 #                                                                                                                   #
 #     TODO                                                                                                          #
 #      - Need to retire capturePage.js and have all in the one RequestEditorPage                                    #
-#                                                                                                                   #
+#      - more tests can be added to dev to mirror local testing                                                     #
 #                                                                                                                   #
 #####################################################################################################################
 
@@ -86,16 +86,18 @@ Feature: 02 Request Editor
     Then I am on the "<subPage>" subpage
 
     Examples:
-      | link                            | subPage       |
-      | View awaiting ledger assignment | manual-ledger |
-      | View awaiting reporting data    | enrich        |
+      | link                                          | subPage       |
+      | View all datasets                             | capture       |
+      | View awaiting debt data                       | enrich        |
+      | View awaiting manual ledger assignment        | manual-ledger |
+      | View awaiting ledger assignment quality check | quality-check |
 
   Scenario Outline: 05 FRN Search Function
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View all datasets" link
     And I search for FRN "<frn>"
-    When I click on the FRN search button
+    When I click on the "Search" button
     Then I take a screenshot for Feature 2 and Scenario 5
-    Then I can see FRN "<frn>" in the table
+    Then the dataset value "<frn>" should be present
 
     @test
     Examples:
@@ -148,9 +150,8 @@ Feature: 02 Request Editor
 
   Scenario Outline: 09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number
     And I click on the "View all datasets" link
-    And I click on the "Create new dataset" link
     And I enter '<frn>' in the FRN number search field
-    When I click the FRN number search button
+    When I click on the "Search" button
     Then each record in the table has the FRN number '<frn>'
     Then I take a screenshot for Feature 2 and Scenario 9
 
@@ -216,7 +217,7 @@ Feature: 02 Request Editor
 
   @local
   Scenario: 14 insert test data via service bus message to ffc-pay-request
-    ##This scenario adds in data so we can see items in the "Request awaiting reporting data" section for local verification. 
+    ##This scenario adds in data so we can see items in the "Request awaiting debt data" section for local verification. 
     ##It is taken from SFI23Payments.feature. You will need to restart env with -v to rerun it, so comment this section
     ##out if you don't need this for your run
     When I send the updated "sfi23-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"

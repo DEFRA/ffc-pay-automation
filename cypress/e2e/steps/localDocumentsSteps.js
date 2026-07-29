@@ -1,5 +1,5 @@
-import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 const { getEnvironmentConfig } = require('../../support/configLoader')
 
@@ -25,294 +25,24 @@ Given(/^I restart and clear the local doc environment$/, () => {
   }
 })
 
-When(/^I insert (.*) data into Statement Data service$/, (scheme) => {
-  Cypress.emit('log:step', 'I insert ' + scheme + ' data into Statement Data service')
+
+When(/^I insert (.*) specific data into Statement Data service$/, (scheme) => {
+  Cypress.emit('log:step', 'I insert ${scheme} data into Statement Data service')
 
   const databaseName = 'ffc-doc-statement-data'
-  let sqlStatement = ''
+  let sqlFile = ''
 
   switch (scheme.toLowerCase()) {
   case 'delinked payments':
-    sqlStatement = `
-INSERT INTO "organisations" (
-  "sbi",
-  "addressLine1",
-  "addressLine2",
-  "addressLine3",
-  "city",
-  "county",
-  "postcode",
-  "emailAddress",
-  "frn",
-  "name",
-  "updated"
-)
-VALUES (
-  123456789,
-  '8 The Street',
-  'Area',
-  'District',
-  'City',
-  'County',
-  'AA1 1BB',
-  'svend.kristensen@atos.net',
-  '1234567890',
-  'Test Farm',
-  to_date('28-JUN-24 03:54:41', 'DD-MON-YY HH:MI:SS')
-)
-ON CONFLICT ("sbi")
-DO UPDATE SET
-  "addressLine1" = EXCLUDED."addressLine1",
-  "addressLine2" = EXCLUDED."addressLine2",
-  "addressLine3" = EXCLUDED."addressLine3",
-  "city" = EXCLUDED."city",
-  "county" = EXCLUDED."county",
-  "postcode" = EXCLUDED."postcode",
-  "emailAddress" = EXCLUDED."emailAddress",
-  "frn" = EXCLUDED."frn",
-  "name" = EXCLUDED."name",
-  "updated" = EXCLUDED."updated";
-
-INSERT INTO "delinkedCalculation" (
-  "applicationId",
-  "calculationId",
-  "sbi",
-  "frn",
-  "paymentBand1",
-  "paymentBand2",
-  "paymentBand3",
-  "paymentBand4",
-  "percentageReduction1",
-  "percentageReduction2",
-  "percentageReduction3",
-  "percentageReduction4",
-  "progressiveReductions1",
-  "progressiveReductions2",
-  "progressiveReductions3",
-  "progressiveReductions4",
-  "totalProgressiveReduction",
-  "referenceAmount",
-  "totalDelinkedPayment",
-  "paymentAmountCalculated",
-  "updated"
-)
-VALUES (
-  1234567,
-  987654321,
-  123456789,
-  '1234567890',
-  '30000',
-  '50000',
-  '150000',
-  '99999999.99',
-  '050.00',
-  '055.00',
-  '065.00',
-  '070.00',
-  '15000.00',
-  '11000.00',
-  '65000.00',
-  '35000.00',
-  '126000.00',
-  '2000000.00',
-  '75000.00',
-  '37500.00',
-  '2025-09-04 13:34:26.219'
-)
-ON CONFLICT ("calculationId")
-DO UPDATE SET
-  "applicationId" = EXCLUDED."applicationId",
-  "sbi" = EXCLUDED."sbi",
-  "frn" = EXCLUDED."frn",
-  "paymentBand1" = EXCLUDED."paymentBand1",
-  "paymentBand2" = EXCLUDED."paymentBand2",
-  "paymentBand3" = EXCLUDED."paymentBand3",
-  "paymentBand4" = EXCLUDED."paymentBand4",
-  "percentageReduction1" = EXCLUDED."percentageReduction1",
-  "percentageReduction2" = EXCLUDED."percentageReduction2",
-  "percentageReduction3" = EXCLUDED."percentageReduction3",
-  "percentageReduction4" = EXCLUDED."percentageReduction4",
-  "progressiveReductions1" = EXCLUDED."progressiveReductions1",
-  "progressiveReductions2" = EXCLUDED."progressiveReductions2",
-  "progressiveReductions3" = EXCLUDED."progressiveReductions3",
-  "progressiveReductions4" = EXCLUDED."progressiveReductions4",
-  "totalProgressiveReduction" = EXCLUDED."totalProgressiveReduction",
-  "referenceAmount" = EXCLUDED."referenceAmount",
-  "totalDelinkedPayment" = EXCLUDED."totalDelinkedPayment",
-  "paymentAmountCalculated" = EXCLUDED."paymentAmountCalculated",
-  "updated" = EXCLUDED."updated";
-
-INSERT INTO "d365" (
-  "calculationId",
-  "paymentPeriod",
-  "paymentReference",
-  "paymentAmount",
-  "transactionDate",
-  "marketingYear"
-)
-VALUES (
-  987654321,
-  '2027',
-  'PY04102410',
-  '37500.00',
-  to_date('01-AUG-24 12:00:00', 'DD-MON-YY HH:MI:SS'),
-  '2027'
-);
-`
+    sqlFile = 'cypress/fixtures/sql/delinkedExample.sql'
     break
 
+  case '500 sfi records':
+    sqlFile = 'cypress/fixtures/sql/500SFIStatements.sql'
+    break
   case 'sfi 23':
   case 'sfi23':
-    sqlStatement = `
-INSERT INTO "organisations" (
-  "sbi",
-  "addressLine1",
-  "addressLine2",
-  "addressLine3",
-  "city",
-  "county",
-  "postcode",
-  "emailAddress",
-  "frn",
-  "name",
-  "updated"
-)
-VALUES (
-  111704302,
-  '012 Test Road',
-  '1234',
-  '4567',
-  'Leeds',
-  'Test Yorkshire',
-  '012 GH',
-  'svend.kristensen@atos.ai',
-  1101717386,
-  '1 The Testers',
-  to_date('14-FEB-24 01:34:17', 'DD-MON-YY HH:MI:SS')
-)
-ON CONFLICT ("sbi")
-DO UPDATE SET
-  "addressLine1" = EXCLUDED."addressLine1",
-  "addressLine2" = EXCLUDED."addressLine2",
-  "addressLine3" = EXCLUDED."addressLine3",
-  "city" = EXCLUDED."city",
-  "county" = EXCLUDED."county",
-  "postcode" = EXCLUDED."postcode",
-  "emailAddress" = EXCLUDED."emailAddress",
-  "frn" = EXCLUDED."frn",
-  "name" = EXCLUDED."name",
-  "updated" = EXCLUDED."updated";
-
-INSERT INTO "totals" (
-  "sbi",
-  "frn",
-  "agreementNumber",
-  "claimId",
-  "schemeType",
-  "calculationId",
-  "calculationDate",
-  "invoiceNumber",
-  "agreementStart",
-  "agreementEnd",
-  "totalActionPayments",
-  "totalAdditionalPayments",
-  "totalPayments",
-  "updated"
-)
-VALUES
-(
-  111704302,
-  1101717386,
-  2421081,
-  242108,
-  'SFI-23',
-  120240821,
-  to_date('02-FEB-24 10:55:33', 'DD-MON-YY HH:MI:SS'),
-  'SFIA0103195',
-  to_date('01-NOV-23 12:00:00', 'DD-MON-YY HH:MI:SS'),
-  to_date('31-OCT-26 12:00:00', 'DD-MON-YY HH:MI:SS'),
-  1000.00,
-  1000,
-  2000.00,
-  to_date('29-FEB-24 10:59:01', 'DD-MON-YY HH:MI:SS')
-),
-(
-  111704302,
-  1101717386,
-  2421081,
-  242108,
-  'SFI-23',
-  120240822,
-  to_date('02-FEB-24 10:55:33', 'DD-MON-YY HH:MI:SS'),
-  'SFIA0103195',
-  to_date('01-NOV-23 12:00:00', 'DD-MON-YY HH:MI:SS'),
-  to_date('31-OCT-26 12:00:00', 'DD-MON-YY HH:MI:SS'),
-  1000.00,
-  1000,
-  2000.00,
-  to_date('29-FEB-24 10:59:01', 'DD-MON-YY HH:MI:SS')
-),
-(
-  111704302,
-  1101717386,
-  2421081,
-  242108,
-  'SFI-23',
-  120240823,
-  to_date('02-FEB-24 10:55:33', 'DD-MON-YY HH:MI:SS'),
-  'SFIA0103195',
-  to_date('01-NOV-23 12:00:00', 'DD-MON-YY HH:MI:SS'),
-  to_date('31-OCT-26 12:00:00', 'DD-MON-YY HH:MI:SS'),
-  1000.00,
-  1000,
-  2000.00,
-  to_date('29-FEB-24 10:59:01', 'DD-MON-YY HH:MI:SS')
-)
-ON CONFLICT ("calculationId")
-DO UPDATE SET
-  "frn" = EXCLUDED."frn",
-  "agreementNumber" = EXCLUDED."agreementNumber",
-  "claimId" = EXCLUDED."claimId",
-  "schemeType" = EXCLUDED."schemeType",
-  "calculationDate" = EXCLUDED."calculationDate",
-  "invoiceNumber" = EXCLUDED."invoiceNumber",
-  "agreementStart" = EXCLUDED."agreementStart",
-  "agreementEnd" = EXCLUDED."agreementEnd",
-  "totalActionPayments" = EXCLUDED."totalActionPayments",
-  "totalAdditionalPayments" = EXCLUDED."totalAdditionalPayments",
-  "totalPayments" = EXCLUDED."totalPayments",
-  "updated" = EXCLUDED."updated";
-
-INSERT INTO "dax" (
-  "calculationId",
-  "paymentPeriod",
-  "paymentReference",
-  "paymentAmount",
-  "transactionDate"
-)
-VALUES
-(
-  120240821,
-  '1st February 2024 to 30th April 2024',
-  'PY2066650',
-  500,
-  to_date('09-FEB-24 12:00:00', 'DD-MON-YY HH:MI:SS')
-),
-(
-  120240822,
-  '1st May 2024 to 31st July 2024',
-  'RC200821243',
-  500,
-  to_date('12-FEB-24 12:00:00', 'DD-MON-YY HH:MI:SS')
-),
-(
-  120240823,
-  '1st August 2024 to 31st October 2024',
-  'RC200821244',
-  500,
-  to_date('15-FEB-24 12:00:00', 'DD-MON-YY HH:MI:SS')
-);
-`
+    sqlFile = 'cypress/fixtures/sql/sfi23Example.sql'
     break
 
   default:
@@ -320,10 +50,15 @@ VALUES
   }
 
   if (env.includes('dev') || env.includes('local')) {
-    console.log(sqlStatement)
-    cy.log(sqlStatement)
+    cy.readFile(sqlFile, 'utf8').then((sqlStatement) => {
+      console.log(sqlStatement)
 
-    cy.task('databaseInsert', { env, databaseName, sqlStatement })
+      cy.task('databaseInsert', {
+        env,
+        databaseName,
+        sqlStatement
+      })
+    })
 
     cy.wait(20000)
 
@@ -332,6 +67,8 @@ VALUES
     cy.log(`No data inserted because environment is ${env}`)
   }
 })
+
+
 
 When(/^I insert (.*) test data into Statement Data service$/, (year) => {
 
@@ -1199,7 +936,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchStatementsBlobById', {
       env: env,
       container: 'statements',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       year: '2025'
     })
     break
@@ -1207,7 +944,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchStatementsBlobById', {
       env: env,
       container: 'statements',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       year: '2024'
     })
     break
@@ -1215,7 +952,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'glos'
     })
     break
@@ -1223,7 +960,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'imps'
     })
     break
@@ -1231,7 +968,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'genesis'
     })
     break
@@ -1239,7 +976,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'dps'
     })
     break
@@ -1247,7 +984,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'vet visits'
     })
     break
@@ -1255,7 +992,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'cohtr'
     })
     break
@@ -1263,7 +1000,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'cohtc'
     })
     break
@@ -1271,7 +1008,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'cs'
     })
     break
@@ -1279,7 +1016,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'bps'
     })
     break
@@ -1287,7 +1024,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'lump sums'
     })
     break
@@ -1295,7 +1032,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'sfi expanded'
     })
     break
@@ -1303,7 +1040,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'sfi pilot'
     })
     break
@@ -1311,7 +1048,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'delinked'
     })
     break
@@ -1319,7 +1056,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'sfi23'
     })
     break
@@ -1327,7 +1064,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'sfi22'
     })
     break
@@ -1335,7 +1072,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'manual'
     })
     break
@@ -1343,7 +1080,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'ppa scenarios payments'
     })
     break
@@ -1351,7 +1088,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'ppa scenarios topups'
     })
     break
@@ -1359,7 +1096,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'ppa scenarios reductions'
     })
     break
@@ -1367,7 +1104,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'ppa scenarios recoveries'
     })
     break
@@ -1375,7 +1112,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
-      dir: 'C:/Users/a876872/ffc-pay-automation/cypress/downloads',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
       scheme: 'fptt'
     })
     break

@@ -1,0 +1,31 @@
+{
+  "sourceSystem": "SFI",
+  "schemeId": 1,
+  "batch": "SITISFI0002_AP_20230810085609205.dat",
+  "deliveryBody": "RP00",
+  "invoiceNumber": "SFI900000",
+  "frn": "10000900000",
+  "marketingYear": 2022,
+  "paymentRequestNumber": 2,
+  "agreementNumber": "100900000",
+  "contractNumber": "100900000",
+  "currency": "GBP",
+  "schedule": "Q4",
+  "dueDate": "2025-12-01",
+  "value": 10000,
+  "fesCode": "SITI_SFI",
+  "annualValue": 10000,
+  "remmittanceDescription": "SFI Reformed Service payment",
+  "invoiceLines": [
+    {
+      "schemeCode": "80101",
+      "accountCode": "SOS273",
+      "fundCode": "DRD10",
+      "agreementNumber": "100900000",
+      "description": "G00 - Gross value of claim",
+      "value": 10000,
+      "deliveryBody": "RP00",
+      "marketingYear": 2022
+    }
+  ]
+}

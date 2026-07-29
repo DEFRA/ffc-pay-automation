@@ -8,18 +8,23 @@ Feature: 09 Pagination - Payment Management
     Given I visit the "Payment management" homepage
 
   Scenario Outline: 01 "<number>" records per page on "<page>" page
+    And I click on the "Manage payment holds" link
     And I click on the "<link>" link
-    When on the Payment Holds Page I select "<number>" from the number of records per page dropdown
+    And I click on the "Search" button
+    When on the Payment Holds Page I select "<number>" records per page
+    #When on the Payment Holds Page I select "<number>" from the number of records per page dropdown
     Then I can see at most <number> records displayed in the table
 
     Examples:
-      | link                 | number | page          |
-      | Manage payment holds | 100    | Payment holds |
-      | Manage payment holds | 500    | Payment holds |
-      | Manage payment holds | 1000   | Payment holds |
+      | link                      | number | page          |
+      | Search for a payment hold | 100    | Payment holds |
+      | Search for a payment hold | 500    | Payment holds |
+      | Search for a payment hold | 1000   | Payment holds |
 
   Scenario Outline: 02 Verify Next/Previous on first page of "<page>" page
     When I click on the "<link>" link
+    And I click on the "Search for a payment hold" link
+    And I click on the "Search" button
     Then I can see "1" in the page box
     And I can see the "Next" button
     And I cannot see the "Previous" button
@@ -30,6 +35,8 @@ Feature: 09 Pagination - Payment Management
 
   Scenario Outline: 03 Verify Previous on second page of "<page>" page
     And I click on the "<link>" link
+    And I click on the "Search for a payment hold" link
+    And I click on the "Search" button
     When I click on the "Next" page button
     Then I can see "2" in the page box
     And I can see the "Previous" button
@@ -40,6 +47,8 @@ Feature: 09 Pagination - Payment Management
 
   Scenario Outline: 04 Verify Next/Previous on last page of "<page>" page
     And I click on the "<link>" link
+    And I click on the "Search for a payment hold" link
+    And I click on the "Search" button
     When I visit the last page
     Then I cannot see the "Next" button
     And I can see the "Previous" button

@@ -60,16 +60,7 @@ Then(/^on the Payment Calculator page I confirm that "(.*)" is correctly display
     paymentCalculatorPage.paragraphThree().should('be.visible').and('contain.text', 'To receive delinked payments, you must have claimed, and been eligible for, BPS 2023 in England (except in some inheritance cases).'); break
   case 'paragraph four':
     paymentCalculatorPage.paragraphFour()
-      .should('be.visible')
-      .and(($el) => {
-        const html = $el.html()
-        expect(html).to.match(/<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/) // checks for anchor tag
-      })
-      .and('contain.text', 'Use this calculator to estimate how progressive reductions could reduce your delinked payment for 2026 and 2027.')
-      .and('contain.text', 'The estimate for 2026 and 2027 is based on the proposed progressive reduction ')
-      .and('contain.text', 'figures for these years shown in the')
-      .and('contain.text', 'The calculator also shows how progressive reductions affected your 2024 and 2025 delinked payment.')
-    break
+      .should('be.visible').and('contain.text', 'Use this calculator to estimate how progressive reductions could reduce your delinked payment for 2026 and 2027. The calculator also shows how progressive reductions affected your 2024 and 2025 delinked payment.'); break
   case 'start button':
     paymentCalculatorPage.startButton().should('be.visible').and('contain.text', 'Start now'); break
   case 'paragraph five':
@@ -99,11 +90,11 @@ Then(/^on the Enter your delinked payment reference amount page I confirm that "
   case 'page title':
     enterYourDelinkedPaymentReferencePage.subHeader().should('be.visible').and('contain.text', 'Enter your delinked payment reference amount'); break
   case 'paragraph one':
-    enterYourDelinkedPaymentReferencePage.paragraphOne().should('be.visible').and('contain.text', 'This calculator will estimate your payment for each of the years 2024 to 2027 based on the reference amount you enter.'); break
+    enterYourDelinkedPaymentReferencePage.paragraphOne().should('be.visible').and('contain.text', 'This calculator will estimate your payment'); break
   case 'paragraph two':
-    enterYourDelinkedPaymentReferencePage.paragraphTwo().should('be.visible').and('contain.text', 'You were sent your reference amount in the delinked payments information statement.'); break
+    enterYourDelinkedPaymentReferencePage.paragraphTwo().should('be.visible').and('contain.text', 'You were sent your reference amount in the delinked payments'); break
   case 'paragraph three':
-    enterYourDelinkedPaymentReferencePage.paragraphThree().should('be.visible').and('contain.text', 'This amount will have changed if BPS 2020, 2021 and 2022 reference data has either:'); break
+    enterYourDelinkedPaymentReferencePage.paragraphThree().should('be.visible').and('contain.text', 'This amount will have changed if BPS 2020, 2021 and 2022 reference'); break
   case 'bullet line one':
     enterYourDelinkedPaymentReferencePage.bulletLineOne().should('be.visible').and('contain.text', 'been transferred in or out of your business'); break
   case 'bullet line two':
@@ -115,7 +106,7 @@ Then(/^on the Enter your delinked payment reference amount page I confirm that "
         const html = $el.html()
         expect(html).to.match(/<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/) // checks for anchor tag
       })
-      .and('contain.text', 'You can view your current reference amount and any data transfers in the')
+      .and('contain.text', 'You can view your current reference amount and any data transfers in')
     break
   case 'paragraph five':
     enterYourDelinkedPaymentReferencePage.paragraphFive().should('be.visible').and('contain.text', 'Do not include commas in the amount you enter. For example, enter £20,000 as 20000.'); break

@@ -76,7 +76,7 @@ This scenario loads an SFI22 payment message followed by a D365 rejection acknow
     Given I restart the local environment
     Given I visit the "Payment management" homepage
     Then I take a screenshot for Feature 37 and Scenario 1
-    When I send the updated "sfi22-paymentFileMessage" message to the service bus topic "ffc-pay-request-aw"
+    When I send the updated "sfi22-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
@@ -91,7 +91,7 @@ This scenario loads an SFI22 payment message followed by a D365 rejection acknow
 
 #Processing of acknowledgement message to simulate D365 rejection    
 
-    When I send the updated "d365Rejection-acknowledgementMessage" message to the service bus topic "ffc-pay-acknowledgement-aw"
+    When I send the updated "d365Rejection-acknowledgementMessage" message to the service bus topic "ffc-pay-acknowledgement-auto"
 
 #Following processing a hold entry should be created in the Pay Processing database with a hold category of 1
 #Which indicates a Bank account anomaly
