@@ -5,47 +5,49 @@ Feature: 24 Vet Visits Payments
 # npm run cypress:dev:one -- "cypress\e2e\features\24_VetVisitsPayments.feature"
 # npm run cypress:local:one -- "cypress\e2e\features\24_VetVisitsPayments.feature"
 
-  @dev
-  Scenario: 01 insert incorrect test data via service bus message to ffc-pay-request and confirm data is rejected
+#this scenario will not run as Vet Visits is inactive currently
 
-    When I send "vet visits error" test data message to the service bus topic "ffc-pay-request-dev"
+  # @dev
+  # Scenario: 01 insert incorrect test data via service bus message to ffc-pay-request and confirm data is rejected
 
-    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
-    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
+  #   When I send "vet visits error" test data message to the service bus topic "ffc-pay-request-dev"
 
-  @dev
-  Scenario: 02 insert test data via service bus message to ffc-pay-request
+  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
+  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
 
-  #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
-  #test data
+  # @dev
+  # Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-    Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
-    And I select "Vet Visits" from the monitor schemes dropdown
-    And I click on the "Continue" button
-    Then I store the number of payments and total value of payments for the current scheme
+  # #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
+  # #test data
 
-  #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
-  #without the risk of data conflicts  
+  #   Given I visit the "Payment management" homepage
+  #   When I click on the "Schemes" link
+  #   And I select "Vet Visits" from the monitor schemes dropdown
+  #   And I click on the "Continue" button
+  #   Then I store the number of payments and total value of payments for the current scheme
 
-    When I send "vet visits payment" test data message to the service bus topic "ffc-pay-request-dev"
+  # #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
+  # #without the risk of data conflicts  
 
-    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
-    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+  #   When I send "vet visits payment" test data message to the service bus topic "ffc-pay-request-dev"
 
-    Then I pull vet visits file from Azure Blob Storage and confirm that correct values have been generated
+  #   Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+  #   Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
 
-  #Updates template values with values used in payment message  
+  #   Then I pull vet visits file from Azure Blob Storage and confirm that correct values have been generated
 
-    When I send "vet visits return" test data message to the service bus topic "ffc-pay-return-dev"
-    Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
+  # #Updates template values with values used in payment message  
 
-    When I click on the "Schemes" link
-    And I select "Vet Visits" from the monitor schemes dropdown
-    And I click on the "Continue" button
+  #   When I send "vet visits return" test data message to the service bus topic "ffc-pay-return-dev"
+  #   Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
 
-    Then I take a screenshot for Feature 24 and Scenario 2
-    Then I confirm that number of payments has increased by 1 and total value of payments has increased by "£16,002.00"
+  #   When I click on the "Schemes" link
+  #   And I select "Vet Visits" from the monitor schemes dropdown
+  #   And I click on the "Continue" button
+
+  #   Then I take a screenshot for Feature 24 and Scenario 2
+  #   Then I confirm that number of payments has increased by 1 and total value of payments has increased by "£16,002.00"
 
 
 # This scenario will not run as AWHR is inactive.
