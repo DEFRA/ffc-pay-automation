@@ -591,7 +591,7 @@ When(
           body: {
             ...template,
             frn: '10000' + (startFrn + i),
-            invoiceNumber: 'SFI' + (startInvoice + i),
+            invoiceNumber: 'SFI22' + (startInvoice + i),
             agreementNumber,
             contractNumber: '100' + (startContract + i),
             paymentRequestNumber: 2,
@@ -611,7 +611,7 @@ When(
 )
 
 
-//These below SQL statements need to be updated for the range of FRN's you're using for testing
+
 
 Then(
   'I wait for {int} payment requests to be ready for settlement for batch {int}',
