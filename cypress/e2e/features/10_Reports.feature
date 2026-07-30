@@ -5,7 +5,7 @@ Feature: 10 Reports
 
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
-    And I click on the "Reports" link
+    And I click on the "Download reports" link
 
   @dev @test
   Scenario Outline: 01 Verify CSV file is downloaded when clicking "<link>"
@@ -24,19 +24,18 @@ Feature: 10 Reports
     Then I am on the "<subPage>" subpage
 
     Examples:
-      | link                            | subPage             |
-      | Payment request statuses        | payment-requests-v2 |
-      | AP-AR listing report            | ap-ar-report        |
-      | Payment statement status report | status-report       |
+      | link                                       | subPage                           |
+      | Generate a payment request statuses report | generate-payment-request-statuses |
+      | Generate an AP-AR listing report           | generate-ap-ar-listing-report     |
 
   @dev @test
   Scenario Outline: 03 Download Payment Request Status report for <scheme>
-    And I click on the "Payment request statuses" link
-    And I select "<scheme>" from the "scheme" dropdown
+    And I click on the "Generate a payment request statuses report" link
+    And I select "<scheme>" from the "scheme" dropdown or radio
     And I type "<year>" in the "year" field
     And I type "<prn>" in the "prn" field
-    And I select "<revenueCapital>" from the "revenueCapital" dropdown
-    When I click on the "Download report" button
+    And I select "<revenueCapital>" from the "revenueCapital" dropdown or radio
+    When I click on the "Generate and download report" button
     Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
@@ -58,10 +57,10 @@ Feature: 10 Reports
   @dev @test
   Scenario Outline: 04 Download <reportType>
     And I click on the "AP-AR listing report" link
-    And I select "<reportType>" from the "reportType" dropdown
+    And I select "<reportType>" from the "reportType" dropdown or radio
     And I type the "start" date as "<startDate>"
     And I type the "end" date as "<endDate>"
-    When I click on the "Download report" button
+    When I click on the "Generate and download report" button
     Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
@@ -72,11 +71,12 @@ Feature: 10 Reports
   @dev @test
   Scenario Outline: 05 No data found for <reportType>
     And I click on the "AP-AR listing report" link
-    And I select "<reportType>" from the "reportType" dropdown
+    And I select "<reportType>" from the "reportType" dropdown or radio
     And I type the "start" date as "<startDate>"
     And I type the "end" date as "<endDate>"
-    When I click on the "Download report" button
-    Then I should see "No data was found for the selected report criteria. Please review your filters, such as date range or report type, and try again."
+    When I click on the "Generate and download report" button
+    Then I wait for 10000 milliseconds
+    Then I should see "No reports matching your search were found. Check your criteria and try again."
 
     Examples:
       | reportType        | startDate  | endDate    |
@@ -84,11 +84,11 @@ Feature: 10 Reports
       | AR Listing Report | 01-01-2015 | 02-01-2015 |
 
   Scenario Outline: 06 Download Status Report for <scheme>
-    And I click on the "Payment statement status report" link
+    And I click the "Home" breadcrumb
+    And I click on the "Download statement status report" link
     And I am on the "status-report" subpage
-    And I select "<scheme>" from the "statusReportScheme" dropdown
-    And I select the first visible year for the "<scheme>" scheme
-    And I click on the "Find Reports" button
+    And I select "<scheme>" from the "statusReportScheme" dropdown or radio
+    And I click on the "Search" button
     When on the Available reports page I select first available report
     When the user downloads the status report with text "<date>"
     Then the status report is downloaded with "<title>" as the title
