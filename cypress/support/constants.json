@@ -35,7 +35,7 @@
   "enrich": {
     "pageSubHeader": "Requests awaiting debt data"
   },
-  "ap-ar-report": {
+  "generate-ap-ar-listing-report": {
     "pageSubHeader": "AP/AR listing report"
   },
   "transaction-summary": {
@@ -44,8 +44,8 @@
   "claim-level-report": {
     "pageSubHeader": "Claim Level Report"
   },
-  "payment-requests-v2": {
-    "pageSubHeader": "Payment request statuses report"
+  "generate-payment-request-statuses": {
+    "pageSubHeader": "Generate payment request statuses report"
   },
   "report-list": {
     "pageSubHeader": "Reports"

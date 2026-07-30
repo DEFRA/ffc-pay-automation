@@ -74,12 +74,11 @@ Given('I am on the {string} homepage', (text) => {
 // -------------------------
 // BUTTON CLICKS
 // -------------------------
-
 When('I click on the {string} button', (text) => {
 
   Cypress.emit('log:step', 'I click on the ' + text + ' button')
   cy.get('button').contains(text).first().scrollIntoView().click()
-  if (text === 'Submit' || text === 'Download report') {
+  if (text === 'Submit' || text === 'Filter') {
     cy.wait(10000)
   }
 })
@@ -194,6 +193,9 @@ Then('I confirm there are no accessibility issues on the page', () => {
   console.log('No accessibility violations found')
 })
 
+Then('I wait for {int} milliseconds', (time) => {
+  cy.wait(time)
+})
 // -------------------------
 // EXTERNAL LINK STATUS
 // -------------------------

@@ -523,16 +523,19 @@ Then('I should see {string} number of closures', (count) => {
     .should('be.visible')
     .and('contain.text', count)
 })
-
-When('I select {string} from the {string} dropdown', (text, dropdown) => {
+//this should probably be split into two generic helpers one for radio and one for dropdown (i think the only thing that still uses dropdown is scheme), this is not good quality code
+When('I select {string} from the {string} dropdown or radio', (text, dropdown) => {
 
   Cypress.emit('log:step', 'I select ' + text + ' from the ' + dropdown + ' dropdown')
-  if (text === 'COHT Capital') {
+  if (['COHT Capital', 'COHT Revenue'].includes(text) ) {
     cy.wait(60000)
     cy.log('Wait for all payments to process')
-  } else if (text === 'COHT Revenue') {
-    cy.wait(60000)
-    cy.log('Wait for all payments to process')
+  } else if (text === '') {
+    return
+  } else if (['revenueCapital', 'reportType', 'statusReportScheme'].includes(dropdown)) {
+    cy.contains('label', text)
+      .scrollIntoView()
+      .click()
   }
   if (dropdown === 'scheme') {
     reportsPage.schemeDropdown().then($dropdown => {
@@ -549,13 +552,6 @@ When('I select {string} from the {string} dropdown', (text, dropdown) => {
         throw new Error(`Option "${text}" not found in the scheme dropdown.`)
       }
     })
-  } else if (dropdown === 'revenueCapital') {
-    reportsPage.revenueCapitalDropdown().scrollIntoView().select(text)
-    Cypress.env('formData', { ...Cypress.env('formData'), revenueOrCapital: text })
-  } else if (dropdown === 'reportType') {
-    reportsPage.reportTypeDropdown().scrollIntoView().select(text)
-  } else if (dropdown === 'statusReportScheme') {
-    reportsPage.statusReportSchemeDropdown().scrollIntoView().select(text)
   }
 })
 
@@ -631,12 +627,12 @@ When('I click on an available report', () => {
 When('on the Available reports page I select first available report', () => {
 
   Cypress.emit('log:step', 'on the Available reports page I select first available report')
-  cy.get(':nth-child(1) > .govuk-task-list__name-and-hint > .govuk-link')
+  cy.get(':nth-child(1) > .govuk-link')
     .invoke('attr', 'href')
     .then(url => {
       cy.request(url).then(res => {
         expect(res.status).to.eq(200)
-        expect(res.headers['content-type']).to.include('text/csv')
+        expect(res.headers['content-type']).to.include('text/html; charset=utf-8')
       })
     })
 })
@@ -646,7 +642,7 @@ When(/^the user downloads the status report with text "(.*)"$/, (linkText) => {
   Cypress.emit('log:step', 'the user downloads the status report with text ' + linkText)
   const { paymentManagementUrl } = getEnvironmentConfig()
 
-  cy.contains('a.govuk-task-list__link', linkText)
+  cy.contains('a.govuk-link', linkText)
     .should('have.attr', 'href')
     .then((relativeHref) => {
       const baseUrl = paymentManagementUrl.replace(/\/$/, '')
