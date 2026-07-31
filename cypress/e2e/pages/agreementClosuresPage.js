@@ -70,6 +70,12 @@ class agreementClosuresPage {
   firstClosureDate () {
     return cy.get('.govuk-table__row').eq(1).find('.govuk-table__cell').eq(3)
   }
+  captureTxtFrn () {
+    return cy.get('#closure-search')
+  }
+  agreementClosureEnterFrnField () {
+    return cy.get('#closure-search')
+  }
 }
 
 export default new agreementClosuresPage()

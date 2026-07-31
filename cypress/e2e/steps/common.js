@@ -286,9 +286,9 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     switch (scenarioNumber) {
     case 1: scenarioString = '01 View Agreement Closures'; break
     case 2: scenarioString = '02 Access Agreement Closure Management'; break
-    case 3: scenarioString = '03 Access Add Agreement Closure'; break
+    case 3: scenarioString = '03 Manage Agreement Closure'; break
     case 4: scenarioString = '04 Access Bulk Agreement Closures'; break
-    case 5: scenarioString = '05 View Agreement Closures Page'; break
+    case 5: scenarioString = '05 Search Agreement Closures Page'; break
     case 6: scenarioString = '06 Create New Closure'; break
     case 7: scenarioString = '07 Create Bulk Closure'; break
     case 8: scenarioString = '08 View Agreement Closure Page'; break
@@ -304,6 +304,7 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 18: scenarioString = '18 Large File Upload'; break
     case 19: scenarioString = '19 Successful File Upload'; break
     case 20: scenarioString = '20 Upload File Format Validation'; break
+    case 21: scenarioString = '21 Download agreement closures as CSV'; break
     }
     break
   case 4: featureString = '04_UploadPaymentHolds.feature -- '
