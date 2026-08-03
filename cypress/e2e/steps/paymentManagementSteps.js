@@ -86,18 +86,18 @@ Then(/^on the Home Page I confirm that "(.*)" is displayed$/, (element) => {
     paymentManagementPage
       .cardHeader(card.title)
       .should('be.visible')
-      .and('contain.text', card.title)
+      .containsWithoutWhitespace( card.title)
 
     paymentManagementPage
       .cardDescription(card.title)
       .should('be.visible')
-      .and('contain.text', card.description)
+      .containsWithoutWhitespace( card.description)
 
     card.links.forEach(link => {
       paymentManagementPage
         .cardLink(card.title, link)
         .should('be.visible')
-        .and('contain.text', link)
+        .containsWithoutWhitespace( link)
     })
 
     cy.log(`Confirmed that ${element} is displayed`)
@@ -108,77 +108,77 @@ Then(/^on the Home Page I confirm that "(.*)" is displayed$/, (element) => {
   case 'application header':
     paymentManagementPage.applicationHeader()
       .should('be.visible')
-      .and('contain.text', 'Payment management')
+      .containsWithoutWhitespace( 'Payment management')
     break
 
   case 'sign out link':
     paymentManagementPage.signOutLink()
       .should('be.visible')
-      .and('contain.text', 'Sign out')
+      .containsWithoutWhitespace( 'Sign out')
     break
 
   case 'page header':
     paymentManagementPage.pageHeader()
       .should('be.visible')
-      .and('contain.text', 'Payments and Documents Services')
+      .containsWithoutWhitespace( 'Payments and Documents Services')
     break
 
   case 'cookie banner header':
     paymentManagementPage.cookieBannerHeader()
       .should('be.visible')
-      .and('contain.text', 'Cookies on Payment management')
+      .containsWithoutWhitespace( 'Cookies on Payment management')
     break
 
   case 'cookie banner content':
     paymentManagementPage.cookieBannerContentOne()
       .should('be.visible')
-      .and('contain.text', 'We use some essential cookies to make this service work.')
+      .containsWithoutWhitespace( 'We use some essential cookies to make this service work.')
 
     paymentManagementPage.cookieBannerContentTwo()
       .should('be.visible')
-      .and('contain.text', 'We’d like to set additional cookies so we can remember your settings, understand how people use the service and make improvements.')
+      .containsWithoutWhitespace('We’d like to set additional cookies so we can remember your settings, understand how people use the service and make improvements.')
     break
 
   case 'cookie banner accept button':
     paymentManagementPage.cookieBannerAcceptBtn()
       .should('be.visible')
-      .and('contain.text', 'Accept analytics cookies')
+      .containsWithoutWhitespace( 'Accept analytics cookies')
     break
 
   case 'cookie banner reject button':
     paymentManagementPage.cookieBannerRejectBtn()
       .should('be.visible')
-      .and('contain.text', 'Reject analytics cookies')
+      .containsWithoutWhitespace( 'Reject analytics cookies')
     break
 
   case 'cookie banner view link':
     paymentManagementPage.cookieBannerViewLink()
       .should('be.visible')
-      .and('contain.text', 'View cookies')
+      .containsWithoutWhitespace( 'View cookies')
     break
 
   case 'cookie banner accepted message':
     paymentManagementPage.cookieBannerAcceptedMessage()
       .should('be.visible')
-      .and('contain.text', 'You’ve accepted analytics cookies. You can change your cookie settings at any time.')
+      .containsWithoutWhitespace('You’ve accepted analytics cookies. You can change your cookie settings at any time.')
     break
 
   case 'cookie banner accepted hide button':
     paymentManagementPage.cookieBannerAcceptedHideBtn()
       .should('be.visible')
-      .and('contain.text', 'Hide this message')
+      .containsWithoutWhitespace( 'Hide this message')
     break
 
   case 'cookie banner rejected message':
     paymentManagementPage.cookieBannerRejectedMessage()
       .should('be.visible')
-      .and('contain.text', 'You’ve rejected analytics cookies. You can change your cookie settings at any time.')
+      .containsWithoutWhitespace('You’ve rejected analytics cookies. You can change your cookie settings at any time.')
     break
 
   case 'cookie banner rejected hide button':
     paymentManagementPage.cookieBannerRejectedHideBtn()
       .should('be.visible')
-      .and('contain.text', 'Hide this message')
+      .containsWithoutWhitespace( 'Hide this message')
     break
 
   default:
@@ -244,69 +244,69 @@ Then(/^on the Cookies Page I confirm that "(.*)" is displayed$/, (element) => {
 
   switch (element) {
   case 'page header':
-    cookiesPage.pageHeader().should('be.visible').and('contain.text', 'Cookies')
+    cookiesPage.pageHeader().should('be.visible').containsWithoutWhitespace( 'Cookies')
     break
   case 'description':
-    cookiesPage.descriptionOne().should('be.visible').and('contain.text', 'Cookies are small files saved on your phone, tablet or computer when you visit a website.')
-    cookiesPage.descriptionTwo().should('be.visible').and('contain.text', 'We use cookies to make the Defra Payment management site work and to collect information about how you use our service.')
+    cookiesPage.descriptionOne().should('be.visible').containsWithoutWhitespace('Cookies are small files saved on your phone, tablet or computer when you visit a website.')
+    cookiesPage.descriptionTwo().should('be.visible').containsWithoutWhitespace('We use cookies to make the Defra Payment management site work and to collect information about how you use our service.')
     break
   case 'essential cookies subheader':
-    cookiesPage.essentialCookiesSubheader().should('be.visible').and('contain.text', 'Essential cookies')
+    cookiesPage.essentialCookiesSubheader().should('be.visible').containsWithoutWhitespace( 'Essential cookies')
     break
   case 'essential cookies description':
-    cookiesPage.essentialCookiesDescription().should('be.visible').and('contain.text', 'Essential cookies keep your information secure while you use this service. We do not need to ask permission to use them.')
+    cookiesPage.essentialCookiesDescription().should('be.visible').containsWithoutWhitespace( 'Essential cookies keep your information secure while you use this service. We do not need to ask permission to use them.')
     break
   case 'essential cookies name':
-    cookiesPage.essentialCookiesName().should('be.visible').and('contain.text', 'cookies_policy')
+    cookiesPage.essentialCookiesName().should('be.visible').containsWithoutWhitespace( 'cookies_policy')
     break
   case 'essential cookies purpose':
-    cookiesPage.essentialCookiesPurpose().should('be.visible').and('contain.text', 'Saves your cookie consent settings')
+    cookiesPage.essentialCookiesPurpose().should('be.visible').containsWithoutWhitespace( 'Saves your cookie consent settings')
     break
   case 'essential cookies expires':
-    cookiesPage.essentialCookiesExpires().should('be.visible').and('contain.text', '1 year')
+    cookiesPage.essentialCookiesExpires().should('be.visible').containsWithoutWhitespace( '1 year')
     break
   case 'analytics cookies subheader':
-    cookiesPage.analyticsCookiesSubheader().should('be.visible').and('contain.text', 'Analytics cookies (optional)')
+    cookiesPage.analyticsCookiesSubheader().should('be.visible').containsWithoutWhitespace( 'Analytics cookies (optional)')
     break
   case 'analytics cookies description':
-    cookiesPage.analyticsDescriptionOne().should('be.visible').and('contain.text', 'With your permission, we use Google Analytics to collect data about how you use this service. This information helps us to improve our service.')
-    cookiesPage.analyticsDescriptionTwo().should('be.visible').and('contain.text', 'Google is not allowed to use or share our analytics data with anyone.')
-    cookiesPage.analyticsDescriptionThree().should('be.visible').and('contain.text', 'Google Analytics stores anonymised information about:')
+    cookiesPage.analyticsDescriptionOne().should('be.visible').containsWithoutWhitespace( 'With your permission, we use Google Analytics to collect data about how you use this service. This information helps us to improve our service.')
+    cookiesPage.analyticsDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'Google is not allowed to use or share our analytics data with anyone.')
+    cookiesPage.analyticsDescriptionThree().should('be.visible').containsWithoutWhitespace( 'Google Analytics stores anonymised information about:')
     break
   case 'analytics cookies bullet points':
-    cookiesPage.analyticsBulletPointOne().should('be.visible').and('contain.text', 'how you got to this service')
-    cookiesPage.analyticsBulletPointTwo().should('be.visible').and('contain.text', 'the pages you visit on this service and how long you spend on them')
-    cookiesPage.analyticsBulletPointThree().should('be.visible').and('contain.text', 'any errors you see while using this service')
+    cookiesPage.analyticsBulletPointOne().should('be.visible').containsWithoutWhitespace( 'how you got to this service')
+    cookiesPage.analyticsBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'the pages you visit on this service and how long you spend on them')
+    cookiesPage.analyticsBulletPointThree().should('be.visible').containsWithoutWhitespace( 'any errors you see while using this service')
     break
   case 'analytics cookies names':
-    cookiesPage.analyticsCookiesNameOne().should('be.visible').and('contain.text', '_ga')
-    cookiesPage.analyticsCookiesNameTwo().should('be.visible').and('contain.text', '_gid')
+    cookiesPage.analyticsCookiesNameOne().should('be.visible').containsWithoutWhitespace( '_ga')
+    cookiesPage.analyticsCookiesNameTwo().should('be.visible').containsWithoutWhitespace( '_gid')
     break
   case 'analytics cookies purposes':
-    cookiesPage.analyticsCookiesPurposeOne().should('be.visible').and('contain.text', 'Helps us count how many people visit this service by tracking if you have visited before')
-    cookiesPage.analyticsCookiesPurposeTwo().should('be.visible').and('contain.text', 'Checks if you’ve visited this before. This helps us count how many people visit our site.')
+    cookiesPage.analyticsCookiesPurposeOne().should('be.visible').containsWithoutWhitespace( 'Helps us count how many people visit this service by tracking if you have visited before')
+    cookiesPage.analyticsCookiesPurposeTwo().should('be.visible').containsWithoutWhitespace( 'Checks if you’ve visited this before. This helps us count how many people visit our site.')
     break
   case 'analytics cookies expirations':
-    cookiesPage.analyticsCookiesExpiresOne().should('be.visible').and('contain.text', '2 years')
-    cookiesPage.analyticsCookiesExpiresTwo().should('be.visible').and('contain.text', '24 hours')
+    cookiesPage.analyticsCookiesExpiresOne().should('be.visible').containsWithoutWhitespace( '2 years')
+    cookiesPage.analyticsCookiesExpiresTwo().should('be.visible').containsWithoutWhitespace( '24 hours')
     break
   case 'accept analytics cookies subheader':
-    cookiesPage.acceptAnalyticsCookiesSubheader().should('be.visible').and('contain.text', 'Do you want to accept analytics cookies?')
+    cookiesPage.acceptAnalyticsCookiesSubheader().should('be.visible').containsWithoutWhitespace( 'Do you want to accept analytics cookies?')
     break
   case 'accept analytics cookies description':
-    cookiesPage.acceptAnalyticsCookiesDescription().should('be.visible').and('contain.text', 'Do you want to accept cookies that measure website use?')
+    cookiesPage.acceptAnalyticsCookiesDescription().should('be.visible').containsWithoutWhitespace( 'Do you want to accept cookies that measure website use?')
     break
   case 'accept analytics cookies option buttons':
     cookiesPage.acceptAnalyticsYesBtn().should('be.visible')
     cookiesPage.acceptAnalyticsNoBtn().should('be.visible')
     break
   case 'save cookie settings button':
-    cookiesPage.saveCookieSettingsBtn().should('be.visible').and('contain.text', 'Save cookie settings')
+    cookiesPage.saveCookieSettingsBtn().should('be.visible').containsWithoutWhitespace( 'Save cookie settings')
     break
   case 'cookie preference banner':
-    cookiesPage.cookiePreferencesBannerHeader().should('be.visible').and('contain.text', 'Success')
-    cookiesPage.cookiePreferencesBannerDescription().should('be.visible').and('contain.text', 'You’ve set your cookie preferences')
-    cookiesPage.backToPageLink().should('be.visible').and('contain.text', 'Go back to the page you were looking at')
+    cookiesPage.cookiePreferencesBannerHeader().should('be.visible').containsWithoutWhitespace( 'Success')
+    cookiesPage.cookiePreferencesBannerDescription().should('be.visible').containsWithoutWhitespace( 'You’ve set your cookie preferences')
+    cookiesPage.backToPageLink().should('be.visible').containsWithoutWhitespace( 'Go back to the page you were looking at')
   }
   cy.log('Confirmed that ' + element + ' is displayed')
   console.log('Confirmed that ' + element + ' is displayed')
@@ -318,48 +318,48 @@ Then(/^on the Accessibility Statement Page I confirm that "(.*)" is displayed$/,
 
   switch (element) {
   case 'page header':
-    accessibilityStatementPage.pageHeader().should('be.visible').and('contain.text', 'Accessibility statement')
+    accessibilityStatementPage.pageHeader().should('be.visible').containsWithoutWhitespace( 'Accessibility statement')
     break
   case 'description':
-    accessibilityStatementPage.descriptionOne().should('be.visible').and('contain.text', 'This service is run by Defra. We want as many people as possible to be able to use this website.', 'For example, that means you should be able to:')
-    accessibilityStatementPage.bulletPointOne().should('be.visible').and('contain.text', 'change colours, contrast levels and fonts')
-    accessibilityStatementPage.bulletPointTwo().should('be.visible').and('contain.text', 'zoom in up to 200% without the text spilling off the screen')
-    accessibilityStatementPage.bulletPointThree().should('be.visible').and('contain.text', 'navigate most of the website using just a keyboard')
-    accessibilityStatementPage.bulletPointFour().should('be.visible').and('contain.text', 'navigate most of the website using speech recognition software')
-    accessibilityStatementPage.bulletPointFive().should('be.visible').and('contain.text', 'listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)')
-    accessibilityStatementPage.descriptionTwo().should('be.visible').and('contain.text', 'We have also made the website text as simple as possible to understand.')
-    accessibilityStatementPage.descriptionThree().should('be.visible').and('contain.text', 'AbilityNet has advice on making your device easier to use if you have a disability.')
+    accessibilityStatementPage.descriptionOne().should('be.visible').containsWithoutWhitespace( 'This service is run by Defra. We want as many people as possible to be able to use this website.', 'For example, that means you should be able to:')
+    accessibilityStatementPage.bulletPointOne().should('be.visible').containsWithoutWhitespace( 'change colours, contrast levels and fonts')
+    accessibilityStatementPage.bulletPointTwo().should('be.visible').containsWithoutWhitespace( 'zoom in up to 200% without the text spilling off the screen')
+    accessibilityStatementPage.bulletPointThree().should('be.visible').containsWithoutWhitespace( 'navigate most of the website using just a keyboard')
+    accessibilityStatementPage.bulletPointFour().should('be.visible').containsWithoutWhitespace( 'navigate most of the website using speech recognition software')
+    accessibilityStatementPage.bulletPointFive().should('be.visible').containsWithoutWhitespace( 'listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)')
+    accessibilityStatementPage.descriptionTwo().should('be.visible').containsWithoutWhitespace( 'We have also made the website text as simple as possible to understand.')
+    accessibilityStatementPage.descriptionThree().should('be.visible').containsWithoutWhitespace( 'AbilityNet has advice on making your device easier to use if you have a disability.')
     break
   case 'how accessible this website is':
-    accessibilityStatementPage.howAccessibleSubheader().should('be.visible').and('contain.text', 'How accessible this website is')
-    accessibilityStatementPage.howAccessibleDescription().should('be.visible').and('contain.text', 'We believe this website is fully accessible. If you find any accessibility issues, please contact us using the details below.')
+    accessibilityStatementPage.howAccessibleSubheader().should('be.visible').containsWithoutWhitespace( 'How accessible this website is')
+    accessibilityStatementPage.howAccessibleDescription().should('be.visible').containsWithoutWhitespace( 'We believe this website is fully accessible. If you find any accessibility issues, please contact us using the details below.')
     break
   case 'feedback and contact info':
-    accessibilityStatementPage.feebackSubheader().should('be.visible').and('contain.text', 'Feedback and contact information')
-    accessibilityStatementPage.feedbackDescription().should('be.visible').and('contain.text', 'If you find any problems not listed on this page or think we\'re not meeting accessibility requirements, contact us at: contentteam@defra.gov.uk.')
+    accessibilityStatementPage.feebackSubheader().should('be.visible').containsWithoutWhitespace( 'Feedback and contact information')
+    accessibilityStatementPage.feedbackDescription().should('be.visible').containsWithoutWhitespace( 'If you find any problems not listed on this page or think we\'re not meeting accessibility requirements, contact us at: contentteam@defra.gov.uk.')
     break
   case 'enforcement procedure':
-    accessibilityStatementPage.enforcementProcedureSubheader().should('be.visible').and('contain.text', 'Enforcement procedure')
-    accessibilityStatementPage.enforcementProcedureDescription().should('be.visible').and('contain.text', 'The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).', 'If you\'re not happy with how we respond to your complaint, contact the Equality Advisory and Support Service (EASS).')
+    accessibilityStatementPage.enforcementProcedureSubheader().should('be.visible').containsWithoutWhitespace( 'Enforcement procedure')
+    accessibilityStatementPage.enforcementProcedureDescription().should('be.visible').containsWithoutWhitespace( 'The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).', 'If you\'re not happy with how we respond to your complaint, contact the Equality Advisory and Support Service (EASS).')
     break
   case 'technical info':
-    accessibilityStatementPage.technicalInformationSubheader().should('be.visible').and('contain.text', 'Technical information about this website’s accessibility')
-    accessibilityStatementPage.technicalInformationDescription().should('be.visible').and('contain.text', 'Defra is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.')
+    accessibilityStatementPage.technicalInformationSubheader().should('be.visible').containsWithoutWhitespace( 'Technical information about this website’s accessibility')
+    accessibilityStatementPage.technicalInformationDescription().should('be.visible').containsWithoutWhitespace( 'Defra is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.')
     break
   case 'compliance status':
-    accessibilityStatementPage.complianceStatusSubheader().should('be.visible').and('contain.text', 'Compliance status')
-    accessibilityStatementPage.complianceStatusDescription().should('be.visible').and('contain.text', 'This website is fully compliant with the Web Content Accessibility Guidelines version 2.2 AA standard.')
+    accessibilityStatementPage.complianceStatusSubheader().should('be.visible').containsWithoutWhitespace( 'Compliance status')
+    accessibilityStatementPage.complianceStatusDescription().should('be.visible').containsWithoutWhitespace( 'This website is fully compliant with the Web Content Accessibility Guidelines version 2.2 AA standard.')
     break
   case 'improving accessiblity':
-    accessibilityStatementPage.improvingAccessibilitySubheader().should('be.visible').and('contain.text', 'What we\'re doing to improve accessibility')
-    accessibilityStatementPage.improvingAccessibilityDescription().should('be.visible').and('contain.text', 'We are committed to maintaining accessibility standards. Our ongoing activities include:')
-    accessibilityStatementPage.improvingAccessibilityBulletPointOne().should('be.visible').and('contain.text', 'conducting regular accessibility audits')
-    accessibilityStatementPage.improvingAccessibilityBulletPointTwo().should('be.visible').and('contain.text', 'training our team on accessibility best practices')
+    accessibilityStatementPage.improvingAccessibilitySubheader().should('be.visible').containsWithoutWhitespace( 'What we\'re doing to improve accessibility')
+    accessibilityStatementPage.improvingAccessibilityDescription().should('be.visible').containsWithoutWhitespace( 'We are committed to maintaining accessibility standards. Our ongoing activities include:')
+    accessibilityStatementPage.improvingAccessibilityBulletPointOne().should('be.visible').containsWithoutWhitespace( 'conducting regular accessibility audits')
+    accessibilityStatementPage.improvingAccessibilityBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'training our team on accessibility best practices')
     break
   case 'preparation of statement':
-    accessibilityStatementPage.preparationSubheader().should('be.visible').and('contain.text', 'Preparation of this accessibility statement')
-    accessibilityStatementPage.preparationDescriptionOne().should('be.visible').and('contain.text', 'This statement was prepared on', 'It was last reviewed on')
-    accessibilityStatementPage.preparationDescriptionTwo().should('be.visible').and('contain.text', 'This website was last tested on',  'The test was carried out using automated testing tools against WCAG 2.2 AA criteria.')
+    accessibilityStatementPage.preparationSubheader().should('be.visible').containsWithoutWhitespace( 'Preparation of this accessibility statement')
+    accessibilityStatementPage.preparationDescriptionOne().should('be.visible').containsWithoutWhitespace( 'This statement was prepared on', 'It was last reviewed on')
+    accessibilityStatementPage.preparationDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'This website was last tested on',  'The test was carried out using automated testing tools against WCAG 2.2 AA criteria.')
     break
   }
   cy.log('Confirmed that ' + element + ' is displayed')
@@ -372,84 +372,84 @@ Then(/^on the Privacy Notice Page I confirm that "(.*)" is displayed$/, (element
 
   switch (element) {
   case 'page header':
-    privacyNoticePage.pageHeader().should('be.visible').and('contain.text', 'Privacy notice')
+    privacyNoticePage.pageHeader().should('be.visible').containsWithoutWhitespace( 'Privacy notice')
     break
   case 'description':
-    privacyNoticePage.descriptionOne().should('be.visible').and('contain.text', 'Payment management is provided by Defra.')
-    privacyNoticePage.descriptionTwo().should('be.visible').and('contain.text', 'Defra is the data controller for pages starting with ffc-pay-web -', 'for example, the site\'s accessibility statement.')
-    privacyNoticePage.descriptionThree().should('be.visible').and('contain.text', 'If you follow a link to a service provided by another government department, agency or local authority, that organisation will:')
-    privacyNoticePage.bulletPointOne().should('be.visible').and('contain.text', 'be the data controller')
-    privacyNoticePage.bulletPointTwo().should('be.visible').and('contain.text', 'be responsible for processing any data you share with them')
-    privacyNoticePage.bulletPointThree().should('be.visible').and('contain.text', 'publish and manage their own privacy notice with details of how to contact them')
-    privacyNoticePage.descriptionFour().should('be.visible').and('contain.text', 'A data controller determines how and why personal data is processed.', 'For more information, read the Cabinet Office’s entry in the Data Protection Public Register.')
+    privacyNoticePage.descriptionOne().should('be.visible').containsWithoutWhitespace( 'Payment management is provided by Defra.')
+    privacyNoticePage.descriptionTwo().should('be.visible').containsWithoutWhitespace( 'Defra is the data controller for pages starting with ffc-pay-web -', 'for example, the site\'s accessibility statement.')
+    privacyNoticePage.descriptionThree().should('be.visible').containsWithoutWhitespace('If you follow a link to a service provided by another government department, agency or local authority, that organisation will:')
+    privacyNoticePage.bulletPointOne().should('be.visible').containsWithoutWhitespace( 'be the data controller')
+    privacyNoticePage.bulletPointTwo().should('be.visible').containsWithoutWhitespace( 'be responsible for processing any data you share with them')
+    privacyNoticePage.bulletPointThree().should('be.visible').containsWithoutWhitespace( 'publish and manage their own privacy notice with details of how to contact them')
+    privacyNoticePage.descriptionFour().should('be.visible').containsWithoutWhitespace( 'A data controller determines how and why personal data is processed.', 'For more information, read the Cabinet Office’s entry in the Data Protection Public Register.')
     break
   case 'what data we collect':
-    privacyNoticePage.whatDataSubheader().should('be.visible').and('contain.text', 'What data we collect')
-    privacyNoticePage.whatDataDescriptionOne().should('be.visible').and('contain.text', 'The personal data we collect from you includes:')
-    privacyNoticePage.whatDataBulletPointOne().should('be.visible').and('contain.text', 'your Internet Protocol (IP) address, and details of which version of web browser you used')
-    privacyNoticePage.whatDataBulletPointTwo().should('be.visible').and('contain.text', 'information on how you use the site, using cookies and page tagging techniques')
-    privacyNoticePage.whatDataDescriptionTwo().should('be.visible').and('contain.text', 'Where you provide your consent, we use Google Analytics to collect information about how you use GOV.UK.', 'This includes IP addresses.')
-    privacyNoticePage.whatDataDescriptionThree().should('be.visible').and('contain.text', 'Google Analytics processes information about:')
-    privacyNoticePage.whatDataBulletPointThree().should('be.visible').and('contain.text', 'the pages you visit on GOV.UK')
-    privacyNoticePage.whatDataBulletPointFour().should('be.visible').and('contain.text', 'how long you spend on each GOV.UK page')
-    privacyNoticePage.whatDataBulletPointFive().should('be.visible').and('contain.text', 'how you got to the site')
-    privacyNoticePage.whatDataBulletPointSix().should('be.visible').and('contain.text', 'what you click on while you’re visiting the site')
-    privacyNoticePage.whatDataDescriptionFour().should('be.visible').and('contain.text', 'We will not combine analytics information with other data sets in a way that would directly identify who you are.')
-    privacyNoticePage.whatDataMoreInfoLink().should('be.visible').and('contain.text', 'Find out more about how we use Google Analytics and other cookies on this service')
+    privacyNoticePage.whatDataSubheader().should('be.visible').containsWithoutWhitespace( 'What data we collect')
+    privacyNoticePage.whatDataDescriptionOne().should('be.visible').containsWithoutWhitespace( 'The personal data we collect from you includes:')
+    privacyNoticePage.whatDataBulletPointOne().should('be.visible').containsWithoutWhitespace( 'your Internet Protocol (IP) address, and details of which version of web browser you used')
+    privacyNoticePage.whatDataBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'information on how you use the site, using cookies and page tagging techniques')
+    privacyNoticePage.whatDataDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'Where you provide your consent, we use Google Analytics to collect information about how you use GOV.UK.', 'This includes IP addresses.')
+    privacyNoticePage.whatDataDescriptionThree().should('be.visible').containsWithoutWhitespace( 'Google Analytics processes information about:')
+    privacyNoticePage.whatDataBulletPointThree().should('be.visible').containsWithoutWhitespace( 'the pages you visit on GOV.UK')
+    privacyNoticePage.whatDataBulletPointFour().should('be.visible').containsWithoutWhitespace( 'how long you spend on each GOV.UK page')
+    privacyNoticePage.whatDataBulletPointFive().should('be.visible').containsWithoutWhitespace( 'how you got to the site')
+    privacyNoticePage.whatDataBulletPointSix().should('be.visible').containsWithoutWhitespace( 'what you click on while you’re visiting the site')
+    privacyNoticePage.whatDataDescriptionFour().should('be.visible').containsWithoutWhitespace( 'We will not combine analytics information with other data sets in a way that would directly identify who you are.')
+    privacyNoticePage.whatDataMoreInfoLink().should('be.visible').containsWithoutWhitespace( 'Find out more about how we use Google Analytics and other cookies on this service')
     break
   case 'why we need your data':
-    privacyNoticePage.whyWeNeedDataSubheader().should('be.visible').and('contain.text', 'Why we need your data')
-    privacyNoticePage.whyWeNeedDataDescriptionOne().should('be.visible').and('contain.text', 'We collect your personal data in order to:')
-    privacyNoticePage.whyWeNeedDataBulletPointOne().should('be.visible').and('contain.text', 'gather feedback to improve our services')
-    privacyNoticePage.whyWeNeedDataBulletPointTwo().should('be.visible').and('contain.text', 'monitor use of the site to identify security threats')
-    privacyNoticePage.whyWeNeedDataBulletPointThree().should('be.visible').and('contain.text', 'monitor the performance of the site to identify inefficiencies and JavaScript errors')
-    privacyNoticePage.whyWeNeedDataDescriptionTwo().should('be.visible').and('contain.text', 'We use the information we collect through Google Analytics to see how you use the service and to see how well the site performs on your device.')
-    privacyNoticePage.whyWeNeedDataDescriptionThree().should('be.visible').and('contain.text', 'We do this to help:')
-    privacyNoticePage.whyWeNeedDataBulletPointFour().should('be.visible').and('contain.text', 'make sure the service is meeting the needs of its users')
-    privacyNoticePage.whyWeNeedDataBulletPointFive().should('be.visible').and('contain.text', 'make improvements')
-    privacyNoticePage.whyWeNeedDataBulletPointSix().should('be.visible').and('contain.text', 'make performance improvements, for example improving page load time and data usage')
+    privacyNoticePage.whyWeNeedDataSubheader().should('be.visible').containsWithoutWhitespace( 'Why we need your data')
+    privacyNoticePage.whyWeNeedDataDescriptionOne().should('be.visible').containsWithoutWhitespace( 'We collect your personal data in order to:')
+    privacyNoticePage.whyWeNeedDataBulletPointOne().should('be.visible').containsWithoutWhitespace( 'gather feedback to improve our services')
+    privacyNoticePage.whyWeNeedDataBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'monitor use of the site to identify security threats')
+    privacyNoticePage.whyWeNeedDataBulletPointThree().should('be.visible').containsWithoutWhitespace( 'monitor the performance of the site to identify inefficiencies and JavaScript errors')
+    privacyNoticePage.whyWeNeedDataDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'We use the information we collect through Google Analytics to see how you use the service and to see how well the site performs on your device.')
+    privacyNoticePage.whyWeNeedDataDescriptionThree().should('be.visible').containsWithoutWhitespace( 'We do this to help:')
+    privacyNoticePage.whyWeNeedDataBulletPointFour().should('be.visible').containsWithoutWhitespace( 'make sure the service is meeting the needs of its users')
+    privacyNoticePage.whyWeNeedDataBulletPointFive().should('be.visible').containsWithoutWhitespace( 'make improvements')
+    privacyNoticePage.whyWeNeedDataBulletPointSix().should('be.visible').containsWithoutWhitespace( 'make performance improvements, for example improving page load time and data usage')
     break
   case 'what we do with your data':
-    privacyNoticePage.whatWeDoSubheader().should('be.visible').and('contain.text', 'What we do with your data')
-    privacyNoticePage.whatWeDoDescriptionOne().should('be.visible').and('contain.text', 'The data we collect with Google Analytics cookies is transferred and stored with Google where we analyse it with Google Analytics software (Universal Analytics).', 'We do not allow Google to use or share this data for their own purposes.')
-    privacyNoticePage.whatWeDoDescriptionTwo().should('be.visible').and('contain.text', 'We will not:')
-    privacyNoticePage.whatWeDoBulletPointOne().should('be.visible').and('contain.text', 'sell or rent your data to third parties')
-    privacyNoticePage.whatWeDoBulletPointTwo().should('be.visible').and('contain.text', 'share your data with third parties for marketing purposes')
+    privacyNoticePage.whatWeDoSubheader().should('be.visible').containsWithoutWhitespace( 'What we do with your data')
+    privacyNoticePage.whatWeDoDescriptionOne().should('be.visible').containsWithoutWhitespace( 'The data we collect with Google Analytics cookies is transferred and stored with Google where we analyse it with Google Analytics software (Universal Analytics).', 'We do not allow Google to use or share this data for their own purposes.')
+    privacyNoticePage.whatWeDoDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'We will not:')
+    privacyNoticePage.whatWeDoBulletPointOne().should('be.visible').containsWithoutWhitespace( 'sell or rent your data to third parties')
+    privacyNoticePage.whatWeDoBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'share your data with third parties for marketing purposes')
     break
   case 'where your data is processed and stored':
-    privacyNoticePage.whereDataIsProcessedSubheader().should('be.visible').and('contain.text', 'Where your data is processed and stored')
-    privacyNoticePage.whereDataIsProcessedDescription().should('be.visible').and('contain.text', 'All personal data is stored in the European Economic Area (EEA).', 'Data collected by Google Analytics may be transferred outside the EEA for processing.')
+    privacyNoticePage.whereDataIsProcessedSubheader().should('be.visible').containsWithoutWhitespace( 'Where your data is processed and stored')
+    privacyNoticePage.whereDataIsProcessedDescription().should('be.visible').containsWithoutWhitespace( 'All personal data is stored in the European Economic Area (EEA).', 'Data collected by Google Analytics may be transferred outside the EEA for processing.')
     break
   case 'how we protect your data':
-    privacyNoticePage.howWeProtectDataSubheader().should('be.visible').and('contain.text', 'How we protect your data and keep it secure')
-    privacyNoticePage.howWeProtectDataDescription().should('be.visible').and('contain.text', 'We are committed to doing all that we can to keep your data secure.', 'We have set up systems and processes to prevent unauthorised access or disclosure of your data - ', 'for example, we protect your data using varying levels of encryption.')
+    privacyNoticePage.howWeProtectDataSubheader().should('be.visible').containsWithoutWhitespace( 'How we protect your data and keep it secure')
+    privacyNoticePage.howWeProtectDataDescription().should('be.visible').containsWithoutWhitespace( 'We are committed to doing all that we can to keep your data secure.', 'We have set up systems and processes to prevent unauthorised access or disclosure of your data - ', 'for example, we protect your data using varying levels of encryption.')
     break
   case 'your rights':
-    privacyNoticePage.yourRightsSubheader().should('be.visible').and('contain.text', 'Your rights')
-    privacyNoticePage.yourRightsDescriptionOne().should('be.visible').and('contain.text', 'You have the right to request:')
-    privacyNoticePage.yourRightsBulletPointOne().should('be.visible').and('contain.text', 'information about how your personal data is processed')
-    privacyNoticePage.yourRightsBulletPointTwo().should('be.visible').and('contain.text', 'a copy of that personal data')
-    privacyNoticePage.yourRightsBulletPointThree().should('be.visible').and('contain.text', 'that anything inaccurate in your personal data is corrected immediately')
-    privacyNoticePage.yourRightsDescriptionTwo().should('be.visible').and('contain.text', 'You can also:')
-    privacyNoticePage.yourRightsBulletPointFour().should('be.visible').and('contain.text', 'raise an objection about how your personal data is processed')
-    privacyNoticePage.yourRightsBulletPointFive().should('be.visible').and('contain.text', 'request that your personal data is erased if there is no longer a justification for it')
-    privacyNoticePage.yourRightsBulletPointSix().should('be.visible').and('contain.text', 'ask that the processing of your personal data is restricted in certain circumstances')
-    privacyNoticePage.yourRightsDescriptionThree().should('be.visible').and('contain.text', 'If you have any of these requests, get in contact with our Privacy Team.')
+    privacyNoticePage.yourRightsSubheader().should('be.visible').containsWithoutWhitespace( 'Your rights')
+    privacyNoticePage.yourRightsDescriptionOne().should('be.visible').containsWithoutWhitespace( 'You have the right to request:')
+    privacyNoticePage.yourRightsBulletPointOne().should('be.visible').containsWithoutWhitespace( 'information about how your personal data is processed')
+    privacyNoticePage.yourRightsBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'a copy of that personal data')
+    privacyNoticePage.yourRightsBulletPointThree().should('be.visible').containsWithoutWhitespace( 'that anything inaccurate in your personal data is corrected immediately')
+    privacyNoticePage.yourRightsDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'You can also:')
+    privacyNoticePage.yourRightsBulletPointFour().should('be.visible').containsWithoutWhitespace( 'raise an objection about how your personal data is processed')
+    privacyNoticePage.yourRightsBulletPointFive().should('be.visible').containsWithoutWhitespace( 'request that your personal data is erased if there is no longer a justification for it')
+    privacyNoticePage.yourRightsBulletPointSix().should('be.visible').containsWithoutWhitespace( 'ask that the processing of your personal data is restricted in certain circumstances')
+    privacyNoticePage.yourRightsDescriptionThree().should('be.visible').containsWithoutWhitespace( 'If you have any of these requests, get in contact with our Privacy Team.')
     break
   case 'links to other websites':
-    privacyNoticePage.otherLinksSubheader().should('be.visible').and('contain.text', 'Links to other websites')
-    privacyNoticePage.otherLinksDescriptionOne().should('be.visible').and('contain.text', 'This service contains links to other websites.')
-    privacyNoticePage.otherLinksDescriptionTwo().should('be.visible').and('contain.text', 'This privacy notice only applies to Calculate my progressive reductions, and does not cover other government services and transactions that we link to.', 'These services, have their own terms and conditions and privacy policies.')
-    privacyNoticePage.followingLinksSubheader().should('be.visible').and('contain.text', 'Following a link to another website')
-    privacyNoticePage.followingLinksDescription().should('be.visible').and('contain.text', 'If you go to another website from this one, read the privacy policy on that website to find out what it does with your information.')
+    privacyNoticePage.otherLinksSubheader().should('be.visible').containsWithoutWhitespace( 'Links to other websites')
+    privacyNoticePage.otherLinksDescriptionOne().should('be.visible').containsWithoutWhitespace( 'This service contains links to other websites.')
+    privacyNoticePage.otherLinksDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'This privacy notice only applies to Calculate my progressive reductions, and does not cover other government services and transactions that we link to.', 'These services, have their own terms and conditions and privacy policies.')
+    privacyNoticePage.followingLinksSubheader().should('be.visible').containsWithoutWhitespace( 'Following a link to another website')
+    privacyNoticePage.followingLinksDescription().should('be.visible').containsWithoutWhitespace( 'If you go to another website from this one, read the privacy policy on that website to find out what it does with your information.')
     break
   case 'contact us':
-    privacyNoticePage.contactInfoSubheader().should('be.visible').and('contain.text', 'Contact us or make a complaint')
-    privacyNoticePage.contactInfoDescription().should('be.visible').and('contain.text', 'You can contact our Data Protection Officer (DPO):')
-    privacyNoticePage.contactInfoAddress().should('be.visible').and('contain.text', 'DPO', 'DefraGroupDataProtectionOfficer@defra.gov.uk', 'Defra', 'Department for the Environment, Food and Rural Affairs', '2 Marsham Street', 'London', 'SW1P 4DF')
+    privacyNoticePage.contactInfoSubheader().should('be.visible').containsWithoutWhitespace( 'Contact us or make a complaint')
+    privacyNoticePage.contactInfoDescription().should('be.visible').containsWithoutWhitespace( 'You can contact our Data Protection Officer (DPO):')
+    privacyNoticePage.contactInfoAddress().should('be.visible').containsWithoutWhitespace( 'DPO', 'DefraGroupDataProtectionOfficer@defra.gov.uk', 'Defra', 'Department for the Environment, Food and Rural Affairs', '2 Marsham Street', 'London', 'SW1P 4DF')
     break
   case 'last updated notice':
-    privacyNoticePage.lastUpdatedNotice().should('be.visible').and('contain.text', 'This notice was last updated on')
+    privacyNoticePage.lastUpdatedNotice().should('be.visible').containsWithoutWhitespace( 'This notice was last updated on')
     break
   }
   cy.log('Confirmed that ' + element + ' is displayed')
@@ -521,7 +521,7 @@ Then('I should see {string} number of closures', (count) => {
   paymentManagementPage
     .noOfClosures()
     .should('be.visible')
-    .and('contain.text', count)
+    .containsWithoutWhitespace( count)
 })
 //this should probably be split into two generic helpers one for radio and one for dropdown (i think the only thing that still uses dropdown is scheme), this is not good quality code
 When('I select {string} from the {string} dropdown or radio', (text, dropdown) => {
@@ -842,25 +842,25 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
   case 'page title':
     manualPaymentsPage.pageTitle().should('be.visible').and('have.text', 'Manual payment upload'); break
   case 'page description':
-    manualPaymentsPage.pageDescription().should('be.visible').and('contain.text', 'This section allows teams to upload manual payment files into Payment Hub. Once uploaded, these files will automatically feed into the standard payment process'); break
+    manualPaymentsPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'This section allows teams to upload manual payment files into Payment Hub. Once uploaded, these files will automatically feed into the standard payment process'); break
   case 'choose file button':
     manualPaymentsPage.chooseFileBtn().should('be.visible').and('have.attr', 'type', 'file'); break
   case 'upload button':
     manualPaymentsPage.uploadBtn().should('be.visible').and('have.attr', 'type', 'submit'); break
   case 'manual payments guidance link':
-    manualPaymentsPage.manualPaymentsGuidanceLink().should('be.visible').and('contain.text', 'Manual Payments Guidance (PDF)'); break
+    manualPaymentsPage.manualPaymentsGuidanceLink().should('be.visible').containsWithoutWhitespace( 'Manual Payments Guidance (PDF)'); break
   case 'file upload confirmation message':
-    manualPaymentsPage.statusText().should('be.visible').and('contain.text', 'Your manual payment file has been successfully processed. To make another upload, please click the link below to return to the manual payments page.'); break
+    manualPaymentsPage.statusText().should('be.visible').containsWithoutWhitespace( 'Your manual payment file has been successfully processed. To make another upload, please click the link below to return to the manual payments page.'); break
   case 'duplicate file error message':
-    manualPaymentsPage.errorText().should('be.visible').and('contain.text', 'This file has already been uploaded. The file has not been re-processed. Please ensure you are uploading the correct and most recent file.'); break
+    manualPaymentsPage.errorText().should('be.visible').containsWithoutWhitespace( 'This file has already been uploaded. The file has not been re-processed. Please ensure you are uploading the correct and most recent file.'); break
   case 'invalid file type error message':
-    manualPaymentsPage.typeErrorText().should('be.visible').and('contain.text', 'Invalid file type - We were unable to upload your manual payment file as the uploaded file is not a .CSV file. Only .CSV files are permitted.'); break
+    manualPaymentsPage.typeErrorText().should('be.visible').containsWithoutWhitespace( 'Invalid file type - We were unable to upload your manual payment file as the uploaded file is not a .CSV file. Only .CSV files are permitted.'); break
   case 'invalid name error message':
-    manualPaymentsPage.nameErrorText().should('be.visible').and('contain.text', 'Invalid filename - We were unable to upload your manual payment file. Filenames must start with "FFC_Manual_Batch_". Optionally include a scheme (e.g. "SFI_" or "SFI23_"), then a timestamp in one of these formats: YYYYMMDDHHmm or YYYYMMDDHHmmss. The filename must end with ".csv". Examples: FFC_Manual_Batch_SFI23_202510231609.csv, FFC_Manual_Batch_202510231609.csv.'); break
+    manualPaymentsPage.nameErrorText().should('be.visible').containsWithoutWhitespace( 'Invalid filename - We were unable to upload your manual payment file. Filenames must start with "FFC_Manual_Batch_". Optionally include a scheme (e.g. "SFI_" or "SFI23_"), then a timestamp in one of these formats: YYYYMMDDHHmm or YYYYMMDDHHmmss. The filename must end with ".csv". Examples: FFC_Manual_Batch_SFI23_202510231609.csv, FFC_Manual_Batch_202510231609.csv.'); break
   case 'invalid file size message':
-    manualPaymentsPage.nameErrorText().should('be.visible').and('contain.text', 'File too large - The uploaded file is too large. Please upload a file smaller than 1 MB.'); break
+    manualPaymentsPage.nameErrorText().should('be.visible').containsWithoutWhitespace( 'File too large - The uploaded file is too large. Please upload a file smaller than 1 MB.'); break
   case 'empty file message':
-    manualPaymentsPage.nameErrorText().should('be.visible').and('contain.text', 'We couldn’t process your upload because the file is empty. Please upload a file that contains data.'); break
+    manualPaymentsPage.nameErrorText().should('be.visible').containsWithoutWhitespace( 'We couldn’t process your upload because the file is empty. Please upload a file that contains data.'); break
   case 'return button':
     manualPaymentsPage.returnButton().should('be.visible').and('have.text', 'Return'); break
   case 'error return button':
@@ -878,7 +878,7 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
 Then(/^on the Manual Payments page I confirm that entry with filename "(.*)" has been added to Upload History$/, (filename) => {
 
   Cypress.emit('log:step', 'on the Manual Payments page I confirm that entry with filename ' + filename + ' has been added to Upload History')
-  manualPaymentsPage.uploadHistoryFilename().should('be.visible').and('contain.text', filename)
+  manualPaymentsPage.uploadHistoryFilename().should('be.visible').containsWithoutWhitespace( filename)
 
   console.log('Confirmed that entry with filename ' + filename + ' has been added to Upload History')
   cy.log('Confirmed that entry with filename ' + filename + ' has been added to Upload History')
@@ -950,11 +950,11 @@ Then (/^on the Management Information page I confirm that "(.*)" is displayed$/,
   case 'page title':
     managementInformationPage.pageTitle().should('be.visible').and('have.text', 'Management information'); break
   case 'page description':
-    managementInformationPage.pageDescription().should('be.visible').and('contain.text', 'View payment and document metrics filtered by time period.'); break
+    managementInformationPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'View payment and document metrics filtered by time period.'); break
   case 'help dropdown':
-    managementInformationPage.helpDropdown().should('be.visible').and('contain.text', 'Help with this page'); break
+    managementInformationPage.helpDropdown().should('be.visible').containsWithoutWhitespace( 'Help with this page'); break
   case 'help description':
-    managementInformationPage.helpDescription().should('be.visible').and('contain.text', 'This dashboard provides operational metrics for payments and documents.'); break
+    managementInformationPage.helpDescription().should('be.visible').containsWithoutWhitespace( 'This dashboard provides operational metrics for payments and documents.'); break
   case 'show all description':
     managementInformationPage.showAllDescription().should('be.visible').and('have.text', '\n              Show all - View complete dataset with no date filtering (includes year breakdown)'); break
   case 'year to date description':
@@ -976,19 +976,19 @@ Then (/^on the Management Information page I confirm that "(.*)" is displayed$/,
   case 'time period filter dropdown':
     managementInformationPage.timePeriodFilterDropdown().should('be.visible'); break
   case 'time period filter button':
-    managementInformationPage.timePeriodFilterButton().should('be.visible').and('contain.text', 'Apply filters'); break
+    managementInformationPage.timePeriodFilterButton().should('be.visible').containsWithoutWhitespace( 'Apply filters'); break
   case 'payment metrics sub header':
     managementInformationPage.paymentMetricsSubHeader().should('be.visible').and('have.text', 'Payment Metrics'); break
   case 'payments panel':
-    managementInformationPage.paymentsPanel().should('be.visible').and('contain.text', 'Payments'); break
+    managementInformationPage.paymentsPanel().should('be.visible').containsWithoutWhitespace( 'Payments'); break
   case 'payments count':
     managementInformationPage.paymentsCount().should('be.visible'); break
   case 'total value panel':
-    managementInformationPage.totalValuePanel().should('be.visible').and('contain.text', 'Total Value'); break
+    managementInformationPage.totalValuePanel().should('be.visible').containsWithoutWhitespace( 'Total Value'); break
   case 'total value amount':
     managementInformationPage.totalValueAmount().should('be.visible'); break
   case 'breakdown description':
-    managementInformationPage.breakdownDescription().should('be.visible').and('contain.text', 'Breakdown of payments and values by scheme'); break
+    managementInformationPage.breakdownDescription().should('be.visible').containsWithoutWhitespace( 'Breakdown of payments and values by scheme'); break
   case 'payment scheme column':
     managementInformationPage.paymentSchemeColumn().should('be.visible').and('have.text', 'Scheme'); break
   case 'total payments column':
@@ -1002,11 +1002,11 @@ Then (/^on the Management Information page I confirm that "(.*)" is displayed$/,
   case 'documents metrics sub header':
     managementInformationPage.documentsMetricsSubHeader().should('be.visible').and('have.text', 'Document Metrics'); break
   case 'documents issued':
-    managementInformationPage.documentsIssued().should('be.visible').and('contain.text', 'Documents Issued'); break
+    managementInformationPage.documentsIssued().should('be.visible').containsWithoutWhitespace( 'Documents Issued'); break
   case 'documents count':
     managementInformationPage.documentsCount().should('be.visible'); break
   case 'documents breakdown description':
-    managementInformationPage.docBreakdownDescription().should('be.visible').and('contain.text', 'Breakdown of documents by scheme showing delivery methods and costs'); break
+    managementInformationPage.docBreakdownDescription().should('be.visible').containsWithoutWhitespace( 'Breakdown of documents by scheme showing delivery methods and costs'); break
   case 'documents scheme column':
     managementInformationPage.docSchemeColumn().should('be.visible').and('have.text', 'Scheme'); break
   case 'year column':
@@ -1117,35 +1117,35 @@ Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (e
 
   switch (element) {
   case 'page title':
-    downloadStatementsPage.pageTitle().should('be.visible').and('contain.text', 'Download payment statements'); break
+    downloadStatementsPage.pageTitle().should('be.visible').containsWithoutWhitespace( 'Download payment statements'); break
   case 'page description':
-    downloadStatementsPage.pageDescription().should('be.visible').and('contain.text', 'Statements provide customers with payment details.'); break
+    downloadStatementsPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'Statements provide customers with payment details.'); break
   case 'page instructions':
-    downloadStatementsPage.pageInstructions().should('be.visible').and('contain.text', 'Full filename'); break
+    downloadStatementsPage.pageInstructions().should('be.visible').containsWithoutWhitespace( 'Full filename'); break
   case 'instruction examples':
-    downloadStatementsPage.instructionExamples().should('be.visible').and('contain.text', 'Examples:', 'FFC_PaymentDelinkedStatement_DP_2024_1100021264_2025101508224868.pdf', 'FFC_PaymentSfi23QuarterlyStatement_DP_2024_1100021264_2025101508224868.pdf\n  '); break
+    downloadStatementsPage.instructionExamples().should('be.visible').containsWithoutWhitespace( 'Examples:', 'FFC_PaymentDelinkedStatement_DP_2024_1100021264_2025101508224868.pdf', 'FFC_PaymentSfi23QuarterlyStatement_DP_2024_1100021264_2025101508224868.pdf\n  '); break
   case 'filename field':
     downloadStatementsPage.filenameField().should('be.visible').and('have.attr', 'type', 'text'); break
   case 'individual criteria instructions':
-    downloadStatementsPage.individualCriteriaInstructions().should('be.visible').and('contain.text', 'Or search by individual criteria:'); break
+    downloadStatementsPage.individualCriteriaInstructions().should('be.visible').containsWithoutWhitespace( 'Or search by individual criteria:'); break
   case 'select scheme Delinked Radio':
     downloadStatementsPage.selectSchemeRadioDelinked().should('exist'); break
   case 'select scheme SFI Radio':
     downloadStatementsPage.selectSchemeRadioSFI().should('exist'); break
   case 'marketing year label':
-    downloadStatementsPage.marketingYearLabel().should('be.visible').and('contain.text', 'Marketing year'); break
+    downloadStatementsPage.marketingYearLabel().should('be.visible').containsWithoutWhitespace( 'Marketing year'); break
   case 'marketing year field':
     downloadStatementsPage.marketingYearField().should('be.visible').and('have.attr', 'type', 'text'); break
   case 'frn label':
-    downloadStatementsPage.frnLabel().should('be.visible').and('contain.text', 'Firm reference number (FRN)'); break
+    downloadStatementsPage.frnLabel().should('be.visible').containsWithoutWhitespace( 'Firm reference number (FRN)'); break
   case 'frn search instructions':
-    downloadStatementsPage.frnSearchInstructions().should('be.visible').and('contain.text', 'Enter a 10-digit FRN'); break
+    downloadStatementsPage.frnSearchInstructions().should('be.visible').containsWithoutWhitespace( 'Enter a 10-digit FRN'); break
   case 'frn field':
     downloadStatementsPage.frnField().should('be.visible').and('have.attr', 'type', 'text'); break
   case 'timestamp label':
-    downloadStatementsPage.timestampLabel().should('be.visible').and('contain.text', 'Timestamp'); break
+    downloadStatementsPage.timestampLabel().should('be.visible').containsWithoutWhitespace( 'Timestamp'); break
   case 'timestamp search instructions':
-    downloadStatementsPage.timestampSearchInstructions().should('be.visible').and('contain.text', 'For example, 06-01-2026 18:00'); break
+    downloadStatementsPage.timestampSearchInstructions().should('be.visible').containsWithoutWhitespace( 'For example, 06-01-2026 18:00'); break
   case 'timestamp field':
     downloadStatementsPage.timestampField().should('be.visible').and('have.attr', 'type', 'text'); break
   case 'search statements button':
@@ -1153,17 +1153,17 @@ Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (e
   case 'clear button':
     downloadStatementsPage.clearButton().should('be.visible').and('have.attr', 'type', 'button'); break
   case 'statements sub header and number of results':
-    downloadStatementsPage.statementsSubHeader().should('be.visible').and('contain.text', 'Statements'); break
+    downloadStatementsPage.statementsSubHeader().should('be.visible').containsWithoutWhitespace( 'Statements'); break
   case 'scheme column':
-    downloadStatementsPage.schemeColumn().should('be.visible').and('contain.text', 'Scheme'); break
+    downloadStatementsPage.schemeColumn().should('be.visible').containsWithoutWhitespace( 'Scheme'); break
   case 'year column':
-    downloadStatementsPage.yearColumn().should('be.visible').and('contain.text', 'Year'); break
+    downloadStatementsPage.yearColumn().should('be.visible').containsWithoutWhitespace( 'Year'); break
   case 'frn column':
-    downloadStatementsPage.frnColumn().should('be.visible').and('contain.text', 'FRN'); break
+    downloadStatementsPage.frnColumn().should('be.visible').containsWithoutWhitespace( 'FRN'); break
   case 'timestamp column':
-    downloadStatementsPage.timestampColumn().should('be.visible').and('contain.text', 'Timestamp'); break
+    downloadStatementsPage.timestampColumn().should('be.visible').containsWithoutWhitespace( 'Timestamp'); break
   case 'action column':
-    downloadStatementsPage.actionColumn().should('be.visible').and('contain.text', 'Action'); break
+    downloadStatementsPage.actionColumn().should('be.visible').containsWithoutWhitespace( 'Action'); break
   case 'next button':
     if (!env.includes('local')) {
       downloadStatementsPage.nextButton().should('be.visible').and('have.class', 'govuk-pagination__link')
@@ -1347,28 +1347,28 @@ Then (/^on the Reset payment request page I confirm that "(.*)" is displayed$/, 
   case 'page title':
     resetPaymentRequestPage.pageTitle().should('be.visible').and('have.text', 'Reset payment request'); break
   case 'page description':
-    resetPaymentRequestPage.pageDescription().should('be.visible').and('contain.text', 'Invoice number'); break
+    resetPaymentRequestPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'Invoice number'); break
   case 'page instructions':
-    resetPaymentRequestPage.pageInstructions().should('be.visible').and('contain.text', 'Enter the DAX formatted invoice number, for example S1234567S1234567V001'); break
+    resetPaymentRequestPage.pageInstructions().should('be.visible').containsWithoutWhitespace( 'Enter the DAX formatted invoice number, for example S1234567S1234567V001'); break
   case 'invoice number field':
     resetPaymentRequestPage.invoiceNumberField().should('be.visible').and('have.attr', 'type', 'text'); break
   case 'reset button':
     resetPaymentRequestPage.resetButton().should('be.visible').and('have.attr', 'type', 'submit'); break
   case 'payment request does not exist error':
-    resetPaymentRequestPage.errorTitle().should('be.visible').and('contain.text', 'There is a problem')
-    resetPaymentRequestPage.errorMessage().should('be.visible').and('contain.text', 'Payment request', 'does not exist'); break
+    resetPaymentRequestPage.errorTitle().should('be.visible').containsWithoutWhitespace( 'There is a problem')
+    resetPaymentRequestPage.errorMessage().should('be.visible').containsWithoutWhitespace( 'Payment request', 'does not exist'); break
   case 'enter a valid invoice number error':
-    resetPaymentRequestPage.errorTitle().should('be.visible').and('contain.text', 'There is a problem')
-    resetPaymentRequestPage.errorMessage().should('be.visible').and('contain.text', 'ValidationError: Enter a valid invoice number'); break
+    resetPaymentRequestPage.errorTitle().should('be.visible').containsWithoutWhitespace( 'There is a problem')
+    resetPaymentRequestPage.errorMessage().should('be.visible').containsWithoutWhitespace( 'ValidationError: Enter a valid invoice number'); break
   case 'payment request successfully reset message':
-    resetPaymentRequestPage.successTitle().should('be.visible').and('contain.text', 'Payment request successfully reset')
-    resetPaymentRequestPage.successMessage().should('be.visible').and('contain.text', 'Invoice number'); break
+    resetPaymentRequestPage.successTitle().should('be.visible').containsWithoutWhitespace( 'Payment request successfully reset')
+    resetPaymentRequestPage.successMessage().should('be.visible').containsWithoutWhitespace( 'Invoice number'); break
   case 'what happens next subheader':
-    resetPaymentRequestPage.whatHappensNextSubheader().should('be.visible').and('contain.text', 'What happens next'); break
+    resetPaymentRequestPage.whatHappensNextSubheader().should('be.visible').containsWithoutWhitespace( 'What happens next'); break
   case 'what happens next message':
-    resetPaymentRequestPage.whatHappensNextMessage().should('be.visible').and('contain.text', 'The payment request will be reprocessed and resent to D365.'); break
+    resetPaymentRequestPage.whatHappensNextMessage().should('be.visible').containsWithoutWhitespace( 'The payment request will be reprocessed and resent to D365.'); break
   case 'perform another action link':
-    resetPaymentRequestPage.performAnotherActionLink().should('be.visible').and('contain.text', 'Perform another action'); break
+    resetPaymentRequestPage.performAnotherActionLink().should('be.visible').containsWithoutWhitespace( 'Perform another action'); break
   default:
     throw new Error('invalid element')
   }
@@ -1447,59 +1447,59 @@ Then (/^on the View events page I confirm that "(.*)" is displayed$/, (element) 
 
   switch (element) {
   case 'sub header':
-    paymentEventMonitoringPage.subHeader().should('be.visible').and('contain.text', 'Monitoring'); break
+    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'Monitoring'); break
   case 'frn search instructions':
-    paymentEventMonitoringPage.searchByFRNInstructions().should('be.visible').and('contain.text', 'Search for payments by Firm Reference Number (FRN)'); break
+    paymentEventMonitoringPage.searchByFRNInstructions().should('be.visible').containsWithoutWhitespace( 'Search for payments by Firm Reference Number (FRN)'); break
   case 'frn search example':
-    paymentEventMonitoringPage.searchByFRNExample().should('be.visible').and('contain.text', 'For example, 1234567890'); break
+    paymentEventMonitoringPage.searchByFRNExample().should('be.visible').containsWithoutWhitespace( 'For example, 1234567890'); break
   case 'frn search field':
     paymentEventMonitoringPage.searchByFRNField().should('be.visible').and('have.attr', 'type', 'search'); break
   case 'frn search button':
     paymentEventMonitoringPage.searchByFRNButton().should('be.visible').and('have.attr', 'type', 'submit'); break
   case 'batch search instructions':
-    paymentEventMonitoringPage.searchByBatchInstructions().should('be.visible').and('contain.text', 'Search for payments by payment batch name'); break
+    paymentEventMonitoringPage.searchByBatchInstructions().should('be.visible').containsWithoutWhitespace( 'Search for payments by payment batch name'); break
   case 'batch search example':
-    paymentEventMonitoringPage.searchByBatchExample().should('be.visible').and('contain.text', 'For example, SITISFI0001_AP_20230525095030.dat'); break
+    paymentEventMonitoringPage.searchByBatchExample().should('be.visible').containsWithoutWhitespace( 'For example, SITISFI0001_AP_20230525095030.dat'); break
   case 'batch search field':
     paymentEventMonitoringPage.searchByBatchField().should('be.visible').and('have.attr', 'type', 'search'); break
   case 'batch search button':
     paymentEventMonitoringPage.searchByBatchButton().should('be.visible').and('have.attr', 'type', 'submit'); break
   case 'frn searched label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').and('contain.text', '1258445148'); break
+    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( '1258445148'); break
   case 'scheme column':
-    paymentEventMonitoringPage.schemeColumn().should('be.visible').and('contain.text', 'Scheme'); break
+    paymentEventMonitoringPage.schemeColumn().should('be.visible').containsWithoutWhitespace( 'Scheme'); break
   case 'agreement column':
-    paymentEventMonitoringPage.agreementColumn().should('be.visible').and('contain.text', 'Agreement'); break
+    paymentEventMonitoringPage.agreementColumn().should('be.visible').containsWithoutWhitespace( 'Agreement'); break
   case 'payment request column':
-    paymentEventMonitoringPage.paymentRequestColumn().should('be.visible').and('contain.text', 'Payment request'); break
+    paymentEventMonitoringPage.paymentRequestColumn().should('be.visible').containsWithoutWhitespace( 'Payment request'); break
   case 'value column':
-    paymentEventMonitoringPage.valueColumn().should('be.visible').and('contain.text', 'Value'); break
+    paymentEventMonitoringPage.valueColumn().should('be.visible').containsWithoutWhitespace( 'Value'); break
   case 'status column':
-    paymentEventMonitoringPage.statusColumn().should('be.visible').and('contain.text', 'Status'); break
+    paymentEventMonitoringPage.statusColumn().should('be.visible').containsWithoutWhitespace( 'Status'); break
   case 'last updated column':
-    paymentEventMonitoringPage.lastUpdatedColumn().should('be.visible').and('contain.text', 'Last updated'); break
+    paymentEventMonitoringPage.lastUpdatedColumn().should('be.visible').containsWithoutWhitespace( 'Last updated'); break
   case 'actions column':
-    paymentEventMonitoringPage.actionsColumn().should('be.visible').and('contain.text', 'Actions'); break
+    paymentEventMonitoringPage.actionsColumn().should('be.visible').containsWithoutWhitespace( 'Actions'); break
   case 'view frn label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').and('contain.text', '1258445148 - 40770826 - PR1'); break
+    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( '1258445148 - 40770826 - PR1'); break
   case 'view batch label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').and('contain.text', 'SITISFIA0001_AP_20230810085609205.dat'); break
+    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( 'SITISFIA0001_AP_20230810085609205.dat'); break
   case 'activity column':
-    paymentEventMonitoringPage.activityColumn().should('be.visible').and('contain.text', 'Actions'); break
+    paymentEventMonitoringPage.activityColumn().should('be.visible').containsWithoutWhitespace( 'Actions'); break
   case 'batch frn column':
-    paymentEventMonitoringPage.batchFRNColumn().should('be.visible').and('contain.text', 'FRN'); break
+    paymentEventMonitoringPage.batchFRNColumn().should('be.visible').containsWithoutWhitespace( 'FRN'); break
   case 'batch year column':
-    paymentEventMonitoringPage.batchYearColumn().should('be.visible').and('contain.text', 'Year'); break
+    paymentEventMonitoringPage.batchYearColumn().should('be.visible').containsWithoutWhitespace( 'Year'); break
   case 'batch agreement column':
-    paymentEventMonitoringPage.batchAgreementColumn().should('be.visible').and('contain.text', 'Agreement'); break
+    paymentEventMonitoringPage.batchAgreementColumn().should('be.visible').containsWithoutWhitespace( 'Agreement'); break
   case 'batch request column':
-    paymentEventMonitoringPage.batchRequestColumn().should('be.visible').and('contain.text', 'Request'); break
+    paymentEventMonitoringPage.batchRequestColumn().should('be.visible').containsWithoutWhitespace( 'Request'); break
   case 'batch value column':
-    paymentEventMonitoringPage.batchValueColumn().should('be.visible').and('contain.text', 'Value'); break
+    paymentEventMonitoringPage.batchValueColumn().should('be.visible').containsWithoutWhitespace( 'Value'); break
   case 'batch status column':
-    paymentEventMonitoringPage.batchStatusColumn().should('be.visible').and('contain.text', 'Status'); break
+    paymentEventMonitoringPage.batchStatusColumn().should('be.visible').containsWithoutWhitespace( 'Status'); break
   case 'batch actions column':
-    paymentEventMonitoringPage.batchActionsColumn().should('be.visible').and('contain.text', 'Actions'); break
+    paymentEventMonitoringPage.batchActionsColumn().should('be.visible').containsWithoutWhitespace( 'Actions'); break
   default:
     throw new Error('invalid element')
   }
@@ -1514,21 +1514,21 @@ Then (/^on the View processed payment requests page I confirm that "(.*)" is dis
 
   switch (element) {
   case 'sub header':
-    paymentEventMonitoringPage.subHeader().should('be.visible').and('contain.text', 'Monitoring by scheme'); break
+    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'Monitoring by scheme'); break
   case 'select scheme label':
-    paymentEventMonitoringPage.selectSchemeLabel().should('be.visible').and('contain.text', 'Select the scheme to view data for'); break
+    paymentEventMonitoringPage.selectSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Select the scheme to view data for'); break
   case 'select scheme dropdown':
     paymentEventMonitoringPage.selectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break
   case 'select scheme button':
     paymentEventMonitoringPage.selectSchemeButton().should('be.visible').and('have.attr', 'type', 'submit'); break
   case 'processed payment requests label':
-    paymentEventMonitoringPage.processedRequestLabel().should('be.visible').and('contain.text', 'Processed payment requests'); break
+    paymentEventMonitoringPage.processedRequestLabel().should('be.visible').containsWithoutWhitespace( 'Processed payment requests'); break
   case 'scheme column':
-    paymentEventMonitoringPage.processedRequestsSchemeColumn().should('be.visible').and('contain.text', 'Scheme'); break
+    paymentEventMonitoringPage.processedRequestsSchemeColumn().should('be.visible').containsWithoutWhitespace( 'Scheme'); break
   case 'number of payments column':
-    paymentEventMonitoringPage.processedRequestsNumberOfColumn().should('be.visible').and('contain.text', 'Number of payments'); break
+    paymentEventMonitoringPage.processedRequestsNumberOfColumn().should('be.visible').containsWithoutWhitespace( 'Number of payments'); break
   case 'value column':
-    paymentEventMonitoringPage.processedRequestsValueColumn().should('be.visible').and('contain.text', 'Value'); break
+    paymentEventMonitoringPage.processedRequestsValueColumn().should('be.visible').containsWithoutWhitespace( 'Value'); break
   default:
     throw new Error('invalid element')
   }
@@ -1594,8 +1594,8 @@ Then (/^on the View events page I confirm that rows are ordered correctly by pay
 
   Cypress.emit('log:step', 'on the View events page I confirm that rows are ordered correctly by payment request')
 
-  paymentEventMonitoringPage.firstPaymentRequestNumber().should('be.visible').and('contain.text', '1')
-  paymentEventMonitoringPage.secondPaymentRequestNumber().should('be.visible').and('contain.text', '2')
+  paymentEventMonitoringPage.firstPaymentRequestNumber().should('be.visible').containsWithoutWhitespace( '1')
+  paymentEventMonitoringPage.secondPaymentRequestNumber().should('be.visible').containsWithoutWhitespace( '2')
 
   console.log('Confirmed that rows are ordered correctly by payment request')
   cy.log('Confirmed that rows are ordered correctly by payment request')
@@ -1637,7 +1637,7 @@ Then (/^on the View events page I confirm that "(.*)" of entry number "(.*)" in 
   default:
     throw new Error('invalid element')
   }
-  element.should('be.visible').and('contain.text', expectedValue)
+  element.should('be.visible').containsWithoutWhitespace( expectedValue)
 
   console.log('Confirmed value of table entry ' + rowNumber + ' is ' + expectedValue)
   cy.log('Confirmed value of table entry ' + rowNumber + ' is ' + expectedValue)
@@ -1651,91 +1651,91 @@ Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
   Cypress.emit('log:step', 'on the Alerts page I confirm that ' + element + ' is displayed')
 
   switch (element) {
-  case 'sub header': paymentAlertsPage.subHeader().should('be.visible').and('contain.text', 'Manage alerts'); break
-  case 'page description': paymentAlertsPage.pageDescription().should('be.visible').and('contain.text',
+  case 'sub header': paymentAlertsPage.subHeader().should('be.visible').containsWithoutWhitespace( 'Manage alerts'); break
+  case 'page description': paymentAlertsPage.pageDescription().should('be.visible').containsWithoutWhitespace(
     'This section allows users to see payment alerts that are in place for each scheme and',
     'manage who is set up to receive each type of alert. If a payment is rejected, alerts are',
     'used to notify people so that the error preventing payment can be resolved. Some',
     'users are alerted for information, but some will be required to resolve the payment issue')
     break
-  case 'find out more': paymentAlertsPage.findOutMore().should('be.visible').and('contain.text',
+  case 'find out more': paymentAlertsPage.findOutMore().should('be.visible').containsWithoutWhitespace(
     'Find out more about each alert type by visiting our alerts information page, or by clicking on any of the alert type names below.')
     break
   case 'alerts information link': paymentAlertsPage.alertsInformationLink().should('be.visible').and('have.attr', 'class', 'govuk-link'); break
   case 'add new recipient button': paymentAlertsPage.addNewRecipientButton().should('be.visible').and('have.attr', 'class', 'govuk-button'); break
   case 'show all sections button': paymentAlertsPage.showAllSectionsButton().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'sfi22 label': paymentAlertsPage.sfi22Label().should('be.visible').and('contain.text', 'SFI-22'); break
+  case 'sfi22 label': paymentAlertsPage.sfi22Label().should('be.visible').containsWithoutWhitespace( 'SFI-22'); break
   case 'sfi22 show button': paymentAlertsPage.sfi22Show().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'sfi pilot label': paymentAlertsPage.sfiPilotLabel().should('be.visible').and('contain.text', 'SFI-Pilot'); break
+  case 'sfi pilot label': paymentAlertsPage.sfiPilotLabel().should('be.visible').containsWithoutWhitespace( 'SFI-Pilot'); break
   case 'sfi pilot show button': paymentAlertsPage.sfiPilotShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'lump sums label': paymentAlertsPage.lumpSumsLabel().should('be.visible').and('contain.text', 'Lump Sum Payments'); break
+  case 'lump sums label': paymentAlertsPage.lumpSumsLabel().should('be.visible').containsWithoutWhitespace( 'Lump Sum Payments'); break
   case 'lump sums show button': paymentAlertsPage.lumpSumsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'vet visits label': paymentAlertsPage.vetVisitsLabel().should('be.visible').and('contain.text', 'Vet Visits'); break
+  case 'vet visits label': paymentAlertsPage.vetVisitsLabel().should('be.visible').containsWithoutWhitespace( 'Vet Visits'); break
   case 'vet visits show button': paymentAlertsPage.vetVisitsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'countryside stewardship label': paymentAlertsPage.countrysideStewardshipLabel().should('be.visible').and('contain.text', 'Countryside Stewardship'); break
+  case 'countryside stewardship label': paymentAlertsPage.countrysideStewardshipLabel().should('be.visible').containsWithoutWhitespace( 'Countryside Stewardship'); break
   case 'countryside stewardship show button': paymentAlertsPage.countrysideStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'basic payment scheme label': paymentAlertsPage.basicPaymentSchemeLabel().should('be.visible').and('contain.text', 'Basic Payment Scheme'); break
+  case 'basic payment scheme label': paymentAlertsPage.basicPaymentSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Basic Payment Scheme'); break
   case 'basic payment scheme show button': paymentAlertsPage.basicPaymentSchemeShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
   case 'manual injection label':
     if (env.includes('local')) {
-      paymentAlertsPage.manualInjectionLabel().should('be.visible').and('contain.text', 'Manual Injection')
+      paymentAlertsPage.manualInjectionLabel().should('be.visible').containsWithoutWhitespace( 'Manual Injection')
     } else if (env.includes('dev')) {
-      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').and('contain.text', 'Manual Injection')
+      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').containsWithoutWhitespace( 'Manual Injection')
     }
     break
   case 'manual injection show button':
     paymentAlertsPage.manualInjectionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
   case 'environmental stewardship label':
     if (env.includes('local')) {
-      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').and('contain.text', 'Environmental Stewardship')
+      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').containsWithoutWhitespace( 'Environmental Stewardship')
     } else if (env.includes('dev')) {
-      paymentAlertsPage.manualInjectionLabel().should('be.visible').and('contain.text', 'Environmental Stewardship')
+      paymentAlertsPage.manualInjectionLabel().should('be.visible').containsWithoutWhitespace( 'Environmental Stewardship')
     }
     break
   case 'environmental stewardship show button': paymentAlertsPage.environmentalStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
   case 'imps label':
     if (env.includes('local')) {
-      paymentAlertsPage.impsLabel().should('be.visible').and('contain.text', 'IMPS')
+      paymentAlertsPage.impsLabel().should('be.visible').containsWithoutWhitespace( 'IMPS')
     } else if (env.includes('dev')) {
-      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').and('contain.text', 'IMPS')
+      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').containsWithoutWhitespace( 'IMPS')
     }
     break
   case 'imps show button': paymentAlertsPage.impsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
   case 'forestry commission label':
     if (env.includes('local')) {
-      paymentAlertsPage.forestryCommissionLabel().should('be.visible').and('contain.text', 'Forestry Commission')
+      paymentAlertsPage.forestryCommissionLabel().should('be.visible').containsWithoutWhitespace( 'Forestry Commission')
     } else if (env.includes('dev')) {
-      paymentAlertsPage.impsLabel().should('be.visible').and('contain.text', 'Forestry Commission')
+      paymentAlertsPage.impsLabel().should('be.visible').containsWithoutWhitespace( 'Forestry Commission')
     }
     break
   case 'forestry commission show button': paymentAlertsPage.forestryCommissionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
   case 'sfi23 label':
     if (env.includes('local')) {
-      paymentAlertsPage.sfi23Label().should('be.visible').and('contain.text', 'SFI-23')
+      paymentAlertsPage.sfi23Label().should('be.visible').containsWithoutWhitespace( 'SFI-23')
     } else if (env.includes('dev')) {
-      paymentAlertsPage.forestryCommissionLabel().should('be.visible').and('contain.text', 'SFI-23')
+      paymentAlertsPage.forestryCommissionLabel().should('be.visible').containsWithoutWhitespace( 'SFI-23')
     }
     break
   case 'sfi23 show button': paymentAlertsPage.sfi23Show().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
   case 'delinked payments label':
     if (env.includes('local')) {
-      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').and('contain.text', 'Delinked Payments')
+      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').containsWithoutWhitespace( 'Delinked Payments')
     } else if (env.includes('dev')) {
-      paymentAlertsPage.sfi23Label().should('be.visible').and('contain.text', 'Delinked Payments')
+      paymentAlertsPage.sfi23Label().should('be.visible').containsWithoutWhitespace( 'Delinked Payments')
     }
     break
   case 'delinked payments show button': paymentAlertsPage.delinkedPaymentsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
   case 'expanded sfi label':
     if (env.includes('local')) {
-      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').and('contain.text', 'Expanded SFI Offer')
+      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').containsWithoutWhitespace( 'Expanded SFI Offer')
     } else if (env.includes('dev')) {
-      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').and('contain.text', 'Expanded SFI Offer')
+      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').containsWithoutWhitespace( 'Expanded SFI Offer')
     }
     break
   case 'expanded sfi show button': paymentAlertsPage.expandedSFIOfferShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'csht revenue label': paymentAlertsPage.cshtRevenueLabel().should('be.visible').and('contain.text', 'Countryside Stewardship Higher Tier (Revenue)'); break
+  case 'csht revenue label': paymentAlertsPage.cshtRevenueLabel().should('be.visible').containsWithoutWhitespace( 'Countryside Stewardship Higher Tier (Revenue)'); break
   case 'csht revenue show button': paymentAlertsPage.cshtRevenueShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'csht capital label': paymentAlertsPage.cshtCapitalLabel().should('be.visible').and('contain.text', 'Countryside Stewardship Higher Tier (Capital)'); break
+  case 'csht capital label': paymentAlertsPage.cshtCapitalLabel().should('be.visible').containsWithoutWhitespace( 'Countryside Stewardship Higher Tier (Capital)'); break
   case 'csht capital show button': paymentAlertsPage.cshtCapitalShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
   default:
     throw new Error('invalid element')
@@ -1795,12 +1795,12 @@ Then (/^on the Add new alert recipient page I confirm that "(.*)" is displayed$/
   Cypress.emit('log:step', 'on the Add new alert recipient page I confirm that ' + element + ' is displayed')
 
   switch (element) {
-  case 'sub header': paymentAlertsPage.addNewSubHeader().should('be.visible').and('contain.text', 'Add new alert recipient'); break
-  case 'email label': paymentAlertsPage.addNewEmailLabel().should('be.visible').and('contain.text', 'Email address'); break
+  case 'sub header': paymentAlertsPage.addNewSubHeader().should('be.visible').containsWithoutWhitespace( 'Add new alert recipient'); break
+  case 'email label': paymentAlertsPage.addNewEmailLabel().should('be.visible').containsWithoutWhitespace( 'Email address'); break
   case 'email field': paymentAlertsPage.addNewEmailField().should('be.visible').and('have.attr', 'type', 'text'); break
-  case 'select scheme label':paymentAlertsPage.addNewSelectSchemeLabel().should('be.visible').and('contain.text', 'Select a scheme to view alerts for'); break
+  case 'select scheme label':paymentAlertsPage.addNewSelectSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Select a scheme to view alerts for'); break
   case 'select scheme dropdown': paymentAlertsPage.addNewSelectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break
-  case 'invalid email error message': paymentAlertsPage.addNewInvalidEmailError().should('be.visible').and('contain.text', 'The email address is not allowed. Please contact the Payment & Document Services team if you believe this is a mistake.'); break
+  case 'invalid email error message': paymentAlertsPage.addNewInvalidEmailError().should('be.visible').containsWithoutWhitespace( 'The email address is not allowed. Please contact the Payment & Document Services team if you believe this is a mistake.'); break
   default:
     throw new Error('invalid element')
   }
@@ -1911,7 +1911,7 @@ Then (/^on the Add new alert recipient page I confirm that recipient "(.*)" has 
   //Which increases by 2 for each entry
 
   for (let i=2; i<38; i+=2) {
-    cy.get(':nth-child(' + i + ') > .govuk-table__body > .govuk-table__row > :nth-child(1)').should('be.visible').and('contain.text', email)
+    cy.get(':nth-child(' + i + ') > .govuk-table__body > .govuk-table__row > :nth-child(1)').should('be.visible').containsWithoutWhitespace( email)
   }
   console.log('confirmed that recipient ' + email + ' has been added for each alert type')
   cy.log('confirmed that recipient ' + email + ' has been added for each alert type')

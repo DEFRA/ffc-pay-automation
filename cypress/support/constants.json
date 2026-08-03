@@ -47,7 +47,7 @@
   "generate-payment-request-statuses": {
     "pageSubHeader": "Generate payment request statuses report"
   },
-  "report-list": {
+  "download-report-list": {
     "pageSubHeader": "Reports"
   },
   "quality-check": {
@@ -69,7 +69,7 @@
     "pageSubHeader": "Manage alerts"
   },
   "metrics": {
-    "pageSubHeader": "Management information"
+    "pageSubHeader": "Metrics dashboard"
   },
   "download-statements": {
     "pageSubHeader": "Download payment statements"

@@ -2,7 +2,11 @@
   "reports card": {
     "title": "Reports",
     "description": "Generate and download reports",
-    "links": ["Reports"]
+    "links": [
+      "Download reports",
+      "Generate payment request statuses report",
+      "AP/AR listing report"
+    ]
   },
   "payment events card": {
     "title": "Payment events",
@@ -24,12 +28,8 @@
   },
   "agreement closures card": {
     "title": "Agreement closures",
-    "description": "Update, add and remove payment suppressions",
-    "links": [
-      "Manage closures",
-      "Agreement closure",
-      "Bulk agreement closure"
-    ]
+    "description": "Search and update closures, or add new closures individually or in bulk",
+    "links": ["Manage agreement closures"]
   },
   "email alerts card": {
     "title": "Email alerts",
@@ -38,20 +38,20 @@
   },
   "statements card": {
     "title": "Statements",
-    "description": "Find and download payment statements and statement status reports.",
+    "description": "Find and download payment statements and statement status reports",
     "links": [
       "Download payment statements",
       "Download statement status report"
     ]
   },
   "metrics card": {
-    "title": "Metrics",
-    "description": "View payment and document metrics by scheme",
-    "links": ["Management information"]
+    "title": "Metrics dashboard",
+    "description": "View payment and document metrics filtered by time period",
+    "links": ["View metrics dashboard"]
   },
   "reset payment requests card": {
     "title": "Reset payment requests",
-    "description": "Manually reset payment requests",
+    "description": "Reset the payment request for an individual invoice",
     "links": ["Reset payment request"]
   }
 }
