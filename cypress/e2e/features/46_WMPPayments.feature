@@ -1,0 +1,181 @@
+Feature: 32 WMP Payments
+
+# npm run cypress:dev:one -- "cypress\e2e\features\32_SFI23Payments.feature"
+# npm run cypress:local:one -- "cypress\e2e\features\32_SFI23Payments.feature"
+
+# This feature file is designed to test the end-to-end journey of WMP payment in the local environment.
+
+  @dev
+  Scenario: 01 insert incorrect WMP test data via service bus message to ffc-pay-request
+
+    When I send "wmp error" test data message to the service bus topic "ffc-pay-request-dev"
+
+    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
+
+  @dev
+  Scenario: 02 insert test data via service bus message to ffc-pay-request
+
+  #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
+  #test data
+
+    Given I visit the "Payment management" homepage
+    When I click on the "Schemes" link
+    And I select "Woodlands Management Plan" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I store the number of payments and total value of payments for the current scheme
+
+  #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
+  #without the risk of data conflicts  
+
+    When I send "wmp payment" test data message to the service bus topic "ffc-pay-request-dev"
+
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+
+    Then I pull WMP payments file from Azure Blob Storage and confirm that correct values have been generated
+
+  #Updates template values with values used in payment message  
+
+    When I send "wmp return" test data message to the service bus topic "ffc-pay-return-dev"
+    Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
+
+  #Updates template values with values used in payment message
+
+    When I send "wmp ppa" test data message to the service bus topic "ffc-pay-request-dev"
+    Then I confirm that "ppa" test data in dev has been inserted into ffc-pay-processing database
+
+  #The following steps complete the E2E journey in Request Editor using the values
+  #from payment file  
+
+    Given I visit the "Request Editor" homepage
+    And I click on the "View awaiting debt data" link
+    When I search for current FRN
+    And I click on the "Enrich" link
+    And I click on the "Irregular" radio button
+    And I enter a valid debt discovered date in the past
+    And I click on the "Continue" button
+    And I click on the "Submit" button
+    And I click on the "Sign out" link
+
+    And I click on the "View awaiting manual ledger assignment" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes, I agree" radio button
+    And I click on the "Continue" button
+    And I see a success message for "has been updated and sent for quality checking."
+    And I click on the "Sign out" link
+
+    And I click on the "View awaiting ledger assignment quality check" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes" radio button
+    And I click on the "Submit" button
+    And I see a success message for "has been quality checked."
+
+    Given I visit the "Payment management" homepage
+    When I click on the "Schemes" link
+    And I select "WMP" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I take a screenshot for Feature 32 and Scenario 2
+    Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
+
+
+  @local
+  Scenario: 01 insert incorrect WMP test data via service bus message to ffc-pay-request
+
+ #First ensure that incorrect data will not be processed
+
+    Given I restart the local environment
+    Given I visit the "Request Editor" homepage
+    Then I take a screenshot for Feature 32 and Scenario 1
+    When I send the updated "sfi23Error-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
+    Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
+
+  @local
+  Scenario: 02 insert test data via service bus message to ffc-pay-request
+
+    When I send the updated "WMP-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
+
+#The following steps confirm that the data has been passed along to the correct services and that the data
+#has been processed correctly
+
+    Then I confirm that payment test data has been inserted into the ffc-pay-processing database
+    Then I confirm that payment test data has been inserted into the ffc-pay-submission database
+
+#The following step downloads file from Azure Blob Storage and confirms that the values given in the data inserted into the 
+#Pay Submission Service have been correctly added to the generated statement
+
+    Then I pull WMP payments file from Azure Blob Storage and confirm that correct values have been generated
+
+  @local
+  Scenario: 03 send return file message and confirm processing
+
+#This scenario confirms that a return file message can be sent and processed correctly
+
+    When I send the updated "WMP-returnFileMessage" message to the service bus topic "ffc-pay-return-auto"
+    Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
+
+  @local
+  Scenario: 04 send WMP PPA file message and confirm processing
+
+  #This scenario confirms that a PPA file message can be sent and processed correctly
+
+    When I send the updated "WMP-ppaFileMessage" message to the service bus topic "ffc-pay-request-auto"
+    Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
+
+  @local
+  Scenario: 05 Approve payment from reporting data queue
+
+  #This scenario confirms that payment has been routed to Request Editor and can be enriched from the reporting data queue
+
+    Given I visit the "Request Editor" homepage
+    And I click on the "View awaiting debt data" link
+    When I search for FRN "1258445148"
+    When I click on the FRN search button
+    And I click on the "Enrich" link
+    And I click on the "Irregular" radio button
+    And I enter a valid debt discovered date in the past
+    Then I take a screenshot for Feature 32 and Scenario 5
+    And I click on the "Continue" button
+    And I click on the "Sign out" link
+
+  @local
+  Scenario: 06 Approve payment in ledger assignment queue
+
+  #This scenario confirms that payment can be approved from the ledger assignment queue in Request Editor
+
+    Given I visit the "Request Editor" homepage
+    And I click on the "View awaiting manual ledger assignment" link
+    When I search for FRN "1258445148"
+    When I click on the FRN search button
+    And I click on the "Review" link
+    And I click on the "Yes" radio button
+    Then I take a screenshot for Feature 32 and Scenario 6
+    And I click on the "Continue" button
+    And I am on the "quality-check" subpage
+    And I click on the "Sign out" link
+
+  @local
+  Scenario: 07 Approve payment from quality check queue
+
+#This scenario confirms that payment can be approved from the quality check queue in Request Editor and that E2E journey is complete
+
+    Given I visit the "Request Editor" homepage
+    And I click on the "View awaiting ledger assignment quality check" link
+    When I search for FRN "1258445148"
+    When I click on the FRN search button
+    And I click on the "Review" link
+    And I click on the "Yes" radio button
+    Then I take a screenshot for Feature 32 and Scenario 7
+    And I click on the "Submit" button
+
+  @local
+  Scenario: 08 Confirm payment request processed in Payment Management
+
+    Given I visit the "Payment management" homepage
+    When I click on the "Schemes" link
+    And I select "WMP" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I confirm that payment for "WMP" scheme with "3" payment installments totalling "£10,000.00" is displayed
+    Then I take a screenshot for Feature 32 and Scenario 8
