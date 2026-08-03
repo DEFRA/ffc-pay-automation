@@ -243,5 +243,5 @@ When('I type a date prior to {string} in the Closure date field', (date) => {
 })
 
 When('I enter frn {int} on the search for agreement closure page', (frn) => {
-  addClosurePage.agreementClosureEnterFrnField().type(frn)
+  agreementClosuresPage.agreementClosureEnterFrnField().type(frn)
 })
