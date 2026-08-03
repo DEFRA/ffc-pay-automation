@@ -18,6 +18,15 @@ When('I see the new submission in the table', () => {
   })
 })
 
+When('I search for my new submission', () => {
+
+  Cypress.emit('log:step', 'I search for my new submission')
+
+  cy.get('@randomFrn').then((randomFrn) => {
+    agreementClosuresPage.captureTxtFrn().scrollIntoView().type(randomFrn +'{enter}')
+  })
+})
+
 When('I should not see the new submission in the table', () => {
 
   Cypress.emit('log:step', 'I should not see the new submission in the table')
@@ -41,13 +50,18 @@ When('I see the new bulk upload submissions in the table', () => {
     const rows = csvData.trim().split('\n')
     const data = rows.map((row) => row.split(',')).reverse()
 
-    data.forEach((row, index) => {
+    data.forEach((row) => {
       const [frn] = row.map(cell => cell.trim())
 
-      // eslint-disable-next-line cypress/no-assigning-return-values
-      const rowSelector = cy.get('.govuk-table__row').eq(-1 - index)
+      agreementClosuresPage.agreementClosureEnterFrnField()
+        .clear()
+        .type(frn)
 
-      rowSelector.find('.govuk-table__cell').eq(0).should('have.text', frn)
+      cy.contains('button', 'Filter').click()
+
+      cy.get('.govuk-table__body')
+        .should('contain.text', frn)
+
     })
   })
 })
@@ -133,12 +147,10 @@ When('I click the {string} link', (text) => {
 
   Cypress.emit('log:step', 'I click the ' + text + ' link')
 
-  if (text === 'upload in bulk') {
+  if (text === 'add agreement closures in bulk') {
     addClosurePage.bulkUploadLink().click()
-  } else if (text === 'upload single') {
+  } else if (text === 'create a singular agreement closure') {
     addClosurePage.singleUploadLink().click()
-  } else if (text === 'Create') {
-    addClosurePage.btnSubmit().click()
   } else if (text === 'Add or remove holds in bulk') {
     paymentHoldsPage.btnAddRemoveHoldsInBulk().click()
   } else if (text === 'Sign Out') {
@@ -228,4 +240,8 @@ When('I type a date prior to {string} in the Closure date field', (date) => {
   addClosurePage.closureDateDayInput().type(priorDay)
   addClosurePage.closureDateMonthInput().type(priorMonth)
   addClosurePage.closureDateYearInput().type(priorYear)
+})
+
+When('I enter frn {int} on the search for agreement closure page', (frn) => {
+  addClosurePage.agreementClosureEnterFrnField().type(frn)
 })

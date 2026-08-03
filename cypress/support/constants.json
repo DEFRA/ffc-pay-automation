@@ -18,13 +18,13 @@
     "pageSubHeader": "Monitoring by scheme"
   },
   "closure": {
-    "pageSubHeader": "Agreement closures"
+    "pageSubHeader": "Manage agreement closures"
   },
   "closure/add": {
-    "pageSubHeader": "Add agreement closure"
+    "pageSubHeader": "Create a new agreement closure"
   },
   "closure/bulk": {
-    "pageSubHeader": "Add agreement closures in bulk"
+    "pageSubHeader": "Bulk add agreement closures"
   },
   "capture": {
     "pageSubHeader": "Manage unattached debt data"
