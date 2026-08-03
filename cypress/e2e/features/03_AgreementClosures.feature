@@ -4,10 +4,6 @@ Feature: 03 Agreement Closures
 # npm run cypress:test:one -- "cypress\e2e\features\03_AgreementClosures.feature"
 # npm run cypress:dev:one -- "cypress\e2e\features\03_AgreementClosures.feature"
 
- 
- ##TODO - future scenarios
- ##Duplicates - same frn scheme and agreement number as an existing entry - should error 
- ## Bulk duplicates -- have a bulk upload with files should show an error message if theres duplicates in the file itself
 
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
