@@ -13,73 +13,73 @@ Feature: 20 Accessibility Testing
     Given I visit the "Payment management" homepage
     Then I confirm there are no accessibility issues on the page
     
-# #Reports page
+#Reports page
 
-#     When I click on the "Download reports" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Download reports" link
+    Then I confirm there are no accessibility issues on the page
     
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
-#     When I click on the "Generate payment request statuses report" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Generate payment request statuses report" link
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
-#     When I click on the "AP/AR listing report" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "AP/AR listing report" link
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
-# #Monitoring page
+#Monitoring page
 
-#     When I click on the "Monitoring" link
-#     Then I confirm there are no accessibility issues on the page
-#     And I click on the "Home" link
+    When I click on the "Monitoring" link
+    Then I confirm there are no accessibility issues on the page
+    And I click on the "Home" link
 
-#     When I click on the "Schemes" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Schemes" link
+    Then I confirm there are no accessibility issues on the page
 
-#     Then I select "COHT Capital" from the monitor schemes dropdown
+    Then I select "COHT Capital" from the monitor schemes dropdown
 
-#     And I click on the "Continue" button
-#     Then I confirm there are no accessibility issues on the page
+    And I click on the "Continue" button
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
-# #Manage payment holds page
+#Manage payment holds page
 
-#     When I click on the "Manage payment holds" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Manage payment holds" link
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Create a new payment hold" link
-#     Then I confirm there are no accessibility issues on the page
+    And I click on the "Create a new payment hold" link
+    Then I confirm there are no accessibility issues on the page
    
-#     When I click on the "Manage payment holds" link
-#     And I click on the "Search for a payment hold" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Manage payment holds" link
+    And I click on the "Search for a payment hold" link
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Manage payment holds" link
-#     And I click on the "Manage payment holds in bulk" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Manage payment holds" link
+    And I click on the "Manage payment holds in bulk" link
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Manage payment holds" link
-#     And I click on the "Manage payment hold types" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Manage payment holds" link
+    And I click on the "Manage payment hold types" link
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
     
-# #Manual Payment page
+#Manual Payment page
 
-#     When I click on the "Manual payment upload" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Manual payment upload" link
+    Then I confirm there are no accessibility issues on the page
 
-# #Force error message on page through invalid input and confirm accessibility again
+#Force error message on page through invalid input and confirm accessibility again
 
-#     And I click on the "Upload" button
-#     Then I confirm there are no accessibility issues on the page
+    And I click on the "Upload" button
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
 
 #Agreement closures page
