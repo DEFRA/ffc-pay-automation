@@ -305,6 +305,8 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     case 19: scenarioString = '19 Successful File Upload'; break
     case 20: scenarioString = '20 Upload File Format Validation'; break
     case 21: scenarioString = '21 Download agreement closures as CSV'; break
+    case 22: scenarioString = '22 Record already exists bulk upload'; break
+    case 23: scenarioString = '23 Duplicate record inside csv file'; break
     }
     break
   case 4: featureString = '04_UploadPaymentHolds.feature -- '

@@ -15,7 +15,6 @@ Feature: 03 Agreement Closures
   Scenario: 01 View Agreement Closures
     Then I should see "Agreement closures"
     And I should see "Manage agreement closures"
-  0
 
   Scenario: 02 Access Agreement Closure Management
     When I click on the "Manage agreement closures" link
@@ -176,4 +175,24 @@ Feature: 03 Agreement Closures
     And I click on the "Manage agreement closures" link
     And I click on the "Search agreement closures" link
     And I click on the "Download all agreement closure data as CSV" download link
+
+
+  Scenario:22 Record already exists bulk upload
+    And I click on the "Manage agreement closures" link
+    When I click on the "Bulk add agreement closure" link
+    And I upload 'bulkClosureUploadInvalidDuplicateEntries.csv' file
+    When I click on the "Add closures" button
+    Then I should see "There is a problem"
+    And I should see "One or more of the supplied closure records already exist."
+    Then I take a screenshot for Feature 3 and Scenario 22
+
+
+  Scenario:23 Duplicate record inside csv file
+    And I click on the "Manage agreement closures" link
+    When I click on the "Bulk add agreement closure" link
+    And I upload 'bulkClosureUploadInvalidDuplicateEntries2.csv' file
+    When I click on the "Add closures" button
+    Then I should see "There is a problem"
+    And I should see "The uploaded file contains duplicate records."
+    Then I take a screenshot for Feature 3 and Scenario 23
   
