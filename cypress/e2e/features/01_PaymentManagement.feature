@@ -7,30 +7,30 @@ Feature: 01 Payment management
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
 
-  # @test @dev @local
-  # Scenario Outline: 01 Verify <link> links work correctly
+  @test @dev @local
+  Scenario Outline: 01 Verify <link> links work correctly
 
-  # This scenario confirms that the links for all of Pay Management's sections are functioning correctly
+  This scenario confirms that the links for all of Pay Management's sections are functioning correctly
 
-  #   When I click on the "<link>" link
-  #   Then I am on the "<subPage>" subpage
-  #   Then I take a screenshot for "<link>"
+    When I click on the "<link>" link
+    Then I am on the "<subPage>" subpage
+    Then I take a screenshot for "<link>"
 
-  #   Examples:
-  #     | link                             | subPage               |
-  #     | Manage payment holds             | payment-holds         |
-  #     | Alerts                           | alerts                |
-  #     | Reset payment request            | payment-request/reset |
-  #     | Monitoring                       | monitoring            |
-  #     | Schemes                          | monitoring/schemes    |
-  #     | Manage agreement closures                  | closure               |
-  #     | Download reports                         | download-report-list         |
-  #     |Generate payment request statuses report|generate-payment-request-statuses|
-  #     |AP/AR listing report|generate-ap-ar-listing-report|
-  #     | Manual payment upload            | manual-payments       |
-  #     | View metrics dashboard           | metrics               |
-  #     | Download payment statements      | download-statements   |
-  #     | Download statement status report | status-report         |
+    Examples:
+      | link                                     | subPage                           |
+      | Manage payment holds                     | payment-holds                     |
+      | Alerts                                   | alerts                            |
+      | Reset payment request                    | payment-request/reset             |
+      | Monitoring                               | monitoring                        |
+      | Schemes                                  | monitoring/schemes                |
+      | Manage agreement closures                | closure                           |
+      | Download reports                         | download-report-list              |
+      | Generate payment request statuses report | generate-payment-request-statuses |
+      | AP/AR listing report                     | generate-ap-ar-listing-report     |
+      | Manual payment upload                    | manual-payments                   |
+      | View metrics dashboard                   | metrics                           |
+      | Download payment statements              | download-statements               |
+      | Download statement status report         | status-report                     |
 
   
   @test @dev @local
