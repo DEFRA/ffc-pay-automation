@@ -611,6 +611,9 @@ Then('I confirm that I am on the {string} homepage', (service) => {
   case 'payment calculator':
     url = envConfig.paymentCalculatorUrl
     break
+  case 'reset payment request':
+    url = envConfig.paymentManagementUrl + 'payment-request/reset'
+    break
   default:
     throw new Error(`Unknown service: ${service}`)
   }

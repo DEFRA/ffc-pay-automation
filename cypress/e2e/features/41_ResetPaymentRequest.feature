@@ -69,23 +69,11 @@ Feature: 41 Reset Payment Request
     Then I take a screenshot for Feature 41 and Scenario 4
 
     Then on the Reset payment request page I confirm that "payment request successfully reset message" is displayed
-    Then on the Reset payment request page I confirm that "what happens next subheader" is displayed
-    Then on the Reset payment request page I confirm that "what happens next message" is displayed
-    Then on the Reset payment request page I confirm that "perform another action link" is displayed
-
     Then I confirm that second completedPaymentRequest entry has been made in database for invoice number "Current"
 
-  #This scenario confirms that clicking the Perform another action link after resetting a payment request redirects the user
-  #back to the Payment Management homepage
-
-    Given I visit the "Payment management" homepage
-    When I click on the "Reset payment request" link
-    Then on the Reset payment request page I use current invoice number in the invoice number field
-    Then on the Reset payment request page I click the "reset button"
-    Then on the Reset payment request page I click the "perform another action link"
-
-  #Should redirect to the Payment Management homepage
-    Then I confirm that I am on the "payment management" homepage
+    #This scenario confirms that clicking the Reset another payment request link redirects the user
+    And I click on the "Reset another payment request" link
+    Then I confirm that I am on the "reset payment request" homepage
 
   @local
   Scenario: 01 Confirm initial elements on Reset Payment Request page
@@ -93,7 +81,6 @@ Feature: 41 Reset Payment Request
 #This scenario confirms that the initial elements on the Reset Payment Request page are displayed correctly and
 #that correct options are available in the select scheme dropdown
 
-    Given I restart the local environment
     Given I visit the "Payment management" homepage
     When I click on the "Reset payment request" link
 
@@ -163,9 +150,6 @@ Feature: 41 Reset Payment Request
     Then I take a screenshot for Feature 41 and Scenario 5
 
     Then on the Reset payment request page I confirm that "payment request successfully reset message" is displayed
-    Then on the Reset payment request page I confirm that "what happens next subheader" is displayed
-    Then on the Reset payment request page I confirm that "what happens next message" is displayed
-    Then on the Reset payment request page I confirm that "perform another action link" is displayed
 
     Then I confirm that second completedPaymentRequest entry has been made in database for invoice number "S279591940653785V001"
 
@@ -178,10 +162,10 @@ Feature: 41 Reset Payment Request
     Given I visit the "Payment management" homepage
     When I click on the "Reset payment request" link
     Then on the Reset payment request page I enter "S279591940653785V001" into the "invoice number" field
-    Then on the Reset payment request page I click the "reset button"
-    Then on the Reset payment request page I click the "perform another action link"
+    And I click on the "Reset payment request" button
+    Then I click on the "Reset another payment request" link
 
   #Should redirect to the Payment Management homepage
 
-    Then I confirm that I am on the "payment management" homepage
+    Then I confirm that I am on the "reset payment request" homepage
     Then I take a screenshot for Feature 41 and Scenario 6

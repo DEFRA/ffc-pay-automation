@@ -12,8 +12,41 @@ Feature: 20 Accessibility Testing
 
     Given I visit the "Payment management" homepage
     Then I confirm there are no accessibility issues on the page
+    
+#Reports page
 
-#Manage holds page
+    When I click on the "Download reports" link
+    Then I confirm there are no accessibility issues on the page
+    
+    And I click on the "Home" link
+
+    When I click on the "Generate payment request statuses report" link
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Home" link
+
+    When I click on the "AP/AR listing report" link
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Home" link
+
+#Monitoring page
+
+    When I click on the "Monitoring" link
+    Then I confirm there are no accessibility issues on the page
+    And I click on the "Home" link
+
+    When I click on the "Schemes" link
+    Then I confirm there are no accessibility issues on the page
+
+    Then I select "COHT Capital" from the monitor schemes dropdown
+
+    And I click on the "Continue" button
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Home" link
+
+#Manage payment holds page
 
     When I click on the "Manage payment holds" link
     Then I confirm there are no accessibility issues on the page
@@ -35,26 +68,52 @@ Feature: 20 Accessibility Testing
 
     And I click on the "Home" link
 
-#Reports page
+    
+#Manual Payment page
 
-    When I click on the "Reports" link
+    When I click on the "Manual payment upload" link
     Then I confirm there are no accessibility issues on the page
 
-#Payment request statuses page
+#Force error message on page through invalid input and confirm accessibility again
 
-    When I click on the "Payment request statuses" link
+    And I click on the "Upload" button
     Then I confirm there are no accessibility issues on the page
 
-    And I click on the "Download report" button
+    And I click on the "Home" link
+
+
+#Agreement closures page
+
+    When I click on the "Manage agreement closures" link
     Then I confirm there are no accessibility issues on the page
 
-    When I click on the "Reports" link
+        #Search agreement closures page
 
-#AP/AR Listing Report page
+    And I click on the "Search agreement closures" link
+    Then I confirm there are no accessibility issues on the page
+        #Search - Force error message on page through invalid input and confirm accessibility again
 
-    When I click on the "AP-AR listing report" link
+    And I enter frn 1 on the search for agreement closure page
+    And I click on the "Filter" button
     Then I confirm there are no accessibility issues on the page
 
+        #Create a new agreement closure page
+    And I click the "Manage agreement closures" breadcrumb
+    And I click on the "Create a new agreement closure" link
+    Then I confirm there are no accessibility issues on the page
+        #Create - Force error message on page through invalid input and confirm accessibility again
+    And I click on the "Continue" button
+    Then I confirm there are no accessibility issues on the page
+
+    
+        #Bulk add agreement closures page
+    And I click the "Manage agreement closures" breadcrumb
+    And I click on the "Bulk add agreement closures" link
+    Then I confirm there are no accessibility issues on the page
+
+        #Bulk add - Force error message on page through invalid input and confirm accessibility again
+    And I click on the "Add closures" button
+    Then I confirm there are no accessibility issues on the page
     And I click on the "Home" link
 
 #Alerts recipients page
@@ -79,52 +138,11 @@ Feature: 20 Accessibility Testing
 
     And I click on the "Home" link
 
-#Agreement closures page
 
-    When I click on the "Manage closures" link
-    Then I confirm there are no accessibility issues on the page
 
-#Force error message on page through invalid input and confirm accessibility again
-
-    And I click on the "Home" link
-    And I click on the "Bulk agreement closure" link
-    Then I confirm there are no accessibility issues on the page
-
-#Force error message on page through invalid input and confirm accessibility again
-
-    And I click on the "Home" link
-
-#Monitoring page
-
-    When I click on the "Monitoring" link
-    Then I confirm there are no accessibility issues on the page
-    And I click on the "Home" link
-
-    When I click on the "Schemes" link
-    Then I confirm there are no accessibility issues on the page
-
-    Then I select "COHT Capital" from the monitor schemes dropdown
-
-    And I click on the "Continue" button
-    Then I confirm there are no accessibility issues on the page
-
-    And I click on the "Home" link
-
-#Manual Payment page
-
-    When I click on the "Manual payment upload" link
-    Then I confirm there are no accessibility issues on the page
-
-#Force error message on page through invalid input and confirm accessibility again
-
-    And I click on the "Upload" button
-    Then I confirm there are no accessibility issues on the page
-
-    And I click on the "Home" link
-
- #Management Information page   
+ #View metrics dashboard page   
    
-    When I click on the "Management information" link
+    When I click on the "View metrics dashboard" link
     Then I confirm there are no accessibility issues on the page
 
     And I click on the "Home" link

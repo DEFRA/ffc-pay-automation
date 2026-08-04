@@ -29,23 +29,11 @@ class resetPaymentRequestPage {
   }
 
   successTitle () {
-    return cy.get('.govuk-panel__title')
+    return cy.get('.govuk-notification-banner__content')
   }
 
   successMessage () {
     return cy.get('.govuk-panel__body')
-  }
-
-  whatHappensNextSubheader () {
-    return cy.get('.govuk-heading-m')
-  }
-
-  whatHappensNextMessage () {
-    return cy.get('.govuk-width-container > :nth-child(3)')
-  }
-
-  performAnotherActionLink () {
-    return cy.get('#main-content > div > div > div > p:nth-child(4) > a')
   }
 }
 

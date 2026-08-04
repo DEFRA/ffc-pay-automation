@@ -17,20 +17,20 @@ Feature: 01 Payment management
     Then I take a screenshot for "<link>"
 
     Examples:
-      | link                             | subPage               |
-      | Manage payment holds             | payment-holds         |
-      | Alerts                           | alerts                |
-      | Reset payment request            | payment-request/reset |
-      | Monitoring                       | monitoring            |
-      | Schemes                          | monitoring/schemes    |
-      | Manage closures                  | closure               |
-      | Agreement closure                | closure/add           |
-      | Bulk agreement closure           | closure/bulk          |
-      | Reports                          | report-list           |
-      | Manual payment upload            | manual-payments       |
-      | Management information           | metrics               |
-      | Download payment statements      | download-statements   |
-      | Download statement status report | status-report         |
+      | link                                     | subPage                           |
+      | Manage payment holds                     | payment-holds                     |
+      | Alerts                                   | alerts                            |
+      | Reset payment request                    | payment-request/reset             |
+      | Monitoring                               | monitoring                        |
+      | Schemes                                  | monitoring/schemes                |
+      | Manage agreement closures                | closure                           |
+      | Download reports                         | download-report-list              |
+      | Generate payment request statuses report | generate-payment-request-statuses |
+      | AP/AR listing report                     | generate-ap-ar-listing-report     |
+      | Manual payment upload                    | manual-payments                   |
+      | View metrics dashboard                   | metrics                           |
+      | Download payment statements              | download-statements               |
+      | Download statement status report         | status-report                     |
 
   
   @test @dev @local

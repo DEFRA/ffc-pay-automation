@@ -203,3 +203,19 @@ Cypress.Commands.add('verifyDownloadedFile', (
 ) => {
   cy.readFile(filePath, { timeout })
 })
+
+
+Cypress.Commands.add(
+  'containsWithoutWhitespace',
+  { prevSubject: true },
+  (subject, expectedText) => {
+    cy.wrap(subject)
+      .invoke('text')
+      .then((text) => {
+        const actual = text.replace(/\s+/g, ' ').trim()
+        const expected = expectedText.replace(/\s+/g, ' ').trim()
+
+        expect(actual).to.contain(expected)
+      })
+  }
+)
