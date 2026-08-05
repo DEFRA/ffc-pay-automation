@@ -1,0 +1,28 @@
+{
+  "sourceSystem": "Woodland",
+  "ledger": "AP",
+  "deliveryBody": "RP10",
+  "invoiceNumber": "R00000001-V001",
+  "frn": "9876543210",
+  "sbi": "123456789",
+  "fesCode": "FALS_WMP",
+  "marketingYear": "2026",
+  "paymentRequestNumber": 1,
+  "agreementNumber": "123456789",
+  "contractNumber": "R00000001",
+  "currency": "GBP",
+  "remittanceDescription": "Woodland Management Plan Payment",
+  "value": -10000,
+  "invoiceLines": [
+    {
+      "schemeCode": "51840",
+      "accountCode": "SOS710",
+      "fundCode": "DRD10",
+      "agreementNumber": "123456789",
+      "description": "G00 - Gross Value of Claim",
+      "value": 10000,
+      "deliveryBody": "RP10",
+      "marketingYear": "2026"
+    }
+  ]
+}

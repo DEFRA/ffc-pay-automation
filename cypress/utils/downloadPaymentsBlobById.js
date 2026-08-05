@@ -50,13 +50,14 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   case 'ppa scenarios reductions': partialFileName = 'outbound/FFCESFIO_0002'; break
   case 'ppa scenarios recoveries': partialFileName = 'outbound/FFCESFIO_0002'; break
   case 'fptt': partialFileName = 'outbound/FFCFALS_FPTT_'; break
+  case 'wmp': partialFileName = 'outbound/FFCFALS_WMP_'; break
   default: throw new Error(`Unknown scheme: ${scheme}`)
   }
 
   let match
   let subString
 
-  if (scheme.includes('fptt') || scheme.includes('manual') || scheme.includes('sfi22')) {
+  if (scheme.includes('fptt') || scheme.includes('manual') || scheme.includes('sfi22') || scheme.includes('wmp')) {
 
     match = partialFileName.match(/outbound\/(.+)/)
     subString = match ? match[1] : null
@@ -187,6 +188,9 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   ]; break
   case 'fptt': requiredValues = [
     '2026', '84001', 'SOS710', 'DRD10', 'RP00'
+  ]; break
+  case 'wmp': requiredValues = [
+    '2026', '51840', 'SOS710', 'DRD10', 'RP10'
   ]; break
   default: throw new Error(`Unknown scheme: ${scheme}`)
   }

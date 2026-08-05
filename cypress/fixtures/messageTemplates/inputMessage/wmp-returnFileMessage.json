@@ -1,0 +1,15 @@
+{
+  "sourceSystem": "WMP",
+  "invoiceNumber": "R12345123445123_V001",
+  "frn": "9876543210",
+  "sbi": "123456789",
+  "currency": "GBP",
+  "value": 2500000,
+  "settlementDate": "2022-12-11T00:00:00.000Z",
+  "reference": "PY5246018",
+  "settled": true,
+  "detail": "Stopped by RPA",
+  "ledger": "AP",
+  "referenceId": "a66ccf0af3f05e3ab2d8f63ffd0e8ac3",
+  "filename": "FFCWMP_Return_File_unique.csv"
+}

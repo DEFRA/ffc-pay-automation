@@ -816,6 +816,14 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
     messageTemplate = 'd365Rejection-acknowledgementMessage'; break
   case 'SFI22 acknowledgement':
     messageTemplate = 'sfi22-acknowledgementMessage'; break
+  case 'wmp payment':
+    messageTemplate = 'wmp-paymentFileMessage'; break
+  case 'wmp error':
+    messageTemplate = 'wmpError-paymentFileMessage'; break
+  case 'wmp return':
+    messageTemplate = 'wmp-returnFileMessage'; break
+  case 'wmp ppa':
+    messageTemplate = 'wmp-ppaFileMessage'; break
   }
 
   ///////////////////////////////////GLOS SECTION///////////////////////////////////////////////////
