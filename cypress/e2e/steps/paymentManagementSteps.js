@@ -47,7 +47,7 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
     paymentManagementPage
       .mainHeader()
       .should('be.visible')
-      .and('have.text', constants[text].pageSubHeader)
+      .haveWithoutWhitespace(constants[text].pageSubHeader)
 
   } else {
 
@@ -55,7 +55,7 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
     //grabs the first subheader avail, otherwise if there is multiple subheaders it grabs all of them
       .subHeader().first()
       .should('be.visible')
-      .and('have.text', constants[text].pageSubHeader)
+      .haveWithoutWhitespace(constants[text].pageSubHeader)
   }
 })
 
