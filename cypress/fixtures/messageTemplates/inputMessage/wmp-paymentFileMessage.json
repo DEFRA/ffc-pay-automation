@@ -12,6 +12,7 @@
   "contractNumber": "R00000001",
   "currency": "GBP",
   "remittanceDescription": "Woodland Management Plan Payment",
+  "value": -100000,
   "invoiceLines": [
     {
       "schemeCode": "51840",
@@ -19,11 +20,9 @@
       "fundCode": "DRD10",
       "agreementNumber": "123456789",
       "description": "G00 - Gross Value of Claim",
-      "value": "12.34",
+      "value": 100000,
       "deliveryBody": "RP10",
       "marketingYear": "2026"
     }
-  ],
-  "correlationId": "0adf9191-5317-4900-990f-ad61cd9c1692",
-  "value": "-12.34"
+  ]
 }

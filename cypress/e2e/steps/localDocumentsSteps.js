@@ -1116,12 +1116,12 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'fptt'
     })
     break
-  case 'WMP':
+  case 'wmp':
     cy.task('fetchPaymentsBlobById', {
       env: env,
       container: 'dax',
       dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
-      scheme: 'WMP'
+      scheme: 'wmp'
     })
     break
   default: throw new Error(`Unknown scheme: ${fileType}`)

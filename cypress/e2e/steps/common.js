@@ -586,6 +586,13 @@ Then('I take a screenshot for Feature {int} and Scenario {int}', (featureNumber,
     break
   case 44: featureString = '44_FarmPaymentsTechnicalTest.feature -- '
     switch (scenarioNumber) {
+    case 2: scenarioString = ' 02 insert test data via service bus message to ffc-pay-request'; break
+    case 5: scenarioString = '05 Confirm payment request processed in Payment Management'; break
+    }
+    break
+  case 46: featureString = '46_WMPPayments.feature -- '
+    switch (scenarioNumber) {
+    case 2: scenarioString = ' 02 insert test data via service bus message to ffc-pay-request'; break
     case 5: scenarioString = '05 Confirm payment request processed in Payment Management'; break
     }
     break

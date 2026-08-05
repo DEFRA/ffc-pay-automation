@@ -1,10 +1,10 @@
 {
   "sourceSystem": "WMP",
-  "invoiceNumber": "R00000001-V001",
+  "invoiceNumber": "R12345123445123_V001",
   "frn": "9876543210",
   "sbi": "123456789",
   "currency": "GBP",
-  "value": 12.34,
+  "value": 2500000,
   "settlementDate": "2022-12-11T00:00:00.000Z",
   "reference": "PY5246018",
   "settled": true,
