@@ -1,7 +1,7 @@
 Feature: 46 WMP Payments
 
-# npm run cypress:dev:one -- "cypress\e2e\features\32_SFI23Payments.feature"
-# npm run cypress:local:one -- "cypress\e2e\features\32_SFI23Payments.feature"
+# npm run cypress:dev:one -- "\cypress\e2e\features\46_WMPPayments.feature"
+# npm run cypress:local:one -- "\cypress\e2e\features\46_WMPPayments.feature"
 
 #This feature file is designed to test the end-to-end journey of WMP payment in the local environment.
 
