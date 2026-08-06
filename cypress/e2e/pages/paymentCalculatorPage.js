@@ -1,54 +1,27 @@
 class paymentCalculatorPage {
-  subHeader () {
-    return cy.get('.govuk-heading-l')
+  heading (text) {
+    return cy.contains('h1, h2, h3', text)
+      .containsWithoutWhitespace(text)
   }
 
-  paragraphOne () {
-    return cy.get('#main-content > .govuk-width-container > .govuk-grid-row > .govuk-grid-column-two-thirds > :nth-child(2)')
+  paragraph (text) {
+    return cy.contains('p', text)
+      .containsWithoutWhitespace(text)
   }
 
-  paragraphTwo () {
-    return cy.get('.govuk-grid-column-two-thirds > :nth-child(3)')
+  link (text) {
+    return cy.contains('a', text)
+      .containsWithoutWhitespace(text)
   }
 
-  paragraphThree () {
-    return cy.get('.govuk-grid-column-two-thirds > :nth-child(4)')
+  button (text) {
+    return cy.contains('#submit', text)
+      .containsWithoutWhitespace(text)
   }
 
-  paragraphFour () {
-    return cy.get('.govuk-grid-column-two-thirds > :nth-child(6)')
-  }
-
-  startButton () {
-    return cy.get('#submit')
-  }
-
-  paragraphFive () {
-    return cy.get('.govuk-grid-column-two-thirds > :nth-child(8)')
-  }
-
-  paragraphSix () {
-    return cy.get('.govuk-grid-column-two-thirds > :nth-child(9)')
-  }
-
-  paragraphSeven () {
-    return cy.get('.govuk-grid-column-two-thirds > :nth-child(10)')
-  }
-
-  paragraphEight () {
-    return cy.get('.govuk-grid-column-two-thirds > :nth-child(11)')
-  }
-
-  relatedContentTitle () {
-    return cy.get('#subsection-title')
-  }
-
-  relatedContentLinkOne () {
-    return cy.get(':nth-child(1) > .govuk-link')
-  }
-
-  relatedContentLinkTwo () {
-    return cy.get('#farming-is-changing-link')
+  verifyText (text) {
+    return cy.contains(text)
+      .containsWithoutWhitespace(text)
   }
 }
 

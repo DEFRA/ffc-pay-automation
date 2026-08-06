@@ -29,7 +29,7 @@ Feature: 17 Payment Calculator
     #This scenario confirms the elements on the delinked payment reference amount page
 
     Given I visit the "Calculate your delinked payment" homepage
-    When on the Payment Calculator page I click the "start button"
+    When on the Payment calculator page I click the start now button
     Then on the Enter your delinked payment reference amount page I confirm that "page title" is correctly displayed
     Then on the Enter your delinked payment reference amount page I confirm that "paragraph one" is correctly displayed
     Then on the Enter your delinked payment reference amount page I confirm that "paragraph two" is correctly displayed
@@ -47,7 +47,7 @@ Feature: 17 Payment Calculator
   #This scenario confirms the elements on the Delinked payment calculation page
   
     Given I visit the "Calculate your delinked payment" homepage
-    When on the Payment Calculator page I click the "start button"
+    When on the Payment calculator page I click the start now button
     When on the Enter your delinked payment reference amount page I enter amount of "20000"
     Then on the Enter your delinked payment reference amount page I click the "calculate button"
     Then on the Delinked payment calculation page I confirm that default year is "2026"
@@ -76,7 +76,7 @@ Feature: 17 Payment Calculator
   #This scenario confirms the elements on the delinked payment reference amount page
 
     Given I visit the "Calculate your delinked payment" homepage
-    When on the Payment Calculator page I click the "start button"
+    When on the Payment calculator page I click the start now button
     When on the Enter your delinked payment reference amount page I enter amount of "20,000"
     Then on the Enter your delinked payment reference amount page I click the "calculate button"
     Then on the Enter your delinked payment reference amount page I confirm that "amount format error message" is correctly displayed
@@ -110,5 +110,5 @@ Feature: 17 Payment Calculator
     #As this is an external link, functionality is confirmed via status code 200 response.
 
     Given I visit the "Calculate your delinked payment" homepage
-    When on the Payment Calculator page I click the "start button"
+    When on the Payment calculator page I click the start now button
     When I verify status of external link - "Rural Payments service."

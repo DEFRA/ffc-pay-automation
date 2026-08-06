@@ -1,49 +1,47 @@
 class enterYourDelinkedPaymentReferencePage {
-
-  subHeader () {
-    return cy.get('.govuk-heading-l')
+  heading (text) {
+    return cy.contains('h1, h2, h3', text)
+      .containsWithoutWhitespace(text)
   }
 
-  paragraphOne () {
-    return cy.get('form > :nth-child(3)')
+  paragraph (text) {
+    return cy.contains('p', text)
+      .containsWithoutWhitespace(text)
   }
 
-  paragraphTwo () {
-    return cy.get('form > :nth-child(4)')
+  listItem (text) {
+    return cy.contains('li', text)
+      .containsWithoutWhitespace(text)
   }
 
-  paragraphThree () {
-    return cy.get('form > :nth-child(5)')
+  link (text) {
+    return cy.contains('a', text)
+      .containsWithoutWhitespace(text)
   }
 
-  bulletLineOne () {
-    return cy.get('.govuk-list > :nth-child(1)')
+  hint (text) {
+    return cy.contains('#value-hint', text)
+      .containsWithoutWhitespace(text)
   }
 
-  bulletLineTwo () {
-    return cy.get('.govuk-list > :nth-child(2)')
-  }
-
-  paragraphFour () {
-    return cy.get('form > :nth-child(7)')
-  }
-
-  paragraphFive () {
-    return cy.get('#value-hint')
-  }
-
-  valueField () {
+  input () {
     return cy.get('#value')
   }
 
-  calculateButton () {
-    return cy.get('#submit')
+  button (text) {
+    return cy.contains('button', text)
+      .containsWithoutWhitespace(text)
   }
 
-  errorMessage () {
-    return cy.get('#value-error')
+  errorMessage (text) {
+    return cy.contains('#value-error', text)
+      .containsWithoutWhitespace(text)
   }
 
+  verifyText (text) {
+    return cy.contains(text)
+      .containsWithoutWhitespace(text)
+  }
 }
 
 export default new enterYourDelinkedPaymentReferencePage()

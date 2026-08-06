@@ -93,12 +93,13 @@ When('I click on the {string} radio button', (option) => {
   cy.contains('.govuk-radios__item', option)
     .find('input[type="radio"]')
     .check({ force: true })
+  Cypress.emit(`Clicked on the  ${option} button`)
 
 })
 
 
 // -------------------------
-// ASSERTIONS
+// ASSERTIONS -
 // -------------------------
 
 Then('I should see {string}', (text) => {
@@ -111,6 +112,72 @@ Then('I should see {string}', (text) => {
 Then('I see a success message for {string}', (successMessage) => {
   cy.assertSuccessBanner(successMessage)
 })
+
+// -------------------------
+//  PAGINATION - assertions and clicks
+// -------------------------
+
+//Verifies it exists
+Then(/^I verify the pagination "(next|previous)" is visible$/, (direction) => {
+  const selector = direction === 'next'
+    ? '.govuk-pagination__next > .govuk-link'
+    : '.govuk-pagination__prev > .govuk-link'
+
+  cy.get(selector)
+    .should('be.visible')
+})
+
+//Verifies it does not exist
+Then(/^I verify the pagination "(next|previous)" is not visible$/, (direction) => {
+  const selector = direction === 'next'
+    ? '.govuk-pagination__next > .govuk-link'
+    : '.govuk-pagination__prev > .govuk-link'
+
+  cy.get(selector)
+    .should('not.exist')
+})
+//clicks next or previous pagination buttons
+When(/^I click the pagination "(next|previous)"$/, (direction) => {
+  const selector = direction === 'next'
+    ? '.govuk-pagination__next > .govuk-link'
+    : '.govuk-pagination__prev > .govuk-link'
+
+  cy.get(selector)
+    .should('be.visible')
+    .click()
+})
+
+Then(/^the current pagination page number is "(.*)"$/, (pageNumber) => {
+  cy.get('.govuk-pagination__item--current > .govuk-link')
+    .invoke('text')
+    .then(text => {
+      expect(text.trim()).to.equal(pageNumber)
+    })
+})
+
+
+// -------------------------
+// FORM ENTRIES
+// -------------------------
+
+
+When(
+  /^I enter "(.*)" into the "(filename|marketing year|frn|timestamp)" field$/,
+  (value, field) => {
+    const selectors = {
+      filename: '#filename',
+      'marketing year': '#marketingYear',
+      frn: '#frn',
+      timestamp: '#timestamp'
+    }
+
+    cy.get(selectors[field])
+      .should('be.visible')
+      .clear()
+      .type(value)
+  }
+)
+
 
 // -------------------------
 // LINK CLICKS

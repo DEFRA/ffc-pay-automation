@@ -217,6 +217,8 @@ Cypress.Commands.add(
 
         expect(actual).to.contain(expected)
       })
+
+    return cy.wrap(subject)
   }
 )
 
@@ -232,5 +234,7 @@ Cypress.Commands.add(
 
         expect(actual).to.equal(expected)
       })
+
+    return cy.wrap(subject)
   }
 )

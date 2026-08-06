@@ -17,7 +17,14 @@ export default defineConfig([
       cypress: cypressPlugin
     },
     rules: {
-      ...cypressPlugin.configs.recommended.rules
+      ...cypressPlugin.configs.recommended.rules,
+      complexity: 'off',
+      'max-len': 'off',
+      'array-bracket-newline': ['error', 'never'],
+      'array-element-newline': ['error', 'never'],
+      indent: ['error', 2],
+      semi: ['error', 'never']
+
     }
   },
 

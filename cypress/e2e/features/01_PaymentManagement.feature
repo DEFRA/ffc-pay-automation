@@ -135,8 +135,7 @@ Feature: 01 Payment management
     Then on the Cookies Page I confirm that "accept analytics cookies option buttons" is displayed
     Then on the Cookies Page I confirm that "save cookie settings button" is displayed
 
-    When on the Cookies Page I click the "accept cookies" button
-    When on the Cookies Page I click the "save cookie settings" button
+    And I click on the "Save cookie settings" button
 
     Then on the Cookies Page I confirm that "cookie preference banner" is displayed
     Then I take a screenshot for Feature 1 and Scenario 6
