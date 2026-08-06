@@ -130,7 +130,7 @@ Feature: 38 Metrics Dashboard
     Then on the Metrics Dashboard page I select "2015" in Select Year filter
     Then on the Metrics Dashboard page I select "January" in Select Month filter
 
-    When on the Metrics Dashboard page I click on the "apply filters" button
+    And I click on the "Apply filters" button
 
 #All values should be 0    
 
@@ -156,7 +156,7 @@ Feature: 38 Metrics Dashboard
     Then on the Metrics Dashboard page I select "2026" in Select Year filter
     Then on the Metrics Dashboard page I select "July" in Select Month filter
     
-    When on the Metrics Dashboard page I click on the "apply filters" button
+    And I click on the "Apply filters" button
 
  #Payments should be 10, Amount should be £104,284 and Documents should be 80,129 
 

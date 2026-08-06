@@ -991,76 +991,197 @@ Then (/^on the Metrics Dashboard page I confirm that "(.*)" is not displayed$/, 
 })
 
 
-Then (/^on the Metrics Dashboard page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the Metrics Dashboard page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit(
+    'log:step',
+    `on the Metrics Dashboard page I confirm that ${element} is displayed`
+  )
 
-  Cypress.emit('log:step', 'on the Metrics Dashboard page I confirm that ' + element + ' is displayed')
-  switch (element) {
-  case 'page title':
-    metricsDashboardPage.pageTitle().should('be.visible').haveWithoutWhitespace('Metrics dashboard'); break
-  case 'page description':
-    metricsDashboardPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'This dashboard provides operational metrics for payments and documents. You can view payment and document metrics filtered by time period.'); break
-  case 'time period filter dropdown':
-    metricsDashboardPage.timePeriodFilterDropdown().should('be.visible'); break
-  case 'time period filter button':
-    metricsDashboardPage.timePeriodFilterButton().should('be.visible').containsWithoutWhitespace( 'Apply filters'); break
-  case 'payment metrics sub header':
-    metricsDashboardPage.paymentMetricsSubHeader().should('be.visible').haveWithoutWhitespace('Payment Metrics'); break
-  case 'payments panel':
-    metricsDashboardPage.paymentsPanel().should('be.visible').containsWithoutWhitespace( 'Payments'); break
-  case 'payments count':
-    metricsDashboardPage.paymentsCount().should('be.visible'); break
-  case 'total value panel':
-    metricsDashboardPage.totalValuePanel().should('be.visible').containsWithoutWhitespace( 'Total Value'); break
-  case 'total value amount':
-    metricsDashboardPage.totalValueAmount().should('be.visible'); break
-  case 'breakdown description':
-    metricsDashboardPage.breakdownDescription().should('be.visible').containsWithoutWhitespace( 'Breakdown of payments and values by scheme'); break
-  case 'payment scheme column':
-    metricsDashboardPage.paymentSchemeColumn().should('be.visible').haveWithoutWhitespace('Scheme'); break
-  case 'total payments column':
-    metricsDashboardPage.totalPaymentsColumn().should('be.visible').haveWithoutWhitespace('Total Payments'); break
-  case 'total value column':
-    metricsDashboardPage.totalValueColumn().should('be.visible').haveWithoutWhitespace('Total Value (£)'); break
-  case 'pending column':
-    metricsDashboardPage.pendingColumn().should('be.visible').haveWithoutWhitespace('Pending'); break
-  case 'processed column':
-    metricsDashboardPage.processedColumn().should('be.visible').haveWithoutWhitespace('Processed'); break
-  case 'documents metrics sub header':
-    metricsDashboardPage.documentsMetricsSubHeader().should('be.visible').haveWithoutWhitespace('Document Metrics'); break
-  case 'documents issued':
-    metricsDashboardPage.documentsIssued().should('be.visible').containsWithoutWhitespace( 'Documents Issued'); break
-  case 'documents count':
-    metricsDashboardPage.documentsCount().should('be.visible'); break
-  case 'documents breakdown description':
-    metricsDashboardPage.docBreakdownDescription().should('be.visible').containsWithoutWhitespace('Breakdown of statements by scheme showing delivery methods and costs'); break
-  case 'documents scheme column':
-    metricsDashboardPage.docSchemeColumn().should('be.visible').haveWithoutWhitespace('Scheme'); break
-  case 'year column':
-    metricsDashboardPage.yearColumn().should('be.visible').haveWithoutWhitespace('Year'); break
-  case 'total documents column':
-    metricsDashboardPage.totalDocumentsColumn().should('be.visible').haveWithoutWhitespace('Total Documents'); break
-  case 'print and post column':
-    metricsDashboardPage.printAndPostColumn().should('be.visible').haveWithoutWhitespace('Print & Post'); break
-  case 'print and post cost column':
-    metricsDashboardPage.printAndPostCostColumn().should('be.visible').haveWithoutWhitespace('Print & Post Cost (£)'); break
-  case 'email column':
-    metricsDashboardPage.emailColumn().should('be.visible').haveWithoutWhitespace('Email'); break
-  case 'select year filter dropdown':
-    metricsDashboardPage.selectYearFilterDropdown().should('be.visible'); break
-  case 'select month filter dropdown':
-    metricsDashboardPage.selectMonthFilterDropdown().should('be.visible'); break
-  case 'no payment data message':
-    metricsDashboardPage.noPaymentDataMessage().should('be.visible').haveWithoutWhitespace('Warning No metrics data is available for the selected period from either payment or document services. This may indicate no activity has been recorded yet.'); break
-  case 'no document data message':
-    metricsDashboardPage.noDocumentDataMessage().should('be.visible').haveWithoutWhitespace('No document data available for the selected period.'); break
-  case 'clear filters':
-    metricsDashboardPage.clearFiltersButton().should('be.visible').haveWithoutWhitespace('Clear filters'); break
-  default:
-    throw new Error('invalid element')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      metricsDashboardPage[method](text)
+        .should('be.visible')
+    })
   }
 
-  console.log('Confirmed that' + element + 'is displayed on the Metrics Dashboard page')
-  cy.log('Confirmed that' + element + 'is displayed on the Metrics Dashboard page')
+  switch (element) {
+  case 'page title':
+    verify('heading', ['Metrics dashboard'])
+    break
+
+  case 'page description':
+    verify('paragraph', ['This dashboard provides operational metrics for payments and documents. You can view payment and document metrics filtered by time period.'])
+    break
+
+  case 'time period filter dropdown':
+    metricsDashboardPage.timePeriodFilterDropdown()
+      .should('be.visible')
+    break
+
+  case 'time period filter button':
+    verify('button', ['Apply filters'])
+    break
+
+  case 'payment metrics sub header':
+    verify('heading', ['Payment Metrics'])
+    break
+
+  case 'payments panel':
+    verify('panel', ['Payments'])
+    break
+
+  case 'payments count':
+    metricsDashboardPage.panelValue('Payments')
+      .should('be.visible')
+    break
+
+  case 'total value panel':
+    verify('panel', ['Total Value'])
+    break
+
+  case 'total value amount':
+    metricsDashboardPage.panelValue('Total Value')
+      .should('be.visible')
+    break
+
+  case 'breakdown description':
+    metricsDashboardPage.tableCaption(
+      'Payments by scheme breakdown',
+      'Breakdown of payments and values by scheme'
+    ).should('be.visible')
+    break
+
+  case 'payment scheme column':
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Scheme'
+    ).should('be.visible')
+    break
+
+  case 'total payments column':
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Total Payments'
+    ).should('be.visible')
+    break
+
+  case 'total value column':
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Total Value (£)'
+    ).should('be.visible')
+    break
+
+  case 'pending column':
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Pending'
+    ).should('be.visible')
+    break
+
+  case 'processed column':
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Processed'
+    ).should('be.visible')
+    break
+
+  case 'documents metrics sub header':
+    verify('heading', ['Document Metrics'])
+    break
+
+  case 'documents issued':
+    verify('panel', ['Documents Issued'])
+    break
+
+  case 'documents count':
+    metricsDashboardPage.panelValue('Documents Issued')
+      .should('be.visible')
+    break
+
+  case 'documents breakdown description':
+    metricsDashboardPage.tableCaption(
+      'Statements by scheme and delivery method',
+      'Breakdown of statements by scheme showing delivery methods and costs'
+    ).should('be.visible')
+    break
+
+  case 'documents scheme column':
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Scheme'
+    ).should('be.visible')
+    break
+
+  case 'year column':
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Year'
+    ).should('be.visible')
+    break
+
+  case 'total documents column':
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Total Documents'
+    ).should('be.visible')
+    break
+
+  case 'print and post column':
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Print & Post'
+    ).should('be.visible')
+    break
+
+  case 'print and post cost column':
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Print & Post Cost (£)'
+    ).should('be.visible')
+    break
+
+  case 'email column':
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Email'
+    ).should('be.visible')
+    break
+
+  case 'select year filter dropdown':
+    metricsDashboardPage.selectYearFilterDropdown()
+      .should('be.visible')
+    break
+
+  case 'select month filter dropdown':
+    metricsDashboardPage.selectMonthFilterDropdown()
+      .should('be.visible')
+    break
+
+  case 'no payment data message':
+    verify('warningText', ['Warning No metrics data is available for the selected period from either payment or document services. This may indicate no activity has been recorded yet.'])
+    break
+
+  case 'no document data message':
+    verify('verifyText', ['No document data available for the selected period.'])
+    break
+
+  case 'clear filters':
+    metricsDashboardPage.clearFiltersButton()
+      .should('be.visible')
+    break
+
+  default:
+    throw new Error(`Invalid element: ${element}`)
+  }
+
+  console.log(
+    `Confirmed that ${element} is displayed on the Metrics Dashboard page`
+  )
+
+  cy.log(
+    `Confirmed that ${element} is displayed on the Metrics Dashboard page`
+  )
 })
 
 Then(/^on the Metrics Dashboard page I select "(.*?)" in (.*?) filter$/, (option, filter) => {
@@ -1086,10 +1207,6 @@ When(/^on the Metrics Dashboard page I click on the "(.*)" button$/, (button) =>
   Cypress.emit('log:step', 'on the Metrics Dashboard page I click on the ' + button + ' button')
 
   switch (button) {
-  case 'help with this page':
-    metricsDashboardPage.helpDropdown().scrollIntoView().click(); break
-  case 'apply filters':
-    metricsDashboardPage.timePeriodFilterButton().scrollIntoView().click(); break
   case 'clear filters':
     metricsDashboardPage.clearFiltersButton().scrollIntoView().click(); break
   default:
