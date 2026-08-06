@@ -1,4 +1,4 @@
-class managementInformationPage {
+class metricsDashboardPage {
 
   pageTitle () {
     return cy.get('.govuk-heading-xl')
@@ -7,51 +7,6 @@ class managementInformationPage {
   pageDescription () {
     return cy.get('.govuk-body-l')
   }
-
-  helpDropdown () {
-    return cy.get('.govuk-details__summary-text')
-  }
-
-  helpDescription () {
-    return cy.get('.govuk-body')
-  }
-
-  showAllDescription () {
-    return cy.get('.govuk-list > :nth-child(1)')
-  }
-
-  yearToDateDescription () {
-    return cy.get('.govuk-list > :nth-child(2)')
-  }
-
-  byYearDescription () {
-    return cy.get('.govuk-list > :nth-child(3)')
-  }
-
-  byMonthDescription () {
-    return cy.get('.govuk-list > :nth-child(4)')
-  }
-
-  thisMonthDescription () {
-    return cy.get('.govuk-list > :nth-child(5)')
-  }
-
-  last7DaysDescription () {
-    return cy.get('.govuk-list > :nth-child(6)')
-  }
-
-  last24HoursDescription () {
-    return cy.get('.govuk-list > :nth-child(7)')
-  }
-
-  paymentValuesDescription () {
-    return cy.get('.govuk-list > :nth-child(8)')
-  }
-
-  printAndPostDescription () {
-    return cy.get('.govuk-list > :nth-child(9)')
-  }
-
   timePeriodFilterDropdown () {
     return cy.get('#period')
   }
@@ -61,19 +16,19 @@ class managementInformationPage {
   }
 
   paymentMetricsSubHeader () {
-    return cy.get('.govuk-grid-column-full > :nth-child(6)')
+    return cy.get('.govuk-grid-column-full > :nth-child(5)')
   }
 
   paymentsPanel () {
-    return cy.get(':nth-child(7) > :nth-child(1) > .govuk-panel > .govuk-panel__title')
+    return cy.get(':nth-child(6) > :nth-child(1) > .govuk-panel')
   }
 
   paymentsCount () {
-    return cy.get(':nth-child(7) > :nth-child(1) > .govuk-panel > .govuk-panel__body')
+    return cy.get(':nth-child(6) > :nth-child(1) > .govuk-panel > .govuk-panel__body')
   }
 
   totalValuePanel () {
-    return cy.get(':nth-child(2) > .govuk-panel > .govuk-panel__title')
+    return cy.get(':nth-child(2) > .govuk-panel')
   }
 
   totalValueAmount () {
@@ -105,15 +60,15 @@ class managementInformationPage {
   }
 
   documentsMetricsSubHeader () {
-    return cy.get('.govuk-grid-column-full > :nth-child(9)')
+    return cy.get('.govuk-grid-column-full > :nth-child(8)')
   }
 
   documentsIssued () {
-    return cy.get(':nth-child(10) > .govuk-grid-column-one-half > .govuk-panel > .govuk-panel__title')
+    return cy.get(':nth-child(9) > .govuk-grid-column-one-half > .govuk-panel')
   }
 
   documentsCount () {
-    return cy.get(':nth-child(10) > .govuk-grid-column-one-half > .govuk-panel > .govuk-panel__body')
+    return cy.get(':nth-child(9) > .govuk-grid-column-one-half > .govuk-panel > .govuk-panel__body')
   }
 
   docBreakdownDescription () {
@@ -153,16 +108,16 @@ class managementInformationPage {
   }
 
   noPaymentDataMessage () {
-    return cy.get('.govuk-grid-column-full > :nth-child(9)')
+    return cy.get('.govuk-warning-text__text')
   }
 
   noDocumentDataMessage () {
-    return cy.get('.govuk-grid-column-full > :nth-child(12)')
+    return cy.get('.govuk-grid-column-full > :nth-child(11)')
   }
 
   clearFiltersButton () {
-    return cy.get(':nth-child(4) > .govuk-link')
+    return cy.get('.govuk-grid-row > .govuk-button-group > .govuk-link')
   }
 
 }
-export default new managementInformationPage()
+export default new metricsDashboardPage()

@@ -3,7 +3,7 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 import paymentManagementPage from '../pages/paymentManagementPage'
 import reportsPage from '../pages/reportsPage'
 import manualPaymentsPage from '../pages/manualPaymentsPage'
-import managementInformationPage from '../pages/managementInformationPage'
+import metricsDashboardPage from '../pages/metricsDashboardPage'
 import constants from '../../support/constants.json'
 import downloadStatementsPage from '../pages/downloadStatementsPage'
 import resetPaymentRequestPage from '../pages/resetPaymentRequestPage'
@@ -22,7 +22,7 @@ const env = envConfig.env
 console.log('Environment Config:', envConfig)
 
 When(/^I can see "(.*)" as the header$/, (text) => {
-  paymentManagementPage.header().should('be.visible').and('have.text', text)
+  paymentManagementPage.header().should('be.visible').haveWithoutWhitespace(text)
 })
 
 Then(/^I take a screenshot for "(.*)"$/, (text) => {
@@ -888,7 +888,7 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
   Cypress.emit('log:step', 'on the Manual Payments page I confirm that ' + element + ' is present')
   switch (element) {
   case 'page title':
-    manualPaymentsPage.pageTitle().should('be.visible').and('have.text', 'Manual payment upload'); break
+    manualPaymentsPage.pageTitle().should('be.visible').haveWithoutWhitespace('Manual payment upload'); break
   case 'page description':
     manualPaymentsPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'This section allows teams to upload manual payment files into Payment Hub. Once uploaded, these files will automatically feed into the standard payment process'); break
   case 'choose file button':
@@ -910,9 +910,9 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
   case 'empty file message':
     manualPaymentsPage.nameErrorText().should('be.visible').containsWithoutWhitespace( 'We couldn’t process your upload because the file is empty. Please upload a file that contains data.'); break
   case 'return button':
-    manualPaymentsPage.returnButton().should('be.visible').and('have.text', 'Return'); break
+    manualPaymentsPage.returnButton().should('be.visible').haveWithoutWhitespace('Return'); break
   case 'error return button':
-    manualPaymentsPage.errorReturnButton().should('be.visible').and('have.text', 'Return'); break
+    manualPaymentsPage.errorReturnButton().should('be.visible').haveWithoutWhitespace('Return'); break
   case 'upload history table':
     manualPaymentsPage.uploadHistoryTable().should('be.visible'); break
   default:
@@ -974,127 +974,105 @@ When (/^on the Add New Alert Recipient page I click the "(.*)" button$/, (button
   console.log(`Clicked on the ${button} button successfully`)
 })
 
-Then (/^on the Management Information page I confirm that "(.*)" is not displayed$/, (element) => {
+Then (/^on the Metrics Dashboard page I confirm that "(.*)" is not displayed$/, (element) => {
 
-  Cypress.emit('log:step', 'on the Management Information page I confirm that ' + element + ' is not displayed')
+  Cypress.emit('log:step', 'on the Metrics Dashboard page I confirm that ' + element + ' is not displayed')
   switch (element) {
   case 'select year filter dropdown':
-    managementInformationPage.selectYearFilterDropdown().should('not.be.visible'); break
+    metricsDashboardPage.selectYearFilterDropdown().should('not.be.visible'); break
   case 'select month filter dropdown':
-    managementInformationPage.selectMonthFilterDropdown().should('not.be.visible'); break
+    metricsDashboardPage.selectMonthFilterDropdown().should('not.be.visible'); break
   default:
     throw new Error('invalid element')
   }
 
-  console.log('Confirmed that' + element + ' is not displayed on the Management Information page')
-  cy.log('Confirmed that' + element + ' is not displayed on the Management Information page')
+  console.log('Confirmed that' + element + ' is not displayed on the Metrics Dashboard page')
+  cy.log('Confirmed that' + element + ' is not displayed on the Metrics Dashboard page')
 })
 
 
-Then (/^on the Management Information page I confirm that "(.*)" is displayed$/, (element) => {
+Then (/^on the Metrics Dashboard page I confirm that "(.*)" is displayed$/, (element) => {
 
-  Cypress.emit('log:step', 'on the Management Information page I confirm that ' + element + ' is displayed')
+  Cypress.emit('log:step', 'on the Metrics Dashboard page I confirm that ' + element + ' is displayed')
   switch (element) {
   case 'page title':
-    managementInformationPage.pageTitle().should('be.visible').and('have.text', 'Management information'); break
+    metricsDashboardPage.pageTitle().should('be.visible').haveWithoutWhitespace('Metrics dashboard'); break
   case 'page description':
-    managementInformationPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'View payment and document metrics filtered by time period.'); break
-  case 'help dropdown':
-    managementInformationPage.helpDropdown().should('be.visible').containsWithoutWhitespace( 'Help with this page'); break
-  case 'help description':
-    managementInformationPage.helpDescription().should('be.visible').containsWithoutWhitespace( 'This dashboard provides operational metrics for payments and documents.'); break
-  case 'show all description':
-    managementInformationPage.showAllDescription().should('be.visible').and('have.text', '\n              Show all - View complete dataset with no date filtering (includes year breakdown)'); break
-  case 'year to date description':
-    managementInformationPage.yearToDateDescription().should('be.visible').and('have.text', '\n              Year to date - View data from 1 January of the current year to today'); break
-  case 'by year description':
-    managementInformationPage.byYearDescription().should('be.visible').and('have.text', '\n              By year - Select a specific year to view annual data'); break
-  case 'by month description':
-    managementInformationPage.byMonthDescription().should('be.visible').and('have.text', '\n              By month - Select a specific year and month to view monthly data'); break
-  case 'this month description':
-    managementInformationPage.thisMonthDescription().should('be.visible').and('have.text', '\n              This month - View data for the current calendar month'); break
-  case 'last 7 days description':
-    managementInformationPage.last7DaysDescription().should('be.visible').and('have.text', '\n              Last 7 days - View recent weekly activity'); break
-  case 'last 24 hours description':
-    managementInformationPage.last24HoursDescription().should('be.visible').and('have.text', '\n              Last 24 hours - View real-time daily activity'); break
-  case 'payment values description':
-    managementInformationPage.paymentValuesDescription().should('be.visible').and('have.text', 'Payment values are displayed in pounds (£)'); break
-  case 'print and post description':
-    managementInformationPage.printAndPostDescription().should('be.visible').and('have.text', 'Print & Post costs are calculated based on actual postage rates'); break
+    metricsDashboardPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'This dashboard provides operational metrics for payments and documents. You can view payment and document metrics filtered by time period.'); break
   case 'time period filter dropdown':
-    managementInformationPage.timePeriodFilterDropdown().should('be.visible'); break
+    metricsDashboardPage.timePeriodFilterDropdown().should('be.visible'); break
   case 'time period filter button':
-    managementInformationPage.timePeriodFilterButton().should('be.visible').containsWithoutWhitespace( 'Apply filters'); break
+    metricsDashboardPage.timePeriodFilterButton().should('be.visible').containsWithoutWhitespace( 'Apply filters'); break
   case 'payment metrics sub header':
-    managementInformationPage.paymentMetricsSubHeader().should('be.visible').and('have.text', 'Payment Metrics'); break
+    metricsDashboardPage.paymentMetricsSubHeader().should('be.visible').haveWithoutWhitespace('Payment Metrics'); break
   case 'payments panel':
-    managementInformationPage.paymentsPanel().should('be.visible').containsWithoutWhitespace( 'Payments'); break
+    metricsDashboardPage.paymentsPanel().should('be.visible').containsWithoutWhitespace( 'Payments'); break
   case 'payments count':
-    managementInformationPage.paymentsCount().should('be.visible'); break
+    metricsDashboardPage.paymentsCount().should('be.visible'); break
   case 'total value panel':
-    managementInformationPage.totalValuePanel().should('be.visible').containsWithoutWhitespace( 'Total Value'); break
+    metricsDashboardPage.totalValuePanel().should('be.visible').containsWithoutWhitespace( 'Total Value'); break
   case 'total value amount':
-    managementInformationPage.totalValueAmount().should('be.visible'); break
+    metricsDashboardPage.totalValueAmount().should('be.visible'); break
   case 'breakdown description':
-    managementInformationPage.breakdownDescription().should('be.visible').containsWithoutWhitespace( 'Breakdown of payments and values by scheme'); break
+    metricsDashboardPage.breakdownDescription().should('be.visible').containsWithoutWhitespace( 'Breakdown of payments and values by scheme'); break
   case 'payment scheme column':
-    managementInformationPage.paymentSchemeColumn().should('be.visible').and('have.text', 'Scheme'); break
+    metricsDashboardPage.paymentSchemeColumn().should('be.visible').haveWithoutWhitespace('Scheme'); break
   case 'total payments column':
-    managementInformationPage.totalPaymentsColumn().should('be.visible').and('have.text', 'Total Payments'); break
+    metricsDashboardPage.totalPaymentsColumn().should('be.visible').haveWithoutWhitespace('Total Payments'); break
   case 'total value column':
-    managementInformationPage.totalValueColumn().should('be.visible').and('have.text', 'Total Value (£)'); break
+    metricsDashboardPage.totalValueColumn().should('be.visible').haveWithoutWhitespace('Total Value (£)'); break
   case 'pending column':
-    managementInformationPage.pendingColumn().should('be.visible').and('have.text', 'Pending'); break
+    metricsDashboardPage.pendingColumn().should('be.visible').haveWithoutWhitespace('Pending'); break
   case 'processed column':
-    managementInformationPage.processedColumn().should('be.visible').and('have.text', 'Processed'); break
+    metricsDashboardPage.processedColumn().should('be.visible').haveWithoutWhitespace('Processed'); break
   case 'documents metrics sub header':
-    managementInformationPage.documentsMetricsSubHeader().should('be.visible').and('have.text', 'Document Metrics'); break
+    metricsDashboardPage.documentsMetricsSubHeader().should('be.visible').haveWithoutWhitespace('Document Metrics'); break
   case 'documents issued':
-    managementInformationPage.documentsIssued().should('be.visible').containsWithoutWhitespace( 'Documents Issued'); break
+    metricsDashboardPage.documentsIssued().should('be.visible').containsWithoutWhitespace( 'Documents Issued'); break
   case 'documents count':
-    managementInformationPage.documentsCount().should('be.visible'); break
+    metricsDashboardPage.documentsCount().should('be.visible'); break
   case 'documents breakdown description':
-    managementInformationPage.docBreakdownDescription().should('be.visible').containsWithoutWhitespace( 'Breakdown of documents by scheme showing delivery methods and costs'); break
+    metricsDashboardPage.docBreakdownDescription().should('be.visible').containsWithoutWhitespace('Breakdown of statements by scheme showing delivery methods and costs'); break
   case 'documents scheme column':
-    managementInformationPage.docSchemeColumn().should('be.visible').and('have.text', 'Scheme'); break
+    metricsDashboardPage.docSchemeColumn().should('be.visible').haveWithoutWhitespace('Scheme'); break
   case 'year column':
-    managementInformationPage.yearColumn().should('be.visible').and('have.text', 'Year'); break
+    metricsDashboardPage.yearColumn().should('be.visible').haveWithoutWhitespace('Year'); break
   case 'total documents column':
-    managementInformationPage.totalDocumentsColumn().should('be.visible').and('have.text', 'Total Documents'); break
+    metricsDashboardPage.totalDocumentsColumn().should('be.visible').haveWithoutWhitespace('Total Documents'); break
   case 'print and post column':
-    managementInformationPage.printAndPostColumn().should('be.visible').and('have.text', 'Print & Post'); break
+    metricsDashboardPage.printAndPostColumn().should('be.visible').haveWithoutWhitespace('Print & Post'); break
   case 'print and post cost column':
-    managementInformationPage.printAndPostCostColumn().should('be.visible').and('have.text', 'Print & Post Cost (£)'); break
+    metricsDashboardPage.printAndPostCostColumn().should('be.visible').haveWithoutWhitespace('Print & Post Cost (£)'); break
   case 'email column':
-    managementInformationPage.emailColumn().should('be.visible').and('have.text', 'Email'); break
+    metricsDashboardPage.emailColumn().should('be.visible').haveWithoutWhitespace('Email'); break
   case 'select year filter dropdown':
-    managementInformationPage.selectYearFilterDropdown().should('be.visible'); break
+    metricsDashboardPage.selectYearFilterDropdown().should('be.visible'); break
   case 'select month filter dropdown':
-    managementInformationPage.selectMonthFilterDropdown().should('be.visible'); break
+    metricsDashboardPage.selectMonthFilterDropdown().should('be.visible'); break
   case 'no payment data message':
-    managementInformationPage.noPaymentDataMessage().should('be.visible').and('have.text', 'No payment data available for the selected period.'); break
+    metricsDashboardPage.noPaymentDataMessage().should('be.visible').haveWithoutWhitespace('Warning No metrics data is available for the selected period from either payment or document services. This may indicate no activity has been recorded yet.'); break
   case 'no document data message':
-    managementInformationPage.noDocumentDataMessage().should('be.visible').and('have.text', 'No document data available for the selected period.'); break
+    metricsDashboardPage.noDocumentDataMessage().should('be.visible').haveWithoutWhitespace('No document data available for the selected period.'); break
   case 'clear filters':
-    managementInformationPage.clearFiltersButton().should('be.visible').and('have.text', 'Clear filters'); break
+    metricsDashboardPage.clearFiltersButton().should('be.visible').haveWithoutWhitespace('Clear filters'); break
   default:
     throw new Error('invalid element')
   }
 
-  console.log('Confirmed that' + element + 'is displayed on the Management Information page')
-  cy.log('Confirmed that' + element + 'is displayed on the Management Information page')
+  console.log('Confirmed that' + element + 'is displayed on the Metrics Dashboard page')
+  cy.log('Confirmed that' + element + 'is displayed on the Metrics Dashboard page')
 })
 
-Then(/^on the Management Information page I select "(.*?)" in (.*?) filter$/, (option, filter) => {
+Then(/^on the Metrics Dashboard page I select "(.*?)" in (.*?) filter$/, (option, filter) => {
 
-  Cypress.emit('log:step', 'on the Management Information page I select ' + option + ' in ' + filter + ' filter')
+  Cypress.emit('log:step', 'on the Metrics Dashboard page I select ' + option + ' in ' + filter + ' filter')
 
   if (filter === 'Time Period') {
-    managementInformationPage.timePeriodFilterDropdown().scrollIntoView().select(option)
+    metricsDashboardPage.timePeriodFilterDropdown().scrollIntoView().select(option)
   } else if (filter === 'Select Year') {
-    managementInformationPage.selectYearFilterDropdown().scrollIntoView().select(option)
+    metricsDashboardPage.selectYearFilterDropdown().scrollIntoView().select(option)
   } else if (filter === 'Select Month') {
-    managementInformationPage.selectMonthFilterDropdown().scrollIntoView().select(option)
+    metricsDashboardPage.selectMonthFilterDropdown().scrollIntoView().select(option)
   } else {
     throw new Error(`Unknown filter: ${filter}`)
   }
@@ -1103,28 +1081,28 @@ Then(/^on the Management Information page I select "(.*?)" in (.*?) filter$/, (o
   console.log(`Selected ${option} option in ${filter} filter`)
 })
 
-When(/^on the Management Information page I click on the "(.*)" button$/, (button) => {
+When(/^on the Metrics Dashboard page I click on the "(.*)" button$/, (button) => {
 
-  Cypress.emit('log:step', 'on the Management Information page I click on the ' + button + ' button')
+  Cypress.emit('log:step', 'on the Metrics Dashboard page I click on the ' + button + ' button')
 
   switch (button) {
   case 'help with this page':
-    managementInformationPage.helpDropdown().scrollIntoView().click(); break
+    metricsDashboardPage.helpDropdown().scrollIntoView().click(); break
   case 'apply filters':
-    managementInformationPage.timePeriodFilterButton().scrollIntoView().click(); break
+    metricsDashboardPage.timePeriodFilterButton().scrollIntoView().click(); break
   case 'clear filters':
-    managementInformationPage.clearFiltersButton().scrollIntoView().click(); break
+    metricsDashboardPage.clearFiltersButton().scrollIntoView().click(); break
   default:
     throw new Error('invalid button name')
   }
 
-  cy.log('Clicked' + button + 'on Management Information page')
-  console.log('Clicked' + button + 'on Management Information page')
+  cy.log('Clicked' + button + 'on Metrics Dashboard page')
+  console.log('Clicked' + button + 'on Metrics Dashboard page')
 })
 
-Then(/^on the Management Information page I confirm that (.*) value is (.*)$/, (field, expectedValue) => {
+Then(/^on the Metrics Dashboard page I confirm that (.*) value is (.*)$/, (field, expectedValue) => {
 
-  Cypress.emit('log:step', 'on the Management Information page I confirm that ' + field + ' is ' + expectedValue)
+  Cypress.emit('log:step', 'on the Metrics Dashboard page I confirm that ' + field + ' is ' + expectedValue)
 
   let fieldNumber
 
@@ -1351,7 +1329,7 @@ Then (/^on the Reset payment request page I confirm that "(.*)" is displayed$/, 
 
   switch (element) {
   case 'page title':
-    resetPaymentRequestPage.pageTitle().should('be.visible').and('have.text', 'Reset payment request'); break
+    resetPaymentRequestPage.pageTitle().should('be.visible').haveWithoutWhitespace('Reset payment request'); break
   case 'page description':
     resetPaymentRequestPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'Invoice number'); break
   case 'page instructions':
