@@ -1565,19 +1565,13 @@ Then (/^on the View events page I confirm that "(.*)" is displayed$/, (element) 
 
   switch (element) {
   case 'sub header':
-    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'Monitoring'); break
+    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'View payment events'); break
   case 'frn search instructions':
-    paymentEventMonitoringPage.searchByFRNInstructions().should('be.visible').containsWithoutWhitespace( 'Search for payments by Firm Reference Number (FRN)'); break
-  case 'frn search example':
-    paymentEventMonitoringPage.searchByFRNExample().should('be.visible').containsWithoutWhitespace( 'For example, 1234567890'); break
+    paymentEventMonitoringPage.searchByFRNInstructions().should('be.visible').containsWithoutWhitespace( 'Search and view payment events and activity by Firm Reference Number (FRN) or batch payment file name.'); break
   case 'frn search field':
     paymentEventMonitoringPage.searchByFRNField().should('be.visible').and('have.attr', 'type', 'search'); break
   case 'frn search button':
     paymentEventMonitoringPage.searchByFRNButton().should('be.visible').and('have.attr', 'type', 'submit'); break
-  case 'batch search instructions':
-    paymentEventMonitoringPage.searchByBatchInstructions().should('be.visible').containsWithoutWhitespace( 'Search for payments by payment batch name'); break
-  case 'batch search example':
-    paymentEventMonitoringPage.searchByBatchExample().should('be.visible').containsWithoutWhitespace( 'For example, SITISFI0001_AP_20230525095030.dat'); break
   case 'batch search field':
     paymentEventMonitoringPage.searchByBatchField().should('be.visible').and('have.attr', 'type', 'search'); break
   case 'batch search button':
@@ -1596,14 +1590,14 @@ Then (/^on the View events page I confirm that "(.*)" is displayed$/, (element) 
     paymentEventMonitoringPage.statusColumn().should('be.visible').containsWithoutWhitespace( 'Status'); break
   case 'last updated column':
     paymentEventMonitoringPage.lastUpdatedColumn().should('be.visible').containsWithoutWhitespace( 'Last updated'); break
-  case 'actions column':
-    paymentEventMonitoringPage.actionsColumn().should('be.visible').containsWithoutWhitespace( 'Actions'); break
   case 'view frn label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( '1258445148 - 40770826 - PR1'); break
+    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( '1000000001 - 00000001'); break
   case 'view batch label':
     paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( 'SITISFIA0001_AP_20230810085609205.dat'); break
   case 'activity column':
-    paymentEventMonitoringPage.activityColumn().should('be.visible').containsWithoutWhitespace( 'Actions'); break
+    paymentEventMonitoringPage.activityColumn().should('be.visible').containsWithoutWhitespace( 'Activity'); break
+  case 'batch sub header':
+    paymentEventMonitoringPage.batchSubHeader().should('be.visible').containsWithoutWhitespace( 'View batch file payments and their status'); break
   case 'batch frn column':
     paymentEventMonitoringPage.batchFRNColumn().should('be.visible').containsWithoutWhitespace( 'FRN'); break
   case 'batch year column':
@@ -1617,7 +1611,11 @@ Then (/^on the View events page I confirm that "(.*)" is displayed$/, (element) 
   case 'batch status column':
     paymentEventMonitoringPage.batchStatusColumn().should('be.visible').containsWithoutWhitespace( 'Status'); break
   case 'batch actions column':
-    paymentEventMonitoringPage.batchActionsColumn().should('be.visible').containsWithoutWhitespace( 'Actions'); break
+    paymentEventMonitoringPage.batchActionsColumn().should('be.visible').containsWithoutWhitespace( 'Activity'); break
+  case 'frn payment history':
+    paymentEventMonitoringPage.frnPaymentHistory().should('be.visible').containsWithoutWhitespace( 'FRN payment history'); break
+  case 'frn payment request history':
+    paymentEventMonitoringPage.frnPaymentRequestHistory().should('be.visible').containsWithoutWhitespace( 'FRN payment request history'); break
   default:
     throw new Error('invalid element')
   }
@@ -1632,15 +1630,15 @@ Then (/^on the View processed payment requests page I confirm that "(.*)" is dis
 
   switch (element) {
   case 'sub header':
-    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'Monitoring by scheme'); break
+    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'View payment events by scheme'); break
   case 'select scheme label':
-    paymentEventMonitoringPage.selectSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Select the scheme to view data for'); break
+    paymentEventMonitoringPage.selectSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Select a scheme to view how many payments have been made and the combined value.'); break
   case 'select scheme dropdown':
     paymentEventMonitoringPage.selectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break
   case 'select scheme button':
     paymentEventMonitoringPage.selectSchemeButton().should('be.visible').and('have.attr', 'type', 'submit'); break
   case 'processed payment requests label':
-    paymentEventMonitoringPage.processedRequestLabel().should('be.visible').containsWithoutWhitespace( 'Processed payment requests'); break
+    paymentEventMonitoringPage.processedRequestLabel().should('be.visible').containsWithoutWhitespace( 'Scheme payment event details'); break
   case 'scheme column':
     paymentEventMonitoringPage.processedRequestsSchemeColumn().should('be.visible').containsWithoutWhitespace( 'Scheme'); break
   case 'number of payments column':
@@ -1655,13 +1653,6 @@ Then (/^on the View processed payment requests page I confirm that "(.*)" is dis
   cy.log('Confirmed that' + element + ' is displayed on the View processed payment requests page')
 })
 
-Then (/^on the View processed payment requests page I click the Continue button$/, () => {
-
-  Cypress.emit('log:step', 'on the View processed payment requests page I click the Continue button')
-  paymentEventMonitoringPage.selectSchemeButton().click()
-  console.log('Clicked Continue button')
-  cy.log('Clicked Continue button')
-})
 
 Then (/^on the View processed payment requests page I select "(.*)" in scheme dropdown$/, (selection) => {
 
@@ -1695,13 +1686,7 @@ Then (/^on the View events page I click the "(.*)"$/, (button) => {
   switch (button) {
   case 'frn search button': paymentEventMonitoringPage.searchByFRNButton().scrollIntoView().click(); break
   case 'batch search button': paymentEventMonitoringPage.searchByBatchButton().scrollIntoView().click(); break
-  case 'view link': cy.get(':nth-child(7) > a').then(($elements) => {
-    if ($elements.length > 0) {
-      $elements[0].click() // Native JS click on the first element
-    } else {
-      throw new Error('No elements found for selector - nth-child(7) > a')
-    }
-  })
+  case 'view link': cy.get(':nth-child(7) > a').first().click()
     break
   }
   cy.log(`Clicked on the ${button} successfully`)

@@ -5,7 +5,7 @@ class paymentEventMonitoringPage {
   }
 
   searchByFRNInstructions () {
-    return cy.get('#main-content > div > div > form.govuk-\\!-margin-bottom-6 > div > label')
+    return cy.get('.govuk-body-m')
   }
 
   searchByFRNExample () {
@@ -17,11 +17,11 @@ class paymentEventMonitoringPage {
   }
 
   searchByFRNButton () {
-    return cy.get('.govuk-\\!-margin-bottom-6 > .govuk-button')
+    return cy.get('[aria-label="Payment FRN search form."] > .govuk-button')
   }
 
   searchByBatchInstructions () {
-    return cy.get('[action="/monitoring/batch/name"] > .govuk-form-group > .govuk-label')
+    return cy.get('[action="/monitoring/batch/name"] > .govuk-button')
   }
 
   searchByBatchExample () {
@@ -37,7 +37,7 @@ class paymentEventMonitoringPage {
   }
 
   selectSchemeLabel () {
-    return cy.get('.govuk-label')
+    return cy.get('.govuk-body-m')
   }
 
   selectSchemeDropdown () {
@@ -49,7 +49,7 @@ class paymentEventMonitoringPage {
   }
 
   frnSearchedLabel () {
-    return cy.get('.govuk-caption-l')
+    return cy.get('.govuk-grid-column-full > .govuk-heading-m')
   }
 
   schemeColumn () {
@@ -76,16 +76,12 @@ class paymentEventMonitoringPage {
     return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(6)')
   }
 
-  actionsColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(7)')
-  }
-
   viewLink () {
     return cy.get(':nth-child(7) > a')
   }
 
   activityColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(1)')
+    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(7)')
   }
 
   viewStatusColumn () {
@@ -94,6 +90,9 @@ class paymentEventMonitoringPage {
 
   completedColumn () {
     return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(3)')
+  }
+  batchSubHeader () {
+    return cy.get('.govuk-heading-l')
   }
 
   batchFRNColumn () {
@@ -154,6 +153,14 @@ class paymentEventMonitoringPage {
 
   secondPaymentRequestNumber () {
     return cy.get('.govuk-table__body > :nth-child(2) > :nth-child(3)')
+  }
+
+  frnPaymentHistory () {
+    return cy.get('.govuk-heading-l')
+  }
+
+  frnPaymentRequestHistory () {
+    return cy.get('.govuk-heading-l')
   }
 }
 

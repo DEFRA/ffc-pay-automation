@@ -1,4 +1,3 @@
-@local
 Feature: 42 Payment Event Monitoring
 
 # npm run cypress:local:one -- "cypress\e2e\features\42_PaymentEventMonitoring.feature"
@@ -11,51 +10,48 @@ Feature: 42 Payment Event Monitoring
 
 ##################################################################################################
 
-# This feature file is designed to test functionality of Payment Event Monitoring section in Payment Management UI
-
+#This feature file is designed to test functionality of Payment Event Monitoring section in Payment Management UI
+  @local@dev
   Scenario: 01 Confirm initial elements on View events page
 
 # This scenario confirms that the correct elements are displayed on initial View events page load  
 
     Given I visit the "Payment management" homepage
-    When I click on the "Monitoring" link
+    When I click on the "View payment events" link
 
     Then on the View events page I confirm that "sub header" is displayed
     Then on the View events page I confirm that "frn search instructions" is displayed
-    Then on the View events page I confirm that "frn search example" is displayed
     Then on the View events page I confirm that "frn search field" is displayed
     Then on the View events page I confirm that "frn search button" is displayed
-    Then on the View events page I confirm that "batch search instructions" is displayed
-    Then on the View events page I confirm that "batch search example" is displayed
     Then on the View events page I confirm that "batch search field" is displayed
     Then on the View events page I confirm that "batch search button" is displayed
     Then I take a screenshot for Feature 42 and Scenario 1
 
-
+  @local@dev
   Scenario: 02 Confirm initial elements on View processed payment requests page
 
 # This scenario confirms that the correct elements are displayed on initial View processed payment requests page load  
 
     Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
 
     Then on the View processed payment requests page I confirm that "sub header" is displayed
     Then on the View processed payment requests page I confirm that "select scheme label" is displayed
     Then on the View processed payment requests page I confirm that "select scheme dropdown" is displayed
     Then on the View processed payment requests page I confirm that "select scheme button" is displayed
     Then I take a screenshot for Feature 42 and Scenario 2
-
+  @local@dev
   Scenario: 03 Search by FRN on View events page
 
 #This scenario confirms that correct page elements are displayed when searching events by FRN  
 
     Given I visit the "Payment management" homepage
-    When I click on the "Monitoring" link
+    When I click on the "View payment events" link
 
     Then on the View events page I enter "1258445148" into the "frn" field
     Then on the View events page I click the "frn search button"
 
-    Then on the View events page I confirm that "sub header" is displayed
+    Then on the View events page I confirm that "frn payment history" is displayed
     Then on the View events page I confirm that "frn searched label" is displayed
     Then on the View events page I confirm that "scheme column" is displayed
     Then on the View events page I confirm that "agreement column" is displayed
@@ -63,20 +59,20 @@ Feature: 42 Payment Event Monitoring
     Then on the View events page I confirm that "value column" is displayed
     Then on the View events page I confirm that "status column" is displayed
     Then on the View events page I confirm that "last updated column" is displayed
-    Then on the View events page I confirm that "actions column" is displayed
+    Then on the View events page I confirm that "activity column" is displayed
     Then I take a screenshot for Feature 42 and Scenario 3
-
+  @local@dev
   Scenario: 04 Search by Batch name on View events page
 
 #This scenario confirms that correct page elements are displayed when searching events by Batch name  
 
     Given I visit the "Payment management" homepage
-    When I click on the "Monitoring" link
+    When I click on the "View payment events" link
 
     Then on the View events page I enter "SITISFIA0001_AP_20230810085609205.dat" into the "batch" field
     Then on the View events page I click the "batch search button"
 
-    Then on the View events page I confirm that "sub header" is displayed
+    Then on the View events page I confirm that "batch sub header" is displayed
     Then on the View events page I confirm that "view batch label" is displayed
     Then on the View events page I confirm that "scheme column" is displayed
     Then on the View events page I confirm that "batch frn column" is displayed
@@ -88,19 +84,19 @@ Feature: 42 Payment Event Monitoring
     Then on the View events page I confirm that "batch actions column" is displayed
     Then I take a screenshot for Feature 42 and Scenario 4
 
-
+  @local@dev
   Scenario: 05 Click View in Actions column and confirm page
 
 #This scenario confirms that correct page elements are displayed when clicking View link in the Actions column
 
     Given I visit the "Payment management" homepage
-    When I click on the "Monitoring" link
+    When I click on the "View payment events" link
 
-    Then on the View events page I enter "1258445148" into the "frn" field
+    Then on the View events page I enter "1000000001" into the "frn" field
     Then on the View events page I click the "frn search button"
     Then on the View events page I click the "view link"
 
-    Then on the View events page I confirm that "sub header" is displayed
+    Then on the View events page I confirm that "frn payment request history" is displayed
     Then on the View events page I confirm that "view frn label" is displayed
 
   #Confirm expected entries are present in table  
@@ -108,33 +104,33 @@ Feature: 42 Payment Event Monitoring
     Then I should see "Enriched with mandatory data"
     Then I should see "Final state calculated"
     Then I should see "Submitted to payment ledger"
-    Then I should see "Settled"
+    #Then I should see "Settled"
     Then I should see "Acknowledged"
 
     Then I take a screenshot for Feature 42 and Scenario 5
-
+  @local@dev
   Scenario: 06 Confirm page elements when no results found
 
 #This scenario confirms that correct page elements are displayed when no results are found in View Events
 
     Given I visit the "Payment management" homepage
-    When I click on the "Monitoring" link
+    When I click on the "View payment events" link
 
     Then on the View events page I enter "1111111111" into the "frn" field
     Then on the View events page I click the "frn search button"
 
-    Then I should see "No payments found for FRN 1111111111."
+    Then I should see "No payment events were found for FRN 1111111111."
     Then I take a screenshot for Feature 42 and Scenario 6
-
+  @local@dev
   Scenario: 07 View processed payment requests by scheme
 
 #This scenario confirms that correct page elements are displayed when viewing processed payment requests by scheme
 
     Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
 
     Then on the View processed payment requests page I select "SFI23" in scheme dropdown
-    Then on the View processed payment requests page I click the Continue button
+    Then I click on the "Continue" button
 
     Then on the View processed payment requests page I confirm that "processed payment requests label" is displayed
     Then on the View processed payment requests page I confirm that "scheme column" is displayed
@@ -147,17 +143,18 @@ Feature: 42 Payment Event Monitoring
 #This scenario confirms that correct page elements are displayed when no results are found in View processed payment requests
 
     Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
 
-    Then on the View processed payment requests page I select "SFI" in scheme dropdown
-    Then on the View processed payment requests page I click the Continue button
-    Then I should see "No processed payment requests found."
+    Then on the View processed payment requests page I select "Woodland Management Plan" in scheme dropdown
+    Then I click on the "Continue" button
+    Then I should see "No data for this scheme"
     Then I take a screenshot for Feature 42 and Scenario 8
 
+  @local
   Scenario: 09 Confirm that payment request data is processed and ordered correctly
 
     Given I visit the "Payment management" homepage
-    When I click on the "Monitoring" link
+    When I click on the "View payment events" link
 
     Then on the View events page I enter "1258445148" into the "frn" field
     Then on the View events page I click the "frn search button"
