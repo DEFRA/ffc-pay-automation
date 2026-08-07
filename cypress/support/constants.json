@@ -12,10 +12,10 @@
     "pageSubHeader": "Payment report unavailable"
   },
   "monitoring": {
-    "pageSubHeader": "Monitoring"
+    "pageSubHeader": "View payment events"
   },
   "monitoring/schemes": {
-    "pageSubHeader": "Monitoring by scheme"
+    "pageSubHeader": "View payment events by scheme"
   },
   "closure": {
     "pageSubHeader": "Manage agreement closures"
@@ -57,7 +57,7 @@
     "pageSubHeader": "Payment statement status report"
   },
   "manual-payments": {
-    "pageSubHeader": "Manual payment upload"
+    "pageSubHeader": "Upload manual payments"
   },
   "payment-calculator": {
     "pageSubHeader": "Calculate your delinked payment"

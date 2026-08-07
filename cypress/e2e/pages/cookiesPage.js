@@ -1,119 +1,53 @@
 class cookiesPage {
-
-  pageHeader () {
-    return cy.get('.govuk-heading-l')
+  heading (text) {
+    return cy.contains('h1, h2, h3', text)
+      .containsWithoutWhitespace(text)
   }
 
-  descriptionOne () {
-    return cy.get('#main-content > :nth-child(2)')
+  paragraph (text) {
+    return cy.contains('p', text)
+      .containsWithoutWhitespace(text)
   }
 
-  descriptionTwo () {
-    return cy.get('#main-content > :nth-child(3)')
+  listItem (text) {
+    return cy.contains('li', text)
+      .containsWithoutWhitespace(text)
   }
 
-  essentialCookiesSubheader () {
-    return cy.get('#main-content > :nth-child(4)')
+  tableCell (rowIdentifier, text = rowIdentifier) {
+    return cy.contains('.govuk-table__row', rowIdentifier)
+      .contains('.govuk-table__cell, .govuk-table__header', text)
+      .containsWithoutWhitespace(text)
   }
 
-  essentialCookiesDescription () {
-    return cy.get('#main-content > :nth-child(5)')
+  legend (text) {
+    return cy.contains('.govuk-fieldset__legend', text)
+      .containsWithoutWhitespace(text)
   }
 
-  essentialCookiesName () {
-    return cy.get(':nth-child(6) > .govuk-table__body > .govuk-table__row > :nth-child(1)')
+  radioLabel (text) {
+    return cy.contains('.govuk-radios__label, label', text)
+      .containsWithoutWhitespace(text)
   }
 
-  essentialCookiesPurpose () {
-    return cy.get(':nth-child(6) > .govuk-table__body > .govuk-table__row > :nth-child(2)')
+  button (text) {
+    return cy.contains('button', text)
+      .containsWithoutWhitespace(text)
   }
 
-  essentialCookiesExpires () {
-    return cy.get(':nth-child(6) > .govuk-table__body > .govuk-table__row > :nth-child(3)')
-  }
-
-  analyticsCookiesSubheader () {
-    return cy.get('#main-content > :nth-child(7)')
-  }
-
-  analyticsDescriptionOne () {
-    return cy.get('#main-content > :nth-child(8)')
-  }
-
-  analyticsDescriptionTwo () {
-    return cy.get('#main-content > :nth-child(9)')
-  }
-
-  analyticsDescriptionThree () {
-    return cy.get('#main-content > :nth-child(10)')
-  }
-
-  analyticsBulletPointOne () {
-    return cy.get('.govuk-list > :nth-child(1)')
-  }
-
-  analyticsBulletPointTwo () {
-    return cy.get('.govuk-list > :nth-child(2)')
-  }
-
-  analyticsBulletPointThree () {
-    return cy.get('.govuk-list > :nth-child(3)')
-  }
-
-  analyticsCookiesNameOne () {
-    return cy.get(':nth-child(12) > .govuk-table__body > :nth-child(1) > :nth-child(1)')
-  }
-
-  analyticsCookiesNameTwo () {
-    return cy.get('.govuk-table__body > :nth-child(2) > :nth-child(1)')
-  }
-
-  analyticsCookiesPurposeOne () {
-    return cy.get(':nth-child(12) > .govuk-table__body > :nth-child(1) > :nth-child(2)')
-  }
-
-  analyticsCookiesPurposeTwo () {
-    return cy.get('.govuk-table__body > :nth-child(2) > :nth-child(2)')
-  }
-
-  analyticsCookiesExpiresOne () {
-    return cy.get(':nth-child(12) > .govuk-table__body > :nth-child(1) > :nth-child(3)')
-  }
-
-  analyticsCookiesExpiresTwo () {
-    return cy.get('.govuk-table__body > :nth-child(2) > :nth-child(3)')
-  }
-
-  acceptAnalyticsCookiesSubheader () {
-    return cy.get('#main-content > .govuk-grid-row > .govuk-grid-column-two-thirds > .govuk-heading-m')
-  }
-
-  acceptAnalyticsCookiesDescription () {
-    return cy.get('.govuk-fieldset__legend')
-  }
-
-  acceptAnalyticsYesBtn () {
-    return cy.get(':nth-child(1) > .govuk-label')
-  }
-
-  acceptAnalyticsNoBtn () {
-    return cy.get(':nth-child(2) > .govuk-label')
-  }
-
-  saveCookieSettingsBtn () {
-    return cy.get('#submit')
-  }
-
-  cookiePreferencesBannerHeader () {
+  notificationBannerTitle (text) {
     return cy.get('#govuk-notification-banner-title')
+      .containsWithoutWhitespace(text)
   }
 
-  cookiePreferencesBannerDescription () {
-    return cy.get('.govuk-notification-banner__heading')
+  notificationBannerHeading (text) {
+    return cy.contains('.govuk-notification-banner__heading', text)
+      .containsWithoutWhitespace(text)
   }
 
-  backToPageLink () {
-    return cy.get('.govuk-notification-banner__link')
+  notificationBannerLink (text) {
+    return cy.contains('.govuk-notification-banner__link', text)
+      .containsWithoutWhitespace(text)
   }
 }
 

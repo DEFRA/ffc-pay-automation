@@ -217,5 +217,24 @@ Cypress.Commands.add(
 
         expect(actual).to.contain(expected)
       })
+
+    return cy.wrap(subject)
+  }
+)
+
+Cypress.Commands.add(
+  'haveWithoutWhitespace',
+  { prevSubject: true },
+  (subject, expectedText) => {
+    cy.wrap(subject)
+      .invoke('text')
+      .then((text) => {
+        const actual = text.replace(/\s+/g, ' ').trim()
+        const expected = expectedText.replace(/\s+/g, ' ').trim()
+
+        expect(actual).to.equal(expected)
+      })
+
+    return cy.wrap(subject)
   }
 )

@@ -10,10 +10,10 @@
   },
   "payment events card": {
     "title": "Payment events",
-    "description": "View payment and events and requests",
+    "description": "Search and view payment events",
     "links": [
-      "Monitoring",
-      "Schemes"
+      "View payment events",
+      "View payment events by scheme"
     ]
   },
   "payment holds card": {
@@ -23,8 +23,8 @@
   },
   "manual payments card": {
     "title": "Manual payments",
-    "description": "Manually upload payment files",
-    "links": ["Manual payment upload"]
+    "description": "Upload payment files to be manually processed",
+    "links": ["Upload manual payments"]
   },
   "agreement closures card": {
     "title": "Agreement closures",

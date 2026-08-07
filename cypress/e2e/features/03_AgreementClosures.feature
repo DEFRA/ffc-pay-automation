@@ -151,13 +151,12 @@ Feature: 03 Agreement Closures
     When I click on the "Bulk add agreement closure" link
     And I upload 'bulkClosureUploadValid.csv' file
     When I click on the "Add closures" button
-    And I am on the "closure" subpage
+    And I am on the "closure/bulk" subpage
     And I visit the "Payment management" homepage
     And I click on the "Manage agreement closures" link
     And I click on the "Search agreement closures" link
     And I see the new bulk upload submissions in the table
     
-
   Scenario: 20 Upload File Format Validation
     And I click on the "Manage agreement closures" link
     When I click on the "Bulk add agreement closures" link

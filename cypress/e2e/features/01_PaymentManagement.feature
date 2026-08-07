@@ -10,7 +10,7 @@ Feature: 01 Payment management
   @test @dev @local
   Scenario Outline: 01 Verify <link> links work correctly
 
-  This scenario confirms that the links for all of Pay Management's sections are functioning correctly
+  #This scenario confirms that the links for all of Pay Management's sections are functioning correctly
 
     When I click on the "<link>" link
     Then I am on the "<subPage>" subpage
@@ -18,20 +18,20 @@ Feature: 01 Payment management
 
     Examples:
       | link                                     | subPage                           |
-      | Manage payment holds                     | payment-holds                     |
-      | Alerts                                   | alerts                            |
-      | Reset payment request                    | payment-request/reset             |
-      | Monitoring                               | monitoring                        |
-      | Schemes                                  | monitoring/schemes                |
-      | Manage agreement closures                | closure                           |
       | Download reports                         | download-report-list              |
       | Generate payment request statuses report | generate-payment-request-statuses |
       | AP/AR listing report                     | generate-ap-ar-listing-report     |
-      | Manual payment upload                    | manual-payments                   |
-      | View metrics dashboard                   | metrics                           |
+      | View payment events                      | monitoring                        |
+      | View payment events by scheme            | monitoring/schemes                |
+      | Manage payment holds                     | payment-holds                     |
+      | Upload manual payments                   | manual-payments                   |
+      | Manage agreement closures                | closure                           |
+      | Alerts                                   | alerts                            |
       | Download payment statements              | download-statements               |
       | Download statement status report         | status-report                     |
-
+      | View metrics dashboard                   | metrics                           |
+      | Reset payment request                    | payment-request/reset             |
+     
   
   @test @dev @local
   Scenario Outline: 02 Confirm content on home page
@@ -135,8 +135,7 @@ Feature: 01 Payment management
     Then on the Cookies Page I confirm that "accept analytics cookies option buttons" is displayed
     Then on the Cookies Page I confirm that "save cookie settings button" is displayed
 
-    When on the Cookies Page I click the "accept cookies" button
-    When on the Cookies Page I click the "save cookie settings" button
+    And I click on the "Save cookie settings" button
 
     Then on the Cookies Page I confirm that "cookie preference banner" is displayed
     Then I take a screenshot for Feature 1 and Scenario 6

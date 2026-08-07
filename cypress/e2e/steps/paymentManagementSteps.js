@@ -3,7 +3,7 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 import paymentManagementPage from '../pages/paymentManagementPage'
 import reportsPage from '../pages/reportsPage'
 import manualPaymentsPage from '../pages/manualPaymentsPage'
-import managementInformationPage from '../pages/managementInformationPage'
+import metricsDashboardPage from '../pages/metricsDashboardPage'
 import constants from '../../support/constants.json'
 import downloadStatementsPage from '../pages/downloadStatementsPage'
 import resetPaymentRequestPage from '../pages/resetPaymentRequestPage'
@@ -22,7 +22,7 @@ const env = envConfig.env
 console.log('Environment Config:', envConfig)
 
 When(/^I can see "(.*)" as the header$/, (text) => {
-  paymentManagementPage.header().should('be.visible').and('have.text', text)
+  paymentManagementPage.header().should('be.visible').haveWithoutWhitespace(text)
 })
 
 Then(/^I take a screenshot for "(.*)"$/, (text) => {
@@ -47,7 +47,7 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
     paymentManagementPage
       .mainHeader()
       .should('be.visible')
-      .and('have.text', constants[text].pageSubHeader)
+      .haveWithoutWhitespace(constants[text].pageSubHeader)
 
   } else {
 
@@ -55,7 +55,7 @@ Then(/^I am on the "(.*)" subpage$/, (text) => {
     //grabs the first subheader avail, otherwise if there is multiple subheaders it grabs all of them
       .subHeader().first()
       .should('be.visible')
-      .and('have.text', constants[text].pageSubHeader)
+      .haveWithoutWhitespace(constants[text].pageSubHeader)
   }
 })
 
@@ -221,239 +221,285 @@ Then(/^on the Home Page I confirm that "(.*)" is not displayed$/, (element) => {
   console.log('Confirmed that ' + element + ' is not displayed')
 })
 
-When(/^on the Cookies Page I click the "(.*)" button$/, (button) => {
-
-  Cypress.emit('log:step', 'on the Cookies Page I click the ' + button + ' button')
-
-  let element
-
-  switch (button) {
-  case 'accept cookies': element = cookiesPage.acceptAnalyticsYesBtn(); break
-  case 'reject cookies': element = cookiesPage.acceptAnalyticsNoBtn(); break
-  case 'save cookie settings': element = cookiesPage.saveCookieSettingsBtn(); break
-  }
-
-  element.click()
-  cy.log('Clicked the ' + button + ' button')
-  console.log('Clicked the ' + button + ' button')
-})
 
 Then(/^on the Cookies Page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step', `on the Cookies Page I confirm that ${element} is displayed`)
 
-  Cypress.emit('log:step', 'on the Cookies Page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      cookiesPage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
   case 'page header':
-    cookiesPage.pageHeader().should('be.visible').containsWithoutWhitespace( 'Cookies')
+    verify('heading', ['Cookies'])
     break
+
   case 'description':
-    cookiesPage.descriptionOne().should('be.visible').containsWithoutWhitespace('Cookies are small files saved on your phone, tablet or computer when you visit a website.')
-    cookiesPage.descriptionTwo().should('be.visible').containsWithoutWhitespace('We use cookies to make the Defra Payment management site work and to collect information about how you use our service.')
+    verify('paragraph', ['Cookies are small files saved on your phone, tablet or computer when you visit a website.', 'We use cookies to make the Defra Payment management site work and to collect information about how you use our service.'])
     break
+
   case 'essential cookies subheader':
-    cookiesPage.essentialCookiesSubheader().should('be.visible').containsWithoutWhitespace( 'Essential cookies')
+    verify('heading', ['Essential cookies'])
     break
+
   case 'essential cookies description':
-    cookiesPage.essentialCookiesDescription().should('be.visible').containsWithoutWhitespace( 'Essential cookies keep your information secure while you use this service. We do not need to ask permission to use them.')
+    verify('paragraph', ['Essential cookies keep your information secure while you use this service. We do not need to ask permission to use them.'])
     break
+
   case 'essential cookies name':
-    cookiesPage.essentialCookiesName().should('be.visible').containsWithoutWhitespace( 'cookies_policy')
+    cookiesPage.tableCell('cookies_policy')
+      .should('be.visible')
     break
+
   case 'essential cookies purpose':
-    cookiesPage.essentialCookiesPurpose().should('be.visible').containsWithoutWhitespace( 'Saves your cookie consent settings')
+    cookiesPage.tableCell(
+      'cookies_policy',
+      'Saves your cookie consent settings'
+    ).should('be.visible')
     break
+
   case 'essential cookies expires':
-    cookiesPage.essentialCookiesExpires().should('be.visible').containsWithoutWhitespace( '1 year')
+    cookiesPage.tableCell(
+      'cookies_policy',
+      '1 year'
+    ).should('be.visible')
     break
+
   case 'analytics cookies subheader':
-    cookiesPage.analyticsCookiesSubheader().should('be.visible').containsWithoutWhitespace( 'Analytics cookies (optional)')
+    verify('heading', ['Analytics cookies (optional)'])
     break
+
   case 'analytics cookies description':
-    cookiesPage.analyticsDescriptionOne().should('be.visible').containsWithoutWhitespace( 'With your permission, we use Google Analytics to collect data about how you use this service. This information helps us to improve our service.')
-    cookiesPage.analyticsDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'Google is not allowed to use or share our analytics data with anyone.')
-    cookiesPage.analyticsDescriptionThree().should('be.visible').containsWithoutWhitespace( 'Google Analytics stores anonymised information about:')
+    verify('paragraph', ['With your permission, we use Google Analytics to collect data about how you use this service. This information helps us to improve our service.', 'Google is not allowed to use or share our analytics data with anyone.', 'Google Analytics stores anonymised information about:'])
     break
+
   case 'analytics cookies bullet points':
-    cookiesPage.analyticsBulletPointOne().should('be.visible').containsWithoutWhitespace( 'how you got to this service')
-    cookiesPage.analyticsBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'the pages you visit on this service and how long you spend on them')
-    cookiesPage.analyticsBulletPointThree().should('be.visible').containsWithoutWhitespace( 'any errors you see while using this service')
+    verify('listItem', ['how you got to this service', 'the pages you visit on this service and how long you spend on them', 'any errors you see while using this service'])
     break
+
   case 'analytics cookies names':
-    cookiesPage.analyticsCookiesNameOne().should('be.visible').containsWithoutWhitespace( '_ga')
-    cookiesPage.analyticsCookiesNameTwo().should('be.visible').containsWithoutWhitespace( '_gid')
+    cookiesPage.tableCell('_ga')
+      .should('be.visible')
+
+    cookiesPage.tableCell('_gid')
+      .should('be.visible')
     break
+
   case 'analytics cookies purposes':
-    cookiesPage.analyticsCookiesPurposeOne().should('be.visible').containsWithoutWhitespace( 'Helps us count how many people visit this service by tracking if you have visited before')
-    cookiesPage.analyticsCookiesPurposeTwo().should('be.visible').containsWithoutWhitespace( 'Checks if you’ve visited this before. This helps us count how many people visit our site.')
+    cookiesPage.tableCell(
+      '_ga',
+      'Helps us count how many people visit this service by tracking if you have visited before'
+    ).should('be.visible')
+
+    cookiesPage.tableCell(
+      '_gid',
+      'Checks if you’ve visited this before. This helps us count how many people visit our site.'
+    ).should('be.visible')
     break
+
   case 'analytics cookies expirations':
-    cookiesPage.analyticsCookiesExpiresOne().should('be.visible').containsWithoutWhitespace( '2 years')
-    cookiesPage.analyticsCookiesExpiresTwo().should('be.visible').containsWithoutWhitespace( '24 hours')
+    cookiesPage.tableCell('_ga', '2 years')
+      .should('be.visible')
+
+    cookiesPage.tableCell('_gid', '24 hours')
+      .should('be.visible')
     break
+
   case 'accept analytics cookies subheader':
-    cookiesPage.acceptAnalyticsCookiesSubheader().should('be.visible').containsWithoutWhitespace( 'Do you want to accept analytics cookies?')
+    verify('heading', ['Do you want to accept analytics cookies?'])
     break
+
   case 'accept analytics cookies description':
-    cookiesPage.acceptAnalyticsCookiesDescription().should('be.visible').containsWithoutWhitespace( 'Do you want to accept cookies that measure website use?')
+    verify('legend', ['Do you want to accept cookies that measure website use?'])
     break
+
   case 'accept analytics cookies option buttons':
-    cookiesPage.acceptAnalyticsYesBtn().should('be.visible')
-    cookiesPage.acceptAnalyticsNoBtn().should('be.visible')
+    verify('radioLabel', ['Yes', 'No'])
     break
+
   case 'save cookie settings button':
-    cookiesPage.saveCookieSettingsBtn().should('be.visible').containsWithoutWhitespace( 'Save cookie settings')
+    verify('button', ['Save cookie settings'])
     break
+
   case 'cookie preference banner':
-    cookiesPage.cookiePreferencesBannerHeader().should('be.visible').containsWithoutWhitespace( 'Success')
-    cookiesPage.cookiePreferencesBannerDescription().should('be.visible').containsWithoutWhitespace( 'You’ve set your cookie preferences')
-    cookiesPage.backToPageLink().should('be.visible').containsWithoutWhitespace( 'Go back to the page you were looking at')
+    verify('notificationBannerTitle', ['Success'])
+
+    verify('notificationBannerHeading', ['You’ve set your cookie preferences'])
+
+    verify('notificationBannerLink', ['Go back to the page you were looking at'])
+    break
   }
-  cy.log('Confirmed that ' + element + ' is displayed')
-  console.log('Confirmed that ' + element + ' is displayed')
+
+  cy.log(`Confirmed that ${element} is displayed`)
+  console.log(`Confirmed that ${element} is displayed`)
 })
 
 Then(/^on the Accessibility Statement Page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step', `on the Accessibility Statement Page I confirm that ${element} is displayed`)
 
-  Cypress.emit('log:step', 'on the Accessibility Statement Page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      accessibilityStatementPage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
   case 'page header':
-    accessibilityStatementPage.pageHeader().should('be.visible').containsWithoutWhitespace( 'Accessibility statement')
+    verify('heading', ['Accessibility statement'])
     break
+
   case 'description':
-    accessibilityStatementPage.descriptionOne().should('be.visible').containsWithoutWhitespace( 'This service is run by Defra. We want as many people as possible to be able to use this website.', 'For example, that means you should be able to:')
-    accessibilityStatementPage.bulletPointOne().should('be.visible').containsWithoutWhitespace( 'change colours, contrast levels and fonts')
-    accessibilityStatementPage.bulletPointTwo().should('be.visible').containsWithoutWhitespace( 'zoom in up to 200% without the text spilling off the screen')
-    accessibilityStatementPage.bulletPointThree().should('be.visible').containsWithoutWhitespace( 'navigate most of the website using just a keyboard')
-    accessibilityStatementPage.bulletPointFour().should('be.visible').containsWithoutWhitespace( 'navigate most of the website using speech recognition software')
-    accessibilityStatementPage.bulletPointFive().should('be.visible').containsWithoutWhitespace( 'listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)')
-    accessibilityStatementPage.descriptionTwo().should('be.visible').containsWithoutWhitespace( 'We have also made the website text as simple as possible to understand.')
-    accessibilityStatementPage.descriptionThree().should('be.visible').containsWithoutWhitespace( 'AbilityNet has advice on making your device easier to use if you have a disability.')
+    verify('paragraph', ['This service is run by Defra. We want as many people as possible to be able to use this website.', 'For example, that means you should be able to:', 'We have also made the website text as simple as possible to understand.', 'AbilityNet has advice on making your device easier to use if you have a disability.'])
+
+    verify('listItem', ['change colours, contrast levels and fonts', 'zoom in up to 200% without the text spilling off the screen', 'navigate most of the website using just a keyboard', 'navigate most of the website using speech recognition software', 'listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)'])
     break
+
   case 'how accessible this website is':
-    accessibilityStatementPage.howAccessibleSubheader().should('be.visible').containsWithoutWhitespace( 'How accessible this website is')
-    accessibilityStatementPage.howAccessibleDescription().should('be.visible').containsWithoutWhitespace( 'We believe this website is fully accessible. If you find any accessibility issues, please contact us using the details below.')
+    verify('heading', ['How accessible this website is'])
+
+    verify('paragraph', ['We believe this website is fully accessible. If you find any accessibility issues, please contact us using the details below.'])
     break
+
   case 'feedback and contact info':
-    accessibilityStatementPage.feebackSubheader().should('be.visible').containsWithoutWhitespace( 'Feedback and contact information')
-    accessibilityStatementPage.feedbackDescription().should('be.visible').containsWithoutWhitespace( 'If you find any problems not listed on this page or think we\'re not meeting accessibility requirements, contact us at: contentteam@defra.gov.uk.')
+    verify('heading', ['Feedback and contact information'])
+
+    verify('paragraph', ['If you find any problems not listed on this page or think we\'re not meeting accessibility requirements, contact us at: contentteam@defra.gov.uk.'])
     break
+
   case 'enforcement procedure':
-    accessibilityStatementPage.enforcementProcedureSubheader().should('be.visible').containsWithoutWhitespace( 'Enforcement procedure')
-    accessibilityStatementPage.enforcementProcedureDescription().should('be.visible').containsWithoutWhitespace( 'The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).', 'If you\'re not happy with how we respond to your complaint, contact the Equality Advisory and Support Service (EASS).')
+    verify('heading', ['Enforcement procedure'])
+
+    verify('paragraph', ['The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).', 'If you\'re not happy with how we respond to your complaint, contact the Equality Advisory and Support Service (EASS).'])
     break
+
   case 'technical info':
-    accessibilityStatementPage.technicalInformationSubheader().should('be.visible').containsWithoutWhitespace( 'Technical information about this website’s accessibility')
-    accessibilityStatementPage.technicalInformationDescription().should('be.visible').containsWithoutWhitespace( 'Defra is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.')
+    verify('heading', ['Technical information about this website’s accessibility'])
+
+    verify('paragraph', ['Defra is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.'])
     break
+
   case 'compliance status':
-    accessibilityStatementPage.complianceStatusSubheader().should('be.visible').containsWithoutWhitespace( 'Compliance status')
-    accessibilityStatementPage.complianceStatusDescription().should('be.visible').containsWithoutWhitespace( 'This website is fully compliant with the Web Content Accessibility Guidelines version 2.2 AA standard.')
+    verify('heading', ['Compliance status'])
+
+    verify('paragraph', ['This website is fully compliant with the Web Content Accessibility Guidelines version 2.2 AA standard.'])
     break
+
   case 'improving accessiblity':
-    accessibilityStatementPage.improvingAccessibilitySubheader().should('be.visible').containsWithoutWhitespace( 'What we\'re doing to improve accessibility')
-    accessibilityStatementPage.improvingAccessibilityDescription().should('be.visible').containsWithoutWhitespace( 'We are committed to maintaining accessibility standards. Our ongoing activities include:')
-    accessibilityStatementPage.improvingAccessibilityBulletPointOne().should('be.visible').containsWithoutWhitespace( 'conducting regular accessibility audits')
-    accessibilityStatementPage.improvingAccessibilityBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'training our team on accessibility best practices')
+    verify('heading', ['What we\'re doing to improve accessibility'])
+
+    verify('paragraph', ['We are committed to maintaining accessibility standards. Our ongoing activities include:'])
+
+    verify('listItem', ['conducting regular accessibility audits', 'training our team on accessibility best practices'])
     break
+
   case 'preparation of statement':
-    accessibilityStatementPage.preparationSubheader().should('be.visible').containsWithoutWhitespace( 'Preparation of this accessibility statement')
-    accessibilityStatementPage.preparationDescriptionOne().should('be.visible').containsWithoutWhitespace( 'This statement was prepared on', 'It was last reviewed on')
-    accessibilityStatementPage.preparationDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'This website was last tested on',  'The test was carried out using automated testing tools against WCAG 2.2 AA criteria.')
+    verify('heading', ['Preparation of this accessibility statement'])
+
+    verify('paragraph', ['This statement was prepared on', 'It was last reviewed on', 'This website was last tested on', 'The test was carried out using automated testing tools against WCAG 2.2 AA criteria.'])
     break
   }
-  cy.log('Confirmed that ' + element + ' is displayed')
-  console.log('Confirmed that ' + element + ' is displayed')
+
+  cy.log(`Confirmed that ${element} is displayed`)
+  console.log(`Confirmed that ${element} is displayed`)
 })
 
-Then(/^on the Privacy Notice Page I confirm that "(.*)" is displayed$/, (element) => {
 
-  Cypress.emit('log:step', 'on the Privacy Notice Page I confirm that ' + element + ' is displayed')
+Then(/^on the Privacy Notice Page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step', `on the Privacy Notice Page I confirm that ${element} is displayed`)
+
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      privacyNoticePage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
   case 'page header':
-    privacyNoticePage.pageHeader().should('be.visible').containsWithoutWhitespace( 'Privacy notice')
+    verify('heading', ['Privacy notice'])
     break
+
   case 'description':
-    privacyNoticePage.descriptionOne().should('be.visible').containsWithoutWhitespace( 'Payment management is provided by Defra.')
-    privacyNoticePage.descriptionTwo().should('be.visible').containsWithoutWhitespace( 'Defra is the data controller for pages starting with ffc-pay-web -', 'for example, the site\'s accessibility statement.')
-    privacyNoticePage.descriptionThree().should('be.visible').containsWithoutWhitespace('If you follow a link to a service provided by another government department, agency or local authority, that organisation will:')
-    privacyNoticePage.bulletPointOne().should('be.visible').containsWithoutWhitespace( 'be the data controller')
-    privacyNoticePage.bulletPointTwo().should('be.visible').containsWithoutWhitespace( 'be responsible for processing any data you share with them')
-    privacyNoticePage.bulletPointThree().should('be.visible').containsWithoutWhitespace( 'publish and manage their own privacy notice with details of how to contact them')
-    privacyNoticePage.descriptionFour().should('be.visible').containsWithoutWhitespace( 'A data controller determines how and why personal data is processed.', 'For more information, read the Cabinet Office’s entry in the Data Protection Public Register.')
+    verify('paragraph', ['Payment management is provided by Defra.', 'If you follow a link to a service provided by another government department, agency or local authority, that organisation will:'])
+
+    verify('listItem', ['be the data controller', 'be responsible for processing any data you share with them', 'publish and manage their own privacy notice with details of how to contact them'])
+
+    verify('verifyText', ['Defra is the data controller for pages starting with ffc-pay-web', 'A data controller determines how and why personal data is processed.', 'Data Protection Public Register'])
     break
+
   case 'what data we collect':
-    privacyNoticePage.whatDataSubheader().should('be.visible').containsWithoutWhitespace( 'What data we collect')
-    privacyNoticePage.whatDataDescriptionOne().should('be.visible').containsWithoutWhitespace( 'The personal data we collect from you includes:')
-    privacyNoticePage.whatDataBulletPointOne().should('be.visible').containsWithoutWhitespace( 'your Internet Protocol (IP) address, and details of which version of web browser you used')
-    privacyNoticePage.whatDataBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'information on how you use the site, using cookies and page tagging techniques')
-    privacyNoticePage.whatDataDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'Where you provide your consent, we use Google Analytics to collect information about how you use GOV.UK.', 'This includes IP addresses.')
-    privacyNoticePage.whatDataDescriptionThree().should('be.visible').containsWithoutWhitespace( 'Google Analytics processes information about:')
-    privacyNoticePage.whatDataBulletPointThree().should('be.visible').containsWithoutWhitespace( 'the pages you visit on GOV.UK')
-    privacyNoticePage.whatDataBulletPointFour().should('be.visible').containsWithoutWhitespace( 'how long you spend on each GOV.UK page')
-    privacyNoticePage.whatDataBulletPointFive().should('be.visible').containsWithoutWhitespace( 'how you got to the site')
-    privacyNoticePage.whatDataBulletPointSix().should('be.visible').containsWithoutWhitespace( 'what you click on while you’re visiting the site')
-    privacyNoticePage.whatDataDescriptionFour().should('be.visible').containsWithoutWhitespace( 'We will not combine analytics information with other data sets in a way that would directly identify who you are.')
-    privacyNoticePage.whatDataMoreInfoLink().should('be.visible').containsWithoutWhitespace( 'Find out more about how we use Google Analytics and other cookies on this service')
+    verify('heading', ['What data we collect'])
+
+    verify('paragraph', ['The personal data we collect from you includes:', 'Google Analytics processes information about:', 'We will not combine analytics information with other data sets in a way that would directly identify who you are.'])
+
+    verify('listItem', ['your Internet Protocol (IP) address, and details of which version of web browser you used', 'information on how you use the site, using cookies and page tagging techniques', 'the pages you visit on GOV.UK', 'how long you spend on each GOV.UK page', 'how you got to the site', 'what you click on while you’re visiting the site'])
+
+    verify('verifyText', ['Where you provide your consent, we use Google Analytics to collect information about how you use GOV.UK.', 'This includes IP addresses.'])
+
+    verify('link', ['Find out more about how we use Google Analytics and other cookies on this service'])
     break
+
   case 'why we need your data':
-    privacyNoticePage.whyWeNeedDataSubheader().should('be.visible').containsWithoutWhitespace( 'Why we need your data')
-    privacyNoticePage.whyWeNeedDataDescriptionOne().should('be.visible').containsWithoutWhitespace( 'We collect your personal data in order to:')
-    privacyNoticePage.whyWeNeedDataBulletPointOne().should('be.visible').containsWithoutWhitespace( 'gather feedback to improve our services')
-    privacyNoticePage.whyWeNeedDataBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'monitor use of the site to identify security threats')
-    privacyNoticePage.whyWeNeedDataBulletPointThree().should('be.visible').containsWithoutWhitespace( 'monitor the performance of the site to identify inefficiencies and JavaScript errors')
-    privacyNoticePage.whyWeNeedDataDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'We use the information we collect through Google Analytics to see how you use the service and to see how well the site performs on your device.')
-    privacyNoticePage.whyWeNeedDataDescriptionThree().should('be.visible').containsWithoutWhitespace( 'We do this to help:')
-    privacyNoticePage.whyWeNeedDataBulletPointFour().should('be.visible').containsWithoutWhitespace( 'make sure the service is meeting the needs of its users')
-    privacyNoticePage.whyWeNeedDataBulletPointFive().should('be.visible').containsWithoutWhitespace( 'make improvements')
-    privacyNoticePage.whyWeNeedDataBulletPointSix().should('be.visible').containsWithoutWhitespace( 'make performance improvements, for example improving page load time and data usage')
+    verify('heading', ['Why we need your data'])
+
+    verify('paragraph', ['We collect your personal data in order to:', 'We use the information we collect through Google Analytics to see how you use the service and to see how well the site performs on your device.', 'We do this to help:'])
+
+    verify('listItem', ['gather feedback to improve our services', 'monitor use of the site to identify security threats', 'monitor the performance of the site to identify inefficiencies and JavaScript errors', 'make sure the service is meeting the needs of its users', 'make improvements', 'make performance improvements, for example improving page load time and data usage'])
     break
+
   case 'what we do with your data':
-    privacyNoticePage.whatWeDoSubheader().should('be.visible').containsWithoutWhitespace( 'What we do with your data')
-    privacyNoticePage.whatWeDoDescriptionOne().should('be.visible').containsWithoutWhitespace( 'The data we collect with Google Analytics cookies is transferred and stored with Google where we analyse it with Google Analytics software (Universal Analytics).', 'We do not allow Google to use or share this data for their own purposes.')
-    privacyNoticePage.whatWeDoDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'We will not:')
-    privacyNoticePage.whatWeDoBulletPointOne().should('be.visible').containsWithoutWhitespace( 'sell or rent your data to third parties')
-    privacyNoticePage.whatWeDoBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'share your data with third parties for marketing purposes')
+    verify('heading', ['What we do with your data'])
+
+    verify('paragraph', ['The data we collect with Google Analytics cookies is transferred and stored with Google where we analyse it with Google Analytics software (Universal Analytics). We do not allow Google to use or share this data for their own purposes.', 'We will not:'])
+
+    verify('listItem', ['sell or rent your data to third parties', 'share your data with third parties for marketing purposes'])
     break
+
   case 'where your data is processed and stored':
-    privacyNoticePage.whereDataIsProcessedSubheader().should('be.visible').containsWithoutWhitespace( 'Where your data is processed and stored')
-    privacyNoticePage.whereDataIsProcessedDescription().should('be.visible').containsWithoutWhitespace( 'All personal data is stored in the European Economic Area (EEA).', 'Data collected by Google Analytics may be transferred outside the EEA for processing.')
+    verify('heading', ['Where your data is processed and stored'])
+
+    verify('paragraph', ['All personal data is stored in the European Economic Area (EEA). Data collected by Google Analytics may be transferred outside the EEA for processing.'])
     break
+
   case 'how we protect your data':
-    privacyNoticePage.howWeProtectDataSubheader().should('be.visible').containsWithoutWhitespace( 'How we protect your data and keep it secure')
-    privacyNoticePage.howWeProtectDataDescription().should('be.visible').containsWithoutWhitespace( 'We are committed to doing all that we can to keep your data secure.', 'We have set up systems and processes to prevent unauthorised access or disclosure of your data - ', 'for example, we protect your data using varying levels of encryption.')
+    verify('heading', ['How we protect your data and keep it secure'])
+
+    verify('paragraph', ['We are committed to doing all that we can to keep your data secure. We have set up systems and processes to prevent unauthorised access or disclosure of your data - for example, we protect your data using varying levels of encryption.'])
     break
+
   case 'your rights':
-    privacyNoticePage.yourRightsSubheader().should('be.visible').containsWithoutWhitespace( 'Your rights')
-    privacyNoticePage.yourRightsDescriptionOne().should('be.visible').containsWithoutWhitespace( 'You have the right to request:')
-    privacyNoticePage.yourRightsBulletPointOne().should('be.visible').containsWithoutWhitespace( 'information about how your personal data is processed')
-    privacyNoticePage.yourRightsBulletPointTwo().should('be.visible').containsWithoutWhitespace( 'a copy of that personal data')
-    privacyNoticePage.yourRightsBulletPointThree().should('be.visible').containsWithoutWhitespace( 'that anything inaccurate in your personal data is corrected immediately')
-    privacyNoticePage.yourRightsDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'You can also:')
-    privacyNoticePage.yourRightsBulletPointFour().should('be.visible').containsWithoutWhitespace( 'raise an objection about how your personal data is processed')
-    privacyNoticePage.yourRightsBulletPointFive().should('be.visible').containsWithoutWhitespace( 'request that your personal data is erased if there is no longer a justification for it')
-    privacyNoticePage.yourRightsBulletPointSix().should('be.visible').containsWithoutWhitespace( 'ask that the processing of your personal data is restricted in certain circumstances')
-    privacyNoticePage.yourRightsDescriptionThree().should('be.visible').containsWithoutWhitespace( 'If you have any of these requests, get in contact with our Privacy Team.')
+    verify('heading', ['Your rights'])
+
+    verify('paragraph', ['You have the right to request:', 'You can also:', 'If you have any of these requests, get in contact with our Privacy Team.'])
+
+    verify('listItem', ['information about how your personal data is processed', 'a copy of that personal data', 'that anything inaccurate in your personal data is corrected immediately', 'raise an objection about how your personal data is processed', 'request that your personal data is erased if there is no longer a justification for it', 'ask that the processing of your personal data is restricted in certain circumstances'])
     break
+
   case 'links to other websites':
-    privacyNoticePage.otherLinksSubheader().should('be.visible').containsWithoutWhitespace( 'Links to other websites')
-    privacyNoticePage.otherLinksDescriptionOne().should('be.visible').containsWithoutWhitespace( 'This service contains links to other websites.')
-    privacyNoticePage.otherLinksDescriptionTwo().should('be.visible').containsWithoutWhitespace( 'This privacy notice only applies to Calculate my progressive reductions, and does not cover other government services and transactions that we link to.', 'These services, have their own terms and conditions and privacy policies.')
-    privacyNoticePage.followingLinksSubheader().should('be.visible').containsWithoutWhitespace( 'Following a link to another website')
-    privacyNoticePage.followingLinksDescription().should('be.visible').containsWithoutWhitespace( 'If you go to another website from this one, read the privacy policy on that website to find out what it does with your information.')
+    verify('heading', ['Links to other websites', 'Following a link to another website'])
+
+    verify('paragraph', ['This service contains links to other websites.', 'This privacy notice only applies to Calculate my progressive reductions, and does not cover other government services and transactions that we link to. These services, have their own terms and conditions and privacy policies.', 'If you go to another website from this one, read the privacy policy on that website to find out what it does with your information.'])
     break
+
   case 'contact us':
-    privacyNoticePage.contactInfoSubheader().should('be.visible').containsWithoutWhitespace( 'Contact us or make a complaint')
-    privacyNoticePage.contactInfoDescription().should('be.visible').containsWithoutWhitespace( 'You can contact our Data Protection Officer (DPO):')
-    privacyNoticePage.contactInfoAddress().should('be.visible').containsWithoutWhitespace( 'DPO', 'DefraGroupDataProtectionOfficer@defra.gov.uk', 'Defra', 'Department for the Environment, Food and Rural Affairs', '2 Marsham Street', 'London', 'SW1P 4DF')
+    verify('heading', ['Contact us or make a complaint'])
+
+    verify('paragraph', ['You can contact our Data Protection Officer (DPO):'])
+
+    verify('verifyText', ['DefraGroupDataProtectionOfficer@defra.gov.uk', 'Department for the Environment, Food and Rural Affairs', '2 Marsham Street', 'SW1P 4DF'])
     break
+
   case 'last updated notice':
-    privacyNoticePage.lastUpdatedNotice().should('be.visible').containsWithoutWhitespace( 'This notice was last updated on')
+    verify('insetText', ['This notice was last updated on'])
     break
   }
-  cy.log('Confirmed that ' + element + ' is displayed')
-  console.log('Confirmed that ' + element + ' is displayed')
+
+  cy.log(`Confirmed that ${element} is displayed`)
+  console.log(`Confirmed that ${element} is displayed`)
 })
 
 When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
@@ -842,7 +888,7 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
   Cypress.emit('log:step', 'on the Manual Payments page I confirm that ' + element + ' is present')
   switch (element) {
   case 'page title':
-    manualPaymentsPage.pageTitle().should('be.visible').and('have.text', 'Manual payment upload'); break
+    manualPaymentsPage.pageTitle().should('be.visible').haveWithoutWhitespace('Manual payment upload'); break
   case 'page description':
     manualPaymentsPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'This section allows teams to upload manual payment files into Payment Hub. Once uploaded, these files will automatically feed into the standard payment process'); break
   case 'choose file button':
@@ -864,9 +910,9 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
   case 'empty file message':
     manualPaymentsPage.nameErrorText().should('be.visible').containsWithoutWhitespace( 'We couldn’t process your upload because the file is empty. Please upload a file that contains data.'); break
   case 'return button':
-    manualPaymentsPage.returnButton().should('be.visible').and('have.text', 'Return'); break
+    manualPaymentsPage.returnButton().should('be.visible').haveWithoutWhitespace('Return'); break
   case 'error return button':
-    manualPaymentsPage.errorReturnButton().should('be.visible').and('have.text', 'Return'); break
+    manualPaymentsPage.errorReturnButton().should('be.visible').haveWithoutWhitespace('Return'); break
   case 'upload history table':
     manualPaymentsPage.uploadHistoryTable().should('be.visible'); break
   default:
@@ -928,127 +974,226 @@ When (/^on the Add New Alert Recipient page I click the "(.*)" button$/, (button
   console.log(`Clicked on the ${button} button successfully`)
 })
 
-Then (/^on the Management Information page I confirm that "(.*)" is not displayed$/, (element) => {
+Then (/^on the Metrics Dashboard page I confirm that "(.*)" is not displayed$/, (element) => {
 
-  Cypress.emit('log:step', 'on the Management Information page I confirm that ' + element + ' is not displayed')
+  Cypress.emit('log:step', 'on the Metrics Dashboard page I confirm that ' + element + ' is not displayed')
   switch (element) {
   case 'select year filter dropdown':
-    managementInformationPage.selectYearFilterDropdown().should('not.be.visible'); break
+    metricsDashboardPage.selectYearFilterDropdown().should('not.be.visible'); break
   case 'select month filter dropdown':
-    managementInformationPage.selectMonthFilterDropdown().should('not.be.visible'); break
+    metricsDashboardPage.selectMonthFilterDropdown().should('not.be.visible'); break
   default:
     throw new Error('invalid element')
   }
 
-  console.log('Confirmed that' + element + ' is not displayed on the Management Information page')
-  cy.log('Confirmed that' + element + ' is not displayed on the Management Information page')
+  console.log('Confirmed that' + element + ' is not displayed on the Metrics Dashboard page')
+  cy.log('Confirmed that' + element + ' is not displayed on the Metrics Dashboard page')
 })
 
 
-Then (/^on the Management Information page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the Metrics Dashboard page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit(
+    'log:step',
+    `on the Metrics Dashboard page I confirm that ${element} is displayed`
+  )
 
-  Cypress.emit('log:step', 'on the Management Information page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      metricsDashboardPage[method](text)
+        .should('be.visible')
+    })
+  }
+
   switch (element) {
   case 'page title':
-    managementInformationPage.pageTitle().should('be.visible').and('have.text', 'Management information'); break
+    verify('heading', ['Metrics dashboard'])
+    break
+
   case 'page description':
-    managementInformationPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'View payment and document metrics filtered by time period.'); break
-  case 'help dropdown':
-    managementInformationPage.helpDropdown().should('be.visible').containsWithoutWhitespace( 'Help with this page'); break
-  case 'help description':
-    managementInformationPage.helpDescription().should('be.visible').containsWithoutWhitespace( 'This dashboard provides operational metrics for payments and documents.'); break
-  case 'show all description':
-    managementInformationPage.showAllDescription().should('be.visible').and('have.text', '\n              Show all - View complete dataset with no date filtering (includes year breakdown)'); break
-  case 'year to date description':
-    managementInformationPage.yearToDateDescription().should('be.visible').and('have.text', '\n              Year to date - View data from 1 January of the current year to today'); break
-  case 'by year description':
-    managementInformationPage.byYearDescription().should('be.visible').and('have.text', '\n              By year - Select a specific year to view annual data'); break
-  case 'by month description':
-    managementInformationPage.byMonthDescription().should('be.visible').and('have.text', '\n              By month - Select a specific year and month to view monthly data'); break
-  case 'this month description':
-    managementInformationPage.thisMonthDescription().should('be.visible').and('have.text', '\n              This month - View data for the current calendar month'); break
-  case 'last 7 days description':
-    managementInformationPage.last7DaysDescription().should('be.visible').and('have.text', '\n              Last 7 days - View recent weekly activity'); break
-  case 'last 24 hours description':
-    managementInformationPage.last24HoursDescription().should('be.visible').and('have.text', '\n              Last 24 hours - View real-time daily activity'); break
-  case 'payment values description':
-    managementInformationPage.paymentValuesDescription().should('be.visible').and('have.text', 'Payment values are displayed in pounds (£)'); break
-  case 'print and post description':
-    managementInformationPage.printAndPostDescription().should('be.visible').and('have.text', 'Print & Post costs are calculated based on actual postage rates'); break
+    verify('paragraph', ['This dashboard provides operational metrics for payments and documents. You can view payment and document metrics filtered by time period.'])
+    break
+
   case 'time period filter dropdown':
-    managementInformationPage.timePeriodFilterDropdown().should('be.visible'); break
+    metricsDashboardPage.timePeriodFilterDropdown()
+      .should('be.visible')
+    break
+
   case 'time period filter button':
-    managementInformationPage.timePeriodFilterButton().should('be.visible').containsWithoutWhitespace( 'Apply filters'); break
+    verify('button', ['Apply filters'])
+    break
+
   case 'payment metrics sub header':
-    managementInformationPage.paymentMetricsSubHeader().should('be.visible').and('have.text', 'Payment Metrics'); break
+    verify('heading', ['Payment Metrics'])
+    break
+
   case 'payments panel':
-    managementInformationPage.paymentsPanel().should('be.visible').containsWithoutWhitespace( 'Payments'); break
+    verify('panel', ['Payments'])
+    break
+
   case 'payments count':
-    managementInformationPage.paymentsCount().should('be.visible'); break
+    metricsDashboardPage.panelValue('Payments')
+      .should('be.visible')
+    break
+
   case 'total value panel':
-    managementInformationPage.totalValuePanel().should('be.visible').containsWithoutWhitespace( 'Total Value'); break
+    verify('panel', ['Total Value'])
+    break
+
   case 'total value amount':
-    managementInformationPage.totalValueAmount().should('be.visible'); break
+    metricsDashboardPage.panelValue('Total Value')
+      .should('be.visible')
+    break
+
   case 'breakdown description':
-    managementInformationPage.breakdownDescription().should('be.visible').containsWithoutWhitespace( 'Breakdown of payments and values by scheme'); break
+    metricsDashboardPage.tableCaption(
+      'Payments by scheme breakdown',
+      'Breakdown of payments and values by scheme'
+    ).should('be.visible')
+    break
+
   case 'payment scheme column':
-    managementInformationPage.paymentSchemeColumn().should('be.visible').and('have.text', 'Scheme'); break
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Scheme'
+    ).should('be.visible')
+    break
+
   case 'total payments column':
-    managementInformationPage.totalPaymentsColumn().should('be.visible').and('have.text', 'Total Payments'); break
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Total Payments'
+    ).should('be.visible')
+    break
+
   case 'total value column':
-    managementInformationPage.totalValueColumn().should('be.visible').and('have.text', 'Total Value (£)'); break
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Total Value (£)'
+    ).should('be.visible')
+    break
+
   case 'pending column':
-    managementInformationPage.pendingColumn().should('be.visible').and('have.text', 'Pending'); break
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Pending'
+    ).should('be.visible')
+    break
+
   case 'processed column':
-    managementInformationPage.processedColumn().should('be.visible').and('have.text', 'Processed'); break
+    metricsDashboardPage.tableHeader(
+      'Payments by scheme breakdown',
+      'Processed'
+    ).should('be.visible')
+    break
+
   case 'documents metrics sub header':
-    managementInformationPage.documentsMetricsSubHeader().should('be.visible').and('have.text', 'Document Metrics'); break
+    verify('heading', ['Document Metrics'])
+    break
+
   case 'documents issued':
-    managementInformationPage.documentsIssued().should('be.visible').containsWithoutWhitespace( 'Documents Issued'); break
+    verify('panel', ['Documents Issued'])
+    break
+
   case 'documents count':
-    managementInformationPage.documentsCount().should('be.visible'); break
+    metricsDashboardPage.panelValue('Documents Issued')
+      .should('be.visible')
+    break
+
   case 'documents breakdown description':
-    managementInformationPage.docBreakdownDescription().should('be.visible').containsWithoutWhitespace( 'Breakdown of documents by scheme showing delivery methods and costs'); break
+    metricsDashboardPage.tableCaption(
+      'Statements by scheme and delivery method',
+      'Breakdown of statements by scheme showing delivery methods and costs'
+    ).should('be.visible')
+    break
+
   case 'documents scheme column':
-    managementInformationPage.docSchemeColumn().should('be.visible').and('have.text', 'Scheme'); break
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Scheme'
+    ).should('be.visible')
+    break
+
   case 'year column':
-    managementInformationPage.yearColumn().should('be.visible').and('have.text', 'Year'); break
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Year'
+    ).should('be.visible')
+    break
+
   case 'total documents column':
-    managementInformationPage.totalDocumentsColumn().should('be.visible').and('have.text', 'Total Documents'); break
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Total Documents'
+    ).should('be.visible')
+    break
+
   case 'print and post column':
-    managementInformationPage.printAndPostColumn().should('be.visible').and('have.text', 'Print & Post'); break
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Print & Post'
+    ).should('be.visible')
+    break
+
   case 'print and post cost column':
-    managementInformationPage.printAndPostCostColumn().should('be.visible').and('have.text', 'Print & Post Cost (£)'); break
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Print & Post Cost (£)'
+    ).should('be.visible')
+    break
+
   case 'email column':
-    managementInformationPage.emailColumn().should('be.visible').and('have.text', 'Email'); break
+    metricsDashboardPage.tableHeader(
+      'Statements by scheme and delivery method',
+      'Email'
+    ).should('be.visible')
+    break
+
   case 'select year filter dropdown':
-    managementInformationPage.selectYearFilterDropdown().should('be.visible'); break
+    metricsDashboardPage.selectYearFilterDropdown()
+      .should('be.visible')
+    break
+
   case 'select month filter dropdown':
-    managementInformationPage.selectMonthFilterDropdown().should('be.visible'); break
+    metricsDashboardPage.selectMonthFilterDropdown()
+      .should('be.visible')
+    break
+
   case 'no payment data message':
-    managementInformationPage.noPaymentDataMessage().should('be.visible').and('have.text', 'No payment data available for the selected period.'); break
+    verify('warningText', ['Warning No metrics data is available for the selected period from either payment or document services. This may indicate no activity has been recorded yet.'])
+    break
+
   case 'no document data message':
-    managementInformationPage.noDocumentDataMessage().should('be.visible').and('have.text', 'No document data available for the selected period.'); break
+    verify('verifyText', ['No document data available for the selected period.'])
+    break
+
   case 'clear filters':
-    managementInformationPage.clearFiltersButton().should('be.visible').and('have.text', 'Clear filters'); break
+    metricsDashboardPage.clearFiltersButton()
+      .should('be.visible')
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
 
-  console.log('Confirmed that' + element + 'is displayed on the Management Information page')
-  cy.log('Confirmed that' + element + 'is displayed on the Management Information page')
+  console.log(
+    `Confirmed that ${element} is displayed on the Metrics Dashboard page`
+  )
+
+  cy.log(
+    `Confirmed that ${element} is displayed on the Metrics Dashboard page`
+  )
 })
 
-Then(/^on the Management Information page I select "(.*?)" in (.*?) filter$/, (option, filter) => {
+Then(/^on the Metrics Dashboard page I select "(.*?)" in (.*?) filter$/, (option, filter) => {
 
-  Cypress.emit('log:step', 'on the Management Information page I select ' + option + ' in ' + filter + ' filter')
+  Cypress.emit('log:step', 'on the Metrics Dashboard page I select ' + option + ' in ' + filter + ' filter')
 
   if (filter === 'Time Period') {
-    managementInformationPage.timePeriodFilterDropdown().scrollIntoView().select(option)
+    metricsDashboardPage.timePeriodFilterDropdown().scrollIntoView().select(option)
   } else if (filter === 'Select Year') {
-    managementInformationPage.selectYearFilterDropdown().scrollIntoView().select(option)
+    metricsDashboardPage.selectYearFilterDropdown().scrollIntoView().select(option)
   } else if (filter === 'Select Month') {
-    managementInformationPage.selectMonthFilterDropdown().scrollIntoView().select(option)
+    metricsDashboardPage.selectMonthFilterDropdown().scrollIntoView().select(option)
   } else {
     throw new Error(`Unknown filter: ${filter}`)
   }
@@ -1057,28 +1202,24 @@ Then(/^on the Management Information page I select "(.*?)" in (.*?) filter$/, (o
   console.log(`Selected ${option} option in ${filter} filter`)
 })
 
-When(/^on the Management Information page I click on the "(.*)" button$/, (button) => {
+When(/^on the Metrics Dashboard page I click on the "(.*)" button$/, (button) => {
 
-  Cypress.emit('log:step', 'on the Management Information page I click on the ' + button + ' button')
+  Cypress.emit('log:step', 'on the Metrics Dashboard page I click on the ' + button + ' button')
 
   switch (button) {
-  case 'help with this page':
-    managementInformationPage.helpDropdown().scrollIntoView().click(); break
-  case 'apply filters':
-    managementInformationPage.timePeriodFilterButton().scrollIntoView().click(); break
   case 'clear filters':
-    managementInformationPage.clearFiltersButton().scrollIntoView().click(); break
+    metricsDashboardPage.clearFiltersButton().scrollIntoView().click(); break
   default:
     throw new Error('invalid button name')
   }
 
-  cy.log('Clicked' + button + 'on Management Information page')
-  console.log('Clicked' + button + 'on Management Information page')
+  cy.log('Clicked' + button + 'on Metrics Dashboard page')
+  console.log('Clicked' + button + 'on Metrics Dashboard page')
 })
 
-Then(/^on the Management Information page I confirm that (.*) value is (.*)$/, (field, expectedValue) => {
+Then(/^on the Metrics Dashboard page I confirm that (.*) value is (.*)$/, (field, expectedValue) => {
 
-  Cypress.emit('log:step', 'on the Management Information page I confirm that ' + field + ' is ' + expectedValue)
+  Cypress.emit('log:step', 'on the Metrics Dashboard page I confirm that ' + field + ' is ' + expectedValue)
 
   let fieldNumber
 
@@ -1113,202 +1254,154 @@ Then(/^on the Management Information page I confirm that (.*) value is (.*)$/, (
     })
 })
 
-Then (/^on the Download Statements page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the Download Statements page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit(
+    'log:step',
+    `on the Download Statements page I confirm that ${element} is displayed`
+  )
 
-  Cypress.emit('log:step', 'on the Download Statements page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      downloadStatementsPage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
   case 'page title':
-    downloadStatementsPage.pageTitle().should('be.visible').containsWithoutWhitespace( 'Download payment statements'); break
+    verify('heading', ['Download payment statements'])
+    break
+
   case 'page description':
-    downloadStatementsPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'Statements provide customers with payment details.'); break
+    verify('paragraph', ['Statements provide customers with payment details.'])
+    break
+
   case 'page instructions':
-    downloadStatementsPage.pageInstructions().should('be.visible').containsWithoutWhitespace( 'Full filename'); break
+    verify('label', ['Full filename'])
+    break
+
   case 'instruction examples':
-    downloadStatementsPage.instructionExamples().should('be.visible').containsWithoutWhitespace( 'Examples:', 'FFC_PaymentDelinkedStatement_DP_2024_1100021264_2025101508224868.pdf', 'FFC_PaymentSfi23QuarterlyStatement_DP_2024_1100021264_2025101508224868.pdf\n  '); break
+    verify('hint', ['Examples:', 'FFC_PaymentDelinkedStatement_DP_2024_1100021264_2025101508224868.pdf', 'FFC_PaymentSfi23QuarterlyStatement_DP_2024_1100021264_2025101508224868.pdf'])
+    break
+
   case 'filename field':
-    downloadStatementsPage.filenameField().should('be.visible').and('have.attr', 'type', 'text'); break
+    downloadStatementsPage.input('#filename')
+      .should('be.visible')
+      .and('have.attr', 'type', 'text')
+    break
+
   case 'individual criteria instructions':
-    downloadStatementsPage.individualCriteriaInstructions().should('be.visible').containsWithoutWhitespace( 'Or search by individual criteria:'); break
+    verify('paragraph', ['Or search by individual criteria:'])
+    break
+
   case 'select scheme Delinked Radio':
-    downloadStatementsPage.selectSchemeRadioDelinked().should('exist'); break
+    downloadStatementsPage.input('#schemeId-1')
+      .should('exist')
+    break
+
   case 'select scheme SFI Radio':
-    downloadStatementsPage.selectSchemeRadioSFI().should('exist'); break
+    downloadStatementsPage.input('#schemeId-2')
+      .should('exist')
+    break
+
   case 'marketing year label':
-    downloadStatementsPage.marketingYearLabel().should('be.visible').containsWithoutWhitespace( 'Marketing year'); break
+    verify('label', ['Marketing year'])
+    break
+
   case 'marketing year field':
-    downloadStatementsPage.marketingYearField().should('be.visible').and('have.attr', 'type', 'text'); break
+    downloadStatementsPage.input('#marketingYear')
+      .should('be.visible')
+      .and('have.attr', 'type', 'text')
+    break
+
   case 'frn label':
-    downloadStatementsPage.frnLabel().should('be.visible').containsWithoutWhitespace( 'Firm reference number (FRN)'); break
+    verify('label', ['Firm reference number (FRN)'])
+    break
+
   case 'frn search instructions':
-    downloadStatementsPage.frnSearchInstructions().should('be.visible').containsWithoutWhitespace( 'Enter a 10-digit FRN'); break
+    verify('hint', ['Enter a 10-digit FRN'])
+    break
+
   case 'frn field':
-    downloadStatementsPage.frnField().should('be.visible').and('have.attr', 'type', 'text'); break
+    downloadStatementsPage.input('#frn')
+      .should('be.visible')
+      .and('have.attr', 'type', 'text')
+    break
+
   case 'timestamp label':
-    downloadStatementsPage.timestampLabel().should('be.visible').containsWithoutWhitespace( 'Timestamp'); break
+    verify('label', ['Timestamp'])
+    break
+
   case 'timestamp search instructions':
-    downloadStatementsPage.timestampSearchInstructions().should('be.visible').containsWithoutWhitespace( 'For example, 06-01-2026 18:00'); break
+    verify('hint', ['For example, 06-01-2026 18:00'])
+    break
+
   case 'timestamp field':
-    downloadStatementsPage.timestampField().should('be.visible').and('have.attr', 'type', 'text'); break
+    downloadStatementsPage.input('#timestamp')
+      .should('be.visible')
+      .and('have.attr', 'type', 'text')
+    break
+
   case 'search statements button':
-    downloadStatementsPage.searchStatementsButton().should('be.visible').and('have.attr', 'class', 'govuk-button'); break
+    downloadStatementsPage.input('#report-submit')
+      .should('be.visible')
+      .and('have.class', 'govuk-button')
+    break
+
   case 'clear button':
-    downloadStatementsPage.clearButton().should('be.visible').and('have.attr', 'type', 'button'); break
+    downloadStatementsPage.button('Clear')
+      .should('be.visible')
+      .and('have.attr', 'type', 'button')
+    break
+
   case 'statements sub header and number of results':
-    downloadStatementsPage.statementsSubHeader().should('be.visible').containsWithoutWhitespace( 'Statements'); break
+    verify('heading', ['Statements'])
+    break
+
   case 'scheme column':
-    downloadStatementsPage.schemeColumn().should('be.visible').containsWithoutWhitespace( 'Scheme'); break
+    verify('tableHeader', ['Scheme'])
+    break
+
   case 'year column':
-    downloadStatementsPage.yearColumn().should('be.visible').containsWithoutWhitespace( 'Year'); break
+    verify('tableHeader', ['Year'])
+    break
+
   case 'frn column':
-    downloadStatementsPage.frnColumn().should('be.visible').containsWithoutWhitespace( 'FRN'); break
+    verify('tableHeader', ['FRN'])
+    break
+
   case 'timestamp column':
-    downloadStatementsPage.timestampColumn().should('be.visible').containsWithoutWhitespace( 'Timestamp'); break
+    verify('tableHeader', ['Timestamp'])
+    break
+
   case 'action column':
-    downloadStatementsPage.actionColumn().should('be.visible').containsWithoutWhitespace( 'Action'); break
+    verify('tableHeader', ['Action'])
+    break
+
   case 'next button':
     if (!env.includes('local')) {
-      downloadStatementsPage.nextButton().should('be.visible').and('have.class', 'govuk-pagination__link')
+      downloadStatementsPage.paginationLink('Next')
+        .should('be.visible')
     } else {
-      downloadStatementsPage.nextButton().should('not.exist')
+      downloadStatementsPage.paginationLink('Next')
+        .should('not.exist')
     }
     break
+
   case 'previous button':
-    downloadStatementsPage.previousButton().should('be.visible').and('have.attr', 'class', 'govuk-link govuk-pagination__link'); break
+    downloadStatementsPage.paginationLink('Previous')
+      .should('be.visible')
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
 
-  console.log('Confirmed that' + element + 'is displayed on the Download Statements page')
-  cy.log('Confirmed that' + element + 'is displayed on the Download Statements page')
-})
-
-Then (/^on the Download Statements page I confirm that "(.*)" is not displayed$/, (element) => {
-
-  Cypress.emit('log:step', 'on the Download Statements page I confirm that ' + element + ' is not displayed')
-
-  switch (element) {
-  case 'page title':
-    downloadStatementsPage.pageTitle().should('not.exist'); break
-  case 'page description':
-    downloadStatementsPage.pageDescription().should('not.exist'); break
-  case 'page instructions':
-    downloadStatementsPage.pageInstructions().should('not.exist'); break
-  case 'instruction examples':
-    downloadStatementsPage.instructionExamples().should('not.exist'); break
-  case 'filename field':
-    downloadStatementsPage.filenameField().should('not.exist'); break
-  case 'individual criteria instructions':
-    downloadStatementsPage.individualCriteriaInstructions().should('not.exist'); break
-  case 'select scheme label':
-    downloadStatementsPage.selectSchemeLabel().should('not.exist'); break
-  case 'select scheme dropdown':
-    downloadStatementsPage.selectSchemeDropdown().should('not.exist'); break
-  case 'marketing year label':
-    downloadStatementsPage.marketingYearLabel().should('not.exist'); break
-  case 'marketing year field':
-    downloadStatementsPage.marketingYearField().should('not.exist'); break
-  case 'frn label':
-    downloadStatementsPage.frnLabel().should('not.exist'); break
-  case 'frn search instructions':
-    downloadStatementsPage.frnSearchInstructions().should('not.exist'); break
-  case 'frn field':
-    downloadStatementsPage.frnField().should('not.exist'); break
-  case 'timestamp label':
-    downloadStatementsPage.timestampLabel().should('not.exist'); break
-  case 'timestamp search instructions':
-    downloadStatementsPage.timestampSearchInstructions().should('not.exist'); break
-  case 'timestamp field':
-    downloadStatementsPage.timestampField().should('not.exist'); break
-  case 'search statements button':
-    downloadStatementsPage.searchStatementsButton().should('not.exist'); break
-  case 'clear button':
-    downloadStatementsPage.clearButton().should('not.exist'); break
-  case 'statements sub header and number of results':
-    downloadStatementsPage.statementsSubHeader().should('not.exist'); break
-  case 'number of results':
-    downloadStatementsPage.numberOfResults().should('not.exist'); break
-  case 'scheme column':
-    downloadStatementsPage.schemeColumn().should('not.exist'); break
-  case 'year column':
-    downloadStatementsPage.yearColumn().should('not.exist'); break
-  case 'frn column':
-    downloadStatementsPage.frnColumn().should('not.exist'); break
-  case 'timestamp column':
-    downloadStatementsPage.timestampColumn().should('not.exist'); break
-  case 'action column':
-    downloadStatementsPage.actionColumn().should('not.exist'); break
-  case 'next button':
-    downloadStatementsPage.nextButton().should('not.exist'); break
-  case 'previous button':
-    downloadStatementsPage.previousButton().should('not.exist'); break
-  default:
-    throw new Error('invalid element')
-  }
-
-  console.log('Confirmed that' + element + 'is not displayed on the Download Statements page')
-  cy.log('Confirmed that' + element + 'is not displayed on the Download Statements page')
+  console.log(`Confirmed that ${element} is displayed on the Download Statements page`)
+  cy.log(`Confirmed that ${element} is displayed on the Download Statements page`)
 })
 
 
-Then(/^on the Download Statements page I click the "(.*)" button$/, (button) => {
-
-  Cypress.emit('log:step', 'on the Download Statements page I click the ' + button + ' button')
-
-  switch (button) {
-  case 'search':
-    downloadStatementsPage.searchStatementsButton().scrollIntoView().click(); break
-  case 'clear':
-    downloadStatementsPage.clearButton().scrollIntoView().click(); break
-  case 'next':
-    downloadStatementsPage.nextButton().scrollIntoView().click(); break
-  case 'previous':
-    downloadStatementsPage.previousButton().scrollIntoView().click(); break
-  default:
-    throw new Error('invalid button name')
-  }
-})
-
-
-Then(
-  /^on the Download Statements page I confirm that the page number is "(.*)"$/,
-  (expectedValue) => {
-    Cypress.emit(
-      'log:step',
-      `on the Download Statements page I confirm that the page number is ${expectedValue}`
-    )
-
-
-    downloadStatementsPage
-      .currentPageNumber()
-      .should(($el) => {
-        expect($el.text().trim()).to.eq(expectedValue)
-      })
-
-  }
-)
-
-
-Then(/^on the Download Statements page I enter "(.*)" into the "(.*)" field$/, (filename, field) => {
-
-  Cypress.emit('log:step', 'on the Download Statements page I enter ' + filename + ' into the ' + field + ' field')
-
-  switch (field) {
-  case 'filename':
-    downloadStatementsPage.filenameField().scrollIntoView().type(filename); break
-  case 'marketing year':
-    downloadStatementsPage.marketingYearField().scrollIntoView().type(filename); break
-  case 'frn':
-    downloadStatementsPage.frnField().scrollIntoView().type(filename); break
-  case 'timestamp':
-    downloadStatementsPage.timestampField().scrollIntoView().type(filename); break
-  default:
-    throw new Error('invalid field name')
-  }
-
-  console.log(`Entered ${filename} into the ${field} field on the Download Statements page`)
-  cy.log(`Entered ${filename} into the ${field} field on the Download Statements page`)
-})
 
 Then(/^on the Download Statements page I confirm that the text on "(.*)" reads "(.*)"$/, (element, expectedText) => {
 
@@ -1341,13 +1434,19 @@ Then(/^on the Download Statements page I confirm that statement can be downloade
     .its('status') .should('eq', 200)
 })
 
+
+Then('on the Download Statements page I confirm that no statement results are displayed', () => {
+  downloadStatementsPage.resultsTable()
+    .should('not.exist')
+})
+
 Then (/^on the Reset payment request page I confirm that "(.*)" is displayed$/, (element) => {
 
   Cypress.emit('log:step', 'on the Reset payment request page I confirm that ' + element + ' is displayed')
 
   switch (element) {
   case 'page title':
-    resetPaymentRequestPage.pageTitle().should('be.visible').and('have.text', 'Reset payment request'); break
+    resetPaymentRequestPage.pageTitle().should('be.visible').haveWithoutWhitespace('Reset payment request'); break
   case 'page description':
     resetPaymentRequestPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'Invoice number'); break
   case 'page instructions':
@@ -1460,342 +1559,499 @@ Then(
   }
 )
 
-Then (/^on the View events page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the View events page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step',`on the View events page I confirm that ${element} is displayed`)
 
-  Cypress.emit('log:step', 'on the View events page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      paymentEventMonitoringPage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
   case 'sub header':
-    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'Monitoring'); break
+    verify('heading', ['View payment events'])
+    break
+
   case 'frn search instructions':
-    paymentEventMonitoringPage.searchByFRNInstructions().should('be.visible').containsWithoutWhitespace( 'Search for payments by Firm Reference Number (FRN)'); break
-  case 'frn search example':
-    paymentEventMonitoringPage.searchByFRNExample().should('be.visible').containsWithoutWhitespace( 'For example, 1234567890'); break
+    verify('paragraph', ['Search and view payment events and activity by Firm Reference Number (FRN) or batch payment file name.'])
+    break
+
   case 'frn search field':
-    paymentEventMonitoringPage.searchByFRNField().should('be.visible').and('have.attr', 'type', 'search'); break
+    paymentEventMonitoringPage.searchField('frn')
+      .should('be.visible')
+      .and('have.attr', 'type', 'search')
+    break
+
   case 'frn search button':
-    paymentEventMonitoringPage.searchByFRNButton().should('be.visible').and('have.attr', 'type', 'submit'); break
-  case 'batch search instructions':
-    paymentEventMonitoringPage.searchByBatchInstructions().should('be.visible').containsWithoutWhitespace( 'Search for payments by payment batch name'); break
-  case 'batch search example':
-    paymentEventMonitoringPage.searchByBatchExample().should('be.visible').containsWithoutWhitespace( 'For example, SITISFI0001_AP_20230525095030.dat'); break
+    paymentEventMonitoringPage.searchButton('frn')
+      .should('be.visible')
+      .and('have.attr', 'type', 'submit')
+    break
+
   case 'batch search field':
-    paymentEventMonitoringPage.searchByBatchField().should('be.visible').and('have.attr', 'type', 'search'); break
+    paymentEventMonitoringPage.searchField('batch')
+      .should('be.visible')
+      .and('have.attr', 'type', 'search')
+    break
+
   case 'batch search button':
-    paymentEventMonitoringPage.searchByBatchButton().should('be.visible').and('have.attr', 'type', 'submit'); break
+    paymentEventMonitoringPage.searchButton('batch')
+      .should('be.visible')
+      .and('have.attr', 'type', 'submit')
+    break
+
   case 'frn searched label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( '1258445148'); break
+    verify('heading', ['1258445148'])
+    break
+
   case 'scheme column':
-    paymentEventMonitoringPage.schemeColumn().should('be.visible').containsWithoutWhitespace( 'Scheme'); break
+    verify('tableHeader', ['Scheme'])
+    break
+
   case 'agreement column':
-    paymentEventMonitoringPage.agreementColumn().should('be.visible').containsWithoutWhitespace( 'Agreement'); break
+    verify('tableHeader', ['Agreement'])
+    break
+
   case 'payment request column':
-    paymentEventMonitoringPage.paymentRequestColumn().should('be.visible').containsWithoutWhitespace( 'Payment request'); break
+    verify('tableHeader', ['Payment request'])
+    break
+
   case 'value column':
-    paymentEventMonitoringPage.valueColumn().should('be.visible').containsWithoutWhitespace( 'Value'); break
+    verify('tableHeader', ['Value'])
+    break
+
   case 'status column':
-    paymentEventMonitoringPage.statusColumn().should('be.visible').containsWithoutWhitespace( 'Status'); break
+    verify('tableHeader', ['Status'])
+    break
+
   case 'last updated column':
-    paymentEventMonitoringPage.lastUpdatedColumn().should('be.visible').containsWithoutWhitespace( 'Last updated'); break
-  case 'actions column':
-    paymentEventMonitoringPage.actionsColumn().should('be.visible').containsWithoutWhitespace( 'Actions'); break
+    verify('tableHeader', ['Last updated'])
+    break
+
   case 'view frn label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( '1258445148 - 40770826 - PR1'); break
+    verify('heading', ['1000000001 - 00000001'])
+    break
+
   case 'view batch label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( 'SITISFIA0001_AP_20230810085609205.dat'); break
+    verify('heading', ['SITISFIA0001_AP_20230810085609205.dat'])
+    break
+
   case 'activity column':
-    paymentEventMonitoringPage.activityColumn().should('be.visible').containsWithoutWhitespace( 'Actions'); break
+    verify('tableHeader', ['Activity'])
+    break
+
+  case 'batch sub header':
+    verify('heading', ['View batch file payments and their status'])
+    break
+
   case 'batch frn column':
-    paymentEventMonitoringPage.batchFRNColumn().should('be.visible').containsWithoutWhitespace( 'FRN'); break
+    verify('tableHeader', ['FRN'])
+    break
+
   case 'batch year column':
-    paymentEventMonitoringPage.batchYearColumn().should('be.visible').containsWithoutWhitespace( 'Year'); break
+    verify('tableHeader', ['Year'])
+    break
+
   case 'batch agreement column':
-    paymentEventMonitoringPage.batchAgreementColumn().should('be.visible').containsWithoutWhitespace( 'Agreement'); break
+    verify('tableHeader', ['Agreement'])
+    break
+
   case 'batch request column':
-    paymentEventMonitoringPage.batchRequestColumn().should('be.visible').containsWithoutWhitespace( 'Request'); break
+    verify('tableHeader', ['Request'])
+    break
+
   case 'batch value column':
-    paymentEventMonitoringPage.batchValueColumn().should('be.visible').containsWithoutWhitespace( 'Value'); break
+    verify('tableHeader', ['Value'])
+    break
+
   case 'batch status column':
-    paymentEventMonitoringPage.batchStatusColumn().should('be.visible').containsWithoutWhitespace( 'Status'); break
+    verify('tableHeader', ['Status'])
+    break
+
   case 'batch actions column':
-    paymentEventMonitoringPage.batchActionsColumn().should('be.visible').containsWithoutWhitespace( 'Actions'); break
+    verify('tableHeader', ['Activity'])
+    break
+
+  case 'frn payment history':
+    verify('heading', ['FRN payment history'])
+    break
+
+  case 'frn payment request history':
+    verify('heading', ['FRN payment request history'])
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
 
-  console.log('Confirmed that' + element + 'is displayed on the View events page')
-  cy.log('Confirmed that' + element + 'is displayed on the View events page')
+  console.log(`Confirmed that ${element} is displayed on the View events page`)
+  cy.log(`Confirmed that ${element} is displayed on the View events page`)
 })
 
-Then (/^on the View processed payment requests page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the View processed payment requests page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step',`on the View processed payment requests page I confirm that ${element} is displayed`)
 
-  Cypress.emit('log:step', 'on the View processed payment requests page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      paymentEventMonitoringPage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
   case 'sub header':
-    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'Monitoring by scheme'); break
+    verify('heading', ['View payment events by scheme'])
+    break
+
   case 'select scheme label':
-    paymentEventMonitoringPage.selectSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Select the scheme to view data for'); break
+    verify('paragraph', ['Select a scheme to view how many payments have been made and the combined value.'])
+    break
+
   case 'select scheme dropdown':
-    paymentEventMonitoringPage.selectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break
+    paymentEventMonitoringPage.selectSchemeDropdown()
+      .should('be.visible')
+      .and('have.class', 'govuk-select')
+    break
+
   case 'select scheme button':
-    paymentEventMonitoringPage.selectSchemeButton().should('be.visible').and('have.attr', 'type', 'submit'); break
+    paymentEventMonitoringPage.selectSchemeButton()
+      .should('be.visible')
+      .and('have.attr', 'type', 'submit')
+    break
+
   case 'processed payment requests label':
-    paymentEventMonitoringPage.processedRequestLabel().should('be.visible').containsWithoutWhitespace( 'Processed payment requests'); break
+    verify('tableCaption', ['Scheme payment event details'])
+    break
+
   case 'scheme column':
-    paymentEventMonitoringPage.processedRequestsSchemeColumn().should('be.visible').containsWithoutWhitespace( 'Scheme'); break
+    verify('tableHeader', ['Scheme'])
+    break
+
   case 'number of payments column':
-    paymentEventMonitoringPage.processedRequestsNumberOfColumn().should('be.visible').containsWithoutWhitespace( 'Number of payments'); break
+    verify('tableHeader', ['Number of payments'])
+    break
+
   case 'value column':
-    paymentEventMonitoringPage.processedRequestsValueColumn().should('be.visible').containsWithoutWhitespace( 'Value'); break
+    verify('tableHeader', ['Value'])
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
 
-  console.log('Confirmed that'+ element + ' is displayed on the View processed payment requests page')
-  cy.log('Confirmed that' + element + ' is displayed on the View processed payment requests page')
+  console.log(`Confirmed that ${element} is displayed on the View processed payment requests page`)
+  cy.log(`Confirmed that ${element} is displayed on the View processed payment requests page`)
 })
 
-Then (/^on the View processed payment requests page I click the Continue button$/, () => {
 
-  Cypress.emit('log:step', 'on the View processed payment requests page I click the Continue button')
-  paymentEventMonitoringPage.selectSchemeButton().click()
-  console.log('Clicked Continue button')
-  cy.log('Clicked Continue button')
+Then(/^on the View processed payment requests page I select "(.*)" in scheme dropdown$/, (selection) => {
+  Cypress.emit('log:step',`on the View processed payment requests page I select ${selection} in scheme dropdown`)
+
+  paymentEventMonitoringPage.selectSchemeDropdown()
+    .select(selection)
+
+  console.log(`Selected ${selection} in Scheme dropdown`)
+  cy.log(`Selected ${selection} in Scheme dropdown`)
 })
 
-Then (/^on the View processed payment requests page I select "(.*)" in scheme dropdown$/, (selection) => {
-
-  Cypress.emit('log:step', 'on the View processed payment requests page I select ' + selection + ' in scheme dropdown')
-  paymentEventMonitoringPage.selectSchemeDropdown().select(selection)
-  console.log('Selected ' + selection + ' in Scheme dropdown')
-  cy.log('Selected ' + selection + ' in Scheme dropdown')
-})
-
-Then (/^on the View events page I enter "(.*)" into the "(.*)" field$/, (filename, field) => {
-
-  Cypress.emit('log:step', 'on the View events page I enter ' + filename + ' into the ' + field + ' field')
+Then(/^on the View events page I enter "(.*)" into the "(.*)" field$/, (value, field) => {
+  Cypress.emit('log:step',`on the View events page I enter ${value} into the ${field} field`)
 
   switch (field) {
   case 'frn':
-    paymentEventMonitoringPage.searchByFRNField().scrollIntoView().type(filename); break
+    paymentEventMonitoringPage.searchField('frn')
+      .scrollIntoView()
+      .clear()
+      .type(value)
+    break
+
   case 'batch':
-    paymentEventMonitoringPage.searchByBatchField().scrollIntoView().type(filename); break
+    paymentEventMonitoringPage.searchField('batch')
+      .scrollIntoView()
+      .clear()
+      .type(value)
+    break
+
   default:
-    throw new Error('invalid field name')
+    throw new Error(`Invalid field name: ${field}`)
   }
 
-  console.log(`Entered ${filename} into the ${field} field on the View events page`)
-  cy.log(`Entered ${filename} into the ${field} field on the View events page`)
+  console.log(`Entered ${value} into the ${field} field on the View events page`)
+  cy.log(`Entered ${value} into the ${field} field on the View events page`)
 })
 
-Then (/^on the View events page I click the "(.*)"$/, (button) => {
-
-  Cypress.emit('log:step', 'on the View events page I click the ' + button)
+Then(/^on the View events page I click the "(.*)"$/, (button) => {
+  Cypress.emit('log:step',`on the View events page I click the ${button}`)
 
   switch (button) {
-  case 'frn search button': paymentEventMonitoringPage.searchByFRNButton().scrollIntoView().click(); break
-  case 'batch search button': paymentEventMonitoringPage.searchByBatchButton().scrollIntoView().click(); break
-  case 'view link': cy.get(':nth-child(7) > a').then(($elements) => {
-    if ($elements.length > 0) {
-      $elements[0].click() // Native JS click on the first element
-    } else {
-      throw new Error('No elements found for selector - nth-child(7) > a')
-    }
-  })
+  case 'frn search button':
+    paymentEventMonitoringPage.searchButton('frn')
+      .scrollIntoView()
+      .click()
     break
+
+  case 'batch search button':
+    paymentEventMonitoringPage.searchButton('batch')
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'view link':
+    paymentEventMonitoringPage.viewLink()
+      .scrollIntoView()
+      .click()
+    break
+
+  default:
+    throw new Error(`Invalid button name: ${button}`)
   }
+
   cy.log(`Clicked on the ${button} successfully`)
   console.log(`Clicked on the ${button} successfully`)
 })
 
-Then (/^on the View events page I confirm that rows are ordered correctly by payment request$/, () => {
+Then(/^on the View events page I confirm that rows are ordered correctly by payment request$/, () => {
+  Cypress.emit('log:step','on the View events page I confirm that rows are ordered correctly by payment request')
 
-  Cypress.emit('log:step', 'on the View events page I confirm that rows are ordered correctly by payment request')
+  paymentEventMonitoringPage.paymentRequestCell(1)
+    .should('be.visible')
+    .containsWithoutWhitespace('1')
 
-  paymentEventMonitoringPage.firstPaymentRequestNumber().should('be.visible').containsWithoutWhitespace( '1')
-  paymentEventMonitoringPage.secondPaymentRequestNumber().should('be.visible').containsWithoutWhitespace( '2')
+  paymentEventMonitoringPage.paymentRequestCell(2)
+    .should('be.visible')
+    .containsWithoutWhitespace('2')
 
   console.log('Confirmed that rows are ordered correctly by payment request')
   cy.log('Confirmed that rows are ordered correctly by payment request')
 })
 
-Then (/^on the View events page I confirm that "(.*)" of entry number "(.*)" in table is "(.*)"$/, (columnName, rowNumber, expectedValue) => {
+Then(
+  /^on the View events page I confirm that "(.*)" of entry number "(.*)" in table is "(.*)"$/,
+  (columnName, rowNumber, expectedValue) => {
+    Cypress.emit('log:step',`on the View events page I confirm that ${columnName} of entry number ${rowNumber} in table is ${expectedValue}`)
 
-  Cypress.emit('log:step', 'on the View events page I confirm that ' + columnName + ' of entry number ' + rowNumber + ' in table is ' + expectedValue)
+    const columnMap = {
+      scheme: 1,
+      agreement: 2,
+      'payment request': 3,
+      value: 4,
+      status: 5,
+      'last updated': 6
+    }
 
-  let element
+    if (!columnMap[columnName]) {
+      throw new Error(`Invalid column name: ${columnName}`)
+    }
 
-  const today = new Date()
+    if (columnName === 'last updated') {
+      const today = new Date()
+      const day = String(today.getDate()).padStart(2, '0')
+      const month = String(today.getMonth() + 1).padStart(2, '0')
+      const year = today.getFullYear()
 
-  let day = today.getDate()
-  let month = today.getMonth() + 1
-  let year = today.getFullYear()
+      expectedValue = `${day}/${month}/${year}`
 
-  day = String(day).padStart(2, '0')
-  month = String(month).padStart(2, '0')
+      console.log(expectedValue)
+      cy.log(expectedValue)
+    }
 
-  const formattedDate = `${day}/${month}/${year}`
+    paymentEventMonitoringPage.tableCell(rowNumber, columnMap[columnName])
+      .should('be.visible')
+      .containsWithoutWhitespace(expectedValue)
 
-  console.log(formattedDate)
-  cy.log(formattedDate)
-
-  switch (columnName) {
-  case 'scheme': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(1)'); break
-  case 'agreement': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(2)'); break
-  case 'payment request': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(3)'); break
-  case 'value': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(4)'); break
-  case 'status': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(5)'); break
-  case 'last updated': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(6)')
-
-    console.log(formattedDate)
-    cy.log(formattedDate)
-    expectedValue = formattedDate
-    break
-
-  default:
-    throw new Error('invalid element')
+    console.log(`Confirmed value of table entry ${rowNumber} is ${expectedValue}`)
+    cy.log(`Confirmed value of table entry ${rowNumber} is ${expectedValue}`)
   }
-  element.should('be.visible').containsWithoutWhitespace( expectedValue)
+)
 
-  console.log('Confirmed value of table entry ' + rowNumber + ' is ' + expectedValue)
-  cy.log('Confirmed value of table entry ' + rowNumber + ' is ' + expectedValue)
-})
+Then(/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step', `on the Alerts page I confirm that ${element} is displayed`)
 
-Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      paymentAlertsPage[method](text)
+        .should('be.visible')
+    })
+  }
 
-  // The order of elements on the Alerts page is different for local and dev environments, as a result
-  // dev version of this script has page elements adjusted to account for this
+  const schemeLabels = {
+    'sfi22 label': 'SFI-22',
+    'sfi pilot label': 'SFI-Pilot',
+    'lump sums label': 'Lump Sum Payments',
+    'vet visits label': 'Vet Visits',
+    'countryside stewardship label': 'Countryside Stewardship',
+    'basic payment scheme label': 'Basic Payment Scheme',
+    'manual injection label': 'Manual Injection',
+    'environmental stewardship label': 'Environmental Stewardship',
+    'imps label': 'IMPS',
+    'forestry commission label': 'Forestry Commission',
+    'sfi23 label': 'SFI-23',
+    'delinked payments label': 'Delinked Payments',
+    'expanded sfi label': 'Expanded SFI Offer',
+    'csht revenue label': 'Countryside Stewardship Higher Tier (Revenue)',
+    'csht capital label': 'Countryside Stewardship Higher Tier (Capital)',
+    'farm payments technical test label': 'Farm Payments Technical Test',
+    'woodland management plan label': 'Woodland Management Plan'
+  }
 
-  Cypress.emit('log:step', 'on the Alerts page I confirm that ' + element + ' is displayed')
+  const schemeButtons = {
+    'sfi22 show button': 'SFI-22',
+    'sfi pilot show button': 'SFI-Pilot',
+    'lump sums show button': 'Lump Sum Payments',
+    'vet visits show button': 'Vet Visits',
+    'countryside stewardship show button': 'Countryside Stewardship',
+    'basic payment scheme show button': 'Basic Payment Scheme',
+    'manual injection show button': 'Manual Injection',
+    'environmental stewardship show button': 'Environmental Stewardship',
+    'imps show button': 'IMPS',
+    'forestry commission show button': 'Forestry Commission',
+    'sfi23 show button': 'SFI-23',
+    'delinked payments show button': 'Delinked Payments',
+    'expanded sfi show button': 'Expanded SFI Offer',
+    'csht revenue show button': 'Countryside Stewardship Higher Tier (Revenue)',
+    'csht capital show button': 'Countryside Stewardship Higher Tier (Capital)',
+    'farm payments technical test show button': 'Farm Payments Technical Test',
+    'woodland management plan show button': 'Woodland Management Plan'
+  }
+
+  if (schemeLabels[element]) {
+    verify('schemeLabel', [schemeLabels[element]])
+    return
+  }
+
+  if (schemeButtons[element]) {
+    paymentAlertsPage.schemeShowButton(schemeButtons[element])
+      .should('be.visible')
+    return
+  }
 
   switch (element) {
-  case 'sub header': paymentAlertsPage.subHeader().should('be.visible').containsWithoutWhitespace( 'Manage alerts'); break
-  case 'page description': paymentAlertsPage.pageDescription().should('be.visible').containsWithoutWhitespace(
-    'This section allows users to see payment alerts that are in place for each scheme and',
-    'manage who is set up to receive each type of alert. If a payment is rejected, alerts are',
-    'used to notify people so that the error preventing payment can be resolved. Some',
-    'users are alerted for information, but some will be required to resolve the payment issue')
+  case 'sub header':
+    verify('heading', ['Manage alerts'])
     break
-  case 'find out more': paymentAlertsPage.findOutMore().should('be.visible').containsWithoutWhitespace(
-    'Find out more about each alert type by visiting our alerts information page, or by clicking on any of the alert type names below.')
+
+  case 'page description':
+    verify('paragraph', ['This section allows users to see payment alerts that are in place for each scheme and'])
     break
-  case 'alerts information link': paymentAlertsPage.alertsInformationLink().should('be.visible').and('have.attr', 'class', 'govuk-link'); break
-  case 'add new recipient button': paymentAlertsPage.addNewRecipientButton().should('be.visible').and('have.attr', 'class', 'govuk-button'); break
-  case 'show all sections button': paymentAlertsPage.showAllSectionsButton().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'sfi22 label': paymentAlertsPage.sfi22Label().should('be.visible').containsWithoutWhitespace( 'SFI-22'); break
-  case 'sfi22 show button': paymentAlertsPage.sfi22Show().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'sfi pilot label': paymentAlertsPage.sfiPilotLabel().should('be.visible').containsWithoutWhitespace( 'SFI-Pilot'); break
-  case 'sfi pilot show button': paymentAlertsPage.sfiPilotShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'lump sums label': paymentAlertsPage.lumpSumsLabel().should('be.visible').containsWithoutWhitespace( 'Lump Sum Payments'); break
-  case 'lump sums show button': paymentAlertsPage.lumpSumsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'vet visits label': paymentAlertsPage.vetVisitsLabel().should('be.visible').containsWithoutWhitespace( 'Vet Visits'); break
-  case 'vet visits show button': paymentAlertsPage.vetVisitsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'countryside stewardship label': paymentAlertsPage.countrysideStewardshipLabel().should('be.visible').containsWithoutWhitespace( 'Countryside Stewardship'); break
-  case 'countryside stewardship show button': paymentAlertsPage.countrysideStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'basic payment scheme label': paymentAlertsPage.basicPaymentSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Basic Payment Scheme'); break
-  case 'basic payment scheme show button': paymentAlertsPage.basicPaymentSchemeShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'manual injection label':
-    if (env.includes('local')) {
-      paymentAlertsPage.manualInjectionLabel().should('be.visible').containsWithoutWhitespace( 'Manual Injection')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').containsWithoutWhitespace( 'Manual Injection')
-    }
+
+  case 'find out more':
+    verify('paragraph', ['Find out more about each alert type by visiting our alerts information page, or by clicking on any of the alert type names below.'])
     break
-  case 'manual injection show button':
-    paymentAlertsPage.manualInjectionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'environmental stewardship label':
-    if (env.includes('local')) {
-      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').containsWithoutWhitespace( 'Environmental Stewardship')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.manualInjectionLabel().should('be.visible').containsWithoutWhitespace( 'Environmental Stewardship')
-    }
+
+  case 'alerts information link':
+    paymentAlertsPage.alertsInformationLink()
+      .should('be.visible')
+      .and('have.class', 'govuk-link')
     break
-  case 'environmental stewardship show button': paymentAlertsPage.environmentalStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'imps label':
-    if (env.includes('local')) {
-      paymentAlertsPage.impsLabel().should('be.visible').containsWithoutWhitespace( 'IMPS')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').containsWithoutWhitespace( 'IMPS')
-    }
+
+  case 'add new recipient button':
+    paymentAlertsPage.addNewRecipientButton()
+      .should('be.visible')
     break
-  case 'imps show button': paymentAlertsPage.impsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'forestry commission label':
-    if (env.includes('local')) {
-      paymentAlertsPage.forestryCommissionLabel().should('be.visible').containsWithoutWhitespace( 'Forestry Commission')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.impsLabel().should('be.visible').containsWithoutWhitespace( 'Forestry Commission')
-    }
+
+  case 'show all sections button':
+    paymentAlertsPage.showAllSectionsButton()
+      .should('be.visible')
     break
-  case 'forestry commission show button': paymentAlertsPage.forestryCommissionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'sfi23 label':
-    if (env.includes('local')) {
-      paymentAlertsPage.sfi23Label().should('be.visible').containsWithoutWhitespace( 'SFI-23')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.forestryCommissionLabel().should('be.visible').containsWithoutWhitespace( 'SFI-23')
-    }
-    break
-  case 'sfi23 show button': paymentAlertsPage.sfi23Show().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'delinked payments label':
-    if (env.includes('local')) {
-      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').containsWithoutWhitespace( 'Delinked Payments')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.sfi23Label().should('be.visible').containsWithoutWhitespace( 'Delinked Payments')
-    }
-    break
-  case 'delinked payments show button': paymentAlertsPage.delinkedPaymentsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'expanded sfi label':
-    if (env.includes('local')) {
-      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').containsWithoutWhitespace( 'Expanded SFI Offer')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').containsWithoutWhitespace( 'Expanded SFI Offer')
-    }
-    break
-  case 'expanded sfi show button': paymentAlertsPage.expandedSFIOfferShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'csht revenue label': paymentAlertsPage.cshtRevenueLabel().should('be.visible').containsWithoutWhitespace( 'Countryside Stewardship Higher Tier (Revenue)'); break
-  case 'csht revenue show button': paymentAlertsPage.cshtRevenueShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'csht capital label': paymentAlertsPage.cshtCapitalLabel().should('be.visible').containsWithoutWhitespace( 'Countryside Stewardship Higher Tier (Capital)'); break
-  case 'csht capital show button': paymentAlertsPage.cshtCapitalShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
-  console.log('Confirmed that'+ element + ' is displayed on the Alerts page')
-  cy.log('Confirmed that' + element + ' is displayed on the Alerts page')
+
+  console.log(`Confirmed that ${element} is displayed on the Alerts page`)
+  cy.log(`Confirmed that ${element} is displayed on the Alerts page`)
 })
 
-Then (/^on the Alerts page I click the "(.*)"$/, (element) => {
+Then(/^on the Alerts page I click the "(.*)"$/, (element) => {
+  Cypress.emit('log:step', `on the Alerts page I click the ${element}`)
 
-  Cypress.emit('log:step', 'on the Alerts page I click the ' + element)
+  const schemeButtons = {
+    'sfi22 show button': 'SFI-22',
+    'sfi pilot show button': 'SFI-Pilot',
+    'lump sums show button': 'Lump Sum Payments',
+    'vet visits show button': 'Vet Visits',
+    'countryside stewardship show button': 'Countryside Stewardship',
+    'basic payment scheme show button': 'Basic Payment Scheme',
+    'manual injection show button': 'Manual Injection',
+    'environmental stewardship show button': 'Environmental Stewardship',
+    'imps show button': 'IMPS',
+    'forestry commission show button': 'Forestry Commission',
+    'sfi23 show button': 'SFI-23',
+    'delinked payments show button': 'Delinked Payments',
+    'expanded sfi show button': 'Expanded SFI Offer',
+    'csht revenue show button': 'Countryside Stewardship Higher Tier (Revenue)',
+    'csht capital show button': 'Countryside Stewardship Higher Tier (Capital)',
+    'farm payments technical test show button': 'Farm Payments Technical Test',
+    'woodland management plan show button': 'Woodland Management Plan'
+  }
+
+  if (schemeButtons[element]) {
+    paymentAlertsPage.schemeShowButton(schemeButtons[element])
+      .scrollIntoView()
+      .click()
+
+    console.log(`Clicked ${element} on the Alerts page`)
+    cy.log(`Clicked ${element} on the Alerts page`)
+    return
+  }
 
   switch (element) {
-  case 'show all sections button': paymentAlertsPage.showAllSectionsButton().scrollIntoView().click(); break
-  case 'alerts information link': paymentAlertsPage.alertsInformationLink().scrollIntoView().click(); break
-  case 'add new alerts recipient button': paymentAlertsPage.addNewRecipientButton().scrollIntoView().click(); break
-  case 'sfi22 show button': paymentAlertsPage.sfi22Show().scrollIntoView().click(); break
-  case 'sfi pilot show button': paymentAlertsPage.sfiPilotShow().scrollIntoView().click(); break
-  case 'lump sums show button': paymentAlertsPage.lumpSumsShow().scrollIntoView().click(); break
-  case 'vet visits show button': paymentAlertsPage.vetVisitsShow().scrollIntoView().click(); break
-  case 'countryside stewardship show button': paymentAlertsPage.countrysideStewardshipShow().scrollIntoView().click(); break
-  case 'basic payment scheme show button': paymentAlertsPage.basicPaymentSchemeShow().scrollIntoView().click(); break
-  case 'manual injection show button': paymentAlertsPage.manualInjectionShow().scrollIntoView().click(); break
-  case 'environmental stewardship show button': paymentAlertsPage.environmentalStewardshipShow().scrollIntoView().click(); break
-  case 'imps show button': paymentAlertsPage.impsShow().scrollIntoView().click(); break
-  case 'forestry commission show button': paymentAlertsPage.forestryCommissionShow().scrollIntoView().click(); break
-  case 'sfi23 show button': paymentAlertsPage.sfi23Show().scrollIntoView().click(); break
-  case 'delinked payments show button': paymentAlertsPage.delinkedPaymentsShow().scrollIntoView().click(); break
-  case 'expanded sfi show button': paymentAlertsPage.expandedSFIOfferShow().scrollIntoView().click(); break
-  case 'csht revenue show button': paymentAlertsPage.cshtRevenueShow().scrollIntoView().click(); break
-  case 'csht capital show button': paymentAlertsPage.cshtCapitalShow().scrollIntoView().click(); break
-  case 'sfi22 all alerts button': paymentAlertsPage.addNewSFI22All().scrollIntoView().click(); break
-  case 'sfi pilot all alerts button': paymentAlertsPage.addNewSFIPilotAll().scrollIntoView().click(); break
-  case 'create new alert recipient button': paymentAlertsPage.createNewAlertRecipientButton().scrollIntoView().click(); break
-  case 'edit button': paymentAlertsPage.editButton().scrollIntoView().click(); break
-  case 'remove email button': paymentAlertsPage.removeEmailButton().scrollIntoView().click(); break
+  case 'show all sections button':
+    paymentAlertsPage.showAllSectionsButton()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'alerts information link':
+    paymentAlertsPage.alertsInformationLink()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'add new alerts recipient button':
+    paymentAlertsPage.addNewRecipientButton()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'sfi22 all alerts button':
+    paymentAlertsPage.addNewSFI22All()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'sfi pilot all alerts button':
+    paymentAlertsPage.addNewSFIPilotAll()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'create new alert recipient button':
+    paymentAlertsPage.createNewAlertRecipientButton()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'edit button':
+    paymentAlertsPage.editButton()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'remove email button':
+    paymentAlertsPage.removeEmailButton()
+      .scrollIntoView()
+      .click()
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
-  console.log('Clicked '+ element + ' on the Alerts page')
-  cy.log('Clicked '+ element + ' on the Alerts page')
+
+  console.log(`Clicked ${element} on the Alerts page`)
+  cy.log(`Clicked ${element} on the Alerts page`)
 })
 
 Then (/^on the Alerts page I confirm that all schemes have successfully cascaded$/, () => {
@@ -1809,56 +2065,82 @@ Then (/^on the Alerts page I confirm that all schemes have successfully cascaded
   })
 })
 
-Then (/^on the Add new alert recipient page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the Add new alert recipient page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step',`on the Add new alert recipient page I confirm that ${element} is displayed`)
 
-  Cypress.emit('log:step', 'on the Add new alert recipient page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      paymentAlertsPage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
-  case 'sub header': paymentAlertsPage.addNewSubHeader().should('be.visible').containsWithoutWhitespace( 'Add new alert recipient'); break
-  case 'email label': paymentAlertsPage.addNewEmailLabel().should('be.visible').containsWithoutWhitespace( 'Email address'); break
-  case 'email field': paymentAlertsPage.addNewEmailField().should('be.visible').and('have.attr', 'type', 'text'); break
-  case 'select scheme label':paymentAlertsPage.addNewSelectSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Select a scheme to view alerts for'); break
-  case 'select scheme dropdown': paymentAlertsPage.addNewSelectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break
-  case 'invalid email error message': paymentAlertsPage.addNewInvalidEmailError().should('be.visible').containsWithoutWhitespace( 'The email address is not allowed. Please contact the Payment & Document Services team if you believe this is a mistake.'); break
+  case 'sub header':
+    verify('heading', ['Add new alert recipient'])
+    break
+
+  case 'email label':
+    cy.contains('.govuk-label', 'Email address')
+      .should('be.visible')
+      .containsWithoutWhitespace('Email address')
+    break
+
+  case 'email field':
+    paymentAlertsPage.addNewEmailField()
+      .should('be.visible')
+      .and('have.attr', 'type', 'text')
+    break
+
+  case 'select scheme label':
+    cy.contains(
+      '.govuk-label',
+      'Select a scheme to view alerts for'
+    )
+      .should('be.visible')
+      .containsWithoutWhitespace(
+        'Select a scheme to view alerts for'
+      )
+    break
+
+  case 'select scheme dropdown':
+    paymentAlertsPage.addNewSelectSchemeDropdown()
+      .should('be.visible')
+      .and('have.class', 'govuk-select')
+    break
+
+  case 'invalid email error message':
+    paymentAlertsPage.addNewInvalidEmailError()
+      .should('be.visible')
+      .containsWithoutWhitespace(
+        'The email address is not allowed. Please contact the Payment & Document Services team if you believe this is a mistake.'
+      )
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
-  console.log('Confirmed that '+ element + ' is displayed on the Add new alert recipient page')
-  cy.log('Confirmed that ' + element + ' is displayed on the Add new alert recipient page')
+
+  console.log(
+    `Confirmed that ${element} is displayed on the Add new alert recipient page`
+  )
+
+  cy.log(
+    `Confirmed that ${element} is displayed on the Add new alert recipient page`
+  )
 })
 
 Then(/^on the Add new alert recipient page I confirm that all options are present when no filter selected$/, () => {
 
   Cypress.emit('log:step', 'on the Add new alert recipient page I confirm that all options are present when no filter selected')
 
-  const stringsToCheck = [
-    'Receive all alerts for this scheme',
-    'Batch Rejected',
-    'Batch Quarantined',
-    'Payment Rejected',
-    'Payment Dax Rejected',
-    'Payment Invalid Bank',
-    'Payment Processing Failed',
-    'Payment Settlement Unsettled',
-    'Payment Settlement Unmatched',
-    'Response Rejected',
-    'Payment Request Blocked',
-    'Payment Dax Unavailable',
-    'Receiver Connection Failed',
-    'Demographics Processing Failed',
-    'Demographics Update Failed',
-    'Event Save Alert',
-    'Table Create Alert',
-    'Responses Processing Failed',
-    'Customer Update Processing Failed',
-    'Tracking Update Failure'
-  ]
+  const stringsToCheck = ['Receive all alerts for this scheme', 'Batch Rejected', 'Batch Quarantined', 'Payment Rejected', 'Payment Dax Rejected', 'Payment Invalid Bank', 'Payment Processing Failed', 'Payment Settlement Unsettled', 'Payment Settlement Unmatched', 'Response Rejected', 'Payment Request Blocked', 'Payment Dax Unavailable', 'Receiver Connection Failed', 'Demographics Processing Failed', 'Demographics Update Failed', 'Event Save Alert', 'Table Create Alert', 'Responses Processing Failed', 'Customer Update Processing Failed', 'Tracking Update Failure']
 
   cy.document().then(doc => {
     const pageText = doc.body.innerText
     stringsToCheck.forEach(str => {
       const count = (pageText.match(new RegExp(str, 'g')) || []).length
-      expect(count, `Occurrences of "${str}"`).to.eq(16)
+      expect(count, `Occurrences of "${str}"`).to.eq(17)
     })
   })
   console.log('Confirmed that all options are present when no filter selected')
@@ -1869,28 +2151,7 @@ Then(/^on the Add new alert recipient page I confirm that only one set of option
 
   Cypress.emit('log:step', 'on the Add new alert recipient page I confirm that only one set of options is displayed')
 
-  const stringsToCheck = [
-    'Receive all alerts for this scheme',
-    'Batch Rejected',
-    'Batch Quarantined',
-    'Payment Rejected',
-    'Payment Dax Rejected',
-    'Payment Invalid Bank',
-    'Payment Processing Failed',
-    'Payment Settlement Unsettled',
-    'Payment Settlement Unmatched',
-    'Response Rejected',
-    'Payment Request Blocked',
-    'Payment Dax Unavailable',
-    'Receiver Connection Failed',
-    'Demographics Processing Failed',
-    'Demographics Update Failed',
-    'Event Save Alert',
-    'Table Create Alert',
-    'Responses Processing Failed',
-    'Customer Update Processing Failed',
-    'Tracking Update Failure'
-  ]
+  const stringsToCheck = ['Receive all alerts for this scheme', 'Batch Rejected', 'Batch Quarantined', 'Payment Rejected', 'Payment Dax Rejected', 'Payment Invalid Bank', 'Payment Processing Failed', 'Payment Settlement Unsettled', 'Payment Settlement Unmatched', 'Response Rejected', 'Payment Request Blocked', 'Payment Dax Unavailable', 'Receiver Connection Failed', 'Demographics Processing Failed', 'Demographics Update Failed', 'Event Save Alert', 'Table Create Alert', 'Responses Processing Failed', 'Customer Update Processing Failed', 'Tracking Update Failure']
 
   cy.document().then(doc => {
     const pageText = doc.body.innerText

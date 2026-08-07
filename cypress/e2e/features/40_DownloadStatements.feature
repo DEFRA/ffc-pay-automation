@@ -58,19 +58,8 @@ Feature: 40 Download Statements
 
     Given I visit the "Payment management" homepage
     When I click on the "Download payment statements" link
-
-#Confirm that result elements are not displayed before search is carried out
-
-    Then on the Download Statements page I confirm that "statements sub header and number of results" is not displayed
-    Then on the Download Statements page I confirm that "scheme column" is not displayed
-    Then on the Download Statements page I confirm that "year column" is not displayed
-    Then on the Download Statements page I confirm that "frn column" is not displayed
-    Then on the Download Statements page I confirm that "timestamp column" is not displayed
-    Then on the Download Statements page I confirm that "action column" is not displayed
-    Then on the Download Statements page I confirm that "next button" is not displayed
-
     Then I click on the "Delinked" radio button
-    Then on the Download Statements page I click the "search" button
+    Then I click on the "Search" button
 
 #Confirm new elements are displayed correctly upon search
 
@@ -91,18 +80,18 @@ Feature: 40 Download Statements
     Given I visit the "Payment management" homepage
     When I click on the "Download payment statements" link
     Then I click on the "Delinked" radio button
-    Then on the Download Statements page I click the "search" button
+    Then I click on the "Search" button
 
 #Confirm Next and previous buttons work correctly and page number updates accordingly    
 
-    Then on the Download Statements page I click the "next" button
-    Then on the Download Statements page I confirm that the page number is "2"
-    Then on the Download Statements page I confirm that "previous button" is displayed
+    Then I click the pagination "next"
+    Then the current pagination page number is "2"
+    Then I verify the pagination "previous" is visible
     Then I take a screenshot for Feature 40 and Scenario 3
 
-    Then on the Download Statements page I click the "previous" button
-    Then on the Download Statements page I confirm that the page number is "1"
-    Then on the Download Statements page I confirm that "previous button" is not displayed
+    Then I click the pagination "previous"
+    Then the current pagination page number is "1"
+    Then I verify the pagination "previous" is not visible
 
   @dev
   Scenario: 04 Search by full filename
@@ -113,11 +102,11 @@ Feature: 40 Download Statements
     Given I visit the "Payment management" homepage
     When I click on the "Download payment statements" link
 
-    Then on the Download Statements page I enter "FFC_PaymentDelinkedStatement_DP_2025_1105607649_2025101415310344.pdf" into the "filename" field
-    Then on the Download Statements page I click the "search" button
+    Then I enter "FFC_PaymentDelinkedStatement_DP_2025_1105607649_2025101415310344.pdf" into the "filename" field
+    Then I click on the "Search" button
 
 #Commented out for now as the pagination changes are not here yet 
-    #Then on the Download Statements page I confirm that the page number is "1"
+    #Then the current pagination page number is "1"
 
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 1 on this page (1 items)"
 
@@ -135,10 +124,10 @@ Feature: 40 Download Statements
     Given I visit the "Payment management" homepage
     When I click on the "Download payment statements" link
 
-    Then on the Download Statements page I enter "2024" into the "marketing year" field
-    Then on the Download Statements page I click the "search" button
+    Then I enter "2024" into the "marketing year" field
+    Then I click on the "Search" button
 
-    Then on the Download Statements page I confirm that the page number is "1"
+    Then the current pagination page number is "1"
    # Below does not show anymore, keeping as it may be added back at somepoint. Even if result is over 100 it just shows [123] statements with 100 viewable minimum at a time
    # Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 50 on this page (50 items)"
     Then I take a screenshot for Feature 40 and Scenario 5
@@ -151,10 +140,10 @@ Feature: 40 Download Statements
     Given I visit the "Payment management" homepage
     When I click on the "Download payment statements" link
 
-    Then on the Download Statements page I enter "1105607649" into the "frn" field
-    Then on the Download Statements page I click the "search" button
+    Then I enter "1105607649" into the "frn" field
+    Then I click on the "Search" button
 
-    Then on the Download Statements page I confirm that the page number is "1"
+    Then the current pagination page number is "1"
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 6 on this page (6 items)"
     Then I take a screenshot for Feature 40 and Scenario 6
 
@@ -167,8 +156,8 @@ Feature: 40 Download Statements
     Given I visit the "Payment management" homepage
     When I click on the "Download payment statements" link
 
-    Then on the Download Statements page I enter "1234567890" into the "frn" field
-    Then on the Download Statements page I click the "search" button
+    Then I enter "1234567890" into the "frn" field
+    Then I click on the "Search" button
 
     Then on the Download Statements page I confirm that the page number is "[1]"
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 6 on this page (6 items)"
@@ -182,10 +171,10 @@ Feature: 40 Download Statements
     Given I visit the "Payment management" homepage
     When I click on the "Download payment statements" link
 
-    Then on the Download Statements page I enter "29-06-2026 13:38" into the "timestamp" field
-    Then on the Download Statements page I click the "search" button
+    Then I enter "29-06-2026 13:38" into the "timestamp" field
+    Then I click on the "Search" button
 
-    Then on the Download Statements page I confirm that the page number is "1"
+    Then the current pagination page number is "1"
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 1 on this page (1 items)"
     Then I take a screenshot for Feature 40 and Scenario 8
 
@@ -198,7 +187,7 @@ Feature: 40 Download Statements
     When I click on the "Download payment statements" link
 
     Then I click on the "Delinked" radio button
-    Then on the Download Statements page I click the "search" button
+    Then I click on the "Search" button
     
     Then on the Download Statements page I confirm that "statements sub header and number of results" is displayed
     Then on the Download Statements page I confirm that "scheme column" is displayed
@@ -210,14 +199,8 @@ Feature: 40 Download Statements
 
     Then I click on the "start a new search" link
 
-#Confirm that elements from results section are no longer displayed after clicking Clear and start again
+#Confirm that the table is no longer displayed after clicking Clear and start again
 
-    Then on the Download Statements page I confirm that "statements sub header and number of results" is not displayed
-    Then on the Download Statements page I confirm that "scheme column" is not displayed
-    Then on the Download Statements page I confirm that "year column" is not displayed
-    Then on the Download Statements page I confirm that "frn column" is not displayed
-    Then on the Download Statements page I confirm that "timestamp column" is not displayed
-    Then on the Download Statements page I confirm that "action column" is not displayed
-    Then on the Download Statements page I confirm that "next button" is not displayed
+    Then on the Download Statements page I confirm that no statement results are displayed
     Then I take a screenshot for Feature 40 and Scenario 9
     

@@ -1,43 +1,45 @@
 class paymentEventMonitoringPage {
-
-  subHeader () {
-    return cy.get('.govuk-heading-l')
+  heading (text) {
+    return cy.contains('h1, h2, h3', text)
+      .containsWithoutWhitespace(text)
   }
 
-  searchByFRNInstructions () {
-    return cy.get('#main-content > div > div > form.govuk-\\!-margin-bottom-6 > div > label')
+  paragraph (text) {
+    return cy.contains('p', text)
+      .containsWithoutWhitespace(text)
   }
 
-  searchByFRNExample () {
-    return cy.get('#search-frn-hint')
+  button (text) {
+    return cy.contains('button', text)
+      .containsWithoutWhitespace(text)
   }
 
-  searchByFRNField () {
-    return cy.get('#search-frn')
+  tableHeader (text) {
+    return cy.contains('.govuk-table__header', text)
+      .containsWithoutWhitespace(text)
   }
 
-  searchByFRNButton () {
-    return cy.get('.govuk-\\!-margin-bottom-6 > .govuk-button')
+  tableCaption (text) {
+    return cy.contains('.govuk-table__caption', text)
+      .containsWithoutWhitespace(text)
   }
 
-  searchByBatchInstructions () {
-    return cy.get('[action="/monitoring/batch/name"] > .govuk-form-group > .govuk-label')
+  searchField (field) {
+    const selectors = {
+      frn: '#search-frn',
+      batch: '#search-batch'
+    }
+
+    return cy.get(selectors[field])
   }
 
-  searchByBatchExample () {
-    return cy.get('#search-batch-hint')
-  }
+  searchButton (field) {
+    const selectors = {
+      frn: '[aria-label="Payment FRN search form."] > .govuk-button',
+      batch: '[action="/monitoring/batch/name"] > .govuk-button'
+    }
 
-  searchByBatchField () {
-    return cy.get('#search-batch')
-  }
-
-  searchByBatchButton () {
-    return cy.get('[action="/monitoring/batch/name"] > .govuk-button')
-  }
-
-  selectSchemeLabel () {
-    return cy.get('.govuk-label')
+    return cy.get(selectors[field])
   }
 
   selectSchemeDropdown () {
@@ -48,96 +50,17 @@ class paymentEventMonitoringPage {
     return cy.get('#submit')
   }
 
-  frnSearchedLabel () {
-    return cy.get('.govuk-caption-l')
-  }
-
-  schemeColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(1)')
-  }
-
-  agreementColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(2)')
-  }
-
-  paymentRequestColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(3)')
-  }
-
-  valueColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(4)')
-  }
-
-  statusColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(5)')
-  }
-
-  lastUpdatedColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(6)')
-  }
-
-  actionsColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(7)')
-  }
-
   viewLink () {
-    return cy.get(':nth-child(7) > a')
+    return cy.get('.govuk-table')
+      .contains('a', 'View')
   }
 
-  activityColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(1)')
+  tableCell (rowNumber, columnNumber) {
+    return cy.get(`.govuk-table__body > :nth-child(${rowNumber}) > :nth-child(${columnNumber})`)
   }
 
-  viewStatusColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(2)')
-  }
-
-  completedColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(3)')
-  }
-
-  batchFRNColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(2)')
-  }
-
-  batchYearColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(3)')
-  }
-
-  batchAgreementColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(4)')
-  }
-
-  batchRequestColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(5)')
-  }
-
-  batchValueColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(6)')
-  }
-
-  batchStatusColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(7)')
-  }
-
-  batchActionsColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(8)')
-  }
-
-  processedRequestLabel () {
-    return cy.get('.govuk-table__caption')
-  }
-
-  processedRequestsSchemeColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(1)')
-  }
-
-  processedRequestsNumberOfColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(2)')
-  }
-
-  processedRequestsValueColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(3)')
+  paymentRequestCell (rowNumber) {
+    return this.tableCell(rowNumber, 3)
   }
 
   processedRequestsNumberOf () {
@@ -148,13 +71,9 @@ class paymentEventMonitoringPage {
     return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(3)')
   }
 
-  firstPaymentRequestNumber () {
-    return cy.get('.govuk-table__body > :nth-child(1) > :nth-child(3)')
-  }
-
-  secondPaymentRequestNumber () {
-    return cy.get('.govuk-table__body > :nth-child(2) > :nth-child(3)')
+  verifyText (text) {
+    return cy.contains(text)
+      .containsWithoutWhitespace(text)
   }
 }
-
 export default new paymentEventMonitoringPage()

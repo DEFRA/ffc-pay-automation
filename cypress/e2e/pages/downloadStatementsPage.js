@@ -1,120 +1,54 @@
-class downloadStatementsPage {
-
-  pageTitle () {
-    return cy.get('.govuk-heading-l')
+class DownloadStatementsPage {
+  heading (text) {
+    return cy.contains('h1, h2, h3', text)
+      .containsWithoutWhitespace(text)
   }
 
-  pageDescription () {
-    return cy.get('.govuk-grid-column-two-thirds > :nth-child(1)')
+  paragraph (text) {
+    return cy.contains('p', text)
+      .containsWithoutWhitespace(text)
   }
 
-  pageInstructions () {
-    return cy.get(':nth-child(2) > .govuk-label')
+  label (text) {
+    return cy.contains('.govuk-label', text)
+      .containsWithoutWhitespace(text)
   }
 
-  instructionExamples () {
-    return cy.get('#filename-hint')
+  hint (text) {
+    return cy.contains('.govuk-hint', text)
+      .containsWithoutWhitespace(text)
   }
 
-  filenameField () {
-    return cy.get('#filename')
+  radio (label) {
+    return cy.contains('label', label)
+      .containsWithoutWhitespace(label)
   }
 
-  individualCriteriaInstructions () {
-    return cy.get('form > .govuk-body')
+  input (id) {
+    return cy.get(id)
   }
 
-  selectSchemeDropdown () {
-    return cy.get('#schemeId')
-  }
-  selectSchemeRadioDelinked () {
-    return cy.get('#schemeId-1')
+  button (text) {
+    return cy.contains('button', text)
+      .containsWithoutWhitespace(text)
   }
 
-  selectSchemeRadioSFI () {
-    return cy.get('#schemeId-2')
+  tableHeader (text) {
+    return cy.contains('.govuk-table__header', text)
+      .containsWithoutWhitespace(text)
   }
 
-  marketingYearLabel () {
-    return cy.contains('.govuk-label', 'Marketing year')
+  paginationLink (text) {
+    return cy.contains('.govuk-pagination__link', text)
   }
 
-  marketingYearField () {
-    return cy.get('#marketingYear')
+  verifyText (text) {
+    return cy.contains(text)
+      .containsWithoutWhitespace(text)
   }
-
-  frnLabel () {
-    return cy.contains('.govuk-label', 'Firm reference number (FRN)')
-  }
-
-  frnSearchInstructions () {
-    return cy.get(':nth-child(6) > .govuk-hint')
-  }
-
-  frnField () {
-    return cy.get('#frn')
-  }
-
-  timestampLabel () {
-    return cy.contains('.govuk-label', 'Timestamp')
-  }
-
-  timestampSearchInstructions () {
-    return cy.get('#timestamp-hint')
-  }
-
-  timestampField () {
-    return cy.get('#timestamp')
-  }
-
-  searchStatementsButton () {
-    return cy.get('#report-submit')
-  }
-
-  clearButton () {
-    return cy.get('.govuk-button--secondary')
-  }
-
-  statementsSubHeader () {
-    return cy.contains('.govuk-heading-m', 'Statements')
-  }
-
-  currentPageNumber () {
-    return cy.get('.govuk-pagination__item--current > .govuk-link')
-  }
-
-
-  schemeColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(1)')
-  }
-
-  yearColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(2)')
-  }
-
-  frnColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(3)')
-  }
-
-  timestampColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(4)')
-  }
-
-  actionColumn () {
-    return cy.get('.govuk-table__head > .govuk-table__row > :nth-child(5)')
-  }
-
-  nextButton () {
-    return cy.get('.govuk-pagination__next > .govuk-link')
-  }
-
-  previousButton () {
-    return cy.get('.govuk-pagination__prev > .govuk-link')
-  }
-
-  downloadButton () {
-    return cy.get('.govuk-link').contains('Download')
+  resultsTable () {
+    return cy.get('.govuk-table')
   }
 }
 
-export default new downloadStatementsPage()
+export default new DownloadStatementsPage()

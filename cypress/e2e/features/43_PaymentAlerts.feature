@@ -50,6 +50,10 @@ Feature: 43 Payment Alerts
     Then on the Alerts page I confirm that "csht revenue show button" is displayed
     Then on the Alerts page I confirm that "csht capital label" is displayed
     Then on the Alerts page I confirm that "csht capital show button" is displayed
+    Then on the Alerts page I confirm that "farm payments technical test label" is displayed
+    Then on the Alerts page I confirm that "farm payments technical test show button" is displayed
+    Then on the Alerts page I confirm that "woodland management plan label" is displayed
+    Then on the Alerts page I confirm that "woodland management plan show button" is displayed
     Then I take a screenshot for Feature 43 and Scenario 1
 
   @local @dev
@@ -531,6 +535,70 @@ Feature: 43 Payment Alerts
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
     Then I take a screenshot for Feature 43 and Scenario 16
+
+  @local @dev
+  Scenario: 17 Confirm correct alert types for Farm Payments Technical Test
+
+   #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Capital) scheme
+
+    Given I visit the "Payment management" homepage
+    When I click on the "Alerts" link
+    Then on the Alerts page I click the "farm payments technical test show button"
+
+  #The following alert types should now be visible  
+
+    Then I should see "Batch Rejected"
+    Then I should see "Batch Quarantined"
+    Then I should see "Payment Rejected"
+    Then I should see "Payment Dax Rejected"
+    Then I should see "Payment Invalid Bank"
+    Then I should see "Payment Processing Failed"
+    Then I should see "Payment Settlement Unsettled"
+    Then I should see "Payment Settlement Unmatched"
+    Then I should see "Response Rejected"
+    Then I should see "Payment Request Blocked"
+    Then I should see "Payment Dax Unavailable"
+    Then I should see "Receiver Connection Failed"
+    Then I should see "Demographics Processing Failed"
+    Then I should see "Demographics Update Failed"
+    Then I should see "Event Save Alert"
+    Then I should see "Table Create Alert"
+    Then I should see "Responses Processing Failed"
+    Then I should see "Customer Update Processing Failed"
+    Then I should see "Tracking Update Failure"
+    Then I take a screenshot for Feature 43 and Scenario 17
+
+  @local @dev
+  Scenario: 18 Confirm correct alert types for Woodland Management Plan
+
+   #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Capital) scheme
+
+    Given I visit the "Payment management" homepage
+    When I click on the "Alerts" link
+    Then on the Alerts page I click the "woodland management plan show button"
+
+  #The following alert types should now be visible  
+
+    Then I should see "Batch Rejected"
+    Then I should see "Batch Quarantined"
+    Then I should see "Payment Rejected"
+    Then I should see "Payment Dax Rejected"
+    Then I should see "Payment Invalid Bank"
+    Then I should see "Payment Processing Failed"
+    Then I should see "Payment Settlement Unsettled"
+    Then I should see "Payment Settlement Unmatched"
+    Then I should see "Response Rejected"
+    Then I should see "Payment Request Blocked"
+    Then I should see "Payment Dax Unavailable"
+    Then I should see "Receiver Connection Failed"
+    Then I should see "Demographics Processing Failed"
+    Then I should see "Demographics Update Failed"
+    Then I should see "Event Save Alert"
+    Then I should see "Table Create Alert"
+    Then I should see "Responses Processing Failed"
+    Then I should see "Customer Update Processing Failed"
+    Then I should see "Tracking Update Failure"
+    Then I take a screenshot for Feature 43 and Scenario 18
 
   @local @dev
   Scenario: 17 Confirm that all schemes are successfully cascaded when Show All Sections is clicked
