@@ -1559,197 +1559,317 @@ Then(
   }
 )
 
-Then (/^on the View events page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the View events page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step',`on the View events page I confirm that ${element} is displayed`)
 
-  Cypress.emit('log:step', 'on the View events page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      paymentEventMonitoringPage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
   case 'sub header':
-    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'View payment events'); break
+    verify('heading', ['View payment events'])
+    break
+
   case 'frn search instructions':
-    paymentEventMonitoringPage.searchByFRNInstructions().should('be.visible').containsWithoutWhitespace( 'Search and view payment events and activity by Firm Reference Number (FRN) or batch payment file name.'); break
+    verify('paragraph', ['Search and view payment events and activity by Firm Reference Number (FRN) or batch payment file name.'])
+    break
+
   case 'frn search field':
-    paymentEventMonitoringPage.searchByFRNField().should('be.visible').and('have.attr', 'type', 'search'); break
+    paymentEventMonitoringPage.searchField('frn')
+      .should('be.visible')
+      .and('have.attr', 'type', 'search')
+    break
+
   case 'frn search button':
-    paymentEventMonitoringPage.searchByFRNButton().should('be.visible').and('have.attr', 'type', 'submit'); break
+    paymentEventMonitoringPage.searchButton('frn')
+      .should('be.visible')
+      .and('have.attr', 'type', 'submit')
+    break
+
   case 'batch search field':
-    paymentEventMonitoringPage.searchByBatchField().should('be.visible').and('have.attr', 'type', 'search'); break
+    paymentEventMonitoringPage.searchField('batch')
+      .should('be.visible')
+      .and('have.attr', 'type', 'search')
+    break
+
   case 'batch search button':
-    paymentEventMonitoringPage.searchByBatchButton().should('be.visible').and('have.attr', 'type', 'submit'); break
+    paymentEventMonitoringPage.searchButton('batch')
+      .should('be.visible')
+      .and('have.attr', 'type', 'submit')
+    break
+
   case 'frn searched label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( '1258445148'); break
+    verify('heading', ['1258445148'])
+    break
+
   case 'scheme column':
-    paymentEventMonitoringPage.schemeColumn().should('be.visible').containsWithoutWhitespace( 'Scheme'); break
+    verify('tableHeader', ['Scheme'])
+    break
+
   case 'agreement column':
-    paymentEventMonitoringPage.agreementColumn().should('be.visible').containsWithoutWhitespace( 'Agreement'); break
+    verify('tableHeader', ['Agreement'])
+    break
+
   case 'payment request column':
-    paymentEventMonitoringPage.paymentRequestColumn().should('be.visible').containsWithoutWhitespace( 'Payment request'); break
+    verify('tableHeader', ['Payment request'])
+    break
+
   case 'value column':
-    paymentEventMonitoringPage.valueColumn().should('be.visible').containsWithoutWhitespace( 'Value'); break
+    verify('tableHeader', ['Value'])
+    break
+
   case 'status column':
-    paymentEventMonitoringPage.statusColumn().should('be.visible').containsWithoutWhitespace( 'Status'); break
+    verify('tableHeader', ['Status'])
+    break
+
   case 'last updated column':
-    paymentEventMonitoringPage.lastUpdatedColumn().should('be.visible').containsWithoutWhitespace( 'Last updated'); break
+    verify('tableHeader', ['Last updated'])
+    break
+
   case 'view frn label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( '1000000001 - 00000001'); break
+    verify('heading', ['1000000001 - 00000001'])
+    break
+
   case 'view batch label':
-    paymentEventMonitoringPage.frnSearchedLabel().should('be.visible').containsWithoutWhitespace( 'SITISFIA0001_AP_20230810085609205.dat'); break
+    verify('heading', ['SITISFIA0001_AP_20230810085609205.dat'])
+    break
+
   case 'activity column':
-    paymentEventMonitoringPage.activityColumn().should('be.visible').containsWithoutWhitespace( 'Activity'); break
+    verify('tableHeader', ['Activity'])
+    break
+
   case 'batch sub header':
-    paymentEventMonitoringPage.batchSubHeader().should('be.visible').containsWithoutWhitespace( 'View batch file payments and their status'); break
+    verify('heading', ['View batch file payments and their status'])
+    break
+
   case 'batch frn column':
-    paymentEventMonitoringPage.batchFRNColumn().should('be.visible').containsWithoutWhitespace( 'FRN'); break
+    verify('tableHeader', ['FRN'])
+    break
+
   case 'batch year column':
-    paymentEventMonitoringPage.batchYearColumn().should('be.visible').containsWithoutWhitespace( 'Year'); break
+    verify('tableHeader', ['Year'])
+    break
+
   case 'batch agreement column':
-    paymentEventMonitoringPage.batchAgreementColumn().should('be.visible').containsWithoutWhitespace( 'Agreement'); break
+    verify('tableHeader', ['Agreement'])
+    break
+
   case 'batch request column':
-    paymentEventMonitoringPage.batchRequestColumn().should('be.visible').containsWithoutWhitespace( 'Request'); break
+    verify('tableHeader', ['Request'])
+    break
+
   case 'batch value column':
-    paymentEventMonitoringPage.batchValueColumn().should('be.visible').containsWithoutWhitespace( 'Value'); break
+    verify('tableHeader', ['Value'])
+    break
+
   case 'batch status column':
-    paymentEventMonitoringPage.batchStatusColumn().should('be.visible').containsWithoutWhitespace( 'Status'); break
+    verify('tableHeader', ['Status'])
+    break
+
   case 'batch actions column':
-    paymentEventMonitoringPage.batchActionsColumn().should('be.visible').containsWithoutWhitespace( 'Activity'); break
+    verify('tableHeader', ['Activity'])
+    break
+
   case 'frn payment history':
-    paymentEventMonitoringPage.frnPaymentHistory().should('be.visible').containsWithoutWhitespace( 'FRN payment history'); break
+    verify('heading', ['FRN payment history'])
+    break
+
   case 'frn payment request history':
-    paymentEventMonitoringPage.frnPaymentRequestHistory().should('be.visible').containsWithoutWhitespace( 'FRN payment request history'); break
+    verify('heading', ['FRN payment request history'])
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
 
-  console.log('Confirmed that' + element + 'is displayed on the View events page')
-  cy.log('Confirmed that' + element + 'is displayed on the View events page')
+  console.log(`Confirmed that ${element} is displayed on the View events page`)
+  cy.log(`Confirmed that ${element} is displayed on the View events page`)
 })
 
-Then (/^on the View processed payment requests page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the View processed payment requests page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step',`on the View processed payment requests page I confirm that ${element} is displayed`)
 
-  Cypress.emit('log:step', 'on the View processed payment requests page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      paymentEventMonitoringPage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
   case 'sub header':
-    paymentEventMonitoringPage.subHeader().should('be.visible').containsWithoutWhitespace( 'View payment events by scheme'); break
+    verify('heading', ['View payment events by scheme'])
+    break
+
   case 'select scheme label':
-    paymentEventMonitoringPage.selectSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Select a scheme to view how many payments have been made and the combined value.'); break
+    verify('paragraph', ['Select a scheme to view how many payments have been made and the combined value.'])
+    break
+
   case 'select scheme dropdown':
-    paymentEventMonitoringPage.selectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break
+    paymentEventMonitoringPage.selectSchemeDropdown()
+      .should('be.visible')
+      .and('have.class', 'govuk-select')
+    break
+
   case 'select scheme button':
-    paymentEventMonitoringPage.selectSchemeButton().should('be.visible').and('have.attr', 'type', 'submit'); break
+    paymentEventMonitoringPage.selectSchemeButton()
+      .should('be.visible')
+      .and('have.attr', 'type', 'submit')
+    break
+
   case 'processed payment requests label':
-    paymentEventMonitoringPage.processedRequestLabel().should('be.visible').containsWithoutWhitespace( 'Scheme payment event details'); break
+    verify('tableCaption', ['Scheme payment event details'])
+    break
+
   case 'scheme column':
-    paymentEventMonitoringPage.processedRequestsSchemeColumn().should('be.visible').containsWithoutWhitespace( 'Scheme'); break
+    verify('tableHeader', ['Scheme'])
+    break
+
   case 'number of payments column':
-    paymentEventMonitoringPage.processedRequestsNumberOfColumn().should('be.visible').containsWithoutWhitespace( 'Number of payments'); break
+    verify('tableHeader', ['Number of payments'])
+    break
+
   case 'value column':
-    paymentEventMonitoringPage.processedRequestsValueColumn().should('be.visible').containsWithoutWhitespace( 'Value'); break
+    verify('tableHeader', ['Value'])
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
 
-  console.log('Confirmed that'+ element + ' is displayed on the View processed payment requests page')
-  cy.log('Confirmed that' + element + ' is displayed on the View processed payment requests page')
+  console.log(`Confirmed that ${element} is displayed on the View processed payment requests page`)
+  cy.log(`Confirmed that ${element} is displayed on the View processed payment requests page`)
 })
 
 
-Then (/^on the View processed payment requests page I select "(.*)" in scheme dropdown$/, (selection) => {
+Then(/^on the View processed payment requests page I select "(.*)" in scheme dropdown$/, (selection) => {
+  Cypress.emit('log:step',`on the View processed payment requests page I select ${selection} in scheme dropdown`)
 
-  Cypress.emit('log:step', 'on the View processed payment requests page I select ' + selection + ' in scheme dropdown')
-  paymentEventMonitoringPage.selectSchemeDropdown().select(selection)
-  console.log('Selected ' + selection + ' in Scheme dropdown')
-  cy.log('Selected ' + selection + ' in Scheme dropdown')
+  paymentEventMonitoringPage.selectSchemeDropdown()
+    .select(selection)
+
+  console.log(`Selected ${selection} in Scheme dropdown`)
+  cy.log(`Selected ${selection} in Scheme dropdown`)
 })
 
-Then (/^on the View events page I enter "(.*)" into the "(.*)" field$/, (filename, field) => {
-
-  Cypress.emit('log:step', 'on the View events page I enter ' + filename + ' into the ' + field + ' field')
+Then(/^on the View events page I enter "(.*)" into the "(.*)" field$/, (value, field) => {
+  Cypress.emit('log:step',`on the View events page I enter ${value} into the ${field} field`)
 
   switch (field) {
   case 'frn':
-    paymentEventMonitoringPage.searchByFRNField().scrollIntoView().type(filename); break
+    paymentEventMonitoringPage.searchField('frn')
+      .scrollIntoView()
+      .clear()
+      .type(value)
+    break
+
   case 'batch':
-    paymentEventMonitoringPage.searchByBatchField().scrollIntoView().type(filename); break
+    paymentEventMonitoringPage.searchField('batch')
+      .scrollIntoView()
+      .clear()
+      .type(value)
+    break
+
   default:
-    throw new Error('invalid field name')
+    throw new Error(`Invalid field name: ${field}`)
   }
 
-  console.log(`Entered ${filename} into the ${field} field on the View events page`)
-  cy.log(`Entered ${filename} into the ${field} field on the View events page`)
+  console.log(`Entered ${value} into the ${field} field on the View events page`)
+  cy.log(`Entered ${value} into the ${field} field on the View events page`)
 })
 
-Then (/^on the View events page I click the "(.*)"$/, (button) => {
-
-  Cypress.emit('log:step', 'on the View events page I click the ' + button)
+Then(/^on the View events page I click the "(.*)"$/, (button) => {
+  Cypress.emit('log:step',`on the View events page I click the ${button}`)
 
   switch (button) {
-  case 'frn search button': paymentEventMonitoringPage.searchByFRNButton().scrollIntoView().click(); break
-  case 'batch search button': paymentEventMonitoringPage.searchByBatchButton().scrollIntoView().click(); break
-  case 'view link': cy.get(':nth-child(7) > a').first().click()
+  case 'frn search button':
+    paymentEventMonitoringPage.searchButton('frn')
+      .scrollIntoView()
+      .click()
     break
+
+  case 'batch search button':
+    paymentEventMonitoringPage.searchButton('batch')
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'view link':
+    paymentEventMonitoringPage.viewLink()
+      .scrollIntoView()
+      .click()
+    break
+
+  default:
+    throw new Error(`Invalid button name: ${button}`)
   }
+
   cy.log(`Clicked on the ${button} successfully`)
   console.log(`Clicked on the ${button} successfully`)
 })
 
-Then (/^on the View events page I confirm that rows are ordered correctly by payment request$/, () => {
+Then(/^on the View events page I confirm that rows are ordered correctly by payment request$/, () => {
+  Cypress.emit('log:step','on the View events page I confirm that rows are ordered correctly by payment request')
 
-  Cypress.emit('log:step', 'on the View events page I confirm that rows are ordered correctly by payment request')
+  paymentEventMonitoringPage.paymentRequestCell(1)
+    .should('be.visible')
+    .containsWithoutWhitespace('1')
 
-  paymentEventMonitoringPage.firstPaymentRequestNumber().should('be.visible').containsWithoutWhitespace( '1')
-  paymentEventMonitoringPage.secondPaymentRequestNumber().should('be.visible').containsWithoutWhitespace( '2')
+  paymentEventMonitoringPage.paymentRequestCell(2)
+    .should('be.visible')
+    .containsWithoutWhitespace('2')
 
   console.log('Confirmed that rows are ordered correctly by payment request')
   cy.log('Confirmed that rows are ordered correctly by payment request')
 })
 
-Then (/^on the View events page I confirm that "(.*)" of entry number "(.*)" in table is "(.*)"$/, (columnName, rowNumber, expectedValue) => {
+Then(
+  /^on the View events page I confirm that "(.*)" of entry number "(.*)" in table is "(.*)"$/,
+  (columnName, rowNumber, expectedValue) => {
+    Cypress.emit('log:step',`on the View events page I confirm that ${columnName} of entry number ${rowNumber} in table is ${expectedValue}`)
 
-  Cypress.emit('log:step', 'on the View events page I confirm that ' + columnName + ' of entry number ' + rowNumber + ' in table is ' + expectedValue)
+    const columnMap = {
+      scheme: 1,
+      agreement: 2,
+      'payment request': 3,
+      value: 4,
+      status: 5,
+      'last updated': 6
+    }
 
-  let element
+    if (!columnMap[columnName]) {
+      throw new Error(`Invalid column name: ${columnName}`)
+    }
 
-  const today = new Date()
+    if (columnName === 'last updated') {
+      const today = new Date()
+      const day = String(today.getDate()).padStart(2, '0')
+      const month = String(today.getMonth() + 1).padStart(2, '0')
+      const year = today.getFullYear()
 
-  let day = today.getDate()
-  let month = today.getMonth() + 1
-  let year = today.getFullYear()
+      expectedValue = `${day}/${month}/${year}`
 
-  day = String(day).padStart(2, '0')
-  month = String(month).padStart(2, '0')
+      console.log(expectedValue)
+      cy.log(expectedValue)
+    }
 
-  const formattedDate = `${day}/${month}/${year}`
+    paymentEventMonitoringPage.tableCell(rowNumber, columnMap[columnName])
+      .should('be.visible')
+      .containsWithoutWhitespace(expectedValue)
 
-  console.log(formattedDate)
-  cy.log(formattedDate)
-
-  switch (columnName) {
-  case 'scheme': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(1)'); break
-  case 'agreement': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(2)'); break
-  case 'payment request': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(3)'); break
-  case 'value': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(4)'); break
-  case 'status': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(5)'); break
-  case 'last updated': element = cy.get('.govuk-table__body > :nth-child(' + rowNumber + ') > :nth-child(6)')
-
-    console.log(formattedDate)
-    cy.log(formattedDate)
-    expectedValue = formattedDate
-    break
-
-  default:
-    throw new Error('invalid element')
+    console.log(`Confirmed value of table entry ${rowNumber} is ${expectedValue}`)
+    cy.log(`Confirmed value of table entry ${rowNumber} is ${expectedValue}`)
   }
-  element.should('be.visible').containsWithoutWhitespace( expectedValue)
-
-  console.log('Confirmed value of table entry ' + rowNumber + ' is ' + expectedValue)
-  cy.log('Confirmed value of table entry ' + rowNumber + ' is ' + expectedValue)
-})
+)
 
 Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
 
   // The order of elements on the Alerts page is different for local and dev environments, as a result
-  // dev version of this script has page elements adjusted to account for this
+  // dev version of this script has page elements adjusted to account for this0
 
   Cypress.emit('log:step', 'on the Alerts page I confirm that ' + element + ' is displayed')
 
@@ -1921,7 +2041,7 @@ Then(/^on the Add new alert recipient page I confirm that all options are presen
     const pageText = doc.body.innerText
     stringsToCheck.forEach(str => {
       const count = (pageText.match(new RegExp(str, 'g')) || []).length
-      expect(count, `Occurrences of "${str}"`).to.eq(16)
+      expect(count, `Occurrences of "${str}"`).to.eq(17)
     })
   })
   console.log('Confirmed that all options are present when no filter selected')

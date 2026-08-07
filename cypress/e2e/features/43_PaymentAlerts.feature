@@ -50,6 +50,10 @@ Feature: 43 Payment Alerts
     Then on the Alerts page I confirm that "csht revenue show button" is displayed
     Then on the Alerts page I confirm that "csht capital label" is displayed
     Then on the Alerts page I confirm that "csht capital show button" is displayed
+    Then on the Alerts page I confirm that "farm payments technical test label" is displayed
+    Then on the Alerts page I confirm that "farm payments technical test show button" is displayed
+    Then on the Alerts page I confirm that "woodland management plan test label" is displayed
+    Then on the Alerts page I confirm that "woodland management plan show button" is displayed
     Then I take a screenshot for Feature 43 and Scenario 1
 
   @local @dev

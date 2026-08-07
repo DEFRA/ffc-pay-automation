@@ -137,7 +137,7 @@ Feature: 42 Payment Event Monitoring
     Then on the View processed payment requests page I confirm that "number of payments column" is displayed
     Then on the View processed payment requests page I confirm that "value column" is displayed
     Then I take a screenshot for Feature 42 and Scenario 7
-
+  @local@dev
   Scenario: 08 Confirm correct message when no results found
 
 #This scenario confirms that correct page elements are displayed when no results are found in View processed payment requests
