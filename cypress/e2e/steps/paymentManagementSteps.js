@@ -1866,140 +1866,192 @@ Then(
   }
 )
 
-Then (/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the Alerts page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step', `on the Alerts page I confirm that ${element} is displayed`)
 
-  // The order of elements on the Alerts page is different for local and dev environments, as a result
-  // dev version of this script has page elements adjusted to account for this0
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      paymentAlertsPage[method](text)
+        .should('be.visible')
+    })
+  }
 
-  Cypress.emit('log:step', 'on the Alerts page I confirm that ' + element + ' is displayed')
+  const schemeLabels = {
+    'sfi22 label': 'SFI-22',
+    'sfi pilot label': 'SFI-Pilot',
+    'lump sums label': 'Lump Sum Payments',
+    'vet visits label': 'Vet Visits',
+    'countryside stewardship label': 'Countryside Stewardship',
+    'basic payment scheme label': 'Basic Payment Scheme',
+    'manual injection label': 'Manual Injection',
+    'environmental stewardship label': 'Environmental Stewardship',
+    'imps label': 'IMPS',
+    'forestry commission label': 'Forestry Commission',
+    'sfi23 label': 'SFI-23',
+    'delinked payments label': 'Delinked Payments',
+    'expanded sfi label': 'Expanded SFI Offer',
+    'csht revenue label': 'Countryside Stewardship Higher Tier (Revenue)',
+    'csht capital label': 'Countryside Stewardship Higher Tier (Capital)',
+    'farm payments technical test label': 'Farm Payments Technical Test',
+    'woodland management plan label': 'Woodland Management Plan'
+  }
+
+  const schemeButtons = {
+    'sfi22 show button': 'SFI-22',
+    'sfi pilot show button': 'SFI-Pilot',
+    'lump sums show button': 'Lump Sum Payments',
+    'vet visits show button': 'Vet Visits',
+    'countryside stewardship show button': 'Countryside Stewardship',
+    'basic payment scheme show button': 'Basic Payment Scheme',
+    'manual injection show button': 'Manual Injection',
+    'environmental stewardship show button': 'Environmental Stewardship',
+    'imps show button': 'IMPS',
+    'forestry commission show button': 'Forestry Commission',
+    'sfi23 show button': 'SFI-23',
+    'delinked payments show button': 'Delinked Payments',
+    'expanded sfi show button': 'Expanded SFI Offer',
+    'csht revenue show button': 'Countryside Stewardship Higher Tier (Revenue)',
+    'csht capital show button': 'Countryside Stewardship Higher Tier (Capital)',
+    'farm payments technical test show button': 'Farm Payments Technical Test',
+    'woodland management plan show button': 'Woodland Management Plan'
+  }
+
+  if (schemeLabels[element]) {
+    verify('schemeLabel', [schemeLabels[element]])
+    return
+  }
+
+  if (schemeButtons[element]) {
+    paymentAlertsPage.schemeShowButton(schemeButtons[element])
+      .should('be.visible')
+    return
+  }
 
   switch (element) {
-  case 'sub header': paymentAlertsPage.subHeader().should('be.visible').containsWithoutWhitespace( 'Manage alerts'); break
-  case 'page description': paymentAlertsPage.pageDescription().should('be.visible').containsWithoutWhitespace(
-    'This section allows users to see payment alerts that are in place for each scheme and',
-    'manage who is set up to receive each type of alert. If a payment is rejected, alerts are',
-    'used to notify people so that the error preventing payment can be resolved. Some',
-    'users are alerted for information, but some will be required to resolve the payment issue')
+  case 'sub header':
+    verify('heading', ['Manage alerts'])
     break
-  case 'find out more': paymentAlertsPage.findOutMore().should('be.visible').containsWithoutWhitespace(
-    'Find out more about each alert type by visiting our alerts information page, or by clicking on any of the alert type names below.')
+
+  case 'page description':
+    verify('paragraph', ['This section allows users to see payment alerts that are in place for each scheme and'])
     break
-  case 'alerts information link': paymentAlertsPage.alertsInformationLink().should('be.visible').and('have.attr', 'class', 'govuk-link'); break
-  case 'add new recipient button': paymentAlertsPage.addNewRecipientButton().should('be.visible').and('have.attr', 'class', 'govuk-button'); break
-  case 'show all sections button': paymentAlertsPage.showAllSectionsButton().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'sfi22 label': paymentAlertsPage.sfi22Label().should('be.visible').containsWithoutWhitespace( 'SFI-22'); break
-  case 'sfi22 show button': paymentAlertsPage.sfi22Show().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'sfi pilot label': paymentAlertsPage.sfiPilotLabel().should('be.visible').containsWithoutWhitespace( 'SFI-Pilot'); break
-  case 'sfi pilot show button': paymentAlertsPage.sfiPilotShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'lump sums label': paymentAlertsPage.lumpSumsLabel().should('be.visible').containsWithoutWhitespace( 'Lump Sum Payments'); break
-  case 'lump sums show button': paymentAlertsPage.lumpSumsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'vet visits label': paymentAlertsPage.vetVisitsLabel().should('be.visible').containsWithoutWhitespace( 'Vet Visits'); break
-  case 'vet visits show button': paymentAlertsPage.vetVisitsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'countryside stewardship label': paymentAlertsPage.countrysideStewardshipLabel().should('be.visible').containsWithoutWhitespace( 'Countryside Stewardship'); break
-  case 'countryside stewardship show button': paymentAlertsPage.countrysideStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'basic payment scheme label': paymentAlertsPage.basicPaymentSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Basic Payment Scheme'); break
-  case 'basic payment scheme show button': paymentAlertsPage.basicPaymentSchemeShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'manual injection label':
-    if (env.includes('local')) {
-      paymentAlertsPage.manualInjectionLabel().should('be.visible').containsWithoutWhitespace( 'Manual Injection')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').containsWithoutWhitespace( 'Manual Injection')
-    }
+
+  case 'find out more':
+    verify('paragraph', ['Find out more about each alert type by visiting our alerts information page, or by clicking on any of the alert type names below.'])
     break
-  case 'manual injection show button':
-    paymentAlertsPage.manualInjectionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'environmental stewardship label':
-    if (env.includes('local')) {
-      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').containsWithoutWhitespace( 'Environmental Stewardship')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.manualInjectionLabel().should('be.visible').containsWithoutWhitespace( 'Environmental Stewardship')
-    }
+
+  case 'alerts information link':
+    paymentAlertsPage.alertsInformationLink()
+      .should('be.visible')
+      .and('have.class', 'govuk-link')
     break
-  case 'environmental stewardship show button': paymentAlertsPage.environmentalStewardshipShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'imps label':
-    if (env.includes('local')) {
-      paymentAlertsPage.impsLabel().should('be.visible').containsWithoutWhitespace( 'IMPS')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.environmentalStewardshipLabel().should('be.visible').containsWithoutWhitespace( 'IMPS')
-    }
+
+  case 'add new recipient button':
+    paymentAlertsPage.addNewRecipientButton()
+      .should('be.visible')
     break
-  case 'imps show button': paymentAlertsPage.impsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'forestry commission label':
-    if (env.includes('local')) {
-      paymentAlertsPage.forestryCommissionLabel().should('be.visible').containsWithoutWhitespace( 'Forestry Commission')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.impsLabel().should('be.visible').containsWithoutWhitespace( 'Forestry Commission')
-    }
+
+  case 'show all sections button':
+    paymentAlertsPage.showAllSectionsButton()
+      .should('be.visible')
     break
-  case 'forestry commission show button': paymentAlertsPage.forestryCommissionShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'sfi23 label':
-    if (env.includes('local')) {
-      paymentAlertsPage.sfi23Label().should('be.visible').containsWithoutWhitespace( 'SFI-23')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.forestryCommissionLabel().should('be.visible').containsWithoutWhitespace( 'SFI-23')
-    }
-    break
-  case 'sfi23 show button': paymentAlertsPage.sfi23Show().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'delinked payments label':
-    if (env.includes('local')) {
-      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').containsWithoutWhitespace( 'Delinked Payments')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.sfi23Label().should('be.visible').containsWithoutWhitespace( 'Delinked Payments')
-    }
-    break
-  case 'delinked payments show button': paymentAlertsPage.delinkedPaymentsShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'expanded sfi label':
-    if (env.includes('local')) {
-      paymentAlertsPage.expandedSFIOfferLabel().should('be.visible').containsWithoutWhitespace( 'Expanded SFI Offer')
-    } else if (env.includes('dev')) {
-      paymentAlertsPage.delinkedPaymentsLabel().should('be.visible').containsWithoutWhitespace( 'Expanded SFI Offer')
-    }
-    break
-  case 'expanded sfi show button': paymentAlertsPage.expandedSFIOfferShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'csht revenue label': paymentAlertsPage.cshtRevenueLabel().should('be.visible').containsWithoutWhitespace( 'Countryside Stewardship Higher Tier (Revenue)'); break
-  case 'csht revenue show button': paymentAlertsPage.cshtRevenueShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
-  case 'csht capital label': paymentAlertsPage.cshtCapitalLabel().should('be.visible').containsWithoutWhitespace( 'Countryside Stewardship Higher Tier (Capital)'); break
-  case 'csht capital show button': paymentAlertsPage.cshtCapitalShow().should('be.visible').and('have.attr', 'class', 'govuk-accordion-nav__chevron govuk-accordion-nav__chevron--down'); break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
-  console.log('Confirmed that'+ element + ' is displayed on the Alerts page')
-  cy.log('Confirmed that' + element + ' is displayed on the Alerts page')
+
+  console.log(`Confirmed that ${element} is displayed on the Alerts page`)
+  cy.log(`Confirmed that ${element} is displayed on the Alerts page`)
 })
 
-Then (/^on the Alerts page I click the "(.*)"$/, (element) => {
+Then(/^on the Alerts page I click the "(.*)"$/, (element) => {
+  Cypress.emit('log:step', `on the Alerts page I click the ${element}`)
 
-  Cypress.emit('log:step', 'on the Alerts page I click the ' + element)
+  const schemeButtons = {
+    'sfi22 show button': 'SFI-22',
+    'sfi pilot show button': 'SFI-Pilot',
+    'lump sums show button': 'Lump Sum Payments',
+    'vet visits show button': 'Vet Visits',
+    'countryside stewardship show button': 'Countryside Stewardship',
+    'basic payment scheme show button': 'Basic Payment Scheme',
+    'manual injection show button': 'Manual Injection',
+    'environmental stewardship show button': 'Environmental Stewardship',
+    'imps show button': 'IMPS',
+    'forestry commission show button': 'Forestry Commission',
+    'sfi23 show button': 'SFI-23',
+    'delinked payments show button': 'Delinked Payments',
+    'expanded sfi show button': 'Expanded SFI Offer',
+    'csht revenue show button': 'Countryside Stewardship Higher Tier (Revenue)',
+    'csht capital show button': 'Countryside Stewardship Higher Tier (Capital)',
+    'farm payments technical test show button': 'Farm Payments Technical Test',
+    'woodland management plan show button': 'Woodland Management Plan'
+  }
+
+  if (schemeButtons[element]) {
+    paymentAlertsPage.schemeShowButton(schemeButtons[element])
+      .scrollIntoView()
+      .click()
+
+    console.log(`Clicked ${element} on the Alerts page`)
+    cy.log(`Clicked ${element} on the Alerts page`)
+    return
+  }
 
   switch (element) {
-  case 'show all sections button': paymentAlertsPage.showAllSectionsButton().scrollIntoView().click(); break
-  case 'alerts information link': paymentAlertsPage.alertsInformationLink().scrollIntoView().click(); break
-  case 'add new alerts recipient button': paymentAlertsPage.addNewRecipientButton().scrollIntoView().click(); break
-  case 'sfi22 show button': paymentAlertsPage.sfi22Show().scrollIntoView().click(); break
-  case 'sfi pilot show button': paymentAlertsPage.sfiPilotShow().scrollIntoView().click(); break
-  case 'lump sums show button': paymentAlertsPage.lumpSumsShow().scrollIntoView().click(); break
-  case 'vet visits show button': paymentAlertsPage.vetVisitsShow().scrollIntoView().click(); break
-  case 'countryside stewardship show button': paymentAlertsPage.countrysideStewardshipShow().scrollIntoView().click(); break
-  case 'basic payment scheme show button': paymentAlertsPage.basicPaymentSchemeShow().scrollIntoView().click(); break
-  case 'manual injection show button': paymentAlertsPage.manualInjectionShow().scrollIntoView().click(); break
-  case 'environmental stewardship show button': paymentAlertsPage.environmentalStewardshipShow().scrollIntoView().click(); break
-  case 'imps show button': paymentAlertsPage.impsShow().scrollIntoView().click(); break
-  case 'forestry commission show button': paymentAlertsPage.forestryCommissionShow().scrollIntoView().click(); break
-  case 'sfi23 show button': paymentAlertsPage.sfi23Show().scrollIntoView().click(); break
-  case 'delinked payments show button': paymentAlertsPage.delinkedPaymentsShow().scrollIntoView().click(); break
-  case 'expanded sfi show button': paymentAlertsPage.expandedSFIOfferShow().scrollIntoView().click(); break
-  case 'csht revenue show button': paymentAlertsPage.cshtRevenueShow().scrollIntoView().click(); break
-  case 'csht capital show button': paymentAlertsPage.cshtCapitalShow().scrollIntoView().click(); break
-  case 'sfi22 all alerts button': paymentAlertsPage.addNewSFI22All().scrollIntoView().click(); break
-  case 'sfi pilot all alerts button': paymentAlertsPage.addNewSFIPilotAll().scrollIntoView().click(); break
-  case 'create new alert recipient button': paymentAlertsPage.createNewAlertRecipientButton().scrollIntoView().click(); break
-  case 'edit button': paymentAlertsPage.editButton().scrollIntoView().click(); break
-  case 'remove email button': paymentAlertsPage.removeEmailButton().scrollIntoView().click(); break
+  case 'show all sections button':
+    paymentAlertsPage.showAllSectionsButton()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'alerts information link':
+    paymentAlertsPage.alertsInformationLink()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'add new alerts recipient button':
+    paymentAlertsPage.addNewRecipientButton()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'sfi22 all alerts button':
+    paymentAlertsPage.addNewSFI22All()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'sfi pilot all alerts button':
+    paymentAlertsPage.addNewSFIPilotAll()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'create new alert recipient button':
+    paymentAlertsPage.createNewAlertRecipientButton()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'edit button':
+    paymentAlertsPage.editButton()
+      .scrollIntoView()
+      .click()
+    break
+
+  case 'remove email button':
+    paymentAlertsPage.removeEmailButton()
+      .scrollIntoView()
+      .click()
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
-  console.log('Clicked '+ element + ' on the Alerts page')
-  cy.log('Clicked '+ element + ' on the Alerts page')
+
+  console.log(`Clicked ${element} on the Alerts page`)
+  cy.log(`Clicked ${element} on the Alerts page`)
 })
 
 Then (/^on the Alerts page I confirm that all schemes have successfully cascaded$/, () => {
@@ -2013,22 +2065,69 @@ Then (/^on the Alerts page I confirm that all schemes have successfully cascaded
   })
 })
 
-Then (/^on the Add new alert recipient page I confirm that "(.*)" is displayed$/, (element) => {
+Then(/^on the Add new alert recipient page I confirm that "(.*)" is displayed$/, (element) => {
+  Cypress.emit('log:step',`on the Add new alert recipient page I confirm that ${element} is displayed`)
 
-  Cypress.emit('log:step', 'on the Add new alert recipient page I confirm that ' + element + ' is displayed')
+  const verify = (method, texts) => {
+    texts.forEach(text => {
+      paymentAlertsPage[method](text)
+        .should('be.visible')
+    })
+  }
 
   switch (element) {
-  case 'sub header': paymentAlertsPage.addNewSubHeader().should('be.visible').containsWithoutWhitespace( 'Add new alert recipient'); break
-  case 'email label': paymentAlertsPage.addNewEmailLabel().should('be.visible').containsWithoutWhitespace( 'Email address'); break
-  case 'email field': paymentAlertsPage.addNewEmailField().should('be.visible').and('have.attr', 'type', 'text'); break
-  case 'select scheme label':paymentAlertsPage.addNewSelectSchemeLabel().should('be.visible').containsWithoutWhitespace( 'Select a scheme to view alerts for'); break
-  case 'select scheme dropdown': paymentAlertsPage.addNewSelectSchemeDropdown().should('be.visible').and('have.attr', 'class', 'govuk-select'); break
-  case 'invalid email error message': paymentAlertsPage.addNewInvalidEmailError().should('be.visible').containsWithoutWhitespace( 'The email address is not allowed. Please contact the Payment & Document Services team if you believe this is a mistake.'); break
+  case 'sub header':
+    verify('heading', ['Add new alert recipient'])
+    break
+
+  case 'email label':
+    cy.contains('.govuk-label', 'Email address')
+      .should('be.visible')
+      .containsWithoutWhitespace('Email address')
+    break
+
+  case 'email field':
+    paymentAlertsPage.addNewEmailField()
+      .should('be.visible')
+      .and('have.attr', 'type', 'text')
+    break
+
+  case 'select scheme label':
+    cy.contains(
+      '.govuk-label',
+      'Select a scheme to view alerts for'
+    )
+      .should('be.visible')
+      .containsWithoutWhitespace(
+        'Select a scheme to view alerts for'
+      )
+    break
+
+  case 'select scheme dropdown':
+    paymentAlertsPage.addNewSelectSchemeDropdown()
+      .should('be.visible')
+      .and('have.class', 'govuk-select')
+    break
+
+  case 'invalid email error message':
+    paymentAlertsPage.addNewInvalidEmailError()
+      .should('be.visible')
+      .containsWithoutWhitespace(
+        'The email address is not allowed. Please contact the Payment & Document Services team if you believe this is a mistake.'
+      )
+    break
+
   default:
-    throw new Error('invalid element')
+    throw new Error(`Invalid element: ${element}`)
   }
-  console.log('Confirmed that '+ element + ' is displayed on the Add new alert recipient page')
-  cy.log('Confirmed that ' + element + ' is displayed on the Add new alert recipient page')
+
+  console.log(
+    `Confirmed that ${element} is displayed on the Add new alert recipient page`
+  )
+
+  cy.log(
+    `Confirmed that ${element} is displayed on the Add new alert recipient page`
+  )
 })
 
 Then(/^on the Add new alert recipient page I confirm that all options are present when no filter selected$/, () => {

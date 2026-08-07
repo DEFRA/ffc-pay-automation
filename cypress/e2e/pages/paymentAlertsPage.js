@@ -1,175 +1,55 @@
-class paymentAlertsPage {
-
-  subHeader () {
-    return cy.get('.govuk-heading-l')
+class PaymentAlertsPage {
+  heading (text) {
+    return cy.contains('h1, h2, h3', text)
+      .containsWithoutWhitespace(text)
   }
 
-  pageDescription () {
-    return cy.get('.govuk-grid-column-full > :nth-child(2)')
+  paragraph (text) {
+    return cy.contains('p', text)
+      .containsWithoutWhitespace(text)
   }
 
-  findOutMore () {
-    return cy.get('.govuk-grid-column-full > :nth-child(3)')
+  link (text) {
+    return cy.contains('a', text)
+      .containsWithoutWhitespace(text)
+  }
+
+  schemeLabel (text) {
+    return cy.contains(
+      '.govuk-accordion__section-heading-text-focus',
+      text
+    )
+      .containsWithoutWhitespace(text)
+  }
+
+  schemeShowButton (text) {
+    return cy.contains(
+      '.govuk-accordion__section-heading-text-focus',
+      text
+    )
+      .closest('.govuk-accordion__section-header')
+      .find('.govuk-accordion-nav__chevron')
   }
 
   alertsInformationLink () {
-    return cy.get('.govuk-grid-column-full > :nth-child(3) > .govuk-link')
+    return cy.get('.govuk-grid-column-full .govuk-link')
   }
 
   addNewRecipientButton () {
-    return cy.get('.govuk-grid-column-full > .govuk-button-group > .govuk-button')
+    return cy.get('.govuk-button')
+      .contains('Add new alerts recipient')
   }
 
   showAllSectionsButton () {
-    return cy.get('.govuk-accordion__show-all > .govuk-accordion-nav__chevron')
-  }
-
-  sfi22Label () {
-    return cy.get('#scheme-accordion-heading-1 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  sfi22Show () {
-    return cy.get(':nth-child(2) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  sfiPilotLabel () {
-    return cy.get('#scheme-accordion-heading-2 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  sfiPilotShow () {
-    return cy.get(':nth-child(3) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  lumpSumsLabel () {
-    return cy.get('#scheme-accordion-heading-3 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  lumpSumsShow () {
-    return cy.get(':nth-child(4) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  vetVisitsLabel () {
-    return cy.get('#scheme-accordion-heading-4 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  vetVisitsShow () {
-    return cy.get(':nth-child(5) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  countrysideStewardshipLabel () {
-    return cy.get('#scheme-accordion-heading-5 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  countrysideStewardshipShow () {
-    return cy.get(':nth-child(6) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  basicPaymentSchemeLabel () {
-    return cy.get('#scheme-accordion-heading-6 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  basicPaymentSchemeShow () {
-    return cy.get(':nth-child(7) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  manualInjectionLabel () {
-    return cy.get('#scheme-accordion-heading-7 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  manualInjectionShow () {
-    return cy.get(':nth-child(8) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  environmentalStewardshipLabel () {
-    return cy.get('#scheme-accordion-heading-8 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  environmentalStewardshipShow () {
-    return cy.get(':nth-child(9) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  impsLabel () {
-    return cy.get('#scheme-accordion-heading-9 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  impsShow () {
-    return cy.get(':nth-child(10) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  forestryCommissionLabel () {
-    return cy.get('#scheme-accordion-heading-10 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  forestryCommissionShow () {
-    return cy.get(':nth-child(11) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  sfi23Label () {
-    return cy.get('#scheme-accordion-heading-11 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  sfi23Show () {
-    return cy.get(':nth-child(12) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  delinkedPaymentsLabel () {
-    return cy.get('#scheme-accordion-heading-12 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  delinkedPaymentsShow () {
-    return cy.get(':nth-child(13) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  expandedSFIOfferLabel () {
-    return cy.get('#scheme-accordion-heading-13 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  expandedSFIOfferShow () {
-    return cy.get(':nth-child(14) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  cshtRevenueLabel () {
-    return cy.get('#scheme-accordion-heading-14 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  cshtRevenueShow () {
-    return cy.get(':nth-child(15) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  cshtCapitalLabel () {
-    return cy.get('#scheme-accordion-heading-15 > .govuk-accordion__section-heading-text-focus')
-  }
-
-  cshtCapitalShow () {
-    return cy.get(':nth-child(16) > .govuk-accordion__section-header > .govuk-accordion__section-heading > .govuk-accordion__section-button > .govuk-accordion__section-toggle > .govuk-accordion__section-toggle-focus > .govuk-accordion-nav__chevron')
-  }
-
-  addNewSubHeader () {
-    return cy.get('.govuk-heading-l')
-  }
-
-  addNewEmailLabel () {
-    return cy.get('form > :nth-child(4) > .govuk-label')
+    return cy.get('.govuk-accordion__show-all')
   }
 
   addNewEmailField () {
     return cy.get('#emailAddress')
   }
 
-  addNewSelectSchemeLabel () {
-    return cy.get('form > :nth-child(5) > .govuk-label')
-  }
-
   addNewSelectSchemeDropdown () {
     return cy.get('#selectView')
-  }
-
-  addNewSFI22All () {
-    return cy.get('#sfi-22-all')
-  }
-
-  addNewSFIPilotAll () {
-    return cy.get('#sfi-pilot-all')
   }
 
   addNewInvalidEmailError () {
@@ -180,13 +60,23 @@ class paymentAlertsPage {
     return cy.get('#submit')
   }
 
-  editButton () {
-    return cy.get('#scheme-accordion-content-2 > :nth-child(2) > .govuk-table__body > .govuk-table__row > :nth-child(2) > .govuk-link')
+  addNewSFI22All () {
+    return cy.get('#sfi-22-all')
   }
 
+  addNewSFIPilotAll () {
+    return cy.get('#sfi-pilot-all')
+  }
+
+  editButton () {
+    return cy.contains(
+      '#scheme-accordion-content-2 a',
+      'Edit'
+    ).first()
+  }
   removeEmailButton () {
     return cy.get('.govuk-button--warning')
   }
 }
 
-export default new paymentAlertsPage()
+export default new PaymentAlertsPage()
