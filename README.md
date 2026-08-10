@@ -36,6 +36,7 @@ The aim is to keep feature files readable, page objects reusable and test logic 
 
 ### Directory Structure
 
+```text
 cypress
 ├── e2e
 │   ├── features
@@ -47,6 +48,8 @@ cypress
 ├── screenshots
 ├── videos
 └── support
+```
+
 
 
 | Folder | Purpose |
