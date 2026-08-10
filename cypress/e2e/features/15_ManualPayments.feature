@@ -15,7 +15,7 @@ Feature: 15 Manual Payments
 
     Given I restart the local environment
     Given I visit the "Payment management" homepage
-    When I click on the "Manual payment upload" link
+    When I click on the "Upload manual payments" link
     Then I am on the "manual-payments" subpage
     Then I take a screenshot for Feature 15 and Scenario 01
     Then on the Manual Payments page I confirm that "page title" is present

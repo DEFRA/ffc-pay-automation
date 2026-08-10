@@ -1,9 +1,9 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 
-import agreementClosuresPage from '../pages/agreementClosuresPage'
-import addBulkClosurePage from '../pages/addBulkClosurePage'
-import addClosurePage from '../pages/addClosurePage'
+import agreementClosuresPage from '../pages/agreementClosures/agreementClosuresPage'
+import addBulkClosurePage from '../pages/agreementClosures/addBulkClosurePage'
+import addClosurePage from '../pages/agreementClosures/addClosurePage'
 import paymentHoldsPage from '../pages/paymentHoldsPage'
 import reportsPage from '../pages/reportsPage'
 import capturePage from '../pages/capturePage'
@@ -245,3 +245,49 @@ When('I type a date prior to {string} in the Closure date field', (date) => {
 When('I enter frn {int} on the search for agreement closure page', (frn) => {
   agreementClosuresPage.agreementClosureEnterFrnField().type(frn)
 })
+
+
+//TODO - refactor these below commented into working again
+//_______________________________________________________________________________________
+// Then('I should see the number of closures', () => {
+
+//   Cypress.emit('log:step', 'I should see the number of closures')
+//   paymentManagementPage.noOfClosures().should('be.visible')
+// })
+
+// Then('I make a note of the closures count', () => {
+
+//   Cypress.emit('log:step', 'I make a note of the closures count')
+//   paymentManagementPage
+//     .noOfClosures()
+//     .should('be.visible')
+//     .invoke('text').then(($closureCount) => {
+//       cy.wrap(parseInt($closureCount), { log: true }).as('initialClosureCount')
+//     })
+// })
+
+// Then('the closure count has increased by {int}', (increment) => {
+
+//   Cypress.emit('log:step', 'the closure count has increased by ' + increment)
+//   cy.get('@initialClosureCount').then((initialCount) => {
+//     const expectedCount = Number(initialCount) + increment
+
+//     paymentManagementPage
+//       .noOfClosures()
+//       .should('be.visible')
+//       .invoke('text')
+//       .then((text) => {
+//         const currentCount = parseInt(text, 10)
+//         expect(currentCount).to.equal(expectedCount)
+//       })
+//   })
+// })
+
+// Then('I should see {string} number of closures', (count) => {
+
+//   Cypress.emit('log:step', 'I should see ' + count + ' number of closures')
+//   paymentManagementPage
+//     .noOfClosures()
+//     .should('be.visible')
+//     .containsWithoutWhitespace( count)
+// })
