@@ -1,5 +1,5 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
-import paymentHoldsPage from '../pages/paymentHoldsPage'
+import paymentHoldsPage from '../pages/paymentHoldsPage.js'
 import moment from 'moment'
 import { schemeAndHolds } from '../../support/data/paymentHolds.data.js'
 

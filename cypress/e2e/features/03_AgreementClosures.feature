@@ -4,6 +4,7 @@ Feature: 03 Agreement Closures
 # npm run cypress:test:one -- "cypress\e2e\features\03_AgreementClosures.feature"
 # npm run cypress:dev:one -- "cypress\e2e\features\03_AgreementClosures.feature"
 
+#Todo: add logic (existing?) to verify closure count increases upon creation (is gui updated to reflect this?)
 
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage

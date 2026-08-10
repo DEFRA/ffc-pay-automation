@@ -20,6 +20,46 @@ With the exception of Visual Studio Code, these prerequisites should be installe
 5. Open Terminal within Visual Studio Code and install the dependencies by running `npm install` from the terminal
 6. Open Terminal within Visual Studio Code and install the dependencies by running `sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb` from the terminal
 
+## Framework Architecture
+
+### Overview
+
+This framework uses:
+
+- Cypress for browser automation.
+- Cucumber (Gherkin) for business-readable test scenarios.
+- Page Object Model (POM) design pattern.
+- Mochawesome for reporting.
+- ESLint for code quality and consistency.
+
+The aim is to keep feature files readable, page objects reusable and test logic maintainable.
+
+### Directory Structure
+
+cypress
+├── e2e
+│   ├── features
+│   ├── pages
+│   └── steps
+│
+├── fixtures
+├── downloads
+├── screenshots
+├── videos
+└── support
+
+
+| Folder | Purpose |
+|----------|----------|
+| features | Gherkin feature files containing business-readable test scenarios |
+| pages | Page Object Models containing reusable locators and page methods |
+| steps | Cypress implementation of Gherkin steps |
+| fixtures | Test data files used during execution |
+| downloads | Files downloaded during test execution |
+| screenshots | Screenshots generated during test execution |
+| support | Shared commands, helpers and framework utilities |
+
+
 ## Running Tests
 
 The file 'package.json' contains the commands to run scripts, and these are all declared in 'scripts' object. The tests are executed in a Chrome browser with the tag filter `not @ignore`.
@@ -55,4 +95,4 @@ This can also be done for multiple feature files at once by using one of the :al
 
 Screenshots are also taken by dedicated feature file lines, these can be found in cypress/screenshot as well as mp4 video files showing Cypress running the tests can be found in cypress/videos
 
-*Last updated: 9th April 2026*
+*Last updated: 10th August 2026*
