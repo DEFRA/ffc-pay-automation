@@ -112,3 +112,4 @@ Feature: 15 Manual Payments
     Then I am on the "manual-payments" subpage
     Then on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present
     Then I take a screenshot for Feature 15 and Scenario 08
+    Then I clean up generated manual payment files

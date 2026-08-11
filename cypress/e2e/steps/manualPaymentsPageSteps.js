@@ -66,12 +66,10 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
         if (!row.trim()) {
           return row
         }
-        const cols = row.split(','); [1, 3, 17].forEach(() => {
-          cols[1] = parseInt(cols[1]) + 1
-          cols[3] = incrementZValue(cols[3])
-          cols[17] = parseInt(cols[17]) + 1
-        })
-
+        const cols = row.split(',')
+        cols[1] = parseInt(cols[1]) + 1
+        cols[3] = incrementZValue(cols[3])
+        cols[17] = parseInt(cols[17]) + 1
         return cols.join(',')
       })
 
@@ -161,7 +159,13 @@ Then(/^on the Manual Payments page I confirm that entry with filename "(.*)" has
   cy.log('Confirmed that entry with filename ' + filename + ' has been added to Upload History')
 })
 
-Then(/^on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present$/, () => {
+// Waits for the timestamped file to appear in Upload History.
+// Clicks the correct View payment status row.
+// Reads all FRNs from the uploaded file.
+// Waits until the last FRN appears on the page (indicating processing is complete) (one to watch if issues arrive with this function as i'm not confident at all that this is how the processing works).
+// Validates all FRNs.
+
+Then(/^on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present$/,() => {
   Cypress.emit('log:step','on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present')
 
   const uploadedFile = Cypress.env('uploadedManualPaymentFile')
@@ -181,9 +185,12 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
           })
       } else if (attempt < 60) {
         cy.wait(10000)
+        Cypress.emit('log:step', `Looking for filename ${fileName}`)
         waitForFileAndOpenStatus(attempt + 1)
       } else {
-        throw new Error(`Timed out waiting for upload history entry ${fileName}`)
+        throw new Error(
+          `Timed out waiting for upload history entry ${fileName}`
+        )
       }
     })
   }
@@ -196,9 +203,33 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
       .split('\n')
       .map(row => row.split(',')[1])
 
-    frns.forEach((frn) => {
-      cy.contains(frn).should('be.visible')
-    })
+    const lastFrn = frns[frns.length - 1]
+
+    const waitForAllFrns = (attempt = 1) => {
+      cy.reload()
+
+      cy.get('body').then(($body) => {
+        if ($body.text().includes(lastFrn)) {
+          frns.forEach((frn) => {
+            cy.contains(frn).should('be.visible')
+          })
+        } else if (attempt < 30) {
+          cy.wait(10000)
+          Cypress.emit('log:step', `Waiting for FRN ${lastFrn}`)
+          waitForAllFrns(attempt + 1)
+        } else {
+          throw new Error(
+            `Timed out waiting for all FRNs to be processed. Missing ${lastFrn}`
+          )
+        }
+      })
+    }
+
+    waitForAllFrns()
   })
 }
 )
+
+Then('I clean up generated manual payment files', () => {
+  cy.task('deleteGeneratedManualPaymentFiles')
+})
