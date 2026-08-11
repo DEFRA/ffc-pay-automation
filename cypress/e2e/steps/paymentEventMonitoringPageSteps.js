@@ -401,3 +401,13 @@ Then(/^I select "(.*)" from the monitor schemes dropdown$/, (scheme) => {
   cy.log(`Selected ${scheme} from the monitor schemes dropdown`)
   console.log(`Selected ${scheme} from the monitor schemes dropdown`)
 })
+
+
+Then(/^on the Processed Payment Requests page I confirm that entry is present for "(.*)" scheme with "(.*)" payments and a value of "(.*)"$/, (scheme, payments, value) => {
+
+  Cypress.emit('log:step', 'on the Processed Payment Requests page I confirm that entry is present for ' + scheme + ' scheme with ' + payments + ' payments and a value of ' + value)
+  cy.wait(2000) // Waiting for data load
+  cy.contains(scheme).should('be.visible')
+  cy.contains(payments).should('be.visible')
+  cy.contains(value).should('be.visible')
+})

@@ -4,7 +4,7 @@ class manualPaymentsPage {
   }
 
   pageDescription () {
-    return cy.get('p.govuk-body')
+    return cy.get('#main-content > :nth-child(1) > :nth-child(1) > p.govuk-body')
   }
 
   chooseFileBtn () {
@@ -23,32 +23,16 @@ class manualPaymentsPage {
     return cy.get('#progress-status-text')
   }
 
-  errorText () {
-    return cy.get('#error-message-text')
-  }
-
-  typeErrorText () {
-    return cy.get('.govuk-error-message')
-  }
-
-  nameErrorText () {
-    return cy.get('.govuk-error-message')
-  }
-
-  returnButton () {
-    return cy.get('.govuk-notification-banner__content > .redirect-link > .govuk-link')
-  }
-
-  errorReturnButton () {
-    return cy.get('#error-message > .redirect-link > .govuk-link')
-  }
-
   uploadHistoryTable () {
     return cy.get(':nth-child(1) > .govuk-grid-row > .govuk-grid-column-full')
   }
 
   uploadHistoryFilename () {
     return cy.get('.govuk-table__body > .govuk-table__row > :nth-child(2)')
+  }
+
+  fileInput () {
+    return cy.get('#file-input')
   }
 }
 

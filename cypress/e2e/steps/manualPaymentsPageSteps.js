@@ -15,13 +15,13 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
 
       // Write the CSV to the new temp file
       cy.writeFile(tempPath, 'Test data for duplicate file upload')
-      manualPaymentsPage.chooseFileBtn().selectFile(tempPath)
+      manualPaymentsPage.fileInput().selectFile(tempPath, { force: true })
     })
 
   } else if (fileName.includes('TEST') || fileName.includes('Invalid')) {
 
     const originalPath = 'cypress/fixtures/' + fileName
-    manualPaymentsPage.chooseFileBtn().selectFile(originalPath)
+    manualPaymentsPage.fileInput().selectFile(originalPath, { force: true })
 
   } else if (fileName.includes('Empty')) {
 
@@ -42,7 +42,7 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
 
     // Write the updated CSV to the new temp file
     cy.writeFile(tempPath, '')
-    manualPaymentsPage.chooseFileBtn().selectFile(tempPath)
+    manualPaymentsPage.fileInput().selectFile(tempPath, { force: true })
 
   } else {
 
@@ -102,9 +102,11 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
       const tempFilename = `FFC_Manual_Batch_${timestamp}.${filePrefix}`
       const tempPath = `cypress/fixtures/${tempFilename}`
 
+      //saves a local copy of this file we uploaded, this is run specific
+      Cypress.env('uploadedManualPaymentFile', tempPath)
       // Write the updated CSV to the new temp file
       cy.writeFile(tempPath, updatedCsv)
-      manualPaymentsPage.chooseFileBtn().selectFile(tempPath)
+      manualPaymentsPage.fileInput().selectFile(tempPath, { force: true })
     })
 
   }
@@ -131,31 +133,15 @@ Then(/^on the Manual Payments page I confirm that "(.*)" is present$/, (element)
   Cypress.emit('log:step', 'on the Manual Payments page I confirm that ' + element + ' is present')
   switch (element) {
   case 'page title':
-    manualPaymentsPage.pageTitle().should('be.visible').haveWithoutWhitespace('Manual payment upload'); break
+    manualPaymentsPage.pageTitle().should('be.visible').haveWithoutWhitespace('Upload manual payments'); break
   case 'page description':
-    manualPaymentsPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'This section allows teams to upload manual payment files into Payment Hub. Once uploaded, these files will automatically feed into the standard payment process'); break
+    manualPaymentsPage.pageDescription().should('be.visible').containsWithoutWhitespace( 'Upload payment files to be manually processed. For more information on uploading manual payments, including the file format you can download'); break
   case 'choose file button':
-    manualPaymentsPage.chooseFileBtn().should('be.visible').and('have.attr', 'type', 'file'); break
+    manualPaymentsPage.chooseFileBtn().should('be.visible').and('have.attr', 'type', 'button'); break
   case 'upload button':
     manualPaymentsPage.uploadBtn().should('be.visible').and('have.attr', 'type', 'submit'); break
   case 'manual payments guidance link':
-    manualPaymentsPage.manualPaymentsGuidanceLink().should('be.visible').containsWithoutWhitespace( 'Manual Payments Guidance (PDF)'); break
-  case 'file upload confirmation message':
-    manualPaymentsPage.statusText().should('be.visible').containsWithoutWhitespace( 'Your manual payment file has been successfully processed. To make another upload, please click the link below to return to the manual payments page.'); break
-  case 'duplicate file error message':
-    manualPaymentsPage.errorText().should('be.visible').containsWithoutWhitespace( 'This file has already been uploaded. The file has not been re-processed. Please ensure you are uploading the correct and most recent file.'); break
-  case 'invalid file type error message':
-    manualPaymentsPage.typeErrorText().should('be.visible').containsWithoutWhitespace( 'Invalid file type - We were unable to upload your manual payment file as the uploaded file is not a .CSV file. Only .CSV files are permitted.'); break
-  case 'invalid name error message':
-    manualPaymentsPage.nameErrorText().should('be.visible').containsWithoutWhitespace( 'Invalid filename - We were unable to upload your manual payment file. Filenames must start with "FFC_Manual_Batch_". Optionally include a scheme (e.g. "SFI_" or "SFI23_"), then a timestamp in one of these formats: YYYYMMDDHHmm or YYYYMMDDHHmmss. The filename must end with ".csv". Examples: FFC_Manual_Batch_SFI23_202510231609.csv, FFC_Manual_Batch_202510231609.csv.'); break
-  case 'invalid file size message':
-    manualPaymentsPage.nameErrorText().should('be.visible').containsWithoutWhitespace( 'File too large - The uploaded file is too large. Please upload a file smaller than 1 MB.'); break
-  case 'empty file message':
-    manualPaymentsPage.nameErrorText().should('be.visible').containsWithoutWhitespace( 'We couldn’t process your upload because the file is empty. Please upload a file that contains data.'); break
-  case 'return button':
-    manualPaymentsPage.returnButton().should('be.visible').haveWithoutWhitespace('Return'); break
-  case 'error return button':
-    manualPaymentsPage.errorReturnButton().should('be.visible').haveWithoutWhitespace('Return'); break
+    manualPaymentsPage.manualPaymentsGuidanceLink().should('be.visible').containsWithoutWhitespace( 'manual payments guidance (PDF, 2MB)'); break
   case 'upload history table':
     manualPaymentsPage.uploadHistoryTable().should('be.visible'); break
   default:
@@ -176,32 +162,43 @@ Then(/^on the Manual Payments page I confirm that entry with filename "(.*)" has
 })
 
 Then(/^on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present$/, () => {
+  Cypress.emit('log:step','on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present')
 
-  Cypress.emit('log:step', 'on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present')
-  cy.wait(240000) // Waiting for the all payments to be processed and displayed on the Payment Status page
+  const uploadedFile = Cypress.env('uploadedManualPaymentFile')
+  const fileName = uploadedFile.split('/').pop()
 
-  cy.get('a').contains('View payment status').scrollIntoView().click()
+  const waitForFileAndOpenStatus = (attempt = 1) => {
+    cy.reload()
 
-  cy.readFile('cypress/fixtures/FFC_Manual_Batch_Correct.csv').then((text) => {
-    const rows = text.trim().split('\n')
+    cy.get('body').then(($body) => {
+      if ($body.text().includes(fileName)) {
+        cy.contains('td', fileName)
+          .parents('tr')
+          .within(() => {
+            cy.contains('View payment status')
+              .scrollIntoView()
+              .click()
+          })
+      } else if (attempt < 60) {
+        cy.wait(10000)
+        waitForFileAndOpenStatus(attempt + 1)
+      } else {
+        throw new Error(`Timed out waiting for upload history entry ${fileName}`)
+      }
+    })
+  }
 
-    // Skip header row and extract index 1 from each row
-    const values = rows.slice(1).map(row => row.split(',')[1])
+  waitForFileAndOpenStatus()
 
-    cy.log(JSON.stringify(values))
-    values.forEach(frn => {
-      cy.contains(frn)
+  cy.readFile(uploadedFile).then((text) => {
+    const frns = text
+      .trim()
+      .split('\n')
+      .map(row => row.split(',')[1])
+
+    frns.forEach((frn) => {
+      cy.contains(frn).should('be.visible')
     })
   })
-  console.log('Confirmed that expected FRN values are present on the Payment Status page')
-  cy.log('Confirmed that expected FRN values are present on the Payment Status page')
-})
-
-Then(/^on the Processed Payment Requests page I confirm that entry is present for "(.*)" scheme with "(.*)" payments and a value of "(.*)"$/, (scheme, payments, value) => {
-
-  Cypress.emit('log:step', 'on the Processed Payment Requests page I confirm that entry is present for ' + scheme + ' scheme with ' + payments + ' payments and a value of ' + value)
-  cy.wait(2000) // Waiting for data load
-  cy.contains(scheme).should('be.visible')
-  cy.contains(payments).should('be.visible')
-  cy.contains(value).should('be.visible')
-})
+}
+)

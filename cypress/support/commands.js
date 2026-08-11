@@ -178,6 +178,14 @@ Cypress.Commands.add('assertSuccessBanner', (message) => {
     })
 })
 
+Cypress.Commands.add('assertErrorBanner', (message) => {
+  cy.get('.govuk-error-summary')
+    .should('be.visible')
+    .within(() => {
+      cy.contains('There is a problem')
+      cy.contains(message)
+    })
+})
 
 Cypress.Commands.add('noteTableRowCount', (alias = 'initialDatasetCount') => {
   cy.get('body').then(($body) => {
