@@ -6,24 +6,24 @@ Feature: 15 Manual Payments
  
 # This feature file is designed to test the Manual Payments page in Payment Management.
  
-  # Scenario: 01 Confirm Manual Payments page elements are visible
+  Scenario: 01 Confirm Manual Payments page elements are visible
 
-  # #This scenario confirms that the Manual Payments page is accessible from the Payment Management homepage
-  # #and that all the expected elements are present on the page
+  #This scenario confirms that the Manual Payments page is accessible from the Payment Management homepage
+  #and that all the expected elements are present on the page
 
-  # #First line will clear out and restart all payment services to ensure a clean environment for the tests
+  #First line will clear out and restart all payment services to ensure a clean environment for the tests
 
-  #   Given I restart the local environment
-  #   Given I visit the "Payment management" homepage
-  #   When I click on the "Upload manual payments" link
-  #   Then I am on the "manual-payments" subpage
-  #   Then I take a screenshot for Feature 15 and Scenario 01
-  #   Then on the Manual Payments page I confirm that "page title" is present
-  #   Then on the Manual Payments page I confirm that "page description" is present
-  #   Then on the Manual Payments page I confirm that "choose file button" is present
-  #   Then on the Manual Payments page I confirm that "upload button" is present
-  #   Then on the Manual Payments page I confirm that "manual payments guidance link" is present
-  #   Then on the Manual Payments page I confirm that "upload history table" is present
+    Given I restart the local environment
+    Given I visit the "Payment management" homepage
+    When I click on the "Upload manual payments" link
+    Then I am on the "manual-payments" subpage
+    Then I take a screenshot for Feature 15 and Scenario 01
+    Then on the Manual Payments page I confirm that "page title" is present
+    Then on the Manual Payments page I confirm that "page description" is present
+    Then on the Manual Payments page I confirm that "choose file button" is present
+    Then on the Manual Payments page I confirm that "upload button" is present
+    Then on the Manual Payments page I confirm that "manual payments guidance link" is present
+    Then on the Manual Payments page I confirm that "upload history table" is present
 
   Scenario: 02 Confirm that valid Manual Payments file can be processed successfully
 
@@ -43,65 +43,65 @@ Feature: 15 Manual Payments
 
 
 
-#   Scenario: 03 Confirm that attempting to upload duplicate file produces appropriate error message
+  Scenario: 03 Confirm that attempting to upload duplicate file produces appropriate error message
 
-# #This scenario confirms that attempting to upload a file that has already been processed produces the correct error message  
+#This scenario confirms that attempting to upload a file that has already been processed produces the correct error message  
 
-#     Given I visit the "Payment management" homepage
-#     When I click on the "Upload manual payments" link
-#     Then I am on the "manual-payments" subpage
-#     When on the Manual Payments page I enter "FFC_Manual_Batch_Duplicate.csv" as the file to upload
-#     When on the Manual Payments page I click the "upload button"
-#     And I see an error message for "This file has already been uploaded."
-#     Then I take a screenshot for Feature 15 and Scenario 03
+    Given I visit the "Payment management" homepage
+    When I click on the "Upload manual payments" link
+    Then I am on the "manual-payments" subpage
+    When on the Manual Payments page I enter "FFC_Manual_Batch_Duplicate.csv" as the file to upload
+    When on the Manual Payments page I click the "upload button"
+    And I see an error message for "This file has already been uploaded."
+    Then I take a screenshot for Feature 15 and Scenario 03
 
-#   Scenario: 04 Confirm that invalid Manual Payments file type produces appropriate error message
+  Scenario: 04 Confirm that invalid Manual Payments file type produces appropriate error message
 
-# #This scenario confirms that attempting to upload a file that is not a CSV produces the correct error message
+#This scenario confirms that attempting to upload a file that is not a CSV produces the correct error message
 
-#     Given I visit the "Payment management" homepage
-#     When I click on the "Upload manual payments" link
-#     Then I am on the "manual-payments" subpage
-#     When on the Manual Payments page I enter "FFC_Manual_Batch_Text.txt" as the file to upload
-#     When on the Manual Payments page I click the "upload button"
-#     And I see an error message for "Filename must be in valid format"
-#     Then I take a screenshot for Feature 15 and Scenario 04
+    Given I visit the "Payment management" homepage
+    When I click on the "Upload manual payments" link
+    Then I am on the "manual-payments" subpage
+    When on the Manual Payments page I enter "FFC_Manual_Batch_Text.txt" as the file to upload
+    When on the Manual Payments page I click the "upload button"
+    And I see an error message for "Filename must be in valid format"
+    Then I take a screenshot for Feature 15 and Scenario 04
 
-#   Scenario: 05 Confirm that invalid Manual Payments filename produces appropriate error message
+  Scenario: 05 Confirm that invalid Manual Payments filename produces appropriate error message
 
-# #This scenario confirms that attempting to upload a file with an incorrect filename produces the correct error message
+#This scenario confirms that attempting to upload a file with an incorrect filename produces the correct error message
 
-#     Given I visit the "Payment management" homepage
-#     When I click on the "Upload manual payments" link
-#     Then I am on the "manual-payments" subpage
-#     When on the Manual Payments page I enter "FFC_TEST_Manual_BatchTEST.csv" as the file to upload
-#     When on the Manual Payments page I click the "upload button"
-#     And I see an error message for "File name is incorrect"
-#     Then I take a screenshot for Feature 15 and Scenario 05
+    Given I visit the "Payment management" homepage
+    When I click on the "Upload manual payments" link
+    Then I am on the "manual-payments" subpage
+    When on the Manual Payments page I enter "FFC_TEST_Manual_BatchTEST.csv" as the file to upload
+    When on the Manual Payments page I click the "upload button"
+    And I see an error message for "File name is incorrect"
+    Then I take a screenshot for Feature 15 and Scenario 05
 
-#   Scenario: 06 Confirm that invalid file size produces appropriate error message
+  Scenario: 06 Confirm that invalid file size produces appropriate error message
 
-# #     #This scenario confirms that attempting to upload a file with an invalid filesize produces the correct error message
+#     #This scenario confirms that attempting to upload a file with an invalid filesize produces the correct error message
 
-#     Given I visit the "Payment management" homepage
-#     When I click on the "Upload manual payments" link
-#     Then I am on the "manual-payments" subpage
-#     When on the Manual Payments page I enter "FFC_Manual_Batch_Invalid.csv" as the file to upload
-#     When on the Manual Payments page I click the "upload button"
-#     And I see an error message for "The selected file must be smaller than 1 MB"
-#     Then I take a screenshot for Feature 15 and Scenario 06
+    Given I visit the "Payment management" homepage
+    When I click on the "Upload manual payments" link
+    Then I am on the "manual-payments" subpage
+    When on the Manual Payments page I enter "FFC_Manual_Batch_Invalid.csv" as the file to upload
+    When on the Manual Payments page I click the "upload button"
+    And I see an error message for "The selected file must be smaller than 1 MB"
+    Then I take a screenshot for Feature 15 and Scenario 06
 
-#   Scenario: 07 Confirm that empty file produces appropriate error message
+  Scenario: 07 Confirm that empty file produces appropriate error message
 
-# #     #This scenario confirms that attempting to upload an empty file produces the correct error message
+#     #This scenario confirms that attempting to upload an empty file produces the correct error message
 
-#     Given I visit the "Payment management" homepage
-#     When I click on the "Upload manual payments" link
-#     Then I am on the "manual-payments" subpage
-#     When on the Manual Payments page I enter "FFC_Manual_Batch_Empty.csv" as the file to upload
-#     When on the Manual Payments page I click the "upload button"
-#     And I see an error message for "The selected file must not be empty"
-#     Then I take a screenshot for Feature 15 and Scenario 07
+    Given I visit the "Payment management" homepage
+    When I click on the "Upload manual payments" link
+    Then I am on the "manual-payments" subpage
+    When on the Manual Payments page I enter "FFC_Manual_Batch_Empty.csv" as the file to upload
+    When on the Manual Payments page I click the "upload button"
+    And I see an error message for "The selected file must not be empty"
+    Then I take a screenshot for Feature 15 and Scenario 07
 
   Scenario: 08 Upload History table
 
