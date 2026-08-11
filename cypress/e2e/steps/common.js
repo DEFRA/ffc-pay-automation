@@ -113,6 +113,12 @@ Then('I see a success message for {string}', (successMessage) => {
   cy.assertSuccessBanner(successMessage)
 })
 
+
+//generic error message assertion
+Then('I see an error message for {string}', (errorMessage) => {
+  cy.assertErrorBanner(errorMessage)
+})
+
 // -------------------------
 //  PAGINATION - assertions and clicks
 // -------------------------
