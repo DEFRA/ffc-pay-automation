@@ -12,3 +12,4 @@ cypress/fixtures/messageTemplates/*.json
 docker-compose.yaml
 kubectl.exe
 cypress/e2e/features/XX_DevelopmentTesting.feature
+cypress/fixtures/FFC_Manual_Batch_2*
