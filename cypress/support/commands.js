@@ -37,14 +37,6 @@ Cypress.Commands.add('generateAccessToken', () => {
   return cy.task('generateAccessToken')
 })
 
-Cypress.Commands.add('clickNextButtonUntilOnLastPage', () => {
-  cy.get('body').then((body) => {
-    if (body.find('[rel="next"] > .govuk-pagination__link-title').length > 0) {
-      requestEditor.btnNext().scrollIntoView().click({ force: true })
-      cy.task('clickNextButtonUntilOnLastPage')
-    }
-  })
-})
 
 Cypress.Commands.add('startDPSService', () => {
   cy.task('startDPSService', null, { timeout: 15 * 60 * 1000 }).then((output) => {
