@@ -1459,3 +1459,28 @@ Then(/^I confirm that alert has been generated from "(.*)"$/, (serviceName) => {
     })
   }
 })
+
+When(/^I fill the local Request Editor with pagination data$/, () => {
+  Cypress.emit('log:step', 'I fill the local Request Editor with pagination data')
+
+  if (!env.includes('local')) {
+    cy.log(`Skipping Request Editor pagination loader 5000 because env is ${env}`)
+    return
+  }
+
+  const databaseName = 'ffc-pay-request-editor'
+  const sqlFilePath = 'cypress/fixtures/sql/request-editor-11000-all-tables.sql'
+
+  cy.readFile(sqlFilePath, 'utf8').then((sqlStatement) => {
+    cy.log(`Running SQL super info file: ${sqlFilePath}`)
+    cy.log(`SQL length: ${sqlStatement.length}`)
+
+    return cy.task('databaseInsert', {
+      env,
+      databaseName,
+      sqlStatement
+    })
+  }).then(() => {
+    cy.log('Request Editor performance seed data inserted')
+  })
+})

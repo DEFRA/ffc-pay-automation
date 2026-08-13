@@ -257,19 +257,12 @@ When('on the Payment Holds Page I select {string} from the number of records per
   requestEditor.paymentHoldsRecordsPerPageDropdown().scrollIntoView().select(number)
 })
 
-When('I select {string} from the number of records per page dropdown', (number) => {
-
-  Cypress.emit('log:step', 'I select ' + number + ' from the number of records per page dropdown')
-  requestEditor.recordsPerPageDropdown().scrollIntoView().select(number)
-})
-
-
-When('on the Payment Holds Page I select {string} records per page', (number) => {
-  Cypress.emit( 'log:step', `on the Payment Holds Page I select ${number} records per page`
-  )
-
-  requestEditor.recordsPerPageLink(number).scrollIntoView().click()
-}
+Then(
+  '{string} records per page is selected by default',
+  (number) => {
+    requestEditor.currentlySelectedRecordsPerPageLink()
+      .should('contain.text', number)
+  }
 )
 
 Then('I can see at most {int} records displayed in the table', (number) => {
@@ -284,37 +277,6 @@ Then('I can see {string} in the page box', number => {
   requestEditor.pageNumber().scrollIntoView().should('contain.text', number)
 })
 
-
-
-Then('I can see the {string} button', btnText => {
-
-  Cypress.emit('log:step', 'I can see the ' + btnText + ' button')
-  if (btnText === 'Next') {
-    requestEditor.btnNext().scrollIntoView().should('be.visible').and('contain.text', btnText)
-  } else if (btnText === 'Previous') {
-    requestEditor.btnPrevious().scrollIntoView().should('be.visible').and('contain.text', btnText)
-  } else {
-    throw new Error('Button not found')
-  }
-})
-
-Then('I cannot see the {string} button', btnText => {
-
-  Cypress.emit('log:step', 'I cannot see the ' + btnText + ' button')
-  if (btnText === 'Next') {
-    requestEditor.btnNext().should('not.exist')
-  } else if (btnText === 'Previous') {
-    requestEditor.btnPrevious().should('not.exist')
-  } else {
-    throw new Error('Button not found')
-  }
-})
-
-When('I visit the last page', () => {
-
-  Cypress.emit('log:step', 'I visit the last page')
-  cy.task('clickNextButtonUntilOnLastPage')
-})
 
 When('I get the FRN of the last record', () => {
 

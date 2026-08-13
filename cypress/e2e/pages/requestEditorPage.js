@@ -86,37 +86,20 @@ class requestEditorPage {
     return cy.get('#applicationIdentifier-error')
   }
 
-  recordsPerPageDropdown () {
-    return cy.get('#perPage')
-  }
-
   paymentHoldsRecordsPerPageDropdown () {
     return cy.get('#records')
   }
 
-
-
-  recordsPerPageLink (number) {
-    return cy.contains('a', new RegExp(`^${number}$`))
+  currentlySelectedRecordsPerPageLink () {
+    return cy.get(
+      '[style="display:flex;align-items:baseline;justify-content:flex-end;"] > .govuk-body-s > strong'
+    )
   }
-
-
 
   dataSetRecords () {
     return cy.get('tbody > tr')
   }
 
-  pageNumber () {
-    return cy.get('.govuk-pagination__item')
-  }
-
-  btnNext () {
-    return cy.get('[rel="next"] > .govuk-pagination__link-title')
-  }
-
-  btnPrevious () {
-    return cy.get('[rel="prev"] > .govuk-pagination__link-title')
-  }
   administrativeRadioButton () {
     return cy.get('#debt-type-2')
   }
@@ -187,24 +170,11 @@ class requestEditorPage {
   }
   verifyAwaitingReportingData (data) {
 
-    this.assertTableRow([
-      data.scheme,
-      data.schemeYear,
-      data.frn,
-      data.agreementNumber,
-      data.totalAmount,
-      data.daysWaiting
-    ])
+    this.assertTableRow([data.scheme, data.schemeYear, data.frn, data.agreementNumber, data.totalAmount, data.daysWaiting])
   }
   verifyLedgerAssignmentData (data) {
 
-    this.assertTableRow([
-      data.scheme,
-      data.schemeYear,
-      data.frn,
-      data.agreementNumber,
-      resolveDate(data.received),
-    ])
+    this.assertTableRow([data.scheme, data.schemeYear, data.frn, data.agreementNumber, resolveDate(data.received),])
   }
 
   verifyAwaitingDatasetSummary (data) {
@@ -226,12 +196,7 @@ class requestEditorPage {
 
   verifyLedgerQualityCheck (data) {
 
-    this.assertTableRow([
-      data.scheme,
-      data.schemeYear,
-      data.frn,
-      data.agreementNumber,
-    ])
+    this.assertTableRow([data.scheme, data.schemeYear, data.frn, data.agreementNumber,])
   }
 
   assertRowPresent (value) {

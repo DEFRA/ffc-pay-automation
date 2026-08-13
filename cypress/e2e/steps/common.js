@@ -152,13 +152,34 @@ When(/^I click the pagination "(next|previous)"$/, (direction) => {
     .should('be.visible')
     .click()
 })
-
+// returns the current page we are on
 Then(/^the current pagination page number is "(.*)"$/, (pageNumber) => {
   cy.get('.govuk-pagination__item--current > .govuk-link')
     .invoke('text')
     .then(text => {
       expect(text.trim()).to.equal(pageNumber)
     })
+})
+
+//finds the highest number inside the pagination list and clicks it, this way it works for 1 or 1000 pages
+Then(/^I go to the last page of pagination results$/, () => {
+  cy.get('.govuk-pagination__list .govuk-link').then(($links) => {
+    cy.contains(
+      '.govuk-pagination__list .govuk-link',
+      Math.max(
+        ...[...$links]
+          .map(l => parseInt(l.innerText, 10))
+          .filter(n => !Number.isNaN(n))
+      ).toString()
+    ).click()
+  })
+})
+//selects one of the 25000 | 2000 | 1000 eg links visible on pages with tables, for filtering number of records per page
+When('I select {int} records per page pagination link', (number) => {
+  Cypress.emit('log:step', `on the Payment Holds Page I select ${number} records per page`)
+  cy.contains('a', new RegExp(`^${number}$`))
+    .scrollIntoView()
+    .click()
 })
 
 
