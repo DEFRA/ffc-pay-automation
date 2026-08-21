@@ -1,6 +1,7 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 import paymentManagementPage from '../pages/paymentManagementPage'
+import gdsGenericPage from '../pages/gdsGenericPage'
 const { getEnvironmentConfig } = require('../../support/configLoader')
 
 const envConfig = getEnvironmentConfig()
@@ -80,6 +81,7 @@ When('I click on the {string} button', (text) => {
   cy.get('button').contains(text).first().scrollIntoView().click()
   if (text === 'Submit' || text === 'Filter') {
     cy.wait(10000)
+    cy.prompt()
   }
 })
 
@@ -118,6 +120,39 @@ Then('I see a success message for {string}', (successMessage) => {
 Then('I see an error message for {string}', (errorMessage) => {
   cy.assertErrorBanner(errorMessage)
 })
+
+Then(
+  /^I should see the (heading|paragraph|hint|link|list item|button|strong text|details summary|warning text|verify text|label) "(.*)"$/,
+  (type, text) => {
+    const elementMap = {
+      heading: 'heading',
+      paragraph: 'paragraph',
+      hint: 'hint',
+      link: 'link',
+      'list item': 'listItem',
+      button: 'button',
+      'strong text': 'strong',
+      'details summary': 'detailsSummary',
+      'warning text': 'warningText',
+      'verify text': 'verifyText',
+      label: 'label'
+    }
+
+    gdsGenericPage[elementMap[type]](text)
+  }
+)
+
+When(/^I select the scheme "(.*)"$/, (scheme) => {
+  gdsGenericPage.schemeDropdown()
+    .select(scheme)
+})
+
+
+Then(/^I should see scheme "(.*)" in the scheme dropdown$/, (scheme) => {
+  gdsGenericPage.schemeOption(scheme)
+    .should('exist')
+})
+
 
 // -------------------------
 //  PAGINATION - assertions and clicks
@@ -188,22 +223,16 @@ When('I select {int} records per page pagination link', (number) => {
 // -------------------------
 
 
-When(
-  /^I enter "(.*)" into the "(filename|marketing year|frn|timestamp)" field$/,
-  (value, field) => {
-    const selectors = {
-      filename: '#filename',
-      'marketing year': '#marketingYear',
-      frn: '#frn',
-      timestamp: '#timestamp'
-    }
+When(/^I enter "(.*)" into the (.*) field$/, (value, field) => {
+  gdsGenericPage.field(field)
+    .clear()
+    .type(value)
+})
 
-    cy.get(selectors[field])
-      .should('be.visible')
-      .clear()
-      .type(value)
-  }
-)
+Then(/^I should see the field "(.*)"$/, (field) => {
+  gdsGenericPage.field(field)
+    .should('be.visible')
+})
 
 
 // -------------------------
