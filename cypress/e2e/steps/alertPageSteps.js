@@ -1,5 +1,4 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
-import paymentAlertsPage from '../pages/paymentAlertsPage'
 
 
 Then (/^on the Alerts page I confirm that all schemes have successfully cascaded$/, () => {
