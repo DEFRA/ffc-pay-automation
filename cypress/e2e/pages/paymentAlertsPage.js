@@ -49,7 +49,7 @@ class PaymentAlertsPage {
   }
 
   addNewSelectSchemeDropdown () {
-    return cy.get('#selectView')
+    return cy.get('#schemeId')
   }
 
   addNewInvalidEmailError () {

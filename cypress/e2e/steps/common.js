@@ -122,7 +122,7 @@ Then('I see an error message for {string}', (errorMessage) => {
 })
 
 Then(
-  /^I should see the (heading|paragraph|hint|link|list item|button|strong text|details summary|warning text|verify text|label) "(.*)"$/,
+  /^I should see the (heading|paragraph|hint|link|list item|button|strong text|details summary|warning text|verify text|label|accordion text) "(.*)"$/,
   (type, text) => {
     const elementMap = {
       heading: 'heading',
@@ -135,7 +135,8 @@ Then(
       'details summary': 'detailsSummary',
       'warning text': 'warningText',
       'verify text': 'verifyText',
-      label: 'label'
+      label: 'label',
+      'accordion text': 'accordionText'
     }
 
     gdsGenericPage[elementMap[type]](text)
@@ -223,8 +224,8 @@ When('I select {int} records per page pagination link', (number) => {
 // -------------------------
 
 
-When(/^I enter "(.*)" into the (.*) field$/, (value, field) => {
-  gdsGenericPage.field(field)
+When(/^I enter "(.*)" into the "(.*)" field$/, (value, field) => {
+  gdsGenericPage.field(field.toLowerCase())
     .clear()
     .type(value)
 })
@@ -280,6 +281,16 @@ When('I click on the {string} link', (text) => {
 
 When('I click the {string} breadcrumb', (breadcrumbText) => {
   cy.clickBreadcrumb(breadcrumbText)
+})
+
+When(/^I click the accordion link "(.*)"$/, (text) => {
+  gdsGenericPage.accordionLink(text)
+    .click()
+})
+
+When(/^I expand the accordion section "(.*)"$/, (section) => {
+  gdsGenericPage.accordionSection(section)
+    .click()
 })
 
 

@@ -53,6 +53,23 @@ class GDSGenericPage {
     return cy.contains(text)
       .containsWithoutWhitespace(text)
   }
+
+  accordionText (text ) {
+    return cy.contains('.govuk-accordion__section-heading-text-focus',text)
+  }
+
+  accordionLink (text) {
+    return cy.contains('.govuk-accordion__show-all-text, .govuk-accordion__section-toggle-text', text)
+      .containsWithoutWhitespace(text)
+  }
+
+  accordionSection (text) {
+    return cy.contains(
+      '.govuk-accordion__section-button',
+      text
+    )
+  }
+
   //scheme dropdown locator ID's are not centralized yet, so you can easily add more here.
   schemeDropdown () {
     const selectors = [ '#schemeId',  '#user-search-scheme' ]
@@ -80,8 +97,15 @@ class GDSGenericPage {
       timestamp: '#timestamp'
     }
 
-    return cy.get(fields[field])
+    const selector = fields[field]
+
+    if (!selector) {
+      throw new Error(`No selector configured for field "${field}"`)
+    }
+
+    return cy.get(selector)
   }
+
 }
 
 export default new GDSGenericPage()
