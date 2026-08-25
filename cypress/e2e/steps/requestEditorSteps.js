@@ -251,11 +251,6 @@ Then('the application identifier hint is visible with text {string}', (text) => 
   })
 })
 
-When('on the Payment Holds Page I select {string} from the number of records per page dropdown', (number) => {
-
-  Cypress.emit('log:step', 'on the Payment Holds Page I select ' + number + ' from the number of records per page dropdown')
-  requestEditor.paymentHoldsRecordsPerPageDropdown().scrollIntoView().select(number)
-})
 
 Then(
   '{string} records per page is selected by default',

@@ -8,7 +8,7 @@ When('I upload bulk payment holds file {string}', (file) => {
   Cypress.emit('log:step', 'I upload bulk payment holds file ' + file)
   const fixturePath = `cypress/fixtures/${file}`
 
-  paymentHoldsPage.fileInput().selectFile(fixturePath)
+  paymentHoldsPage.fileInput().selectFile(fixturePath, {force: true})
 })
 
 

@@ -16,7 +16,7 @@ class addBulkClosurePage {
   }
 
   fileInput () {
-    return cy.get('input#file')
+    return cy.get('#file-input')
   }
 
   singleClosureLink () {

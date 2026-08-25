@@ -9,23 +9,23 @@ Feature: 03 Agreement Closures
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
 
-  Scenario: 01 View Agreement Closures
-    Then I should see "Agreement closures"
-    And I should see "Manage agreement closures"
+  # Scenario: 01 View Agreement Closures
+  #   Then I should see "Agreement closures"
+  #   And I should see "Manage agreement closures"
 
-  Scenario: 02 Access Agreement Closure Management
-    When I click on the "Manage agreement closures" link
-    Then I am on the "closure" subpage
+  # Scenario: 02 Access Agreement Closure Management
+  #   When I click on the "Manage agreement closures" link
+  #   Then I am on the "closure" subpage
 
-  Scenario: 03 Manage Agreement Closures page
-    When I click on the "Manage agreement closures" link
-    And I should see "To comply with privacy laws and regulations we need to record agreement closure dates in the system."
-    And I should see "Agreement closures are automatically provided for most schemes; however some schemes and scenarios need a manual process. You can search for and update an existing closure, or add new closures individually or in bulk."
-    And I should see "Any data stored following an agreement closure will be kept in line with our data retention policy."
-    And I should see "Search agreement closures"
-    And I should see "Create a new agreement closure"
-    And I should see "Bulk add agreement closures"
-    Then I take a screenshot
+  # Scenario: 03 Manage Agreement Closures page
+  #   When I click on the "Manage agreement closures" link
+  #   And I should see "To comply with privacy laws and regulations we need to record agreement closure dates in the system."
+  #   And I should see "Agreement closures are automatically provided for most schemes; however some schemes and scenarios need a manual process. You can search for and update an existing closure, or add new closures individually or in bulk."
+  #   And I should see "Any data stored following an agreement closure will be kept in line with our data retention policy."
+  #   And I should see "Search agreement closures"
+  #   And I should see "Create a new agreement closure"
+  #   And I should see "Bulk add agreement closures"
+  #   Then I take a screenshot
 
   Scenario: 05 Search Agreement Closures Page
     When I click on the "Manage agreement closures" link

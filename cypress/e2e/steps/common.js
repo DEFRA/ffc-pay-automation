@@ -373,8 +373,10 @@ When('I click on the {string} download link', (text) => {
 })
 
 // generic screenshot helper - grabs the spec name - by default it uses the spec name and scenario name
+//timeout 60k instead of 30k because 30k fails on big big pages
+//conversation can probably be had about whether we change the way we screenshot big pages
 Then('I take a screenshot', () => {
-  cy.screenshot()
+  cy.screenshot({timeout : 60000})
 })
 
 //specific screenshot helper with name input, see scenario 01 for usage
