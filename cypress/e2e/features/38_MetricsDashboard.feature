@@ -39,7 +39,7 @@ Feature: 38 Metrics Dashboard
     And on the Metrics Dashboard page I confirm that "print and post cost column" is displayed
     And on the Metrics Dashboard page I confirm that "email column" is displayed
 
-    Then I take a screenshot for Feature 38 and Scenario 1
+    Then I take a screenshot
   
   Scenario: 02 Confirm filter functionality and options
 
@@ -117,7 +117,7 @@ Feature: 38 Metrics Dashboard
     Then on the Metrics Dashboard page I select "October" in Select Month filter
     Then on the Metrics Dashboard page I select "November" in Select Month filter
     Then on the Metrics Dashboard page I select "December" in Select Month filter
-    Then I take a screenshot for Feature 38 and Scenario 2
+    Then I take a screenshot
 
   Scenario: 03 Confirm that correct messages are displayed when no data is available
 
@@ -142,7 +142,7 @@ Feature: 38 Metrics Dashboard
 
     Then on the Metrics Dashboard page I confirm that "no payment data message" is displayed
     Then on the Metrics Dashboard page I confirm that "no document data message" is displayed
-    Then I take a screenshot for Feature 38 and Scenario 3
+    Then I take a screenshot
 
   Scenario: 04 Confirm that correct amounts are displayed when data is available
 
@@ -171,4 +171,4 @@ Feature: 38 Metrics Dashboard
     When on the Metrics Dashboard page I click on the "clear filters" button
     Then on the Metrics Dashboard page I confirm that "select year filter dropdown" is not displayed
     Then on the Metrics Dashboard page I confirm that "select month filter dropdown" is not displayed
-    Then I take a screenshot for Feature 38 and Scenario 4
+    Then I take a screenshot

@@ -18,7 +18,7 @@ Feature: 43 Payment Alerts
     Then I should see the hint "View, edit and add alert recipients by individual scheme"
     Then I should see the link "Manage by recipient"
     Then I should see the hint "View, edit and add alert recipients by email address"
-    Then I take a screenshot for Feature 43 and Scenario 1
+    Then I take a screenshot
 
   @local @dev
   Scenario: 02 Confirm correct alert types for SFI-22
@@ -52,7 +52,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 2
+    Then I take a screenshot
 
   @local @dev
   Scenario: 03 Confirm correct alert types for SFI-Pilot
@@ -86,7 +86,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 3
+    Then I take a screenshot
 
   @local @dev
   Scenario: 04 Confirm correct alert types for Lump Sums
@@ -120,7 +120,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 4
+    Then I take a screenshot
 
   # @local @dev
   # Not a valid scheme right now
@@ -155,7 +155,7 @@ Feature: 43 Payment Alerts
   #   Then I should see "Responses Processing Failed"
   #   Then I should see "Customer Update Processing Failed"
   #   Then I should see "Tracking Update Failure"
-  #   Then I take a screenshot for Feature 43 and Scenario 5
+  #   Then I take a screenshot
 
   @local @dev
   Scenario: 06 Confirm correct alert types for Countryside Stewardship
@@ -189,7 +189,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 6
+    Then I take a screenshot
 
   @local @dev
   Scenario: 07 Confirm correct alert types for Basic Payment Scheme
@@ -223,7 +223,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 7
+    Then I take a screenshot
 
   @local @dev
   Scenario: 08 Confirm correct alert types for Manual Invoice scheme
@@ -257,7 +257,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 8
+    Then I take a screenshot
 
   @local @dev
   Scenario: 09 Confirm correct alert types for Environmental Stewardship scheme
@@ -291,7 +291,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 9
+    Then I take a screenshot
 
   @local @dev
   Scenario: 10 Confirm correct alert types for IMPS scheme
@@ -325,7 +325,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 10
+    Then I take a screenshot
 
   @local @dev
   Scenario: 11 Confirm correct alert types for Forestry Commission scheme
@@ -359,7 +359,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 11
+    Then I take a screenshot
 
   @local @dev
   Scenario: 12 Confirm correct alert types for SFI-23 scheme
@@ -393,7 +393,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 12
+    Then I take a screenshot
 
   @local @dev
   Scenario: 13 Confirm correct alert types for Delinked Payments scheme
@@ -427,7 +427,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 13
+    Then I take a screenshot
 
   @local @dev
   Scenario: 14 Confirm correct alert types for Expanded SFI Offer scheme
@@ -461,7 +461,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 14
+    Then I take a screenshot
 
   @local @dev
   Scenario: 15 Confirm correct alert types for Countryside Stewardship Higher Tier (Revenue) scheme
@@ -495,7 +495,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 15
+    Then I take a screenshot
 
   @local @dev
   Scenario: 16 Confirm correct alert types for Countryside Stewardship Higher Tier (Capital) scheme
@@ -528,7 +528,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 16
+    Then I take a screenshot
 
   @local @dev
   Scenario: 17 Confirm correct alert types for Farm Payments Technical Test
@@ -561,7 +561,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 17
+    Then I take a screenshot
 
   @local @dev
   Scenario: 18 Confirm correct alert types for Woodland Management Plan
@@ -594,7 +594,7 @@ Feature: 43 Payment Alerts
     Then I should see "Responses Processing Failed"
     Then I should see "Customer Update Processing Failed"
     Then I should see "Tracking Update Failure"
-    Then I take a screenshot for Feature 43 and Scenario 18
+    Then I take a screenshot
 
   @local @dev
   Scenario: 17 Confirm that all schemes are successfully cascaded when Show All Sections is clicked
@@ -649,7 +649,7 @@ Feature: 43 Payment Alerts
     #Following line confirms that there are 16 instances of all alert types, one for each current scheme
     And I click the accordion link "Show all sections"
     Then on the Add new alert recipient page I confirm that all options are present when no filter selected
-    Then I take a screenshot for Feature 43 and Scenario 18
+    Then I take a screenshot
 
   @local @dev
   Scenario: 19 Confirm filter by scheme is functioning correctly
@@ -681,7 +681,7 @@ Feature: 43 Payment Alerts
     Then I select the scheme "SFI22"
     And I click on the "Search" button
     Then on the Add new alert recipient page I confirm that only one set of options is displayed
-    Then I take a screenshot for Feature 43 and Scenario 19
+    Then I take a screenshot
 
   @local @dev
   Scenario: 20 Confirm that correct error message is displayed when invalid email used
@@ -700,7 +700,7 @@ Feature: 43 Payment Alerts
     And I click on the "Continue" button
     And I click on the "Confirm changes" button
     And I see an error message for "The email address is not allowed. Please contact the Payment & Document Services team if you believe this is a mistake."
-    Then I take a screenshot for Feature 43 and Scenario 20
+    Then I take a screenshot
 
   @local
   Scenario: 21 Confirm that new alert recipient can be successfully added
@@ -749,7 +749,7 @@ Feature: 43 Payment Alerts
       | Responses Processing Failed       |
       | Customer Update Processing Failed |
       | Tracking Update Failure           |
-    Then I take a screenshot for Feature 43 and Scenario 21
+    Then I take a screenshot
 
   @dev
   Scenario: 21 Confirm that new alert recipient can be successfully added
@@ -796,4 +796,4 @@ Feature: 43 Payment Alerts
       | Customer Update Processing Failed |
       | Tracking Update Failure           |
 
-    Then I take a screenshot for Feature 43 and Scenario 21
+    Then I take a screenshot

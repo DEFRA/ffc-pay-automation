@@ -46,7 +46,7 @@ Feature: 24 Vet Visits Payments
   #   And I select "Vet Visits" from the monitor schemes dropdown
   #   And I click on the "Continue" button
 
-  #   Then I take a screenshot for Feature 24 and Scenario 2
+  #   Then I take a screenshot
   #   Then I confirm that number of payments has increased by 1 and total value of payments has increased by "£16,002.00"
 
 
@@ -106,7 +106,7 @@ Feature: 24 Vet Visits Payments
     And I select "Vet Visits" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Vet Visits" scheme with "1" payment installments totalling "£16,002.00" is displayed
-    Then I take a screenshot for Feature 24 and Scenario 4
+    Then I take a screenshot
 
   @local
   Scenario: 05 Confirm that new AWHR standard code is functioning correctly

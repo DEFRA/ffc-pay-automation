@@ -22,7 +22,7 @@ Feature: 17 Payment Calculator
     Then on the Payment Calculator page I confirm that "paragraph six" is correctly displayed
     Then on the Payment Calculator page I confirm that "paragraph seven" is correctly displayed
     Then on the Payment Calculator page I confirm that "paragraph eight" is correctly displayed
-    Then I take a screenshot for Feature 17 and Scenario 01
+    Then I take a screenshot
 
   Scenario: 02 Confirm elements on Enter your delinked payment reference amount
 
@@ -40,7 +40,7 @@ Feature: 17 Payment Calculator
     Then on the Enter your delinked payment reference amount page I confirm that "paragraph five" is correctly displayed
     Then on the Enter your delinked payment reference amount page I confirm that "amount input field" is correctly displayed
     Then on the Enter your delinked payment reference amount page I confirm that "calculate button" is correctly displayed
-    Then I take a screenshot for Feature 17 and Scenario 02
+    Then I take a screenshot
 
   Scenario: 03 Confirm elements on Delinked payment calculation page
 
@@ -69,7 +69,7 @@ Feature: 17 Payment Calculator
     Then on the Delinked payment calculation page I confirm that "scheme year two" is correctly displayed
     Then on the Delinked payment calculation page I confirm that "payment band" is correctly displayed
     Then on the Delinked payment calculation page I confirm that "30,000.00 or less two" is correctly displayed
-    Then I take a screenshot for Feature 17 and Scenario 03
+    Then I take a screenshot
 
   Scenario: 04 Confirm amount format error message on Delinked payment reference amount page
 
@@ -80,7 +80,7 @@ Feature: 17 Payment Calculator
     When on the Enter your delinked payment reference amount page I enter amount of "20,000"
     Then on the Enter your delinked payment reference amount page I click the "calculate button"
     Then on the Enter your delinked payment reference amount page I confirm that "amount format error message" is correctly displayed
-    Then I take a screenshot for Feature 17 and Scenario 04
+    Then I take a screenshot
 
   Scenario: 05 Confirm that Funding for farmers, growers and land managers link functions correctly
 

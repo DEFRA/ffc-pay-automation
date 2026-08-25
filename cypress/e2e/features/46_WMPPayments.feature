@@ -67,7 +67,7 @@ Feature: 46 WMP Payments
   #   And I select "Woodland Management Plan" from the monitor schemes dropdown
   #   And I click on the "Continue" button
   #   Then I confirm that number of payments has increased by 2 and total value of payments has increased by "£110,000"
-  #   Then I take a screenshot for Feature 46 and Scenario 2
+  #   Then I take a screenshot
 
   @local
   Scenario: 01 insert incorrect WMP test data via service bus message to ffc-pay-request
@@ -119,4 +119,4 @@ Feature: 46 WMP Payments
     And I select "Woodland Management Plan" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Woodland Management Plan" scheme with "2" payment installments totalling "£110,000" is displayed
-    Then I take a screenshot for Feature 46 and Scenario 5
+    Then I take a screenshot

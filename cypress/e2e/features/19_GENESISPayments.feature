@@ -50,7 +50,7 @@ Feature: 19 GENESIS Payments
 
     Then I confirm that number of payments has increased by 1 and total value of payments has increased by "227.70"
 
-    Then I take a screenshot for Feature 19 and Scenario 2
+    Then I take a screenshot
 
 
   @local
@@ -94,4 +94,4 @@ Feature: 19 GENESIS Payments
     And I select "ES" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "ES" scheme with "1" payment installments totalling "£227.70" is displayed
-    Then I take a screenshot for Feature 19 and Scenario 4
+    Then I take a screenshot

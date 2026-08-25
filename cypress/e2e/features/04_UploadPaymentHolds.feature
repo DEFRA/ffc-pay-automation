@@ -32,7 +32,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link
-    Then I take a screenshot for Feature 4 and Scenario 1
+    Then I take a screenshot
     And the payment requests related to the "frnsBulkUploadValid.csv" CSV are not in the table
 
 
@@ -43,7 +43,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Add holds" button
-    Then I take a screenshot for Feature 4 and Scenario 2
+    Then I take a screenshot
     Then the 'Provide a CSV file' error message is displayed on the Payment holds page
 
 
@@ -54,7 +54,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Add holds" button
-    Then I take a screenshot for Feature 4 and Scenario 3
+    Then I take a screenshot
     Then the 'There was a problem validating your uploaded data.' error message is displayed on the Bulk upload page
 
 
@@ -65,5 +65,5 @@ Feature: 04 Upload and Process Payment Holds via CSV
     Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Add holds" button
-    Then I take a screenshot for Feature 4 and Scenario 4
+    Then I take a screenshot
     Then the 'The uploaded file is too large. Please upload a file smaller than 1 MB.' error message is displayed on the Payment holds page

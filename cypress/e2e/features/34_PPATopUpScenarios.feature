@@ -91,7 +91,7 @@ Feature: 34 PPA Top-up Scenarios
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed
-    Then I take a screenshot for Feature 34 and Scenario 1
+    Then I take a screenshot
 
     Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
     Then I pull ppa scenarios topups file from Azure Blob Storage and confirm that correct values have been generated
@@ -176,7 +176,7 @@ Feature: 34 PPA Top-up Scenarios
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed
-    Then I take a screenshot for Feature 34 and Scenario 2
+    Then I take a screenshot
 
     Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
     Then I pull ppa scenarios topups file from Azure Blob Storage and confirm that correct values have been generated
@@ -254,7 +254,7 @@ Feature: 34 PPA Top-up Scenarios
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed
-    Then I take a screenshot for Feature 34 and Scenario 3
+    Then I take a screenshot
 
     Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
     Then I pull ppa scenarios topups file from Azure Blob Storage and confirm that correct values have been generated
@@ -326,7 +326,7 @@ Feature: 34 PPA Top-up Scenarios
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed
-    Then I take a screenshot for Feature 34 and Scenario 4
+    Then I take a screenshot
 
     Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
     Then I pull ppa scenarios topups file from Azure Blob Storage and confirm that correct values have been generated
@@ -392,7 +392,7 @@ Feature: 34 PPA Top-up Scenarios
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "2" payment installments totalling "£1,400,000.00" is displayed
-    Then I take a screenshot for Feature 34 and Scenario 5
+    Then I take a screenshot
 
     Then I pull ppa scenarios payments file from Azure Blob Storage and confirm that correct values have been generated
     Then I pull ppa scenarios topups file from Azure Blob Storage and confirm that correct values have been generated

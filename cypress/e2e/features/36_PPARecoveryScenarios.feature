@@ -55,7 +55,7 @@ Feature: 36 PPA Recovery Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    Then I take a screenshot for Feature 36 and Scenario 1
+    Then I take a screenshot
     And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
 
@@ -158,7 +158,7 @@ Feature: 36 PPA Recovery Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    Then I take a screenshot for Feature 36 and Scenario 2
+    Then I take a screenshot
     And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
 
@@ -253,7 +253,7 @@ Feature: 36 PPA Recovery Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    Then I take a screenshot for Feature 36 and Scenario 3
+    Then I take a screenshot
     And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
 
@@ -347,7 +347,7 @@ Feature: 36 PPA Recovery Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    Then I take a screenshot for Feature 36 and Scenario 4
+    Then I take a screenshot
     And I click on the "Yes" edited correctly radio button
     And I click on the "Submit" button
     

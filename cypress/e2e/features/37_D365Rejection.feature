@@ -39,7 +39,7 @@ Feature: 37 D365 Rejection
     And I click on the "Search for a payment hold" link
     When on the Payment Holds page I enter "current FRN" in the FRN search field
     Then on the Payment Holds page I click the FRN search button
-    Then I take a screenshot for Feature 37 and Scenario 1
+    Then I take a screenshot
     And I should see "Bank account anomaly"
 
 #This scenario removes the hold created by the D365 rejection processing and confirms that a secondary completedPaymentRequest
@@ -75,7 +75,7 @@ This scenario loads an SFI22 payment message followed by a D365 rejection acknow
 
     Given I restart the local environment
     Given I visit the "Payment management" homepage
-    Then I take a screenshot for Feature 37 and Scenario 1
+    Then I take a screenshot
     When I send the updated "sfi22-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
@@ -112,7 +112,7 @@ This scenario loads an SFI22 payment message followed by a D365 rejection acknow
     And I click on the "Search for a payment hold" link
     When on the Payment Holds page I enter "1258445148" in the FRN search field
     Then on the Payment Holds page I click the FRN search button
-    Then I take a screenshot for Feature 37 and Scenario 2
+    Then I take a screenshot
     And I should see "1258445148"
     And I should see "Bank account anomaly"
 
@@ -130,7 +130,7 @@ This scenario loads an SFI22 payment message followed by a D365 rejection acknow
     When I click on the "Remove" button
     And I click on the "Yes, remove" button
     And I click on the "Manage payment holds" link
-    Then I take a screenshot for Feature 37 and Scenario 3
+    Then I take a screenshot
 
   #Following this hold removal a secondary completedPaymentRequest entry should be created in the Pay Processing database
 

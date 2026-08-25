@@ -50,7 +50,7 @@ Feature: 02 Request Editor
     And I see a success message for "New reporting dataset has been successfully created."
     And I click the "Home" breadcrumb
     And I click on the "View all datasets" link
-    Then I take a screenshot for Feature 2 and Scenario 1
+    Then I take a screenshot
     Then I should see one more dataset in the table
     And the dataset value "SIP000000000001" should be present
 
@@ -58,7 +58,7 @@ Feature: 02 Request Editor
   Scenario: 02 Verify all schemes are displayed correctly for creating a new reporting dataset
     And I click on the "View all datasets" link
     When I click on the "Create new dataset" link
-    Then I take a screenshot for Feature 2 and Scenario 2
+    Then I take a screenshot
     Then I should see the following schemes:
       | Scheme Name                        |
       | Annual Health and Welfare Review   |
@@ -96,7 +96,7 @@ Feature: 02 Request Editor
     And I click on the "View all datasets" link
     And I search for FRN "<frn>"
     When I click on the "Search" button
-    Then I take a screenshot for Feature 2 and Scenario 5
+    Then I take a screenshot
     Then the dataset value "<frn>" should be present
 
     @test
@@ -117,7 +117,7 @@ Feature: 02 Request Editor
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
       | SFI22  | 1234567891 | 1234            | 10000    | irr        | today              |
     When I click on the "Continue" button
-    Then I take a screenshot for Feature 2 and Scenario 6
+    Then I take a screenshot
     Then I see the 'The Agreement / claim number must be at least 5 characters long' application identifier error message
     And I see the 'There is a problem' error summary title
     And I see the 'The Agreement / claim number must be at least 5 characters long' error summary item
@@ -131,7 +131,7 @@ Feature: 02 Request Editor
       | SFI22  | 1234567891 |                 | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I see the 'The Agreement / claim number is required' application identifier error message
-    Then I take a screenshot for Feature 2 and Scenario 7
+    Then I take a screenshot
     And I see the 'There is a problem' error summary title
     And I see the 'The Agreement / claim number is required' error summary item
 
@@ -144,7 +144,7 @@ Feature: 02 Request Editor
       | SFI22  | 1234567891 | !@£$%^&%*       | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I see the 'The Agreement / claim number must be a string consisting of alphanumeric characters and underscores' application identifier error message
-    Then I take a screenshot for Feature 2 and Scenario 8
+    Then I take a screenshot
     And I see the 'There is a problem' error summary title
     And I see the 'The Agreement / claim number must be a string consisting of alphanumeric characters and underscores' error summary item
 
@@ -153,7 +153,7 @@ Feature: 02 Request Editor
     And I enter '<frn>' in the FRN number search field
     When I click on the "Search" button
     Then each record in the table has the FRN number '<frn>'
-    Then I take a screenshot for Feature 2 and Scenario 9
+    Then I take a screenshot
 
     @test
     Examples:
@@ -187,7 +187,7 @@ Feature: 02 Request Editor
     And I enter '1234567891' in the FRN number search field
     And I select 'SFI22' in the scheme dropdown
     When I click the search button
-    Then I take a screenshot for Feature 2 and Scenario 11
+    Then I take a screenshot
     And each record in the table has the Scheme 'SFI22'
 
   @test @dev @local
@@ -196,7 +196,7 @@ Feature: 02 Request Editor
     And I enter '9999999999' in the FRN number search field
     When I click the search button
     Then I should see "No datasets were found for 9999999999. Check your details and try again"
-    Then I take a screenshot for Feature 2 and Scenario 12
+    Then I take a screenshot
 
   @test @dev @local
   Scenario: 13 Unattached reporting datasets - Searching based on scheme that returns no datasets
@@ -204,7 +204,7 @@ Feature: 02 Request Editor
     And I select 'Annual Health and Welfare Review' in the scheme dropdown
     When I click the search button
     Then I should see "No datasets were found for Annual Health and Welfare Review. Check your details and try again"
-    Then I take a screenshot for Feature 2 and Scenario 13
+    Then I take a screenshot
 
 
   ###################################################################   
@@ -243,14 +243,14 @@ Feature: 02 Request Editor
     And I enter '9999999999' in the FRN number search field
     When I click the search button
     Then I should see "No requests awaiting reporting data were found."
-    Then I take a screenshot for Feature 2 and Scenario 16
+    Then I take a screenshot
 
   @local
   Scenario:17 Requests awaiting debt data - Searching based on invalid FRN number throws error
     And I click on the "View awaiting debt data" link
     And I enter '1234' in the FRN number search field
     When I click on the "Search" button
-    Then I take a screenshot for Feature 2 and Scenario 17
+    Then I take a screenshot
   #Below do not work right now due to defect 
   #   Then I see the 'The FRN number must be at least 10 characters long' application identifier error message
   #   And I see the 'There is a problem' error summary title
@@ -282,7 +282,7 @@ Feature: 02 Request Editor
       | Administrative | 11/11/2023         |
     And I click on the "Submit" button
     Then I see a success message for "Payment request was successfully updated."
-    Then I take a screenshot for Feature 2 and Scenario 19
+    Then I take a screenshot
 
 
   ###################################################################  

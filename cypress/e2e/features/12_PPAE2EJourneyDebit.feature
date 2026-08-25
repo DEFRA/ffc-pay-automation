@@ -37,7 +37,7 @@ Feature: 12 PPA E2E Journey - Debit
     And I update the value of "ppa" to "10000"
     And I increase the invoice number by "1" for "ppa" using the invoice number from "<outputMessage>"
     When I send the updated "ppa" message to the service bus topic "<sendToTopic>"
-    Then I take a screenshot for Feature 12 and Scenario 3
+    Then I take a screenshot
     Then the "<box>" count has increased by 1
 
     Examples:
@@ -57,7 +57,7 @@ Feature: 12 PPA E2E Journey - Debit
     And I click on the "Continue" button
     And I click on the "Submit" button
     And I click on the "Sign out" link
-    Then I take a screenshot for Feature 12 and Scenario 4
+    Then I take a screenshot
     And I visit the "Request Editor" homepage
     Then the "Requests awaiting debt data" count has decreased by 1
 
@@ -71,7 +71,7 @@ Feature: 12 PPA E2E Journey - Debit
     And I click on the "Yes" radio button
     And I click on the "Continue" button
     And I see a success message for "has been updated and sent for quality checking."
-    Then I take a screenshot for Feature 12 and Scenario 5
+    Then I take a screenshot
     And I click on the "Sign out" link
 
   Scenario: 06 Approve payment from quality check queue
@@ -82,7 +82,7 @@ Feature: 12 PPA E2E Journey - Debit
     Then I should see the first FRN in the results matches the newly generated FRN
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    Then I take a screenshot for Feature 12 and Scenario 6
+    Then I take a screenshot
     And I click on the "Submit" button
 
   Scenario Outline: 07 Validate final debit message from Request Editor
