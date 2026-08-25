@@ -14,7 +14,8 @@
     "cypress:test:one": "cypress run --env env=test,TAGS=@test --spec",
     "report:merge": "mochawesome-merge cypress/reports/mocha/mochawesome*.json > cypress/reports/mocha/output.json",
     "report:html": "marge cypress/reports/mocha/output.json --reportDir cypress/reports/mocha --reportFilename CypressReport --inlineAssets && node cypress/utils/hidePendingInHtml.js cypress/reports/mocha/CypressReport.html",
-    "clean:reports": "powershell -Command \"Remove-Item -Recurse -Force cypress/reports/mocha/*; Remove-Item -Recurse -Force cypress/downloads/*; Remove-Item -Recurse -Force cypress/screenshots/*; Remove-Item -Recurse -Force cypress/videos/*\""
+    "clean:reports": "powershell -Command \"Remove-Item -Recurse -Force cypress/reports/mocha/*; Remove-Item -Recurse -Force cypress/downloads/*; Remove-Item -Recurse -Force cypress/screenshots/*; Remove-Item -Recurse -Force cypress/videos/*\"",
+    "find-unused-steps": "node cypress/utils/find-unused-steps.js"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^15.1.5",
@@ -37,9 +38,7 @@
     "mochawesome-report-generator": "^6.2.0"
   },
   "cypress-cucumber-preprocessor": {
-    "stepDefinitions": [
-      "cypress/e2e/steps/**/*.js"
-    ]
+    "stepDefinitions": ["cypress/e2e/steps/**/*.js"]
   },
   "dependencies": {
     "@azure/service-bus": "^7.9.0",
