@@ -10,7 +10,6 @@ Feature: 43 Payment Alerts
 
   #This scenario confirms that all expected elements are present on initial page load
 
-    #Given I restart the local environment
     Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I should see the heading "Manage email alerts"
@@ -707,7 +706,7 @@ Feature: 43 Payment Alerts
   Scenario: 21 Confirm that new alert recipient can be successfully added
 
   #This scenario confirms that new alert recipient can be successfully added to all alert types
-  
+
     Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     When I click on the "Manage by recipient" link
