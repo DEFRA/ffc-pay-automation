@@ -8,7 +8,7 @@ Feature: 27 Lump Sums Payments
   @dev
   Scenario: 01 insert incorrect Lump sums test data via service bus message to ffc-pay-request
 
-    Then I take a screenshot for Feature 27 and Scenario 1
+    Then I take a screenshot
     When I send "lump sums error" test data message to the service bus topic "ffc-pay-request-dev"
 
     Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
@@ -79,7 +79,7 @@ Feature: 27 Lump Sums Payments
     And I select "Lump Sums" from the monitor schemes dropdown
     And I click on the "Continue" button
 
-    Then I take a screenshot for Feature 27 and Scenario 2
+    Then I take a screenshot
     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
 
 
@@ -90,7 +90,7 @@ Feature: 27 Lump Sums Payments
 
     Given I restart the local environment
     Given I visit the "Request Editor" homepage
-    Then I take a screenshot for Feature 27 and Scenario 1
+    Then I take a screenshot
     When I send the updated "lumpSumsError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 
@@ -138,7 +138,7 @@ Feature: 27 Lump Sums Payments
     And I click on the "Enrich" link
     And I click on the "Irregular" debt type radio button
     And I enter a valid debt discovered date in the past
-    Then I take a screenshot for Feature 27 and Scenario 5
+    Then I take a screenshot
     And I click on the "Continue" button
     And I click on the "Sign out" link
 
@@ -153,7 +153,7 @@ Feature: 27 Lump Sums Payments
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" provisional values radio button
-    Then I take a screenshot for Feature 27 and Scenario 6
+    Then I take a screenshot
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -169,7 +169,7 @@ Feature: 27 Lump Sums Payments
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" edited correctly radio button
-    Then I take a screenshot for Feature 27 and Scenario 7
+    Then I take a screenshot
     And I click on the "Submit" button
 
   @local
@@ -180,4 +180,4 @@ Feature: 27 Lump Sums Payments
     And I select "Lump Sums" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Lump Sums" scheme with "3" payment installments totalling "£10,000.00" is displayed
-    Then I take a screenshot for Feature 27 and Scenario 8
+    Then I take a screenshot

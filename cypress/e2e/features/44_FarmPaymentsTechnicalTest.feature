@@ -53,7 +53,7 @@ Feature: 44 Farm Payments Technical Test
     When I click on the "Schemes" link
     And I select "Farm Payments Technical Test" from the monitor schemes dropdown
     And I click on the "Continue" button
-    Then I take a screenshot for Feature 44 and Scenario 2
+    Then I take a screenshot
     Then I confirm that number of payments has increased by 2 and total value of payments has increased by "0"
 
 
@@ -112,4 +112,4 @@ Feature: 44 Farm Payments Technical Test
     And I select "Farm Payments Technical Test" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Farm Payments Technical Test" scheme with "2" payment installments totalling "£0.00" is displayed
-    Then I take a screenshot for Feature 44 and Scenario 5
+    Then I take a screenshot

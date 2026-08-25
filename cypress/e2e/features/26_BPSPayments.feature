@@ -78,7 +78,7 @@ Feature: 26 BPS Payments
     And I select "BPS" from the monitor schemes dropdown
     And I click on the "Continue" button
 
-    Then I take a screenshot for Feature 26 and Scenario 2
+    Then I take a screenshot
     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
 
   @local
@@ -88,7 +88,7 @@ Feature: 26 BPS Payments
 
     Given I restart the local environment
     Given I visit the "Request Editor" homepage
-    Then I take a screenshot for Feature 26 and Scenario 1
+    Then I take a screenshot
     When I send the updated "bpsError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 
@@ -136,7 +136,7 @@ Feature: 26 BPS Payments
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
-    Then I take a screenshot for Feature 26 and Scenario 5
+    Then I take a screenshot
     And I click on the "Continue" button
     And I click on the "Sign out" link
 
@@ -151,7 +151,7 @@ Feature: 26 BPS Payments
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    Then I take a screenshot for Feature 26 and Scenario 6
+    Then I take a screenshot
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -167,7 +167,7 @@ Feature: 26 BPS Payments
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    Then I take a screenshot for Feature 26 and Scenario 7
+    Then I take a screenshot
     And I click on the "Submit" button
 
   @local
@@ -178,4 +178,4 @@ Feature: 26 BPS Payments
     And I select "BPS" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "BPS" scheme with "3" payment installments totalling "£10,000.00" is displayed
-    Then I take a screenshot for Feature 26 and Scenario 8
+    Then I take a screenshot

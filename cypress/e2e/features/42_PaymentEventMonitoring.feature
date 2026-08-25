@@ -25,7 +25,7 @@ Feature: 42 Payment Event Monitoring
     Then on the View events page I confirm that "frn search button" is displayed
     Then on the View events page I confirm that "batch search field" is displayed
     Then on the View events page I confirm that "batch search button" is displayed
-    Then I take a screenshot for Feature 42 and Scenario 1
+    Then I take a screenshot
 
   @local@dev
   Scenario: 02 Confirm initial elements on View processed payment requests page
@@ -39,7 +39,7 @@ Feature: 42 Payment Event Monitoring
     Then on the View processed payment requests page I confirm that "select scheme label" is displayed
     Then on the View processed payment requests page I confirm that "select scheme dropdown" is displayed
     Then on the View processed payment requests page I confirm that "select scheme button" is displayed
-    Then I take a screenshot for Feature 42 and Scenario 2
+    Then I take a screenshot
   @local@dev
   Scenario: 03 Search by FRN on View events page
 
@@ -60,7 +60,7 @@ Feature: 42 Payment Event Monitoring
     Then on the View events page I confirm that "status column" is displayed
     Then on the View events page I confirm that "last updated column" is displayed
     Then on the View events page I confirm that "activity column" is displayed
-    Then I take a screenshot for Feature 42 and Scenario 3
+    Then I take a screenshot
   @local@dev
   Scenario: 04 Search by Batch name on View events page
 
@@ -82,7 +82,7 @@ Feature: 42 Payment Event Monitoring
     Then on the View events page I confirm that "batch value column" is displayed
     Then on the View events page I confirm that "batch status column" is displayed
     Then on the View events page I confirm that "batch actions column" is displayed
-    Then I take a screenshot for Feature 42 and Scenario 4
+    Then I take a screenshot
 
   @local@dev
   Scenario: 05 Click View in Actions column and confirm page
@@ -107,7 +107,7 @@ Feature: 42 Payment Event Monitoring
     #Then I should see "Settled"
     Then I should see "Acknowledged"
 
-    Then I take a screenshot for Feature 42 and Scenario 5
+    Then I take a screenshot
   @local@dev
   Scenario: 06 Confirm page elements when no results found
 
@@ -120,7 +120,7 @@ Feature: 42 Payment Event Monitoring
     Then on the View events page I click the "frn search button"
 
     Then I should see "No payment events were found for FRN 1111111111."
-    Then I take a screenshot for Feature 42 and Scenario 6
+    Then I take a screenshot
   @local@dev
   Scenario: 07 View processed payment requests by scheme
 
@@ -136,7 +136,7 @@ Feature: 42 Payment Event Monitoring
     Then on the View processed payment requests page I confirm that "scheme column" is displayed
     Then on the View processed payment requests page I confirm that "number of payments column" is displayed
     Then on the View processed payment requests page I confirm that "value column" is displayed
-    Then I take a screenshot for Feature 42 and Scenario 7
+    Then I take a screenshot
   @local@dev
   Scenario: 08 Confirm correct message when no results found
 
@@ -148,7 +148,7 @@ Feature: 42 Payment Event Monitoring
     Then on the View processed payment requests page I select "Woodland Management Plan" in scheme dropdown
     Then I click on the "Continue" button
     Then I should see "No data for this scheme"
-    Then I take a screenshot for Feature 42 and Scenario 8
+    Then I take a screenshot
 
   @local
   Scenario: 09 Confirm that payment request data is processed and ordered correctly
@@ -182,5 +182,5 @@ Feature: 42 Payment Event Monitoring
     Then on the View events page I confirm that "status" of entry number "2" in table is "Submitted to payment ledger"
     Then on the View events page I confirm that "last updated" of entry number "2" in table is "Today"
 
-    Then I take a screenshot for Feature 42 and Scenario 9
+    Then I take a screenshot
     

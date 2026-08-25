@@ -47,7 +47,7 @@ Feature: 40 Download Statements
 #Confirm correct selections available in Scheme radio buttons
     Then I click on the "Delinked" radio button
     Then I click on the "SFI" radio button
-    Then I take a screenshot for Feature 40 and Scenario 1
+    Then I take a screenshot
 
   @local @dev
   Scenario: 02 Search by scheme
@@ -70,7 +70,7 @@ Feature: 40 Download Statements
     Then on the Download Statements page I confirm that "timestamp column" is displayed
     Then on the Download Statements page I confirm that "action column" is displayed
     Then on the Download Statements page I confirm that "next button" is displayed
-    Then I take a screenshot for Feature 40 and Scenario 2
+    Then I take a screenshot
   
   @dev
   Scenario: 03 Confirm next and previous buttons work correctly
@@ -87,7 +87,7 @@ Feature: 40 Download Statements
     Then I click the pagination "next"
     Then the current pagination page number is "2"
     Then I verify the pagination "previous" is visible
-    Then I take a screenshot for Feature 40 and Scenario 3
+    Then I take a screenshot
 
     Then I click the pagination "previous"
     Then the current pagination page number is "1"
@@ -115,7 +115,7 @@ Feature: 40 Download Statements
 #To get around this, a direct request to the URL of the file is made to confirm it is downloadable, rather than clicking the download button.
 
     Then on the Download Statements page I confirm that statement can be downloaded
-    Then I take a screenshot for Feature 40 and Scenario 4
+    Then I take a screenshot
   @dev @local
   Scenario: 05 Search by marketing year
 
@@ -130,7 +130,7 @@ Feature: 40 Download Statements
     Then the current pagination page number is "1"
    # Below does not show anymore, keeping as it may be added back at somepoint. Even if result is over 100 it just shows [123] statements with 100 viewable minimum at a time
    # Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 50 on this page (50 items)"
-    Then I take a screenshot for Feature 40 and Scenario 5
+    Then I take a screenshot
 
   @dev
   Scenario: 06 Search by FRN - dev
@@ -145,7 +145,7 @@ Feature: 40 Download Statements
 
     Then the current pagination page number is "1"
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 6 on this page (6 items)"
-    Then I take a screenshot for Feature 40 and Scenario 6
+    Then I take a screenshot
 
 
   @local
@@ -161,7 +161,7 @@ Feature: 40 Download Statements
 
     Then on the Download Statements page I confirm that the page number is "[1]"
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 6 on this page (6 items)"
-    Then I take a screenshot for Feature 40 and Scenario 7
+    Then I take a screenshot
 
   @dev
   Scenario: 08 Search by Timestamp
@@ -176,7 +176,7 @@ Feature: 40 Download Statements
 
     Then the current pagination page number is "1"
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 1 on this page (1 items)"
-    Then I take a screenshot for Feature 40 and Scenario 8
+    Then I take a screenshot
 
   @local @dev
   Scenario: 09 Clear and start again
@@ -202,5 +202,5 @@ Feature: 40 Download Statements
 #Confirm that the table is no longer displayed after clicking Clear and start again
 
     Then on the Download Statements page I confirm that no statement results are displayed
-    Then I take a screenshot for Feature 40 and Scenario 9
+    Then I take a screenshot
     

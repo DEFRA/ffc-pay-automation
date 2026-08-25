@@ -13,15 +13,6 @@ When(/^I can see "(.*)" as the header$/, (text) => {
   paymentManagementPage.header().should('be.visible').haveWithoutWhitespace(text)
 })
 
-Then(/^I take a screenshot for "(.*)"$/, (text) => {
-  Cypress.emit('log:step', 'I take a screenshot for ' + text)
-
-  cy.screenshot(text).then(() => {
-    const existing = Cypress.env('screenshotNames') || []
-    Cypress.env('screenshotNames', [...existing, text])
-  })
-})
-
 Then(/^I am on the "(.*)" subpage$/, (text) => {
 
   Cypress.emit('log:step', 'I am on the ' + text + ' subpage')

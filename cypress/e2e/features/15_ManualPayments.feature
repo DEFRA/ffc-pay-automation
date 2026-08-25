@@ -17,7 +17,7 @@ Feature: 15 Manual Payments
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payments" link
     Then I am on the "manual-payments" subpage
-    Then I take a screenshot for Feature 15 and Scenario 01
+    Then I take a screenshot
     Then on the Manual Payments page I confirm that "page title" is present
     Then on the Manual Payments page I confirm that "page description" is present
     Then on the Manual Payments page I confirm that "choose file button" is present
@@ -35,7 +35,7 @@ Feature: 15 Manual Payments
     When on the Manual Payments page I enter "FFC_Manual_Batch_Correct.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     And I see a success message for "Payment file has been successfully uploaded."
-    Then I take a screenshot for Feature 15 and Scenario 02
+    Then I take a screenshot
     Then on the Manual Payments page I confirm that entry with filename "FFC_Manual_Batch" has been added to Upload History
     Then I confirm that payment test data has been inserted into the ffc-pay-injection database
 
@@ -53,7 +53,7 @@ Feature: 15 Manual Payments
     When on the Manual Payments page I enter "FFC_Manual_Batch_Duplicate.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     And I see an error message for "This file has already been uploaded."
-    Then I take a screenshot for Feature 15 and Scenario 03
+    Then I take a screenshot
 
   Scenario: 04 Confirm that invalid Manual Payments file type produces appropriate error message
 
@@ -65,7 +65,7 @@ Feature: 15 Manual Payments
     When on the Manual Payments page I enter "FFC_Manual_Batch_Text.txt" as the file to upload
     When on the Manual Payments page I click the "upload button"
     And I see an error message for "Filename must be in valid format"
-    Then I take a screenshot for Feature 15 and Scenario 04
+    Then I take a screenshot
 
   Scenario: 05 Confirm that invalid Manual Payments filename produces appropriate error message
 
@@ -77,7 +77,7 @@ Feature: 15 Manual Payments
     When on the Manual Payments page I enter "FFC_TEST_Manual_BatchTEST.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     And I see an error message for "File name is incorrect"
-    Then I take a screenshot for Feature 15 and Scenario 05
+    Then I take a screenshot
 
   Scenario: 06 Confirm that invalid file size produces appropriate error message
 
@@ -89,7 +89,7 @@ Feature: 15 Manual Payments
     When on the Manual Payments page I enter "FFC_Manual_Batch_Invalid.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     And I see an error message for "The selected file must be smaller than 1 MB"
-    Then I take a screenshot for Feature 15 and Scenario 06
+    Then I take a screenshot
 
   Scenario: 07 Confirm that empty file produces appropriate error message
 
@@ -101,7 +101,7 @@ Feature: 15 Manual Payments
     When on the Manual Payments page I enter "FFC_Manual_Batch_Empty.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
     And I see an error message for "The selected file must not be empty"
-    Then I take a screenshot for Feature 15 and Scenario 07
+    Then I take a screenshot
 
   Scenario: 08 Upload History table
 
@@ -111,5 +111,5 @@ Feature: 15 Manual Payments
     When I click on the "Upload manual payments" link
     Then I am on the "manual-payments" subpage
     Then on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present
-    Then I take a screenshot for Feature 15 and Scenario 08
+    Then I take a screenshot
     Then I clean up generated manual payment files

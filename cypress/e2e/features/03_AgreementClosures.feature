@@ -25,28 +25,28 @@ Feature: 03 Agreement Closures
     And I should see "Search agreement closures"
     And I should see "Create a new agreement closure"
     And I should see "Bulk add agreement closures"
-    Then I take a screenshot for Feature 3 and Scenario 3
+    Then I take a screenshot
 
   Scenario: 05 Search Agreement Closures Page
     When I click on the "Manage agreement closures" link
     Then I am on the "closure" subpage
     And I click on the "Search agreement closures" link
     And I should see "Any agreements listed here are considered closed. This allows the Payment Hub to manage data retention for the data it holds related to payment requests."
-    Then I take a screenshot for Feature 3 and Scenario 5
+    Then I take a screenshot
 
   Scenario: 06 Create New Closure
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
     Then I am on the "closure/add" subpage
     Then I should see "Adding a new agreement closure allows the Payment Hub to manage data retention for the data it holds related to payment requests."
-    Then I take a screenshot for Feature 3 and Scenario 6
+    Then I take a screenshot
 
   Scenario: 07 Create Bulk Closure
     And I click on the "Manage agreement closures" link
     When I click on the "Bulk add agreement closures" link
     Then I am on the "closure/bulk" subpage
     Then I should see "Bulk adding new agreement closures allows the Payment Hub to manage data retention for the data it holds related to payment requests."
-    Then I take a screenshot for Feature 3 and Scenario 7
+    Then I take a screenshot
 
 
   Scenario: 09 View Bulk Agreement Closure Page From Single Closure Page
@@ -54,7 +54,7 @@ Feature: 03 Agreement Closures
     When I click on the "Create a new agreement closure" link
     And I click the "add agreement closures in bulk" link
     Then I am on the "closure/bulk" subpage
-    Then I take a screenshot for Feature 3 and Scenario 9
+    Then I take a screenshot
 
 
   Scenario: 10 View Agreement Closure Page From Bulk Closure Page
@@ -62,7 +62,7 @@ Feature: 03 Agreement Closures
     When I click on the "Bulk add agreement closures" link
     When I click the "create a singular agreement closure" link
     Then I am on the "closure/add" subpage
-    Then I take a screenshot for Feature 3 and Scenario 10
+    Then I take a screenshot
 
   Scenario: 11 Empty fields
     And I click on the "Manage agreement closures" link
@@ -74,14 +74,14 @@ Feature: 03 Agreement Closures
     And I should see "Enter a valid day"
     And I should see "Enter a valid month"
     And I should see "Enter a valid year"
-    Then I take a screenshot for Feature 3 and Scenario 11
+    Then I take a screenshot
 
   Scenario Outline: 12 Invalid FRN
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
     And I type '<invalidFrn>' in the 'FRN' field
     When I click on the "Continue" button
-    Then I take a screenshot for Feature 3 and Scenario 12
+    Then I take a screenshot
     Then I should see "Enter a 10-digit FRN"
     Examples:
       | invalidFrn  |
@@ -94,7 +94,7 @@ Feature: 03 Agreement Closures
     And I type '123456789012345678901234567890123456789012345678901234567890' in the 'Agreement number' field
     And I click on the "Continue" button
     Then I should see "Enter a valid agreement number"
-    Then I take a screenshot for Feature 3 and Scenario 13
+    Then I take a screenshot
 
   Scenario: 14 Past Closure Date
     And I click on the "Manage agreement closures" link
@@ -102,7 +102,7 @@ Feature: 03 Agreement Closures
     And I type a date prior to '01/01/2000' in the Closure date field
     And I click on the "Continue" button
     Then I should see "Enter a valid year"
-    Then I take a screenshot for Feature 3 and Scenario 14
+    Then I take a screenshot
 
   Scenario: 15 Successful Adding & Removing a Submission
     And I click on the "Manage agreement closures" link
@@ -128,7 +128,7 @@ Feature: 03 Agreement Closures
     When I click on the "Add closures" button
     Then I should see "There is a problem"
     And I should see "Provide a CSV file"
-    Then I take a screenshot for Feature 3 and Scenario 16
+    Then I take a screenshot
 
   Scenario: 17 Unsupported File Type
     And I click on the "Manage agreement closures" link
@@ -137,7 +137,7 @@ Feature: 03 Agreement Closures
     When I click on the "Add closures" button
     Then I should see "There is a problem"
     And I should see "Provide a CSV file"
-    Then I take a screenshot for Feature 3 and Scenario 17
+    Then I take a screenshot
 
   Scenario: 18 Large File Upload
     And I click on the "Manage agreement closures" link
@@ -145,7 +145,7 @@ Feature: 03 Agreement Closures
     And I upload 'bulkUploadLarge.csv' file
     When I click on the "Add closures" button
     Then the 'The uploaded file is too large. Please upload a file smaller than 1 MB.' error message is displayed on the Payment holds page
-    Then I take a screenshot for Feature 3 and Scenario 18
+    Then I take a screenshot
 
   Scenario: 19 Successful File Upload
     And I click on the "Manage agreement closures" link
@@ -165,7 +165,7 @@ Feature: 03 Agreement Closures
     When I click on the "Add closures" button
     Then I should see "There is a problem"
     And I should see "The file is not in the expected format"
-    Then I take a screenshot for Feature 3 and Scenario 20
+    Then I take a screenshot
 
   Scenario: 21 Download agreement closures as CSV
     And I click on the "Manage agreement closures" link
@@ -180,7 +180,7 @@ Feature: 03 Agreement Closures
     When I click on the "Add closures" button
     Then I should see "There is a problem"
     And I should see "One or more of the supplied closure records already exist."
-    Then I take a screenshot for Feature 3 and Scenario 22
+    Then I take a screenshot
 
 
   Scenario:23 Duplicate record inside csv file
@@ -190,5 +190,5 @@ Feature: 03 Agreement Closures
     When I click on the "Add closures" button
     Then I should see "There is a problem"
     And I should see "The uploaded file contains duplicate records."
-    Then I take a screenshot for Feature 3 and Scenario 23
+    Then I take a screenshot
   

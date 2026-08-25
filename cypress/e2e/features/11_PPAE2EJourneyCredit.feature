@@ -38,7 +38,7 @@ Feature: 11 PPA E2E Journey - Credit
     And I increase the invoice number by "1" for "ppa" using the invoice number from "<outputMessage>"
     When I send the updated "ppa" message to the service bus topic "<sendToTopic>"
     Then the "<box>" count has increased by 1
-    Then I take a screenshot for Feature 11 and Scenario 3
+    Then I take a screenshot
 
     Examples:
       | sendToTopic         | box                      | outputMessage          |
@@ -54,7 +54,7 @@ Feature: 11 PPA E2E Journey - Credit
     And I click on the "Yes, I agree" radio button
     And I click on the "Continue" button
     Then I see a success message for "has been updated and sent for quality checking."
-    Then I take a screenshot for Feature 11 and Scenario 4
+    Then I take a screenshot
     And I click on the "Sign out" link
 
   Scenario: 05 Approve payment in quality check queue
@@ -63,7 +63,7 @@ Feature: 11 PPA E2E Journey - Credit
     And I enter the newly generated FRN in the search field
     When I click on the "Search" button
     Then I should see the first FRN in the results matches the newly generated FRN
-    Then I take a screenshot for Feature 11 and Scenario 5
+    Then I take a screenshot
     And I click on the "Review" link
     And I click on the "Yes" radio button
     And I click on the "Submit" button

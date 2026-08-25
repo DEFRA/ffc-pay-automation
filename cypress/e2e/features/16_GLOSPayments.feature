@@ -50,7 +50,7 @@ Feature: 16 GLOS Payments
 
     Then I confirm that number of payments has increased by 1 and total value of payments has increased by "227.70"
 
-    Then I take a screenshot for Feature 16 and Scenario 2
+    Then I take a screenshot
 
   @local
   Scenario: 01 insert incorrect test data via service bus message to ffc-pay-request and confirm data is rejected
@@ -93,4 +93,4 @@ Feature: 16 GLOS Payments
     And I select "FC" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "FC" scheme with "1" payment installments totalling "£227.70" is displayed
-    Then I take a screenshot for Feature 16 and Scenario 4
+    Then I take a screenshot

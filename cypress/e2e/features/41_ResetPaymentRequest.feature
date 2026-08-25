@@ -19,7 +19,7 @@ Feature: 41 Reset Payment Request
     Then on the Reset payment request page I confirm that "page instructions" is displayed
     Then on the Reset payment request page I confirm that "invoice number field" is displayed
     Then on the Reset payment request page I confirm that "reset button" is displayed
-    Then I take a screenshot for Feature 41 and Scenario 1
+    Then I take a screenshot
 
   @dev
   Scenario: 02 Attempt to reset payment request using invoice number that does not exist in database
@@ -32,7 +32,7 @@ Feature: 41 Reset Payment Request
     Then on the Reset payment request page I enter "S1234567S1234567V001" into the "invoice number" field
     Then on the Reset payment request page I click the "reset button"
     Then on the Reset payment request page I confirm that "payment request does not exist error" is displayed
-    Then I take a screenshot for Feature 41 and Scenario 2
+    Then I take a screenshot
 
   @dev
   Scenario: 03 Attempt to reset payment request without entering an invoice number
@@ -44,7 +44,7 @@ Feature: 41 Reset Payment Request
     When I click on the "Reset payment request" link
     Then on the Reset payment request page I click the "reset button"
     Then on the Reset payment request page I confirm that "enter a valid invoice number error" is displayed
-    Then I take a screenshot for Feature 41 and Scenario 3
+    Then I take a screenshot
 
   @dev
   Scenario: 04 Load payment request data
@@ -66,7 +66,7 @@ Feature: 41 Reset Payment Request
     When I click on the "Reset payment request" link
     Then on the Reset payment request page I use current invoice number in the invoice number field
     Then on the Reset payment request page I click the "reset button"
-    Then I take a screenshot for Feature 41 and Scenario 4
+    Then I take a screenshot
 
     Then on the Reset payment request page I confirm that "payment request successfully reset message" is displayed
     Then I confirm that second completedPaymentRequest entry has been made in database for invoice number "Current"
@@ -89,7 +89,7 @@ Feature: 41 Reset Payment Request
     Then on the Reset payment request page I confirm that "page instructions" is displayed
     Then on the Reset payment request page I confirm that "invoice number field" is displayed
     Then on the Reset payment request page I confirm that "reset button" is displayed
-    Then I take a screenshot for Feature 41 and Scenario 1
+    Then I take a screenshot
 
   @local
   Scenario: 02 Attempt to reset payment request using invoice number that does not exist in database
@@ -102,7 +102,7 @@ Feature: 41 Reset Payment Request
     Then on the Reset payment request page I enter "S1234567S1234567V001" into the "invoice number" field
     Then on the Reset payment request page I click the "reset button"
     Then on the Reset payment request page I confirm that "payment request does not exist error" is displayed
-    Then I take a screenshot for Feature 41 and Scenario 2
+    Then I take a screenshot
 
   @local
   Scenario: 03 Attempt to reset payment request without entering an invoice number
@@ -114,7 +114,7 @@ Feature: 41 Reset Payment Request
     When I click on the "Reset payment request" link
     Then on the Reset payment request page I click the "reset button"
     Then on the Reset payment request page I confirm that "enter a valid invoice number error" is displayed
-    Then I take a screenshot for Feature 41 and Scenario 3
+    Then I take a screenshot
 
   @local
   Scenario: 04 Load payment request data
@@ -123,7 +123,7 @@ Feature: 41 Reset Payment Request
 
     Given I visit the "Payment management" homepage
 
-    Then I take a screenshot for Feature 41 and Scenario 4
+    Then I take a screenshot
     When I send the updated "sfi23-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
@@ -147,7 +147,7 @@ Feature: 41 Reset Payment Request
     When I click on the "Reset payment request" link
     Then on the Reset payment request page I enter "S279591940653785V001" into the "invoice number" field
     Then on the Reset payment request page I click the "reset button"
-    Then I take a screenshot for Feature 41 and Scenario 5
+    Then I take a screenshot
 
     Then on the Reset payment request page I confirm that "payment request successfully reset message" is displayed
 
@@ -168,4 +168,4 @@ Feature: 41 Reset Payment Request
   #Should redirect to the Payment Management homepage
 
     Then I confirm that I am on the "reset payment request" homepage
-    Then I take a screenshot for Feature 41 and Scenario 6
+    Then I take a screenshot

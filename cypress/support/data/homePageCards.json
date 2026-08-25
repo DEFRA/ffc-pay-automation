@@ -33,8 +33,8 @@
   },
   "email alerts card": {
     "title": "Email alerts",
-    "description": "Manage where payment alerts are sent by the scheme or recipient",
-    "links": ["Alerts"]
+    "description": "View, edit and add email alerts by recipient or scheme",
+    "links": ["Manage email alerts"]
   },
   "statements card": {
     "title": "Statements",

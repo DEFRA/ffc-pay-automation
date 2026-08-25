@@ -26,7 +26,7 @@ Feature: 01 Payment management
       | Manage payment holds                     | payment-holds                     |
       | Upload manual payments                   | manual-payments                   |
       | Manage agreement closures                | closure                           |
-      | Alerts                                   | alerts                            |
+      | Manage email alerts                      | alerts                            |
       | Download payment statements              | download-statements               |
       | Download statement status report         | status-report                     |
       | View metrics dashboard                   | metrics                           |
@@ -48,7 +48,7 @@ Feature: 01 Payment management
     Then on the Home Page I confirm that "statements card" is displayed
     Then on the Home Page I confirm that "metrics card" is displayed
     Then on the Home Page I confirm that "reset payment requests card" is displayed
-    Then I take a screenshot for Feature 1 and Scenario 2
+    Then I take a screenshot
 
   @test @dev
   Scenario Outline: 03 Confirm cookie banner displays correctly on page load
@@ -61,7 +61,7 @@ Feature: 01 Payment management
     Then on the Home Page I confirm that "cookie banner reject button" is displayed
     Then on the Home Page I confirm that "cookie banner view link" is displayed
 
-    Then I take a screenshot for Feature 1 and Scenario 3
+    Then I take a screenshot
 
   @test @dev
   Scenario Outline: 04 Confirm accept cookies functions correctly
@@ -79,7 +79,7 @@ Feature: 01 Payment management
     Then on the Home Page I confirm that "cookie banner accepted message" is displayed
     Then on the Home Page I confirm that "cookie banner accepted hide button" is displayed
 
-    Then I take a screenshot for Feature 1 and Scenario 4
+    Then I take a screenshot
 
     When on the Home Page I click the "cookies accepted hide button" button
 
@@ -102,7 +102,7 @@ Feature: 01 Payment management
     Then on the Home Page I confirm that "cookie banner rejected message" is displayed
     Then on the Home Page I confirm that "cookie banner rejected hide button" is displayed
 
-    Then I take a screenshot for Feature 1 and Scenario 5
+    Then I take a screenshot
 
     When on the Home Page I click the "cookies rejected hide button" button
 
@@ -138,7 +138,7 @@ Feature: 01 Payment management
     And I click on the "Save cookie settings" button
 
     Then on the Cookies Page I confirm that "cookie preference banner" is displayed
-    Then I take a screenshot for Feature 1 and Scenario 6
+    Then I take a screenshot
 
   @test @dev @local
   Scenario Outline: 07 Confirm content on Accessibility Statement page
@@ -156,7 +156,7 @@ Feature: 01 Payment management
     Then on the Accessibility Statement Page I confirm that "compliance status" is displayed
     Then on the Accessibility Statement Page I confirm that "improving accessiblity" is displayed
     Then on the Accessibility Statement Page I confirm that "preparation of statement" is displayed
-    Then I take a screenshot for Feature 1 and Scenario 7
+    Then I take a screenshot
 
   @test @dev @local
   Scenario Outline: 08 Confirm content on Privacy Notice page
@@ -176,4 +176,4 @@ Feature: 01 Payment management
     Then on the Privacy Notice Page I confirm that "links to other websites" is displayed
     Then on the Privacy Notice Page I confirm that "contact us" is displayed
     Then on the Privacy Notice Page I confirm that "last updated notice" is displayed
-    Then I take a screenshot for Feature 1 and Scenario 8
+    Then I take a screenshot
