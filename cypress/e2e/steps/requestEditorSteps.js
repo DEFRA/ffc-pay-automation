@@ -145,12 +145,6 @@ When(
   }
 )
 
-//generic FRN search field helper, works across all pages
-When('I enter {string} in the FRN number search field', (frnNumber) => {
-
-  Cypress.emit('log:step', 'I enter ' + frnNumber + ' in the FRN number search field')
-  capturePage.captureTxtFrn().type(frnNumber)
-})
 
 //########################################################################################################################
 

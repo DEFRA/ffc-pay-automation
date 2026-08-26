@@ -50,8 +50,7 @@ class GDSGenericPage {
   }
 
   verifyText (text) {
-    return cy.contains(text)
-      .containsWithoutWhitespace(text)
+    return cy.contains(text).containsWithoutWhitespace(text)
   }
 
   accordionText (text ) {
@@ -64,10 +63,15 @@ class GDSGenericPage {
   }
 
   accordionSection (text) {
-    return cy.contains(
-      '.govuk-accordion__section-button',
-      text
-    )
+    return cy.contains( '.govuk-accordion__section-button',text)
+  }
+
+  insetText (text) {
+    return cy.contains ('.govuk-inset-text', text)
+  }
+
+  fileInput () {
+    return cy.get('#file-input')
   }
 
   //scheme dropdown locator ID's are not centralized yet, so you can easily add more here.
@@ -87,7 +91,7 @@ class GDSGenericPage {
       scheme: '#schemeId, #user-search-scheme',
       frn: '#frn',
       'email address': '#emailAddress',
-      agreement: '#agreement',
+      'agreement number': '#agreement',
       year: '#year, #marketingYear',
       month: '#month',
       day: '#day',

@@ -81,7 +81,6 @@ When('I click on the {string} button', (text) => {
   cy.get('button').contains(text).first().scrollIntoView().click()
   if (text === 'Submit' || text === 'Filter') {
     cy.wait(10000)
-    cy.prompt()
   }
 })
 
@@ -122,7 +121,7 @@ Then('I see an error message for {string}', (errorMessage) => {
 })
 
 Then(
-  /^I should see the (heading|paragraph|hint|link|list item|button|strong text|details summary|warning text|verify text|label|accordion text) "(.*)"$/,
+  /^I should see the (heading|paragraph|hint|link|list item|button|strong text|details summary|warning text|verify text|label|accordion text|inset text) "(.*)"$/,
   (type, text) => {
     const elementMap = {
       heading: 'heading',
@@ -136,7 +135,8 @@ Then(
       'warning text': 'warningText',
       'verify text': 'verifyText',
       label: 'label',
-      'accordion text': 'accordionText'
+      'accordion text': 'accordionText',
+      'inset text' : 'insetText'
     }
 
     gdsGenericPage[elementMap[type]](text)
@@ -220,14 +220,46 @@ When('I select {int} records per page pagination link', (number) => {
 
 
 // -------------------------
-// FORM ENTRIES
+// FORM/FIELD ENTRIES
 // -------------------------
 
+//enters X into Y field. View gdsGenericPage to see currently supported forms and add new ones if they are generic
+//also has capability for random FRN generation. simply pass in "random frn" and it will generate you one.
+// if you want to use the random FRN in the same run, pass in 'saved random frn'
+// if it's using the random frn input, it saves it as randomFRN to be used in other assertions
+const generators = {
+  'random frn': () =>
+    `10${String(Math.floor(Math.random() * 100000000)).padStart(8, '0')}`
+}
 
 When(/^I enter "(.*)" into the "(.*)" field$/, (value, field) => {
+  const generator = generators[value.toLowerCase()]
+
+  const actualValue = generator
+    ? generator()
+    : value
+
+  if (value.toLowerCase() === 'random frn') {
+    cy.wrap(actualValue).as('randomFrn')
+  } else if (value.toLowerCase() === 'saved random frn') {
+
+    cy.get('@randomFrn').then((frn) => {
+
+      gdsGenericPage.field(field.toLowerCase())
+
+        .clear()
+
+        .type(frn)
+
+    })
+
+    return
+
+  }
+
   gdsGenericPage.field(field.toLowerCase())
     .clear()
-    .type(value)
+    .type(actualValue)
 })
 
 Then(/^I should see the field "(.*)"$/, (field) => {
@@ -371,6 +403,19 @@ When('I click on the {string} download link', (text) => {
       .click()
   }
 })
+
+
+// -------------------------
+// FILE UPLOAD
+// -------------------------
+
+
+When('I upload {string} file', (file) => {
+
+  Cypress.emit('log:step', 'I upload ' + file + ' file')
+  gdsGenericPage.fileInput().selectFile(`cypress/fixtures/${file}`, {force : true})
+})
+
 
 // generic screenshot helper - grabs the spec name - by default it uses the spec name and scenario name
 //timeout 60k instead of 30k because 30k fails on big big pages

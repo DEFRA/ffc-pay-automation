@@ -9,23 +9,23 @@ Feature: 03 Agreement Closures
   Background: Navigate to Payment management homepage
     Given I visit the "Payment management" homepage
 
-  # Scenario: 01 View Agreement Closures
-  #   Then I should see "Agreement closures"
-  #   And I should see "Manage agreement closures"
+  Scenario: 01 View Agreement Closures
+    Then I should see "Agreement closures"
+    And I should see "Manage agreement closures"
 
-  # Scenario: 02 Access Agreement Closure Management
-  #   When I click on the "Manage agreement closures" link
-  #   Then I am on the "closure" subpage
+  Scenario: 02 Access Agreement Closure Management
+    When I click on the "Manage agreement closures" link
+    Then I am on the "closure" subpage
 
-  # Scenario: 03 Manage Agreement Closures page
-  #   When I click on the "Manage agreement closures" link
-  #   And I should see "To comply with privacy laws and regulations we need to record agreement closure dates in the system."
-  #   And I should see "Agreement closures are automatically provided for most schemes; however some schemes and scenarios need a manual process. You can search for and update an existing closure, or add new closures individually or in bulk."
-  #   And I should see "Any data stored following an agreement closure will be kept in line with our data retention policy."
-  #   And I should see "Search agreement closures"
-  #   And I should see "Create a new agreement closure"
-  #   And I should see "Bulk add agreement closures"
-  #   Then I take a screenshot
+  Scenario: 03 Manage Agreement Closures page
+    When I click on the "Manage agreement closures" link
+    And I should see "To comply with privacy laws and regulations we need to record agreement closure dates in the system."
+    And I should see "Agreement closures are automatically provided for most schemes; however some schemes and scenarios need a manual process. You can search for and update an existing closure, or add new closures individually or in bulk."
+    And I should see "Any data stored following an agreement closure will be kept in line with our data retention policy."
+    And I should see "Search agreement closures"
+    And I should see "Create a new agreement closure"
+    And I should see "Bulk add agreement closures"
+    Then I take a screenshot
 
   Scenario: 05 Search Agreement Closures Page
     When I click on the "Manage agreement closures" link
@@ -52,7 +52,7 @@ Feature: 03 Agreement Closures
   Scenario: 09 View Bulk Agreement Closure Page From Single Closure Page
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
-    And I click the "add agreement closures in bulk" link
+    And I click on the "add agreement closures in bulk" link
     Then I am on the "closure/bulk" subpage
     Then I take a screenshot
 
@@ -60,7 +60,7 @@ Feature: 03 Agreement Closures
   Scenario: 10 View Agreement Closure Page From Bulk Closure Page
     And I click on the "Manage agreement closures" link
     When I click on the "Bulk add agreement closures" link
-    When I click the "create a singular agreement closure" link
+    When I click on the "create a singular agreement closure" link
     Then I am on the "closure/add" subpage
     Then I take a screenshot
 
@@ -79,7 +79,7 @@ Feature: 03 Agreement Closures
   Scenario Outline: 12 Invalid FRN
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
-    And I type '<invalidFrn>' in the 'FRN' field
+    And I enter "<invalidFrn>" into the "frn" field
     When I click on the "Continue" button
     Then I take a screenshot
     Then I should see "Enter a 10-digit FRN"
@@ -91,7 +91,7 @@ Feature: 03 Agreement Closures
   Scenario: 13 Invalid Agreement number
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
-    And I type '123456789012345678901234567890123456789012345678901234567890' in the 'Agreement number' field
+    And I enter "123456789012345678901234567890123456789012345678901234567890" into the "agreement number" field
     And I click on the "Continue" button
     Then I should see "Enter a valid agreement number"
     Then I take a screenshot
@@ -105,22 +105,33 @@ Feature: 03 Agreement Closures
     Then I take a screenshot
 
   Scenario: 15 Successful Adding & Removing a Submission
+    #adding
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
-    And I type a random FRN in the FRN field
-    And I type '12345' in the 'Agreement number' field
+    And I enter "random frn" into the "frn" field
+    And I enter "12345" into the "agreement number" field
     And I type a future date in the Closure date field
     And I select "BPS" from the monitor schemes dropdown
     And I click on the "Continue" button
     And I see the new submission in the table
+
+    #removing
     And I click on the "Add closure" button
     And I am on the "closure" subpage
     And I visit the "Payment management" homepage
     And I click on the "Manage agreement closures" link
     And I click on the "Search agreement closures" link
-    And I search for my new submission
+    And I enter "saved random frn" into the "closure search" field
+    And I click on the "Filter" button
     And I see the new submission in the table
-    When I click on the Remove button next to the new submission
+    And I click on the Remove button next to the new submission
+    And I click on the "Yes, remove" button
+    Then I see a success message for "Agreement closure successfully removed."
+
+    #verifying
+    And I enter "saved random frn" into the "closure search" field
+    And I click on the "Filter" button
+    Then I should see the inset text "No agreement closures were found for FRN / Agreement Number"
 
   Scenario: 16 Empty File Upload
     And I click on the "Manage agreement closures" link
