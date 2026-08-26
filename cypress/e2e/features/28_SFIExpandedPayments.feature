@@ -134,7 +134,7 @@ Feature: 28 SFI Expanded Pilot Payments
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Enrich" link
-    And I click on the "Irregular" debt type radio button
+    And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     Then I take a screenshot
     And I click on the "Continue" button
@@ -150,7 +150,7 @@ Feature: 28 SFI Expanded Pilot Payments
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     Then I take a screenshot
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
@@ -166,7 +166,7 @@ Feature: 28 SFI Expanded Pilot Payments
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     Then I take a screenshot
     And I click on the "Submit" button
 

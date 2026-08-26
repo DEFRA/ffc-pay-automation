@@ -34,7 +34,7 @@ Feature: 36 PPA Recovery Scenarios
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting reporting data" link
     And I click on the "Enrich" link
-    And I click on the "Irregular" debt type radio button
+    And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Sign out" link
@@ -44,7 +44,7 @@ Feature: 36 PPA Recovery Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -56,7 +56,7 @@ Feature: 36 PPA Recovery Scenarios
     When I click on the FRN search button
     And I click on the "Review" link
     Then I take a screenshot
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     And I click on the "Submit" button
 
 #Q2 payment - Original AP settlement increases to 50000000 while PR2 AP settlement is -25000000
@@ -137,7 +137,7 @@ Feature: 36 PPA Recovery Scenarios
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting reporting data" link
     And I click on the "Enrich" link
-    And I click on the "Irregular" debt type radio button
+    And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Sign out" link
@@ -147,7 +147,7 @@ Feature: 36 PPA Recovery Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -159,7 +159,7 @@ Feature: 36 PPA Recovery Scenarios
     When I click on the FRN search button
     And I click on the "Review" link
     Then I take a screenshot
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     And I click on the "Submit" button
 
 #3rd installment payment - Original AP settlement increases to 75000000 and PPA Recovery is -25000000
@@ -232,7 +232,7 @@ Feature: 36 PPA Recovery Scenarios
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting reporting data" link
     And I click on the "Enrich" link
-    And I click on the "Irregular" debt type radio button
+    And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Sign out" link
@@ -242,7 +242,7 @@ Feature: 36 PPA Recovery Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -254,7 +254,7 @@ Feature: 36 PPA Recovery Scenarios
     When I click on the FRN search button
     And I click on the "Review" link
     Then I take a screenshot
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     And I click on the "Submit" button
 
     #4th installment payment - Original AP settlement increases to 100000000 and PPA Recovery is -25000000
@@ -325,7 +325,7 @@ Feature: 36 PPA Recovery Scenarios
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting reporting data" link
     And I click on the "Enrich" link
-    And I click on the "Irregular" debt type radio button
+    And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     And I click on the "Continue" button
     And I click on the "Sign out" link
@@ -335,7 +335,7 @@ Feature: 36 PPA Recovery Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -348,6 +348,6 @@ Feature: 36 PPA Recovery Scenarios
     When I click on the FRN search button
     And I click on the "Review" link
     Then I take a screenshot
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     And I click on the "Submit" button
     

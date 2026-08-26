@@ -29,7 +29,7 @@ Feature: 35 PPA Reduction Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -41,7 +41,7 @@ Feature: 35 PPA Reduction Scenarios
     When I click on the FRN search button
     And I click on the "Review" link
     Then I take a screenshot
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     And I click on the "Submit" button
 
     #First installment payment including PPA Reduction 
@@ -131,7 +131,7 @@ Feature: 35 PPA Reduction Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -143,7 +143,7 @@ Feature: 35 PPA Reduction Scenarios
     When I click on the FRN search button
     And I click on the "Review" link
     Then I take a screenshot
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     And I click on the "Submit" button
 
     #First installment payment including PPA Reduction 
@@ -233,7 +233,7 @@ Feature: 35 PPA Reduction Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -245,7 +245,7 @@ Feature: 35 PPA Reduction Scenarios
     When I click on the FRN search button
     And I click on the "Review" link
     Then I take a screenshot
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     And I click on the "Submit" button
 
     #First PPA Reduction 
@@ -328,7 +328,7 @@ Feature: 35 PPA Reduction Scenarios
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
     And I click on the "Sign out" link
@@ -340,7 +340,7 @@ Feature: 35 PPA Reduction Scenarios
     When I click on the FRN search button
     And I click on the "Review" link
     Then I take a screenshot
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     And I click on the "Submit" button
 
     #First PPA Reduction 
