@@ -76,7 +76,7 @@ class GDSGenericPage {
 
   //scheme dropdown locator ID's are not centralized yet, so you can easily add more here.
   schemeDropdown () {
-    const selectors = [ '#schemeId',  '#user-search-scheme' ]
+    const selectors = [ '#schemeId',  '#user-search-scheme', '#selectScheme' ]
     return cy.get(selectors.join(', '))
   }
 
@@ -88,7 +88,7 @@ class GDSGenericPage {
 
   field (field) {
     const fields = {
-      scheme: '#schemeId, #user-search-scheme',
+      scheme: '#schemeId, #user-search-scheme, #selectScheme',
       frn: '#frn',
       'email address': '#emailAddress',
       'agreement number': '#agreement',

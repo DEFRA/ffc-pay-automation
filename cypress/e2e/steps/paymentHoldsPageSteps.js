@@ -12,12 +12,6 @@ When('I upload bulk payment holds file {string}', (file) => {
 })
 
 
-When('I click the Create bulk payment holds button', () => {
-
-  Cypress.emit('log:step', 'I click the Create bulk payment holds button')
-  paymentHoldsPage.btnSubmit().click()
-})
-
 Then('the new holds in {string} are visible along with the correct timestamp', (file) => {
 
   Cypress.emit('log:step', 'the new holds in ' + file + ' are visible along with the correct timestamp')
@@ -56,31 +50,7 @@ Then('the new holds in {string} are visible along with the correct timestamp', (
   })
 })
 
-Then('the {string} error message is displayed on the Payment holds page', (errMsg) => {
 
-  Cypress.emit('log:step', 'the ' + errMsg + ' error message is displayed on the Payment holds page')
-  paymentHoldsPage
-    .errorSummaryTitle()
-    .should('be.visible')
-    .and('contain.text', 'There is a problem')
-  paymentHoldsPage
-    .errorMessage()
-    .should('be.visible')
-    .and('contain.text', errMsg)
-})
-
-Then('the {string} error message is displayed on the Bulk upload page', (errMsg) => {
-
-  Cypress.emit('log:step', 'the ' + errMsg + ' error message is displayed on the Bulk upload page')
-  paymentHoldsPage
-    .bulkUploadErrorSummaryTitle()
-    .should('be.visible')
-    .and('contain.text', 'There is a problem')
-  paymentHoldsPage
-    .bulkUploadErrorMessage()
-    .should('be.visible')
-    .and('contain.text', errMsg)
-})
 
 When('the user selects to {string} holds', (option) => {
 
@@ -132,11 +102,6 @@ When('on the Payment Holds page I enter {string} in the FRN search field', (frn)
   }
 })
 
-Then('on the Payment Holds page I click the FRN search button', () => {
-
-  Cypress.emit('log:step', 'on the Payment Holds page I click the FRN search button')
-  paymentHoldsPage.frnSearchButton().click()
-})
 
 Then('on the Payment Holds page I confirm that scheme filter box is visible', () => {
 
@@ -144,11 +109,6 @@ Then('on the Payment Holds page I confirm that scheme filter box is visible', ()
   paymentHoldsPage.schemeFilterBox().should('be.visible')
 })
 
-Then('on the Payment Holds page I enter {string} in the scheme filter box', (scheme) => {
-
-  Cypress.emit('log:step', 'on the Payment Holds page I enter ' + scheme + ' in the scheme filter box')
-  paymentHoldsPage.schemeFilterBox().select(scheme)
-})
 
 Then('on the Payment Holds page I enter {string} hold for scheme {string}', (holds, scheme) => {
 

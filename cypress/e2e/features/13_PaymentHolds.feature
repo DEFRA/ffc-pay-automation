@@ -9,10 +9,10 @@ Feature: 13 Payment Holds
     And I visit the "Payment management" homepage
     And I click on the "Manage payment holds" link
     And I click on the "Create a new payment hold" link
-    And I type a random FRN in the FRN field
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I enter "random frn" into the "frn" field
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
-    And I take a screenshot for Feature 13 and Scenario 1
+    And I take a screenshot
     And I click on the "Continue" button
     And I click on the "Create payment hold" button
     And I create a message with the filename "paymentFileMessage" and update the following keys:
@@ -25,7 +25,7 @@ Feature: 13 Payment Holds
 
     And I click on the "Search for a payment hold" link
     When on the Payment Holds page I enter the newly generated FRN in the search field
-    Then on the Payment Holds page I click the FRN search button
+    And I click on the "Search" button
     When I click on the "Remove" button
     And I click on the "Yes, remove" button
     Then the "paymentFileMessage" message should be received successfully for the service bus topic "<receiveOnTopic>"
@@ -41,5 +41,5 @@ Feature: 13 Payment Holds
     And I click on the "Create a new payment hold" link
     Then on the Payment Holds page I confirm that scheme filter box is visible
     Then on the Payment Holds page all schemes have correct holds
-    And I take a screenshot for Feature 13 and Scenario 2
+    And I take a screenshot
   

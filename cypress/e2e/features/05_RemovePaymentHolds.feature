@@ -13,27 +13,28 @@ Feature: 05 Remove Payment Holds via CSV Upload
   Scenario: 01 Uploading a CSV file with incorrect FRN format
     And I click on the "Remove payment holds in bulk" link
     And I upload bulk payment holds file 'frnsBulkUploadInvalid.csv'
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Remove holds" button
-    Then the 'There was a problem validating your uploaded data.' error message is displayed on the Bulk upload page
+    And I see an error message for "There was a problem validating your uploaded data."
     Then I take a screenshot
 
   Scenario: 02 Uploading a file that is not a CSV
     And I click on the "Remove payment holds in bulk" link
     And I upload bulk payment holds file 'bulkUploadTxt.txt'
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Remove holds" button
-    Then the 'Provide a CSV file' error message is displayed on the Payment holds page
+    And I see an error message for "Provide a CSV file"
     Then I take a screenshot
 
   Scenario: 03 Removing holds selectively based on hold category
     And I click on the "Add payment holds in bulk" link
     And I upload bulk payment holds file 'selectiveFrnUpload.csv'
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Add holds" button
+    And I wait for 1000 milliseconds
 
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link
@@ -43,7 +44,7 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And I click on the "Manage payment holds in bulk" link
     And I click on the "Remove payment holds in bulk" link
     And I upload bulk payment holds file 'selectiveFrnRemove.csv'
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Remove holds" button
 
@@ -56,5 +57,5 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And I click on the "Remove payment holds in bulk" link
     And I upload bulk payment holds file 'frnsBulkUploadValid.csv'
     And I click on the "Remove holds" button
-    Then the 'Category is required' error message is displayed on the Payment holds page
+    Then I see an error message for "Scheme is required"
     Then I take a screenshot

@@ -14,7 +14,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I click on the "Manage payment holds in bulk" link
     And I click on the "Add payment holds in bulk" link
     And I upload bulk payment holds file 'frnsBulkUploadValid.csv'
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Add holds" button
 
@@ -26,7 +26,7 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I click on the "Manage payment holds in bulk" link
     And I click on the "Remove payment holds in bulk" link
     And I upload bulk payment holds file 'frnsBulkUploadValid.csv'
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Remove holds" button
     
@@ -40,30 +40,31 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I click on the "Manage payment holds in bulk" link
     And I click on the "Add payment holds in bulk" link
     And I upload bulk payment holds file 'bulkUploadTxt.txt'
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Add holds" button
     Then I take a screenshot
-    Then the 'Provide a CSV file' error message is displayed on the Payment holds page
+    And I see an error message for "Provide a CSV file"
+
 
 
   Scenario: 03 Uploading a CSV file with incorrect FRN format
     And I click on the "Manage payment holds in bulk" link
     And I click on the "Add payment holds in bulk" link
     And I upload bulk payment holds file 'frnsBulkUploadInvalid.csv'
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Add holds" button
+    And I see an error message for "There was a problem validating your uploaded data."
     Then I take a screenshot
-    Then the 'There was a problem validating your uploaded data.' error message is displayed on the Bulk upload page
 
 
   Scenario: 04 Uploading a CSV file which is too large
     And I click on the "Manage payment holds in bulk" link
     And I click on the "Add payment holds in bulk" link
     And I upload bulk payment holds file 'frnsBulkUploadBulk.csv'
-    Then on the Payment Holds page I enter "COHT Capital" in the scheme filter box
+    And I select the scheme "COHT Capital"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
     And I click on the "Add holds" button
+    And I see an error message for "The uploaded file is too large. Please upload a file smaller than 1 MB."
     Then I take a screenshot
-    Then the 'The uploaded file is too large. Please upload a file smaller than 1 MB.' error message is displayed on the Payment holds page
