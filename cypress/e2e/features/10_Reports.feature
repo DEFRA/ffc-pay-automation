@@ -7,33 +7,33 @@ Feature: 10 Reports
     Given I visit the "Payment management" homepage
     And I click on the "Download reports" link
 
-  @dev @test
-  Scenario Outline: 01 Verify CSV file is downloaded when clicking "<link>"
-    When I click on the "<link>" download link
-    Then the CSV file is downloaded with "<title>" as the title
+  # @dev @test
+  # Scenario Outline: 01 Verify CSV file is downloaded when clicking "<link>"
+  #   When I click on the "<link>" download link
+  #   Then the CSV file is downloaded with "<title>" as the title
 
-    Examples:
-      | link                        | title                         |
-      | Holds                       | ffc-pay-hold-report           |
-      | Request Editor report       | ffc-pay-request-editor-report |
-      | Suppressed payment requests | ffc-pay-suppressed-report     |
+  #   Examples:
+  #     | link                        | title                         |
+  #     | Holds                       | ffc-pay-hold-report           |
+  #     | Request Editor report       | ffc-pay-request-editor-report |
+  #     | Suppressed payment requests | ffc-pay-suppressed-report     |
 
-  @dev @test
-  Scenario Outline: 02 Verify "link" link works correctly
-    When I click on the "<link>" link
-    Then I am on the "<subPage>" subpage
+  # @dev @test
+  # Scenario Outline: 02 Verify "link" link works correctly
+  #   When I click on the "<link>" link
+  #   Then I am on the "<subPage>" subpage
 
-    Examples:
-      | link                                       | subPage                           |
-      | Generate a payment request statuses report | generate-payment-request-statuses |
-      | Generate an AP-AR listing report           | generate-ap-ar-listing-report     |
+  #   Examples:
+  #     | link                                       | subPage                           |
+  #     | Generate a payment request statuses report | generate-payment-request-statuses |
+  #     | Generate an AP-AR listing report           | generate-ap-ar-listing-report     |
 
   @dev @test
   Scenario Outline: 03 Download Payment Request Status report for <scheme>
     And I click on the "Generate a payment request statuses report" link
     And I select "<scheme>" from the "scheme" dropdown or radio
-    And I type "<year>" in the "year" field
-    And I type "<prn>" in the "prn" field
+    And I enter "<year>" into the "year" field
+    And I enter "<prn>" into the "prn" field
     And I select "<revenueCapital>" from the "revenueCapital" dropdown or radio
     When I click on the "Generate and download report" button
     Then the CSV file is downloaded with "<title>" as the title

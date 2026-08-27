@@ -142,9 +142,8 @@ Feature: 40 Download Statements
 
     Then I enter "1105607649" into the "frn" field
     Then I click on the "Search" button
-
-    Then the current pagination page number is "1"
-    #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 6 on this page (6 items)"
+    And I should see the paragraph "We've found 1 statement."
+    And I should see "Showing 1 statement"
     Then I take a screenshot
 
 
@@ -158,8 +157,9 @@ Feature: 40 Download Statements
 
     Then I enter "1234567890" into the "frn" field
     Then I click on the "Search" button
+    And I should see the paragraph "We've found 1 statement."
+    And I should see "Showing 1 statement"
 
-    Then on the Download Statements page I confirm that the page number is "[1]"
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 6 on this page (6 items)"
     Then I take a screenshot
 
@@ -173,8 +173,9 @@ Feature: 40 Download Statements
 
     Then I enter "29-06-2026 13:38" into the "timestamp" field
     Then I click on the "Search" button
-
-    Then the current pagination page number is "1"
+    And I should see the paragraph "We've found 20 statements."
+    And I should see "Showing 20 statements"
+    
     #Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 1 on this page (1 items)"
     Then I take a screenshot
 

@@ -89,16 +89,18 @@ class GDSGenericPage {
   field (field) {
     const fields = {
       scheme: '#schemeId, #user-search-scheme, #selectScheme',
-      frn: '#frn',
+      frn: '#frn, #user-search-frn',
       'email address': '#emailAddress',
       'agreement number': '#agreement',
-      year: '#year, #marketingYear',
+      year: '#year',
+      'marketing year': '#marketingYear',
       month: '#month',
       day: '#day',
       'payment hold search': '#payment-hold-search',
       'closure search': '#closure-search',
-      'file name': '#filename',
-      timestamp: '#timestamp'
+      filename: '#filename',
+      timestamp: '#timestamp',
+      prn: '#prn'
     }
 
     const selector = fields[field]

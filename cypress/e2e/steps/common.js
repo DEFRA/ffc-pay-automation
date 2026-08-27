@@ -227,6 +227,7 @@ When('I select {int} records per page pagination link', (number) => {
 //also has capability for random FRN generation. simply pass in "random frn" and it will generate you one.
 // if you want to use the random FRN in the same run, pass in 'saved random frn'
 // if it's using the random frn input, it saves it as randomFRN to be used in other assertions
+// if passing in a blank value it skips
 const generators = {
   'random frn': () =>
     `10${String(Math.floor(Math.random() * 100000000)).padStart(8, '0')}`
@@ -241,6 +242,10 @@ When(/^I enter "(.*)" into the "(.*)" field$/, (value, field) => {
 
   if (value.toLowerCase() === 'random frn') {
     cy.wrap(actualValue).as('randomFrn')
+  } if (value === '') {
+
+    return
+
   } else if (value.toLowerCase() === 'saved random frn') {
 
     cy.get('@randomFrn').then((frn) => {

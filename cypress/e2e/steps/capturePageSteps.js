@@ -10,12 +10,6 @@ When('I select {string} in the scheme dropdown', (scheme) => {
 })
 
 
-When('I click the search button', () => {
-
-  Cypress.emit('log:step', 'I click the search button')
-  capturePage.btnSearch().click()
-  cy.wait(10000)
-})
 
 Then('each record in the table has the FRN number {string}', (frnNumber) => {
 
@@ -31,7 +25,7 @@ Then('each record in the table has the Scheme {string}', (scheme) => {
 
   Cypress.emit('log:step', 'each record in the table has the Scheme ' + scheme)
   capturePage.tableRows().each(($row) => {
-    cy.wrap($row).find('td').eq(0).should('have.text', scheme)
+    cy.wrap($row).find('td').eq(0).haveWithoutWhitespace(scheme)
   })
 })
 

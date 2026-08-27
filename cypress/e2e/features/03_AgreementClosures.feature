@@ -32,8 +32,8 @@ Feature: 03 Agreement Closures
     Then I am on the "closure" subpage
     And I click on the "Search agreement closures" link
     And I should see "Any agreements listed here are considered closed. This allows the Payment Hub to manage data retention for the data it holds related to payment requests."
-    Then I take a screenshot
-
+    # no screenshot, takes too long.
+     
   Scenario: 06 Create New Closure
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
@@ -155,7 +155,7 @@ Feature: 03 Agreement Closures
     When I click on the "Bulk add agreement closure" link
     And I upload 'bulkUploadLarge.csv' file
     When I click on the "Add closures" button
-    Then the 'The uploaded file is too large. Please upload a file smaller than 1 MB.' error message is displayed on the Payment holds page
+    And I see an error message for "The uploaded file is too large. Please upload a file smaller than 1 MB."
     Then I take a screenshot
 
   Scenario: 19 Successful File Upload

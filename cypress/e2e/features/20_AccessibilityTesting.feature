@@ -32,11 +32,11 @@ Feature: 20 Accessibility Testing
 
 #Monitoring page
 
-    When I click on the "Monitoring" link
+    When I click on the "View payment events" link
     Then I confirm there are no accessibility issues on the page
     And I click on the "Home" link
 
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
     Then I confirm there are no accessibility issues on the page
 
     Then I select "COHT Capital" from the monitor schemes dropdown
@@ -202,7 +202,7 @@ Feature: 20 Accessibility Testing
 
     When I click on the "Home" link
 
-    When I click the "Sign Out" link
+    When I click on the "Sign Out" link
 
 #Ledger assignments awaiting quality check page
 
@@ -230,7 +230,7 @@ Feature: 20 Accessibility Testing
     Given I visit the "Calculate your delinked payment" homepage
     Then I confirm there are no accessibility issues on the page
 
-    When on the Payment Calculator page I click the "start button"
+    When I click on the "Start" button
     Then I confirm there are no accessibility issues on the page
 
 #Force error message on page through invalid input and confirm accessibility again
