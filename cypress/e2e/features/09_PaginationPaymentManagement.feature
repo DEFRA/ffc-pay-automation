@@ -1,4 +1,4 @@
-@test @dev
+@test @dev @local
 Feature: 09 Pagination - Payment Management
 
 # npm run cypress:test:one -- "cypress\e2e\features\09_PaginationPaymentManagement.feature"
@@ -7,17 +7,26 @@ Feature: 09 Pagination - Payment Management
   Background:
     Given I visit the "Payment management" homepage
 
+ 
+  Scenario Outline: 00 Default records per page is displayed
+    And I click on the "Manage payment holds" link
+    And I click on the "<link>" link
+    And I click on the "Search" button
+    Then "<number>" records per page is selected by default
+    Then I take a screenshot
+    Examples:
+      | link                      | number |
+      | Search for a payment hold | 100    |
+
   Scenario Outline: 01 "<number>" records per page on "<page>" page
     And I click on the "Manage payment holds" link
     And I click on the "<link>" link
     And I click on the "Search" button
-    When on the Payment Holds Page I select "<number>" records per page
-    #When on the Payment Holds Page I select "<number>" from the number of records per page dropdown
+    And I select <number> records per page pagination link
     Then I can see at most <number> records displayed in the table
-
+    Then I take a screenshot
     Examples:
       | link                      | number | page          |
-      | Search for a payment hold | 100    | Payment holds |
       | Search for a payment hold | 500    | Payment holds |
       | Search for a payment hold | 1000   | Payment holds |
 
@@ -25,10 +34,10 @@ Feature: 09 Pagination - Payment Management
     When I click on the "<link>" link
     And I click on the "Search for a payment hold" link
     And I click on the "Search" button
-    Then I can see "1" in the page box
-    And I can see the "Next" button
-    And I cannot see the "Previous" button
-
+    And the current pagination page number is "1"
+    And I verify the pagination "next" is visible
+    And I verify the pagination "previous" is not visible
+    Then I take a screenshot
     Examples:
       | link                 | page          |
       | Manage payment holds | Payment holds |
@@ -37,10 +46,10 @@ Feature: 09 Pagination - Payment Management
     And I click on the "<link>" link
     And I click on the "Search for a payment hold" link
     And I click on the "Search" button
-    When I click on the "Next" page button
-    Then I can see "2" in the page box
-    And I can see the "Previous" button
-
+    And I click the pagination "next"
+    And the current pagination page number is "2"
+    And I verify the pagination "previous" is visible
+    Then I take a screenshot
     Examples:
       | link                 | page          |
       | Manage payment holds | Payment holds |
@@ -49,10 +58,10 @@ Feature: 09 Pagination - Payment Management
     And I click on the "<link>" link
     And I click on the "Search for a payment hold" link
     And I click on the "Search" button
-    When I visit the last page
-    Then I cannot see the "Next" button
-    And I can see the "Previous" button
-
+    And I go to the last page of pagination results
+    And I verify the pagination "next" is not visible
+    And I verify the pagination "previous" is visible
+    Then I take a screenshot
     Examples:
       | link                 | page          |
       | Manage payment holds | Payment holds |

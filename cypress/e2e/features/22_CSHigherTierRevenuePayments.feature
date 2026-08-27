@@ -20,7 +20,7 @@ Feature: 22 CS Higher Tier Revenue Payments
   #test data
 
     Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
     And I select "COHT Revenue" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
@@ -74,7 +74,7 @@ Feature: 22 CS Higher Tier Revenue Payments
     And I see a success message for "has been quality checked."
 
     Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
     And I select "COHT Revenue" from the monitor schemes dropdown
     And I click on the "Continue" button
 
@@ -130,7 +130,7 @@ Feature: 22 CS Higher Tier Revenue Payments
     When I search for FRN "1258445148"
     When I click on the FRN search button
     And I click on the "Enrich" link
-    And I click on the "Irregular" debt type radio button
+    And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     Then I take a screenshot
     And I click on the "Continue" button
@@ -144,7 +144,7 @@ Feature: 22 CS Higher Tier Revenue Payments
     When I search for FRN "1258445148"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" provisional values radio button
+    And I click on the "Yes" radio button
     Then I take a screenshot
     And I click on the "Continue" button
     And I am on the "quality-check" subpage
@@ -158,7 +158,7 @@ Feature: 22 CS Higher Tier Revenue Payments
     When I search for FRN "1258445148"
     When I click on the FRN search button
     And I click on the "Review" link
-    And I click on the "Yes" edited correctly radio button
+    And I click on the "Yes" radio button
     Then I take a screenshot
     And I click on the "Submit" button
 
@@ -166,7 +166,7 @@ Feature: 22 CS Higher Tier Revenue Payments
   Scenario: 08 Confirm payment request processed in Payment Management
 
     Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
     And I select "COHT Revenue" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "COHT Revenue" scheme with "3" payment installments totalling "£10,000.00" is displayed

@@ -1,13 +1,8 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
-
-
 import agreementClosuresPage from '../pages/agreementClosures/agreementClosuresPage'
-import addBulkClosurePage from '../pages/agreementClosures/addBulkClosurePage'
 import addClosurePage from '../pages/agreementClosures/addClosurePage'
-import paymentHoldsPage from '../pages/paymentHoldsPage'
-import reportsPage from '../pages/reportsPage'
 import capturePage from '../pages/capturePage'
-import paymentManagementPage from '../pages/paymentManagementPage'
+
 
 When('I see the new submission in the table', () => {
 
@@ -66,66 +61,6 @@ When('I see the new bulk upload submissions in the table', () => {
   })
 })
 
-Then('I should see a {string} link', (txt) => {
-
-  Cypress.emit('log:step', 'I should see a ' + txt + ' link')
-
-  agreementClosuresPage
-    .linkRemoveSubmission()
-    .should('be.visible')
-    .and('contain.text', txt)
-})
-
-Then('I should see the {string} field', (field) => {
-
-  Cypress.emit('log:step', 'I should see the ' + field + ' field')
-
-  switch (field) {
-  case 'Firm reference number (FRN)':
-    agreementClosuresPage
-      .lblFRN()
-      .should('be.visible')
-      .and('contain.text', field)
-    agreementClosuresPage.txtFRN().should('be.visible')
-    addBulkClosurePage
-      .fieldHint()
-      .eq(0)
-      .should('be.visible')
-      .and('contain.text', 'Enter a 10-digit FRN')
-    break
-
-  case 'Agreement number':
-    agreementClosuresPage
-      .lblAgreementNumber()
-      .should('be.visible')
-      .and('contain.text', field)
-    agreementClosuresPage.txtAgreementNumber().should('be.visible')
-    addBulkClosurePage
-      .fieldHint()
-      .eq(1)
-      .should('be.visible')
-      .and('contain.text', 'Ensure that any leading 0s are included')
-    break
-
-  case 'Closure date':
-    agreementClosuresPage
-      .lblClosureDate()
-      .should('be.visible')
-      .and('contain.text', 'What date should the closure be active from?')
-    agreementClosuresPage.txtDateDay().should('be.visible')
-    agreementClosuresPage.txtDateMonth().should('be.visible')
-    agreementClosuresPage.txtDateYear().should('be.visible')
-    addBulkClosurePage
-      .fieldHint()
-      .eq(2)
-      .should('be.visible')
-      .and('contain.text', 'For example, 27 11 2023')
-    break
-
-  default:
-    throw new Error('Field not found')
-  }
-})
 
 When('I click on the Remove button next to the new submission', () => {
 
@@ -137,71 +72,6 @@ When('I click on the Remove button next to the new submission', () => {
 })
 
 
-When('I upload {string} file', (file) => {
-
-  Cypress.emit('log:step', 'I upload ' + file + ' file')
-  addBulkClosurePage.fileInput().selectFile(`cypress/fixtures/${file}`)
-})
-
-When('I click the {string} link', (text) => {
-
-  Cypress.emit('log:step', 'I click the ' + text + ' link')
-
-  if (text === 'add agreement closures in bulk') {
-    addClosurePage.bulkUploadLink().click()
-  } else if (text === 'create a singular agreement closure') {
-    addClosurePage.singleUploadLink().click()
-  } else if (text === 'Add or remove holds in bulk') {
-    paymentHoldsPage.btnAddRemoveHoldsInBulk().click()
-  } else if (text === 'Sign Out') {
-    paymentManagementPage.signOutLink().click()
-  } else {
-    throw new Error('Invalid link')
-  }
-})
-
-When('I type {string} in the {string} field', (text, field) => {
-
-  Cypress.emit('log:step', 'I type ' + text + ' in the ' + field + ' field')
-
-  if (field === 'FRN') {
-    if (text) {
-      addClosurePage.frnInput().type(text)
-    }
-    Cypress.env('formData', { ...Cypress.env('formData'), frn: text })
-    Cypress.env('frn', text)
-  } else if (field === 'Agreement number') {
-    addClosurePage.agreementNumberInput().type(text)
-    Cypress.env('formData', { ...Cypress.env('formData'), agreementNumber: text })
-    Cypress.env('agreementNumber', text)
-  } else if (field === 'year') {
-    addClosurePage.closureDateYearInput().type(text)
-    Cypress.env('formData', { ...Cypress.env('formData'), year: text })
-  } else if (field === 'prn') {
-    if (text) {
-      reportsPage.prnField().type(text)
-      Cypress.env('formData', { ...Cypress.env('formData'), prn: text })
-    } else {
-      Cypress.env('formData', { ...Cypress.env('formData'), prn: '' })
-    }
-  } else {
-    throw new Error('Invalid field')
-  }
-})
-
-When('I type a random FRN in the FRN field', () => {
-
-  Cypress.emit('log:step', 'I type a random FRN in the FRN field')
-
-  const generateNumber = (digits) => {
-    return ('0'.repeat(digits) + Math.floor(Math.random() * Math.pow(10, digits))).slice(-digits)
-  }
-
-  const randomFrn = `10${generateNumber(8)}`
-
-  addClosurePage.frnInput().type(randomFrn)
-  cy.wrap(randomFrn, { log: true }).as('randomFrn')
-})
 
 When('I type a future date in the Closure date field', () => {
 

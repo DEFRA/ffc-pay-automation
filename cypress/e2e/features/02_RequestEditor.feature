@@ -150,7 +150,7 @@ Feature: 02 Request Editor
 
   Scenario Outline: 09 Unattached reporting datasets - Searching based on FRN number displays only records related to that FRN number
     And I click on the "View all datasets" link
-    And I enter '<frn>' in the FRN number search field
+    And I enter "<frn>" into the "frn" field
     When I click on the "Search" button
     Then each record in the table has the FRN number '<frn>'
     Then I take a screenshot
@@ -170,7 +170,7 @@ Feature: 02 Request Editor
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
     And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
-    When I click the search button
+    When I click on the "Search" button
     Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
 
   @test
@@ -178,23 +178,23 @@ Feature: 02 Request Editor
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
     And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
-    When I click the search button
+    When I click on the "Search" button
     Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
 
   @test @dev @local
   Scenario: 11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme
     And I click on the "View all datasets" link
-    And I enter '1234567891' in the FRN number search field
+    And I enter "1234567891" into the "frn" field
     And I select 'SFI22' in the scheme dropdown
-    When I click the search button
+    When I click on the "Search" button
     Then I take a screenshot
     And each record in the table has the Scheme 'SFI22'
 
   @test @dev @local
   Scenario: 12 Unattached reporting datasets - Searching based on FRN number that returns no datasets
     And I click on the "View all datasets" link
-    And I enter '9999999999' in the FRN number search field
-    When I click the search button
+    And I enter "9999999999" into the "frn" field
+    When I click on the "Search" button
     Then I should see "No datasets were found for 9999999999. Check your details and try again"
     Then I take a screenshot
 
@@ -202,7 +202,7 @@ Feature: 02 Request Editor
   Scenario: 13 Unattached reporting datasets - Searching based on scheme that returns no datasets
     And I click on the "View all datasets" link
     And I select 'Annual Health and Welfare Review' in the scheme dropdown
-    When I click the search button
+    When I click on the "Search" button
     Then I should see "No datasets were found for Annual Health and Welfare Review. Check your details and try again"
     Then I take a screenshot
 
@@ -240,15 +240,15 @@ Feature: 02 Request Editor
   @local
   Scenario:16 Requests awaiting debt data - Searching based on FRN number that returns no reporting data
     And I click on the "View awaiting debt data" link
-    And I enter '9999999999' in the FRN number search field
-    When I click the search button
+    And I enter "9999999999" into the "frn" field
+    When I click on the "Search" button
     Then I should see "No requests awaiting reporting data were found."
     Then I take a screenshot
 
   @local
   Scenario:17 Requests awaiting debt data - Searching based on invalid FRN number throws error
     And I click on the "View awaiting debt data" link
-    And I enter '1234' in the FRN number search field
+    And I enter "1234" into the "frn" field
     When I click on the "Search" button
     Then I take a screenshot
   #Below do not work right now due to defect 
@@ -259,7 +259,7 @@ Feature: 02 Request Editor
   @local
   Scenario:18 Requests awaiting debt data - Searching based on FRN number displays only records related to both that FRN number
     And I click on the "View awaiting debt data" link
-    And I enter '1258445148' in the FRN number search field
+    And I enter "1258445148" into the "frn" field
     When I click on the "Search" button
     And I verify my new awaiting payment data with the following values displays on the table
       | scheme | schemeYear | frn        | agreementNumber | totalAmount | daysWaiting |
@@ -268,7 +268,7 @@ Feature: 02 Request Editor
   @local
   Scenario:19 Requests awaiting debt data - enrich data
     And I click on the "View awaiting debt data" link
-    And I enter '1258445148' in the FRN number search field
+    And I enter "1258445148" into the "frn" field
     ##this only works if theres only one entry returned after searching - i think it will?
     And I click on the "Enrich" link
     And I verify my data to be enriched is correct in the confirmation screen
@@ -295,7 +295,7 @@ Feature: 02 Request Editor
   @local
   Scenario:20 Manual ledger assignment - search by frn, verify table matches enrichment, then review
     And I click on the "View awaiting manual ledger assignment" link
-    And I enter '1258445148' in the FRN number search field
+    And I enter "1258445148" into the "frn" field
     When I click on the "Search" button
     Then I verify my awaiting ledger assignment data is displaying correctly with the following values on the table
       | scheme | schemeYear | frn        | agreementNumber | received |
@@ -317,7 +317,7 @@ Feature: 02 Request Editor
   @local
   Scenario:21 Ledger assignment quality check - verify search and visibility of request
     And I click on the "View awaiting ledger assignment quality check" link
-    And I enter '1258445148' in the FRN number search field
+    And I enter "1258445148" into the "frn" field
     When I click on the "Search" button
     And I verify my ledger quality check data is displaying correctly with the following values on the table
       | scheme | schemeYear | frn        | agreementNumber |

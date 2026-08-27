@@ -4,7 +4,7 @@ class paymentHoldsPage {
   }
 
   fileInput () {
-    return cy.get('input#file')
+    return cy.get('#file-input')
   }
 
   btnSubmit () {

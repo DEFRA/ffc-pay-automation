@@ -4,13 +4,14 @@ Feature: 43 Payment Alerts
 # npm run cypress:dev:one -- "cypress\e2e\features\43_PaymentAlerts.feature"
 
 # This feature file is designed to test functionality of Payment Alerts section in Payment Management UI
-
+  Background: Navigate to Payment management homepage
+    Given I visit the "Payment management" homepage
+  
   @local @dev
   Scenario: 01 Confirm initial elements on page
 
   #This scenario confirms that all expected elements are present on initial page load
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I should see the heading "Manage email alerts"
     Then I should see the paragraph "Email alerts are emails sent to a recipient when certain events happen."
@@ -25,7 +26,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for SFI-22 scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "SFI22"
@@ -59,7 +59,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for SFI-Pilot scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "SFI Pilot"
@@ -93,7 +92,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Lump Sums scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "Lump Sums"
@@ -128,7 +126,6 @@ Feature: 43 Payment Alerts
 
   #  #This scenario confirms that correct alert types are present for Vet Visits scheme
 
-  #   Given I visit the "Payment management" homepage
   #   When I click on the "Manage email alerts" link
   #   Then I click on the "Manage by scheme" link
   #   And I select the scheme "Vet Visits"
@@ -162,7 +159,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Countryside Stewardship scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "CS"
@@ -196,7 +192,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Basic Payment Scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "BPS"
@@ -230,7 +225,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Manual Invoice scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "Manual Invoice"
@@ -264,7 +258,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Environmental Stewardship scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "ES"
@@ -298,7 +291,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for IMPS scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "IMPS"
@@ -332,7 +324,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Forestry Commission scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "FC"
@@ -366,7 +357,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for SFI-23 scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "SFI23"
@@ -400,7 +390,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Delinked Payments scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "Delinked"
@@ -434,7 +423,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Expanded SFI Offer scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "Expanded SFI Offer"
@@ -468,7 +456,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Revenue) scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "COHT Revenue"
@@ -502,7 +489,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Capital) scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "COHT Capital"
@@ -535,7 +521,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Capital) scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "Farm Payments Technical Test"
@@ -568,7 +553,6 @@ Feature: 43 Payment Alerts
 
    #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Capital) scheme
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "Woodland Management Plan"
@@ -602,7 +586,6 @@ Feature: 43 Payment Alerts
   #This scenario confirms that all schemes are successfully cascaded when Show All Sections is clicked
   #Please note, Cypress is unable to screenshot this scenario due to the extreme length of page when all schemes are cascaded
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
     And I select the scheme "Woodland Management Plan"
@@ -616,7 +599,6 @@ Feature: 43 Payment Alerts
   @local @dev
   Scenario: 18 Confirm initial elements on Add new alert recipient page
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     And I click on the "Manage by recipient" link
     
@@ -654,7 +636,6 @@ Feature: 43 Payment Alerts
   @local @dev
   Scenario: 19 Confirm filter by scheme is functioning correctly
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     And I click on the "Manage by scheme" link
 
@@ -688,7 +669,6 @@ Feature: 43 Payment Alerts
 
   #This scenario confirms that correct error message is displayed when email with invalid format is used
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     When I click on the "Manage by recipient" link
     When I click on the "Add new recipient" link
@@ -707,7 +687,6 @@ Feature: 43 Payment Alerts
 
   #This scenario confirms that new alert recipient can be successfully added to all alert types
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     When I click on the "Manage by recipient" link
     When I click on the "Add new recipient" link
@@ -723,7 +702,7 @@ Feature: 43 Payment Alerts
     And I see a success message for "fake.user@atos.net will now receive the selected email alerts."
 
 
-    Given I visit the "Payment management" homepage
+    
     When I click on the "Manage email alerts" link
     When I click on the "Manage by recipient" link
     When I click on the "Update recipient alerts" link
@@ -756,7 +735,6 @@ Feature: 43 Payment Alerts
 
   #This scenario confirms that new alert recipient can be successfully added to all alert types
 
-    Given I visit the "Payment management" homepage
     When I click on the "Manage email alerts" link
     And I click on the "Manage by recipient" link
     And I click on the "Remove recipient" link
@@ -765,6 +743,7 @@ Feature: 43 Payment Alerts
   #For this to be repeatable in Dev, dummy email address will need to be deleted prior to being
   #added again.
     And I enter "john.doe@defra.gov.uk" into the "email address" field
+    And I click on the "Search" button
     And I click on the "Remove email" button
     And I see a success message for "john.doe@defra.gov.uk and their alerts have been removed"
     And I click on the "Add new recipient" link
@@ -774,7 +753,7 @@ Feature: 43 Payment Alerts
     And I click on the "select all alerts for SFI 22" link
     And I click on the "Continue" button
     And I click on the "Confirm changes" button
-    And I see a success message for "fake.user@atos.net will now receive the selected email alerts."
+    And I see a success message for "john.doe@defra.gov.uk will now receive the selected email alerts."
     Then the following alerts should be selected
       | Batch Rejected                    |
       | Batch Quarantined                 |

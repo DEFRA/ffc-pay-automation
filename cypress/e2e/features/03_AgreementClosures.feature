@@ -32,8 +32,8 @@ Feature: 03 Agreement Closures
     Then I am on the "closure" subpage
     And I click on the "Search agreement closures" link
     And I should see "Any agreements listed here are considered closed. This allows the Payment Hub to manage data retention for the data it holds related to payment requests."
-    Then I take a screenshot
-
+    # no screenshot, takes too long.
+     
   Scenario: 06 Create New Closure
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
@@ -52,7 +52,7 @@ Feature: 03 Agreement Closures
   Scenario: 09 View Bulk Agreement Closure Page From Single Closure Page
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
-    And I click the "add agreement closures in bulk" link
+    And I click on the "add agreement closures in bulk" link
     Then I am on the "closure/bulk" subpage
     Then I take a screenshot
 
@@ -60,7 +60,7 @@ Feature: 03 Agreement Closures
   Scenario: 10 View Agreement Closure Page From Bulk Closure Page
     And I click on the "Manage agreement closures" link
     When I click on the "Bulk add agreement closures" link
-    When I click the "create a singular agreement closure" link
+    When I click on the "create a singular agreement closure" link
     Then I am on the "closure/add" subpage
     Then I take a screenshot
 
@@ -79,7 +79,7 @@ Feature: 03 Agreement Closures
   Scenario Outline: 12 Invalid FRN
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
-    And I type '<invalidFrn>' in the 'FRN' field
+    And I enter "<invalidFrn>" into the "frn" field
     When I click on the "Continue" button
     Then I take a screenshot
     Then I should see "Enter a 10-digit FRN"
@@ -91,7 +91,7 @@ Feature: 03 Agreement Closures
   Scenario: 13 Invalid Agreement number
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
-    And I type '123456789012345678901234567890123456789012345678901234567890' in the 'Agreement number' field
+    And I enter "123456789012345678901234567890123456789012345678901234567890" into the "agreement number" field
     And I click on the "Continue" button
     Then I should see "Enter a valid agreement number"
     Then I take a screenshot
@@ -105,22 +105,33 @@ Feature: 03 Agreement Closures
     Then I take a screenshot
 
   Scenario: 15 Successful Adding & Removing a Submission
+    #adding
     And I click on the "Manage agreement closures" link
     When I click on the "Create a new agreement closure" link
-    And I type a random FRN in the FRN field
-    And I type '12345' in the 'Agreement number' field
+    And I enter "random frn" into the "frn" field
+    And I enter "12345" into the "agreement number" field
     And I type a future date in the Closure date field
     And I select "BPS" from the monitor schemes dropdown
     And I click on the "Continue" button
     And I see the new submission in the table
+
+    #removing
     And I click on the "Add closure" button
     And I am on the "closure" subpage
     And I visit the "Payment management" homepage
     And I click on the "Manage agreement closures" link
     And I click on the "Search agreement closures" link
-    And I search for my new submission
+    And I enter "saved random frn" into the "closure search" field
+    And I click on the "Filter" button
     And I see the new submission in the table
-    When I click on the Remove button next to the new submission
+    And I click on the Remove button next to the new submission
+    And I click on the "Yes, remove" button
+    Then I see a success message for "Agreement closure successfully removed."
+
+    #verifying
+    And I enter "saved random frn" into the "closure search" field
+    And I click on the "Filter" button
+    Then I should see the inset text "No agreement closures were found for FRN / Agreement Number"
 
   Scenario: 16 Empty File Upload
     And I click on the "Manage agreement closures" link
@@ -144,7 +155,7 @@ Feature: 03 Agreement Closures
     When I click on the "Bulk add agreement closure" link
     And I upload 'bulkUploadLarge.csv' file
     When I click on the "Add closures" button
-    Then the 'The uploaded file is too large. Please upload a file smaller than 1 MB.' error message is displayed on the Payment holds page
+    And I see an error message for "The uploaded file is too large. Please upload a file smaller than 1 MB."
     Then I take a screenshot
 
   Scenario: 19 Successful File Upload

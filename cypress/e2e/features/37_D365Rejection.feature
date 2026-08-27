@@ -38,7 +38,7 @@ Feature: 37 D365 Rejection
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link
     When on the Payment Holds page I enter "current FRN" in the FRN search field
-    Then on the Payment Holds page I click the FRN search button
+    And I click on the "Search" button
     Then I take a screenshot
     And I should see "Bank account anomaly"
 
@@ -50,7 +50,7 @@ Feature: 37 D365 Rejection
     And I click on the "Search for a payment hold" link
     
     When on the Payment Holds page I enter "current FRN" in the FRN search field
-    Then on the Payment Holds page I click the FRN search button
+    And I click on the "Search" button
     When I click on the "Remove" button
     And I click on the "Manage payment holds" link
 
@@ -111,7 +111,7 @@ This scenario loads an SFI22 payment message followed by a D365 rejection acknow
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link
     When on the Payment Holds page I enter "1258445148" in the FRN search field
-    Then on the Payment Holds page I click the FRN search button
+    And I click on the "Search" button
     Then I take a screenshot
     And I should see "1258445148"
     And I should see "Bank account anomaly"
@@ -126,7 +126,7 @@ This scenario loads an SFI22 payment message followed by a D365 rejection acknow
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link
     When on the Payment Holds page I enter "1258445148" in the FRN search field
-    Then on the Payment Holds page I click the FRN search button
+    And I click on the "Search" button
     When I click on the "Remove" button
     And I click on the "Yes, remove" button
     And I click on the "Manage payment holds" link

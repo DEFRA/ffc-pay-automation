@@ -76,7 +76,7 @@ Feature: 15 Manual Payments
     Then I am on the "manual-payments" subpage
     When on the Manual Payments page I enter "FFC_TEST_Manual_BatchTEST.csv" as the file to upload
     When on the Manual Payments page I click the "upload button"
-    And I see an error message for "File name is incorrect"
+    And I see an error message for "Filename must be in valid format"
     Then I take a screenshot
 
   Scenario: 06 Confirm that invalid file size produces appropriate error message

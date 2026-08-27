@@ -50,8 +50,7 @@ class GDSGenericPage {
   }
 
   verifyText (text) {
-    return cy.contains(text)
-      .containsWithoutWhitespace(text)
+    return cy.contains(text).containsWithoutWhitespace(text)
   }
 
   accordionText (text ) {
@@ -64,15 +63,20 @@ class GDSGenericPage {
   }
 
   accordionSection (text) {
-    return cy.contains(
-      '.govuk-accordion__section-button',
-      text
-    )
+    return cy.contains( '.govuk-accordion__section-button',text)
+  }
+
+  insetText (text) {
+    return cy.contains ('.govuk-inset-text', text)
+  }
+
+  fileInput () {
+    return cy.get('#file-input')
   }
 
   //scheme dropdown locator ID's are not centralized yet, so you can easily add more here.
   schemeDropdown () {
-    const selectors = [ '#schemeId',  '#user-search-scheme' ]
+    const selectors = [ '#schemeId',  '#user-search-scheme', '#selectScheme' ]
     return cy.get(selectors.join(', '))
   }
 
@@ -84,17 +88,19 @@ class GDSGenericPage {
 
   field (field) {
     const fields = {
-      scheme: '#schemeId, #user-search-scheme',
-      frn: '#frn',
+      scheme: '#schemeId, #user-search-scheme, #selectScheme',
+      frn: '#frn, #user-search-frn',
       'email address': '#emailAddress',
-      agreement: '#agreement',
-      year: '#year, #marketingYear',
+      'agreement number': '#agreement',
+      year: '#year',
+      'marketing year': '#marketingYear',
       month: '#month',
       day: '#day',
       'payment hold search': '#payment-hold-search',
       'closure search': '#closure-search',
-      'file name': '#filename',
-      timestamp: '#timestamp'
+      filename: '#filename',
+      timestamp: '#timestamp',
+      prn: '#prn'
     }
 
     const selector = fields[field]

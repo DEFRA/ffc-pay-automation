@@ -22,7 +22,7 @@ Feature: 25 CS Payments
   #test data
 
     Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
     And I select "CS" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
@@ -76,7 +76,7 @@ Feature: 25 CS Payments
     And I see a success message for "has been quality checked."
 
     Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
     And I select "CS" from the monitor schemes dropdown
     And I click on the "Continue" button
 
@@ -176,7 +176,7 @@ Feature: 25 CS Payments
   Scenario: 08 Confirm payment request processed in Payment Management
 
     Given I visit the "Payment management" homepage
-    When I click on the "Schemes" link
+    When I click on the "View payment events by scheme" link
     And I select "CS" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "CS" scheme with "3" payment installments totalling "£10,000.00" is displayed

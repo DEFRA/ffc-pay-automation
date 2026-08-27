@@ -32,8 +32,8 @@ Feature: 10 Reports
   Scenario Outline: 03 Download Payment Request Status report for <scheme>
     And I click on the "Generate a payment request statuses report" link
     And I select "<scheme>" from the "scheme" dropdown or radio
-    And I type "<year>" in the "year" field
-    And I type "<prn>" in the "prn" field
+    And I enter "<year>" into the "year" field
+    And I enter "<prn>" into the "prn" field
     And I select "<revenueCapital>" from the "revenueCapital" dropdown or radio
     When I click on the "Generate and download report" button
     Then the CSV file is downloaded with "<title>" as the title

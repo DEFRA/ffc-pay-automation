@@ -145,12 +145,6 @@ When(
   }
 )
 
-//generic FRN search field helper, works across all pages
-When('I enter {string} in the FRN number search field', (frnNumber) => {
-
-  Cypress.emit('log:step', 'I enter ' + frnNumber + ' in the FRN number search field')
-  capturePage.captureTxtFrn().type(frnNumber)
-})
 
 //########################################################################################################################
 
@@ -251,11 +245,6 @@ Then('the application identifier hint is visible with text {string}', (text) => 
   })
 })
 
-When('on the Payment Holds Page I select {string} from the number of records per page dropdown', (number) => {
-
-  Cypress.emit('log:step', 'on the Payment Holds Page I select ' + number + ' from the number of records per page dropdown')
-  requestEditor.paymentHoldsRecordsPerPageDropdown().scrollIntoView().select(number)
-})
 
 Then(
   '{string} records per page is selected by default',
