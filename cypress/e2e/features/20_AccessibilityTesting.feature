@@ -118,13 +118,16 @@ Feature: 20 Accessibility Testing
 
 #Alerts recipients page
 
-    When I click on the "Alerts" link
+    When I click on the "Manage email alerts" link
     Then I confirm there are no accessibility issues on the page
 
-    And on the Add New Alert Recipient page I click the "Add recipient" button
+    And I click on the "Manage by recipient" link
     Then I confirm there are no accessibility issues on the page
 
-    And I click on the "Create" button
+    And I click on the "Add new recipient" button
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Continue" button
     Then I confirm there are no accessibility issues on the page
 
     And I click on the "Home" link
