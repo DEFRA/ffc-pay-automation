@@ -15,7 +15,10 @@
     "report:merge": "mochawesome-merge cypress/reports/mocha/mochawesome*.json > cypress/reports/mocha/output.json",
     "report:html": "marge cypress/reports/mocha/output.json --reportDir cypress/reports/mocha --reportFilename CypressReport --inlineAssets && node cypress/utils/hidePendingInHtml.js cypress/reports/mocha/CypressReport.html",
     "clean:reports": "powershell -Command \"Remove-Item -Recurse -Force cypress/reports/mocha/*; Remove-Item -Recurse -Force cypress/downloads/*; Remove-Item -Recurse -Force cypress/screenshots/*; Remove-Item -Recurse -Force cypress/videos/*\"",
-    "find-unused-steps": "node cypress/utils/find-unused-steps.js"
+    "find-unused-steps": "node cypress/utils/find-unused-steps.js",
+    "cypress:dev:parallel": "node cypress/utils/run-parallel.js dev",
+    "cypress:test:parallel": "node cypress/utils/run-parallel.js test",
+    "cypress:local:parallel": "node cypress/utils/run-parallel.js local"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^15.1.5",
@@ -24,6 +27,7 @@
     "@cucumber/message-streams": "^4.0.1",
     "@cucumber/messages": "^32.2.0",
     "axe-core": "^4.11.0",
+    "concurrently": "^10.0.5",
     "cypress": "^12.17.4",
     "cypress-axe": "^1.7.0",
     "cypress-dotenv": "^3.0.1",
