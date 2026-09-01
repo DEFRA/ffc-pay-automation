@@ -1,6 +1,6 @@
 
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
-
+import pollDatabase from '../../utils/databasePoller'
 const { getEnvironmentConfig } = require('../../support/configLoader')
 
 const envConfig = getEnvironmentConfig()
@@ -177,7 +177,6 @@ VALUES
         cy.log(sqlStatement.substring(1500, sqlStatement.length)) // Log the SQL statement without the long initial part for better readability
 
         cy.task('databaseInsert', {env, databaseName, sqlStatement})
-        cy.wait(180000) // Wait for the data to be inserted and to be processed through all doc services
         cy.log(`✅ Test data for year ${year} has been inserted into Statement Data service`)
       })
 
@@ -375,7 +374,6 @@ VALUES (
 
         }
         if (year === '2025') {
-          cy.wait(180000) // Wait for the data to be inserted and to be processed through all doc services
         }
       })
 
@@ -461,7 +459,6 @@ VALUES (
 
     }
     if (year === '2025') {
-      cy.wait(180000) // Wait for the data to be inserted and to be processed through all doc services
     }
 
     cy.log(`✅ Bulk test data for year ${year} has been inserted into Statement Data service`)
@@ -1204,11 +1201,9 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
       sqlStatement = 'SELECT * FROM "organisations" WHERE "sbi" = ' + nextSBI
       break
     case 'ffc-doc-statement-generator':
-      cy.wait(60000)
       sqlStatement = 'SELECT "statementData" FROM "generations" WHERE "frn" = ' + nextFRN
       break
     case 'ffc-doc-statement-publisher':
-      cy.wait(60000)
       sqlStatement = 'SELECT "statementId" FROM "statements" WHERE "sbi" = ' + nextSBI
       break
     default:
@@ -1234,16 +1229,9 @@ Then(/^I confirm that test data has been inserted into the (.*) database$/, (dat
     }
   }
 
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((results) => {
-      const data = results.rows[0]
-      console.log('Data retrieved:', data)
-      if (results.rows.length > 0) {
-        console.log('✅ Data exists in the database')
-      } else {
-        throw new Error('Data is not in database')
-      }
-    })
+  pollDatabase({env,databaseName, sqlStatement})
+
+
 
   console.log(`✅ Test data has been inserted into the ${databaseName} database`)
   cy.log(`✅ Test data has been inserted into the ${databaseName} database`)
@@ -1290,32 +1278,15 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
 
         cy.log('Executing query :',  sqlStatement)
 
-        cy.task('databaseQuery', { env, databaseName, sqlStatement })
-          .then((results) => {
+        pollDatabase({env,databaseName, sqlStatement})
 
-            if (results.rows.length > 0) {
-              console.log('✅ Data exists in the database')
-              cy.log('✅ Data exists in the database')
-            } else {
-              throw new Error('Data is not in database')
-            }
-          })
         nextCalculationId--
       }
     } else if (databaseName.includes('ffc-doc-statement-generator')) {
 
       sqlStatement = 'SELECT * FROM "generations" WHERE "addressLine2" = \'Area\''
 
-      cy.task('databaseQuery', { env, databaseName, sqlStatement })
-        .then((results) => {
-
-          if (results.rows.length > 19) {
-            console.log('✅ Data exists in the database')
-          } else {
-            throw new Error('Data is not in database')
-          }
-          console.log('Number of rows retrieved:', results.rows.length)
-        })
+      pollDatabase({env,databaseName, sqlStatement})
     }
 
     console.log('✅ Bulk Test data has been inserted into the database')
@@ -1358,18 +1329,8 @@ Then(/^I confirm that bulk test data has been successfully inserted into the (.*
         sqlStatement = ''+ sqlQuery2 + i + ''
         console.log('Executing query for year 2025 :', sqlStatement)
 
-        cy.task('databaseQuery', { env, databaseName, sqlStatement })
-          .then((results) => {
+        pollDatabase({env,databaseName, sqlStatement})
 
-            const data = results.rows[0]
-            console.log('Data retrieved:', data)
-            if (results.rows.length > 0) {
-              console.log('✅ Data exists in the database')
-            } else {
-              console.log('Data is not in database')
-              throw Error
-            }
-          })
       }
       cy.log('Data present in statement-data')
       break
