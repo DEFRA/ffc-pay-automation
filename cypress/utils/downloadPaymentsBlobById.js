@@ -126,72 +126,28 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   const results = []
   let requiredValues = []
   switch (scheme) {
-  case 'glos': requiredValues = [
-    '2015', 'SOS710', 'DRD05', 'FC00'
-  ]; break
-  case 'imps': requiredValues = [
-    '2022', '25057', 'DOM00', 'RP00'
-  ]; break
-  case 'genesis' : requiredValues = [
-    '2022', 'SOS229', 'EXQ00', 'NE00'
-  ]; break
-  case 'dps' : requiredValues = [
-    '2410', '766100', '1PC09913', 'GBP'
-  ]; break
-  case 'vet visits' : requiredValues = [
-    '2025', 'SOS210', 'DOM10', 'RP00'
-  ]; break
-  case 'cohtr' : requiredValues = [
-    '2025', 'SOS710', 'DRD10', 'RP00'
-  ]; break
-  case 'cohtc' : requiredValues = [
-    '2025', 'SOS710', 'DRD10', 'RP00'
-  ]; break
-  case 'cs' : requiredValues = [
-    '2025', 'SOS710', 'DRD10', 'RP00'
-  ]; break
-  case 'bps' : requiredValues = [
-    '2025', '80101', 'DOM10', 'RP00'
-  ]; break
-  case 'lump sums' : requiredValues = [
-    '2025', '80101', 'DRD10', 'RP00'
-  ]; break
-  case 'sfi expanded' : requiredValues = [
-    '2025', '80101', 'DRD10', 'RP00'
-  ]; break
-  case 'delinked' : requiredValues = [
-    '2025', '80101', 'DRD10', 'RP00'
-  ]; break
-  case 'sfi pilot' : requiredValues = [
-    '2025', '80101', 'DRD10', 'RP00'
-  ]; break
-  case 'sfi23' : requiredValues = [
-    '2023', '80101', 'DRD10', 'RP00'
-  ]; break
-  case 'sfi22' : requiredValues = [
-    '2022', '80101', 'DRD10', 'RP00'
-  ]; break
-  case 'manual' : requiredValues = [
-    '2024', '80281', 'DRD10', 'SOS710', 'NE00'
-  ]; break
-  case 'ppa scenarios payments' : requiredValues = [
-    '2025', '80101', 'SOS710', 'DRD10', 'RP00','1000000.00'
-  ]; break
-  case 'ppa scenarios topups' : requiredValues = [
-    '2025', '80101', 'SOS710', 'DRD10', 'RP00','400000.00'
-  ]; break
-  case 'ppa scenarios reductions' : requiredValues = [
-    '2025', '80101', 'SOS710', 'DRD10', 'RP00','-200000.00'
-  ]; break
-  case 'ppa scenarios recoveries' : requiredValues = [
-    '2025', '80101', 'SOS710', 'DRD10', 'RP00'
-  ]; break
-  case 'fptt': requiredValues = [
-    '2026', '84001', 'SOS710', 'DRD10', 'RP00'
-  ]; break
-  case 'wmp': requiredValues = [
-    '2026', '51840', 'SOS710', 'DRD10', 'RP10'
-  ]; break
+  case 'glos': requiredValues = ['2015', 'SOS710', 'DRD05', 'FC00']; break
+  case 'imps': requiredValues = ['2022', '25057', 'DOM00', 'RP00']; break
+  case 'genesis' : requiredValues = ['2022', 'SOS229', 'EXQ00', 'NE00']; break
+  case 'dps' : requiredValues = ['2410', '766100', '1PC09913', 'GBP']; break
+  case 'vet visits' : requiredValues = ['2025', 'SOS210', 'DOM10', 'RP00']; break
+  case 'cohtr' : requiredValues = ['2025', 'SOS710', 'DRD10', 'RP00']; break
+  case 'cohtc' : requiredValues = ['2025', 'SOS710', 'DRD10', 'RP00']; break
+  case 'cs' : requiredValues = ['2025', 'SOS710', 'DRD10', 'RP00']; break
+  case 'bps' : requiredValues = ['2025', '80101', 'DOM10', 'RP00']; break
+  case 'lump sums' : requiredValues = ['2025', '80101', 'DRD10', 'RP00']; break
+  case 'sfi expanded' : requiredValues = ['2025', '80101', 'DRD10', 'RP00']; break
+  case 'delinked' : requiredValues = ['2025', '80101', 'DRD10', 'RP00']; break
+  case 'sfi pilot' : requiredValues = ['2025', '80101', 'DRD10', 'RP00']; break
+  case 'sfi23' : requiredValues = ['2023', '80101', 'DRD10', 'RP00']; break
+  case 'sfi22' : requiredValues = ['2022', '80101', 'DRD10', 'RP00']; break
+  case 'manual' : requiredValues = ['2024', '80281', 'DRD10', 'SOS710', 'NE00']; break
+  case 'ppa scenarios payments' : requiredValues = ['2025', '80101', 'SOS710', 'DRD10', 'RP00','1000000.00']; break
+  case 'ppa scenarios topups' : requiredValues = ['2025', '80101', 'SOS710', 'DRD10', 'RP00','400000.00']; break
+  case 'ppa scenarios reductions' : requiredValues = ['2025', '80101', 'SOS710', 'DRD10', 'RP00','-200000.00']; break
+  case 'ppa scenarios recoveries' : requiredValues = ['2025', '80101', 'SOS710', 'DRD10', 'RP00']; break
+  case 'fptt': requiredValues = ['2026', '84001', 'SOS710', 'DRD10', 'RP00']; break
+  case 'wmp': requiredValues = ['2026', '51840', 'SOS710', 'DRD10', 'RP10']; break
   default: throw new Error(`Unknown scheme: ${scheme}`)
   }
 

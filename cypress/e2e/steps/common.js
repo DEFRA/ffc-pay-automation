@@ -78,9 +78,14 @@ Given('I am on the {string} homepage', (text) => {
 When('I click on the {string} button', (text) => {
 
   Cypress.emit('log:step', 'I click on the ' + text + ' button')
-  cy.get('button').contains(text).first().scrollIntoView().click()
   if (text === 'Submit' || text === 'Filter') {
     cy.wait(10000)
+  }
+  //for a very specific use case on the payment calculator page, it doest have text for some reason. if you pass in a blank string essentially itll click anything with #submit tag
+  if (text === ' ') {
+    cy.get('#submit').scrollIntoView().click()
+  } else {
+    cy.get('button, submit').contains(text).first().scrollIntoView().click()
   }
 })
 

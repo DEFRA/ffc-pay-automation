@@ -71,7 +71,7 @@ Feature: 20 Accessibility Testing
     
 #Manual Payment page
 
-    When I click on the "Manual payment upload" link
+    When I click on the "Upload manual payments" link
     Then I confirm there are no accessibility issues on the page
 
 #Force error message on page through invalid input and confirm accessibility again
@@ -124,7 +124,7 @@ Feature: 20 Accessibility Testing
     And I click on the "Manage by recipient" link
     Then I confirm there are no accessibility issues on the page
 
-    And I click on the "Add new recipient" button
+    And I click on the "Add new recipient" link
     Then I confirm there are no accessibility issues on the page
 
     And I click on the "Continue" button
@@ -205,7 +205,7 @@ Feature: 20 Accessibility Testing
 
     When I click on the "Home" link
 
-    When I click on the "Sign Out" link
+    When I click on the "Sign out" link
 
 #Ledger assignments awaiting quality check page
 
@@ -233,7 +233,7 @@ Feature: 20 Accessibility Testing
     Given I visit the "Calculate your delinked payment" homepage
     Then I confirm there are no accessibility issues on the page
 
-    When I click on the "Start" button
+    When I click on the " " button
     Then I confirm there are no accessibility issues on the page
 
 #Force error message on page through invalid input and confirm accessibility again
