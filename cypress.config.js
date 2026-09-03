@@ -8,7 +8,7 @@ module.exports = defineConfig({
     supportFile: 'cypress/support/e2e.js',
     taskTimeout: 15 * 60 * 1000, // 15 minutes
     specPattern: 'cypress/e2e/features/**/*.feature',
-
+    video: false,
     async setupNodeEvents (on, config) {
 
       await addCucumberPreprocessorPlugin(on, config)
