@@ -6,224 +6,224 @@ Feature: 20 Accessibility Testing
 
 #This feature tests confirms that there are no accessibility issues on key pages of the front-end applications using axe-core
 
-#   Scenario: 01 Check accessibility on Payment management
+  Scenario: 01 Check accessibility on Payment management
 
-# #This scenario checks all pages of Payment management for accessibility issues
+#This scenario checks all pages of Payment management for accessibility issues
 
-#     Given I visit the "Payment management" homepage
-#     Then I confirm there are no accessibility issues on the page
+    Given I visit the "Payment management" homepage
+    Then I confirm there are no accessibility issues on the page
     
-# #Reports page
+#Reports page
 
-#     When I click on the "Download reports" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Download reports" link
+    Then I confirm there are no accessibility issues on the page
     
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
-#     When I click on the "Generate payment request statuses report" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Generate payment request statuses report" link
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
-#     When I click on the "AP/AR listing report" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "AP/AR listing report" link
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
-# #Monitoring page
+#Monitoring page
 
-#     When I click on the "View payment events" link
-#     Then I confirm there are no accessibility issues on the page
-#     And I click on the "Home" link
+    When I click on the "View payment events" link
+    Then I confirm there are no accessibility issues on the page
+    And I click on the "Home" link
 
-#     When I click on the "View payment events by scheme" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "View payment events by scheme" link
+    Then I confirm there are no accessibility issues on the page
 
-#     Then I select "COHT Capital" from the monitor schemes dropdown
+    Then I select "COHT Capital" from the monitor schemes dropdown
 
-#     And I click on the "Continue" button
-#     Then I confirm there are no accessibility issues on the page
+    And I click on the "Continue" button
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
-# #Manage payment holds page
+#Manage payment holds page
 
-#     When I click on the "Manage payment holds" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Manage payment holds" link
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Create a new payment hold" link
-#     Then I confirm there are no accessibility issues on the page
+    And I click on the "Create a new payment hold" link
+    Then I confirm there are no accessibility issues on the page
    
-#     When I click on the "Manage payment holds" link
-#     And I click on the "Search for a payment hold" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Manage payment holds" link
+    And I click on the "Search for a payment hold" link
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Manage payment holds" link
-#     And I click on the "Manage payment holds in bulk" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Manage payment holds" link
+    And I click on the "Manage payment holds in bulk" link
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Manage payment holds" link
-#     And I click on the "Manage payment hold types" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Manage payment holds" link
+    And I click on the "Manage payment hold types" link
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
-
-    
-# #Manual Payment page
-
-#     When I click on the "Upload manual payments" link
-#     Then I confirm there are no accessibility issues on the page
-
-# #Force error message on page through invalid input and confirm accessibility again
-
-#     And I click on the "Upload" button
-#     Then I confirm there are no accessibility issues on the page
-
-#     And I click on the "Home" link
-
-
-# #Agreement closures page
-
-#     When I click on the "Manage agreement closures" link
-#     Then I confirm there are no accessibility issues on the page
-
-#         #Search agreement closures page
-
-#     And I click on the "Search agreement closures" link
-#     Then I confirm there are no accessibility issues on the page
-#         #Search - Force error message on page through invalid input and confirm accessibility again
-
-#     And I enter frn 1 on the search for agreement closure page
-#     And I click on the "Filter" button
-#     Then I confirm there are no accessibility issues on the page
-
-#         #Create a new agreement closure page
-#     And I click the "Manage agreement closures" breadcrumb
-#     And I click on the "Create a new agreement closure" link
-#     Then I confirm there are no accessibility issues on the page
-#         #Create - Force error message on page through invalid input and confirm accessibility again
-#     And I click on the "Continue" button
-#     Then I confirm there are no accessibility issues on the page
+    And I click on the "Home" link
 
     
-#         #Bulk add agreement closures page
-#     And I click the "Manage agreement closures" breadcrumb
-#     And I click on the "Bulk add agreement closures" link
-#     Then I confirm there are no accessibility issues on the page
+#Manual Payment page
 
-#         #Bulk add - Force error message on page through invalid input and confirm accessibility again
-#     And I click on the "Add closures" button
-#     Then I confirm there are no accessibility issues on the page
-#     And I click on the "Home" link
+    When I click on the "Upload manual payments" link
+    Then I confirm there are no accessibility issues on the page
 
-# #Alerts recipients page
+#Force error message on page through invalid input and confirm accessibility again
 
-#     When I click on the "Manage email alerts" link
-#     Then I confirm there are no accessibility issues on the page
+    And I click on the "Upload" button
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Manage by recipient" link
-#     Then I confirm there are no accessibility issues on the page
-
-#     And I click on the "Add new recipient" link
-#     Then I confirm there are no accessibility issues on the page
-
-#     And I click on the "Continue" button
-#     Then I confirm there are no accessibility issues on the page
-
-#     And I click on the "Home" link
-
-# #Reset payment requests page
-#     When I click on the "Reset payment request" link
-#     Then I confirm there are no accessibility issues on the page
-
-#     And I click on the "Reset payment request" button
-#     Then I confirm there are no accessibility issues on the page
-
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
 
+#Agreement closures page
 
-#  #View metrics dashboard page   
+    When I click on the "Manage agreement closures" link
+    Then I confirm there are no accessibility issues on the page
+
+        #Search agreement closures page
+
+    And I click on the "Search agreement closures" link
+    Then I confirm there are no accessibility issues on the page
+        #Search - Force error message on page through invalid input and confirm accessibility again
+
+    And I enter frn 1 on the search for agreement closure page
+    And I click on the "Filter" button
+    Then I confirm there are no accessibility issues on the page
+
+        #Create a new agreement closure page
+    And I click the "Manage agreement closures" breadcrumb
+    And I click on the "Create a new agreement closure" link
+    Then I confirm there are no accessibility issues on the page
+        #Create - Force error message on page through invalid input and confirm accessibility again
+    And I click on the "Continue" button
+    Then I confirm there are no accessibility issues on the page
+
+    
+        #Bulk add agreement closures page
+    And I click the "Manage agreement closures" breadcrumb
+    And I click on the "Bulk add agreement closures" link
+    Then I confirm there are no accessibility issues on the page
+
+        #Bulk add - Force error message on page through invalid input and confirm accessibility again
+    And I click on the "Add closures" button
+    Then I confirm there are no accessibility issues on the page
+    And I click on the "Home" link
+
+#Alerts recipients page
+
+    When I click on the "Manage email alerts" link
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Manage by recipient" link
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Add new recipient" link
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Continue" button
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Home" link
+
+#Reset payment requests page
+    When I click on the "Reset payment request" link
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Reset payment request" button
+    Then I confirm there are no accessibility issues on the page
+
+    And I click on the "Home" link
+
+
+
+ #View metrics dashboard page   
    
-#     When I click on the "View metrics dashboard" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "View metrics dashboard" link
+    Then I confirm there are no accessibility issues on the page
 
-#     And I click on the "Home" link
+    And I click on the "Home" link
 
-#   Scenario: 02 Check accessibility on Request Editor
+  Scenario: 02 Check accessibility on Request Editor
 
-# #This scenario checks all pages of Request Editor for accessibility issues
+#This scenario checks all pages of Request Editor for accessibility issues
 
-#     Given I visit the "Request Editor" homepage
-#     Then I confirm there are no accessibility issues on the page
+    Given I visit the "Request Editor" homepage
+    Then I confirm there are no accessibility issues on the page
 
-# #Capture Reporting data page
+#Capture Reporting data page
 
-# #Following page will need to be checked manually as amount of data on page causes cypress to crash
+#Following page will need to be checked manually as amount of data on page causes cypress to crash
 
-#     When I click on the "View all datasets" link
+    When I click on the "View all datasets" link
 
-# #Create new reporting dataset page
+#Create new reporting dataset page
 
-#     And I click on the "Create new dataset" link
-#     Then I confirm there are no accessibility issues on the page
+    And I click on the "Create new dataset" link
+    Then I confirm there are no accessibility issues on the page
 
-# # Force error message on page through invalid input and confirm accessibility again
+# Force error message on page through invalid input and confirm accessibility again
 
-#     When I click on the "Continue" button
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Continue" button
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Home" link
+    When I click on the "Home" link
 
-# #Requests awaiting reporting data page
+#Requests awaiting reporting data page
 
-#     When I click on the "View awaiting debt data" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "View awaiting debt data" link
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Search" button
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Search" button
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Home" link
+    When I click on the "Home" link
 
-# #Manual ledger assignment page  
+#Manual ledger assignment page  
 
-#     When I click on the "View awaiting manual ledger assignment" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "View awaiting manual ledger assignment" link
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Search" button
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Search" button
+    Then I confirm there are no accessibility issues on the page
 
-# #Review ledger assignment page    
+#Review ledger assignment page    
 
-#     When I click on the "Review" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Review" link
+    Then I confirm there are no accessibility issues on the page
 
-# #Force error message on page through invalid input and confirm accessibility again
+#Force error message on page through invalid input and confirm accessibility again
 
-#     When I click on the "Continue" button
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Continue" button
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Home" link
+    When I click on the "Home" link
 
-#     When I click on the "Sign out" link
+    When I click on the "Sign out" link
 
-# #Ledger assignments awaiting quality check page
+#Ledger assignments awaiting quality check page
 
-#     When I click on the "View awaiting ledger assignment quality check" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "View awaiting ledger assignment quality check" link
+    Then I confirm there are no accessibility issues on the page
 
-# #Force error message on page through invalid input and confirm accessibility again
+#Force error message on page through invalid input and confirm accessibility again
 
-#     When I click on the "Search" button
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Search" button
+    Then I confirm there are no accessibility issues on the page
 
-#     When I click on the "Review" link
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Review" link
+    Then I confirm there are no accessibility issues on the page
 
-# #Force error message on page through invalid input and confirm accessibility again
+#Force error message on page through invalid input and confirm accessibility again
 
-#     When I click on the "Submit" button
-#     Then I confirm there are no accessibility issues on the page
+    When I click on the "Submit" button
+    Then I confirm there are no accessibility issues on the page
     
 
   Scenario: 03 Check accessibility on Payment Calculator

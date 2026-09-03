@@ -5,12 +5,16 @@ Feature: 07 Pagination - Request Editor
 
   Background:
     Given I visit the "Request Editor" homepage
+
+  @local
+  Scenario:000 Fill local with data
+   # The below command fills the LOCAL env with 11000 records of each type to request editor. it does not touch dev env
+    # It WILL truncate all the request editor tables however, so make sure you don't have any data in here that you don't mind losing.
+    Given I fill the local Request Editor with pagination data
     
   @dev@test@local
   Scenario Outline: 00 Default records per page is displayed
-    # The below command fills the LOCAL env with 11000 records of each type to request editor. it does not touch dev env
-    # It WILL truncate all the request editor tables however, so make sure you don't have any data in here that you don't mind losing.
-    Given I fill the local Request Editor with pagination data
+   
     
     And I click on the "<link>" link
     Then "<number>" records per page is selected by default
