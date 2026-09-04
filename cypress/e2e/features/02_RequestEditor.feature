@@ -7,22 +7,6 @@ Feature: 02 Request Editor
   Background: Navigate to Request Editor homepage
     Given I visit the "Request Editor" homepage
 
-#####################################################################################################################
-#                                                                                                                   #
-#                                               EXAMPLES:                                                           #
-#     | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |                        #
-#     | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |                        #
-#     | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | 11/11/2021         |                        #
-#                                                                                                                   #
-#     NOTES                                                                                                         #
-#     - Running Scenario 14 onwards requires a fresh environment in order for the flow to complete succesfully.     #
-#     - This is why we restart the environment in Scenario 01, if you already have a fresh env just comment it out. # 
-#                                                                                                                   #
-#     TODO                                                                                                          #
-#      - Need to retire capturePage.js and have all in the one RequestEditorPage                                    #
-#      - more tests can be added to dev to mirror local testing                                                     #
-#                                                                                                                   #
-#####################################################################################################################
 
 ###################################################################   
 #                                                                 #
@@ -33,7 +17,6 @@ Feature: 02 Request Editor
 
   @dev @local
   Scenario: 01 Validate Dataset Count Increment After Adding a New Reporting Dataset
-    #Given I restart the local environment
     And I click on the "View all datasets" link
     And I note the number of datasets displayed
     And I click on the "Create new dataset" link

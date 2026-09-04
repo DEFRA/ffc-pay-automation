@@ -29,6 +29,7 @@ Feature: 15 Manual Payments
 
 #This scenario confirms that a valid Manual Payments CSV file can be uploaded and processed successfully
 
+
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payments" link
     Then I am on the "manual-payments" subpage
