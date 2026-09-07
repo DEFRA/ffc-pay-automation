@@ -338,6 +338,46 @@ module.exports = defineConfig({
               })
 
             return null
+          },
+
+          truncatePaymentTables () {
+            const dir = process.env.WSL_TEST_DIR
+
+            if (!dir) {
+              throw new Error('⚠️ WSL_TEST_DIR not set in .env')
+            }
+
+            const shellCommand = `
+docker exec ffc-pay-processing-ffc-pay-processing-postgres-1 psql -U postgres -d ffc_pay_processing -c 'TRUNCATE TABLE "completedPaymentRequests","completedInvoiceLines","invoiceLines","outbox","paymentRequests","schedule","autoHolds" RESTART IDENTITY CASCADE;'
+
+docker exec ffc-pay-request-editor-ffc-pay-request-editor-postgres-1 psql -U postgres -c 'TRUNCATE TABLE "paymentRequests" RESTART IDENTITY CASCADE;'
+
+docker exec ffc-pay-submission-ffc-pay-submission-postgres-1 psql -U postgres -d ffc_pay_submission -c 'TRUNCATE TABLE "paymentRequests" RESTART IDENTITY CASCADE;'
+
+docker exec ffc-pay-tracking-ffc-pay-tracking-postgres-1 psql -U postgres -d ffc_pay_tracking -c 'TRUNCATE TABLE "reportData" RESTART IDENTITY CASCADE;'
+
+docker exec ffc-pay-event-hub-ffc-pay-event-hub-postgres-1 psql -U postgres -d ffc_pay_event_hub -c 'TRUNCATE TABLE "payment_batch_events","payment_frn_events","payments" RESTART IDENTITY CASCADE;'
+  `
+
+            return new Promise((resolve, reject) => {
+              const child = spawn('wsl', ['bash', '-ic', shellCommand], { stdio: 'pipe' })
+
+              let output = ''
+
+              child.stdout.on('data', d => {
+                output += d.toString()
+              })
+
+              child.stderr.on('data', d => {
+                output += d.toString()
+              })
+
+              child.on('close', code => {
+                code === 0
+                  ? resolve(output)
+                  : reject(new Error(`truncatePaymentTables failed with code ${code}`))
+              })
+            })
           }
         })
       } catch (err) {

@@ -466,6 +466,15 @@ Then('I confirm that I am on the {string} homepage', (service) => {
   cy.log(`Confirmed that I am on the ${service} homepage with URL: ${url}`)
 })
 
+
+
+
+
+
+// -------------------------
+// Database Stuff
+// -------------------------
+
 Then('I confirm that {string} error message has been generated', (error) => {
 
   Cypress.emit('log:step', 'I confirm that ' + error + ' error message has been generated')
@@ -488,4 +497,13 @@ Then('I confirm that {string} error message has been generated', (error) => {
       throw new Error(`Error "${expectedError}" has not been generated`)
     }
   })
+})
+
+//runs a task to delete payment info from local
+Given('I truncate payment tables', () => {
+  if (env.includes('local')) {
+    cy.task('truncatePaymentTables')
+  } else {
+    cy.log('No restart needed in Dev/Test')
+  }
 })
