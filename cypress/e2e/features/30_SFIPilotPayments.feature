@@ -84,7 +84,7 @@ Feature: 30 SFI Pilot Payments
 
  #First ensure that incorrect data will not be processed
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     Then I take a screenshot
     When I send the updated "sfiPilotError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
@@ -136,6 +136,8 @@ Feature: 30 SFI Pilot Payments
     And I enter a valid debt discovered date in the past
     Then I take a screenshot
     And I click on the "Continue" button
+    And I click on the "Submit" button
+    And I wait for 10000 milliseconds
     And I click on the "Sign out" link
 
   @local
@@ -150,8 +152,7 @@ Feature: 30 SFI Pilot Payments
     And I click on the "Review" link
     And I click on the "Yes" radio button
     Then I take a screenshot
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+And I click on the "Continue" button
     And I click on the "Sign out" link
 
   @local

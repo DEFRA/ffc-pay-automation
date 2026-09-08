@@ -70,7 +70,7 @@ Feature: 24 Vet Visits Payments
 
 #This scenario confirms that attempting to insert data that does not conform to the database limits is rejected correctly
 
-    Given I restart the local environment
+    Given I truncate payment tables
     When I send the updated "vetVisitsError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 
@@ -114,7 +114,7 @@ Feature: 24 Vet Visits Payments
 #This scenario confirms that Vet Visits payments can be processed correctly using the new AWHR standard code and that the
 #correct scheme code of 18005 will be added by enrichment
 
-    Given I restart the local environment
+    Given I truncate payment tables
     When I send the updated "awhrPoultry-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has been inserted into the ffc-pay-processing database
     Then I confirm that payment test data has been inserted into the ffc-pay-submission database

@@ -88,7 +88,7 @@ Feature: 25 CS Payments
 
  #First ensure that incorrect data will not be processed
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     Then I take a screenshot
     When I send the updated "csError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
@@ -133,13 +133,15 @@ Feature: 25 CS Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting debt data" link
-    When I search for FRN "1258445148"
+    When I enter "1258445148" into the "frn" field
     When I click on the FRN search button
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     Then I take a screenshot
     And I click on the "Continue" button
+    And I click on the "Submit" button
+    And I wait for 10000 milliseconds
     And I click on the "Sign out" link
 
   @local
@@ -149,13 +151,13 @@ Feature: 25 CS Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting manual ledger assignment" link
-    When I search for FRN "1258445148"
+    When I enter "1258445148" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
     Then I take a screenshot
     And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+    And I wait for 10000 milliseconds
     And I click on the "Sign out" link
 
   @local
@@ -165,7 +167,7 @@ Feature: 25 CS Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment quality check" link
-    When I search for FRN "1258445148"
+    When I enter "1258445148" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button

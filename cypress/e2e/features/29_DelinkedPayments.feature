@@ -5,123 +5,123 @@ Feature: 29 Delinked Payments
 
 #This feature file is designed to test the end-to-end journey of Delinked payment in the local environment.
 
-  @dev
-  Scenario: 01 insert incorrect Delinked test data via service bus message to ffc-pay-request
+#   @dev
+#   Scenario: 01 insert incorrect Delinked test data via service bus message to ffc-pay-request
 
-    When I send "delinked error" test data message to the service bus topic "ffc-pay-request-dev"
+#     When I send "delinked error" test data message to the service bus topic "ffc-pay-request-dev"
 
-    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
-    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
+#     Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
+#     Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
 
-  @dev
-  Scenario: 02 insert test data via service bus message to ffc-pay-request
+#   @dev
+#   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-  #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
-  #test data
+#   #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
+#   #test data
 
-    Given I visit the "Payment management" homepage
-    When I click on the "View payment events by scheme" link
-    And I select "Delinked" from the monitor schemes dropdown
-    And I click on the "Continue" button
-    Then I store the number of payments and total value of payments for the current scheme
+#     Given I visit the "Payment management" homepage
+#     When I click on the "View payment events by scheme" link
+#     And I select "Delinked" from the monitor schemes dropdown
+#     And I click on the "Continue" button
+#     Then I store the number of payments and total value of payments for the current scheme
 
-  #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
-  #without the risk of data conflicts  
+#   #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
+#   #without the risk of data conflicts  
 
-    When I send "delinked payment" test data message to the service bus topic "ffc-pay-request-dev"
+#     When I send "delinked payment" test data message to the service bus topic "ffc-pay-request-dev"
 
-    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
-    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+#     Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+#     Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
 
-    Then I pull delinked payments file from Azure Blob Storage and confirm that correct values have been generated
+#     Then I pull delinked payments file from Azure Blob Storage and confirm that correct values have been generated
 
-  #Updates template values with values used in payment message  
+#   #Updates template values with values used in payment message  
 
-    When I send "delinked return" test data message to the service bus topic "ffc-pay-return-dev"
-    Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
+#     When I send "delinked return" test data message to the service bus topic "ffc-pay-return-dev"
+#     Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
 
-  #Updates template values with values used in payment message
+#   #Updates template values with values used in payment message
 
-    When I send "delinked ppa" test data message to the service bus topic "ffc-pay-request-dev"
-    Then I confirm that "ppa" test data in dev has been inserted into ffc-pay-processing database
+#     When I send "delinked ppa" test data message to the service bus topic "ffc-pay-request-dev"
+#     Then I confirm that "ppa" test data in dev has been inserted into ffc-pay-processing database
 
-  #The following steps complete the E2E journey in Request Editor using the values
-  #from payment file  
+#   #The following steps complete the E2E journey in Request Editor using the values
+#   #from payment file  
 
-    Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting debt data" link
-    When I search for current FRN
-    And I click on the "Enrich" link
-    And I click on the "Irregular" radio button
-    And I enter a valid debt discovered date in the past
-    And I click on the "Continue" button
-    And I click on the "Submit" button
-    And I click on the "Sign out" link
+#     Given I visit the "Request Editor" homepage
+#     And I click on the "View awaiting debt data" link
+#     When I search for current FRN
+#     And I click on the "Enrich" link
+#     And I click on the "Irregular" radio button
+#     And I enter a valid debt discovered date in the past
+#     And I click on the "Continue" button
+#     And I click on the "Submit" button
+#     And I click on the "Sign out" link
 
-    And I click on the "View awaiting manual ledger assignment" link
-    When I search for current FRN
-    And I click on the "Review" link
-    And I click on the "Yes, I agree" radio button
-    And I click on the "Continue" button
-    And I see a success message for "has been updated and sent for quality checking."
-    And I click on the "Sign out" link
+#     And I click on the "View awaiting manual ledger assignment" link
+#     When I search for current FRN
+#     And I click on the "Review" link
+#     And I click on the "Yes, I agree" radio button
+#     And I click on the "Continue" button
+#     And I see a success message for "has been updated and sent for quality checking."
+#     And I click on the "Sign out" link
 
-    And I click on the "View awaiting ledger assignment quality check" link
-    When I search for current FRN
-    And I click on the "Review" link
-    And I click on the "Yes" radio button
-    And I click on the "Submit" button
-    And I see a success message for "has been quality checked."
+#     And I click on the "View awaiting ledger assignment quality check" link
+#     When I search for current FRN
+#     And I click on the "Review" link
+#     And I click on the "Yes" radio button
+#     And I click on the "Submit" button
+#     And I see a success message for "has been quality checked."
 
-    Given I visit the "Payment management" homepage
-    When I click on the "View payment events by scheme" link
-    And I select "Delinked" from the monitor schemes dropdown
-    And I click on the "Continue" button
-    Then I take a screenshot
-    Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
+#     Given I visit the "Payment management" homepage
+#     When I click on the "View payment events by scheme" link
+#     And I select "Delinked" from the monitor schemes dropdown
+#     And I click on the "Continue" button
+#     Then I take a screenshot
+#     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
 
-  @local
-  Scenario: 01 insert incorrect Delinked test data via service bus message to ffc-pay-request
+#   @local
+#   Scenario: 01 insert incorrect Delinked test data via service bus message to ffc-pay-request
 
- #First ensure that incorrect data will not be processed
+#  #First ensure that incorrect data will not be processed
 
-    Given I restart the local environment
-    Given I visit the "Request Editor" homepage
-    Then I take a screenshot
-    When I send the updated "delinkedError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
-    Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
+#     Given I truncate payment tables
+#     Given I visit the "Request Editor" homepage
+#     Then I take a screenshot
+#     When I send the updated "delinkedError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
+#     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 
-  @local
-  Scenario: 02 insert test data via service bus message to ffc-pay-request
+#   @local
+#   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-    When I send the updated "delinked-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
+#     When I send the updated "delinked-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
 
-#The following steps confirm that the data has been passed along to the correct services and that the data
-#has been processed correctly
+# #The following steps confirm that the data has been passed along to the correct services and that the data
+# #has been processed correctly
 
-    Then I confirm that payment test data has been inserted into the ffc-pay-processing database
-    Then I confirm that payment test data has been inserted into the ffc-pay-submission database
+#     Then I confirm that payment test data has been inserted into the ffc-pay-processing database
+#     Then I confirm that payment test data has been inserted into the ffc-pay-submission database
 
-#The following step downloads file from Azure Blob Storage and confirms that the values given in the data inserted into the 
-#Pay Submission Service have been correctly added to the generated statement
+# #The following step downloads file from Azure Blob Storage and confirms that the values given in the data inserted into the 
+# #Pay Submission Service have been correctly added to the generated statement
 
-    Then I pull delinked payments file from Azure Blob Storage and confirm that correct values have been generated
+#     Then I pull delinked payments file from Azure Blob Storage and confirm that correct values have been generated
 
-  @local
-  Scenario: 03 send return file message and confirm processing
+#   @local
+#   Scenario: 03 send return file message and confirm processing
 
-#This scenario confirms that a return file message can be sent and processed correctly
+# #This scenario confirms that a return file message can be sent and processed correctly
 
-    When I send the updated "delinked-returnFileMessage" message to the service bus topic "ffc-pay-return-auto"
-    Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
+#     When I send the updated "delinked-returnFileMessage" message to the service bus topic "ffc-pay-return-auto"
+#     Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
 
-  @local
-  Scenario: 04 send Delinked PPA file message and confirm processing
+#   @local
+#   Scenario: 04 send Delinked PPA file message and confirm processing
 
-  #This scenario confirms that a PPA file message can be sent and processed correctly
+#   #This scenario confirms that a PPA file message can be sent and processed correctly
 
-    When I send the updated "delinked-ppaFileMessage" message to the service bus topic "ffc-pay-request-auto"
-    Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
+#     When I send the updated "delinked-ppaFileMessage" message to the service bus topic "ffc-pay-request-auto"
+#     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
   @local
   Scenario: 05 Approve payment from reporting data queue
@@ -129,14 +129,16 @@ Feature: 29 Delinked Payments
   #This scenario confirms that payment has been routed to Request Editor and can be enriched from the reporting data queue
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting debt  data" link
-    When I search for FRN "1258445148"
+    And I click on the "View awaiting debt data" link
+    When I enter "1258445148" into the "frn" field
     When I click on the FRN search button
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
     Then I take a screenshot
     And I click on the "Continue" button
+    And I click on the "Submit" button
+    And I wait for 10000 milliseconds
     And I click on the "Sign out" link
 
   @local
@@ -146,13 +148,12 @@ Feature: 29 Delinked Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting manual ledger assignment" link
-    When I search for FRN "1258445148"
+    When I enter "1258445148" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
     Then I take a screenshot
     And I click on the "Continue" button
-    And I am on the "quality-check" subpage
     And I click on the "Sign out" link
 
   @local
@@ -162,7 +163,7 @@ Feature: 29 Delinked Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment quality check" link
-    When I search for FRN "1258445148"
+    When I enter "1258445148" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button

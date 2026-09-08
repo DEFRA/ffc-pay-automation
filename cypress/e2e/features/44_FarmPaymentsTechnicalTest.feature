@@ -64,7 +64,7 @@ Feature: 44 Farm Payments Technical Test
   #In the main message body and the values declared in the invoice lines. It also confirms that expected error message is
   #generated
 
-    Given I restart the local environment
+    Given I truncate payment tables
     When I send the updated "fpttError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
     Then I confirm that "invoice lines do not match" error message has been generated

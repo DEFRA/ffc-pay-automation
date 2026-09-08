@@ -73,7 +73,7 @@ Feature: 37 D365 Rejection
 This scenario loads an SFI22 payment message followed by a D365 rejection acknowledgement message
     It then confirms that the correct hold entry has been created in the Pay Processing database
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Payment management" homepage
     Then I take a screenshot
     When I send the updated "sfi22-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
