@@ -17,6 +17,7 @@ Feature: 02 Request Editor
 
   @dev @local
   Scenario: 01 Validate Dataset Count Increment After Adding a New Reporting Dataset
+    Given I truncate payment tables
     And I click on the "View all datasets" link
     And I note the number of datasets displayed
     And I click on the "Create new dataset" link
