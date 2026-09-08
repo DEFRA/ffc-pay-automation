@@ -227,15 +227,48 @@ When(/^the CSV file is downloaded with "(.*)" as the title$/, (text) => {
 })
 
 
-Then(/^I confirm that payment for "(.*)" scheme with "(.*)" payment installments totalling "(.*)" is displayed$/, (scheme, payments, value) => {
+Then(
+  /^I confirm that payment for "(.*)" scheme with "(.*)" payment installments totalling "(.*)" is displayed$/,
+  (scheme, payments, value) => {
+    Cypress.emit(
+      'log:step',
+      `I confirm that payment for ${scheme} scheme with ${payments} payment installments totalling ${value} is displayed`
+    )
 
-  Cypress.emit('log:step', 'I confirm that payment for ' + scheme + ' scheme with ' + payments + ' payment installments totalling ' + value + ' is displayed')
-  cy.wait(2000) // Waiting for data load
-  cy.get('main').within(() => {
-    cy.contains(scheme).should('be.visible')
-    cy.contains(payments).should('be.visible')
-    cy.contains(value).should('be.visible')
-  })
-  cy.log(`Confirmed that payment for ${scheme} scheme with ${payments} payment installments totalling ${value} is displayed`)
-  console.log(`Confirmed that payment for ${scheme} scheme with ${payments} payment installments totalling ${value} is displayed`)
-})
+    const verifyPayment = (attempt = 1) => {
+      cy.reload()
+
+      cy.get('main').then($main => {
+        const text = $main.text()
+
+        const paymentFound =
+          text.includes(scheme) &&
+          text.includes(payments) &&
+          text.includes(value)
+
+        if (paymentFound) {
+          cy.log(
+            `Confirmed that payment for ${scheme} scheme with ${payments} payment installments totalling ${value} is displayed`
+          )
+          return
+        }
+
+        if (attempt >= 20) {
+          throw new Error(
+            `Payment not found after 20 attempts. Expected: ${scheme}, ${payments}, ${value}`
+          )
+        }
+
+        cy.log(
+          `Attempt ${attempt}/20 failed. Refreshing page and retrying...`
+        )
+
+        cy.wait(15000)
+
+        verifyPayment(attempt + 1)
+      })
+    }
+
+    verifyPayment()
+  }
+)

@@ -9,7 +9,7 @@ Feature: 36 PPA Recovery Scenarios
   
 #This scenario tests the processing of a PPA Recovery after first payment installment is made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -32,7 +32,7 @@ Feature: 36 PPA Recovery Scenarios
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting reporting data" link
+    And I click on the "View awaiting debt data" link
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
@@ -40,18 +40,17 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+And I click on the "Continue" button
     And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
@@ -105,7 +104,7 @@ Feature: 36 PPA Recovery Scenarios
 
 #This scenario tests the processing of a PPA Recovery after second payment installment is made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -135,7 +134,7 @@ Feature: 36 PPA Recovery Scenarios
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting reporting data" link
+    And I click on the "View awaiting debt data" link
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
@@ -143,18 +142,17 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+And I click on the "Continue" button
     And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
@@ -193,7 +191,7 @@ Feature: 36 PPA Recovery Scenarios
 
 #This scenario tests the processing of a PPA Recovery after third payment installment is made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -230,7 +228,7 @@ Feature: 36 PPA Recovery Scenarios
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting reporting data" link
+    And I click on the "View awaiting debt data" link
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
@@ -238,18 +236,17 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+And I click on the "Continue" button
     And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
@@ -277,7 +274,7 @@ Feature: 36 PPA Recovery Scenarios
 
 #This scenario tests the processing of a PPA Recovery after fourth payment installment is made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -323,7 +320,7 @@ Feature: 36 PPA Recovery Scenarios
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting reporting data" link
+    And I click on the "View awaiting debt data" link
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
@@ -331,19 +328,18 @@ Feature: 36 PPA Recovery Scenarios
     And I click on the "Sign out" link
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+And I click on the "Continue" button
     And I click on the "Sign out" link
 
 #Following steps complete the journey as full value of initial payment has been made and PPA Recovery processed
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link

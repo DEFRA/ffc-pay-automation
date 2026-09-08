@@ -86,7 +86,7 @@ Feature: 28 SFI Expanded Pilot Payments
 
  #First ensure that incorrect data will not be processed
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     Then I take a screenshot
     When I send the updated "sfiExpandedError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
@@ -130,7 +130,7 @@ Feature: 28 SFI Expanded Pilot Payments
   #This scenario confirms that payment has been routed to Request Editor and can be enriched from the reporting data queue
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting reporting data" link
+    And I click on the "View awaiting debt data" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Enrich" link
@@ -138,6 +138,8 @@ Feature: 28 SFI Expanded Pilot Payments
     And I enter a valid debt discovered date in the past
     Then I take a screenshot
     And I click on the "Continue" button
+    And I click on the "Submit" button
+    And I wait for 10000 milliseconds
     And I click on the "Sign out" link
 
   @local
@@ -146,14 +148,13 @@ Feature: 28 SFI Expanded Pilot Payments
   #This scenario confirms that payment can be approved from the ledger assignment queue in Request Editor
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
     Then I take a screenshot
     And I click on the "Continue" button
-    And I am on the "quality-check" subpage
     And I click on the "Sign out" link
 
   @local
@@ -162,7 +163,7 @@ Feature: 28 SFI Expanded Pilot Payments
 #This scenario confirms that payment can be approved from the quality check queue in Request Editor and that E2E journey is complete
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link

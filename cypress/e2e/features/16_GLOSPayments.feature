@@ -57,7 +57,7 @@ Feature: 16 GLOS Payments
 
 #This scenario confirms that attempting to insert data that does not conform to the database limits is rejected correctly
 
-    Given I restart the local environment
+    Given I truncate payment tables
     When I send the updated "glosError-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 

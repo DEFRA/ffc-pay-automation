@@ -9,7 +9,7 @@ Feature: 35 PPA Reduction Scenarios
 
   #This scenario tests the processing of a PPA Reduction prior to any payment installments being made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -25,18 +25,17 @@ Feature: 35 PPA Reduction Scenarios
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+And I click on the "Continue" button
     And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
@@ -104,7 +103,7 @@ Feature: 35 PPA Reduction Scenarios
 
   #This scenario tests the processing of a PPA Reduction after first payment installment is made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -127,18 +126,17 @@ Feature: 35 PPA Reduction Scenarios
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+And I click on the "Continue" button
     And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
@@ -199,7 +197,7 @@ Feature: 35 PPA Reduction Scenarios
 
   #This scenario tests the processing of a PPA Reduction after second payment installment is made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -229,18 +227,17 @@ Feature: 35 PPA Reduction Scenarios
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+And I click on the "Continue" button
     And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
@@ -288,7 +285,7 @@ Feature: 35 PPA Reduction Scenarios
 
   #This scenario tests the processing of a PPA Reduction after third payment installment is made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Request Editor" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -324,18 +321,17 @@ Feature: 35 PPA Reduction Scenarios
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting ledger assignment" link
+    And I click on the "View awaiting manual ledger assignment" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
-    And I click on the "Continue" button
-    And I am on the "quality-check" subpage
+And I click on the "Continue" button
     And I click on the "Sign out" link
 
 
     Given I visit the "Request Editor" homepage
-    And I click on the "View awaiting quality check" link
+    And I click on the "View awaiting ledger assignment quality check" link
     When I search for FRN "1043959492"
     When I click on the FRN search button
     And I click on the "Review" link

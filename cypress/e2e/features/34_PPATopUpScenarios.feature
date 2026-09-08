@@ -9,7 +9,7 @@ Feature: 34 PPA Top-up Scenarios
 
 #This scenario tests the processing of a PPA Top-up prior to any payment installments being made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Payment management" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -100,7 +100,7 @@ Feature: 34 PPA Top-up Scenarios
 
 #This scenario tests the processing of a PPA Top-up after the first payment installment has been made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Payment management" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -185,7 +185,7 @@ Feature: 34 PPA Top-up Scenarios
 
 #This scenario tests the processing of a PPA Top-up after the second payment installment has been made  
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Payment management" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -263,7 +263,7 @@ Feature: 34 PPA Top-up Scenarios
 
 #This scenario tests the processing of a PPA Top-up after the third payment installment has been made
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Payment management" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 
@@ -335,7 +335,7 @@ Feature: 34 PPA Top-up Scenarios
 
 #This scenario tests the processing of a PPA Top-up after all payment installments have been made
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Payment management" homepage
     When I send the updated "ppaScenarios-paymentMessageOne" message to the service bus topic "ffc-pay-request-auto"
 

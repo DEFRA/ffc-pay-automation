@@ -9,14 +9,22 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
 
   if (fileName.includes('Duplicate')) {
 
-    cy.get('#main-content > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)').invoke('text').then((text) => {
-      const originalFileName = text
-      const tempPath = `cypress/fixtures/${originalFileName}`
+    cy.get('#main-content > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)')
+      .invoke('text')
+      .then((text) => {
+        const originalFileName = text.trim()
+        const originalFilePath = `cypress/fixtures/${originalFileName}`
 
-      // Write the CSV to the new temp file
-      cy.writeFile(tempPath, 'Test data for duplicate file upload')
-      manualPaymentsPage.fileInput().selectFile(tempPath, { force: true })
-    })
+        // Read the previously uploaded file without modifying it
+        cy.readFile(originalFilePath, null).then((contents) => {
+          manualPaymentsPage.fileInput().selectFile({
+            contents,
+            fileName: originalFileName,
+            mimeType: 'text/csv',
+            lastModified: Date.now()
+          }, { force: true })
+        })
+      })
 
   } else if (fileName.includes('TEST') || fileName.includes('Invalid')) {
 
@@ -51,8 +59,6 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
     cy.readFile(originalPath, 'utf8').then((csvText) => {
       const lines = csvText.split('\n')
 
-      const header = lines[0]
-      const dataRows = lines.slice(1)
 
       // Helper: increment a Z + 7 digits value
       const incrementZValue = (value) => {
@@ -62,18 +68,21 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
       }
 
       // Update all rows
-      const updatedRows = dataRows.map((row) => {
+      const updatedRows = lines.map((row) => {
         if (!row.trim()) {
           return row
         }
+
         const cols = row.split(',')
+
         cols[1] = parseInt(cols[1]) + 1
         cols[3] = incrementZValue(cols[3])
         cols[17] = parseInt(cols[17]) + 1
+
         return cols.join(',')
       })
 
-      const updatedCsv = [header, ...updatedRows].join('\n')
+      const updatedCsv = updatedRows.join('\n')
 
       // Overwrite original file
       cy.writeFile(originalPath, updatedCsv)
@@ -100,8 +109,14 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
       const tempFilename = `FFC_Manual_Batch_${timestamp}.${filePrefix}`
       const tempPath = `cypress/fixtures/${tempFilename}`
 
-      //saves a local copy of this file we uploaded, this is run specific
-      Cypress.env('uploadedManualPaymentFile', tempPath)
+      //saves a local copy of this file we uploaded, this is run specific, only for the passing scenario
+      if (fileName === 'FFC_Manual_Batch_Correct.csv') {
+
+        Cypress.env('uploadedManualPaymentFile', tempPath)
+
+        Cypress.env('uploadedManualPaymentFilename', tempFilename)
+
+      }
       // Write the updated CSV to the new temp file
       cy.writeFile(tempPath, updatedCsv)
       manualPaymentsPage.fileInput().selectFile(tempPath, { force: true })
@@ -169,9 +184,18 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
   Cypress.emit('log:step','on the Manual Payments page I click the View payment status link and confirm that expected FRN values are present')
 
   const uploadedFile = Cypress.env('uploadedManualPaymentFile')
-  const fileName = uploadedFile.split('/').pop()
+  const fileName = Cypress.env('uploadedManualPaymentFilename')
 
   const waitForFileAndOpenStatus = (attempt = 1) => {
+    cy.log(`Looking for filename: ${fileName}`)
+
+
+
+    cy.get('body').then(($body) => {
+
+      cy.log($body.text().substring(0, 500))
+
+    })
     cy.reload()
 
     cy.get('body').then(($body) => {
@@ -209,6 +233,7 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
       cy.reload()
 
       cy.get('body').then(($body) => {
+        cy.log(`Looking for FRN ${lastFrn}`)
         if ($body.text().includes(lastFrn)) {
           frns.forEach((frn) => {
             cy.contains(frn).should('be.visible')

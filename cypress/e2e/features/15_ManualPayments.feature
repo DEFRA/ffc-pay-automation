@@ -13,7 +13,7 @@ Feature: 15 Manual Payments
 
   #First line will clear out and restart all payment services to ensure a clean environment for the tests
 
-    Given I restart the local environment
+    Given I truncate payment tables
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payments" link
     Then I am on the "manual-payments" subpage
@@ -28,6 +28,7 @@ Feature: 15 Manual Payments
   Scenario: 02 Confirm that valid Manual Payments file can be processed successfully
 
 #This scenario confirms that a valid Manual Payments CSV file can be uploaded and processed successfully
+
 
     Given I visit the "Payment management" homepage
     When I click on the "Upload manual payments" link
