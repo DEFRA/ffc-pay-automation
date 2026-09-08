@@ -348,16 +348,18 @@ module.exports = defineConfig({
             }
 
             const shellCommand = `
-docker exec ffc-pay-processing-ffc-pay-processing-postgres-1 psql -U postgres -d ffc_pay_processing -c 'TRUNCATE TABLE "completedPaymentRequests","completedInvoiceLines","invoiceLines","outbox","paymentRequests","schedule","autoHolds" RESTART IDENTITY CASCADE;'
+docker exec ffc-pay-processing-ffc-pay-processing-postgres-1 psql -U postgres -d ffc_pay_processing -c 'TRUNCATE TABLE public."paymentRequests" RESTART IDENTITY CASCADE;'
 
-docker exec ffc-pay-request-editor-ffc-pay-request-editor-postgres-1 psql -U postgres -c 'TRUNCATE TABLE "paymentRequests" RESTART IDENTITY CASCADE;'
+docker exec ffc-pay-processing-ffc-pay-processing-postgres-1 psql -U postgres -d ffc_pay_processing -c 'TRUNCATE TABLE public."autoHolds" RESTART IDENTITY CASCADE;'
 
-docker exec ffc-pay-submission-ffc-pay-submission-postgres-1 psql -U postgres -d ffc_pay_submission -c 'TRUNCATE TABLE "paymentRequests" RESTART IDENTITY CASCADE;'
+docker exec ffc-pay-request-editor-ffc-pay-request-editor-postgres-1 psql -U postgres -d ffc_pay_request_editor -c 'TRUNCATE TABLE public."paymentRequests" RESTART IDENTITY CASCADE;'
 
-docker exec ffc-pay-tracking-ffc-pay-tracking-postgres-1 psql -U postgres -d ffc_pay_tracking -c 'TRUNCATE TABLE "reportData" RESTART IDENTITY CASCADE;'
+docker exec ffc-pay-submission-ffc-pay-submission-postgres-1 psql -U postgres -d ffc_pay_submission -c 'TRUNCATE TABLE public."paymentRequests" RESTART IDENTITY CASCADE;'
 
-docker exec ffc-pay-event-hub-ffc-pay-event-hub-postgres-1 psql -U postgres -d ffc_pay_event_hub -c 'TRUNCATE TABLE "payment_batch_events","payment_frn_events","payments" RESTART IDENTITY CASCADE;'
-  `
+docker exec ffc-pay-tracking-ffc-pay-tracking-postgres-1 psql -U postgres -d ffc_pay_tracking -c 'TRUNCATE TABLE public."reportData" RESTART IDENTITY CASCADE;'
+
+docker exec ffc-pay-event-hub-ffc-pay-event-hub-postgres-1 psql -U postgres -d ffc_pay_event_hub -c 'TRUNCATE TABLE public."payments" RESTART IDENTITY CASCADE;'
+`
 
             return new Promise((resolve, reject) => {
               const child = spawn('wsl', ['bash', '-ic', shellCommand], { stdio: 'pipe' })
@@ -373,9 +375,12 @@ docker exec ffc-pay-event-hub-ffc-pay-event-hub-postgres-1 psql -U postgres -d f
               })
 
               child.on('close', code => {
+                console.log(output)
+
                 code === 0
                   ? resolve(output)
-                  : reject(new Error(`truncatePaymentTables failed with code ${code}`))
+                  : reject(new Error(`truncatePaymentTables failed with code ${code}\n${output}`))
+
               })
             })
           }
