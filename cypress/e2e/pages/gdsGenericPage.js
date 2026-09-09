@@ -74,6 +74,9 @@ class GDSGenericPage {
     return cy.get('#file-input')
   }
 
+  tableCell (text) {
+    return cy.contains('td', text).containsWithoutWhitespace(text)
+  }
   //scheme dropdown locator ID's are not centralized yet, so you can easily add more here.
   schemeDropdown () {
     const selectors = [ '#schemeId',  '#user-search-scheme', '#selectScheme' ]
@@ -112,6 +115,24 @@ class GDSGenericPage {
     return cy.get(selector)
   }
 
+  cookieBannerElement (type, text) {
+    const selectors = {
+      heading: '.govuk-cookie-banner__heading',
+      content: '.govuk-cookie-banner__message p',
+      button: '.govuk-cookie-banner button:visible',
+      link: '.govuk-cookie-banner a:visible',
+      message: '.govuk-cookie-banner__message:visible'
+    }
+
+    const selector = selectors[type]
+
+    if (!selector) {
+      throw new Error(`No cookie banner selector configured for "${type}"`)
+    }
+
+    return cy.contains(selector, text)
+      .containsWithoutWhitespace(text)
+  }
 }
 
 export default new GDSGenericPage()
