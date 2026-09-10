@@ -85,7 +85,7 @@ When('I click on the {string} button', (text) => {
   if (text === ' ') {
     cy.get('#submit').scrollIntoView().click()
   } else {
-    cy.get('button, submit').contains(text).first().scrollIntoView().click()
+    cy.get('button, submit').contains(text).first().scrollIntoView().click({force: true})
   }
 })
 
@@ -125,8 +125,9 @@ Then('I see an error message for {string}', (errorMessage) => {
   cy.assertErrorBanner(errorMessage)
 })
 
+// generic assertions for pretty much every type of HTML used in GDS pages
 Then(
-  /^I should see the (heading|paragraph|hint|link|list item|button|strong text|details summary|warning text|verify text|label|accordion text|inset text) "(.*)"$/,
+  /^I should see the (heading|paragraph|hint|link|list item|button|strong text|details summary|warning text|verify text|label|accordion text|inset text|table cell) "(.*)"$/,
   (type, text) => {
     const elementMap = {
       heading: 'heading',
@@ -141,7 +142,8 @@ Then(
       'verify text': 'verifyText',
       label: 'label',
       'accordion text': 'accordionText',
-      'inset text' : 'insetText'
+      'inset text': 'insetText',
+      'table cell': 'tableCell'
     }
 
     gdsGenericPage[elementMap[type]](text)
@@ -159,7 +161,68 @@ Then(/^I should see scheme "(.*)" in the scheme dropdown$/, (scheme) => {
     .should('exist')
 })
 
+// COOKIE BANNER ASSERTIONS
+Then(
+  /^I should see the cookie banner (heading|content|button|link|message) "(.*)"$/,
+  (type, text) => {
+    Cypress.emit(
+      'log:step',
+      `I should see the cookie banner ${type} "${text}"`
+    )
 
+    gdsGenericPage
+      .cookieBannerElement(type, text)
+      .should('be.visible')
+  }
+)
+// COOKIE BANNER ASSERTIONS - NEGATIVE
+Then(
+  /^I should not see the cookie banner (heading|content|button|link|message) "(.*)"$/,
+  (type, text) => {
+    Cypress.emit(
+      'log:step',
+      `I should not see the cookie banner ${type} "${text}"`
+    )
+
+    const selectors = {
+      heading: '.govuk-cookie-banner__heading',
+      content: '.govuk-cookie-banner__message p',
+      button: '.govuk-cookie-banner button',
+      link: '.govuk-cookie-banner a',
+      message: '.govuk-cookie-banner__message'
+    }
+
+    const selector = selectors[type]
+
+    if (!selector) {
+      throw new Error(`No cookie banner selector configured for "${type}"`)
+    }
+
+    cy.get('body').then($body => {
+      const matchingElements = $body
+        .find(selector)
+        .filter((_, element) => {
+          const actualText = Cypress.$(element)
+            .text()
+            .replace(/\s+/g, ' ')
+            .trim()
+
+          const expectedText = text
+            .replace(/\s+/g, ' ')
+            .trim()
+
+          return actualText.includes(expectedText)
+        })
+
+      if (matchingElements.length) {
+        cy.wrap(matchingElements)
+          .should('not.be.visible')
+      }
+    })
+
+    cy.log(`Confirmed cookie banner ${type} "${text}" is not displayed`)
+  }
+)
 // -------------------------
 //  PAGINATION - assertions and clicks
 // -------------------------

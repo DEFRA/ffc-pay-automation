@@ -1,7 +1,8 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
-import agreementClosuresPage from '../pages/agreementClosures/agreementClosuresPage'
-import addClosurePage from '../pages/agreementClosures/addClosurePage'
+import agreementClosuresPage from '../pages/agreementClosuresPage'
+import {getFutureDateParts,getFormattedFutureDate,getDatePriorTo} from '../../utils/date'
 import capturePage from '../pages/capturePage'
+import gdsGenericPage from '../pages/gdsGenericPage'
 
 
 When('I see the new submission in the table', () => {
@@ -13,14 +14,6 @@ When('I see the new submission in the table', () => {
   })
 })
 
-When('I search for my new submission', () => {
-
-  Cypress.emit('log:step', 'I search for my new submission')
-
-  cy.get('@randomFrn').then((randomFrn) => {
-    agreementClosuresPage.captureTxtFrn().scrollIntoView().type(randomFrn +'{enter}')
-  })
-})
 
 When('I should not see the new submission in the table', () => {
 
@@ -74,46 +67,29 @@ When('I click on the Remove button next to the new submission', () => {
 
 
 When('I type a future date in the Closure date field', () => {
-
   Cypress.emit('log:step', 'I type a future date in the Closure date field')
 
-  const futureDate = new Date()
-  futureDate.setDate(futureDate.getDate() + 1) // Add 1 day
+  const { day, month, year } = getFutureDateParts()
 
-  const formatDate = (date) => date.toString().padStart(2, '0')
-  const futureDay = formatDate(futureDate.getDate())
-  const futureMonth = formatDate(futureDate.getMonth() + 1)
-  const futureYear = futureDate.getFullYear().toString()
+  Cypress.env('futureDate', getFormattedFutureDate())
 
-  const formattedDate = `${futureDay}/${futureMonth}/${futureYear}`
-  Cypress.env('futureDate', formattedDate)
-
-  addClosurePage.closureDateDayInput().type(futureDay)
-  addClosurePage.closureDateMonthInput().type(futureMonth)
-  addClosurePage.closureDateYearInput().type(futureYear)
+  gdsGenericPage.field('day').type(day)
+  gdsGenericPage.field('month').type(month)
+  gdsGenericPage.field('year').type(year)
 })
 
 When('I type a date prior to {string} in the Closure date field', (date) => {
+  Cypress.emit('log:step', `I type a date prior to ${date} in the Closure date field`)
 
-  Cypress.emit('log:step', 'I type a date prior to ' + date + ' in the Closure date field')
+  const { day, month, year } = getDatePriorTo(date)
 
-  const formatDate = (date) => date.toString().padStart(2, '0')
-
-  const [day, month, year] = date.split('/').map(Number)
-  const currentDate = new Date(year, month - 1, day)
-  currentDate.setDate(currentDate.getDate() - 1) // Subtract 1 day
-
-  const priorDay = formatDate(currentDate.getDate())
-  const priorMonth = formatDate(currentDate.getMonth() + 1)
-  const priorYear = currentDate.getFullYear().toString()
-
-  addClosurePage.closureDateDayInput().type(priorDay)
-  addClosurePage.closureDateMonthInput().type(priorMonth)
-  addClosurePage.closureDateYearInput().type(priorYear)
+  gdsGenericPage.field('day').type(day)
+  gdsGenericPage.field('month').type(month)
+  gdsGenericPage.field('year').type(year)
 })
 
 When('I enter frn {int} on the search for agreement closure page', (frn) => {
-  agreementClosuresPage.agreementClosureEnterFrnField().type(frn)
+  gdsGenericPage.field('agreement number').type(frn)
 })
 
 
