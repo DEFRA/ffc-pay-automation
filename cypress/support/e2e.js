@@ -67,3 +67,14 @@ Cypress.on('fail', (error, runnable) => {
 
   throw error
 })
+
+//route generation info for tracking coverage
+Cypress.on('url:changed', (url) => {
+  try {
+    const pathname = new URL(url).pathname
+
+    cy.task('recordRoute', pathname)
+  } catch (err) {
+    console.error(err)
+  }
+})
