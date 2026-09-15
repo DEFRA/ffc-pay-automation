@@ -1,6 +1,9 @@
 import 'cypress-axe'
 import addContext from 'mochawesome/addContext'
 import './commands'
+const { getEnvironmentConfig } = require('../support/configLoader')
+const envConfig = getEnvironmentConfig()
+const env = envConfig.env
 
 Cypress.on('uncaught:exception', (err) => {
   if (err.message && err.message.includes('cross-origin frame')) {
@@ -68,13 +71,17 @@ Cypress.on('fail', (error, runnable) => {
   throw error
 })
 
-//route generation info for tracking coverage
+//route generation info for tracking coverage, only runs on dev for stability
 Cypress.on('url:changed', (url) => {
-  try {
-    const pathname = new URL(url).pathname
+  if (env.includes('dev')) {
+    try {
+      const pathname = new URL(url).pathname
 
-    cy.task('recordRoute', pathname)
-  } catch (err) {
-    console.error(err)
+      cy.task('recordRoute', pathname)
+    } catch (err) {
+      console.error(err)
+    }
+  } else {
+    cy.log('Environment not dev, not recording route info.')
   }
 })
