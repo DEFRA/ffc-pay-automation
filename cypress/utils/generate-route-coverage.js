@@ -18,6 +18,8 @@ const repositories = [{
   source: 'routes'
 }]
 
+const ignoredRoutes = ['/', '/healthy', '/healthz', '/sitemap', '/robots.txt', '/assets/{path*}', '/static/{path*}', '/login', '/logout', '/dev-auth', '/authenticate']
+
 const routeCoverageFile = path.join(
   process.cwd(),
   'cypress',
@@ -31,27 +33,6 @@ const outputFile = path.join(
   'reports',
   'route-coverage-report.json'
 )
-
-
-function getFiles (dir) {
-  const files = []
-
-  if (!fs.existsSync(dir)) {
-    return files
-  }
-
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const fullPath = path.join(dir, entry.name)
-
-    if (entry.isDirectory()) {
-      files.push(...getFiles(fullPath))
-    } else if (entry.name.endsWith('.js')) {
-      files.push(fullPath)
-    }
-  }
-
-  return files
-}
 
 function normaliseRoute (route) {
   if (!route || typeof route !== 'string') {
@@ -228,17 +209,11 @@ function extractRoutesFromRouteFiles (repo) {
 }
 
 function extractRoutesFromRepo (repo) {
-  if (repo.source === 'constants') {
-    return extractRoutesFromConstants(repo)
+  if (repo.name === 'ffc-pay-web') {
+    return [...extractRoutesFromConstants(repo), ...extractRoutesFromRouteFiles(repo)]
   }
 
-  if (repo.source === 'routes') {
-    return extractRoutesFromRouteFiles(repo)
-  }
-
-  throw new Error(
-    `Unsupported route source for ${repo.name}: ${repo.source}`
-  )
+  return extractRoutesFromRouteFiles(repo)
 }
 
 
@@ -287,12 +262,16 @@ function main () {
     }
   })
 
-  const coveredRoutes = uniqueDeclaredRoutes.filter(
+  const filteredRoutes = uniqueDeclaredRoutes.filter(
+    route => !ignoredRoutes.includes(route.route)
+  )
+
+  const coveredRoutes = filteredRoutes.filter(
     route =>
       visitedRoutes.has(route.route)
   )
 
-  const uncoveredRoutes = uniqueDeclaredRoutes.filter(
+  const uncoveredRoutes = filteredRoutes.filter(
     route =>
       !visitedRoutes.has(route.route)
   )
@@ -329,7 +308,7 @@ function main () {
 
     summary: {
       totalDeclaredRoutes:
-        uniqueDeclaredRoutes.length,
+        filteredRoutes.length,
       coveredRoutes:
         coveredRoutes.length,
       uncoveredRoutes:
