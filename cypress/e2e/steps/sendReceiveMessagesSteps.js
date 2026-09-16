@@ -218,10 +218,7 @@ When('I create a message with the filename {string} and update the following key
     if (typeof existingValue === 'object' && existingValue !== null) {
       // Recursively update values in a nested object
       return Object.fromEntries(
-        Object.entries(existingValue).map(([nestedKey, value]) => [
-          nestedKey,
-          generateRandomValue(nestedKey, value),
-        ])
+        Object.entries(existingValue).map(([nestedKey, value]) => [nestedKey, generateRandomValue(nestedKey, value),])
       )
     }
     // Default case: return the existing value unchanged
@@ -858,7 +855,7 @@ FROM "paymentRequests";
           console.log('Max FRN:', max_frn)
           console.log('Max INVOICE_NUMBER:', max_invoice_number)
 
-          nextFRN = parseInt(max_frn) + 1
+          nextFRN = Date.now().toString().slice(-10)
 
           //The following code separates the main body of the invoice number from the lone digit at the end
           // and iterates the main body by 1 before joining back together
@@ -953,7 +950,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = parseInt(max_frn) + 1
+            nextFRN = Date.now().toString().slice(-10)
             nextSBI = parseInt(max_sbi) + 1
             nextAgreementNumber = parseInt(max_agreement_number) + 1
 
@@ -1038,7 +1035,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = parseInt(max_frn) + 1
+            nextFRN = Date.now().toString().slice(-10)
             nextVendor = parseInt(max_vendor) + 1
 
             const contractPrefix = max_contract_number.substring(0,2)
@@ -1111,7 +1108,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = parseInt(max_frn) + 1
+            nextFRN = Date.now().toString().slice(-10)
 
             const traderPrefix = max_trader.substring(0,1)
             const traderSuffix = max_trader.substring(2, max_trader.length)
@@ -1196,7 +1193,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = parseInt(max_frn) + 1
+            nextFRN = Date.now().toString().slice(-10)
             nextSBI = parseInt(max_sbi) + 1
 
             const contractPrefix = max_contract_number.substring(0,1)
@@ -1351,7 +1348,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = parseInt(max_frn) + 1
+            nextFRN = Date.now().toString().slice(-10)
             nextContractNumber = parseInt(max_contract) + 1
             nextAgreementNumber = parseInt(max_agreement_number) + 1
 
@@ -1366,7 +1363,15 @@ FROM "paymentRequests";
       contractNumber: nextContractNumber.toString(),
       agreementNumber: nextAgreementNumber.toString()
     }
+            cy.log(`Template FRN: ${template.frn}`)
+            cy.log(`Database max FRN: ${max_frn}`)
+            cy.log(`Generated next FRN: ${nextFRN}`)
+            cy.log(`Actual message: ${JSON.stringify(messageBody)}`)
 
+            console.log('Template FRN:', template.frn)
+            console.log('Database max FRN:', max_frn)
+            console.log('Generated next FRN:', nextFRN)
+            console.log('Actual message:', JSON.stringify(messageBody, null, 2))
             cy.task('sendMessage', { messageBody, topicName }).then(() =>
               cy.log(`Finished sending ${messageBody} to topic: ${topicName}`))
             cy.wait(40000)

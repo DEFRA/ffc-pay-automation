@@ -24,6 +24,17 @@ module.exports = defineConfig({
       const path2 = require('path')
       const { exec } = require('child_process')
       const { spawn } = require('child_process')
+      const routeCoverageFile = path2.join(
+        __dirname,
+        'cypress',
+        'reports',
+        'route-coverage.json'
+      )
+
+      function normaliseRoute (route) {
+        return route
+          .replace(/\/\d+/g, '/:id')
+      }
 
       const { emptyFolder } = require('./cypress/utils/empty-folder')
       const { sendMessage } = require('./cypress/utils/sendMessage')
@@ -52,6 +63,40 @@ module.exports = defineConfig({
       try {
         on('task', {
 
+          recordRoute (route) {
+            route = normaliseRoute(route)
+
+            if (route === '/') {
+              return null
+            }
+
+            let routes = []
+
+            if (fs2.existsSync(routeCoverageFile)) {
+              try {
+                routes = JSON.parse(
+                  fs2.readFileSync(routeCoverageFile, 'utf8')
+                )
+              } catch {
+                routes = []
+              }
+            }
+
+            if (!Array.isArray(routes)) {
+              routes = []
+            }
+
+            if (!routes.includes(route)) {
+              routes.push(route)
+            }
+
+            fs2.writeFileSync(
+              routeCoverageFile,
+              JSON.stringify(routes, null, 2)
+            )
+
+            return null
+          },
           emptyFolder: (folderPath) => emptyFolder(folderPath),
 
           sendMessagesBatch ({ messages, topicName }) {
