@@ -137,6 +137,7 @@ Examples include:
 | `utils/sendMessage.js` | Sends individual messages to integrated messaging services. | Triggering downstream processing and integration testing. |
 | `utils/sendMessagesBatch.js` | Sends multiple messages as a batch operation. | Bulk processing and load-testing scenarios. |
 | `utils/uploadFileToBlobStorage.js` | Uploads files to Azure Blob Storage. | File upload scenarios and storage integration testing. |
+|`utils/generate-route-coverage.js` | Generates route coverage information for the suite in dev. Compares routes that have been visited on suite with all routes availible in ffc-pay-web/request-editor/pr-calculator. |
 | `fixtures/paymentsholds.data.js` | Centralised data source containing valid schemes, hold types and hold-related test data used throughout the framework. | Hold creation, hold validation, dropdown selection and data-driven testing. |
 
 ---
@@ -167,6 +168,7 @@ Tests are executed in Chrome using environment-specific tags. Commands are defin
 | Reporting | `npm run report:html` | Generate an HTML report from merged results |
 | Utility | `npm run clean:reports` | Remove reports, screenshots, videos and downloads |
 | Utility | `npm run find-unused-steps` | Identify step definitions not referenced by any feature file |
+|Utility | `npm run route-coverage` | Compares route-coverage file (generates automatically when running tests) vs all routes in ffc-pay repos to detemine coverage |
 
 ### Example: Running a Single Feature
 
