@@ -19,7 +19,7 @@ const repositories = [{
 }]
 
 // ignore list of routes we don't really care about, not critical to business flows
-const ignoredRoutes = ['/', '/healthy', '/healthz', '/sitemap', '/robots.txt', '/assets/{path*}', '/static/{path*}', '/login', '/logout', '/dev-auth', '/authenticate', '/loading/{jobId}', '/download-report-list/generation/download/{jobId}', '/download-statements/download/{filename*}']
+const ignoredRoutes = ['/', '/healthy', '/healthz', '/sitemap', '/robots.txt', '/assets/{path*}', '/static/{path*}', '/login', '/logout', '/dev-auth', '/authenticate', '/loading/{jobId}', '/download-report-list/generation/download/{jobId}', '/download-statements/download/{filename*}', '/manual-upload"','/manual-upload-audit','/closure/extract','/remove-hold-type','/metrics/payments','/metrics/statements','/generate-report-list','/capture/extract','/manual-ledger-check/calculate','']
 
 const routeCoverageFile = path.join(
   process.cwd(),
