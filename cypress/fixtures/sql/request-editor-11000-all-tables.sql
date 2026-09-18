@@ -74,7 +74,7 @@ INSERT INTO public."paymentRequests" (
   "claimDate",
   "fesCode",
   "annualValue",
-  "remmittanceDescription",
+  "remittanceDescription",
   "providesAccountingValues"
 )
 SELECT
@@ -145,7 +145,7 @@ INSERT INTO public."paymentRequests" (
   "claimDate",
   "fesCode",
   "annualValue",
-  "remmittanceDescription",
+  "remittanceDescription",
   "providesAccountingValues"
 )
 SELECT
@@ -620,7 +620,7 @@ WITH inserted AS (
     "claimDate",
     "fesCode",
     "annualValue",
-    "remmittanceDescription",
+    "remittanceDescription",
     "providesAccountingValues"
   )
   SELECT
@@ -696,7 +696,7 @@ WITH inserted AS (
     "claimDate",
     "fesCode",
     "annualValue",
-    "remmittanceDescription",
+    "remittanceDescription",
     "providesAccountingValues"
   )
   SELECT
@@ -772,7 +772,7 @@ WITH inserted AS (
     "claimDate",
     "fesCode",
     "annualValue",
-    "remmittanceDescription",
+    "remittanceDescription",
     "providesAccountingValues"
   )
   SELECT

@@ -12,7 +12,7 @@
     "invoiceNumber": "R12345678-V002Q1",
     "value": 1000.00,
     "annualValue": 0.00,
-    "remmittanceDescription": "Farm Payments Technical Test Payment",
+    "remittanceDescription": "Farm Payments Technical Test Payment",
     "invoiceLines": [
         {
             "schemeCode": "84001",
