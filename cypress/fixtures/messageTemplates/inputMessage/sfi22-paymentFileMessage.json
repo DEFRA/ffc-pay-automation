@@ -15,7 +15,7 @@
     "value": 100000,
     "fesCode": "SITI_SFI",
     "annualValue": 100000.00,
-    "remmittanceDescription": "SFI Reformed Service payment",
+    "remittanceDescription": "SFI Reformed Service payment",
     "invoiceLines": [
         {
             "schemeCode": "80101",
