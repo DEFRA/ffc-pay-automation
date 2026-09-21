@@ -73,15 +73,19 @@ Cypress.on('fail', (error, runnable) => {
 
 //route generation info for tracking coverage, only runs on dev for stability
 Cypress.on('url:changed', (url) => {
-  if (env.includes('dev')) {
-    try {
-      const pathname = new URL(url).pathname
+  if (!env.includes('dev')) {
+    return
+  }
 
-      cy.task('recordRoute', pathname)
-    } catch (err) {
-      console.error(err)
-    }
-  } else {
-    cy.log('Environment not dev, not recording route info.')
+  try {
+    const pathname = new URL(url).pathname
+
+    // surround in try so route coverage can never break tests
+    Cypress.backend?.('task', {
+      task: 'recordRoute',
+      arg: pathname
+    }).catch(() => {})
+  } catch (err) {
+    console.error(err)
   }
 })
