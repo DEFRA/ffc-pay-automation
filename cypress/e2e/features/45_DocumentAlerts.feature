@@ -37,7 +37,7 @@ Feature: 45 Document Alerts
 
     Given I restart and clear the local doc environment
   
-    When I send the updated "statementPublisher-alertGenerationMessage" message to the service bus topic "ffc-doc-statement-publish-aw"
+    When I send the updated "statementPublisher-alertGenerationMessage" message to the service bus topic "ffc-doc-statement-publish-auto"
     Then I confirm that alert has been generated from "statement-publisher"
 
   @local
@@ -45,7 +45,7 @@ Feature: 45 Document Alerts
 
   #This scenario sends intentionally invalid data to statement-generator and confirms that expected alert is generated in doc-alerting
 
-    When I send the updated "statementGenerator-alertGenerationMessage" message to the service bus topic "ffc-doc-statements-aw"
+    When I send the updated "statementGenerator-alertGenerationMessage" message to the service bus topic "ffc-doc-statements-auto"
     Then I confirm that alert has been generated from "statement-generator"
 
   @local
@@ -53,5 +53,5 @@ Feature: 45 Document Alerts
 
   #This scenario sends intentionally invalid data to statement-constructor and confirms that expected alert is generated in doc-alerting
 
-    When I send the updated "statementConstructor-alertGenerationMessage" message to the service bus topic "ffc-doc-statement-data-aw"
+    When I send the updated "statementConstructor-alertGenerationMessage" message to the service bus topic "ffc-doc-statement-data-auto"
     Then I confirm that alert has been generated from "statement-constructor"
