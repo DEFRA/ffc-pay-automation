@@ -85,7 +85,7 @@ When('I click on the {string} button', (text) => {
   if (text === ' ') {
     cy.get('#submit').scrollIntoView().click()
   } else {
-    cy.get('button, submit').contains(text).first().scrollIntoView().click({force: true})
+    cy.get('button, submit, .govuk-button').contains(text).first().scrollIntoView().click({force: true})
   }
 })
 
@@ -102,7 +102,6 @@ When('I click on the {string} radio button', (option) => {
   Cypress.emit(`Clicked on the  ${option} button`)
 
 })
-
 
 // -------------------------
 // ASSERTIONS -
@@ -159,6 +158,17 @@ When(/^I select the scheme "(.*)"$/, (scheme) => {
 Then(/^I should see scheme "(.*)" in the scheme dropdown$/, (scheme) => {
   gdsGenericPage.schemeOption(scheme)
     .should('exist')
+})
+
+//table verifications
+Then('I see {string} in the table', (text) => {
+  cy.contains('th, td', text)
+    .should('be.visible')
+})
+
+Then('I do not see {string} in the table', (text) => {
+  cy.get('td')
+    .should('not.contain', text)
 })
 
 // COOKIE BANNER ASSERTIONS
@@ -399,6 +409,18 @@ When(/^I expand the accordion section "(.*)"$/, (section) => {
 })
 
 
+//Clicks "Link" for table row that has  "Entry" on it
+// for example:
+// |Name         |     Link|
+// |Test         |   Submit|
+//Then I click "Submit" for table value "Test"
+//Will click the submit link on that row
+
+Then('I click {string} for table value {string}', (link, tableValue) => {
+  cy.contains('tr', tableValue)
+    .contains(link)
+    .click()
+})
 // -------------------------
 // ACCESSIBILITY
 // -------------------------

@@ -68,3 +68,38 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I click on the "Add holds" button
     And I see an error message for "The uploaded file is too large. Please upload a file smaller than 1 MB."
     Then I take a screenshot
+
+  Scenario: 05 Manage payment hold types - Create
+    And I click on the "Manage payment hold types" link
+    And I click on the "Create a new payment hold type" button
+    And I select the scheme "COHT Capital"
+    And I enter "Test" into the "payment hold type name" field
+    And I click on the "Save" button
+    And I see a success message for "Test has been successfully created"
+    And I expand the accordion section "COHT Capital"
+    And I see "Test" in the table
+    Then I take a screenshot
+
+  Scenario: 06 Manage payment hold types - Edit
+    And I click on the "Manage payment hold types" link
+    And I expand the accordion section "COHT Capital"
+    And I see "Test" in the table
+    And I click "Edit" for table value "Test"
+    And I enter "Edited Test" into the "payment hold type name" field
+    And I click on the "Save" button
+    And I see a success message for "Edited Test has been successfully renamed."
+    And I expand the accordion section "COHT Capital"
+    And I see "Edited Test" in the table
+    Then I take a screenshot
+
+
+  Scenario: 07 Manage payment hold types - Delete
+    And I click on the "Manage payment hold types" link
+    And I expand the accordion section "COHT Capital"
+    And I see "Edited Test" in the table
+    And I click "Remove" for table value "Edited Test"
+    And I click on the "Yes, remove" button
+    And I see a success message for "Edited Test has been successfully removed."
+    And I expand the accordion section "COHT Capital"
+    And I do not see "Edited Test" in the table
+    Then I take a screenshot

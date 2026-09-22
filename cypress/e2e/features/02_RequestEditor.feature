@@ -189,3 +189,11 @@ Feature: 02 Request Editor
     When I click on the "Search" button
     Then I should see "No datasets were found for Annual Health and Welfare Review. Check your details and try again"
     Then I take a screenshot
+
+  @dev @local
+  Scenario: 13 Deleting "Manage unattached debt data" entry
+    And I click on the "View all datasets" link
+    And I click "Delete" for table value "SFI22"
+    And I click on the "Yes, remove" button
+    And I see a success message for "Reporting dataset has been successfully deleted."
+    Then I take a screenshot
