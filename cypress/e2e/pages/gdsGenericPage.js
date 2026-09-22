@@ -103,7 +103,8 @@ class GDSGenericPage {
       'closure search': '#closure-search',
       filename: '#filename',
       timestamp: '#timestamp',
-      prn: '#prn'
+      prn: '#prn',
+      'payment hold type name': '#categoryName'
     }
 
     const selector = fields[field]
