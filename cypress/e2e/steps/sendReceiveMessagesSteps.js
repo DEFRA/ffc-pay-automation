@@ -697,6 +697,14 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
 
 
   switch (messageType) {
+  case 'sfi26 payment':
+    messageTemplate = 'sfi26-paymentFileMessage'; break
+  case 'sfi26 error':
+    messageTemplate = 'sfi26Error-paymentFileMessage'; break
+  case 'sfi26 return':
+    messageTemplate = 'sfi26-returnFileMessage'; break
+  case 'sfi26 ppa':
+    messageTemplate = 'sfi26-ppaFileMessage'; break
   case 'sfi23 payment':
     messageTemplate = 'sfi23-paymentFileMessage'; break
   case 'sfi23 error':

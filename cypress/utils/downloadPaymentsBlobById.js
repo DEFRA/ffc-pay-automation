@@ -43,6 +43,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   case 'delinked': partialFileName = 'outbound/FFCDP_'; break
   case 'sfi pilot': partialFileName = 'outbound/FFCSFIP_'; break
   case 'sfi23': partialFileName = 'outbound/FFCSFIA_'; break
+  case 'sfi26': partialFileName = 'outbound/FFCSITISFI26_'; break
   case 'sfi22': partialFileName = 'outbound/FFCSITI_SFI_'; break
   case 'manual': partialFileName = 'outbound/FFCPMAN_SFIA_'; break
   case 'ppa scenarios payments': partialFileName = 'outbound/FFCESFIO_0001'; break
@@ -51,7 +52,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   case 'ppa scenarios recoveries': partialFileName = 'outbound/FFCESFIO_0002'; break
   case 'fptt': partialFileName = 'outbound/FFCFALS_FPTT_'; break
   case 'wmp': partialFileName = 'outbound/FFCFALS_WMP_'; break
-  default: throw new Error(`Unknown scheme: ${scheme}`)
+  default: throw new Error(`Unknown scheme not mapped in downloadPaymentsBlobById: ${scheme}`)
   }
 
   let match
@@ -141,6 +142,7 @@ async function downloadPaymentsBlobById (env, containerName, downloadDir, scheme
   case 'sfi pilot' : requiredValues = ['2025', '80101', 'DRD10', 'RP00']; break
   case 'sfi23' : requiredValues = ['2023', '80101', 'DRD10', 'RP00']; break
   case 'sfi22' : requiredValues = ['2022', '80101', 'DRD10', 'RP00']; break
+  case 'sfi26' : requiredValues = ['2026', '80101', 'DRD10', 'RP00']; break
   case 'manual' : requiredValues = ['2024', '80281', 'DRD10', 'SOS710', 'NE00']; break
   case 'ppa scenarios payments' : requiredValues = ['2025', '80101', 'SOS710', 'DRD10', 'RP00','1000000.00']; break
   case 'ppa scenarios topups' : requiredValues = ['2025', '80101', 'SOS710', 'DRD10', 'RP00','400000.00']; break
