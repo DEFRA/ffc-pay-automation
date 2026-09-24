@@ -79,8 +79,9 @@ Feature: 27 Lump Sums Payments
     And I select "Lump Sums" from the monitor schemes dropdown
     And I click on the "Continue" button
 
-    Then I take a screenshot
+    
     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
+Then I take a screenshot
 
 
   @local

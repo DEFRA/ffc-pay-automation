@@ -78,8 +78,9 @@ Feature: 26 BPS Payments
     And I select "BPS" from the monitor schemes dropdown
     And I click on the "Continue" button
 
-    Then I take a screenshot
+    
     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
+Then I take a screenshot
 
   @local
   Scenario: 01 insert incorrect BPS test data via service bus message to ffc-pay-request

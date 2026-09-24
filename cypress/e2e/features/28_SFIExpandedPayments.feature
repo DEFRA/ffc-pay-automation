@@ -5,19 +5,19 @@ Feature: 28 SFI Expanded Pilot Payments
 
 # This feature file is designed to test the end-to-end journey of SFI Expanded payments in the local environment.
 
-  @dev
-  Scenario: 01 insert incorrect SFI Expanded test data via service bus message to ffc-pay-request
+  # @dev
+  # Scenario: 01 insert incorrect SFI Expanded test data via service bus message to ffc-pay-request
 
-    When I send "sfi expanded error" test data message to the service bus topic "ffc-pay-request-dev"
+  #   When I send "sfi expanded error" test data message to the service bus topic "ffc-pay-request-dev"
 
-    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
-    Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
+  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
+  #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
 
   @dev
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-  #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
-  #test data
+  For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
+  test data
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
@@ -78,9 +78,8 @@ Feature: 28 SFI Expanded Pilot Payments
     When I click on the "View payment events by scheme" link
     And I select "Expanded SFI Offer" from the monitor schemes dropdown
     And I click on the "Continue" button
-    Then I take a screenshot
     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
-
+    Then I take a screenshot
   @local
   Scenario: 01 insert incorrect SFI Expanded test data via service bus message to ffc-pay-request
 

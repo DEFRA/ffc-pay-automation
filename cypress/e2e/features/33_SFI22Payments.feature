@@ -77,8 +77,9 @@ Feature: 33 SFI22 Payments
     When I click on the "View payment events by scheme" link
     And I select "SFI" from the monitor schemes dropdown
     And I click on the "Continue" button
-    Then I take a screenshot
+    
     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
+Then I take a screenshot
 
 
   @local
