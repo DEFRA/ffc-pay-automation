@@ -10,8 +10,8 @@ Feature: 13 Payment Holds
     And I click on the "Manage payment holds" link
     And I click on the "Create a new payment hold" link
     And I enter "random frn" into the "frn" field
-    And I select the scheme "COHT Capital"
-    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
+    And I select the scheme "CS-HT (Capital)"
+    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "CS-HT (Capital)"
     And I take a screenshot
     And I click on the "Continue" button
     And I click on the "Create payment hold" button

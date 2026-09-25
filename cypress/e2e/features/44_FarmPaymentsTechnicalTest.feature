@@ -20,7 +20,7 @@ Feature: 44 Farm Payments Technical Test
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "Farm Payments Technical Test" from the monitor schemes dropdown
+    And I select "FPTT" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
 
@@ -51,7 +51,7 @@ Feature: 44 Farm Payments Technical Test
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "Farm Payments Technical Test" from the monitor schemes dropdown
+    And I select "FPTT" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I take a screenshot
     Then I confirm that number of payments has increased by 2 and total value of payments has increased by "0"
@@ -109,7 +109,7 @@ Feature: 44 Farm Payments Technical Test
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "Farm Payments Technical Test" from the monitor schemes dropdown
+    And I select "FPTT" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Farm Payments Technical Test" scheme with "2" payment installments totalling "£0.00" is displayed
     Then I take a screenshot

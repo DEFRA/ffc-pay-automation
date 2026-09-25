@@ -21,7 +21,7 @@ Feature: 28 SFI Expanded Pilot Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "Expanded SFI Offer" from the monitor schemes dropdown
+    And I select "SFI-EO" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
 
@@ -76,7 +76,7 @@ Feature: 28 SFI Expanded Pilot Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "Expanded SFI Offer" from the monitor schemes dropdown
+    And I select "SFI-EO" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
     Then I take a screenshot
@@ -175,7 +175,7 @@ Feature: 28 SFI Expanded Pilot Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "Expanded SFI Offer" from the monitor schemes dropdown
+    And I select "SFI-EO" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Expanded SFI Offer" scheme with "3" payment installments totalling "£10,000.00" is displayed
     Then I take a screenshot

@@ -129,7 +129,7 @@ Feature: 42 Payment Event Monitoring
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
 
-    Then on the View processed payment requests page I select "SFI23" in scheme dropdown
+    Then on the View processed payment requests page I select "SFI-23" in scheme dropdown
     Then I click on the "Continue" button
 
     Then on the View processed payment requests page I confirm that "processed payment requests label" is displayed
@@ -145,7 +145,7 @@ Feature: 42 Payment Event Monitoring
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
 
-    Then on the View processed payment requests page I select "Woodland Management Plan" in scheme dropdown
+    Then on the View processed payment requests page I select "WMP" in scheme dropdown
     Then I click on the "Continue" button
     Then I should see "No data for this scheme"
     Then I take a screenshot

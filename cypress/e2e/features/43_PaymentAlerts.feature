@@ -491,7 +491,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "COHT Capital"
+    And I select the scheme "CS-HT (Capital)"
     And I click on the "Search" button
   #The following alert types should now be visible  
 

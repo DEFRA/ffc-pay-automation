@@ -13,8 +13,8 @@ Feature: 05 Remove Payment Holds via CSV Upload
   Scenario: 01 Uploading a CSV file with incorrect FRN format
     And I click on the "Remove payment holds in bulk" link
     And I upload bulk payment holds file 'frnsBulkUploadInvalid.csv'
-    And I select the scheme "COHT Capital"
-    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
+    And I select the scheme "CS-HT (Capital)"
+    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "CS-HT (Capital)"
     And I click on the "Remove holds" button
     And I see an error message for "There was a problem validating your uploaded data."
     Then I take a screenshot
@@ -22,8 +22,8 @@ Feature: 05 Remove Payment Holds via CSV Upload
   Scenario: 02 Uploading a file that is not a CSV
     And I click on the "Remove payment holds in bulk" link
     And I upload bulk payment holds file 'bulkUploadTxt.txt'
-    And I select the scheme "COHT Capital"
-    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
+    And I select the scheme "CS-HT (Capital)"
+    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "CS-HT (Capital)"
     And I click on the "Remove holds" button
     And I see an error message for "Provide a CSV file"
     Then I take a screenshot
@@ -31,8 +31,8 @@ Feature: 05 Remove Payment Holds via CSV Upload
   Scenario: 03 Removing holds selectively based on hold category
     And I click on the "Add payment holds in bulk" link
     And I upload bulk payment holds file 'selectiveFrnUpload.csv'
-    And I select the scheme "COHT Capital"
-    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
+    And I select the scheme "CS-HT (Capital)"
+    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "CS-HT (Capital)"
     And I click on the "Add holds" button
     And I wait for 1000 milliseconds
 
@@ -44,8 +44,8 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And I click on the "Manage payment holds in bulk" link
     And I click on the "Remove payment holds in bulk" link
     And I upload bulk payment holds file 'selectiveFrnRemove.csv'
-    And I select the scheme "COHT Capital"
-    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "COHT Capital"
+    And I select the scheme "CS-HT (Capital)"
+    Then on the Payment Holds page I enter "Dax rejection" hold for scheme "CS-HT (Capital)"
     And I click on the "Remove holds" button
 
     And I click on the "Manage payment holds" link

@@ -39,19 +39,19 @@ Feature: 10 Reports
     Then the CSV file is downloaded with "<title>" as the title
 
     Examples:
-      | scheme             | year | prn | revenueCapital | frn        | title                                                            |
-      | BPS                | 2018 | 1   |                |            | ffc-pay-combined-transaction-report_schemeId_6_year_2018_1       |
-      | CS                 | 2023 |     | Revenue        |            | ffc-pay-combined-transaction-report_schemeId_5_year_2023_Revenue |
-      | Delinked           | 2024 |     |                | 1102361569 | ffc-pay-combined-transaction-report_schemeId_13_year_2024        |
-      | ES                 | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_9_year_2023         |
-      | Expanded SFI Offer | 2024 |     |                | 1102491527 | ffc-pay-combined-transaction-report_schemeId_14_year_2024        |
-      | FC                 | 2021 |     |                |            | ffc-pay-combined-transaction-report_schemeId_10_year_2021        |
-      | IMPS               | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_11_year_2023        |
-      | Lump Sums          | 2022 |     |                |            | ffc-pay-combined-transaction-report_schemeId_3_year_2022         |
-      | Manual Invoice     | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_8_year_2023         |
-      | SFI Pilot          | 2022 |     |                |            | ffc-pay-combined-transaction-report_schemeId_2_year_2022         |
-      | SFI22              | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_1_year_2023         |
-      | SFI23              | 2023 |     |                | 1100016529 | ffc-pay-combined-transaction-report_schemeId_12_year_2023        |
+      | scheme                      | year | prn | revenueCapital | frn        | title                                                            |
+      | BPS                         | 2018 | 1   |                |            | ffc-pay-combined-transaction-report_schemeId_6_year_2018_1       |
+      | CS                          | 2023 |     | Revenue        |            | ffc-pay-combined-transaction-report_schemeId_5_year_2023_Revenue |
+      | Delinked Payments           | 2024 |     |                | 1102361569 | ffc-pay-combined-transaction-report_schemeId_13_year_2024        |
+      | Genesis (ES)                | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_9_year_2023         |
+      | SFI-EO                      | 2024 |     |                | 1102491527 | ffc-pay-combined-transaction-report_schemeId_14_year_2024        |
+      | GLOS (FC)                   | 2021 |     |                |            | ffc-pay-combined-transaction-report_schemeId_10_year_2021        |
+      | IMPS                        | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_11_year_2023        |
+      | Lump Sums                   | 2022 |     |                |            | ffc-pay-combined-transaction-report_schemeId_3_year_2022         |
+      | Manual Payments (Injection) | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_8_year_2023         |
+      | SFI-P                       | 2022 |     |                |            | ffc-pay-combined-transaction-report_schemeId_2_year_2022         |
+      | SFI-22                      | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_1_year_2023         |
+      | SFI-23                      | 2023 |     |                | 1100016529 | ffc-pay-combined-transaction-report_schemeId_12_year_2023        |
 
 
   @dev @test

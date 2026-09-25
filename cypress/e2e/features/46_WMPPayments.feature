@@ -34,7 +34,7 @@ Feature: 46 WMP Payments
 
   #   # Given I visit the "Payment management" homepage
   #   # When I click on the "View payment events by scheme" link
-  #   # And I select "Woodland Management Plan" from the monitor schemes dropdown
+  #   # And I select "WMP" from the monitor schemes dropdown
   #   # And I click on the "Continue" button
   #   # Then I store the number of payments and total value of payments for the current scheme
 
@@ -64,7 +64,7 @@ Feature: 46 WMP Payments
 
   #   Given I visit the "Payment management" homepage
   #   When I click on the "View payment events by scheme" link
-  #   And I select "Woodland Management Plan" from the monitor schemes dropdown
+  #   And I select "WMP" from the monitor schemes dropdown
   #   And I click on the "Continue" button
   #   Then I confirm that number of payments has increased by 2 and total value of payments has increased by "£110,000"
   #   Then I take a screenshot
@@ -116,7 +116,7 @@ Feature: 46 WMP Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "Woodland Management Plan" from the monitor schemes dropdown
+    And I select "WMP" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "Woodland Management Plan" scheme with "2" payment installments totalling "£110,000" is displayed
     Then I take a screenshot

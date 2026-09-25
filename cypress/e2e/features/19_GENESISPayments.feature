@@ -27,7 +27,7 @@ Feature: 19 GENESIS Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "ES" from the monitor schemes dropdown
+    And I select "Genesis (ES)" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
 
@@ -45,7 +45,7 @@ Feature: 19 GENESIS Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "ES" from the monitor schemes dropdown
+    And I select "Genesis (ES)" from the monitor schemes dropdown
     And I click on the "Continue" button
 
     Then I confirm that number of payments has increased by 1 and total value of payments has increased by "227.70"
@@ -91,7 +91,7 @@ Feature: 19 GENESIS Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "ES" from the monitor schemes dropdown
+    And I select "Genesis (ES)" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "ES" scheme with "1" payment installments totalling "£227.70" is displayed
     Then I take a screenshot
