@@ -94,7 +94,7 @@ class GDSGenericPage {
       scheme: '#schemeId, #user-search-scheme, #selectScheme',
       frn: '#frn, #user-search-frn',
       'email address': '#emailAddress',
-      'agreement number': '#agreement',
+      'agreement number': '#agreement, #frnAgreement',
       year: '#year',
       'marketing year': '#marketingYear',
       month: '#month',
