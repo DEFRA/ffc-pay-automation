@@ -1,5 +1,5 @@
 const schemeAndHolds = {
-  'CS-HT (Capital)': ['Bank account anomaly', 'Dax rejection', 'Non-payable','Other admin', 'Recovery', 'Withdrawal', 'Manual payment', 'Test type - for demonstration'],
+  'CS-HT (Capital)': ['Bank account anomaly', 'Dax rejection', 'Non-payable','Other admin', 'Recovery', 'Withdrawal', 'Manual payment'],
   'CS-HT (Revenue)': ['Bank account anomaly', 'Dax rejection', 'Non-payable', 'Other admin', 'Recovery', 'Withdrawal', 'Manual payment'],
   'SFI-EO': ['Accelerated payment', 'Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable','Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin','Bank account anomaly', 'Recovery', 'Top up', 'Partial recovery process'],
   'Delinked Payments': ['Delinked payment hold', 'Bank account anomaly', 'Dax rejection'],
