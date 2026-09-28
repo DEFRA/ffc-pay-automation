@@ -33,11 +33,11 @@ Feature: 46 SFI26 Payments
   #For E2E journey in Dev the scenarios have been consolidated into one in order to facilitate reuse of variables used for 
   #test data
 
-    # Given I visit the "Payment management" homepage
-    # When I click on the "View payment events by scheme" link
-    # And I select "SFI 26" from the monitor schemes dropdown
-    # And I click on the "Continue" button
-    # Then I store the number of payments and total value of payments for the current scheme
+    Given I visit the "Payment management" homepage
+    When I click on the "View payment events by scheme" link
+    And I select "SFI-26" from the monitor schemes dropdown
+    And I click on the "Continue" button
+    Then I store the number of payments and total value of payments for the current scheme
 
   #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
   #without the risk of data conflicts  
@@ -47,7 +47,7 @@ Feature: 46 SFI26 Payments
     Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
     Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
 
-    Then I pull sfi26 file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull sfi26 payments file from Azure Blob Storage and confirm that correct values have been generated
 
   #Updates template values with values used in payment message  
 
@@ -63,11 +63,36 @@ Feature: 46 SFI26 Payments
     Then I confirm that "ppa" test data in dev has been inserted into ffc-pay-processing database
 
 
+    Given I visit the "Request Editor" homepage
+    And I click on the "View awaiting debt data" link
+    When I search for current FRN
+    And I click on the "Enrich" link
+    And I click on the "Irregular" radio button
+    And I enter a valid debt discovered date in the past
+    And I click on the "Continue" button
+    And I click on the "Submit" button
+    And I click on the "Sign out" link
+
+    And I click on the "View awaiting manual ledger assignment" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes, I agree" radio button
+    And I click on the "Continue" button
+    And I see a success message for "has been updated and sent for quality checking."
+    And I click on the "Sign out" link
+
+    And I click on the "View awaiting ledger assignment quality check" link
+    When I search for current FRN
+    And I click on the "Review" link
+    And I click on the "Yes" radio button
+    And I click on the "Submit" button
+    And I see a success message for "has been quality checked."
+
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "SFI 26" from the monitor schemes dropdown
+    And I select "SFI-26" from the monitor schemes dropdown
     And I click on the "Continue" button
-    Then I confirm that number of payments has increased by 2 and total value of payments has increased by "£110,000"
+    Then I confirm that number of payments has increased by 3 and total value of payments has increased by "£10,000"
     Then I take a screenshot
 
   @local
@@ -166,5 +191,5 @@ Feature: 46 SFI26 Payments
     When I click on the "View payment events by scheme" link
     And I select "SFI26" from the monitor schemes dropdown
     And I click on the "Continue" button
-    Then I confirm that payment for "SFI26" scheme with "3" payment installments totalling "£10,000.00" is displayed
+    Then I confirm that payment for "SFI-26" scheme with "3" payment installments totalling "£10,000.00" is displayed
     Then I take a screenshot
