@@ -16,7 +16,6 @@ Feature: 46 SFI26 Payments
 #  ╚══════╝╚═╝     ╚═╝  ╚══════╝ ╚════╝
 #
 # Sustainable Farming Incentive 2026
-# COMMENTED OUT DEV SCENARIOS - SFI 26 NOT SWITCHED ON IN DEV YET
 #--------------------------------------------------------
 
   @dev
