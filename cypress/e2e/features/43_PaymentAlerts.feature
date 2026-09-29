@@ -227,7 +227,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "Manual Invoice"
+    And I select the scheme "Manual Payments (Injection)"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -260,7 +260,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "ES"
+    And I select the scheme "Genesis (ES)"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -784,8 +784,8 @@ Feature: 43 Payment Alerts
     And I click on the "Add new recipient" link
     And I enter "john.doe@defra.gov.uk" into the "email address" field
 
-    And I expand the accordion section "SFI-22"
-    And I click on the "select all alerts for SFI-22" link
+    And I expand the accordion section "BPS"
+    And I click on the "select all alerts for BPS" link
     And I click on the "Continue" button
     And I click on the "Confirm changes" button
     And I see a success message for "john.doe@defra.gov.uk will now receive the selected email alerts."

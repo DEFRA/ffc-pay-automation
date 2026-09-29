@@ -23,7 +23,7 @@ Then(/^on the Add new alert recipient page I confirm that all options are presen
     const pageText = doc.body.innerText
     stringsToCheck.forEach(str => {
       const count = (pageText.match(new RegExp(str, 'g')) || []).length
-      expect(count, `Occurrences of "${str}"`).to.eq(17)
+      expect(count, `Occurrences of "${str}"`).to.eq(18)
     })
   })
   console.log('Confirmed that all options are present when no filter selected')
