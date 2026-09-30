@@ -39,7 +39,7 @@ Feature: 20 Accessibility Testing
     When I click on the "View payment events by scheme" link
     Then I confirm there are no accessibility issues on the page
 
-    Then I select "COHT Capital" from the monitor schemes dropdown
+    Then I select "CS-HT (Capital)" from the monitor schemes dropdown
 
     And I click on the "Continue" button
     Then I confirm there are no accessibility issues on the page
@@ -93,7 +93,7 @@ Feature: 20 Accessibility Testing
     Then I confirm there are no accessibility issues on the page
         #Search - Force error message on page through invalid input and confirm accessibility again
 
-    And I enter frn 1 on the search for agreement closure page
+    And I enter "1" into the "closure search" field
     And I click on the "Filter" button
     Then I confirm there are no accessibility issues on the page
 

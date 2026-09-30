@@ -1,14 +1,27 @@
-Feature: 32 SFI23 Payments
+Feature: 46 SFI26 Payments
 
-# npm run cypress:dev:one -- "cypress\e2e\features\32_SFI23Payments.feature"
-# npm run cypress:local:one -- "cypress\e2e\features\32_SFI23Payments.feature"
+# npm run cypress:dev:one -- "\cypress\e2e\features\47_SFI26Payments.feature"
+# npm run cypress:local:one -- "\cypress\e2e\features\47_SFI26Payments.feature"
 
-# This feature file is designed to test the end-to-end journey of SFI23 payment in the local environment.
+#This feature file is designed to test the end-to-end journey of sfi26 payment in the local environment.
+
+
+#---------------------------------------------------------
+
+#  ███████╗███████╗██╗  ██████╗  ██████╗
+#  ██╔════╝██╔════╝██║  ╚════██╗██╔════╝
+#  ███████╗█████╗  ██║   █████╔╝██████╗
+#  ╚════██║██╔══╝  ██║  ██╔═══╝ ██╔══██╗
+#  ███████║██║     ██║  ███████╗╚█████╔╝
+#  ╚══════╝╚═╝     ╚═╝  ╚══════╝ ╚════╝
+#
+# Sustainable Farming Incentive 2026
+#--------------------------------------------------------
 
   @dev
-  Scenario: 01 insert incorrect SFI23 test data via service bus message to ffc-pay-request
+  Scenario: 01 insert incorrect sfi26 test data via service bus message to ffc-pay-request
 
-    When I send "sfi23 error" test data message to the service bus topic "ffc-pay-request-dev"
+    When I send "sfi26 error" test data message to the service bus topic "ffc-pay-request-dev"
 
     Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
     Then I confirm that payment test data in dev has not been inserted into the ffc-pay-submission database
@@ -21,32 +34,33 @@ Feature: 32 SFI23 Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "SFI-23" from the monitor schemes dropdown
+    And I select "SFI-26" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
 
   #Scans DB for highest values and then iterates them by 1, this ensures the script can be reran
   #without the risk of data conflicts  
 
-    When I send "sfi23 payment" test data message to the service bus topic "ffc-pay-request-dev"
+    When I send "sfi26 payment" test data message to the service bus topic "ffc-pay-request-dev"
 
     Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
     Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
 
-    Then I pull sfi23 payments file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull sfi26 payments file from Azure Blob Storage and confirm that correct values have been generated
 
   #Updates template values with values used in payment message  
 
-    When I send "sfi23 return" test data message to the service bus topic "ffc-pay-return-dev"
+    When I send "sfi26 return" test data message to the service bus topic "ffc-pay-return-dev"
     Then I confirm that "return" test data in dev has been inserted into ffc-pay-processing database
 
   #Updates template values with values used in payment message
+   #Please note that sfi26 PPA files do not result in a routing to Request Editor as is
+  #the case with most other schemes but instead is handled as a separated payment and goes straight to submission  
 
-    When I send "sfi23 ppa" test data message to the service bus topic "ffc-pay-request-dev"
+
+    When I send "sfi26 ppa" test data message to the service bus topic "ffc-pay-request-dev"
     Then I confirm that "ppa" test data in dev has been inserted into ffc-pay-processing database
 
-  #The following steps complete the E2E journey in Request Editor using the values
-  #from payment file  
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting debt data" link
@@ -75,28 +89,25 @@ Feature: 32 SFI23 Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "SFI-23" from the monitor schemes dropdown
+    And I select "SFI-26" from the monitor schemes dropdown
     And I click on the "Continue" button
-    
-    Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
+    Then I confirm that number of payments has increased by 3 and total value of payments has increased by "£10,000"
     Then I take a screenshot
 
-
   @local
-  Scenario: 01 insert incorrect SFI23 test data via service bus message to ffc-pay-request
+  Scenario: 01 insert incorrect sfi26 test data via service bus message to ffc-pay-request
 
  #First ensure that incorrect data will not be processed
 
     Given I truncate payment tables
     Given I visit the "Request Editor" homepage
-    Then I take a screenshot
-    When I send the updated "sfi23Error-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
+    When I send the updated "sfi26Error-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that payment test data has not been inserted into the ffc-pay-processing database
 
   @local
   Scenario: 02 insert test data via service bus message to ffc-pay-request
 
-    When I send the updated "sfi23-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
+    When I send the updated "sfi26-paymentFileMessage" message to the service bus topic "ffc-pay-request-auto"
 
 #The following steps confirm that the data has been passed along to the correct services and that the data
 #has been processed correctly
@@ -107,24 +118,24 @@ Feature: 32 SFI23 Payments
 #The following step downloads file from Azure Blob Storage and confirms that the values given in the data inserted into the 
 #Pay Submission Service have been correctly added to the generated statement
 
-    Then I pull sfi23 payments file from Azure Blob Storage and confirm that correct values have been generated
+    Then I pull sfi26 payments file from Azure Blob Storage and confirm that correct values have been generated
 
   @local
   Scenario: 03 send return file message and confirm processing
 
 #This scenario confirms that a return file message can be sent and processed correctly
 
-    When I send the updated "sfi23-returnFileMessage" message to the service bus topic "ffc-pay-return-auto"
+    When I send the updated "sfi26-returnFileMessage" message to the service bus topic "ffc-pay-return-auto"
     Then I confirm that "return" test data has been inserted into the "ffc-pay-processing" database
 
   @local
-  Scenario: 04 send SFI23 PPA file message and confirm processing
+  Scenario: 04 send sfi26 PPA file message and confirm processing
 
   #This scenario confirms that a PPA file message can be sent and processed correctly
 
-    When I send the updated "sfi23-ppaFileMessage" message to the service bus topic "ffc-pay-request-auto"
+    When I send the updated "sfi26-ppaFileMessage" message to the service bus topic "ffc-pay-request-auto"
     Then I confirm that "ppa" test data has been inserted into the "ffc-pay-processing" database
-
+  
   @local
   Scenario: 05 Approve payment from reporting data queue
 
@@ -132,7 +143,7 @@ Feature: 32 SFI23 Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting debt data" link
-    When I enter "1258445148" into the "frn" field
+    When I search for FRN "1101769106"
     When I click on the FRN search button
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
@@ -142,7 +153,7 @@ Feature: 32 SFI23 Payments
     And I click on the "Submit" button
     And I wait for 10000 milliseconds
     And I click on the "Sign out" link
-
+    
   @local
   Scenario: 06 Approve payment in ledger assignment queue
 
@@ -150,7 +161,7 @@ Feature: 32 SFI23 Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting manual ledger assignment" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1101769106" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
@@ -165,7 +176,7 @@ Feature: 32 SFI23 Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment quality check" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1101769106" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
@@ -177,7 +188,7 @@ Feature: 32 SFI23 Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "SFI-23" from the monitor schemes dropdown
+    And I select "SFI26" from the monitor schemes dropdown
     And I click on the "Continue" button
-    Then I confirm that payment for "SFI23" scheme with "3" payment installments totalling "£10,000.00" is displayed
+    Then I confirm that payment for "SFI-26" scheme with "3" payment installments totalling "£10,000.00" is displayed
     Then I take a screenshot

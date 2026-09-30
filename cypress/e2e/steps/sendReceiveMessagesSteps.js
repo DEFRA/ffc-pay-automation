@@ -697,6 +697,14 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
 
 
   switch (messageType) {
+  case 'sfi26 payment':
+    messageTemplate = 'sfi26-paymentFileMessage'; break
+  case 'sfi26 error':
+    messageTemplate = 'sfi26Error-paymentFileMessage'; break
+  case 'sfi26 return':
+    messageTemplate = 'sfi26-returnFileMessage'; break
+  case 'sfi26 ppa':
+    messageTemplate = 'sfi26-ppaFileMessage'; break
   case 'sfi23 payment':
     messageTemplate = 'sfi23-paymentFileMessage'; break
   case 'sfi23 error':
@@ -855,7 +863,7 @@ FROM "paymentRequests";
           console.log('Max FRN:', max_frn)
           console.log('Max INVOICE_NUMBER:', max_invoice_number)
 
-          nextFRN = Date.now().toString().slice(-10)
+          nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
 
           //The following code separates the main body of the invoice number from the lone digit at the end
           // and iterates the main body by 1 before joining back together
@@ -950,7 +958,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = Date.now().toString().slice(-10)
+            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
             nextSBI = parseInt(max_sbi) + 1
             nextAgreementNumber = parseInt(max_agreement_number) + 1
 
@@ -1035,7 +1043,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = Date.now().toString().slice(-10)
+            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
             nextVendor = parseInt(max_vendor) + 1
 
             const contractPrefix = max_contract_number.substring(0,2)
@@ -1108,7 +1116,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = Date.now().toString().slice(-10)
+            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
 
             const traderPrefix = max_trader.substring(0,1)
             const traderSuffix = max_trader.substring(2, max_trader.length)
@@ -1193,7 +1201,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = Date.now().toString().slice(-10)
+            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
             nextSBI = parseInt(max_sbi) + 1
 
             const contractPrefix = max_contract_number.substring(0,1)
@@ -1348,7 +1356,7 @@ FROM "paymentRequests";
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = Date.now().toString().slice(-10)
+            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
             nextContractNumber = parseInt(max_contract) + 1
             nextAgreementNumber = parseInt(max_agreement_number) + 1
 
@@ -1598,6 +1606,7 @@ When(/^I search for current FRN$/, () => {
 
   requestEditor.getFrnSearchField().type(nextFRN)
   requestEditor.getFrnSearchButton().click()
+  cy.wait(2000)
   console.log('Searched for current FRN - ' + nextFRN)
   cy.log('Searched for current FRN - ' + nextFRN)
 })

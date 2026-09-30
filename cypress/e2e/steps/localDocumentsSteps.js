@@ -1057,6 +1057,14 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'sfi23'
     })
     break
+  case 'sfi26 payments':
+    cy.task('fetchPaymentsBlobById', {
+      env: env,
+      container: 'dax',
+      dir: Cypress.env('FILE_DOWNLOAD_LOCATION_LOCALENV'),
+      scheme: 'sfi26'
+    })
+    break
   case 'sfi22 payments':
     cy.task('fetchPaymentsBlobById', {
       env: env,
@@ -1121,7 +1129,7 @@ Then(/^I pull (.*) file from Azure Blob Storage and confirm that correct values 
       scheme: 'wmp'
     })
     break
-  default: throw new Error(`Unknown scheme: ${fileType}`)
+  default: throw new Error(`Unknown scheme not mapped in localdocumentSteps.js: ${fileType}`)
   }
 })
 

@@ -21,7 +21,7 @@ Feature: 23 CS Higher Tier Capital Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "COHT Capital" from the monitor schemes dropdown
+    And I select "CS-HT (Capital)" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I store the number of payments and total value of payments for the current scheme
 
@@ -75,13 +75,10 @@ Feature: 23 CS Higher Tier Capital Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "COHT Capital" from the monitor schemes dropdown
+    And I select "CS-HT (Capital)" from the monitor schemes dropdown
     And I click on the "Continue" button
-
-    Then I take a screenshot
-    #why increase by 3? surely just 1 ? raise this with Ali on his return
     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
-
+    Then I take a screenshot
   @local
   Scenario: 01 insert incorrect COHTC test data via service bus message to ffc-pay-request
 
@@ -124,7 +121,7 @@ Feature: 23 CS Higher Tier Capital Payments
   @local
   Scenario: 05 Approve payment from reporting data queue
 
-     Given I visit the "Request Editor" homepage
+    Given I visit the "Request Editor" homepage
     And I click on the "View awaiting debt data" link
     When I enter "1258445148" into the "frn" field
     When I click on the FRN search button
@@ -167,7 +164,7 @@ Feature: 23 CS Higher Tier Capital Payments
 
     Given I visit the "Payment management" homepage
     When I click on the "View payment events by scheme" link
-    And I select "COHT Capital" from the monitor schemes dropdown
+    And I select "CS-HT (Capital)" from the monitor schemes dropdown
     And I click on the "Continue" button
     Then I confirm that payment for "COHT Capital" scheme with "3" payment installments totalling "£10,000.00" is displayed
     Then I take a screenshot

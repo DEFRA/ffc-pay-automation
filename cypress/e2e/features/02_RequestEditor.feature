@@ -25,11 +25,11 @@ Feature: 02 Request Editor
     And the application identifier hint is visible with text 'For example, SIP000000000001 or 12345678'
     And I create a new debt dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
-      | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
+      | SFI-22 | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
     When I click on the "Continue" button
     And I verify my new debt dataset with the following values on the confirmation screen
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
-      | SFI22  | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
+      | SFI-22 | 1234567891 | SIP000000000001 | 10000    | irr        | today              |
     And I click on the "Save" button
     And I see a success message for "New reporting dataset has been successfully created."
     And I click the "Home" breadcrumb
@@ -44,19 +44,20 @@ Feature: 02 Request Editor
     When I click on the "Create new dataset" link
     Then I take a screenshot
     Then I should see the following schemes:
-      | Scheme Name                        |
-      | Annual Health and Welfare Review   |
-      | SFI22                              |
-      | SFI Pilot                          |
-      | Lump Sums                          |
-      | CS                                 |
-      | BPS                                |
-      | Delinked                           |
-      | Expanded SFI Offer                 |
-      | Combined Offer Higher Tier Revenue |
-      | Combined Offer Higher Tier Capital |
-      | SFI23                              |
-      | Farm Payments Technical Test       |
+      | Scheme Name       |
+      | Vet Visits (AHWR) |
+      | SFI-22            |
+      | SFI-P             |
+      | Lump Sums         |
+      | CS                |
+      | BPS               |
+      | Delinked Payments |
+      | SFI-EO            |
+      | CS-HT (Revenue)   |
+      | CS-HT (Capital)   |
+      | SFI-23            |
+      | FPTT              |
+
 
   @test @dev @local
   Scenario: 03 Download Extract
@@ -99,7 +100,7 @@ Feature: 02 Request Editor
     And I click on the "Create new dataset" link
     And I create a new debt dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
-      | SFI22  | 1234567891 | 1234            | 10000    | irr        | today              |
+      | SFI-22 | 1234567891 | 1234            | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I take a screenshot
     Then I see the 'The Agreement / claim number must be at least 5 characters long' application identifier error message
@@ -112,7 +113,7 @@ Feature: 02 Request Editor
     And I click on the "Create new dataset" link
     And I create a new debt dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
-      | SFI22  | 1234567891 |                 | 10000    | irr        | today              |
+      | SFI-22 | 1234567891 |                 | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I see the 'The Agreement / claim number is required' application identifier error message
     Then I take a screenshot
@@ -125,7 +126,7 @@ Feature: 02 Request Editor
     And I click on the "Create new dataset" link
     And I create a new debt dataset with the following values
       | scheme | frn        | agreementNumber | netValue | typeOfDebt | dateDebtDiscovered |
-      | SFI22  | 1234567891 | !@£$%^&%*       | 10000    | irr        | today              |
+      | SFI-22 | 1234567891 | !@£$%^&%*       | 10000    | irr        | today              |
     When I click on the "Continue" button
     Then I see the 'The Agreement / claim number must be a string consisting of alphanumeric characters and underscores' application identifier error message
     Then I take a screenshot
@@ -153,26 +154,26 @@ Feature: 02 Request Editor
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
+    And I select 'CS-HT (Capital)' in the scheme dropdown
     When I click on the "Search" button
-    Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
+    Then each record in the table has the Scheme 'CS-HT (Capital)'
 
   @test
   Scenario: 10 Unattached reporting datasets - Searching based on scheme displays only records related to that scheme
     And I click on the "View all datasets" link
     And I am on the "capture" subpage
-    And I select 'Combined Offer Higher Tier Capital' in the scheme dropdown
+    And I select 'CS-HT (Capital)' in the scheme dropdown
     When I click on the "Search" button
-    Then each record in the table has the Scheme 'Combined Offer Higher Tier Capital'
+    Then each record in the table has the Scheme 'CS-HT (Capital)'
 
   @test @dev @local
   Scenario: 11 Unattached reporting datasets - Searching based on FRN number & scheme displays only records related to both that FRN number & scheme
     And I click on the "View all datasets" link
     And I enter "1234567891" into the "frn" field
-    And I select 'SFI22' in the scheme dropdown
+    And I select 'SFI-22' in the scheme dropdown
     When I click on the "Search" button
     Then I take a screenshot
-    And each record in the table has the Scheme 'SFI22'
+    And each record in the table has the Scheme 'SFI-22'
 
   @test @dev @local
   Scenario: 12 Unattached reporting datasets - Searching based on FRN number that returns no datasets
@@ -185,15 +186,15 @@ Feature: 02 Request Editor
   @test @dev @local
   Scenario: 13 Unattached reporting datasets - Searching based on scheme that returns no datasets
     And I click on the "View all datasets" link
-    And I select 'Annual Health and Welfare Review' in the scheme dropdown
+    And I select 'Vet Visits (AHWR)' in the scheme dropdown
     When I click on the "Search" button
-    Then I should see "No datasets were found for Annual Health and Welfare Review. Check your details and try again"
+    Then I should see "No datasets were found for Vet Visits (AHWR). Check your details and try again"
     Then I take a screenshot
 
   @dev @local
   Scenario: 13 Deleting "Manage unattached debt data" entry
     And I click on the "View all datasets" link
-    And I click "Delete" for table value "SFI22"
+    And I click "Delete" for table value "SFI-22"
     And I click on the "Yes, remove" button
     And I see a success message for "Reporting dataset has been successfully deleted."
     Then I take a screenshot

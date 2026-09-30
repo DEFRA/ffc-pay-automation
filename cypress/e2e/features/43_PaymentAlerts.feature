@@ -28,7 +28,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "SFI22"
+    And I select the scheme "SFI-22"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -61,7 +61,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "SFI Pilot"
+    And I select the scheme "SFI-P"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -227,7 +227,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "Manual Invoice"
+    And I select the scheme "Manual Payments (Injection)"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -260,7 +260,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "ES"
+    And I select the scheme "Genesis (ES)"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -326,7 +326,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "FC"
+    And I select the scheme "GLOS (FC)"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -359,7 +359,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "SFI23"
+    And I select the scheme "SFI-23"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -392,7 +392,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "Delinked"
+    And I select the scheme "Delinked Payments"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -425,7 +425,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "Expanded SFI Offer"
+    And I select the scheme "SFI-EO"
     And I click on the "Search" button
     
   #The following alert types should now be visible  
@@ -458,7 +458,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "COHT Revenue"
+    And I select the scheme "CS-HT (Revenue)"
     And I click on the "Search" button
 
   #The following alert types should now be visible  
@@ -491,7 +491,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "COHT Capital"
+    And I select the scheme "CS-HT (Capital)"
     And I click on the "Search" button
   #The following alert types should now be visible  
 
@@ -523,7 +523,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "Farm Payments Technical Test"
+    And I select the scheme "FPTT"
     And I click on the "Search" button
   #The following alert types should now be visible  
 
@@ -555,7 +555,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "Woodland Management Plan"
+    And I select the scheme "WMP"
     And I click on the "Search" button
   #The following alert types should now be visible  
 
@@ -581,6 +581,39 @@ Feature: 43 Payment Alerts
     Then I take a screenshot
 
   @local @dev
+  Scenario: 19 Confirm correct alert types for SFI26
+
+   #This scenario confirms that correct alert types are present for Countryside Stewardship Higher Tier (Capital) scheme
+
+    When I click on the "Manage email alerts" link
+    Then I click on the "Manage by scheme" link
+    And I select the scheme "SFI-26"
+    And I click on the "Search" button
+  #The following alert types should now be visible  
+
+    Then I should see "Batch Rejected"
+    Then I should see "Batch Quarantined"
+    Then I should see "Payment Rejected"
+    Then I should see "Payment Dax Rejected"
+    Then I should see "Payment Invalid Bank"
+    Then I should see "Payment Processing Failed"
+    Then I should see "Payment Settlement Unsettled"
+    Then I should see "Payment Settlement Unmatched"
+    Then I should see "Response Rejected"
+    Then I should see "Payment Request Blocked"
+    Then I should see "Payment Dax Unavailable"
+    Then I should see "Receiver Connection Failed"
+    Then I should see "Demographics Processing Failed"
+    Then I should see "Demographics Update Failed"
+    Then I should see "Event Save Alert"
+    Then I should see "Table Create Alert"
+    Then I should see "Responses Processing Failed"
+    Then I should see "Customer Update Processing Failed"
+    Then I should see "Tracking Update Failure"
+    Then I take a screenshot
+  
+  
+  @local @dev
   Scenario: 17 Confirm that all schemes are successfully cascaded when Show All Sections is clicked
 
   #This scenario confirms that all schemes are successfully cascaded when Show All Sections is clicked
@@ -588,7 +621,7 @@ Feature: 43 Payment Alerts
 
     When I click on the "Manage email alerts" link
     Then I click on the "Manage by scheme" link
-    And I select the scheme "Woodland Management Plan"
+    And I select the scheme "WMP"
     And I click on the "Search" button
     And I click on the "Show all sections" button
 
@@ -641,25 +674,27 @@ Feature: 43 Payment Alerts
 
 #Cycle through options in Select Scheme dropdown to confirm all expected are present
 
-    Then I should see scheme "SFI22" in the scheme dropdown
-    Then I should see scheme "SFI Pilot" in the scheme dropdown
+    Then I should see scheme "SFI-22" in the scheme dropdown
+    Then I should see scheme "SFI-P" in the scheme dropdown
     Then I should see scheme "Lump Sums" in the scheme dropdown
-    #Then I should see scheme "Vet Visits" in the scheme dropdown
     Then I should see scheme "CS" in the scheme dropdown
     Then I should see scheme "BPS" in the scheme dropdown
-    Then I should see scheme "Manual Invoice" in the scheme dropdown
-    Then I should see scheme "ES" in the scheme dropdown
+    Then I should see scheme "Manual Payments (Injection)" in the scheme dropdown
+    Then I should see scheme "Genesis (ES)" in the scheme dropdown
     Then I should see scheme "IMPS" in the scheme dropdown
-    Then I should see scheme "FC" in the scheme dropdown
-    Then I should see scheme "SFI23" in the scheme dropdown
-    Then I should see scheme "Delinked" in the scheme dropdown
-    Then I should see scheme "Expanded SFI Offer" in the scheme dropdown
-    Then I should see scheme "COHT Revenue" in the scheme dropdown
-    Then I should see scheme "COHT Capital" in the scheme dropdown
+    Then I should see scheme "GLOS (FC)" in the scheme dropdown
+    Then I should see scheme "SFI-23" in the scheme dropdown
+    Then I should see scheme "Delinked Payments" in the scheme dropdown
+    Then I should see scheme "SFI-EO" in the scheme dropdown
+    Then I should see scheme "CS-HT (Revenue)" in the scheme dropdown
+    Then I should see scheme "CS-HT (Capital)" in the scheme dropdown
+    Then I should see scheme "FPTT" in the scheme dropdown
+    Then I should see scheme "WMP" in the scheme dropdown
+    Then I should see scheme "SFI-26" in the scheme dropdown
 
 #Filter by SFI-22 and confirm that all other scheme options are no longer displayed
 
-    Then I select the scheme "SFI22"
+    Then I select the scheme "SFI-22"
     And I click on the "Search" button
     Then on the Add new alert recipient page I confirm that only one set of options is displayed
     Then I take a screenshot
@@ -674,8 +709,8 @@ Feature: 43 Payment Alerts
     When I click on the "Add new recipient" link
 
     Then I enter "test@gmail.com" into the "email address" field
-    And I expand the accordion section "SFI 22"
-    And I click on the "select all alerts for SFI 22" link
+    And I expand the accordion section "SFI-22"
+    And I click on the "select all alerts for SFI-22" link
  
     And I click on the "Continue" button
     And I click on the "Confirm changes" button
@@ -694,8 +729,8 @@ Feature: 43 Payment Alerts
 
     Then I enter "fake.user@atos.net" into the "email address" field
 
-    And I expand the accordion section "SFI 22"
-    And I click on the "select all alerts for SFI 22" link
+    And I expand the accordion section "SFI-22"
+    And I click on the "select all alerts for SFI-22" link
     And I click on the "Continue" button
     And I click on the "Confirm changes" button
 
@@ -749,8 +784,8 @@ Feature: 43 Payment Alerts
     And I click on the "Add new recipient" link
     And I enter "john.doe@defra.gov.uk" into the "email address" field
 
-    And I expand the accordion section "SFI 22"
-    And I click on the "select all alerts for SFI 22" link
+    And I expand the accordion section "BPS"
+    And I click on the "select all alerts for BPS" link
     And I click on the "Continue" button
     And I click on the "Confirm changes" button
     And I see a success message for "john.doe@defra.gov.uk will now receive the selected email alerts."

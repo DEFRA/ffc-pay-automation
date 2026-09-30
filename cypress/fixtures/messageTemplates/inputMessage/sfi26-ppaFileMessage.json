@@ -1,0 +1,28 @@
+{
+  "sourceSystem": "SITISFI26",
+  "schemeId": 19,
+  "batch": "SITISFI260001_AP_20230810085609205.dat",
+  "deliveryBody": "RP00",
+  "invoiceNumber": "SITISFI261487466",
+  "frn": "1101769106",
+  "marketingYear": 2023,
+  "paymentRequestNumber": 2,
+  "agreementNumber": "G2525175",
+  "contractNumber": "40653785",
+  "currency": "GBP",
+  "schedule": "Q4",
+  "dueDate": "2025-12-01",
+  "value": 10000,
+  "invoiceLines": [
+    {
+      "schemeCode": "80101",
+      "accountCode": "SOS273",
+      "fundCode": "DRD10",
+      "agreementNumber": "G2525175",
+      "description": "G00 - Gross value of claim",
+      "value": 10000,
+      "deliveryBody": "RP00",
+      "marketingYear": 2026
+    }
+  ]
+}
