@@ -1,7 +1,7 @@
 Feature: 46 SFI26 Payments
 
-# npm run cypress:dev:one -- "\cypress\e2e\features\47_WMPPayments.feature"
-# npm run cypress:local:one -- "\cypress\e2e\features\47_WMPPayments.feature"
+# npm run cypress:dev:one -- "\cypress\e2e\features\47_SFI26Payments.feature"
+# npm run cypress:local:one -- "\cypress\e2e\features\47_SFI26Payments.feature"
 
 #This feature file is designed to test the end-to-end journey of sfi26 payment in the local environment.
 
