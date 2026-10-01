@@ -42,6 +42,7 @@ Feature: 10 Reports
       | scheme                      | year | prn | revenueCapital | frn        | title                                                            |
       | BPS                         | 2018 | 1   |                |            | ffc-pay-combined-transaction-report_schemeId_6_year_2018_1       |
       | CS                          | 2023 |     | Revenue        |            | ffc-pay-combined-transaction-report_schemeId_5_year_2023_Revenue |
+      | CS                          | 2023 |     | Capital        |            | ffc-pay-requests-statuses-report_schemeId_5_year_2023_Capital    |
       | Delinked Payments           | 2024 |     |                | 1102361569 | ffc-pay-combined-transaction-report_schemeId_13_year_2024        |
       | Genesis (ES)                | 2023 |     |                |            | ffc-pay-combined-transaction-report_schemeId_9_year_2023         |
       | SFI-EO                      | 2024 |     |                | 1102491527 | ffc-pay-combined-transaction-report_schemeId_14_year_2024        |
