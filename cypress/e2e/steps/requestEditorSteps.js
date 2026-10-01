@@ -1,7 +1,7 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 import requestEditor from '../pages/requestEditorPage'
 import capturePage from '../pages/capturePage'
-
+import { schemeAndHolds } from '../../support/data/paymentHolds.data.js'
 
 //+-----------------------------+
 //| Creating a new debt dataset |
@@ -402,9 +402,12 @@ When('on the Awaiting Reporting Data page I click the FRN number search button',
 //Wil fail after 20 entries due to cypress config not allowing more than 20 redirects to the same URL
 Then('I create {int} debt datasets', (count) => {
   cy.wrap(Array.from({ length: count })).each((_, i) => {
+
+    const schemes = Object.keys(schemeAndHolds)
+
     const dataset = {
-      scheme: 'SFI22',
-      frn: String(1234567800 + i),
+      scheme: schemes[Math.floor(Math.random() * schemes.length)],
+      frn: String(Math.floor(Math.random() * 9000000000) + 1000000000),
       agreementNumber: `SIP${String(i + 1).padStart(12, '0')}`,
       netValue: '10000',
       typeOfDebt: 'irr',
