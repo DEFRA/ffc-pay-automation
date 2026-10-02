@@ -128,17 +128,27 @@ Then(/^I confirm that payment test data has not been inserted into the (.*) data
 })
 
 Then('I confirm that {string} test data has been inserted into the {string} database', (fileType, databaseName) => {
-
-  Cypress.emit('log:step', 'I confirm that ' + fileType + ' test data has been inserted into the ' + databaseName + ' database')
+  Cypress.emit(
+    'log:step',
+    'I confirm that ' + fileType + ' test data has been inserted into the ' + databaseName + ' database'
+  )
 
   let containerName
   let sqlStatement
 
   switch (fileType) {
-  case 'return': sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "paymentRequestId" = 1'; break
-  case 'ppa': sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "paymentRequestId" = 2'; break
-  case 'd365 rejection': sqlStatement = 'SELECT "holdCategoryId" FROM "holds" WHERE "holdId" = 1'; break
-  case 'resubmission': sqlStatement = 'SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "completedPaymentRequestId" = 2'; break
+  case 'return':
+    sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "paymentRequestId" = 1'
+    break
+  case 'ppa':
+    sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "paymentRequestId" = 2'
+    break
+  case 'd365 rejection':
+    sqlStatement = 'SELECT "holdCategoryId" FROM "holds" WHERE "holdId" = 1'
+    break
+  case 'resubmission':
+    sqlStatement = 'SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "completedPaymentRequestId" = 2'
+    break
   default:
     throw new Error(`Unknown file type: ${fileType}`)
   }
@@ -146,26 +156,57 @@ Then('I confirm that {string} test data has been inserted into the {string} data
   cy.log('Querying ' + databaseName + ' with statement - ' + sqlStatement)
 
   containerName = 'ffc-pay-processing-ffc-pay-processing-1'
+
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
     .then((results) => {
-
       cy.log('Results - ' + JSON.stringify(results))
 
       if (fileType === 'd365 rejection') {
+        if (results.rowCount === 0) {
+          throw new Error('No hold record found')
+        }
 
-        let holdCategoryId = results.rows[0].holdCategoryId
+        const holdCategoryId = results.rows[0].holdCategoryId
 
         if (holdCategoryId === 1) {
-          console.log('✅ Correct data has been added from ' + fileType + ' file')
+          console.log(`✅ Correct data has been added from ${fileType} file`)
         } else {
-          throw new Error('Correct data has not been added from ' + fileType + ' file')
+          throw new Error(
+            `Expected holdCategoryId to be 1 but found ${holdCategoryId}`
+          )
+        }
+      } else if (fileType === 'return') {
+        if (results.rowCount === 0) {
+          throw new Error(
+            'No completedPaymentRequest record found'
+          )
+        }
+
+        const settledValue = results.rows[0].settledValue
+
+        if (settledValue != null) {
+          cy.log(`✅ Settled value is ${settledValue}`)
+          console.log(`✅ Settled value is ${settledValue}`)
+        } else {
+          throw new Error(
+            'Return file has not been processed correctly. settledValue is null'
+          )
+        }
+      } else if (fileType === 'ppa') {
+        if (results.rowCount === 1) {
+          console.log(`✅ Correct data has been added from ${fileType} file`)
+        } else {
+          throw new Error(
+            `Expected 1 paymentRequest record but found ${results.rowCount}`
+          )
         }
       } else {
-
         if (results.rowCount === 1) {
-          console.log('✅ Correct data has been added from ' + fileType + ' file')
+          console.log(`✅ Correct data has been added from ${fileType} file`)
         } else {
-          throw new Error('Correct data has not been added from ' + fileType + ' file')
+          throw new Error(
+            `Correct data has not been added from ${fileType} file`
+          )
         }
       }
     })
@@ -177,6 +218,7 @@ Then('I confirm that {string} test data has been inserted into the {string} data
       }
     })
   })
+
   console.log(`✅ Test data was updated in the ${containerName} database`)
   cy.log(`✅ Test data was updated in the ${containerName} database`)
 })
