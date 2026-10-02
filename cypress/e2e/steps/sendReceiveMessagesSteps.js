@@ -1497,75 +1497,114 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
 
 
 Then('I confirm that {string} test data in dev has been inserted into ffc-pay-processing database', (fileType) => {
+  Cypress.emit(
+    'log:step',
+    `I confirm that ${fileType} test data in dev has been inserted into ffc-pay-processing database`
+  )
 
-  Cypress.emit('log:step', 'I confirm that ' + fileType + ' test data in dev has been inserted into ffc-pay-processing database')
-  let containerName
+  const databaseName = 'ffc-pay-processing'
+  const containerName = 'ffc-pay-processing-ffc-pay-processing-1'
+
   let sqlStatement
 
   switch (fileType) {
-  case 'return': sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = ' + nextFRN; break
-  case 'ppa': sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN; break
-  case 'd365 rejection': sqlStatement = 'SELECT "holdCategoryId" FROM "holds" WHERE "frn" = ' + nextFRN; break
-  case 'resubmission': sqlStatement = 'SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "frn" = ' + nextFRN; break
+  case 'return':
+    sqlStatement = `SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = ${nextFRN}`
+    break
+
+  case 'ppa':
+    sqlStatement = `SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ${nextFRN}`
+    break
+
+  case 'd365 rejection':
+    sqlStatement = `SELECT "holdCategoryId" FROM "holds" WHERE "frn" = ${nextFRN}`
+    break
+
+  case 'resubmission':
+    sqlStatement = `SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "frn" = ${nextFRN}`
+    break
+
   default:
     throw new Error(`Unknown file type: ${fileType}`)
   }
 
-  cy.log('Querying ffc-pay-processing with statement - ' + sqlStatement)
+  cy.log(`Querying ${databaseName} with statement - ${sqlStatement}`)
 
-  const databaseName = 'ffc-pay-processing'
-  containerName = 'ffc-pay-processing-ffc-pay-processing-1'
-  cy.task('databaseQuery', { env, databaseName, sqlStatement })
-    .then((results) => {
+  const start = Date.now()
+  const timeoutMs = 120000
+  const retryDelayMs = 5000
 
-      cy.log('Results - ' + JSON.stringify(results))
+  const checkDatabase = () => {
+    return cy.task('databaseQuery', {
+      env,
+      databaseName,
+      sqlStatement
+    }).then((results) => {
+      cy.log(`Results - ${JSON.stringify(results)}`)
 
-      if (fileType === 'd365 rejection') {
+      if (fileType === 'return') {
+        if (results.rowCount > 0) {
+          const settledValue = results.rows[0].settledValue
 
-        let holdCategoryId = results.rows[0].holdCategoryId
+          if (settledValue != null) {
+            cy.log(`✅ Settled value is ${settledValue}`)
+            console.log(`✅ Settled value is ${settledValue}`)
 
-        if (holdCategoryId === 1) {
-          console.log('✅ Correct data has been added from ' + fileType + ' file')
-        } else {
-          throw new Error('Correct data has not been added from ' + fileType + ' file')
+            return cy.wrap(results)
+          }
+
+          cy.log(
+            `Found completedPaymentRequest but settledValue is still null for FRN ${nextFRN} (return issue)`
+          )
         }
-      } else if (fileType === 'return') {
-
-        let settledValue = results.rows[0].settledValue
-
-        if (settledValue != null) {
-          cy.log('✅ Settled value is ' + settledValue)
-          console.log('✅ Settled value is ' + settledValue)
+      } else if (fileType === 'd365 rejection') {
+        if (
+          results.rowCount > 0 &&
+          results.rows[0].holdCategoryId === 1
+        ) {
+          console.log(`✅ Correct data has been added from ${fileType} file`)
+          return cy.wrap(results)
         }
-
       } else if (fileType === 'ppa') {
-
         if (results.rowCount === 2) {
-          console.log('✅ Correct data has been added from ' + fileType + ' file')
-        } else {
-          throw new Error('Correct data has not been added from ' + fileType + ' file')
+          console.log(`✅ Correct data has been added from ${fileType} file`)
+          return cy.wrap(results)
         }
-
       } else {
-
         if (results.rowCount >= 1) {
-          console.log('✅ Correct data has been added from ' + fileType + ' file')
-        } else {
-          throw new Error('Correct data has not been added from ' + fileType + ' file')
+          console.log(`✅ Correct data has been added from ${fileType} file`)
+          return cy.wrap(results)
         }
       }
-    })
 
-  cy.task('getDockerLogs', containerName).then((logs) => {
-    logs.split('\n').forEach((line) => {
-      if (line.trim()) {
-        console.log(line)
+      if (Date.now() - start > timeoutMs) {
+        throw new Error(
+          `Timed out after ${timeoutMs / 1000} seconds waiting for ${fileType} data to be correctly processed for FRN ${nextFRN}`
+        )
       }
+
+      cy.log(`Data not ready yet. Retrying in ${retryDelayMs / 1000} seconds...`)
+
+      return cy.wait(retryDelayMs).then(() => checkDatabase())
     })
-  })
-  console.log(`✅ Test data was updated in the ${containerName} database`)
-  cy.log(`✅ Test data was updated in the ${containerName} database`)
+  }
+
+  return checkDatabase()
+    .then(() => {
+      return cy.task('getDockerLogs', containerName)
+    })
+    .then((logs) => {
+      logs.split('\n').forEach((line) => {
+        if (line.trim()) {
+          console.log(line)
+        }
+      })
+
+      console.log(`✅ Test data was updated in the ${containerName} database`)
+      cy.log(`✅ Test data was updated in the ${containerName} database`)
+    })
 })
+
 
 Then(/^I confirm that payment test data in dev has not been inserted into the (.*) database$/, (databaseName) => {
 
