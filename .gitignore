@@ -6,6 +6,7 @@ cypress/screenshots
 cypress/downloads
 package-lock.json
 .env
+cypress/errors
 cypress/fixtures/messageBody.json
 cypress/fixtures/env.json
 cypress/fixtures/messageTemplates/*.json
