@@ -62,7 +62,169 @@ module.exports = defineConfig({
 
       try {
         on('task', {
+          writeFailureReport (report) {
+            const fs = require('fs')
+            const path = require('path')
 
+            const sanitise = (value) =>
+              value
+                .replace('.feature', '')
+                .replace(/\(example #\d+\)/gi, '')
+                .replace(/[<>:"/\\|?*]/g, '')
+                .replace(/\s+/g, '_')
+                .trim()
+
+            const now = new Date()
+
+            const dateFolder = now.toISOString().split('T')[0]
+
+            const timeFile =
+    now.toTimeString().split(' ')[0].replace(/:/g, '-')
+
+            const feature = sanitise(report.feature)
+            const scenario = sanitise(report.scenario)
+
+            const reportDir = path.join(
+              __dirname,
+              'errors',
+              dateFolder,
+              feature,
+              scenario
+            )
+
+            fs.mkdirSync(reportDir, { recursive: true })
+
+            const markdown = `# Payments and Docs DEFRA FFC Failure Investigation Report
+
+## Feature
+
+${report.feature}
+
+## Scenario
+
+${report.scenario}
+
+## Status
+
+${report.status}
+
+## Environment
+
+${report.environment}
+
+## Duration
+
+${report.duration}ms
+
+## URL
+
+${report.url}
+
+## Error
+
+${report.error}
+
+## Step Failed on:
+
+${report.lastStep}
+
+## Executed Steps
+
+${
+  report.steps.length
+    ? report.steps.map(step => `- ${step}`).join('\n')
+    : 'No steps captured'
+}
+
+## Screenshots
+
+${
+  report.screenshots.length
+    ? report.screenshots.map(path => `- ${path}`).join('\n')
+    : 'No screenshots captured'
+}
+
+## Stack Trace
+
+
+${report.stack}
+
+
+## Business Context
+
+FRN
+
+${report.businessContext?.frn ?? 'Unknown'}
+
+Agreement Number
+
+${report.businessContext?.agreementNumber ?? 'Unknown'}
+
+Contract Number
+
+${report.businessContext?.contractNumber ?? 'Unknown'}
+
+Invoice Number
+
+${report.businessContext?.invoiceNumber ?? 'Unknown'}
+
+Scheme
+
+${report.businessContext?.scheme ?? 'Unknown'}
+
+SBI
+
+${report.businessContext?.sbi ?? 'Unknown'}
+
+## Processing Logs
+
+
+${report.processingLogs ?? 'No processing logs captured'}
+
+
+## Enrichment Logs
+
+
+${report.enrichmentLogs ?? 'No enrichment logs captured'}
+
+
+## Submission Logs
+
+
+${report.submissionLogs ?? 'No submission logs captured'}
+
+
+## Tracking Logs
+
+${report.trackingLogs ?? 'No tracking logs captured'}
+
+---
+
+## LLM Prompt
+
+Analyse this Cypress test failure.
+
+Determine:
+
+1. Likely root cause
+2. Supporting evidence
+3. Whether this is:
+   - Automation issue
+   - Application defect
+   - Environment issue
+4. Suggested fix
+5. Suggested investigation path
+
+Only use information supplied in this report.
+`
+
+            fs.writeFileSync(
+              path.join(reportDir, `${timeFile}.md`),
+              markdown
+            )
+
+            return null
+          },
           recordRoute (route) {
             route = normaliseRoute(route)
 
@@ -340,6 +502,66 @@ module.exports = defineConfig({
                   return reject(stderr || err)
                 }
                 resolve(stdout)
+              })
+            })
+          },
+          getFilteredPodLogs ({ namespace, label, searchText }) {
+            return new Promise((resolve) => {
+              const kubeconfig = process.env.KUBECONFIG
+
+              if (!kubeconfig) {
+                return resolve(
+                  `Logs unavailable for ${label}: KUBECONFIG is not configured`
+                )
+              }
+
+              if (!namespace) {
+                return resolve(
+                  `Logs unavailable for ${label}: namespace is not configured`
+                )
+              }
+
+              const cmd =
+      `kubectl --kubeconfig="${kubeconfig}" ` +
+      `logs -n ${namespace} -l ${label} --tail=1000 --prefix=true`
+
+              console.log('RUNNING:', cmd)
+
+              exec(cmd, (err, stdout, stderr) => {
+                if (err) {
+                  console.error(
+                    `Failed to retrieve logs for ${label}:`,
+                    stderr || err
+                  )
+
+                  return resolve(
+                    `Logs unavailable for ${label}: ${stderr || err.message}`
+                  )
+                }
+
+                const logLines = stdout
+                  .split('\n')
+                  .filter((line) => line.trim())
+
+                if (!searchText) {
+                  return resolve(
+                    logLines.length > 0
+                      ? logLines.join('\n')
+                      : `No logs returned for ${label}`
+                  )
+                }
+
+                const matchingLines = logLines.filter((line) =>
+                  line.toLowerCase().includes(
+                    String(searchText).toLowerCase()
+                  )
+                )
+
+                return resolve(
+                  matchingLines.length > 0
+                    ? matchingLines.join('\n')
+                    : `No log entries containing "${searchText}" were found for ${label}`
+                )
               })
             })
           },

@@ -14,12 +14,33 @@ Cypress.on('uncaught:exception', (err) => {
 let stepLog = []
 let pendingContext = []
 let screenshotPathsThisTest = []
+let executedSteps = []
 
+//allows us to set these values when we generate frn in payment steps
+let debugContext = {
+  frn: null,
+  agreementNumber: null,
+  contractNumber: null,
+  invoiceNumber: null,
+  scheme: null,
+  paymentRequestId: null,
+  sbi: null
+}
+
+Cypress.Commands.add('setDebugContext', (values) => {
+  debugContext = {
+    ...debugContext,
+    ...values
+  }
+})
 // STEP LOGGING
 
 Cypress.on('log:step', (step) => {
   stepLog.push(step)
+  executedSteps.push(step)
 })
+
+
 
 // SCREENSHOT CAPTURE
 
@@ -31,17 +52,128 @@ Cypress.Screenshot.defaults({
   }
 })
 
-afterEach(() => {
+afterEach(function () {
+  const debugReportEnabled =
+    Cypress.env('debugReport') === true ||
+    Cypress.env('debugReport') === 'true'
+
+  if (debugReportEnabled && this.currentTest?.state === 'failed') {
+    const currentTest = this.currentTest
+
+    const scenario = currentTest.title.replace(
+      /\s*\(example #\d+\)/i,
+      ''
+    )
+
+    const capturedSteps = [...executedSteps]
+    const capturedScreenshots = [...screenshotPathsThisTest]
+    const capturedBusinessContext = { ...debugContext }
+
+    const lastStep =
+      capturedSteps.length > 0
+        ? capturedSteps[capturedSteps.length - 1]
+        : 'No steps captured'
+
+    cy.url().then((url) => {
+      const reportData = {
+        feature: Cypress.spec.name,
+        scenario,
+        status: currentTest.state,
+        timestamp: new Date().toISOString(),
+        environment: Cypress.env('env'),
+        url,
+
+        error:
+          currentTest.err?.message ??
+          'No error captured',
+
+        stack:
+          currentTest.err?.stack
+            ?.split('\n')
+            .slice(0, 10)
+            .join('\n') ??
+          'No stack trace captured',
+
+        duration:
+          currentTest.wallClockDuration ??
+          currentTest.duration ??
+          0,
+
+        lastStep,
+        steps: capturedSteps,
+        screenshots: capturedScreenshots,
+        businessContext: capturedBusinessContext,
+
+        processingLogs: 'Not collected',
+        enrichmentLogs: 'Not collected',
+        submissionLogs: 'Not collected',
+        trackingLogs: 'Not collected'
+      }
+
+      const isDev = String(Cypress.env('env')).includes('dev')
+
+      if (!isDev) {
+        return cy.task('writeFailureReport', reportData)
+      }
+
+      const namespace = Cypress.env('KUBERNETES_NAMESPACE')
+
+      const searchText =
+        capturedBusinessContext.frn != null
+          ? String(capturedBusinessContext.frn)
+          : null
+
+      const logSources = [{
+        reportKey: 'processingLogs',
+        label: 'app.kubernetes.io/name=ffc-pay-processing'
+      }, {
+        reportKey: 'enrichmentLogs',
+        label: 'app.kubernetes.io/name=ffc-pay-enrichment'
+      }, {
+        reportKey: 'submissionLogs',
+        label: 'app.kubernetes.io/name=ffc-pay-submission'
+      }, {
+        reportKey: 'trackingLogs',
+        label: 'app.kubernetes.io/name=ffc-pay-tracking'
+      }]
+
+      return cy.wrap(logSources, { log: false })
+        .each((source) => {
+          return cy.task(
+            'getFilteredPodLogs',
+            {
+              namespace,
+              label: source.label,
+              searchText
+            },
+            { log: false }
+          ).then((logs) => {
+            reportData[source.reportKey] = logs
+          })
+        })
+        .then(() => {
+          return cy.task('writeFailureReport', reportData)
+        })
+    })
+  }
+
   if (stepLog.length > 0) {
     stepLog.forEach((step) => {
-      pendingContext.push({ title: 'Step', value: step })
+      pendingContext.push({
+        title: 'Step',
+        value: step
+      })
     })
+
     stepLog = []
   }
 
-  // Convert each screenshot to a base64 data URI so that embedded screenshots are not lost upon file transfer
   screenshotPathsThisTest.forEach((screenshotPath) => {
-    cy.task('readScreenshotAsBase64', screenshotPath, { log: false }).then((base64) => {
+    cy.task(
+      'readScreenshotAsBase64',
+      screenshotPath,
+      { log: false }
+    ).then((base64) => {
       if (base64) {
         pendingContext.push({
           title: 'Screenshot',
@@ -50,7 +182,21 @@ afterEach(() => {
       }
     })
   })
+
   screenshotPathsThisTest = []
+  executedSteps = []
+
+  debugContext = {
+    frn: null,
+    agreementNumber: null,
+    contractNumber: null,
+    invoiceNumber: null,
+    scheme: null,
+    paymentRequestId: null,
+    sbi: null,
+    vendor: null,
+    trader: null
+  }
 })
 
 Cypress.on('test:after:run', (test) => {

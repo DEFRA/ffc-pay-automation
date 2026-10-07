@@ -873,7 +873,11 @@ FROM "paymentRequests";
           const padded = incremented.toString().padStart(5, '0')
 
           nextInvoiceNumber = `${padded} 1`
-
+          cy.setDebugContext({
+            frn: nextFRN,
+            invoiceNumber: nextInvoiceNumber,
+            scheme: 'GLOS'
+          })
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
 
@@ -902,7 +906,10 @@ FROM "paymentRequests";
 
           const currentInvoiceNumber = result.rows[0].invoiceNumber
           cy.log(currentInvoiceNumber)
-
+          cy.setDebugContext({
+            frn: nextFRN,
+            invoiceNumber: currentInvoiceNumber
+          })
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
@@ -961,7 +968,12 @@ FROM "paymentRequests";
             nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
             nextSBI = parseInt(max_sbi) + 1
             nextAgreementNumber = parseInt(max_agreement_number) + 1
-
+            cy.setDebugContext({
+              frn: nextFRN,
+              sbi: nextSBI,
+              agreementNumber: nextAgreementNumber,
+              scheme: 'Vet Visits'
+            })
             const messageBody =
     {
       ...template,
@@ -988,7 +1000,10 @@ FROM "paymentRequests";
 
           const currentInvoiceNumber = result.rows[0].invoiceNumber
           cy.log(currentInvoiceNumber)
-
+          cy.setDebugContext({
+            frn: nextFRN,
+            invoiceNumber: currentInvoiceNumber
+          })
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
 
@@ -1050,7 +1065,12 @@ FROM "paymentRequests";
             const contractSuffix = max_contract_number.substring(2, max_contract_number.length)
 
             nextContractNumber = contractPrefix + '00' + (parseInt(contractSuffix) + 1).toString()
-
+            cy.setDebugContext({
+              frn: nextFRN,
+              vendor: nextVendor,
+              contractNumber: nextContractNumber,
+              scheme: 'Genesis'
+            })
             const messageBody =
     {
       ...template,
@@ -1124,7 +1144,12 @@ FROM "paymentRequests";
             nextTrader = traderPrefix + '0' + (parseInt(traderSuffix) + 1).toString()
 
             nextInvoiceNumber = 'FVR/' + nextTrader
-
+            cy.setDebugContext({
+              frn: nextFRN,
+              trader: nextTrader,
+              invoiceNumber: nextInvoiceNumber,
+              scheme: 'IMPS'
+            })
             const messageBody =
     {
       ...template,
@@ -1209,7 +1234,14 @@ FROM "paymentRequests";
 
             nextContractNumber = contractPrefix + (parseInt(contractSuffix) + 1).toString()
             nextAgreementNumber = parseInt(max_agreement_number) + 1
-
+            cy.setDebugContext({
+              frn: nextFRN,
+              sbi: nextSBI,
+              contractNumber: nextContractNumber,
+              agreementNumber: nextAgreementNumber,
+              invoiceNumber: nextContractNumber.toString() + '-V001Q1',
+              scheme: 'FPTT'
+            })
             const messageBody =
     {
       ...template,
@@ -1244,7 +1276,10 @@ FROM "paymentRequests";
 
           const currentInvoiceNumber = result.rows[0].invoiceNumber
           cy.log(currentInvoiceNumber)
-
+          cy.setDebugContext({
+            frn: nextFRN,
+            invoiceNumber: currentInvoiceNumber
+          })
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
@@ -1266,7 +1301,14 @@ FROM "paymentRequests";
 
       const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
       cy.readFile(inputFilePath).then((template) => {
-
+        cy.setDebugContext({
+          frn: nextFRN,
+          sbi: nextSBI,
+          contractNumber: nextContractNumber,
+          agreementNumber: nextAgreementNumber,
+          invoiceNumber: nextContractNumber.toString() + '-V002Q1',
+          scheme: 'FPTT'
+        })
         const messageBody =
     {
       ...template,
@@ -1301,7 +1343,11 @@ FROM "paymentRequests";
 
         const currentInvoiceNumber = result.rows[0].invoiceNumber
         cy.log(currentInvoiceNumber)
-
+        cy.setDebugContext({
+          frn: nextFRN,
+          invoiceNumber: currentInvoiceNumber,
+          scheme: 'D365 Acknowledgement'
+        })
 
         const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
         cy.readFile(inputFilePath).then((template) => {
@@ -1363,7 +1409,13 @@ FROM "paymentRequests";
             Cypress.env('nextFRN', nextFRN)
             Cypress.env('nextContractNumber', nextContractNumber)
             Cypress.env('nextAgreementNumber', nextAgreementNumber)
-
+            //incase it fails, we send these details to a debug context helper that then bundles them into a report in e2e.js
+            cy.setDebugContext({
+              frn: nextFRN,
+              contractNumber: nextContractNumber,
+              agreementNumber: nextAgreementNumber,
+              scheme: messageType
+            })
             const messageBody =
     {
       ...template,
@@ -1398,6 +1450,10 @@ FROM "paymentRequests";
 
           const currentInvoiceNumber = result.rows[0].invoiceNumber
           cy.log(currentInvoiceNumber)
+          cy.setDebugContext({
+            frn: nextFRN,
+            invoiceNumber: currentInvoiceNumber
+          })
           Cypress.env('currentInvoiceNumber', currentInvoiceNumber)
 
 
@@ -1421,7 +1477,12 @@ FROM "paymentRequests";
 
       const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
       cy.readFile(inputFilePath).then((template) => {
-
+        cy.setDebugContext({
+          frn: nextFRN,
+          contractNumber: nextContractNumber,
+          agreementNumber: nextAgreementNumber,
+          scheme: messageType
+        })
         const messageBody =
     {
       ...template,

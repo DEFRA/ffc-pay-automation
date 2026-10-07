@@ -19,7 +19,9 @@
     "cypress:dev:parallel": "node cypress/utils/run-parallel.js dev",
     "cypress:test:parallel": "node cypress/utils/run-parallel.js test",
     "cypress:local:parallel": "node cypress/utils/run-parallel.js local",
-    "route-coverage": "node -r dotenv/config cypress/utils/generate-route-coverage.js"
+    "route-coverage": "node -r dotenv/config cypress/utils/generate-route-coverage.js",
+    "cypress:dev:local": "cypress open --e2e --browser chrome --env env=local,TAGS=@local,debugReport=true",
+    "cypress:dev:debug": "cypress open --e2e --browser chrome --env env=dev,TAGS=@dev,debugReport=true"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^15.1.5",
