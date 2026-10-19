@@ -1,0 +1,31 @@
+trigger: none
+pr: none
+
+pool:
+  name: DEFRA-FFC-DEV1-ubuntu2204
+
+steps:
+  - checkout: self
+
+  - script: |
+      echo "=== Agent ==="
+      uname -a
+
+      echo "=== Node ==="
+      node --version
+
+      echo "=== NPM ==="
+      npm --version
+
+      echo "=== Chrome ==="
+      google-chrome --version
+
+      echo "=== Kubectl ==="
+      kubectl version --client
+    displayName: Check agent
+
+  - script: npm ci
+    displayName: Install dependencies
+
+  - script: npx cypress verify
+    displayName: Verify Cypress
