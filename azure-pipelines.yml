@@ -4,6 +4,9 @@ pr: none
 pool:
   name: DEFRA-FFC-DEV1-ubuntu2204
 
+variables:
+  - group: ffc-pay-automation-dev
+
 steps:
   - checkout: self
 
@@ -29,3 +32,10 @@ steps:
 
   - script: npx cypress verify
     displayName: Verify Cypress
+
+  - script: |
+      npx cypress run \
+        --env env=dev,TAGS=@dev \
+        --browser chrome \
+        --spec "cypress\e2e\features\01_PaymentManagement.feature"
+    displayName: Run single DEV test
