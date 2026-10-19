@@ -4,7 +4,6 @@ cypress/reports
 cypress/videos
 cypress/screenshots
 cypress/downloads
-package-lock.json
 .env
 cypress/fixtures/messageBody.json
 cypress/fixtures/env.json
