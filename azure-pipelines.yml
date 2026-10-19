@@ -34,6 +34,11 @@ steps:
     displayName: Verify Cypress
 
   - script: |
+      echo "Looking for feature files..."
+      find . -name "*.feature"
+    displayName: Find feature files
+
+  - script: |
       if [ -z "$connectionString" ]; then
         echo "connectionString has not been passed to the Cypress process"
         exit 1
