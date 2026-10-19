@@ -34,8 +34,17 @@ steps:
     displayName: Verify Cypress
 
   - script: |
+      if [ -z "$connectionString" ]; then
+        echo "connectionString has not been passed to the Cypress process"
+        exit 1
+      fi
+
+      echo "Service Bus connection string is available"
+
       npx cypress run \
         --env env=dev,TAGS=@dev \
         --browser chrome \
-        --spec "cypress\e2e\features\01_PaymentManagement.feature"
+        --spec "cypress/e2e/01_PaymentManagement.feature"
     displayName: Run single DEV test
+    env:
+      connectionString: $(connectionString)
