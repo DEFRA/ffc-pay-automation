@@ -49,7 +49,7 @@ steps:
       npx cypress run \
         --env env=dev,TAGS=@dev \
         --browser chrome \
-        --spec "cypress\e2e\features\01_PaymentManagement.feature"
+        --spec "cypress/e2e/features/01_PaymentManagement.feature"
     displayName: Run single DEV test
     env:
       connectionString: $(connectionString)
