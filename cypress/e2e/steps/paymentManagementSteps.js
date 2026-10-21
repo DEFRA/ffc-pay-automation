@@ -5,7 +5,7 @@ import constants from '../../support/constants.json'
 import homePageCards from '../../support/data/homePageCards.json'
 const { getEnvironmentConfig } = require('../../support/configLoader')
 const envConfig = getEnvironmentConfig()
-
+const env = envConfig.env
 
 console.log('Environment Config:', envConfig)
 
@@ -164,3 +164,29 @@ Then(
     verifyPayment()
   }
 )
+
+When(/^I add (\d+) open holds$/, (count) => {
+  Cypress.emit('log:step', `I add ${count} open holds`)
+
+  if (!env.includes('local')) {
+    cy.log(`Skipping hold loader because env is ${env}`)
+    return
+  }
+
+  const databaseName = 'ffc-pay-processing'
+  const sqlFilePath = 'cypress/fixtures/sql/add-open-holds.sql'
+
+  cy.readFile(sqlFilePath, 'utf8')
+    .then((sqlStatement) => {
+      const populatedSql = sqlStatement.replace('{{COUNT}}', count)
+
+      return cy.task('databaseInsert', {
+        env,
+        databaseName,
+        sqlStatement: populatedSql
+      })
+    })
+    .then(() => {
+      cy.log(`${count} open holds inserted`)
+    })
+})
