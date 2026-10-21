@@ -17,8 +17,10 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I select the scheme "CS-HT (Capital)"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "CS-HT (Capital)"
     And I click on the "Add holds" button
+    And I wait for 4000 milliseconds
+    And I see a success message for "Bulk payment holds successfully added."
 
-    And I click on the "Manage payment holds" link
+    And I click the "Manage payment holds" breadcrumb
     And I click on the "Search for a payment hold" link
     And the new holds in 'frnsBulkUploadValid.csv' are visible along with the correct timestamp
 
@@ -29,6 +31,8 @@ Feature: 04 Upload and Process Payment Holds via CSV
     And I select the scheme "CS-HT (Capital)"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "CS-HT (Capital)"
     And I click on the "Remove holds" button
+    And I wait for 4000 milliseconds
+    And I see a success message for "Bulk payment holds successfully removed."
     
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link

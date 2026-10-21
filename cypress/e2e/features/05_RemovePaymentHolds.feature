@@ -47,6 +47,7 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And I select the scheme "CS-HT (Capital)"
     Then on the Payment Holds page I enter "Dax rejection" hold for scheme "CS-HT (Capital)"
     And I click on the "Remove holds" button
+    And I wait for 4000 milliseconds
 
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link

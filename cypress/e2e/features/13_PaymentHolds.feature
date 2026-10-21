@@ -1,9 +1,10 @@
-@dev @local
+@dev
 Feature: 13 Payment Holds
 
 # npm run cypress:dev:one -- "cypress\e2e\features\13_PaymentHolds.feature"
 # npm run cypress:local:one -- "cypress\e2e\features\13_PaymentHolds.feature"
 
+  #Dev only as sends to dev topic
   Scenario Outline: 01 Send debit payment request message (payment1)
     Given I start the messaging service for the service bus topic "<sendToTopic>"
     And I visit the "Payment management" homepage
@@ -33,7 +34,8 @@ Feature: 13 Payment Holds
     Examples:
       | sendToTopic         | receiveOnTopic     |
       | ffc-pay-request-dev | ffc-pay-submit-dev |
-
+      
+  #This is dev only as there is a test hold in the local environment which dev does not have. As such the mapping fails on local but correctly passes on dev.
   Scenario: 02 Confirm scheme filter functional
 
     Given I visit the "Payment management" homepage
