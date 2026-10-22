@@ -34,8 +34,23 @@ steps:
     displayName: Verify Cypress
 
   - script: |
+      echo "Looking for feature files..."
+      find . -name "*.feature"
+    displayName: Find feature files
+
+  - script: |
+      curl -I https://ffc-pay-web-dev.azure.defra.cloud/
+    displayName: Test DEV Access
+
+  - script: |
+      echo "Service Bus connection string is available"
+
       npx cypress run \
         --env env=dev,TAGS=@dev \
         --browser chrome \
-        --spec "cypress\e2e\features\01_PaymentManagement.feature"
+        --spec "cypress/e2e/features/01_PaymentManagement.feature"
+
+      echo "Cypress Exit Code: $?"
     displayName: Run single DEV test
+    env:
+      connectionString: $(connectionString)
