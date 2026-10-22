@@ -39,6 +39,10 @@ steps:
     displayName: Find feature files
 
   - script: |
+      curl -I https://ffc-pay-web-dev.azure.defra.cloud/
+    displayName: Test DEV Access
+
+  - script: |
       echo "Service Bus connection string is available"
 
       npx cypress run \
