@@ -39,6 +39,7 @@ Feature: 05 Remove Payment Holds via CSV Upload
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link
     And the new holds in 'selectiveFrnUpload.csv' are visible along with the correct timestamp
+    And I wait for 4000 milliseconds
 
     And I click on the "Manage payment holds" link
     And I click on the "Manage payment holds in bulk" link

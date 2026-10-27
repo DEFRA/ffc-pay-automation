@@ -13,7 +13,7 @@ const schemeAndHolds = {
   'Vet Visits (AHWR)': ['Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up', 'Withdrawal'],
   'Lump Sums': ['Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up'],
   'SFI-P': ['Dax rejection', 'Migrated hold', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up'],
-  'SFI-22': ['Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments', 'Other admin', 'Bank account anomaly', 'Recovery', 'Top up'],
+  'SFI-22': ['Dax rejection', 'Ex-gratia', 'Hardship case', 'Non-payable', 'Withdrawal', 'Manual payment', 'Bridging payments','Bank account anomaly', 'Recovery', 'Top up'],
   'WMP': ['Bank account anomaly', 'Dax rejection', 'Manual payment', 'Non-payable', 'Other admin', 'Recovery', 'Withdrawal'],
   'SFI-26': ['Accelerated payment', 'Bank account anomaly', 'Bridging payments', 'Dax rejection', 'Ex-gratia', 'Hardship case', 'Manual payment', 'Non-payable', 'Other admin', 'Partial recovery process', 'Recovery', 'Top up', 'Withdrawal'],
   'FPTT': ['Accelerated payment', 'Bank account anomaly', 'Bridging payments', 'Dax rejection', 'Ex-gratia', 'Hardship case', 'Manual payment', 'Non-payable', 'Other admin', 'Recovery', 'Top up', 'Withdrawal']

@@ -43,8 +43,9 @@ Then('the new holds in {string} are visible along with the correct timestamp', (
           }
         })
       })
-
-      cy.visit('http://localhost:3007/payment-holds/search')
+      cy.wait(4000)
+      cy.get(':nth-child(2) > .govuk-breadcrumbs__link').click()
+      cy.get(':nth-child(3) > :nth-child(2) > .govuk-heading-m > .govuk-link').click()
     })
   })
 })

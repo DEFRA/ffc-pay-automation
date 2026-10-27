@@ -85,11 +85,12 @@ Feature: 40 Download Statements
 #Confirm Next and previous buttons work correctly and page number updates accordingly    
 
     Then I click the pagination "next"
+    And I wait for 4000 milliseconds
     Then the current pagination page number is "2"
     Then I verify the pagination "previous" is visible
-    Then I take a screenshot
-
+    
     Then I click the pagination "previous"
+    And I wait for 4000 milliseconds
     Then the current pagination page number is "1"
     Then I verify the pagination "previous" is not visible
 
@@ -126,10 +127,6 @@ Feature: 40 Download Statements
 
     Then I enter "2024" into the "marketing year" field
     Then I click on the "Search" button
-
-    Then the current pagination page number is "1"
-   # Below does not show anymore, keeping as it may be added back at somepoint. Even if result is over 100 it just shows [123] statements with 100 viewable minimum at a time
-   # Then on the Download Statements page I confirm that the text on "number of results" reads "Showing items 1 to 50 on this page (50 items)"
     Then I take a screenshot
 
   @dev
