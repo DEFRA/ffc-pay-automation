@@ -187,10 +187,38 @@ Then('I should see the first FRN in the results matches the random FRN', () => {
 })
 
 Then('I should see the first FRN in the results matches the newly generated FRN', () => {
-
   Cypress.emit('log:step', 'I should see the first FRN in the results matches the newly generated FRN')
+
   const updatedFRN = Cypress.env('updatedMessageBody').frn
-  requestEditor.firstFRN().should('have.text', updatedFRN)
+  const maxAttempts = 12
+  const pollInterval = 5000
+
+  const checkFRN = (attempt = 1) => {
+    requestEditor.firstFRN()
+      .invoke('text')
+      .then((frn) => {
+        if (frn.trim() === String(updatedFRN)) {
+          cy.log(`FRN found: ${updatedFRN}`)
+          return
+        }
+
+        if (attempt >= maxAttempts) {
+          throw new Error(
+            `FRN ${updatedFRN} was not found after ${maxAttempts} attempts. ` +
+            `Current first FRN: ${frn.trim()}`
+          )
+        }
+
+        cy.log(`FRN not found yet. Refreshing (${attempt}/${maxAttempts})...`)
+
+        cy.wait(pollInterval)
+        cy.reload()
+
+        checkFRN(attempt + 1)
+      })
+  }
+
+  checkFRN()
 })
 
 Then('I click on the FRN search button', () => {
