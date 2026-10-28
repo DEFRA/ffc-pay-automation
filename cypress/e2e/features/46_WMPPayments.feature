@@ -14,13 +14,13 @@ Feature: 46 WMP Payments
 # ██║███╗██║██║╚██╔╝██║ ██╔═══╝
 # ╚███╔███╔╝██║ ╚═╝ ██║ ██║
 #  ╚══╝╚══╝ ╚═╝     ╚═╝ ╚═╝
-
-# COMMENTED OUT DEV SCENARIOS - WMP NOT SWITCHED ON IN DEV YET
+# Woodland Management Plan
+# COMMENTED OUT DEV SCENARIOS - WMP NOT SWITCHED ON IN DEV YET - 28/10/26
 #--------------------------------------------------------
 
   # @dev
   # Scenario: 01 insert incorrect WMP test data via service bus message to ffc-pay-request
-
+  
   #   When I send "wmp error" test data message to the service bus topic "ffc-pay-request-dev"
 
   #   Then I confirm that payment test data in dev has not been inserted into the ffc-pay-processing database
