@@ -19,6 +19,8 @@ async function databaseInsert (env, database, statement) {
     const statementGeneratorDatabase = process.env.STATEMENTGENERATORDATABASE
     const requestEditorPort = process.env.REQUESTEDITORPORT
     const requestEditorDatabase = process.env.REQUESTEDITORDATABASE
+    const payProcessingPort = process.env.PAYPROCESSINGPORT
+    const payProcessingDatabase = process.env.PAYPROCESSINGDATABASE
 
     let currentPort = ''
     let currentDatabase = ''
@@ -43,6 +45,10 @@ async function databaseInsert (env, database, statement) {
     case 'ffc-pay-request-editor':
       currentPort = requestEditorPort
       currentDatabase = requestEditorDatabase
+      break
+    case 'ffc-pay-processing':
+      currentPort = payProcessingPort
+      currentDatabase = payProcessingDatabase
       break
     default:
       throw new Error(`Unknown database: ${database}`)

@@ -903,27 +903,31 @@ FROM "paymentRequests";
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((result) => {
-
           const currentInvoiceNumber = result.rows[0].invoiceNumber
+
+          const [agreementNumber] = currentInvoiceNumber.split(' ')
+
           cy.log(currentInvoiceNumber)
+
           cy.setDebugContext({
             frn: nextFRN,
             invoiceNumber: currentInvoiceNumber
           })
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
-          cy.readFile(inputFilePath).then((template) => {
 
-            const messageBody =
-    {
-      ...template,
-      frn: nextFRN.toString(),
-      invoiceNumber: currentInvoiceNumber
-    }
+          cy.readFile(inputFilePath).then((template) => {
+            const messageBody = {
+              ...template,
+              frn: nextFRN.toString(),
+              agreementNumber
+            }
 
             cy.task('sendMessage', { messageBody, topicName }).then(() =>
-              cy.log(`Finished sending ${messageBody} to topic: ${topicName}`))
+              cy.log(`Finished sending ${JSON.stringify(messageBody)} to topic: ${topicName}`))
+
             cy.wait(40000)
+
 
           })
         })

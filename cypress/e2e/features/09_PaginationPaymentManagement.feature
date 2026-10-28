@@ -9,6 +9,7 @@ Feature: 09 Pagination - Payment Management
 
  
   Scenario Outline: 00 Default records per page is displayed
+    Given I add 1000 open holds
     And I click on the "Manage payment holds" link
     And I click on the "<link>" link
     And I click on the "Search" button
@@ -47,6 +48,7 @@ Feature: 09 Pagination - Payment Management
     And I click on the "Search for a payment hold" link
     And I click on the "Search" button
     And I click the pagination "next"
+    And I wait for 4000 milliseconds
     And the current pagination page number is "2"
     And I verify the pagination "previous" is visible
     Then I take a screenshot

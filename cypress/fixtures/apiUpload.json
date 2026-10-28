@@ -5,13 +5,14 @@
     "one_click_unsubscribe_url": null,
     "subject": "12345678 Payment Schedule"
   },
-  "id": "57f1e6c6-41d1-4472-bc81-c7cc09b6d508",
+  "id": "9a9a27fc-9e84-472e-854e-679ee53583bd",
   "reference": null,
+  "sanitised_content": {},
   "scheduled_for": null,
   "template": {
     "id": "4c492baa-be4b-47ba-a102-04b93d92df00",
     "uri": "https://api.notifications.service.gov.uk/services/822632b6-1b07-44ef-9fe0-24dc9bb99272/templates/4c492baa-be4b-47ba-a102-04b93d92df00",
     "version": 3
   },
-  "uri": "https://api.notifications.service.gov.uk/v2/notifications/57f1e6c6-41d1-4472-bc81-c7cc09b6d508"
+  "uri": "https://api.notifications.service.gov.uk/v2/notifications/9a9a27fc-9e84-472e-854e-679ee53583bd"
 }

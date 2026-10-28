@@ -24,7 +24,7 @@ Then('the new holds in {string} are visible along with the correct timestamp', (
       paymentHoldsPage.frnSearchButton().click()
 
       // Wait for a reasonable amount of time for the table to load
-      cy.wait(2000) // Adjust time as necessary based on your application
+      cy.wait(4000) // Adjust time as necessary based on your application
 
       // Check for all rows containing the FRN
       cy.get('tbody.govuk-table__body').each((row) => {
@@ -43,9 +43,9 @@ Then('the new holds in {string} are visible along with the correct timestamp', (
           }
         })
       })
-
-      cy.get('a').contains('Manage payment holds').scrollIntoView().click()
-      cy.get('a').contains('Search for a payment hold').scrollIntoView().click()
+      cy.wait(4000)
+      cy.get(':nth-child(2) > .govuk-breadcrumbs__link').click()
+      cy.get(':nth-child(3) > :nth-child(2) > .govuk-heading-m > .govuk-link').click()
     })
   })
 })
@@ -159,6 +159,7 @@ Then('the payment requests related to the {string} CSV are not in the table', (f
     frnValues.forEach((frnValue) => {
       paymentHoldsPage.frnSearchField().clear().type(frnValue)
       paymentHoldsPage.frnSearchButton().click()
+      cy.wait(1000)
 
       cy.get('body').then(($body) => {
         if ($body.text().includes('No payment holds found for FRN ' + frnValue)) {

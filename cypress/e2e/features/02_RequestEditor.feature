@@ -81,7 +81,6 @@ Feature: 02 Request Editor
     And I click on the "View all datasets" link
     And I search for FRN "<frn>"
     When I click on the "Search" button
-    Then I take a screenshot
     Then the dataset value "<frn>" should be present
 
     @test
