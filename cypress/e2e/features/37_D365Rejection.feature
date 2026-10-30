@@ -52,6 +52,7 @@ Feature: 37 D365 Rejection
     When on the Payment Holds page I enter "current FRN" in the FRN search field
     And I click on the "Search" button
     When I click on the "Remove" button
+    And I click on the "Yes, remove" button
     And I click on the "Manage payment holds" link
 
   #Following this hold removal a secondary completedPaymentRequest entry should be created in the Pay Processing database
