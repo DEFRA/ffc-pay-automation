@@ -42,6 +42,18 @@ Feature: 37 D365 Rejection
     Then I take a screenshot
     And I should see "Bank account anomaly"
 
+#This scenario confirms that the d365 rejection produces an appropriate message to the end user when searching for events related to the payment
+    Given I visit the "Payment management" homepage
+    And I click on the "View payment events" link
+    And I enter "current FRN" into the "frn" field
+    And I click on the "Search" button
+    And I should see "No valid bank details held"
+    And I click "View" for table value "SFI-22"
+    Then I should see the following table:
+      | Activity             | Status |
+      | Payment Invalid Bank | Paused |
+    Then I take a screenshot
+
 #This scenario removes the hold created by the D365 rejection processing and confirms that a secondary completedPaymentRequest
 #entry is subsequently created in the Pay Processing database
 
