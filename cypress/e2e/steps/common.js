@@ -233,6 +233,92 @@ Then(
     cy.log(`Confirmed cookie banner ${type} "${text}" is not displayed`)
   }
 )
+
+//Table assertions : use the following example to assert:
+// Then I should see the following table:
+//   | Activity                       | Status          |
+//   | Enriched with mandatory data   | Completed       |
+//   | Final state calculated         | Completed       |
+//   | Submitted to payment ledger    | In progress     |
+//   | Acknowledged                   | Not started yet |
+
+Then('I should see the following table:', (dataTable) => {
+  Cypress.emit(
+    'log:step',
+    `I should see the following table: ${JSON.stringify(dataTable.hashes())}`
+  )
+
+  const expectedRows = dataTable.hashes()
+
+  const maxAttempts = 12
+  const retryDelay = 5000
+
+  const normalise = (text) =>
+    text
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase()
+
+  const verifyTable = (attempt = 1) => {
+    cy.log(`Table verification attempt ${attempt}/${maxAttempts}`)
+
+    return gdsGenericPage.table()
+      .should('be.visible')
+      .find('.govuk-table__body .govuk-table__row')
+      .then(($rows) => {
+        const actualRows = [...$rows].map((row) =>
+          normalise(Cypress.$(row).text())
+        )
+
+        const unmatchedRows = [...actualRows]
+
+        const allRowsFound = expectedRows.every((expectedRow) => {
+          const expectedValues = Object.values(expectedRow)
+            .filter(value => value !== '')
+            .map(normalise)
+
+          const matchingRowIndex = unmatchedRows.findIndex((actualRow) =>
+            expectedValues.every((expectedValue) =>
+              actualRow.includes(expectedValue)
+            )
+          )
+
+          if (matchingRowIndex === -1) {
+            return false
+          }
+
+          // Remove the matched row so duplicate expected rows
+          // must match separate actual rows
+          unmatchedRows.splice(matchingRowIndex, 1)
+
+          return true
+        })
+
+        if (allRowsFound) {
+          cy.log(' Expected table data found')
+          return
+        }
+
+        if (attempt >= maxAttempts) {
+          throw new Error(
+            `Expected table data was not found after ${maxAttempts} attempts.\n` +
+            `Expected: ${JSON.stringify(expectedRows)}\n` +
+            `Actual rows: ${JSON.stringify(actualRows)}`
+          )
+        }
+
+        cy.log(
+          `Table not ready. Retrying in ${retryDelay / 1000} seconds...`
+        )
+
+        return cy.wait(retryDelay)
+          .then(() => cy.reload())
+          .then(() => verifyTable(attempt + 1))
+      })
+  }
+
+  return verifyTable()
+})
 // -------------------------
 //  PAGINATION - assertions and clicks
 // -------------------------
@@ -320,24 +406,38 @@ When(/^I enter "(.*)" into the "(.*)" field$/, (value, field) => {
 
   if (value.toLowerCase() === 'random frn') {
     cy.wrap(actualValue).as('randomFrn')
-  } if (value === '') {
+  }
 
+  if (value === '') {
     return
 
   } else if (value.toLowerCase() === 'saved random frn') {
 
     cy.get('@randomFrn').then((frn) => {
-
       gdsGenericPage.field(field.toLowerCase())
-
         .clear()
-
         .type(frn)
-
     })
 
     return
 
+  } else if (value.toLowerCase() === 'current frn') {
+
+    const currentFRN = Cypress.env('nextFRN')
+
+    if (!currentFRN) {
+      throw new Error(
+        'No current FRN found. Expected Cypress.env("nextFRN") to be set.'
+      )
+    }
+
+    cy.log(`Using current FRN: ${currentFRN}`)
+
+    gdsGenericPage.field(field.toLowerCase())
+      .clear()
+      .type(currentFRN)
+
+    return
   }
 
   gdsGenericPage.field(field.toLowerCase())

@@ -15,14 +15,14 @@ const workers = [{
   specs: ['04_UploadPaymentHolds.feature', '05_RemovePaymentHolds.feature', '13_PaymentHolds.feature', '31_NotifyAPI.feature', '42_PaymentEventMonitoring.feature']
 }, {
   name: 'C',
-  specs: ['20_AccessibilityTesting.feature', '40_DownloadStatements.feature','43_PaymentAlerts.feature', '45_DocumentAlerts.feature']
+  specs: ['20_AccessibilityTesting.feature', '40_DownloadStatements.feature','43_PaymentAlerts.feature', '45_DocumentAlerts.feature', '48_PaymentHistoryUpdates.feature']
 }, {
   name: 'D',
   specs: ['03_AgreementClosures.feature', '08_QualityCheck.feature', '10_Reports.feature', '38_MetricsDashboard.feature', '41_ResetPaymentRequest.feature', '42_PaymentEventMonitoring.feature']
 }, {
   //these have to be run all in one session sequentially because the validation does not work at the minute when multiple are running at the same time
   name: 'Payments-All',
-  specs: ['06_PaymentsE2EJourney.feature','11_PPAE2EJourneyCredit.feature','12_PPAE2EJourneyDebit.feature','14_DocE2EJourney.feature','15_ManualPayments.feature', '16_GLOSPayments.feature', '18_IMPSPayments.feature','19_GENESISPayments.feature','21_DPSPayments.feature', '22_CSHigherTierRevenuePayments.feature', '23_CSHigherTierCapitalPayments.feature', '24_VetVisitsPayments.feature','25_CSPayments.feature', '26_BPSPayments.feature','27_LumpSumsPayments.feature', '28_SFIExpandedPayments.feature','29_DelinkedPayments.feature', '30_SFIPilotPayments.feature', '32_SFI23Payments.feature', '33_SFI22Payments.feature','34_PPATopUpScenarios.feature','35_PPAReductionScenarios.feature','36_PPARecoveryScenarios.feature','37_D365Rejection.feature','39_MessagingBulkProcessing.feature','44_FarmPaymentsTechnicalTest.feature','46_WMPPayments.feature']
+  specs: ['06_PaymentsE2EJourney.feature','11_PPAE2EJourneyCredit.feature','12_PPAE2EJourneyDebit.feature','14_DocE2EJourney.feature','15_ManualPayments.feature', '16_GLOSPayments.feature', '18_IMPSPayments.feature','19_GENESISPayments.feature','21_DPSPayments.feature', '22_CSHigherTierRevenuePayments.feature', '23_CSHigherTierCapitalPayments.feature', '24_VetVisitsPayments.feature','25_CSPayments.feature', '26_BPSPayments.feature','27_LumpSumsPayments.feature', '28_SFIExpandedPayments.feature','29_DelinkedPayments.feature', '30_SFIPilotPayments.feature', '32_SFI23Payments.feature', '33_SFI22Payments.feature','34_PPATopUpScenarios.feature','35_PPAReductionScenarios.feature','36_PPARecoveryScenarios.feature','37_D365Rejection.feature','39_MessagingBulkProcessing.feature','44_FarmPaymentsTechnicalTest.feature','46_WMPPayments.feature','47_SFI26Payments.feature']
 }]
 
 function runWorker (worker) {

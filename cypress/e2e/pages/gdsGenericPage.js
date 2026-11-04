@@ -92,7 +92,7 @@ class GDSGenericPage {
   field (field) {
     const fields = {
       scheme: '#schemeId, #user-search-scheme, #selectScheme',
-      frn: '#frn, #user-search-frn',
+      frn: '#frn, #user-search-frn, #search-frn',
       'email address': '#emailAddress',
       'agreement number': '#agreement, #frnAgreement',
       year: '#year',
@@ -134,6 +134,28 @@ class GDSGenericPage {
     return cy.contains(selector, text)
       .containsWithoutWhitespace(text)
   }
+  table () {
+    return cy.get('.govuk-table')
+  }
+
+  tableRows () {
+    return this.table()
+      .find('.govuk-table__body .govuk-table__row')
+  }
+
+  tableRowContaining (value) {
+    return this.tableRows()
+      .filter((_, row) => {
+        const rowText = Cypress.$(row)
+          .text()
+          .replace(/\s+/g, ' ')
+          .trim()
+
+        return rowText.includes(value)
+      })
+      .first()
+  }
 }
+
 
 export default new GDSGenericPage()
