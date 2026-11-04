@@ -15,7 +15,7 @@ const workers = [{
   specs: ['04_UploadPaymentHolds.feature', '05_RemovePaymentHolds.feature', '13_PaymentHolds.feature', '31_NotifyAPI.feature', '42_PaymentEventMonitoring.feature']
 }, {
   name: 'C',
-  specs: ['20_AccessibilityTesting.feature', '40_DownloadStatements.feature','43_PaymentAlerts.feature', '45_DocumentAlerts.feature']
+  specs: ['20_AccessibilityTesting.feature', '40_DownloadStatements.feature','43_PaymentAlerts.feature', '45_DocumentAlerts.feature', '48_PaymentHistoryUpdates.feature']
 }, {
   name: 'D',
   specs: ['03_AgreementClosures.feature', '08_QualityCheck.feature', '10_Reports.feature', '38_MetricsDashboard.feature', '41_ResetPaymentRequest.feature', '42_PaymentEventMonitoring.feature']

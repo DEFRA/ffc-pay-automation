@@ -79,10 +79,11 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
     let sqlStatement = ''
     switch (databaseName) {
     case 'ffc-pay-processing':
-      sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1'
+      sqlStatement = `SELECT * FROM "paymentRequests" WHERE "frn" = '${Cypress.env('nextFRN')}'`
       break
+
     case 'ffc-pay-submission':
-      sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "paymentRequestId" = 1'
+      sqlStatement = `SELECT * FROM "paymentRequests" WHERE "frn" = '${Cypress.env('nextFRN')}'`
       break
     default:
       throw new Error(`Unknown database: ${databaseName}`)
@@ -138,7 +139,7 @@ Then('I confirm that {string} test data has been inserted into the {string} data
 
   switch (fileType) {
   case 'return':
-    sqlStatement = 'SELECT "settledValue" FROM "completedPaymentRequests" WHERE "paymentRequestId" = 1'
+    sqlStatement = `SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = '${Cypress.env('nextFRN')}'`
     break
   case 'ppa':
     sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "paymentRequestId" = 2'
