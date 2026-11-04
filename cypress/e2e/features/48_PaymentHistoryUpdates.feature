@@ -1,5 +1,7 @@
-Feature: 47 Payment History Updates Feature
+Feature: 48 Payment History Updates Feature
 
+# npm run cypress:dev:one -- "\cypress\e2e\features\48_PaymentHistoryUpdates.feature"
+# npm run cypress:local:one -- "\cypress\e2e\features\48_PaymentHistoryUpdates.feature"
 
   @dev
   Scenario: 01 insert test data via service bus message to ffc-pay-request
