@@ -2,7 +2,8 @@
   "paymentManagement": {
     "testUrl": "https://ffc-pay-web-test.azure.defra.cloud/",
     "devUrl": "https://ffc-pay-web-dev.azure.defra.cloud/",
-    "localUrl": "http://localhost:3007/"
+    "localUrl": "http://localhost:3007/",
+    "pipelineDevUrl" :"http://172.18.5.9:80"
   },
   "requestEditor": {
     "testUrl": "https://ffc-pay-request-editor-test.azure.defra.cloud/",
