@@ -39,14 +39,14 @@ steps:
     displayName: Find feature files
 
   - script: |
-      curl -I https://ffc-pay-web-dev.azure.defra.cloud/
+      curl -I 172.18.5.9:80
     displayName: Test DEV Access
 
   - script: |
       echo "Service Bus connection string is available"
 
       npx cypress run \
-        --env env=dev,TAGS=@dev \
+        --env env=pipelineDev,TAGS=@dev \
         --browser chrome \
         --spec "cypress/e2e/features/01_PaymentManagement.feature"
 
