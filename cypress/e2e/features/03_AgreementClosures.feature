@@ -1,4 +1,4 @@
-@dev @test
+@dev @test @local
 Feature: 03 Agreement Closures
 
 # npm run cypress:test:one -- "cypress\e2e\features\03_AgreementClosures.feature"
@@ -113,17 +113,14 @@ Feature: 03 Agreement Closures
     And I type a future date in the Closure date field
     And I select "BPS" from the monitor schemes dropdown
     And I click on the "Continue" button
-    And I see the new submission in the table
-
-    #removing
     And I click on the "Add closure" button
-    And I am on the "closure" subpage
-    And I visit the "Payment management" homepage
-    And I click on the "Manage agreement closures" link
+    And I wait for 1000 milliseconds
     And I click on the "Search agreement closures" link
     And I enter "saved random frn" into the "closure search" field
     And I click on the "Filter" button
     And I see the new submission in the table
+
+    #removing
     And I click on the Remove button next to the new submission
     And I click on the "Yes, remove" button
     Then I see a success message for "Agreement closure successfully removed."
@@ -161,12 +158,14 @@ Feature: 03 Agreement Closures
   Scenario: 19 Successful File Upload
     And I click on the "Manage agreement closures" link
     When I click on the "Bulk add agreement closure" link
+    Then I randomize the FRN and agreement number for 'bulkClosureUploadValid'
     And I upload 'bulkClosureUploadValid.csv' file
-    When I click on the "Add closures" button
-    And I am on the "closure/bulk" subpage
+    And I click on the "Add closures" button
+    Then I see a success message for "Agreement closure successfully created."
     And I visit the "Payment management" homepage
     And I click on the "Manage agreement closures" link
     And I click on the "Search agreement closures" link
+    And I wait for 1000 milliseconds
     And I see the new bulk upload submissions in the table
     
   Scenario: 20 Upload File Format Validation

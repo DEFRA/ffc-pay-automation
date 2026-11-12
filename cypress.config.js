@@ -606,6 +606,46 @@ Only use information supplied in this report.
 
             return null
           },
+          randomizeBulkClosureCsv (fileName) {
+            const filePath = path2.resolve(
+              __dirname,
+              'cypress',
+              'fixtures',
+              `${fileName}.csv`
+            )
+
+            return fs2.promises.readFile(filePath, 'utf8')
+              .then((csv) => {
+                const rows = csv
+                  .trim()
+                  .split(/\r?\n/)
+                  .map((row) => {
+                    const columns = row.split(',')
+
+                    // Column 2 - FRN
+                    columns[1] = String(
+                      Math.floor(1000000000 + Math.random() * 9000000000)
+                    )
+
+                    // Column 3 - Agreement Number
+                    columns[2] = `AGR${Math.floor(
+                      100000 + Math.random() * 900000
+                    )}`
+
+                    return columns.join(',')
+                  })
+
+                return fs2.promises.writeFile(
+                  filePath,
+                  `${rows.join('\n')}\n`
+                )
+              })
+              .then(() => null)
+              .catch((error) => {
+                console.error(`Failed to randomize ${fileName}.csv:`, error)
+                throw error
+              })
+          },
 
           truncatePaymentTables () {
             const dir = process.env.WSL_TEST_DIR

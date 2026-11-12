@@ -31,29 +31,27 @@ When('I should not see the new submission in the table', () => {
 })
 
 When('I see the new bulk upload submissions in the table', () => {
-
   Cypress.emit('log:step', 'I see the new bulk upload submissions in the table')
 
-  cy.fixture('bulkUploadValid.csv').then((csvData) => {
-    const rows = csvData.trim().split('\n')
+  cy.fixture('bulkClosureUploadValid.csv').then((csvData) => {
+    const rows = csvData.trim().split(/\r?\n/)
     const data = rows.map((row) => row.split(',')).reverse()
 
     data.forEach((row) => {
-      const [frn] = row.map(cell => cell.trim())
+      const [, frn] = row.map(cell => cell.trim())
 
-      agreementClosuresPage.agreementClosureEnterFrnField()
+      agreementClosuresPage
+        .agreementClosureEnterFrnField()
         .clear()
         .type(frn)
 
       cy.contains('button', 'Filter').click()
-
+      cy.wait(1000)
       cy.get('.govuk-table__body')
         .should('contain.text', frn)
-
     })
   })
 })
-
 
 When('I click on the Remove button next to the new submission', () => {
 
@@ -91,6 +89,18 @@ When('I type a date prior to {string} in the Closure date field', (date) => {
 When('I enter frn {int} on the search for agreement closure page', (frn) => {
   gdsGenericPage.field('agreement number').type(frn)
 })
+
+When(
+  'I randomize the FRN and agreement number for {string}',
+  (fileName) => {
+    Cypress.emit(
+      'log:step',
+      `I randomize the FRN and agreement number for "${fileName}"`
+    )
+
+    cy.task('randomizeBulkClosureCsv', fileName)
+  }
+)
 
 
 //TODO - refactor these below commented into working again
