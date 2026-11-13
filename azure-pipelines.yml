@@ -39,7 +39,7 @@ steps:
     displayName: Find feature files
 
   - script: |
-      curl -I 172.18.5.9:80
+      curl -I https://ffc-pay-web-dev.azure.defra.cloud/
     displayName: Test DEV Access
 
   - script: |
