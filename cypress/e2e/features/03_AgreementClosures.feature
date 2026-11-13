@@ -192,7 +192,6 @@ Feature: 03 Agreement Closures
     And I should see "One or more of the supplied closure records already exist."
     Then I take a screenshot
 
-
   Scenario:23 Duplicate record inside csv file
     And I click on the "Manage agreement closures" link
     When I click on the "Bulk add agreement closure" link
@@ -201,4 +200,5 @@ Feature: 03 Agreement Closures
     Then I should see "There is a problem"
     And I should see "The uploaded file contains duplicate records."
     Then I take a screenshot
+
   
