@@ -70,6 +70,10 @@ class GDSGenericPage {
     return cy.contains ('.govuk-inset-text', text)
   }
 
+  radio (option) {
+    return cy.contains('.govuk-radios__item', option)
+  }
+
   fileInput () {
     return cy.get('#file-input')
   }

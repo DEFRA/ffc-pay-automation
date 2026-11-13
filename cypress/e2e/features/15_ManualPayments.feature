@@ -4,7 +4,7 @@ Feature: 15 Manual Payments
 # npm run cypress:dev:one -- "cypress\e2e\features\15_ManualPayments.feature"
 # npm run cypress:local:one -- "cypress\e2e\features\15_ManualPayments.feature"
  
-# This feature file is designed to test the Manual Payments page in Payment Management.
+#This feature file is designed to test the Manual Payments page in Payment Management.
  
   Scenario: 01 Confirm Manual Payments page elements are visible
 

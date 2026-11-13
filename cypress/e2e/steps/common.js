@@ -96,7 +96,7 @@ When('I click on {string}', (text) => {
 })
 
 When('I click on the {string} radio button', (option) => {
-  cy.contains('.govuk-radios__item', option)
+  gdsGenericPage.radio (option)
     .find('input[type="radio"]')
     .check({ force: true })
   Cypress.emit(`Clicked on the  ${option} button`)

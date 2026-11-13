@@ -21,7 +21,6 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
             contents,
             fileName: originalFileName,
             mimeType: 'text/csv',
-            lastModified: Date.now()
           }, { force: true })
         })
       })
@@ -188,14 +187,6 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
 
   const waitForFileAndOpenStatus = (attempt = 1) => {
     cy.log(`Looking for filename: ${fileName}`)
-
-
-
-    cy.get('body').then(($body) => {
-
-      cy.log($body.text().substring(0, 500))
-
-    })
     cy.reload()
 
     cy.get('body').then(($body) => {
@@ -206,6 +197,7 @@ Then(/^on the Manual Payments page I click the View payment status link and conf
             cy.contains('View payment status')
               .scrollIntoView()
               .click()
+            cy.wait (2000)
           })
       } else if (attempt < 60) {
         cy.wait(10000)
