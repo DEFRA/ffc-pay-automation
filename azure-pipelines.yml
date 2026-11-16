@@ -38,6 +38,8 @@ steps:
         --env env=dev,TAGS=@dev \
         --browser chrome
     displayName: Run DEV regression suite
+    env:
+      connectionString: $(connectionString)
 
   - task: PublishPipelineArtifact@1
     condition: always()
