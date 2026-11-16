@@ -34,8 +34,27 @@ steps:
     displayName: Verify Cypress
 
   - script: |
-      npx cypress run \
-        --env env=dev,TAGS=@dev \
-        --browser chrome \
-        --spec "cypress\e2e\features\01_PaymentManagement.feature"
-    displayName: Run single DEV test
+      echo "Checking Azure CLI authentication..."
+      az account show --output table
+
+      echo "Checking PostgreSQL access token..."
+      az account get-access-token \
+        --resource-type oss-rdbms \
+        --query accessToken \
+        --output tsv > /dev/null
+
+      echo "Access token successfully generated"
+    displayName: Check Azure authentication
+
+  - script: |
+      npm run cypress:dev:one -- "cypress\e2e\features\14_DocE2EJourney.feature"
+    displayName: Run Single test for debugging
+    env:
+      connectionString: $(connectionString)
+
+  - task: PublishPipelineArtifact@1
+    condition: always()
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)/cypress/reports'
+      artifact: 'cypress-report'
+    displayName: Publish Cypress report
