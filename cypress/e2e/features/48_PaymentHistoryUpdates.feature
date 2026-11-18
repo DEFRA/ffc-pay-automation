@@ -169,7 +169,9 @@ Feature: 48 Payment History Updates Feature
     And I click "Remove" for table value "FPTT"
     And I click on the "Yes, remove" button
     And I see a success message for "has been removed."
-
+    
+ ##now verify it' in submission after hold removed
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
 
 #verify hold is no longer there in the view payment event tables
     And I click the "Home" breadcrumb
@@ -188,8 +190,7 @@ Feature: 48 Payment History Updates Feature
 
 
 
-    ##now in processing after hold removed?
-    #Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
+   
   @local
   Scenario: 01 insert test data via service bus message to ffc-pay-request
 
