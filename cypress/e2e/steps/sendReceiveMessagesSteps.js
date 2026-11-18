@@ -3,7 +3,7 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 const { getEnvironmentConfig } = require('../../support/configLoader')
 import requestEditor from '../pages/requestEditorPage'
-
+import { generateFRN } from '../../utils/frnHelper.js'
 const envConfig = getEnvironmentConfig()
 const env = envConfig.env
 console.log('Environment Config:', envConfig)
@@ -16,7 +16,7 @@ let nextSBI
 let nextVendor
 let nextTrader
 let nextInvoiceNumber
-
+let usePreGeneratedFRN = false
 
 const waitForDatabaseCount = (
   databaseName,
@@ -39,7 +39,7 @@ const waitForDatabaseCount = (
       cy.log(`Attempt ${attempts}: Found ${count}/${expectedCount}`)
 
       if (count >= expectedCount) {
-        cy.log(`✅ Expected count reached: ${count}`)
+        cy.log(` Expected count reached: ${count}`)
         return
       }
 
@@ -67,6 +67,18 @@ const getBatchFrnRange = (batchNumber, expectedCount) => {
     endFrn
   }
 }
+
+//generates an FRN that the "(/^I send "(.*)" test data message to the service bus topic "(.*)"$/," can actually use. useful for adding holds and then sending scenarios
+Given('I generate an FRN for the next payment', () => {
+  const generatedFRN =
+    generateFRN()
+
+  nextFRN = generatedFRN
+  usePreGeneratedFRN = true
+  Cypress.env('nextFRN', generatedFRN)
+
+  cy.log(`Pre-generated FRN: ${generatedFRN}`)
+})
 
 Given('I send the updated {string} message to the service bus topic {string}', (message, topicName) => {
 
@@ -837,7 +849,6 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
 
     if (messageType.includes('payment') || messageType.includes('error')) {
       sqlStatement = `SELECT
-  MAX(CASE WHEN "frn"::text ~ '^1[0-9]*' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "invoiceNumber"::text ~ '^[0-9]{5} 1$' THEN "invoiceNumber" END) AS max_invoice_number
 FROM "paymentRequests";
 `
@@ -853,17 +864,19 @@ FROM "paymentRequests";
           }
 
           const {
-            max_frn,
             max_invoice_number
           } = row
 
-          cy.log(max_frn, max_invoice_number)
+          cy.log(max_invoice_number)
 
 
-          console.log('Max FRN:', max_frn)
           console.log('Max INVOICE_NUMBER:', max_invoice_number)
 
-          nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
+          if (!usePreGeneratedFRN) {
+            nextFRN = generateFRN()
+          }
+
+          usePreGeneratedFRN = false
 
           //The following code separates the main body of the invoice number from the lone digit at the end
           // and iterates the main body by 1 before joining back together
@@ -939,7 +952,6 @@ FROM "paymentRequests";
 
     if (messageType.includes('payment') || messageType.includes('error')) {
       sqlStatement = `SELECT
-  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
   FROM "paymentRequests"`
@@ -955,21 +967,23 @@ FROM "paymentRequests";
           }
 
           const {
-            max_frn,
             max_sbi,
             max_agreement_number
           } = row
 
-          cy.log(max_frn, max_sbi, max_agreement_number)
+          cy.log(max_sbi, max_agreement_number)
 
 
-          console.log('Max FRN:', max_frn)
           console.log('Max SBI:', max_sbi)
           console.log('Max AGREEMENT_NUMBER:', max_agreement_number)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
+            if (!usePreGeneratedFRN) {
+              nextFRN = generateFRN()
+            }
+
+            usePreGeneratedFRN = false
             nextSBI = parseInt(max_sbi) + 1
             nextAgreementNumber = parseInt(max_agreement_number) + 1
             cy.setDebugContext({
@@ -1032,7 +1046,6 @@ FROM "paymentRequests";
 
     if (messageType.includes('payment') || messageType.includes('error')) {
       sqlStatement = `SELECT
-  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "vendor"::text ~ '^[0-9]' THEN "vendor" END) AS max_vendor,
   MAX(CASE WHEN "contractNumber"::text LIKE 'AG00%' THEN "contractNumber" END) AS max_contract_number
   FROM "paymentRequests"`
@@ -1048,21 +1061,23 @@ FROM "paymentRequests";
           }
 
           const {
-            max_frn,
             max_vendor,
             max_contract_number
           } = row
 
-          cy.log(max_frn, max_vendor, max_contract_number)
+          cy.log(max_vendor, max_contract_number)
 
 
-          console.log('Max FRN:', max_frn)
           console.log('Max VENDOR:', max_vendor)
           console.log('Max CONTRACT_NUMBER:', max_contract_number)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
+            if (!usePreGeneratedFRN) {
+              nextFRN = generateFRN()
+            }
+
+            usePreGeneratedFRN = false
             nextVendor = parseInt(max_vendor) + 1
 
             const contractPrefix = max_contract_number.substring(0,2)
@@ -1113,7 +1128,6 @@ FROM "paymentRequests";
 
     if (messageType.includes('payment') || messageType.includes('error')) {
       sqlStatement = `SELECT
-  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN trader LIKE 'J%' AND trader ~ 'J[0-9]+' THEN trader END) AS max_trader
   FROM "paymentRequests"`
       databaseName = 'ffc-pay-processing'
@@ -1128,19 +1142,21 @@ FROM "paymentRequests";
           }
 
           const {
-            max_frn,
             max_trader
           } = row
 
-          cy.log(max_frn, max_trader)
+          cy.log(max_trader)
 
 
-          console.log('Max FRN:', max_frn)
           console.log('Max VENDOR:', max_trader)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
+            if (!usePreGeneratedFRN) {
+              nextFRN = generateFRN()
+            }
+
+            usePreGeneratedFRN = false
 
             const traderPrefix = max_trader.substring(0,1)
             const traderSuffix = max_trader.substring(2, max_trader.length)
@@ -1197,7 +1213,6 @@ FROM "paymentRequests";
 
     if (messageType.includes('payment') || messageType.includes('error')) {
       sqlStatement = `SELECT
-  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
   MAX(CASE WHEN "contractNumber" LIKE 'R%' AND "contractNumber" ~ 'R[0-9]+' THEN "contractNumber" END) AS max_contract_number,
   MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
@@ -1214,23 +1229,26 @@ FROM "paymentRequests";
           }
 
           const {
-            max_frn,
             max_sbi,
             max_contract_number,
             max_agreement_number
           } = row
 
-          cy.log(max_frn, max_sbi, max_contract_number, max_agreement_number)
+          cy.log(max_sbi, max_contract_number, max_agreement_number)
 
 
-          console.log('Max FRN:', max_frn)
+          console.log('Next FRN:', nextFRN)
           console.log('Max SBI:', max_sbi)
           console.log('Max CONTRACT:', max_contract_number)
           console.log('Max AGREEMENT_NUMBER:', max_agreement_number)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
+            if (!usePreGeneratedFRN) {
+              nextFRN = generateFRN()
+            }
+
+            usePreGeneratedFRN = false
             nextSBI = parseInt(max_sbi) + 1
 
             const contractPrefix = max_contract_number.substring(0,1)
@@ -1376,7 +1394,6 @@ FROM "paymentRequests";
 
     if (messageType.includes('payment') || messageType.includes('error')) {
       sqlStatement = `SELECT
-  MAX(CASE WHEN "frn"::text ~ '^[0-9]' THEN "frn" END) AS max_frn,
   MAX(CASE WHEN "contractNumber"::text ~ '^[0-9]' THEN "contractNumber" END) AS max_contract,
   MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
   FROM "paymentRequests"`
@@ -1392,21 +1409,23 @@ FROM "paymentRequests";
           }
 
           const {
-            max_frn,
             max_contract,
             max_agreement_number
           } = row
 
-          cy.log(max_frn, max_contract, max_agreement_number)
+          cy.log(max_contract, max_agreement_number)
 
 
-          console.log('Max FRN:', max_frn)
           console.log('Max CONTRACT:', max_contract)
           console.log('Max AGREEMENT_NUMBER:', max_agreement_number)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
-            nextFRN = (1000000000 + (Date.now() % 9000000000)).toString()
+            if (!usePreGeneratedFRN) {
+              nextFRN = generateFRN()
+            }
+
+            usePreGeneratedFRN = false
             nextContractNumber = parseInt(max_contract) + 1
             nextAgreementNumber = parseInt(max_agreement_number) + 1
 
@@ -1428,12 +1447,10 @@ FROM "paymentRequests";
       agreementNumber: nextAgreementNumber.toString()
     }
             cy.log(`Template FRN: ${template.frn}`)
-            cy.log(`Database max FRN: ${max_frn}`)
             cy.log(`Generated next FRN: ${nextFRN}`)
             cy.log(`Actual message: ${JSON.stringify(messageBody)}`)
 
             console.log('Template FRN:', template.frn)
-            console.log('Database max FRN:', max_frn)
             console.log('Generated next FRN:', nextFRN)
             console.log('Actual message:', JSON.stringify(messageBody, null, 2))
             cy.task('sendMessage', { messageBody, topicName }).then(() =>
@@ -1540,9 +1557,9 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
           const data = results.rows[0]
 
           console.log('Data retrieved:', data)
-          console.log('✅ Data exists in the database')
+          console.log(' Data exists in the database')
 
-          cy.log(`✅ Test data has been inserted into the ${databaseName} database`)
+          cy.log(` Test data has been inserted into the ${databaseName} database`)
           return cy.wrap(results.rows[0])
         }
 
@@ -1612,8 +1629,8 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
           const settledValue = results.rows[0].settledValue
 
           if (settledValue != null) {
-            cy.log(`✅ Settled value is ${settledValue}`)
-            console.log(`✅ Settled value is ${settledValue}`)
+            cy.log(` Settled value is ${settledValue}`)
+            console.log(` Settled value is ${settledValue}`)
 
             return cy.wrap(results)
           }
@@ -1627,17 +1644,17 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
           results.rowCount > 0 &&
           results.rows[0].holdCategoryId === 1
         ) {
-          console.log(`✅ Correct data has been added from ${fileType} file`)
+          console.log(` Correct data has been added from ${fileType} file`)
           return cy.wrap(results)
         }
       } else if (fileType === 'ppa') {
         if (results.rowCount === 2) {
-          console.log(`✅ Correct data has been added from ${fileType} file`)
+          console.log(` Correct data has been added from ${fileType} file`)
           return cy.wrap(results)
         }
       } else {
         if (results.rowCount >= 1) {
-          console.log(`✅ Correct data has been added from ${fileType} file`)
+          console.log(` Correct data has been added from ${fileType} file`)
           return cy.wrap(results)
         }
       }
@@ -1665,8 +1682,8 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
         }
       })
 
-      console.log(`✅ Test data was updated in the ${containerName} database`)
-      cy.log(`✅ Test data was updated in the ${containerName} database`)
+      console.log(` Test data was updated in the ${containerName} database`)
+      cy.log(` Test data was updated in the ${containerName} database`)
     })
 })
 
@@ -1696,11 +1713,11 @@ Then(/^I confirm that payment test data in dev has not been inserted into the (.
       if (results.rows.length > 0) {
         throw new Error('Data was found in database')
       } else {
-        console.log('✅ Data does not exist in the database')
+        console.log(' Data does not exist in the database')
       }
 
-      console.log(`✅ Test data has not been inserted into the ${databaseName} database`)
-      cy.log(`✅ Test data has not been inserted into the ${databaseName} database`)
+      console.log(` Test data has not been inserted into the ${databaseName} database`)
+      cy.log(` Test data has not been inserted into the ${databaseName} database`)
     })
 })
 
@@ -1732,7 +1749,7 @@ Then('I confirm that payment for current FRN has scheme code of {string} in ffc-
       console.log('Expected scheme code: ' + schemeCode + ', Actual scheme code: ' + results.rows[0].schemeCode)
       cy.log('Expected scheme code: ' + schemeCode + ', Actual scheme code: ' + results.rows[0].schemeCode)
       if (results.rows[0].schemeCode === schemeCode) {
-        console.log('✅ Correct scheme code found in the database')
+        console.log(' Correct scheme code found in the database')
       } else {
         throw new Error('Correct scheme code not found in the database')
       }
