@@ -122,6 +122,74 @@ Feature: 48 Payment History Updates Feature
     Then I take a screenshot
 
 
+@dev
+#creating hold
+  Scenario: 03 - Add a hold, publish payment, verify, remove hold, verify
+    Given I visit the "Payment management" homepage
+    And I click on the "Manage payment holds" link
+    And I click on the "Create a new payment hold" link
+    And I generate an FRN for the next payment
+    And I enter "current frn" into the "frn" field
+    And I select the scheme "FPTT"
+    Then on the Payment Holds page I enter "Ex-gratia" hold for scheme "FPTT"
+    And I click on the "Continue" button
+    And I click on the "Create payment hold" button
+    And I see a success message for "Payment hold successfully created."
+
+#creating payment request
+    When I send "fptt payment" test data message to the service bus topic "ffc-pay-request-dev"
+    Then I confirm that payment test data in dev has been inserted into the ffc-pay-processing database
+
+
+
+   #verifying hold shows in the view payment event tables
+    And I click the "Home" breadcrumb
+    And I click on the "View payment events" link
+    And I enter "current frn" into the "frn" field
+    And I click on the "Search" button
+    Then I should see the following table:
+      | Status  |
+      | On hold |
+    And I click "View" for table value "FPTT"
+    Then I should see the following table:
+      | Activity                     | Status          |
+      | Enriched with mandatory data | Completed       |
+      | Payment held                 | Paused          |
+      | Final state calculated       | Paused          |
+      | Submitted to payment ledger  | Not started yet |
+      | Acknowledged                 | Not started yet |
+    Then I take a screenshot
+
+##search and remove payment hold
+    And I click the "Home" breadcrumb
+    And I click on the "Manage payment holds" link
+    And I click on the "Search for a payment hold" link
+    And I enter "current frn" into the "payment hold search" field
+    And I click on the "Search" button
+    And I click "Remove" for table value "FPTT"
+    And I click on the "Yes, remove" button
+    And I see a success message for "has been removed."
+
+
+#verify hold is no longer there in the view payment event tables
+    And I click the "Home" breadcrumb
+    And I click on the "View payment events" link
+    And I enter "current frn" into the "frn" field
+    And I click on the "Search" button
+    And I click "View" for table value "FPTT"
+    Then I should see the following table:
+      | Activity                     | Status      |
+      | Enriched with mandatory data | Completed   |
+      | Payment held                 | Completed   |
+      | Final state calculated       | Completed   |
+      | Submitted to payment ledger  | Completed   |
+      | Acknowledged                 | In progress |
+    Then I take a screenshot
+
+
+
+    ##now in processing after hold removed?
+    #Then I confirm that payment test data in dev has been inserted into the ffc-pay-submission database
   @local
   Scenario: 01 insert test data via service bus message to ffc-pay-request
 
