@@ -90,15 +90,20 @@ Then('on the Payment Holds page I confirm that scheme filter box is visible', ()
 })
 
 
-Then('on the Payment Holds page I enter {string} hold for scheme {string}', (holds, scheme) => {
+Then('on the Payment Holds page I enter {string} hold for scheme {string}', (hold, scheme) => {
+  Cypress.emit(
+    'log:step',
+    `on the Payment Holds page I enter ${hold} hold for scheme ${scheme}`
+  )
 
-  Cypress.emit('log:step', 'on the Payment Holds page I enter ' + holds + ' in the scheme filter box')
   paymentHoldsPage.holdsFilterBox()
     .find(`option[data-scheme-name="${scheme}"]:not([hidden])`)
-    .then($o => cy.get('#selectHoldCategoryId')
-      .select($o.val()))
-
-
+    .filter((_, option) => option.textContent.trim() === hold)
+    .should('have.length', 1)
+    .then(($option) => {
+      cy.get('#selectHoldCategoryId')
+        .select($option.val())
+    })
 })
 
 // Check all holds match respectively for all schemes. loops through all the schemes and holds inside paymentholds.data.js

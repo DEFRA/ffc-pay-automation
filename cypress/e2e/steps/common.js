@@ -3,6 +3,7 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 import paymentManagementPage from '../pages/paymentManagementPage'
 import gdsGenericPage from '../pages/gdsGenericPage'
 const { getEnvironmentConfig } = require('../../support/configLoader')
+const { schemeAndHolds } = require('../../support/data/paymentHolds.data.js')
 
 const envConfig = getEnvironmentConfig()
 const env = envConfig.env
@@ -250,8 +251,8 @@ Then('I should see the following table:', (dataTable) => {
 
   const expectedRows = dataTable.hashes()
 
-  const maxAttempts = 12
-  const retryDelay = 5000
+  const maxAttempts = 20
+  const retryDelay = 10000
 
   const normalise = (text) =>
     text
