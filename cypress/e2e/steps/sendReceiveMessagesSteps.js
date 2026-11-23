@@ -2,6 +2,24 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 
 const { getEnvironmentConfig } = require('../../support/configLoader')
+const {
+  getMaxGlosInvoiceNumber,
+  getInvoiceNumberByFrn,
+  getMaxGenesisVendorAndContract,
+  getMaxImpsTrader,
+  getMaxVetVisitsDetails,
+  getMaxFpttDetails,
+  getMaxContractAndAgreement,
+  getManualUploadById,
+  getPaymentRequestByFrn,
+  getSettledValueByFrn,
+  getHoldCategoryByFrn,
+  getCompletedPaymentRequestIdByFrn,
+  getSchemeCodeByDescription,
+  getOutboxReadyForSettlement,
+  getOutboxReadyForSettlementWithPaymentLines,
+  getClaimsReady
+} = require('../../support/databaseQueries')
 import requestEditor from '../pages/requestEditorPage'
 import { generateFRN } from '../../utils/frnHelper.js'
 const envConfig = getEnvironmentConfig()
@@ -17,6 +35,15 @@ let nextVendor
 let nextTrader
 let nextInvoiceNumber
 let usePreGeneratedFRN = false
+
+// Helper function to extract and validate row data from database query results
+const getRowFromResult = (result, context = '') => {
+  const row = result.rows?.[0]
+  if (!row) {
+    throw new Error(`No rows returned from database query${context ? ` (${context})` : ''}`)
+  }
+  return row
+}
 
 const waitForDatabaseCount = (
   databaseName,
@@ -848,29 +875,20 @@ When (/^I send "(.*)" test data message to the service bus topic "(.*)"$/, funct
   if (messageType.includes('glos')) {
 
     if (messageType.includes('payment') || messageType.includes('error')) {
-      sqlStatement = `SELECT
-  MAX(CASE WHEN "invoiceNumber"::text ~ '^[0-9]{5} 1$' THEN "invoiceNumber" END) AS max_invoice_number
-FROM "paymentRequests";
-`
+      sqlStatement = getMaxGlosInvoiceNumber()
+
       databaseName = 'ffc-pay-processing'
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((result) => {
 
-          const row = result.rows?.[0]
-
-          if (!row) {
-            throw new Error('No rows returned from database query')
-          }
+          const row = getRowFromResult(result, 'GLOS payment/error')
 
           const {
             max_invoice_number
           } = row
 
-          cy.log(max_invoice_number)
-
-
-          console.log('Max INVOICE_NUMBER:', max_invoice_number)
+          cy.log('Max INVOICE_NUMBER:', max_invoice_number)
 
           if (!usePreGeneratedFRN) {
             nextFRN = generateFRN()
@@ -909,7 +927,7 @@ FROM "paymentRequests";
 
     } else if (messageType.includes('return')) {
 
-      sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN
+      sqlStatement = getInvoiceNumberByFrn(nextFRN)
 
       cy.log('SQL statement = ' + sqlStatement)
       databaseName = 'ffc-pay-processing'
@@ -951,31 +969,20 @@ FROM "paymentRequests";
   } else if (messageType.includes('vet visits')) {
 
     if (messageType.includes('payment') || messageType.includes('error')) {
-      sqlStatement = `SELECT
-  MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
-  MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
-  FROM "paymentRequests"`
+      sqlStatement = getMaxVetVisitsDetails()
       databaseName = 'ffc-pay-processing'
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((result) => {
 
-          const row = result.rows?.[0]
-
-          if (!row) {
-            throw new Error('No rows returned from database query')
-          }
+          const row = getRowFromResult(result, 'VET VISITS payment/error')
 
           const {
             max_sbi,
             max_agreement_number
           } = row
 
-          cy.log(max_sbi, max_agreement_number)
-
-
-          console.log('Max SBI:', max_sbi)
-          console.log('Max AGREEMENT_NUMBER:', max_agreement_number)
+          cy.log('Max SBI:', max_sbi, 'Max AGREEMENT_NUMBER:', max_agreement_number)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
@@ -1008,7 +1015,7 @@ FROM "paymentRequests";
 
     } else if (messageType.includes('return')) {
 
-      sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN
+      sqlStatement = getInvoiceNumberByFrn(nextFRN)
 
       cy.log('SQL statement = ' + sqlStatement)
       databaseName = 'ffc-pay-processing'
@@ -1045,31 +1052,20 @@ FROM "paymentRequests";
   } else if (messageType.includes('genesis')) {
 
     if (messageType.includes('payment') || messageType.includes('error')) {
-      sqlStatement = `SELECT
-  MAX(CASE WHEN "vendor"::text ~ '^[0-9]' THEN "vendor" END) AS max_vendor,
-  MAX(CASE WHEN "contractNumber"::text LIKE 'AG00%' THEN "contractNumber" END) AS max_contract_number
-  FROM "paymentRequests"`
+      sqlStatement = getMaxGenesisVendorAndContract()
       databaseName = 'ffc-pay-processing'
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((result) => {
 
-          const row = result.rows?.[0]
-
-          if (!row) {
-            throw new Error('No rows returned from database query')
-          }
+          const row = getRowFromResult(result, 'GENESIS payment/error')
 
           const {
             max_vendor,
             max_contract_number
           } = row
 
-          cy.log(max_vendor, max_contract_number)
-
-
-          console.log('Max VENDOR:', max_vendor)
-          console.log('Max CONTRACT_NUMBER:', max_contract_number)
+          cy.log('Max VENDOR:', max_vendor, 'Max CONTRACT_NUMBER:', max_contract_number)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
@@ -1127,28 +1123,19 @@ FROM "paymentRequests";
   } else if (messageType.includes('imps')) {
 
     if (messageType.includes('payment') || messageType.includes('error')) {
-      sqlStatement = `SELECT
-  MAX(CASE WHEN trader LIKE 'J%' AND trader ~ 'J[0-9]+' THEN trader END) AS max_trader
-  FROM "paymentRequests"`
+      sqlStatement = getMaxImpsTrader()
       databaseName = 'ffc-pay-processing'
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((result) => {
 
-          const row = result.rows?.[0]
-
-          if (!row) {
-            throw new Error('No rows returned from database query')
-          }
+          const row = getRowFromResult(result, 'IMPS payment/error')
 
           const {
             max_trader
           } = row
 
-          cy.log(max_trader)
-
-
-          console.log('Max VENDOR:', max_trader)
+          cy.log('Max TRADER:', max_trader)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
@@ -1212,21 +1199,13 @@ FROM "paymentRequests";
   } else if (messageType.includes('fptt')) {
 
     if (messageType.includes('payment') || messageType.includes('error')) {
-      sqlStatement = `SELECT
-  MAX(CASE WHEN "sbi"::text ~ '^[0-9]' THEN "sbi" END) AS max_sbi,
-  MAX(CASE WHEN "contractNumber" LIKE 'R%' AND "contractNumber" ~ 'R[0-9]+' THEN "contractNumber" END) AS max_contract_number,
-  MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
-  FROM "paymentRequests"`
+      sqlStatement = getMaxFpttDetails()
       databaseName = 'ffc-pay-processing'
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((result) => {
 
-          const row = result.rows?.[0]
-
-          if (!row) {
-            throw new Error('No rows returned from database query')
-          }
+          const row = getRowFromResult(result, 'FPPT payment/error')
 
           const {
             max_sbi,
@@ -1234,13 +1213,7 @@ FROM "paymentRequests";
             max_agreement_number
           } = row
 
-          cy.log(max_sbi, max_contract_number, max_agreement_number)
-
-
-          console.log('Next FRN:', nextFRN)
-          console.log('Max SBI:', max_sbi)
-          console.log('Max CONTRACT:', max_contract_number)
-          console.log('Max AGREEMENT_NUMBER:', max_agreement_number)
+          cy.log('Max SBI:', max_sbi, 'Max CONTRACT:', max_contract_number, 'Max AGREEMENT_NUMBER:', max_agreement_number)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
@@ -1288,7 +1261,7 @@ FROM "paymentRequests";
 
     } else if (messageType.includes('return')) {
 
-      sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN
+      sqlStatement = getInvoiceNumberByFrn(nextFRN)
 
       cy.log('SQL statement = ' + sqlStatement)
       databaseName = 'ffc-pay-processing'
@@ -1355,7 +1328,7 @@ FROM "paymentRequests";
 
   } else if (messageType.includes('acknowledgement')) {
 
-    sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN
+    sqlStatement = getInvoiceNumberByFrn(nextFRN)
 
     cy.log('SQL statement = ' + sqlStatement)
     databaseName = 'ffc-pay-processing'
@@ -1393,31 +1366,20 @@ FROM "paymentRequests";
   } else {
 
     if (messageType.includes('payment') || messageType.includes('error')) {
-      sqlStatement = `SELECT
-  MAX(CASE WHEN "contractNumber"::text ~ '^[0-9]' THEN "contractNumber" END) AS max_contract,
-  MAX(CASE WHEN "agreementNumber"::text ~ '^[0-9]' THEN "agreementNumber" END) AS max_agreement_number
-  FROM "paymentRequests"`
+      sqlStatement = getMaxContractAndAgreement()
       databaseName = 'ffc-pay-processing'
 
       cy.task('databaseQuery', { env, databaseName, sqlStatement })
         .then((result) => {
 
-          const row = result.rows?.[0]
-
-          if (!row) {
-            throw new Error('No rows returned from database query')
-          }
+          const row = getRowFromResult(result, 'ALL OTHER SCHEMES payment/error')
 
           const {
             max_contract,
             max_agreement_number
           } = row
 
-          cy.log(max_contract, max_agreement_number)
-
-
-          console.log('Max CONTRACT:', max_contract)
-          console.log('Max AGREEMENT_NUMBER:', max_agreement_number)
+          cy.log('Max CONTRACT:', max_contract, 'Max AGREEMENT_NUMBER:', max_agreement_number)
 
           const inputFilePath = `cypress/fixtures/messageTemplates/inputMessage/${messageTemplate}.json`
           cy.readFile(inputFilePath).then((template) => {
@@ -1461,7 +1423,7 @@ FROM "paymentRequests";
 
     } else if (messageType.includes('return')) {
 
-      sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ' + nextFRN
+      sqlStatement = getInvoiceNumberByFrn(nextFRN)
 
       cy.log('SQL statement = ' + sqlStatement)
       databaseName = 'ffc-pay-processing'
@@ -1533,15 +1495,15 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
 
   switch (databaseName) {
   case 'ffc-pay-injection':
-    sqlStatement = 'SELECT * FROM "manualUploads" WHERE "uploadId" = 1'
+    sqlStatement = getManualUploadById()
     break
 
   case 'ffc-pay-processing':
-    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN
+    sqlStatement = getPaymentRequestByFrn(nextFRN)
     break
 
   case 'ffc-pay-submission':
-    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN
+    sqlStatement = getPaymentRequestByFrn(nextFRN)
     break
 
   default:
@@ -1556,9 +1518,7 @@ Then(/^I confirm that payment test data in dev has been inserted into the (.*) d
         if (results.rows.length > 0) {
           const data = results.rows[0]
 
-          console.log('Data retrieved:', data)
-          console.log(' Data exists in the database')
-
+          cy.log('Data retrieved:', data, 'Data exists in the database')
           cy.log(` Test data has been inserted into the ${databaseName} database`)
           return cy.wrap(results.rows[0])
         }
@@ -1591,19 +1551,19 @@ Then('I confirm that {string} test data in dev has been inserted into ffc-pay-pr
 
   switch (fileType) {
   case 'return':
-    sqlStatement = `SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = ${nextFRN}`
+    sqlStatement = getSettledValueByFrn(nextFRN)
     break
 
   case 'ppa':
-    sqlStatement = `SELECT "invoiceNumber" FROM "paymentRequests" WHERE "frn" = ${nextFRN}`
+    sqlStatement = getInvoiceNumberByFrn(nextFRN)
     break
 
   case 'd365 rejection':
-    sqlStatement = `SELECT "holdCategoryId" FROM "holds" WHERE "frn" = ${nextFRN}`
+    sqlStatement = getHoldCategoryByFrn(nextFRN)
     break
 
   case 'resubmission':
-    sqlStatement = `SELECT "paymentRequestId" FROM "completedPaymentRequests" WHERE "frn" = ${nextFRN}`
+    sqlStatement = getCompletedPaymentRequestIdByFrn(nextFRN)
     break
 
   default:
@@ -1694,13 +1654,13 @@ Then(/^I confirm that payment test data in dev has not been inserted into the (.
   let sqlStatement = ''
   switch (databaseName) {
   case 'ffc-pay-injection':
-    sqlStatement = 'SELECT * FROM "manualUploads" WHERE "uploadId" = 1'
+    sqlStatement = getManualUploadById()
     break
   case 'ffc-pay-processing':
-    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN
+    sqlStatement = getPaymentRequestByFrn(nextFRN)
     break
   case 'ffc-pay-submission':
-    sqlStatement = 'SELECT * FROM "paymentRequests" WHERE "frn" = ' + nextFRN
+    sqlStatement = getPaymentRequestByFrn(nextFRN)
     break
   default:
     throw new Error(`Unknown database: ${databaseName}`)
@@ -1737,11 +1697,7 @@ Then('I confirm that payment for current FRN has scheme code of {string} in ffc-
   Cypress.emit('log:step', 'I confirm that payment for current FRN has scheme code of ' + schemeCode + ' in ffc-pay-processing database')
   const description = 'G00 - 2026-03-05: AHWR Poultry'
 
-  const sqlStatement = `
-  SELECT "schemeCode"
-  FROM "invoiceLines"
-  WHERE "description" = '${description}'
-`
+  const sqlStatement = getSchemeCodeByDescription(description)
   const databaseName = 'ffc-pay-processing'
 
   cy.task('databaseQuery', { env, databaseName, sqlStatement })
