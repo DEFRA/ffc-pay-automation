@@ -20,8 +20,7 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
           manualPaymentsPage.fileInput().selectFile({
             contents,
             fileName: originalFileName,
-            mimeType: 'text/csv',
-            lastModified: Date.now()
+            mimeType: 'text/csv'
           }, { force: true })
         })
       })
