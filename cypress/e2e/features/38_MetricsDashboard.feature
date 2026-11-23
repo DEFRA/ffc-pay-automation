@@ -1,7 +1,7 @@
 @dev
 Feature: 38 Metrics Dashboard
 
-# npm run cypress:dev:one -- "cypress\e2e\features\38_ManagementInformation.feature"
+# npm run cypress:dev:one -- "cypress\e2e\features\38_MetricsDashboard.feature"
 
 # This feature file is designed to test functionality of Metrics Dashboard page in Payment Management UI
 
