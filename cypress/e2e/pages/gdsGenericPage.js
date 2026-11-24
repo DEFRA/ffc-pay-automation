@@ -75,7 +75,7 @@ class GDSGenericPage {
   }
 
   fileInput () {
-    return cy.get('#file-input, #file')
+    return cy.get('#file-input')
   }
 
   tableCell (text) {
