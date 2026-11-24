@@ -35,7 +35,7 @@ steps:
 
   - script: |
       echo "Checking Azure CLI authentication..."
-      az account show --output table
+      az login
 
       echo "Checking PostgreSQL access token..."
       az account get-access-token \
