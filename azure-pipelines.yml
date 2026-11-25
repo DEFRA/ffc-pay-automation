@@ -7,83 +7,85 @@ pool:
 variables:
   - group: ffc-pay-automation-dev
 
-steps:
-  - checkout: self
-
-  - script: |
-      echo "Agent:"
-      uname -a
-
-      echo "Node:"
-      node --version
-
-      echo "NPM:"
-      npm --version
-
-      echo "Chrome:"
-      google-chrome --version
-
-      echo "Kubectl:"
-      kubectl version --client
-    displayName: Check agent
-
-  - script: npm ci
-    displayName: Install dependencies
-
-  - script: npx cypress verify
-    displayName: Verify Cypress
-
-  - task: AzureCLI@2
-    displayName: Run DEV regression suite
+jobs:
+  - job: DevRegression
+    displayName: DEV regression
     timeoutInMinutes: 0
-    inputs:
-      azureSubscription: 'AZD-FFC-DEV1'
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-        set -e
+    steps:
+      - checkout: self
 
-        echo "Checking Azure authentication..."
-        az account show --output table
+      - script: |
+          echo "Agent:"
+          uname -a
 
-        echo "Checking PostgreSQL token generation..."
-        az account get-access-token \
-          --resource-type oss-rdbms \
-          --query accessToken \
-          --output tsv > /dev/null
+          echo "Node:"
+          node --version
 
-        echo "Azure authentication successful"
+          echo "NPM:"
+          npm --version
 
-        echo "Running DEV regression..."
+          echo "Chrome:"
+          google-chrome --version
 
-        npx cypress run \
-          --env env=dev,TAGS=@dev \
-          --browser chrome
-    env:
-      connectionString: $(connectionString)
-      DEVPGHOST: $(DEVPGHOST)
-      PGPORT: $(PGPORT)
-      DEVUSER: $(DEVUSER)
-      DEVPAYMENTSBLOBCONNECTIONSTRING: $(DEVPAYMENTSBLOBCONNECTIONSTRING)
-      DEVSTATEMENTSBLOBCONNECTIONSTRING: $(DEVSTATEMENTSBLOBCONNECTIONSTRING)
+          echo "Kubectl:"
+          kubectl version --client
+        displayName: Check agent
 
+      - script: npm ci
+        displayName: Install dependencies
 
-  - script: |
-      npm run report:merge
-      npm run report:html
-    condition: succeededOrFailed()
-    displayName: Merge and build HTML report
+      - script: npx cypress verify
+        displayName: Verify Cypress
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    inputs:
-      targetPath: '$(System.DefaultWorkingDirectory)/cypress/reports'
-      artifact: 'cypress-report'
-    displayName: Publish Cypress report
+      - task: AzureCLI@2
+        displayName: Run DEV regression suite
+        inputs:
+          azureSubscription: 'AZD-FFC-DEV1'
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            set -e
 
-  - task: PublishPipelineArtifact@1
-    condition: failed()
-    inputs:
-      targetPath: '$(System.DefaultWorkingDirectory)/cypress/screenshots'
-      artifact: 'cypress-screenshots'
-    displayName: Publish Cypress screenshots
+            echo "Checking Azure authentication..."
+            az account show --output table
+
+            echo "Checking PostgreSQL token generation..."
+            az account get-access-token \
+              --resource-type oss-rdbms \
+              --query accessToken \
+              --output tsv > /dev/null
+
+            echo "Azure authentication successful"
+
+            echo "Running DEV regression..."
+
+            npx cypress run \
+              --env env=dev,TAGS=@dev \
+              --browser chrome
+        env:
+          connectionString: $(connectionString)
+          DEVPGHOST: $(DEVPGHOST)
+          PGPORT: $(PGPORT)
+          DEVUSER: $(DEVUSER)
+          DEVPAYMENTSBLOBCONNECTIONSTRING: $(DEVPAYMENTSBLOBCONNECTIONSTRING)
+          DEVSTATEMENTSBLOBCONNECTIONSTRING: $(DEVSTATEMENTSBLOBCONNECTIONSTRING)
+
+      - script: |
+          npm run report:merge
+          npm run report:html
+        condition: succeededOrFailed()
+        displayName: Merge and build HTML report
+
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)/cypress/reports'
+          artifact: 'cypress-report'
+        displayName: Publish Cypress report
+
+      - task: PublishPipelineArtifact@1
+        condition: failed()
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)/cypress/screenshots'
+          artifact: 'cypress-screenshots'
+        displayName: Publish Cypress screenshots
