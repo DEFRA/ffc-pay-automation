@@ -54,7 +54,7 @@ steps:
         echo "Azure authentication successful"
 
         echo "Running DEV regression..."
-        npm run cypress:dev:one -- "cypress\e2e\features\14_DocE2EJourney.feature"
+        npm run cypress:dev:one -- "cypress/e2e/features/32_SFI23Payments.feature""
     env:
       connectionString: $(connectionString)
 
