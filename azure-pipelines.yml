@@ -54,7 +54,11 @@ steps:
         echo "Azure authentication successful"
 
         echo "Running DEV regression..."
-        npm run cypress:dev:one -- "cypress/e2e/features/32_SFI23Payments.feature"
+
+        npx cypress run \
+          --env env=dev,TAGS=@dev \
+          --browser chrome \
+          --spec "cypress/e2e/features/32_SFI23Payments.feature"
     env:
       connectionString: $(connectionString)
 
