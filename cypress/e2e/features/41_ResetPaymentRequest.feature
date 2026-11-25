@@ -145,13 +145,13 @@ Feature: 41 Reset Payment Request
 
     Given I visit the "Payment management" homepage
     When I click on the "Reset payment request" link
-    Then on the Reset payment request page I enter "S279591940653785V001" into the "invoice number" field
+    Then on the Reset payment request page I enter "S279591910000001V001" into the "invoice number" field
     Then on the Reset payment request page I click the "reset button"
     Then I take a screenshot
 
     Then on the Reset payment request page I confirm that "payment request successfully reset message" is displayed
 
-    Then I confirm that second completedPaymentRequest entry has been made in database for invoice number "S279591940653785V001"
+    Then I confirm that second completedPaymentRequest entry has been made in database for invoice number "S279591910000001V001"
 
   @local
   Scenario: 06 Confirm that Perform another action link redirects correctly
@@ -161,7 +161,7 @@ Feature: 41 Reset Payment Request
 
     Given I visit the "Payment management" homepage
     When I click on the "Reset payment request" link
-    Then on the Reset payment request page I enter "S279591940653785V001" into the "invoice number" field
+    Then on the Reset payment request page I enter "S279591910000001V001" into the "invoice number" field
     And I click on the "Reset payment request" button
     Then I click on the "Reset another payment request" link
 

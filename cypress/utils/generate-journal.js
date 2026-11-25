@@ -11,9 +11,9 @@ const SCHEMES = {
     referencePrefix: 'S2795919',
     referenceSuffix: 'V001',
 
-    vendorTemplate: ['Vendor', '1000000001', '', 'DRD10', '80101', '2023', 'RP00', 'S279591940653785V001', '-100000', 'GBP', 'legacy', '', '40653785', '0', '', '1', '', '', '', 'BACS_GBP', 'SITI_SFIA', '', '0001', '', '01/12/2025', 'GBP', '', '', 'Q4', 'END'],
+    vendorTemplate: ['Vendor', '1000000001', '', 'DRD10', '80101', '2023', 'RP00', 'S279591910000001V001', '-100000', 'GBP', 'legacy', '', '10000001', '0', '', '1', '', '', '', 'BACS_GBP', 'SITI_SFIA', '', '0001', '', '01/12/2025', 'GBP', '', '', 'Q4', 'END'],
 
-    ledgerTemplate: ['Ledger', 'SOS710', '', 'DRD10', '80101', '2023', 'RP00', 'S279591940653785V001', '100000', 'GBP', 'legacy', '', '', '', '1', '', '', 'G00 - Gross value of claim', '', '', '', '', '', '', '', '', '', 'S0000001', '', 'END']
+    ledgerTemplate: ['Ledger', 'SOS710', '', 'DRD10', '80101', '2023', 'RP00', 'S279591910000001V001', '100000', 'GBP', 'legacy', '', '', '', '1', '', '', 'G00 - Gross value of claim', '', '', '', '', '', '', '', '', '', 'S0000001', '', 'END']
   },
 
   fptt: {
