@@ -33,24 +33,31 @@ steps:
   - script: npx cypress verify
     displayName: Verify Cypress
 
-  - script: |
-      echo "Checking Azure CLI authentication..."
-      az login
+  - task: AzureCLI@2
+    displayName: Run DEV regression suite
+    inputs:
+      azureSubscription: 'AZD-FFC-DEV1'
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        set -e
 
-      echo "Checking PostgreSQL access token..."
-      az account get-access-token \
-        --resource-type oss-rdbms \
-        --query accessToken \
-        --output tsv > /dev/null
+        echo "Checking Azure authentication..."
+        az account show --output table
 
-      echo "Access token successfully generated"
-    displayName: Check Azure authentication
+        echo "Checking PostgreSQL token generation..."
+        az account get-access-token \
+          --resource-type oss-rdbms \
+          --query accessToken \
+          --output tsv > /dev/null
 
-  - script: |
-      npm run cypress:dev:one -- "cypress\e2e\features\14_DocE2EJourney.feature"
-    displayName: Run Single test for debugging
+        echo "Azure authentication successful"
+
+        echo "Running DEV regression..."
+        npm run cypress:dev:one -- "cypress\e2e\features\14_DocE2EJourney.feature"
     env:
       connectionString: $(connectionString)
+
 
   - task: PublishPipelineArtifact@1
     condition: always()
