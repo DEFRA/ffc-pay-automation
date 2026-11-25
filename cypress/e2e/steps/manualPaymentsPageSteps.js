@@ -1,6 +1,6 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 import manualPaymentsPage from '../pages/manualPaymentsPage'
-
+import { generateFRNNotMappedToDate } from '../../utils/frnHelper.js'
 
 
 When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (fileName) => {
@@ -20,7 +20,7 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
           manualPaymentsPage.fileInput().selectFile({
             contents,
             fileName: originalFileName,
-            mimeType: 'text/csv',
+            mimeType: 'text/csv'
           }, { force: true })
         })
       })
@@ -74,7 +74,7 @@ When(/^on the Manual Payments page I enter "(.*)" as the file to upload$/, (file
 
         const cols = row.split(',')
 
-        cols[1] = parseInt(cols[1]) + 1
+        cols[1] = generateFRNNotMappedToDate()
         cols[3] = incrementZValue(cols[3])
         cols[17] = parseInt(cols[17]) + 1
 
