@@ -7,6 +7,25 @@ pool:
 variables:
   - group: ffc-pay-automation-dev
 
+# because the federated login stops refreshing after about an hour, we split each group of tests into separate jobs. when adding more scenarios
+# please be mindful of timing and manage accordingly to ensure none of the jobs overrun 1 hour
+parameters:
+  - name: specGroups
+    type: object
+    default:
+      - name: features 01-13
+        spec: 'cypress/e2e/features/0[1-9]_*.feature,cypress/e2e/features/1[0-3]_*.feature'
+      - name: features 14-19
+        spec: 'cypress/e2e/features/1[4-9]_*.feature'
+      - name: features 20-26
+        spec: 'cypress/e2e/features/2[0-6]_*.feature'
+      - name: features 27-30
+        spec: 'cypress/e2e/features/2[7-9]_*.feature,cypress/e2e/features/30_*.feature'
+      - name: features 31-40
+        spec: 'cypress/e2e/features/3[1-9]_*.feature,cypress/e2e/features/40_*.feature'
+      - name: features 41+
+        spec: 'cypress/e2e/features/4[1-9]_*.feature,cypress/e2e/features/[5-9][0-9]_*.feature'
+
 jobs:
   - job: DevRegression
     displayName: DEV regression
@@ -37,38 +56,41 @@ jobs:
       - script: npx cypress verify
         displayName: Verify Cypress
 
-      - task: AzureCLI@2
-        displayName: Run DEV regression suite
-        inputs:
-          azureSubscription: 'AZD-FFC-DEV1'
-          scriptType: bash
-          scriptLocation: inlineScript
-          inlineScript: |
-            set -e
+      - ${{ each group in parameters.specGroups }}:
+          - task: AzureCLI@2
+            displayName: Run DEV regression (${{ group.name }})
+            condition: succeededOrFailed()
+            inputs:
+              azureSubscription: 'AZD-FFC-DEV1'
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                set -e
 
-            echo "Checking Azure authentication..."
-            az account show --output table
+                echo "Checking Azure authentication..."
+                az account show --output table
 
-            echo "Checking PostgreSQL token generation..."
-            az account get-access-token \
-              --resource-type oss-rdbms \
-              --query accessToken \
-              --output tsv > /dev/null
+                echo "Checking PostgreSQL token generation..."
+                az account get-access-token \
+                  --resource-type oss-rdbms \
+                  --query accessToken \
+                  --output tsv > /dev/null
 
-            echo "Azure authentication successful"
+                echo "Azure authentication successful"
 
-            echo "Running DEV regression..."
+                echo "Running DEV regression (${{ group.name }})..."
 
-            npx cypress run \
-              --env env=dev,TAGS=@dev \
-              --browser chrome
-        env:
-          connectionString: $(connectionString)
-          DEVPGHOST: $(DEVPGHOST)
-          PGPORT: $(PGPORT)
-          DEVUSER: $(DEVUSER)
-          DEVPAYMENTSBLOBCONNECTIONSTRING: $(DEVPAYMENTSBLOBCONNECTIONSTRING)
-          DEVSTATEMENTSBLOBCONNECTIONSTRING: $(DEVSTATEMENTSBLOBCONNECTIONSTRING)
+                npx cypress run \
+                  --env env=dev,TAGS=@dev \
+                  --browser chrome \
+                  --spec "${{ group.spec }}"
+            env:
+              connectionString: $(connectionString)
+              DEVPGHOST: $(DEVPGHOST)
+              PGPORT: $(PGPORT)
+              DEVUSER: $(DEVUSER)
+              DEVPAYMENTSBLOBCONNECTIONSTRING: $(DEVPAYMENTSBLOBCONNECTIONSTRING)
+              DEVSTATEMENTSBLOBCONNECTIONSTRING: $(DEVSTATEMENTSBLOBCONNECTIONSTRING)
 
       - script: |
           npm run report:merge
