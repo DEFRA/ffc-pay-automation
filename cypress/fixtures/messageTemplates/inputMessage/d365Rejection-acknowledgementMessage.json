@@ -1,6 +1,6 @@
 {
   "invoiceNumber": "S279591940653785V001",
-  "frn": 1258445148,
+  "frn": 1000000001,
   "success": false,
   "acknowledged": "2026-01-27T11:40:15.792Z",
   "message": "Invalid bank details",

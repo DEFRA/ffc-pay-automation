@@ -79,7 +79,7 @@ Feature: 29 Delinked Payments
     And I click on the "Continue" button
     
     Then I confirm that number of payments has increased by 3 and total value of payments has increased by "10,000.00"
-Then I take a screenshot
+    Then I take a screenshot
 
   @local
   Scenario: 01 insert incorrect Delinked test data via service bus message to ffc-pay-request
@@ -131,7 +131,7 @@ Then I take a screenshot
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting debt data" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1000000001" into the "frn" field
     When I click on the FRN search button
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
@@ -149,7 +149,7 @@ Then I take a screenshot
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting manual ledger assignment" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1000000001" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
@@ -164,7 +164,7 @@ Then I take a screenshot
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment quality check" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1000000001" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
@@ -178,5 +178,5 @@ Then I take a screenshot
     When I click on the "View payment events by scheme" link
     And I select "Delinked Payments" from the monitor schemes dropdown
     And I click on the "Continue" button
-    Then I confirm that payment for "Delinked" scheme with "3" payment installments totalling "£10,000.00" is displayed
+    Then I confirm that payment for "Delinked Payments" scheme with "3" payment installments totalling "£10,000.00" is displayed
     Then I take a screenshot

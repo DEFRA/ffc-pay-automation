@@ -48,7 +48,7 @@ Feature: 42 Payment Event Monitoring
     Given I visit the "Payment management" homepage
     When I click on the "View payment events" link
 
-    Then on the View events page I enter "1258445148" into the "frn" field
+    Then on the View events page I enter "1000000001" into the "frn" field
     Then on the View events page I click the "frn search button"
 
     Then on the View events page I confirm that "frn payment history" is displayed
@@ -156,7 +156,7 @@ Feature: 42 Payment Event Monitoring
     Given I visit the "Payment management" homepage
     When I click on the "View payment events" link
 
-    Then on the View events page I enter "1258445148" into the "frn" field
+    Then on the View events page I enter "1000000001" into the "frn" field
     Then on the View events page I click the "frn search button"
 
   #Confirm that rows are ordered correctly by payment request number  
@@ -171,13 +171,13 @@ Feature: 42 Payment Event Monitoring
   #Confirm that no fields are blank
 
     Then on the View events page I confirm that "scheme" of entry number "1" in table is "SFI23"
-    Then on the View events page I confirm that "agreement" of entry number "1" in table is "40770826"
+    Then on the View events page I confirm that "agreement" of entry number "1" in table is "S0000001"
     Then on the View events page I confirm that "payment request" of entry number "1" in table is "1"
     Then on the View events page I confirm that "status" of entry number "1" in table is "Settled by payment ledger"
     Then on the View events page I confirm that "last updated" of entry number "1" in table is "Today"
 
     Then on the View events page I confirm that "scheme" of entry number "2" in table is "SFI23"
-    Then on the View events page I confirm that "agreement" of entry number "2" in table is "40770826"
+    Then on the View events page I confirm that "agreement" of entry number "2" in table is "S0000001"
     Then on the View events page I confirm that "payment request" of entry number "2" in table is "2"
     Then on the View events page I confirm that "status" of entry number "2" in table is "Submitted to payment ledger"
     Then on the View events page I confirm that "last updated" of entry number "2" in table is "Today"

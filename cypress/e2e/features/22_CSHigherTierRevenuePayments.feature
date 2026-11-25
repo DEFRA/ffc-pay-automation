@@ -125,9 +125,9 @@ Feature: 22 CS Higher Tier Revenue Payments
   @local
   Scenario: 05 Approve payment from reporting data queue
 
-Given I visit the "Request Editor" homepage
+    Given I visit the "Request Editor" homepage
     And I click on the "View awaiting debt data" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1000000001" into the "frn" field
     When I click on the FRN search button
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
@@ -143,7 +143,7 @@ Given I visit the "Request Editor" homepage
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting manual ledger assignment" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1000000001" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
@@ -156,7 +156,7 @@ Given I visit the "Request Editor" homepage
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment quality check" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1000000001" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
@@ -170,5 +170,5 @@ Given I visit the "Request Editor" homepage
     When I click on the "View payment events by scheme" link
     And I select "CS-HT (Revenue)" from the monitor schemes dropdown
     And I click on the "Continue" button
-    Then I confirm that payment for "COHT Revenue" scheme with "3" payment installments totalling "£10,000.00" is displayed
+    Then I confirm that payment for "CS-HT (Revenue)" scheme with "3" payment installments totalling "£10,000.00" is displayed
     Then I take a screenshot

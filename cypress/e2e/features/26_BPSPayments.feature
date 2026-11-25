@@ -132,7 +132,7 @@ Then I take a screenshot
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting debt data" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1000000001" into the "frn" field
     When I click on the FRN search button
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
@@ -150,7 +150,7 @@ Then I take a screenshot
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting manual ledger assignment" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1000000001" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button
@@ -165,7 +165,7 @@ Then I take a screenshot
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment quality check" link
-    When I enter "1258445148" into the "frn" field
+    When I enter "1000000001" into the "frn" field
     When I click on the FRN search button
     And I click on the "Review" link
     And I click on the "Yes" radio button

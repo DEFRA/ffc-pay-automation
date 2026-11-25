@@ -7,6 +7,9 @@ const envConfig = getEnvironmentConfig()
 const env = envConfig.env
 console.log('Environment Config:', envConfig)
 
+// nextFRN is only set by the dev generator steps; local runs use the FRN of the last sent template message
+const getCurrentFrn = () => Cypress.env('nextFRN') || Cypress.env('updatedMessageBody')?.frn
+
 Given('I restart the local pay environment', () => {
 
   Cypress.emit('log:step', 'I restart the local pay environment')
@@ -79,11 +82,11 @@ Then(/^I confirm that payment test data has been inserted into the (.*) database
     let sqlStatement = ''
     switch (databaseName) {
     case 'ffc-pay-processing':
-      sqlStatement = `SELECT * FROM "paymentRequests" WHERE "frn" = '${Cypress.env('nextFRN')}'`
+      sqlStatement = `SELECT * FROM "paymentRequests" WHERE "frn" = '${getCurrentFrn()}'`
       break
 
     case 'ffc-pay-submission':
-      sqlStatement = `SELECT * FROM "paymentRequests" WHERE "frn" = '${Cypress.env('nextFRN')}'`
+      sqlStatement = `SELECT * FROM "paymentRequests" WHERE "frn" = '${getCurrentFrn()}'`
       break
     default:
       throw new Error(`Unknown database: ${databaseName}`)
@@ -139,7 +142,7 @@ Then('I confirm that {string} test data has been inserted into the {string} data
 
   switch (fileType) {
   case 'return':
-    sqlStatement = `SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = '${Cypress.env('nextFRN')}'`
+    sqlStatement = `SELECT "settledValue" FROM "completedPaymentRequests" WHERE "frn" = '${getCurrentFrn()}'`
     break
   case 'ppa':
     sqlStatement = 'SELECT "invoiceNumber" FROM "paymentRequests" WHERE "paymentRequestId" = 2'
