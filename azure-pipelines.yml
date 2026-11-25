@@ -61,6 +61,9 @@ steps:
           --spec "cypress/e2e/features/32_SFI23Payments.feature"
     env:
       connectionString: $(connectionString)
+      DEVPGHOST: $(DEVPGHOST)
+      PGPORT: $(PGPORT)
+      DEVUSER: $(DEVUSER)
 
 
   - task: PublishPipelineArtifact@1
