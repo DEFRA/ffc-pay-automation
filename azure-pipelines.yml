@@ -1,6 +1,15 @@
 trigger: none
 pr: none
 
+# Cron is UTC: 23:00 Sun-Thu is 23:00 UK in winter (GMT) and midnight in summer (BST).
+schedules:
+  - cron: '0 23 * * 0-4'
+    displayName: Nightly DEV regression (Sun-Thu 23:00 UTC)
+    branches:
+      include:
+        - azure-pipelines
+    always: true
+
 pool:
   name: DEFRA-FFC-DEV1-ubuntu2204
 
