@@ -143,8 +143,8 @@ Feature: 46 SFI26 Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting debt data" link
-    When I search for FRN "1101769106"
-    When I click on the FRN search button
+    When I search for FRN "1000000001"
+    And I click on the "Search" button
     And I click on the "Enrich" link
     And I click on the "Irregular" radio button
     And I enter a valid debt discovered date in the past
@@ -161,8 +161,8 @@ Feature: 46 SFI26 Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting manual ledger assignment" link
-    When I enter "1101769106" into the "frn" field
-    When I click on the FRN search button
+    When I enter "1000000001" into the "frn" field
+    And I click on the "Search" button
     And I click on the "Review" link
     And I click on the "Yes" radio button
     Then I take a screenshot
@@ -176,8 +176,8 @@ Feature: 46 SFI26 Payments
 
     Given I visit the "Request Editor" homepage
     And I click on the "View awaiting ledger assignment quality check" link
-    When I enter "1101769106" into the "frn" field
-    When I click on the FRN search button
+    When I enter "1000000001" into the "frn" field
+    And I click on the "Search" button
     And I click on the "Review" link
     And I click on the "Yes" radio button
     Then I take a screenshot

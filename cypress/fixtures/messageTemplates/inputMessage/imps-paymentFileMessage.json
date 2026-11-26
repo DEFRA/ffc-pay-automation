@@ -3,9 +3,9 @@
   "batch": "FIN_IMPS_AP_9842.INT",
   "paymentRequestNumber": 1,
   "ledger": "AP",
-  "trader": "J07433",
+  "trader": "10001",
   "invoiceNumber": "FVR/J07455",
-  "frn": "1102109244",
+  "frn": "1000000001",
   "contractNumber": "1",
   "invoiceLines": [
     {

@@ -82,18 +82,34 @@ When('I click on the {string} button', (text) => {
   if (text === 'Submit' || text === 'Filter') {
     cy.wait(10000)
   }
-  //for a very specific use case on the payment calculator page, it doest have text for some reason. if you pass in a blank string essentially itll click anything with #submit tag
+
   if (text === ' ') {
     cy.get('#submit').scrollIntoView().click()
   } else {
-    cy.get('button, submit, .govuk-button').contains(text).first().scrollIntoView().click({force: true})
+    // On local environments, use stable click to handle async re-renders
+    if (env === 'local') {
+      cy.get('button, submit, .govuk-button')
+        .contains(text)
+        .first()
+        .stableClick()
+    } else {
+      // Dev/test environments - keep original behavior
+      cy.get('button, submit, .govuk-button').contains(text).first().scrollIntoView().click({force: true})
+    }
   }
 })
 
 When('I click on {string}', (text) => {
 
   Cypress.emit('log:step', 'I click on ' + text)
-  cy.contains(text).scrollIntoView().click()
+
+  // On local environments, use the stable click command to handle async re-renders
+  if (env === 'local') {
+    cy.clickByTextStable(text)
+  } else {
+    // Dev/test environments - keep original behavior
+    cy.contains(text).scrollIntoView().click()
+  }
 })
 
 When('I click on the {string} radio button', (option) => {

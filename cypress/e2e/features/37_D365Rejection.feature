@@ -123,10 +123,10 @@ This scenario loads an SFI22 payment message followed by a D365 rejection acknow
     Given I visit the "Payment management" homepage
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link
-    When on the Payment Holds page I enter "1258445148" in the FRN search field
+    When on the Payment Holds page I enter "1000000001" in the FRN search field
     And I click on the "Search" button
     Then I take a screenshot
-    And I should see "1258445148"
+    And I should see "1000000001"
     And I should see "Bank account anomaly"
 
   @local
@@ -138,7 +138,7 @@ This scenario loads an SFI22 payment message followed by a D365 rejection acknow
     Given I visit the "Payment management" homepage
     And I click on the "Manage payment holds" link
     And I click on the "Search for a payment hold" link
-    When on the Payment Holds page I enter "1258445148" in the FRN search field
+    When on the Payment Holds page I enter "1000000001" in the FRN search field
     And I click on the "Search" button
     When I click on the "Remove" button
     And I click on the "Yes, remove" button

@@ -47,7 +47,7 @@ Then(/^on the View events page I confirm that "(.*)" is displayed$/, (element) =
     break
 
   case 'frn searched label':
-    verify('heading', ['1258445148'])
+    verify('heading', ['1000000001'])
     break
 
   case 'scheme column':

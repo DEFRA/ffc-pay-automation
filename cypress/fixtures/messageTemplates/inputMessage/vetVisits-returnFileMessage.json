@@ -1,8 +1,8 @@
 {
     "sourceSystem": "AWHR",
     "invoiceNumber": "70012345V001",
-    "frn": "2842263042",
-    "sbi": "106284736",
+    "frn": "1000000001",
+    "sbi": "105000001",
     "currency": "GBP",
     "value": 2500000,
     "settlementDate": "2022-12-11T00:00:00.000Z",

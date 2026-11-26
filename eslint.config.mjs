@@ -13,6 +13,17 @@ export default defineConfig([
   // Cypress plugin (Flat Config)
   {
     files: ['cypress/**/*.js', 'cypress/**/*.ts'],
+    languageOptions: {
+      globals: {
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        window: 'readonly',
+        cy: 'readonly',
+        Cypress: 'readonly',
+        expect: 'readonly',
+        assert: 'readonly'
+      }
+    },
     plugins: {
       cypress: cypressPlugin
     },
