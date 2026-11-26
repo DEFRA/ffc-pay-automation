@@ -238,3 +238,52 @@ Cypress.Commands.add(
     return cy.wrap(subject)
   }
 )
+
+// Custom click command that handles async re-renders and page navigation
+Cypress.Commands.add('stableClick', { prevSubject: true }, (subject) => {
+  cy.wrap(subject)
+    .should('be.visible')
+    .should('not.be.disabled')
+    .then(($el) => {
+      // Wait for any pending animations/transitions
+      cy.wrap($el).invoke('css', 'transition', 'none')
+
+      // Get the element's bounding rect to ensure it's in viewport
+      const rect = $el[0].getBoundingClientRect()
+      if (rect.height === 0 || rect.width === 0) {
+        throw new Error('Element has zero height/width')
+      }
+
+      // Click with force to bypass visibility checks during async updates
+      cy.wrap($el).click({force: true})
+    })
+    // Wait for the page to process the click and any resulting navigation
+    .then(() => {
+      cy.wait(1000)
+    })
+
+  return cy.wrap(subject)
+})
+
+// Alternative: Click by text with stability checks
+Cypress.Commands.add('clickByTextStable', (text) => {
+  // Wait for the element to exist and be stable
+  cy.contains(text, {timeout: 15000})
+    .should('exist')
+    .should('be.visible')
+    .then(($el) => {
+      // Ensure element is in viewport
+      $el[0].scrollIntoView({behavior: 'auto', block: 'center'})
+    })
+    .should('not.be.disabled')
+    // Add a small delay to let any re-renders complete
+    .then(() => {
+      cy.wait(300)
+    })
+    // Then click with force
+    .click({force: true, timeout: 10000})
+    // Wait for navigation to complete
+    .then(() => {
+      cy.wait(1000)
+    })
+})

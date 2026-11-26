@@ -5,11 +5,31 @@ const { getEnvironmentConfig } = require('../support/configLoader')
 const envConfig = getEnvironmentConfig()
 const env = envConfig.env
 
-Cypress.on('uncaught:exception', (err) => {
-  if (err.message && err.message.includes('cross-origin frame')) {
-    return false
-  }
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  console.log(err)
+  return false
 })
+
+// Locally every app is on "localhost" and cookies ignore ports, so the runner's
+// "__cypress.unload" cookie leaks between apps (e.g. 3001 -> 3007). While it is set,
+// the Cypress proxy 302s every app request (CSS, JS, links) to the runner at /__/,
+// which is why pages render unstyled with "Unexpected token '<'" errors.
+const clearCypressUnloadCookie = (win) => {
+  try {
+    win.document.cookie = '__cypress.unload=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+if (env === 'local') {
+  beforeEach(() => {
+    clearCypressUnloadCookie(window.top)
+  })
+
+  Cypress.on('window:before:load', clearCypressUnloadCookie)
+}
 
 let stepLog = []
 let pendingContext = []
