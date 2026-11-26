@@ -221,12 +221,6 @@ Then('I should see the first FRN in the results matches the newly generated FRN'
   checkFRN()
 })
 
-Then('I click on the FRN search button', () => {
-
-  Cypress.emit('log:step', 'I click on the FRN search button')
-  requestEditor.getFrnSearchButton().click()
-})
-
 When(/^I can see FRN "(.*)" in the table$/, (text) => {
 
   Cypress.emit('log:step', 'I can see FRN ' + text + ' in the table')
@@ -415,7 +409,7 @@ Then('I enter a valid debt discovered date in the past', () => {
   Cypress.emit('log:step', 'I enter a valid debt discovered date in the past')
   requestEditor.dayInput().clear().type('15')
   requestEditor.monthInput().clear().type('06')
-  requestEditor.yearInput().clear().type('2018')
+  requestEditor.yearInput().clear().type('2021')
 })
 
 When('on the Awaiting Reporting Data page I click the FRN number search button', () => {
