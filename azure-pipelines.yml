@@ -7,7 +7,7 @@ schedules:
     displayName: Nightly DEV regression (Sun-Thu 23:00 UTC)
     branches:
       include:
-        - azure-pipelines
+        - main
     always: true
 
 pool:
