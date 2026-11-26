@@ -493,8 +493,15 @@ Only use information supplied in this report.
 
           getPodLogs ({ namespace, label }) {
             return new Promise((resolve, reject) => {
+              if (!namespace || !label) {
+                return reject(new Error(
+                  `Kubernetes namespace/label not configured (namespace: ${namespace}, label: ${label})`
+                ))
+              }
+
               const kubeconfig = process.env.KUBECONFIG
-              const cmd = `kubectl --kubeconfig="${kubeconfig}" logs -n ${namespace} -l ${label} --tail=200`
+              const kubeconfigArg = kubeconfig ? ` --kubeconfig="${kubeconfig}"` : ''
+              const cmd = `kubectl${kubeconfigArg} logs -n ${namespace} -l ${label} --tail=200`
 
               console.log('RUNNING:', cmd)
 
