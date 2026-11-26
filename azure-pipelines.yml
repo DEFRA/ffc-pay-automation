@@ -1,41 +1,126 @@
 trigger: none
 pr: none
 
+# Cron is UTC: 23:00 Sun-Thu is 23:00 UK in winter (GMT) and midnight in summer (BST).
+schedules:
+  - cron: '0 23 * * 0-4'
+    displayName: Nightly DEV regression (Sun-Thu 23:00 UTC)
+    branches:
+      include:
+        - main
+    always: true
+
 pool:
   name: DEFRA-FFC-DEV1-ubuntu2204
 
 variables:
   - group: ffc-pay-automation-dev
 
-steps:
-  - checkout: self
+# because the federated login stops refreshing after about an hour, we split each group of tests into separate jobs. when adding more scenarios
+# please be mindful of timing and manage accordingly to ensure none of the jobs overrun 1 hour
+parameters:
+  - name: specGroups
+    type: object
+    default:
+      - name: features 01-13
+        spec: 'cypress/e2e/features/0[1-9]_*.feature,cypress/e2e/features/1[0-3]_*.feature'
+      - name: features 14-19
+        spec: 'cypress/e2e/features/1[4-9]_*.feature'
+      - name: features 20-26
+        spec: 'cypress/e2e/features/2[0-6]_*.feature'
+      - name: features 27-30
+        spec: 'cypress/e2e/features/2[7-9]_*.feature,cypress/e2e/features/30_*.feature'
+      - name: features 31-40
+        spec: 'cypress/e2e/features/3[1-9]_*.feature,cypress/e2e/features/40_*.feature'
+      - name: features 41+
+        spec: 'cypress/e2e/features/4[1-9]_*.feature,cypress/e2e/features/[5-9][0-9]_*.feature'
 
-  - script: |
-      echo "Agent:"
-      uname -a
+jobs:
+  - job: DevRegression
+    displayName: DEV regression
+    timeoutInMinutes: 0
+    steps:
+      - checkout: self
 
-      echo "Node:"
-      node --version
+      - script: |
+          echo "Agent:"
+          uname -a
 
-      echo "NPM:"
-      npm --version
+          echo "Node:"
+          node --version
 
-      echo "Chrome:"
-      google-chrome --version
+          echo "NPM:"
+          npm --version
 
-      echo "Kubectl:"
-      kubectl version --client
-    displayName: Check agent
+          echo "Chrome:"
+          google-chrome --version
 
-  - script: npm ci
-    displayName: Install dependencies
+          echo "Kubectl:"
+          kubectl version --client
+        displayName: Check agent
 
-  - script: npx cypress verify
-    displayName: Verify Cypress
+      - script: npm ci
+        displayName: Install dependencies
 
-  - script: |
-      npx cypress run \
-        --env env=dev,TAGS=@dev \
-        --browser chrome \
-        --spec "cypress\e2e\features\01_PaymentManagement.feature"
-    displayName: Run single DEV test
+      - script: npx cypress verify
+        displayName: Verify Cypress
+
+      - ${{ each group in parameters.specGroups }}:
+          - task: AzureCLI@2
+            displayName: Run DEV regression (${{ group.name }})
+            condition: succeededOrFailed()
+            inputs:
+              azureSubscription: 'AZD-FFC-DEV1'
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                set -e
+
+                echo "Checking Azure authentication..."
+                az account show --output table
+
+                echo "Checking PostgreSQL token generation..."
+                az account get-access-token \
+                  --resource-type oss-rdbms \
+                  --query accessToken \
+                  --output tsv > /dev/null
+
+                echo "Azure authentication successful"
+
+                echo "Running DEV regression (${{ group.name }})..."
+
+                npx cypress run \
+                  --env env=dev,TAGS=@dev \
+                  --browser chrome \
+                  --spec "${{ group.spec }}"
+            env:
+              connectionString: $(connectionString)
+              DEVPGHOST: $(DEVPGHOST)
+              PGPORT: $(PGPORT)
+              DEVUSER: $(DEVUSER)
+              DEVPAYMENTSBLOBCONNECTIONSTRING: $(DEVPAYMENTSBLOBCONNECTIONSTRING)
+              DEVSTATEMENTSBLOBCONNECTIONSTRING: $(DEVSTATEMENTSBLOBCONNECTIONSTRING)
+              KUBERNETES_NAMESPACE: $(KUBERNETES_NAMESPACE)
+              KUBERNETES_ALERTING_LABEL: $(KUBERNETES_ALERTING_LABEL)
+              KUBERNETES_DOC_NAMESPACE: $(KUBERNETES_DOC_NAMESPACE)
+              KUBERNETES_DOC_ALERTING_LABEL: $(KUBERNETES_DOC_ALERTING_LABEL)
+
+      - script: |
+          npm run report:merge
+          npm run report:html
+        condition: succeededOrFailed()
+        displayName: Merge and build HTML report
+
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)/cypress/reports'
+          artifact: 'cypress-report'
+        displayName: Publish Cypress report
+
+      - task: PublishPipelineArtifact@1
+        condition: failed()
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)/cypress/screenshots'
+          artifact: 'cypress-screenshots'
+        displayName: Publish Cypress screenshots

@@ -12,9 +12,19 @@ function getAccessToken () {
 
     console.log('Getting access token')
 
-    const child = spawn('wsl', ['bash', '-ic', shellCommand], {
-      stdio: 'pipe'
-    })
+    const isWindows = process.platform === 'win32'
+
+    console.log(
+      `Running Azure CLI via ${isWindows ? 'WSL' : 'Linux'}`
+    )
+
+    const child = isWindows
+      ? spawn('wsl', ['bash', '-ic', shellCommand], {
+        stdio: 'pipe'
+      })
+      : spawn('bash', ['-lc', shellCommand], {
+        stdio: 'pipe'
+      })
 
     let output = ''
     let errorOutput = ''
@@ -40,19 +50,22 @@ function getAccessToken () {
         console.log('Generated access token')
         resolve(output.trim())
       } else {
-
         reject(
           new Error(
             `Failed to get access token (exit code ${code}). ${output} ${errorOutput}`
           )
         )
-
       }
     })
   })
 }
 
 async function restartWsl () {
+  // WSL only exists when running locally on Windows
+  if (process.platform !== 'win32') {
+    return
+  }
+
   console.log('Restarting WSL...')
 
   await execAsync('wsl --shutdown')
@@ -77,8 +90,9 @@ async function generateAccessToken (maxRetries = 6) {
         `Access token attempt ${attempt}/${maxRetries} failed: ${error.message}`
       )
 
-      // Restart WSL once if we hit the known WSL service error
+      // Only attempt to fix the known WSL issue on Windows
       if (
+        process.platform === 'win32' &&
         !wslRestarted &&
         error.message.includes('0x8007274c')
       ) {

@@ -58,7 +58,11 @@ module.exports = defineConfig({
       config.env.KUBERNETES_ALERTING_LABEL = process.env.KUBERNETES_ALERTING_LABEL
       config.env.KUBERNETES_DOC_NAMESPACE = process.env.KUBERNETES_DOC_NAMESPACE
       config.env.KUBERNETES_DOC_ALERTING_LABEL = process.env.KUBERNETES_DOC_ALERTING_LABEL
-      config.env.FILE_DOWNLOAD_LOCATION_LOCALENV = process.env.FILE_DOWNLOAD_LOCATION_LOCALENV
+      const configuredDownloadDir = process.env.FILE_DOWNLOAD_LOCATION_LOCALENV
+      config.env.FILE_DOWNLOAD_LOCATION_LOCALENV = configuredDownloadDir && path2.isAbsolute(configuredDownloadDir)
+        ? configuredDownloadDir
+        : path2.join(__dirname, 'cypress', 'downloads')
+      fs2.mkdirSync(config.env.FILE_DOWNLOAD_LOCATION_LOCALENV, { recursive: true })
 
       try {
         on('task', {
@@ -489,8 +493,15 @@ Only use information supplied in this report.
 
           getPodLogs ({ namespace, label }) {
             return new Promise((resolve, reject) => {
+              if (!namespace || !label) {
+                return reject(new Error(
+                  `Kubernetes namespace/label not configured (namespace: ${namespace}, label: ${label})`
+                ))
+              }
+
               const kubeconfig = process.env.KUBECONFIG
-              const cmd = `kubectl --kubeconfig="${kubeconfig}" logs -n ${namespace} -l ${label} --tail=200`
+              const kubeconfigArg = kubeconfig ? ` --kubeconfig="${kubeconfig}"` : ''
+              const cmd = `kubectl${kubeconfigArg} logs -n ${namespace} -l ${label} --tail=200`
 
               console.log('RUNNING:', cmd)
 
