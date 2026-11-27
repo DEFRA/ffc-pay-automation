@@ -250,22 +250,16 @@ When('I create a message with the filename {string} and update the following key
     if (key === 'frn') {
       return '1' + Array.from({ length: 9 }, () => Math.floor(Math.random() * 10)).join('')
     }
-    if (Array.isArray(existingValue)) {
-      // Recursively update values in an array
-      return existingValue.map(item => generateRandomValue(key, item))
-    }
-    if (typeof existingValue === 'object' && existingValue !== null) {
-      // Recursively update values in a nested object
-      return Object.fromEntries(
-        Object.entries(existingValue).map(([nestedKey, value]) => [nestedKey, generateRandomValue(nestedKey, value),])
-      )
-    }
-    // Default case: return the existing value unchanged
+    // For non-string keys, return the existing value unchanged
     return existingValue
   }
 
   // Function to recursively update keys in the object
   const updateKeys = (obj, updates, oldValues = {}, generatedValues = {}) => {
+    if (!obj || typeof obj !== 'object') {
+      return oldValues
+    }
+
     Object.keys(obj).forEach(key => {
       if (updates.includes(key)) {
         if (!generatedValues[key]) {
@@ -275,6 +269,13 @@ When('I create a message with the filename {string} and update the following key
         // Store the old value and update with the consistent new value
         oldValues[key] = obj[key]
         obj[key] = generatedValues[key]
+      } else if (Array.isArray(obj[key])) {
+        // Recursively handle arrays of objects
+        obj[key].forEach(item => {
+          if (item && typeof item === 'object') {
+            updateKeys(item, updates, oldValues, generatedValues)
+          }
+        })
       } else if (typeof obj[key] === 'object' && obj[key] !== null) {
         // Recursively handle nested objects
         updateKeys(obj[key], updates, oldValues, generatedValues)
@@ -449,7 +450,6 @@ Given('I send email to Notify API', () => {
 
   let jwtToken = ''
 
-
   cy.task('generateJWT').then((token) => {
     expect(token).to.be.a('string')
     jwtToken = token
@@ -478,8 +478,9 @@ Given('I send email to Notify API', () => {
 
       cy.log('Notify API response:', jsonReportData)
 
-      cy.writeFile('cypress/fixtures/apiUpload.json', jsonReportData)
-
+      cy.writeFile('cypress/fixtures/apiUpload.json', jsonReportData).then(() => {
+        cy.log('Successfully wrote apiUpload.json')
+      })
     })
   })
 })
@@ -514,7 +515,9 @@ When('I pull new email from Notify API', () => {
 
         cy.log('Notify API response:', jsonReportData)
 
-        cy.writeFile('cypress/fixtures/apiResults.json', jsonReportData)
+        cy.writeFile('cypress/fixtures/apiResults.json', jsonReportData).then(() => {
+          cy.log('Successfully wrote apiResults.json')
+        })
       })
     })
   })

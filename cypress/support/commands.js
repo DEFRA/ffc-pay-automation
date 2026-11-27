@@ -181,8 +181,14 @@ Cypress.Commands.add('assertErrorBanner', (message) => {
 
 Cypress.Commands.add('noteTableRowCount', (alias = 'initialDatasetCount') => {
   cy.get('body').then(($body) => {
-    const rowCount = $body.find('table tbody tr').length
+    // Extract total count from "Showing X of Y" pagination text
+    const showingText = $body.text().match(/Showing\s+(\d+)\s+of\s+(\d+)/)
+    if (!showingText || !showingText[2]) {
+      throw new Error('Could not find pagination text in format "Showing X of Y datasets"')
+    }
 
+    const rowCount = parseInt(showingText[2], 10)
+    cy.log(`Dataset total count: ${rowCount}`)
     cy.wrap(rowCount).as(alias)
   })
 })
@@ -191,8 +197,19 @@ Cypress.Commands.add(
   'assertTableRowCountIncreasedBy',
   (alias, increaseBy = 1) => {
     cy.get(`@${alias}`).then((initialCount) => {
-      cy.get('table tbody tr')
-        .should('have.length', initialCount + increaseBy)
+      cy.get('body').then(($body) => {
+        // Extract current total count from "Showing X of Y" pagination text
+        const showingText = $body.text().match(/Showing\s+(\d+)\s+of\s+(\d+)/)
+        if (!showingText || !showingText[2]) {
+          throw new Error('Could not find pagination text in format "Showing X of Y datasets"')
+        }
+
+        const currentCount = parseInt(showingText[2], 10)
+        const expectedCount = initialCount + increaseBy
+
+        expect(currentCount).to.equal(expectedCount)
+        cy.log(`Row count increased from ${initialCount} to ${currentCount} (expected +${increaseBy})`)
+      })
     })
   }
 )
