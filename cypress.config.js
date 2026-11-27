@@ -518,7 +518,7 @@ Only use information supplied in this report.
           },
           getFilteredPodLogs ({ namespace, label, searchText }) {
             return new Promise((resolve) => {
-              const kubeconfig = process.env.KUBECONFIG || 
+              const kubeconfig = process.env.KUBECONFIG ||
                 `${process.env.HOME || '/root'}/.kube/config`
 
               if (!kubeconfig) {
