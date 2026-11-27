@@ -65,10 +65,12 @@ jobs:
       - script: npx cypress verify
         displayName: Verify Cypress
 
+        #each group is limited to 90 mins to ensure uncaught errors do not cause the job to run endlessly
       - ${{ each group in parameters.specGroups }}:
           - task: AzureCLI@2
             displayName: Run DEV regression (${{ group.name }})
             condition: succeededOrFailed()
+            timeoutInMinutes: 90
             inputs:
               azureSubscription: 'AZD-FFC-DEV1'
               scriptType: bash
@@ -104,6 +106,9 @@ jobs:
               KUBERNETES_ALERTING_LABEL: $(KUBERNETES_ALERTING_LABEL)
               KUBERNETES_DOC_NAMESPACE: $(KUBERNETES_DOC_NAMESPACE)
               KUBERNETES_DOC_ALERTING_LABEL: $(KUBERNETES_DOC_ALERTING_LABEL)
+              NOTIFY_API_ISS: $(NOTIFY_API_ISS)
+              NOTIFY_API_SECRET: $(NOTIFY_API_SECRET)
+              NOTIFY_API_KEY: $(NOTIFY_API_KEY)
 
       - script: |
           npm run report:merge

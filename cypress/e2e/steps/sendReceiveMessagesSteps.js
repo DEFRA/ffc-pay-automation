@@ -449,7 +449,6 @@ Given('I send email to Notify API', () => {
 
   let jwtToken = ''
 
-
   cy.task('generateJWT').then((token) => {
     expect(token).to.be.a('string')
     jwtToken = token
@@ -478,8 +477,9 @@ Given('I send email to Notify API', () => {
 
       cy.log('Notify API response:', jsonReportData)
 
-      cy.writeFile('cypress/fixtures/apiUpload.json', jsonReportData)
-
+      cy.writeFile('cypress/fixtures/apiUpload.json', jsonReportData).then(() => {
+        cy.log('Successfully wrote apiUpload.json')
+      })
     })
   })
 })
@@ -514,7 +514,9 @@ When('I pull new email from Notify API', () => {
 
         cy.log('Notify API response:', jsonReportData)
 
-        cy.writeFile('cypress/fixtures/apiResults.json', jsonReportData)
+        cy.writeFile('cypress/fixtures/apiResults.json', jsonReportData).then(() => {
+          cy.log('Successfully wrote apiResults.json')
+        })
       })
     })
   })
